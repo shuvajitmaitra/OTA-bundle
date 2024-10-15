@@ -10,6 +10,8 @@ import ChatStackScreen from './ChatStack';
 import store from '../store';
 import {logout} from '../store/reducer/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SignOutIcon from '../assets/Icons/SignOutIcon';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -74,14 +76,22 @@ function DrawerScreen() {
 // Custom Drawer Content
 function CustomDrawerContent(props) {
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView
+      {...props}
+      contentContainerStyle={{flex: 1, justifyContent: 'space-between'}}>
       <DrawerItem
         icon={({color, size}) => <CloseIcon />}
+        labelStyle={{marginLeft: responsiveScreenWidth(-5)}}
         label="Toggle Drawer"
         onPress={() => props.navigation.toggleDrawer()}
       />
       <DrawerItem
-        // icon={({color, size}) => }
+        icon={({color, size}) => <SignOutIcon />}
+        labelStyle={{
+          color: 'red',
+          fontSize: 18,
+          marginLeft: responsiveScreenWidth(-5),
+        }}
         label="Logout"
         onPress={() => signOut()}
       />
