@@ -19,7 +19,6 @@ import {setMessages} from '../../store/reducer/chatReducer';
 import MessageTopPart from '../../components/ChatCom/MessageTopPart';
 import Message2 from '../../components/ChatCom/Message2';
 import {formatDynamicDate} from '../../utility/commonFunction';
-import Loading from '../../components/SharedComponent/Loading';
 
 const MessageScreen2 = () => {
   const {bottom, top} = useSafeAreaInsets();
@@ -83,7 +82,6 @@ const MessageScreen2 = () => {
           'error to getting message',
           JSON.stringify(err?.response?.data, null, 1),
         );
-        // Optionally, handle error state here
       } finally {
         setIsLoading(false);
       }
@@ -91,20 +89,13 @@ const MessageScreen2 = () => {
     [dispatch, selectedChat.chatId],
   );
 
-  /**
-   * Fetch initial messages when component mounts or when selectedChat changes.
-   * Resets messages, page, and hasMore state.
-   */
   useEffect(() => {
-    dispatch(setMessages([])); // Correctly dispatch the action to reset messages
+    dispatch(setMessages([]));
     setPage(1);
     setHasMore(true);
     getMessages(1);
   }, [dispatch, getMessages, selectedChat.chatId]);
 
-  /**
-   * Handles loading more messages when the user scrolls to the end.
-   */
   const handleLoadMore = () => {
     console.log('HandleLoadMore called.....');
     if (!isLoadingRef.current && hasMoreRef.current) {
@@ -112,9 +103,6 @@ const MessageScreen2 = () => {
     }
   };
 
-  /**
-   * Renders the footer component with an ActivityIndicator when loading.
-   */
   const ListFooterComponent = () => {
     return (
       <>
@@ -154,31 +142,25 @@ const MessageScreen2 = () => {
   };
 
   return (
-    <>
-      {isLoading && page == 1 ? (
-        <Loading backgroundColor={'transparent'} />
-      ) : (
-        <View
-          style={[
-            styles.container,
-            {paddingBottom: bottom, paddingTop: top / 1.5},
-          ]}>
-          <MessageTopPart />
-          <View style={styles.flatListContainer}>
-            <FlatList
-              data={messages}
-              renderItem={renderItem}
-              keyExtractor={item => item?._id?.toString()}
-              onEndReached={handleLoadMore}
-              onEndReachedThreshold={0.5}
-              ListFooterComponent={ListFooterComponent}
-              inverted
-            />
-          </View>
-          <ChatFooter2 chatId={selectedChat.chatId} getMessages={getMessages} />
-        </View>
-      )}
-    </>
+    <View
+      style={[
+        styles.container,
+        {paddingBottom: bottom, paddingTop: top / 1.5},
+      ]}>
+      <MessageTopPart />
+      <View style={styles.flatListContainer}>
+        <FlatList
+          data={messages}
+          renderItem={renderItem}
+          keyExtractor={item => item?._id?.toString()}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={ListFooterComponent}
+          inverted
+        />
+      </View>
+      <ChatFooter2 chatId={selectedChat.chatId} getMessages={getMessages} />
+    </View>
   );
 };
 
