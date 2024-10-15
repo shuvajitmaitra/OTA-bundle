@@ -187,19 +187,4 @@ const getStyles = Colors =>
       alignItems: 'center',
       justifyContent: 'center',
     },
-    // Optional styles for error handling
-    /*
-    errorContainer: {
-      padding: 20,
-      alignItems: 'center',
-    },
-    errorText: {
-      color: Colors.Error,
-      marginBottom: 10,
-    },
-    retryText: {
-      color: Colors.Primary,
-      fontWeight: 'bold',
-    },
-    */
   });
