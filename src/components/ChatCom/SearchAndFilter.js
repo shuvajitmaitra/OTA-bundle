@@ -27,6 +27,7 @@ import CommentsIcon from '../../assets/Icons/CommentsIcon';
 import {RegularFonts} from '../../constants/Fonts';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import Divider from '../SharedComponent/Divider';
+import SearchIcon from '../../assets/Icons/SearchIcon';
 
 const SearchAndFilter = ({checked, handleRadioChecked, handleFilter}) => {
   const [inputFocused, setInputFocused] = useState(false);
@@ -132,7 +133,7 @@ const SearchAndFilter = ({checked, handleRadioChecked, handleFilter}) => {
             <CrossCircle />
           </TouchableOpacity>
         ) : (
-          <Feather style={styles.inputFieldIcon} name="search" />
+          <SearchIcon />
         )}
       </View>
 

@@ -30,7 +30,15 @@ const ChatHeaderFilter = ({checked, handleRadioChecked}) => {
                   : Colors.PrimaryOpacityColor,
             },
           ]}>
-          <Text style={styles.tabText}>{tab.label}</Text>
+          <Text
+            style={[
+              styles.tabText,
+              {
+                color: checked === tab.key ? Colors.PureWhite : Colors.Primary,
+              },
+            ]}>
+            {tab.label}
+          </Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -42,7 +50,6 @@ export default ChatHeaderFilter;
 const getStyles = Colors =>
   StyleSheet.create({
     tabText: {
-      color: Colors.PureWhite,
       fontFamily: CustomeFonts.MEDIUM,
     },
     tabContainer: {
