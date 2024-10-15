@@ -1,38 +1,92 @@
 import React, {useEffect, useState} from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
-import AuthStackScreen from './AuthStackScreen';
-import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
-import {useSelector} from 'react-redux';
-import CloseIcon from '../assets/Icons/CloseIcon';
-import {useMainContext} from '../context/MainContext';
-import ChatStackScreen from './ChatStack';
-import store from '../store';
-import {logout} from '../store/reducer/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SignOutIcon from '../assets/Icons/SignOutIcon';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
+import AuthStackScreen from './AuthStackScreen';
+import ChatStackScreen from './ChatStack';
+import {logout} from '../store/reducer/authReducer';
+import CloseIcon from '../assets/Icons/CloseIcon';
+import SignOutIcon from '../assets/Icons/SignOutIcon';
+import {useMainContext} from '../context/MainContext';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-const signOut = async () => {
-  await AsyncStorage.removeItem('user_token');
-  store.dispatch(logout());
+
+const CustomDrawerContent = ({navigation}) => {
+  const dispatch = useDispatch();
+
+  const handleSignOut = async () => {
+    try {
+      await AsyncStorage.removeItem('user_token');
+      dispatch(logout());
+    } catch (error) {
+      console.error('Error during sign out:', error);
+    }
+  };
+
+  return (
+    <DrawerContentScrollView
+      contentContainerStyle={{flex: 1, justifyContent: 'space-between'}}>
+      <DrawerItem
+        icon={({color, size}) => <CloseIcon color={color} size={size} />}
+        label="Toggle Drawer"
+        onPress={() => navigation.toggleDrawer()}
+        labelStyle={{marginLeft: responsiveScreenWidth(-5)}}
+      />
+      <DrawerItem
+        icon={({color, size}) => <SignOutIcon color={color} size={size} />}
+        label="Logout"
+        onPress={handleSignOut}
+        labelStyle={{
+          color: 'red',
+          fontSize: 18,
+          marginLeft: responsiveScreenWidth(-5),
+        }}
+      />
+    </DrawerContentScrollView>
+  );
 };
+
+const DrawerScreen = () => (
+  <Drawer.Navigator
+    screenOptions={{
+      drawerPosition: 'left',
+      headerShown: false,
+      drawerStyle: {
+        backgroundColor: '#fff',
+        width: 240,
+      },
+    }}
+    drawerContent={CustomDrawerContent} // Pass the component directly
+  >
+    <Drawer.Screen
+      name="Chat"
+      component={ChatStackScreen}
+      options={{headerShown: false}}
+    />
+    {/* Add more Drawer.Screen components here as needed */}
+  </Drawer.Navigator>
+);
 
 const Router = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const {handleVerify} = useMainContext();
-  const {user} = useSelector(state => state.auth);
+  const user = useSelector(state => state.auth.user);
+
   useEffect(() => {
-    if (user._id) {
-      // console.log('..........................');
+    if (user && user._id) {
       setIsAuthenticated(true);
       handleVerify();
     } else {
       setIsAuthenticated(false);
     }
-  }, [handleVerify, user._id]);
+  }, [handleVerify, user]);
 
   return (
     <Stack.Navigator>
@@ -54,48 +108,3 @@ const Router = () => {
 };
 
 export default Router;
-function DrawerScreen() {
-  return (
-    <Drawer.Navigator
-      screenOptions={{drawerPosition: 'left', headerShown: false}}
-      drawerContent={props => <CustomDrawerContent {...props} />}
-      drawerStyle={{
-        backgroundColor: '#fff',
-        width: 240,
-      }}>
-      {/* <Drawer.Screen name="NewChatScreen" component={NewChatScreen} /> */}
-      <Drawer.Screen
-        name="ChatStackScreen"
-        component={ChatStackScreen}
-        headerShown={false}
-      />
-      {/* <Drawer.Screen name="HomeScreen" component={HomeScreen} /> */}
-    </Drawer.Navigator>
-  );
-}
-// Custom Drawer Content
-function CustomDrawerContent(props) {
-  return (
-    <DrawerContentScrollView
-      {...props}
-      contentContainerStyle={{flex: 1, justifyContent: 'space-between'}}>
-      <DrawerItem
-        icon={({color, size}) => <CloseIcon />}
-        labelStyle={{marginLeft: responsiveScreenWidth(-5)}}
-        label="Toggle Drawer"
-        onPress={() => props.navigation.toggleDrawer()}
-      />
-      <DrawerItem
-        icon={({color, size}) => <SignOutIcon />}
-        labelStyle={{
-          color: 'red',
-          fontSize: 18,
-          marginLeft: responsiveScreenWidth(-5),
-        }}
-        label="Logout"
-        onPress={() => signOut()}
-      />
-      {/* Add more custom drawer items here */}
-    </DrawerContentScrollView>
-  );
-}
