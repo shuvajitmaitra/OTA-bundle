@@ -1,0 +1,35 @@
+import * as React from "react"
+import Svg, { G, Circle, Path, Defs } from "react-native-svg"
+/* SVGR has dropped some elements not supported by react-native-svg: filter */
+
+function Plus(props) {
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={18}
+      height={17}
+      viewBox="0 0 18 17"
+      fill="none"
+      {...props}
+    >
+      <G filter="url(#filter0_b_3694_9622)">
+        <Circle
+          cx={8.99994}
+          cy={8.73529}
+          r={8.23529}
+          fill="#27AC1F"
+          fillOpacity={0.1}
+        />
+      </G>
+      <Path
+        d="M11.725 8.99h-5.45M9.003 11.72V6.27"
+        stroke="#27AC1F"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+      />
+      <Defs></Defs>
+    </Svg>
+  )
+}
+
+export default Plus
