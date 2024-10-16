@@ -63,14 +63,12 @@ const DrawerScreen = () => (
         width: 240,
       },
     }}
-    drawerContent={CustomDrawerContent} // Pass the component directly
-  >
+    drawerContent={CustomDrawerContent}>
     <Drawer.Screen
       name="Chat"
       component={ChatStackScreen}
       options={{headerShown: false}}
     />
-    {/* Add more Drawer.Screen components here as needed */}
   </Drawer.Navigator>
 );
 
@@ -86,7 +84,7 @@ const Router = () => {
     } else {
       setIsAuthenticated(false);
     }
-  }, [handleVerify, user]);
+  }, []);
 
   return (
     <Stack.Navigator>

@@ -127,8 +127,9 @@ const getStyles = (Colors, my) =>
         borderColor: Colors.BorderColor,
       },
       link: {
-        color: Colors.Primary,
+        color: Colors.ThemeSecondaryColor,
         fontFamily: CustomeFonts.SEMI_BOLD,
+        fontWeight: '700',
       },
       bullet_list: {
         marginVertical: 10,
@@ -140,4 +141,86 @@ const getStyles = (Colors, my) =>
         marginVertical: 10,
       },
     },
+    // markdownStyle: {
+    //   whiteSpace: 'pre',
+    //   body: {
+    //     fontFamily: CustomeFonts.REGULAR,
+    //     fontSize: 16,
+    //     color: Colors.BodyText,
+    //     lineHeight: 20,
+    //     // marginBottom: 100,
+    //   },
+    //   heading1: {
+    //     // fontWeight: "bold",
+    //     fontFamily: CustomeFonts.SEMI_BOLD,
+    //   },
+    //   heading2: {
+    //     // fontWeight: "bold",
+    //     fontFamily: CustomeFonts.SEMI_BOLD,
+    //   },
+    //   heading3: {
+    //     // fontWeight: "bold",
+    //     fontFamily: CustomeFonts.SEMI_BOLD,
+    //   },
+    //   heading4: {
+    //     // fontWeight: "bold",
+    //     fontFamily: CustomeFonts.SEMI_BOLD,
+    //   },
+    //   heading5: {
+    //     // fontWeight: "bold",
+    //     fontFamily: CustomeFonts.SEMI_BOLD,
+    //   },
+    //   heading6: {
+    //     // fontWeight: "bold",
+    //     fontFamily: CustomeFonts.SEMI_BOLD,
+    //   },
+    //   strong: {fontFamily: CustomeFonts.SEMI_BOLD},
+    //   code_inline: {
+    //     color: Colors.BodyText,
+    //     backgroundColor: Colors.White,
+    //   },
+    //   hr: {
+    //     backgroundColor: Colors.BodyText,
+    //   },
+    //   fence: {color: Colors.BodyText},
+    //   code_block: {
+    //     color: Colors.BodyText,
+    //     backgroundColor: Colors.White,
+    //     borderWidth: 0,
+    //   },
+    //   blockquote: {color: Colors.BodyText},
+    //   table: {
+    //     borderColor: Colors.BorderColor,
+    //   },
+    //   thead: {
+    //     borderColor: Colors.BorderColor,
+    //   },
+    //   tbody: {
+    //     borderColor: Colors.BorderColor,
+    //   },
+    //   th: {
+    //     borderColor: Colors.BorderColor,
+    //   },
+    //   tr: {
+    //     borderColor: Colors.BorderColor,
+    //   },
+    //   td: {
+    //     borderColor: Colors.BorderColor,
+    //   },
+    //   link: {
+    //     // backgroundColor:  Colors.LightGreen,
+    //     color: Colors.Primary,
+    //     // fontWeight: "bold",
+    //     fontFamily: CustomeFonts.SEMI_BOLD,
+    //   },
+    //   bullet_list: {
+    //     marginVertical: 10,
+    //   },
+    //   ordered_list: {
+    //     marginVertical: 10,
+    //   },
+    //   list_item: {
+    //     marginVertical: 10,
+    //   },
+    // },
   });

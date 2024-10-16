@@ -151,6 +151,8 @@ const getStyles = Colors =>
       width: 50,
       justifyContent: 'center',
       alignItems: 'center',
+      // backgroundColor: 'red',
+      height: 70,
     },
     profileDetailsContainer: {
       flexDirection: 'row',

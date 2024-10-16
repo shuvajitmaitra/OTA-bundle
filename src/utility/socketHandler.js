@@ -42,7 +42,6 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('newmessage', data => {
-    console.log('newmessage', JSON.stringify(data.message, null, 1));
     if (data.message?.sender?._id !== user?._id) {
       updateStatus(data?.message?._id, 'delivered');
       store.dispatch(
