@@ -40,7 +40,7 @@ const chatSlice = createSlice({
       state.messages = action.payload;
     },
     setNewMessages: (state, action) => {
-      const oldId = state.messages[0].chat;
+      const oldId = state.messages[0].chat || '';
       const newId = action.payload.chat;
       const old = state.messages[0]._id;
       const n = action.payload._id;

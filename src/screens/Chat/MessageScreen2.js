@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Text,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import axiosInstance from '../../utility/axiosInstance';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from '../../context/ThemeContext';
@@ -15,16 +15,16 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import ChatFooter2 from '../../components/ChatCom/ChatFooter2';
-import {setMessages} from '../../store/reducer/chatReducer';
 import MessageTopPart from '../../components/ChatCom/MessageTopPart';
 import Message2 from '../../components/ChatCom/Message2';
 import {formatDynamicDate} from '../../utility/commonFunction';
+import {useMainContext} from '../../context/MainContext';
 
 const MessageScreen2 = () => {
   const {bottom, top} = useSafeAreaInsets();
-  const {messages} = useSelector(state => state.chat);
-  const dispatch = useDispatch();
+  const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
+  const {setAllMessages, allMessages} = useMainContext();
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const {selectedMessageScreen: selectedChat} = useSelector(
@@ -54,7 +54,6 @@ const MessageScreen2 = () => {
       if (isLoadingRef.current || !hasMoreRef.current) {
         return;
       }
-      console.log('pageNumber', JSON.stringify(pageNumber, null, 1));
       setIsLoading(true);
       const options = {
         page: pageNumber,
@@ -64,37 +63,45 @@ const MessageScreen2 = () => {
 
       try {
         const res = await axiosInstance.post('/chat/messages', options);
-        const newMessages = res.data.messages.reverse();
-        dispatch(
-          setMessages(
-            pageNumber === 1
-              ? newMessages
-              : [...messagesRef.current, ...newMessages],
-          ),
-        );
+        const fetchedMessages = res.data.messages;
+
+        if (!Array.isArray(fetchedMessages)) {
+          throw new Error('Invalid messages format received from API');
+        }
+
+        const newMessages = fetchedMessages.reverse();
+
+        setAllMessages(pre => ({
+          ...pre,
+          [selectedChat.chatId]: [
+            ...(pre[selectedChat.chatId] || []),
+            ...newMessages,
+          ],
+        }));
+
         if (newMessages.length < options.limit) {
           setHasMore(false);
         } else {
           setPage(prevPage => prevPage + 1);
         }
       } catch (err) {
-        console.log(
-          'error to getting message',
-          JSON.stringify(err?.response?.data, null, 1),
+        console.error(
+          'Error fetching messages:',
+          err.response?.data || err.message,
         );
+        // Optionally, set an error state here to inform the user
       } finally {
         setIsLoading(false);
       }
     },
-    [dispatch, selectedChat.chatId],
+    [selectedChat.chatId],
   );
 
   useEffect(() => {
-    dispatch(setMessages([]));
     setPage(1);
     setHasMore(true);
     getMessages(1);
-  }, [dispatch, getMessages, selectedChat.chatId]);
+  }, [getMessages, selectedChat.chatId]);
 
   const handleLoadMore = () => {
     console.log('HandleLoadMore called.....');
@@ -150,16 +157,16 @@ const MessageScreen2 = () => {
       <MessageTopPart />
       <View style={styles.flatListContainer}>
         <FlatList
-          data={messages}
+          data={allMessages[selectedChat.chatId]}
           renderItem={renderItem}
-          keyExtractor={item => item?._id?.toString()}
+          keyExtractor={item => Math.random()}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
           ListFooterComponent={ListFooterComponent}
           inverted
         />
       </View>
-      <ChatFooter2 chatId={selectedChat.chatId} getMessages={getMessages} />
+      <ChatFooter2 chatId={selectedChat.chatId} setMessages={setMessages} />
     </View>
   );
 };

@@ -15,7 +15,8 @@ export const MainProvider = ({children}) => {
   // const [user, setUser] = useState(null); // Example state
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [allMessages, setAllMessages] = useState([]);
+  console.log('allMessages', JSON.stringify(allMessages, null, 1));
   // const testAsyncStorage = async () => {
   //   try {
   //     await AsyncStorage.setItem('test_key', 'test_value');
@@ -35,19 +36,23 @@ export const MainProvider = ({children}) => {
       axiosInstance
         .post('/user/verify', {})
         .then(async res => {
-          console.log(
-            'res.data...................',
-            JSON.stringify(res.data.success, null, 1),
-          );
+          // console.log(
+          //   'res.data...................',
+          //   JSON.stringify(res.data, null, 1),
+          // );
+          if (res.data.success) {
+            // await AsyncStorage.setItem('user_token', `Bearer ${token}`);
+            store.dispatch(setUser(res.data.user));
+            await connectSocket();
+          }
+
           // return  store.dispatch(logout())
           // if (res.status === 200 && res.data.success) {
           //   // console.log('res.data', JSON.stringify(res.data, null, 1));
-          store.dispatch(setUser(res.data.user));
           //   // store.dispatch(setMyEnrollments(res.data.enrollments));
           //   // // setEnrollments(res.data.enrollments);
           //   // testAsyncStorage();
 
-          await connectSocket();
           //   // loadChats();
           //   // loadCalendarEvent();
           //   // loadNotifications();
@@ -78,6 +83,8 @@ export const MainProvider = ({children}) => {
   const value = {
     handleVerify,
     isLoading,
+    allMessages,
+    setAllMessages,
   };
 
   return <MainContext.Provider value={value}>{children}</MainContext.Provider>;

@@ -84,7 +84,7 @@ const Router = () => {
     } else {
       setIsAuthenticated(false);
     }
-  }, []);
+  }, [user._id]);
 
   return (
     <Stack.Navigator>

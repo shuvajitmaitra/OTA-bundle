@@ -6,13 +6,10 @@ import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
 import ChatMessageInput from './ChatMessageInput';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  pushMessage,
-  setMessages,
-  setNewMessages,
-  updateSendingInfo,
-} from '../../store/reducer/chatReducer';
+import {pushMessage, updateSendingInfo} from '../../store/reducer/chatReducer';
 import axiosInstance from '../../utility/axiosInstance';
+import LoadingSmall from '../SharedComponent/LoadingSmall';
+import {useMainContext} from '../../context/MainContext';
 const convertLink = text => {
   var exp =
     /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
@@ -20,16 +17,15 @@ const convertLink = text => {
   var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
   return text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
 };
-const ChatFooter2 = ({chatId}) => {
+const ChatFooter2 = ({chatId, setMessages}) => {
   const [text, setText] = useState('');
   const {user} = useSelector(state => state.auth);
-  const {messages} = useSelector(state => state.chat);
   const dispatch = useDispatch();
   const [messageClicked, setMessageClicked] = useState(false);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [isSendingText, setIsSendingText] = useState(false);
-
+  const {setAllMessages} = useMainContext();
   const sendMessage = files => {
     console.log('text', JSON.stringify(text, null, 1));
     // if (!text.trim() && (!allFiles || allFiles.length === 0) && (!files || files.length === 0)) {
@@ -76,8 +72,12 @@ const ChatFooter2 = ({chatId}) => {
       .put(`/chat/sendmessage/${chatId}`, data)
       .then(res => {
         // console.log('res.data', JSON.stringify(res.data, null, 1));
-        //setMessages(prev => [...prev, res.data.message])
-        dispatch(setMessages([res.data.message, ...messages]));
+        // setMessages(prev => [res.data.message, ...prev]);
+        // dispatch(setMessages([res.data.message, ...messages]));
+        setAllMessages(pre => ({
+          ...pre,
+          [chatId]: [res.data.message, ...(pre[chatId] || [])],
+        }));
         dispatch(
           updateSendingInfo({
             message: res.data.message,
@@ -105,24 +105,30 @@ const ChatFooter2 = ({chatId}) => {
   };
 
   return (
-    <View style={styles.container}>
-      {messageClicked ? (
-        <ChatMessageInput text={text} setText={setText} />
-      ) : (
-        <TouchableOpacity
-          onPress={() => {
-            setMessageClicked(!messageClicked);
-          }}
-          style={styles.initialContainer}>
-          <Text style={styles.messageText}>{text || 'Message...'}</Text>
-        </TouchableOpacity>
-      )}
-      {text.length > 0 ? (
-        <SendContainer sendMessage={sendMessage} />
-      ) : (
-        <IconContainer />
-      )}
-    </View>
+    <>
+      {/* {isSendingText ? (
+        <LoadingSmall />
+      ) : ( */}
+      <View style={styles.container}>
+        {messageClicked ? (
+          <ChatMessageInput text={text} setText={setText} />
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              setMessageClicked(!messageClicked);
+            }}
+            style={styles.initialContainer}>
+            <Text style={styles.messageText}>{text || 'Message...'}</Text>
+          </TouchableOpacity>
+        )}
+        {text.length > 0 ? (
+          <SendContainer sendMessage={sendMessage} />
+        ) : (
+          <IconContainer />
+        )}
+      </View>
+      {/* )} */}
+    </>
   );
 };
 

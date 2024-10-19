@@ -1,14 +1,15 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { removeToken } from "../../actions/generalActions";
 import {setEnrolled} from './programReducer';
 
 // Define an async thunk for the logout operation
 export const logout = createAsyncThunk('auth/logout', async (_, {dispatch}) => {
-  await AsyncStorage.removeItem('user_token');
+  // await AsyncStorage.removeItem('user_token');
   // removeToken(); // Assuming this is a synchronous operation
   dispatch(logoutSuccess());
   dispatch(setEnrolled(''));
+  dispatch(setUser({}));
 });
 
 const initialState = {

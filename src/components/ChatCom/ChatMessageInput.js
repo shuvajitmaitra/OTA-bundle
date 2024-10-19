@@ -30,6 +30,7 @@ const handleSearch = _.debounce(
         setLoading(true);
         let res = await axios.post(`/chat/members/${chat}`, searchTerm);
         setLoading(false);
+        console.log('res.data', JSON.stringify(res.data, null, 1));
 
         let filtered = res?.data?.results
           ?.filter(x => x?._id)
@@ -63,6 +64,7 @@ const ChatMessageInput = ({chat, setText, text, handleKey, isChannel}) => {
   }, [chat]);
 
   const renderSuggestions = ({keyword, onSuggestionPress}) => {
+    console.log('keyword', JSON.stringify(keyword, null, 1));
     if (keyword == null) {
       return null;
     }
@@ -85,8 +87,8 @@ const ChatMessageInput = ({chat, setText, text, handleKey, isChannel}) => {
       <Animated.View
         style={[
           {
-            position: 'absolute',
-            bottom: '140%', // This pushes the view above the reference point
+            // position: 'absolute',
+            // bottom: '140%', // This pushes the view above the reference point
             left: 0,
             right: 0,
             backgroundColor: Colors.White,

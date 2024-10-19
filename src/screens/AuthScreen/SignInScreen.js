@@ -20,7 +20,6 @@ import TopLogo from '../../components/AuthenticationCom/TopLogo';
 import axiosInstance from '../../utility/axiosInstance';
 import {useMainContext} from '../../context/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 
 export default function SignInScreen({navigation}) {
   const {handleVerify} = useMainContext();
@@ -68,13 +67,13 @@ export default function SignInScreen({navigation}) {
       });
 
       const {success, token} = response.data;
-      console.log('Login Success:', success);
-      console.log('Received Token:', token);
+      // console.log('Login Success:', success);
+      // console.log('Received Token:', token);
 
       if (success) {
         if (token) {
           await AsyncStorage.setItem('user_token', `Bearer ${token}`);
-          console.log('Token stored successfully');
+          // console.log('Token stored successfully');
           handleVerify(true);
         } else {
           console.log('Token is undefined');
