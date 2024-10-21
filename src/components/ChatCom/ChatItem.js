@@ -76,7 +76,6 @@ const ChatItem = ({
   // console.log(JSON.stringify(user, null, 1));
   const navigation = useNavigation();
   // const item = chat?.filter((item) => item._id);
-  // console.log(JSON.stringify(chat, null, 1));
 
   const senderName =
     chat?.latestMessage?.sender?.profilePicture === user?.profilePicture
@@ -92,11 +91,13 @@ const ChatItem = ({
         // setChecked('chats');
         // dispatch(markRead({chatId: chat?._id}));
         dispatch(setSingleChat(chat));
+        // console.log(JSON.stringify(chat, null, 1));
         dispatch(
           setSelectedMessageScreen({
             chatId: chat?._id,
             name: chat?.isChannel ? chat?.name : chat?.otherUser?.fullName,
             image: chat?.avatar || chat?.otherUser?.profilePicture || '',
+            limit: chat?.unreadCount || 0,
           }),
         );
         // navigation.navigate('ChatStack', {

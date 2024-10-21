@@ -19,7 +19,7 @@ import {useTheme} from '../../context/ThemeContext';
 import TopLogo from '../../components/AuthenticationCom/TopLogo';
 import axiosInstance from '../../utility/axiosInstance';
 import {useMainContext} from '../../context/MainContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {storage} from '../../utility/mmkvInstance';
 
 export default function SignInScreen({navigation}) {
   const {handleVerify} = useMainContext();
@@ -72,8 +72,7 @@ export default function SignInScreen({navigation}) {
 
       if (success) {
         if (token) {
-          await AsyncStorage.setItem('user_token', `Bearer ${token}`);
-          // console.log('Token stored successfully');
+          storage.set('user_token', `Bearer ${token}`);
           handleVerify(true);
         } else {
           console.log('Token is undefined');
@@ -106,19 +105,6 @@ export default function SignInScreen({navigation}) {
   //       console.log('error', JSON.stringify(error.response, null, 1));
   //     });
   // };
-  const testAsyncStorage = async () => {
-    try {
-      await AsyncStorage.setItem('test_key', 'test_value');
-      const value = await AsyncStorage.getItem('test_key');
-      console.log('AsyncStorage Test Value:', value);
-    } catch (error) {
-      console.error('AsyncStorage Test Error:', error);
-    }
-  };
-  useEffect(() => {
-    testAsyncStorage();
-    console.log('testAsyncStorage');
-  }, []);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (

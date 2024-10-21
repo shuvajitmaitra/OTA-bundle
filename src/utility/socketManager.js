@@ -5,6 +5,7 @@ import setupSocketListeners from './socketHandler';
 import {loadChats} from '../actions/chat-noti';
 import store from '../store';
 import {setSocketStatus} from '../store/reducer/chatReducer';
+import {storage} from './mmkvInstance';
 
 let socketUrl = environment.production
   ? 'https://api.bootcampshub.ai'
@@ -16,7 +17,7 @@ export let socket;
 let cleanUpListeners;
 
 export const connectSocket = async () => {
-  const value = await AsyncStorage.getItem('user_token');
+  const value = storage.getString('user_token');
 
   if (!socket) {
     const options = {

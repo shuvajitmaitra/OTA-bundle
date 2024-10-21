@@ -74,7 +74,7 @@ const ChatFooter2 = ({chatId, setMessages}) => {
         // console.log('res.data', JSON.stringify(res.data, null, 1));
         // setMessages(prev => [res.data.message, ...prev]);
         // dispatch(setMessages([res.data.message, ...messages]));
-        setAllMessages(pre => ({
+        setMessages(pre => ({
           ...pre,
           [chatId]: [res.data.message, ...(pre[chatId] || [])],
         }));

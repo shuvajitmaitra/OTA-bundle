@@ -18,13 +18,12 @@ import ChatFooter2 from '../../components/ChatCom/ChatFooter2';
 import MessageTopPart from '../../components/ChatCom/MessageTopPart';
 import Message2 from '../../components/ChatCom/Message2';
 import {formatDynamicDate} from '../../utility/commonFunction';
-import {useMainContext} from '../../context/MainContext';
+import {useMMKVObject} from 'react-native-mmkv';
+import {storage} from '../../utility/mmkvInstance';
 
 const MessageScreen2 = () => {
   const {bottom, top} = useSafeAreaInsets();
-  const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
-  const {setAllMessages, allMessages} = useMainContext();
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const {selectedMessageScreen: selectedChat} = useSelector(
@@ -32,6 +31,8 @@ const MessageScreen2 = () => {
   );
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  const [messages, setMessages] = useMMKVObject('allMessages');
+  // console.log('messages', JSON.stringify(messages, null, 1));
 
   const isLoadingRef = useRef(isLoading);
   const hasMoreRef = useRef(hasMore);
@@ -49,8 +50,25 @@ const MessageScreen2 = () => {
     messagesRef.current = messages;
   }, [messages]);
 
+  useEffect(() => {
+    if (messages && messages[selectedChat.chatId]?.length > 10) {
+      setMessages(pre => ({
+        ...(pre || []),
+        [selectedChat.chatId]: [
+          ...(pre[selectedChat.chatId].slice(0, 10) || []),
+        ],
+      }));
+    }
+  }, []);
+
   const getMessages = useCallback(
     async (pageNumber = 1) => {
+      // if (!selectedChat.limit) {
+      //   return;
+      // }
+      if (!messages) {
+        setMessages({});
+      }
       if (isLoadingRef.current || !hasMoreRef.current) {
         return;
       }
@@ -64,21 +82,26 @@ const MessageScreen2 = () => {
       try {
         const res = await axiosInstance.post('/chat/messages', options);
         const fetchedMessages = res.data.messages;
-
+        // console.log('res.data', JSON.stringify(res.data, null, 1));
         if (!Array.isArray(fetchedMessages)) {
           throw new Error('Invalid messages format received from API');
         }
-
-        const newMessages = fetchedMessages.reverse();
-
-        setAllMessages(pre => ({
-          ...pre,
+        // if (messages[selectedChat.chatId][0]._id == res.data.messages[0]._id) {
+        //   return;
+        // }
+        // storage.delete('allMessages');
+        const newMessages =
+          messages && messages[selectedChat.chatId]?.length === res.data.count
+            ? []
+            : fetchedMessages.reverse();
+        setMessages(pre => ({
+          ...(pre || []),
           [selectedChat.chatId]: [
             ...(pre[selectedChat.chatId] || []),
             ...newMessages,
           ],
         }));
-
+        // setMessages({});
         if (newMessages.length < options.limit) {
           setHasMore(false);
         } else {
@@ -89,7 +112,6 @@ const MessageScreen2 = () => {
           'Error fetching messages:',
           err.response?.data || err.message,
         );
-        // Optionally, set an error state here to inform the user
       } finally {
         setIsLoading(false);
       }
@@ -157,7 +179,7 @@ const MessageScreen2 = () => {
       <MessageTopPart />
       <View style={styles.flatListContainer}>
         <FlatList
-          data={allMessages[selectedChat.chatId]}
+          data={messages ? messages[selectedChat?.chatId] : []}
           renderItem={renderItem}
           keyExtractor={item => Math.random()}
           onEndReached={handleLoadMore}

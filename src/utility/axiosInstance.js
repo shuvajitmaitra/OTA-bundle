@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import environment from '../constants/environment';
+import {storage} from './mmkvInstance';
 
 let apiUrl = environment.production
   ? 'https://api.bootcampshub.ai/api'
@@ -12,7 +13,7 @@ const axiosInstance = axios.create({
 });
 
 export const configureAxiosHeader = async () => {
-  const value = await AsyncStorage.getItem('user_token');
+  const value = storage.getString('user_token');
   // console.log('value', JSON.stringify(value, null, 1));
   if (value) {
     axiosInstance.defaults.headers.common = {

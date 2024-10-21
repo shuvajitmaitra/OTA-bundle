@@ -6,7 +6,6 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import AuthStackScreen from './AuthStackScreen';
 import ChatStackScreen from './ChatStack';
@@ -14,6 +13,7 @@ import {logout} from '../store/reducer/authReducer';
 import CloseIcon from '../assets/Icons/CloseIcon';
 import SignOutIcon from '../assets/Icons/SignOutIcon';
 import {useMainContext} from '../context/MainContext';
+import {storage} from '../utility/mmkvInstance';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -21,9 +21,9 @@ const Stack = createStackNavigator();
 const CustomDrawerContent = ({navigation}) => {
   const dispatch = useDispatch();
 
-  const handleSignOut = async () => {
+  const handleSignOut = () => {
     try {
-      await AsyncStorage.removeItem('user_token');
+      storage.delete('user_token');
       dispatch(logout());
     } catch (error) {
       console.error('Error during sign out:', error);

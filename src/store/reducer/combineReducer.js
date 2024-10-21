@@ -16,6 +16,7 @@ import commentReducer from './commentReducer';
 import programReducer from './programReducer';
 import progressReducer from './progressReducer';
 import modalReducer from './ModalReducer';
+import newChatReducer from './newChatReducer';
 
 const rootReducer = combineReducers({
   auth: authReducers,
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   program: programReducer,
   progress: progressReducer,
   modal: modalReducer,
+  newChat: newChatReducer,
 });
 
 export default rootReducer;

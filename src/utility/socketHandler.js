@@ -10,7 +10,6 @@ import {
   pushMessage,
   removeOnlineUser,
   setChats,
-  setNewMessages,
   setTyping,
   syncMessage,
   updateChatMessages,
@@ -19,6 +18,7 @@ import {
   updateMessage,
 } from '../store/reducer/chatReducer';
 import moment from 'moment';
+import {addNewMessage} from './mmkvHelpers';
 // import * as Notifications from "expo-notifications";
 
 // import store from "../store";
@@ -47,7 +47,8 @@ const setupSocketListeners = socket => {
       store.dispatch(
         pushMessage({chat: data.chat?._id, message: data.message}),
       );
-      store.dispatch(setNewMessages(data.message));
+      // console.log('data.message', JSON.stringify(data.message, null, 1));
+      addNewMessage(data.chat?._id, data.message);
     } else if (data?.message?.type !== 'message') {
       store.dispatch(
         pushMessage({chat: data.chat?._id, message: data.message}),

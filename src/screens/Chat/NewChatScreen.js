@@ -29,6 +29,7 @@ import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import Divider from '../../components/SharedComponent/Divider';
 import axiosInstance from '../../utility/axiosInstance';
 import {setChats, setGroupNameId} from '../../store/reducer/chatReducer';
+import {storage} from '../../utility/mmkvInstance';
 
 export function sortByNestedProperty(array, propertyPath, order = 'desc') {
   const getValue = (obj, path) =>
@@ -107,6 +108,7 @@ export default function NewChatScreen() {
   };
   useEffect(() => {
     loadChats();
+    // storage.clearAll();
   }, []);
 
   const handleRadioChecked = useCallback(

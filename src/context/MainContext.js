@@ -16,7 +16,6 @@ export const MainProvider = ({children}) => {
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [allMessages, setAllMessages] = useState([]);
-  console.log('allMessages', JSON.stringify(allMessages, null, 1));
   // const testAsyncStorage = async () => {
   //   try {
   //     await AsyncStorage.setItem('test_key', 'test_value');
