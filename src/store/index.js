@@ -1,10 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit';
 import rootReducer from './reducer/combineReducer';
 import {persistStore, persistReducer} from 'redux-persist';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import mmkvStorage from '../utility/mmkvStorage';
 const persistConfig = {
   key: 'root',
-  storage: AsyncStorage,
+  storage: mmkvStorage,
   blacklist: ['modal'],
 };
 

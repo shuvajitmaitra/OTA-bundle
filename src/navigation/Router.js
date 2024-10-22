@@ -74,13 +74,13 @@ const DrawerScreen = () => (
 
 const Router = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const {handleVerify} = useMainContext();
+  // const {handleVerify} = useMainContext();
   const user = useSelector(state => state.auth.user);
 
   useEffect(() => {
     if (user && user._id) {
       setIsAuthenticated(true);
-      handleVerify();
+      // handleVerify();
     } else {
       setIsAuthenticated(false);
     }

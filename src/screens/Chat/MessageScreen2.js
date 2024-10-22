@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Text,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import axiosInstance from '../../utility/axiosInstance';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from '../../context/ThemeContext';
@@ -20,10 +20,12 @@ import Message2 from '../../components/ChatCom/Message2';
 import {formatDynamicDate} from '../../utility/commonFunction';
 import {useMMKVObject} from 'react-native-mmkv';
 import {storage} from '../../utility/mmkvInstance';
+import {setAllMessages} from '../../store/reducer/newChatReducer';
 
 const MessageScreen2 = () => {
   const {bottom, top} = useSafeAreaInsets();
   const [page, setPage] = useState(1);
+  const [totalMessage, setTotalMessage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const {selectedMessageScreen: selectedChat} = useSelector(
@@ -31,9 +33,10 @@ const MessageScreen2 = () => {
   );
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const [messages, setMessages] = useMMKVObject('allMessages');
+  // const [messages, setMessages] = useMMKVObject('allMessages');
   // console.log('messages', JSON.stringify(messages, null, 1));
-
+  const {allMessages: messages} = useSelector(state => state.newChat);
+  const dispatch = useDispatch();
   const isLoadingRef = useRef(isLoading);
   const hasMoreRef = useRef(hasMore);
   const messagesRef = useRef(messages);
@@ -50,25 +53,25 @@ const MessageScreen2 = () => {
     messagesRef.current = messages;
   }, [messages]);
 
-  useEffect(() => {
-    if (messages && messages[selectedChat.chatId]?.length > 10) {
-      setMessages(pre => ({
-        ...(pre || []),
-        [selectedChat.chatId]: [
-          ...(pre[selectedChat.chatId].slice(0, 10) || []),
-        ],
-      }));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (messages && messages[selectedChat.chatId]?.length > 10) {
+  //     setMessages(pre => ({
+  //       ...(pre || []),
+  //       [selectedChat.chatId]: [
+  //         ...(pre[selectedChat.chatId].slice(0, 10) || []),
+  //       ],
+  //     }));
+  //   }
+  // }, []);
 
   const getMessages = useCallback(
     async (pageNumber = 1) => {
       // if (!selectedChat.limit) {
       //   return;
       // }
-      if (!messages) {
-        setMessages({});
-      }
+      // if (!messages) {
+      //   setMessages({});
+      // }
       if (isLoadingRef.current || !hasMoreRef.current) {
         return;
       }
@@ -83,25 +86,25 @@ const MessageScreen2 = () => {
         const res = await axiosInstance.post('/chat/messages', options);
         const fetchedMessages = res.data.messages;
         // console.log('res.data', JSON.stringify(res.data, null, 1));
+        setTotalMessage(res.data.count);
         if (!Array.isArray(fetchedMessages)) {
           throw new Error('Invalid messages format received from API');
         }
         // if (messages[selectedChat.chatId][0]._id == res.data.messages[0]._id) {
         //   return;
         // }
-        // storage.delete('allMessages');
-        const newMessages =
-          messages && messages[selectedChat.chatId]?.length === res.data.count
-            ? []
-            : fetchedMessages.reverse();
-        setMessages(pre => ({
-          ...(pre || []),
-          [selectedChat.chatId]: [
-            ...(pre[selectedChat.chatId] || []),
-            ...newMessages,
-          ],
-        }));
-        // setMessages({});
+        const newMessages = fetchedMessages.reverse();
+        // setMessages(pre => ({
+        //   ...(pre || []),
+        //   [selectedChat.chatId]: [
+        //     ...(pre[selectedChat.chatId] || []),
+        //     ...newMessages,
+        //   ],
+        // }));
+        dispatch(
+          setAllMessages({chatId: selectedChat.chatId, messages: newMessages}),
+        );
+
         if (newMessages.length < options.limit) {
           setHasMore(false);
         } else {
@@ -126,7 +129,6 @@ const MessageScreen2 = () => {
   }, [getMessages, selectedChat.chatId]);
 
   const handleLoadMore = () => {
-    console.log('HandleLoadMore called.....');
     if (!isLoadingRef.current && hasMoreRef.current) {
       getMessages(page);
     }
@@ -182,13 +184,15 @@ const MessageScreen2 = () => {
           data={messages ? messages[selectedChat?.chatId] : []}
           renderItem={renderItem}
           keyExtractor={item => Math.random()}
-          onEndReached={handleLoadMore}
+          onEndReached={
+            messages[selectedChat?.chatId] !== totalMessage && handleLoadMore
+          }
           onEndReachedThreshold={0.5}
           ListFooterComponent={ListFooterComponent}
           inverted
         />
       </View>
-      <ChatFooter2 chatId={selectedChat.chatId} setMessages={setMessages} />
+      <ChatFooter2 chatId={selectedChat.chatId} />
     </View>
   );
 };

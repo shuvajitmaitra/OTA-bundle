@@ -22,7 +22,7 @@ const newChatSlice = createSlice({
 
       const updatedAllMessages = {
         ...state.allMessages,
-        [chatId]: [message, ...(state.allMessages[chatId] || [])],
+        [chatId]: [message, ...(state.allMessages[chatId].slice(0, 15) || [])],
       };
       state.allMessages = updatedAllMessages;
     },

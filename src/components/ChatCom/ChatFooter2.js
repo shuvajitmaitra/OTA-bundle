@@ -8,8 +8,7 @@ import ChatMessageInput from './ChatMessageInput';
 import {useDispatch, useSelector} from 'react-redux';
 import {pushMessage, updateSendingInfo} from '../../store/reducer/chatReducer';
 import axiosInstance from '../../utility/axiosInstance';
-import LoadingSmall from '../SharedComponent/LoadingSmall';
-import {useMainContext} from '../../context/MainContext';
+import {addNewMessage} from '../../store/reducer/newChatReducer';
 const convertLink = text => {
   var exp =
     /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
@@ -17,7 +16,7 @@ const convertLink = text => {
   var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
   return text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
 };
-const ChatFooter2 = ({chatId, setMessages}) => {
+const ChatFooter2 = ({chatId}) => {
   const [text, setText] = useState('');
   const {user} = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -25,7 +24,6 @@ const ChatFooter2 = ({chatId, setMessages}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [isSendingText, setIsSendingText] = useState(false);
-  const {setAllMessages} = useMainContext();
   const sendMessage = files => {
     console.log('text', JSON.stringify(text, null, 1));
     // if (!text.trim() && (!allFiles || allFiles.length === 0) && (!files || files.length === 0)) {
@@ -74,10 +72,12 @@ const ChatFooter2 = ({chatId, setMessages}) => {
         // console.log('res.data', JSON.stringify(res.data, null, 1));
         // setMessages(prev => [res.data.message, ...prev]);
         // dispatch(setMessages([res.data.message, ...messages]));
-        setMessages(pre => ({
-          ...pre,
-          [chatId]: [res.data.message, ...(pre[chatId] || [])],
-        }));
+        dispatch(addNewMessage({chatId, message: res.data.message}));
+        // setMessages(pre => ({
+        //   ...pre,
+        //   [chatId]: [res.data.message, ...(pre[chatId] || [])],
+        // }));
+
         dispatch(
           updateSendingInfo({
             message: res.data.message,

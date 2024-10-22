@@ -20,16 +20,9 @@ export const setAllMessages = (chatId, messages) => {
 
 export const addNewMessage = (chatId, message) => {
   const allMessages = getAllMessages();
-  const oldId = allMessages[chatId][0]?.chat || '';
-  const newId = message?.chat || '';
-  const otherInbox = allMessages[chatId][0]?._id || '';
-  const thisInbox = message._id || '';
-
-  if (oldId === newId && otherInbox !== thisInbox) {
-    const updatedAllMessages = {
-      ...allMessages,
-      [chatId]: [message, ...(allMessages[chatId] || [])],
-    };
-    storage.set('allMessages', JSON.stringify(updatedAllMessages));
-  }
+  const updatedAllMessages = {
+    ...allMessages,
+    [chatId]: [message, ...(allMessages[chatId] || [])],
+  };
+  storage.set('allMessages', JSON.stringify(updatedAllMessages));
 };
