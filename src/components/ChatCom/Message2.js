@@ -6,8 +6,9 @@ import {useTheme} from '../../context/ThemeContext';
 import CustomeFonts from '../../constants/CustomeFonts';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
+import UserNameImageSection from './UserNameImageSection';
 
-const Message2 = ({item}) => {
+const Message2 = ({item, index, nextSender}) => {
   const {user} = useSelector(state => state.auth);
   const Colors = useTheme();
   const my = item.sender?._id === user?._id;
@@ -15,6 +16,12 @@ const Message2 = ({item}) => {
   const styles = getStyles(Colors, my);
   return (
     <View style={styles.mainContainer}>
+      {!my && nextSender && (
+        <UserNameImageSection
+          name={item?.sender?.fullName}
+          image={item?.sender?.profilePicture}
+        />
+      )}
       <View style={styles.messagesContainer}>
         <Markdown style={styles.markdownStyle}>
           {autoLinkify(
@@ -45,7 +52,7 @@ const getStyles = (Colors, my) =>
       //   marginTop: -5,
     },
     mainContainer: {
-      //   backgroundColor: 'red',
+      // backgroundColor: 'red',
       flex: 1,
     },
     messagesContainer: {
@@ -55,7 +62,7 @@ const getStyles = (Colors, my) =>
       marginHorizontal: 10,
       borderRadius: 10,
       paddingHorizontal: 10,
-      marginTop: 10,
+      marginTop: my ? 10 : 5,
       width: '80%',
       minWidth: '25%',
       alignSelf: my ? 'flex-end' : 'flex-start',

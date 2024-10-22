@@ -5,47 +5,36 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
-} from "react-native";
-import React, { useState, useEffect } from "react";
+} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+} from 'react-native-responsive-dimensions';
 
-import GroupMemberInfo from "./GroupMemberInfo";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import SearchAndFilter from "./SearchAndFilter";
-import ArrowRight from "../../../assets/Icons/ArrowRight";
-import NoDataAvailable from "../../SharedComponent/NoDataAvailable";
-import useChat from "../../../hook/useChat";
-import Loading from "../../SharedComponent/Loading";
+import GroupMemberInfo from './GroupMemberInfo';
+import CustomeFonts from '../../../constants/CustomeFonts';
+import SearchAndFilter from './SearchAndFilter';
+import ArrowRight from '../../../assets/Icons/ArrowRight';
+import NoDataAvailable from '../../SharedComponent/NoDataAvailable';
+import Loading from '../../SharedComponent/Loading';
 
-export default function GroupModalMembers({}) {
-  const {
-    chat,
-    fetchMembers,
-    members,
-    filterMembers,
-    setFilterMembers,
-    isLoading,
-  } = useChat();
+export default function GroupModalMembers({members}) {
   const [seeMoreClicked, setSeeMoreClicked] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   fetchMembers();
-  // }, []);
+  const [filterMembers, setFilterMembers] = useState([]);
 
-  const handleRadioButton = (val) => {
+  const handleRadioButton = val => {
     if (val === 1) {
       // Filtering for blocked users
-      let filteredChats = members?.filter((c) => c?.isBlocked);
+      let filteredChats = members?.filter(c => c?.isBlocked);
       // console.log(JSON.stringify(filteredChats, null, 2));
       setFilterMembers(filteredChats);
     } else if (val === 2) {
       // Filtering for muted users
-      let filteredChats = members?.filter((c) => c?.mute?.isMuted);
+      let filteredChats = members?.filter(c => c?.mute?.isMuted);
       // console.log(JSON.stringify(filteredChats, null, 1));
       setFilterMembers(filteredChats);
     } else {
@@ -54,10 +43,10 @@ export default function GroupModalMembers({}) {
     }
   };
 
-  const handleFilter = (val) => {
+  const handleFilter = val => {
     if (val) {
-      let filteredChats = members?.filter((c) =>
-        c?.user?.fullName?.toLowerCase().includes(val?.toLowerCase())
+      let filteredChats = members?.filter(c =>
+        c?.user?.fullName?.toLowerCase().includes(val?.toLowerCase()),
       );
       setFilterMembers(filteredChats);
     } else {
@@ -75,25 +64,23 @@ export default function GroupModalMembers({}) {
     <View
       style={{
         paddingTop: responsiveScreenHeight(0.5),
-      }}
-    >
-      <SearchAndFilter
+      }}>
+      {/* <SearchAndFilter
         handleRadioButton={handleRadioButton}
         handleFilter={handleFilter}
-      />
-      {loading ? (
+      /> */}
+      {false ? (
         <Loading />
       ) : (
         <View
           style={{
             paddingTop: responsiveScreenHeight(0.7),
-          }}
-        >
+          }}>
           {allMembers?.map((item, index) => {
             return (
               <GroupMemberInfo
-                chat={chat}
-                fetchMembers={fetchMembers}
+                // chat={chat}
+                // fetchMembers={fetchMembers}
                 key={index}
                 item={item}
                 index={index}
@@ -103,26 +90,23 @@ export default function GroupModalMembers({}) {
           })}
         </View>
       )}
-      {(isLoading && <Loading />) ||
-        (filterMembers?.length === 0 && <NoDataAvailable />) ||
+      {(filterMembers?.length === 0 && <NoDataAvailable />) ||
         (filterMembers?.length > 6 && (
           <TouchableOpacity
             onPress={() => handleSeeMore()}
             style={{
-              flexDirection: "row",
-              alignItems: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
               gap: responsiveScreenWidth(2),
               paddingVertical: responsiveScreenHeight(1),
-            }}
-          >
+            }}>
             <Text
               style={{
-                color: "rgba(39, 172, 31, 1)",
+                color: 'rgba(39, 172, 31, 1)',
                 fontFamily: CustomeFonts.SEMI_BOLD,
                 fontSize: responsiveScreenFontSize(1.8),
-              }}
-            >
-              {seeMoreClicked ? "See Less" : "See More"}
+              }}>
+              {seeMoreClicked ? 'See Less' : 'See More'}
             </Text>
             <ArrowRight />
           </TouchableOpacity>

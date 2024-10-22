@@ -6,19 +6,17 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 
-import {GroupTabLists} from '../../../constants/CustomeData';
 import CustomeFonts from '../../../constants/CustomeFonts';
 import UserModalImageGallary from '../UserModalImageGallary';
 import UserModalUploadedFile from '../UserModalUploadedFile';
 import UserModalVoice from '../UserModalVoice';
 import GroupModalMembers from './GroupModalMembers';
-import useChat from '../../../hook/useChat';
 import {useTheme} from '../../../context/ThemeContext';
 
 // eslint-disable-next-line no-undef
-export default GroupModalTabView = ({}) => {
-  const {chat, fetchMembers, members, filterMembers, setFilterMembers} =
-    useChat();
+export default GroupModalTabView = ({members}) => {
+  // const {chat, fetchMembers, members, filterMembers, setFilterMembers} =
+  //   useChat();
 
   // --------------------------
   // ----------- Import theme Colors -----------
@@ -30,6 +28,20 @@ export default GroupModalTabView = ({}) => {
   const handleTabStatus = status => {
     setStatus(status);
   };
+  const GroupTabLists = [
+    {
+      status: 'Members',
+    },
+    {
+      status: 'Images',
+    },
+    // {
+    //   status: 'Files',
+    // },
+    {
+      status: 'Voices',
+    },
+  ];
 
   return (
     <View style={[styles.tabViewcontainer]}>
@@ -52,9 +64,10 @@ export default GroupModalTabView = ({}) => {
           </TouchableOpacity>
         ))}
       </View>
+      {status === 'Members' && <GroupModalMembers members={members} />}
       {/* <View>
         {
-          // (status === "Members" && <GroupModalMembers />) ||
+          //  ||
           (status === 'Images' && <UserModalImageGallary chat={chat} />) ||
             (status === 'Files' && <UserModalUploadedFile chat={chat} />) ||
             (status === 'Voices' && <UserModalVoice />)

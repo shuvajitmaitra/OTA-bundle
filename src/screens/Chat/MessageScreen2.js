@@ -149,9 +149,13 @@ const MessageScreen2 = () => {
     const isSameDate =
       new Date(messages[index]?.createdAt).toDateString() ===
       new Date(messages[index + 1]?.createdAt).toDateString();
+
+    const nextSender =
+      item?.sender?._id !==
+      messages[selectedChat?.chatId][index + 1]?.sender?._id;
     return (
       <>
-        <Message2 item={item} />
+        <Message2 item={item} index={index} nextSender={nextSender} />
         {!isSameDate && (
           <View
             style={{

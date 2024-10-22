@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -36,10 +36,17 @@ import LeaveCrowdModal from '../../components/ChatCom/Modal/LeaveCrowdModal';
 import CustomeFonts from '../../constants/CustomeFonts';
 import Images from '../../constants/Images';
 import CameraIcon from '../../assets/Icons/CameraIcon';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import GlobalBackButton from '../../components/SharedComponent/GlobalBackButton';
+import Divider from '../../components/SharedComponent/Divider';
 
 const ChatProfile = () => {
   const navigation = useNavigation(); // Initialize navigation
+  const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
+  console.log('chat', JSON.stringify(chat, null, 1));
+
+  const [members, setMembers] = useState([]);
   const [notificationSwitch, setNotificationSwitch] = useState(false);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -71,6 +78,23 @@ const ChatProfile = () => {
   const toggleReportMembersModal = () => {
     setReportMembersModalVisible(!isReportMembersModalVisible);
   };
+
+  useEffect(() => {
+    if (!chat.isChannel) {
+      return;
+    }
+    axiosInstance
+      .post(`/chat/members/${chat._id}`)
+      .then(res => {
+        setMembers(res.data.results);
+      })
+      .catch(error => {
+        console.log(
+          'getting error to fetch member',
+          JSON.stringify(error, null, 1),
+        );
+      });
+  }, [chat]);
 
   // --------------------------
   // ----------- Invitation Link copy Function -----------
@@ -149,18 +173,8 @@ const ChatProfile = () => {
   }
 
   return (
-    <View style={styles.container}>
-      {/* Header with Back Button */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}>
-          {/* <ModalBackBtn /> */}
-          <Text>Back</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Chat Profile</Text>
-      </View>
-
+    <View style={[styles.container, {paddingTop: top}]}>
+      <GlobalBackButton />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}>
@@ -208,7 +222,7 @@ const ChatProfile = () => {
         </View>
 
         {/* Invitation Link Section */}
-        {chat?.isPublic && (
+        {/* {chat?.isPublic && (
           <TouchableOpacity
             onPress={handleClipBoard}
             style={styles.invitationLinkContainer}>
@@ -217,7 +231,7 @@ const ChatProfile = () => {
               Click to copy invitation link
             </Text>
           </TouchableOpacity>
-        )}
+        )} */}
 
         {/* Notification Toggle */}
         <View style={styles.notificationContainer}>
@@ -237,18 +251,14 @@ const ChatProfile = () => {
         </View>
 
         {/* Description Section */}
-        {chat?.description && (
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionTitle}>Crowds Description</Text>
-            <Text style={styles.descriptionText}>
-              {chat.description || chat.name}
-            </Text>
-            <View style={styles.separator}></View>
-          </View>
-        )}
+        <Divider marginBottom={1.5} marginTop={0.001} />
+        <Text style={styles.descriptionTitle}>Crowds Description</Text>
+        <Text style={styles.descriptionText}>
+          {chat.description || 'No description added yet...'}
+        </Text>
+        <Divider marginBottom={1.5} marginTop={1.5} />
 
-        {/* Tab View
-        <GroupModalTabView /> */}
+        <GroupModalTabView members={members} />
 
         {/* Action Buttons */}
         <View style={styles.actionButtonsContainer}>
@@ -334,16 +344,14 @@ const getStyles = Colors =>
       alignItems: 'center',
     },
     header: {
-      flex: 1,
+      // flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
       borderBottomWidth: 1,
       borderColor: Colors.BorderColor,
       backgroundColor: Colors.Red,
     },
-    backButton: {
-      marginRight: responsiveScreenWidth(2),
-    },
+
     headerTitle: {
       fontSize: responsiveScreenFontSize(2.2),
       fontFamily: CustomeFonts.BOLD,
@@ -361,7 +369,7 @@ const getStyles = Colors =>
     },
     profileImage: {
       height: responsiveScreenHeight(30),
-      width: responsiveScreenWidth(85),
+      width: responsiveScreenWidth(90),
       resizeMode: 'cover',
       borderRadius: responsiveScreenHeight(1),
       borderWidth: 1,
@@ -380,6 +388,7 @@ const getStyles = Colors =>
       justifyContent: 'space-between',
       alignItems: 'center',
       marginVertical: responsiveScreenHeight(2),
+      // backgroundColor: 'red',
     },
     notificationSubContainer: {
       flexDirection: 'row',
@@ -391,15 +400,11 @@ const getStyles = Colors =>
       fontFamily: CustomeFonts.REGULAR,
       fontSize: responsiveScreenFontSize(2),
     },
-    descriptionContainer: {
-      borderTopWidth: 1,
-      borderColor: Colors.BorderColor,
-      paddingTop: responsiveScreenHeight(2),
-    },
+    descriptionContainer: {},
     descriptionTitle: {
       fontSize: responsiveScreenFontSize(2.1),
       fontFamily: CustomeFonts.MEDIUM,
-      paddingBottom: responsiveScreenHeight(1.7),
+      paddingBottom: responsiveScreenHeight(1),
       color: Colors.Heading,
     },
     descriptionText: {
@@ -417,7 +422,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: responsiveScreenHeight(2),
+      // marginBottom: responsiveScreenHeight(2),
     },
     memberNumberContainer: {
       flexDirection: 'row',
@@ -449,6 +454,7 @@ const getStyles = Colors =>
       gap: responsiveScreenWidth(1),
       alignItems: 'center',
       paddingVertical: responsiveScreenHeight(2),
+      backgroundColor: 'red',
     },
     actionButtonsContainer: {
       marginTop: responsiveScreenHeight(2),
