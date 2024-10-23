@@ -9,11 +9,9 @@ import {
 import React from 'react';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import FIcons from 'react-native-vector-icons/FontAwesome';
-import moment from 'moment';
 
 import {
   responsiveScreenFontSize,
-  responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 
@@ -23,10 +21,12 @@ import VideoIcon from '../../assets/Icons/VideoIcon';
 import Images from '../../constants/Images';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {setLocalMessages} from '../../store/reducer/chatSlice';
 
 export default function MessageTopPart() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const {singleChat: chat} = useSelector(state => state.chat);
   //   console.log('singleChat', JSON.stringify(chat, null, 1));
   //   const chat = {
@@ -62,7 +62,10 @@ export default function MessageTopPart() {
     <View style={styles.container}>
       <View style={styles.leftSection}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            dispatch(setLocalMessages([]));
+            navigation.goBack();
+          }}
           style={styles.backButtonContainer}>
           <ArrowLeft />
         </TouchableOpacity>

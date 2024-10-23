@@ -1,139 +1,184 @@
+// ChatFooter2.js
+
+import React, {useState, useCallback} from 'react';
 import {Keyboard, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import IconContainer from './ChatFooter/IconContainer';
 import SendContainer from './ChatFooter/SendContainer';
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
 import ChatMessageInput from './ChatMessageInput';
-import {useDispatch, useSelector} from 'react-redux';
 import {pushMessage, updateSendingInfo} from '../../store/reducer/chatReducer';
 import axiosInstance from '../../utility/axiosInstance';
-import {addNewMessage} from '../../store/reducer/newChatReducer';
+import {setLocalMessages} from '../../store/reducer/chatSlice';
+
+// Precompiled regular expressions outside the component for performance
+const URL_REGEX =
+  /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+const WWW_REGEX = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+
+/**
+ * Converts URLs in the text to clickable anchor tags.
+ *
+ * @param {string} text - The input text containing URLs.
+ * @returns {string} - The text with URLs converted to anchor tags.
+ */
 const convertLink = text => {
-  var exp =
-    /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-  var text1 = text.replace(exp, '<a target="_blank" href="$1">$1</a>');
-  var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-  return text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
-};
-const ChatFooter2 = ({chatId}) => {
-  const [text, setText] = useState('');
-  const {user} = useSelector(state => state.auth);
-  const dispatch = useDispatch();
-  const [messageClicked, setMessageClicked] = useState(false);
-  const Colors = useTheme();
-  const styles = getStyles(Colors);
-  const [isSendingText, setIsSendingText] = useState(false);
-  const sendMessage = files => {
-    console.log('text', JSON.stringify(text, null, 1));
-    // if (!text.trim() && (!allFiles || allFiles.length === 0) && (!files || files.length === 0)) {
-    //   return showAlertModal({
-    //     title: "Write something",
-    //     type: "warning",
-    //     message: "Please write something before proceeding",
-    //   });
-    // }
-
-    Keyboard.dismiss();
-    setIsSendingText(true);
-    let data = {
-      text: convertLink(text),
-      //   files: files ? files : allFiles || [],
-    };
-    // if (parentMessage) {
-    //   data['parentMessage'] = parentMessage;
-    // }
-
-    let randomId = Math.floor(Math.random() * (999999 - 1111) + 1111);
-    let messageData = {
-      message: {
-        ...data,
-        _id: randomId,
-        sender: {
-          _id: user?._id,
-          fullName: user?.firstName + ' ' + user?.lastName,
-          profilePicture: user.profilePicture,
-        },
-        createdAt: Date.now(),
-        status: 'sending',
-        chat: chatId,
-        type: 'message',
-      },
-    };
-
-    dispatch(pushMessage(messageData));
-
-    setText('');
-    // setMessageFocused(false);
-    // scrollToBottom();
-    axiosInstance
-      .put(`/chat/sendmessage/${chatId}`, data)
-      .then(res => {
-        // console.log('res.data', JSON.stringify(res.data, null, 1));
-        // setMessages(prev => [res.data.message, ...prev]);
-        // dispatch(setMessages([res.data.message, ...messages]));
-        dispatch(addNewMessage({chatId, message: res.data.message}));
-        // setMessages(pre => ({
-        //   ...pre,
-        //   [chatId]: [res.data.message, ...(pre[chatId] || [])],
-        // }));
-
-        dispatch(
-          updateSendingInfo({
-            message: res.data.message,
-            trackingId: randomId,
-          }),
-        );
-        // clearFields();
-        // setAllFiles([]);
-        // setSelectedAudio([]);
-        // setSelectedImage([]);
-        // setSelected([]);
-        //scrollToBottom()
-        setIsSendingText(false);
-      })
-      .catch(err => {
-        setIsSendingText(false);
-        // showAlertModal({
-        //   title: 'Error',
-        //   type: 'error',
-        //   message: err?.response?.data?.error,
-        // });
-        // setMessagesPending([]);
-        console.log(err.response.data);
-      });
-  };
-
-  return (
-    <>
-      {/* {isSendingText ? (
-        <LoadingSmall />
-      ) : ( */}
-      <View style={styles.container}>
-        {messageClicked ? (
-          <ChatMessageInput text={text} setText={setText} />
-        ) : (
-          <TouchableOpacity
-            onPress={() => {
-              setMessageClicked(!messageClicked);
-            }}
-            style={styles.initialContainer}>
-            <Text style={styles.messageText}>{text || 'Message...'}</Text>
-          </TouchableOpacity>
-        )}
-        {text.length > 0 ? (
-          <SendContainer sendMessage={sendMessage} />
-        ) : (
-          <IconContainer />
-        )}
-      </View>
-      {/* )} */}
-    </>
+  let textWithLinks = text.replace(
+    URL_REGEX,
+    '<a target="_blank" href="$1">$1</a>',
+  );
+  return textWithLinks.replace(
+    WWW_REGEX,
+    '$1<a target="_blank" href="http://$2">$2</a>',
   );
 };
 
-export default ChatFooter2;
+/**
+ * ChatFooter2 Component
+ *
+ * @param {object} props
+ * @param {string} props.chatId - The ID of the current chat.
+ * @param {function} props.setMessages - Function to update messages state.
+ * @returns {JSX.Element}
+ */
+const ChatFooter2 = ({chatId, setMessages}) => {
+  // Local state for the message text
+  const [text, setText] = useState('');
 
+  // Redux selectors
+  const {user} = useSelector(state => state.auth);
+
+  const {localMessages} = useSelector(state => state.chatSlice);
+
+  const dispatch = useDispatch();
+
+  // Local state to toggle message input visibility
+  const [messageClicked, setMessageClicked] = useState(false);
+
+  // Theme context
+  const Colors = useTheme();
+  const styles = getStyles(Colors);
+
+  // Local state to indicate if a message is being sent
+  const [isSendingText, setIsSendingText] = useState(false);
+
+  /**
+   * Handles sending a message.
+   *
+   * @param {Array} files - Optional files to send with the message.
+   */
+  const sendMessage = useCallback(
+    async files => {
+      if (!text.trim()) {
+        // Optionally, show a warning to the user
+        // Example:
+        // showAlertModal({
+        //   title: "Write something",
+        //   type: "warning",
+        //   message: "Please write something before proceeding",
+        // });
+        return;
+      }
+
+      // Dismiss the keyboard
+      Keyboard.dismiss();
+      setIsSendingText(true);
+
+      // Prepare message data
+      const data = {
+        text: convertLink(text),
+        // Uncomment and handle files if necessary
+        // files: files || [],
+      };
+
+      // Generate a random ID for optimistic UI update
+      const randomId = Math.floor(Math.random() * (999999 - 1111) + 1111);
+
+      // Construct the message object
+      const messageData = {
+        message: {
+          ...data,
+          _id: randomId,
+          sender: {
+            _id: user?._id,
+            fullName: `${user?.firstName} ${user?.lastName}`,
+            profilePicture: user.profilePicture,
+          },
+          createdAt: Date.now(),
+          status: 'sending',
+          chat: chatId,
+          type: 'message',
+        },
+      };
+
+      // Optimistically add the message to the UI
+      // dispatch(pushMessage(messageData));
+      setText('');
+
+      try {
+        const res = await axiosInstance.put(
+          `/chat/sendmessage/${chatId}`,
+          data,
+        );
+
+        setMessages(prev => ({
+          ...prev,
+          [chatId]: [res.data.message, ...(prev[chatId] || [])],
+        }));
+        dispatch(setLocalMessages([res.data.message, ...localMessages]));
+        // setLocalMessages(pre => [res.data.message, ...pre]);
+      } catch (err) {
+        setIsSendingText(false);
+
+        if (__DEV__) {
+          console.error('Error sending message:', err.response?.data);
+        }
+      } finally {
+        setIsSendingText(false);
+      }
+    },
+    [text, user, chatId],
+  );
+
+  /**
+   * Toggles the visibility of the message input field.
+   */
+  const toggleMessageClicked = useCallback(() => {
+    setMessageClicked(prev => !prev);
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      {messageClicked ? (
+        <ChatMessageInput text={text} setText={setText} />
+      ) : (
+        <TouchableOpacity
+          onPress={toggleMessageClicked}
+          style={styles.initialContainer}>
+          <Text style={styles.messageText}>
+            {text.trim() ? text : 'Message...'}
+          </Text>
+        </TouchableOpacity>
+      )}
+      {text.length > 0 ? (
+        <SendContainer sendMessage={sendMessage} />
+      ) : (
+        <IconContainer />
+      )}
+    </View>
+  );
+};
+
+// Memoize the component to prevent unnecessary re-renders
+export default React.memo(ChatFooter2);
+
+/**
+ * Styles for the ChatFooter2 component.
+ *
+ * @param {object} Colors - Theme colors from the context.
+ * @returns {object} - StyleSheet object.
+ */
 const getStyles = Colors =>
   StyleSheet.create({
     messageText: {
@@ -151,11 +196,9 @@ const getStyles = Colors =>
       paddingHorizontal: 15,
       marginTop: 10,
       overflow: 'hidden',
-      //   paddingVertical:
     },
     initialContainer: {
       width: '85%',
-      //   backgroundColor: 'yellow',
       height: 49,
       justifyContent: 'center',
     },

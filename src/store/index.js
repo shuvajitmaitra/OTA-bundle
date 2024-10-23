@@ -5,7 +5,7 @@ import mmkvStorage from '../utility/mmkvStorage';
 const persistConfig = {
   key: 'root',
   storage: mmkvStorage,
-  blacklist: ['modal'],
+  blacklist: ['modal', 'chatSlice'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

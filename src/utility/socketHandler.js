@@ -17,8 +17,8 @@ import {
   updateLatestMessage,
   updateMessage,
 } from '../store/reducer/chatReducer';
-import moment from 'moment';
-import {addNewMessage} from '../store/reducer/newChatReducer';
+import {appendLocalMessage} from '../store/reducer/chatSlice';
+import {addNewMessage} from './mmkvHelpers';
 // import * as Notifications from "expo-notifications";
 
 // import store from "../store";
@@ -48,10 +48,11 @@ const setupSocketListeners = socket => {
       //   pushMessage({chat: data.chat?._id, message: data.message}),
       // );
       // console.log('data.message', JSON.stringify(data.message, null, 1));
-      // addNewMessage(data.chat?._id, data.message);
-      store.dispatch(
-        addNewMessage({chatId: data.chat?._id, message: data.message}),
-      );
+      addNewMessage(data.chat?._id, data.message);
+      // store.dispatch(
+      //   addNewMessage({chatId: data.chat?._id, message: data.message}),
+      // );
+      store.dispatch(appendLocalMessage(data.message));
     } else if (data?.message?.type !== 'message') {
       store.dispatch(
         pushMessage({chat: data.chat?._id, message: data.message}),

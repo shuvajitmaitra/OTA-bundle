@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback, useRef} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -19,10 +19,10 @@ import MessageTopPart from '../../components/ChatCom/MessageTopPart';
 import Message2 from '../../components/ChatCom/Message2';
 import {formatDynamicDate} from '../../utility/commonFunction';
 import {useMMKVObject} from 'react-native-mmkv';
-import {storage} from '../../utility/mmkvInstance';
-import {setAllMessages} from '../../store/reducer/newChatReducer';
+import {setLocalMessages} from '../../store/reducer/chatSlice';
 
 const MessageScreen2 = () => {
+  const dispatch = useDispatch();
   const {bottom, top} = useSafeAreaInsets();
   const [page, setPage] = useState(1);
   const [totalMessage, setTotalMessage] = useState(0);
@@ -31,132 +31,119 @@ const MessageScreen2 = () => {
   const {selectedMessageScreen: selectedChat} = useSelector(
     state => state.modal,
   );
+  const {localMessages} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  // const [messages, setMessages] = useMMKVObject('allMessages');
-  // console.log('messages', JSON.stringify(messages, null, 1));
-  const {allMessages: messages} = useSelector(state => state.newChat);
-  const dispatch = useDispatch();
-  const isLoadingRef = useRef(isLoading);
-  const hasMoreRef = useRef(hasMore);
-  const messagesRef = useRef(messages);
+  const [messages = {}, setMessages] = useMMKVObject('allMessages');
+  // const [localMessages, setLocalMessages] = useState([]);
 
-  useEffect(() => {
-    isLoadingRef.current = isLoading;
-  }, [isLoading]);
+  const LIMIT = 20;
 
-  useEffect(() => {
-    hasMoreRef.current = hasMore;
-  }, [hasMore]);
-
-  useEffect(() => {
-    messagesRef.current = messages;
-  }, [messages]);
-
-  // useEffect(() => {
-  //   if (messages && messages[selectedChat.chatId]?.length > 10) {
-  //     setMessages(pre => ({
-  //       ...(pre || []),
-  //       [selectedChat.chatId]: [
-  //         ...(pre[selectedChat.chatId].slice(0, 10) || []),
-  //       ],
-  //     }));
-  //   }
-  // }, []);
-
-  const getMessages = useCallback(
-    async (pageNumber = 1) => {
-      // if (!selectedChat.limit) {
-      //   return;
-      // }
-      // if (!messages) {
-      //   setMessages({});
-      // }
-      if (isLoadingRef.current || !hasMoreRef.current) {
-        return;
+  const initialGetMessage = useCallback(async () => {
+    setIsLoading(true);
+    const options = {
+      page: 1,
+      chat: selectedChat.chatId,
+      limit: LIMIT,
+    };
+    try {
+      const res = await axiosInstance.post('/chat/messages', options);
+      const newMessages = res.data.messages.reverse();
+      setMessages({
+        ...messages,
+        [selectedChat.chatId]: newMessages,
+      });
+      dispatch(setLocalMessages(newMessages));
+      setTotalMessage(res.data.count || 0);
+      console.log('Initial call done');
+      if (newMessages.length < options.limit) {
+        setHasMore(false);
+      } else {
+        setPage(2);
       }
-      setIsLoading(true);
-      const options = {
-        page: pageNumber,
-        chat: selectedChat.chatId,
-        limit: 10,
-      };
-
-      try {
-        const res = await axiosInstance.post('/chat/messages', options);
-        const fetchedMessages = res.data.messages;
-        // console.log('res.data', JSON.stringify(res.data, null, 1));
-        setTotalMessage(res.data.count);
-        if (!Array.isArray(fetchedMessages)) {
-          throw new Error('Invalid messages format received from API');
-        }
-        // if (messages[selectedChat.chatId][0]._id == res.data.messages[0]._id) {
-        //   return;
-        // }
-        const newMessages = fetchedMessages.reverse();
-        // setMessages(pre => ({
-        //   ...(pre || []),
-        //   [selectedChat.chatId]: [
-        //     ...(pre[selectedChat.chatId] || []),
-        //     ...newMessages,
-        //   ],
-        // }));
-        dispatch(
-          setAllMessages({chatId: selectedChat.chatId, messages: newMessages}),
-        );
-
-        if (newMessages.length < options.limit) {
-          setHasMore(false);
-        } else {
-          setPage(prevPage => prevPage + 1);
-        }
-      } catch (err) {
-        console.error(
-          'Error fetching messages:',
-          err.response?.data || err.message,
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [selectedChat.chatId],
-  );
-
-  useEffect(() => {
-    setPage(1);
-    setHasMore(true);
-    getMessages(1);
-  }, [getMessages, selectedChat.chatId]);
-
-  const handleLoadMore = () => {
-    if (!isLoadingRef.current && hasMoreRef.current) {
-      getMessages(page);
+    } catch (error) {
+      console.log(
+        'Error loading initial messages:',
+        JSON.stringify(error, null, 1),
+      );
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [selectedChat.chatId, messages, setMessages]);
+
+  useEffect(() => {
+    if (selectedChat.chatId) {
+      initialGetMessage();
+    }
+  }, [selectedChat.chatId]);
+
+  const handleLoadMore = useCallback(async () => {
+    if (isLoading || !hasMore) {
+      return;
+    }
+    setIsLoading(true);
+    const options = {
+      page: page,
+      chat: selectedChat.chatId,
+      limit: LIMIT,
+    };
+    try {
+      const res = await axiosInstance.post('/chat/messages', options);
+      const newMessages = res.data.messages.reverse();
+      dispatch(setLocalMessages([...localMessages, ...newMessages]));
+      // setLocalMessages(prev => [...prev, ...newMessages]);
+      // Update MMKV storage
+      setMessages(prevMessages => ({
+        ...prevMessages,
+        [selectedChat.chatId]: [
+          ...(prevMessages[selectedChat.chatId] || []),
+          ...newMessages,
+        ],
+      }));
+      if (newMessages.length < options.limit) {
+        setHasMore(false);
+      } else {
+        setPage(prevPage => prevPage + 1);
+      }
+    } catch (error) {
+      console.log(
+        'Error loading more messages:',
+        JSON.stringify(error, null, 1),
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isLoading, hasMore, page, selectedChat.chatId]);
 
   const ListFooterComponent = () => {
+    if (!isLoading) return null;
     return (
-      <>
-        {isLoading ? (
-          <View style={[styles.footer, page === 1 && styles.initialFooter]}>
-            <ActivityIndicator size="small" color={Colors.Primary} />
-          </View>
-        ) : null}
-      </>
+      <View style={[styles.footer, page === 1 && styles.initialFooter]}>
+        <ActivityIndicator size="small" color={Colors.Primary} />
+      </View>
     );
   };
-  const renderItem = ({item, index}) => {
-    const isSameDate =
-      new Date(messages[index]?.createdAt).toDateString() ===
-      new Date(messages[index + 1]?.createdAt).toDateString();
 
-    const nextSender =
-      item?.sender?._id !==
-      messages[selectedChat?.chatId][index + 1]?.sender?._id;
+  const renderItem = ({item, index}) => {
+    // const currentMessageDate = new Date(
+    //   item?.createdAt || item?.updatedAt,
+    // ).toDateString();
+    const nextMessage = localMessages[index + 1];
+    // const nextMessageDate = nextMessage
+    //   ? new Date(
+    //       nextMessage?.createdAt || nextMessage?.updatedAt,
+    //     ).toDateString()
+    //   : null;
+    // const isSameDate = currentMessageDate === nextMessageDate;
+
+    const nextSender = nextMessage
+      ? item.sender._id !== nextMessage.sender._id
+      : false;
+
     return (
       <>
         <Message2 item={item} index={index} nextSender={nextSender} />
-        {!isSameDate && (
+        {/* {!isSameDate && (
           <View
             style={{
               backgroundColor: Colors.PrimaryOpacityColor,
@@ -171,7 +158,7 @@ const MessageScreen2 = () => {
               {formatDynamicDate(item?.updatedAt || item?.createdAt)}
             </Text>
           </View>
-        )}
+        )} */}
       </>
     );
   };
@@ -185,18 +172,20 @@ const MessageScreen2 = () => {
       <MessageTopPart />
       <View style={styles.flatListContainer}>
         <FlatList
-          data={messages ? messages[selectedChat?.chatId] : []}
-          renderItem={renderItem}
-          keyExtractor={item => Math.random()}
-          onEndReached={
-            messages[selectedChat?.chatId] !== totalMessage && handleLoadMore
+          data={
+            localMessages.length
+              ? localMessages
+              : messages[selectedChat?.chatId]
           }
-          onEndReachedThreshold={0.5}
+          renderItem={renderItem}
+          keyExtractor={item => item._id.toString()} // Use a stable key
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5} // Adjust as needed
           ListFooterComponent={ListFooterComponent}
           inverted
         />
       </View>
-      <ChatFooter2 chatId={selectedChat.chatId} />
+      <ChatFooter2 chatId={selectedChat.chatId} setMessages={setMessages} />
     </View>
   );
 };
