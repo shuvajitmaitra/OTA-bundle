@@ -39,14 +39,13 @@ import CameraIcon from '../../assets/Icons/CameraIcon';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import GlobalBackButton from '../../components/SharedComponent/GlobalBackButton';
 import Divider from '../../components/SharedComponent/Divider';
+import {setCrowdMembers} from '../../store/reducer/chatSlice';
 
 const ChatProfile = () => {
   const navigation = useNavigation(); // Initialize navigation
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
-  console.log('chat', JSON.stringify(chat, null, 1));
 
-  const [members, setMembers] = useState([]);
   const [notificationSwitch, setNotificationSwitch] = useState(false);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -81,12 +80,17 @@ const ChatProfile = () => {
 
   useEffect(() => {
     if (!chat.isChannel) {
+      dispatch(setCrowdMembers([]));
       return;
     }
     axiosInstance
       .post(`/chat/members/${chat._id}`)
       .then(res => {
-        setMembers(res.data.results);
+        dispatch(setCrowdMembers(res.data.results));
+        console.log(
+          'res.data.results',
+          JSON.stringify(res.data.results, null, 1),
+        );
       })
       .catch(error => {
         console.log(
@@ -94,7 +98,7 @@ const ChatProfile = () => {
           JSON.stringify(error, null, 1),
         );
       });
-  }, [chat]);
+  }, [chat._id]);
 
   // --------------------------
   // ----------- Invitation Link copy Function -----------
@@ -258,7 +262,7 @@ const ChatProfile = () => {
         </Text>
         <Divider marginBottom={1.5} marginTop={1.5} />
 
-        <GroupModalTabView members={members} />
+        <GroupModalTabView />
 
         {/* Action Buttons */}
         <View style={styles.actionButtonsContainer}>

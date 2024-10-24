@@ -9,7 +9,8 @@
     "start": "react-native start --reset-cache",
     "test": "jest",
     "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install && cd ..",
-    "preview-build": "cd android && ./gradlew assembleRelease && cd .."
+    "preview-build": "cd android && ./gradlew assembleRelease && cd ..",
+    "pod": " cd ios && pod install && cd .."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.0.0",

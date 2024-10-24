@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -12,36 +12,82 @@ import UserModalUploadedFile from '../UserModalUploadedFile';
 import UserModalVoice from '../UserModalVoice';
 import GroupModalMembers from './GroupModalMembers';
 import {useTheme} from '../../../context/ThemeContext';
+import {useSelector} from 'react-redux';
+import axiosInstance from '../../../utility/axiosInstance';
 
 // eslint-disable-next-line no-undef
-export default GroupModalTabView = ({members}) => {
+export default GroupModalTabView = () => {
   // const {chat, fetchMembers, members, filterMembers, setFilterMembers} =
   //   useChat();
+  const {singleChat: chat} = useSelector(state => state.chat);
+  const [media, setMedia] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const [status, setStatus] = useState('Members');
-
+  const [status, setStatus] = useState(chat.isChannel ? 'Members' : 'Images');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const fetchData = async () => {
+    if (media.length > 0) {
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post(`/chat/media/${chat?._id}`, {
+        limit: 1,
+        type: 'image',
+      });
+      if (response.data && Array.isArray(response.data.medias)) {
+        const reversedMedias = [...response.data.medias].reverse();
+        setMedia(reversedMedias);
+      } else {
+        setMedia([]);
+      }
+    } catch (error) {
+      console.error('Failed to fetch media:', error.message);
+      setMedia([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, [chat._id]);
   const handleTabStatus = status => {
     setStatus(status);
   };
-  const GroupTabLists = [
-    {
-      status: 'Members',
-    },
-    {
-      status: 'Images',
-    },
-    // {
-    //   status: 'Files',
-    // },
-    {
-      status: 'Voices',
-    },
-  ];
+  const GroupTabLists = chat.isChannel
+    ? [
+        {
+          status: 'Members',
+        },
+        {
+          status: 'Images',
+        },
+        // {
+        //   status: 'Files',
+        // },
+        {
+          status: 'Voices',
+        },
+      ]
+    : [
+        // {
+        //   status: 'Members',
+        // },
+        {
+          status: 'Images',
+        },
+        // {
+        //   status: 'Files',
+        // },
+        {
+          status: 'Voices',
+        },
+      ];
 
   return (
     <View style={[styles.tabViewcontainer]}>
@@ -64,13 +110,21 @@ export default GroupModalTabView = ({members}) => {
           </TouchableOpacity>
         ))}
       </View>
-      {status === 'Members' && <GroupModalMembers members={members} />}
+      {status === 'Members' && <GroupModalMembers />}
+      {status === 'Images' && (
+        <UserModalImageGallary
+          chat={chat}
+          media={media}
+          isLoading={isLoading}
+        />
+      )}
+      {status === 'Voices' && <UserModalVoice />}
       {/* <View>
         {
           //  ||
-          (status === 'Images' && <UserModalImageGallary chat={chat} />) ||
+          ||
             (status === 'Files' && <UserModalUploadedFile chat={chat} />) ||
-            (status === 'Voices' && <UserModalVoice />)
+            
         }
       </View> */}
     </View>

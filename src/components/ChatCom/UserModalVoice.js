@@ -16,7 +16,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import useChat from '../../hook/useChat';
 import axiosInstance from '../../utility/axiosInstance';
-// import AudioMessage from './AudioMessage';
+import AudioMessage from './AudioMessage';
 import MicIcon from '../../assets/Icons/MicIcon';
 import {useTheme} from '../../context/ThemeContext';
 import ArrowRight from '../../assets/Icons/ArrowRight';
@@ -28,10 +28,10 @@ import moment from 'moment';
 import Images from '../../constants/Images';
 
 export default function UserModalVoice() {
-  const {chat} = useChat();
+  const {singleChat: chat} = useSelector(state => state.chat);
   // console.log(JSON.stringify(chat, null, 1));
   // const { chatMessages } = useSelector((state) => state.chat);
-  const [file, setFile] = React.useState();
+  const [file, setFile] = useState([]);
   const [isLoading, setLoading] = useState(true);
   // console.log(JSON.stringify(chatMessages[chat._id], null, 1));
 
@@ -41,30 +41,33 @@ export default function UserModalVoice() {
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true); // Ensure loading state is true when starting to fetch data
-      try {
-        const response = await axiosInstance.post(`/chat/media/${chat?._id}`, {
-          limit: 50,
-          type: 'voice',
-        });
-        if (response.data && Array.isArray(response.data.medias)) {
-          const reversedMedias = [...response.data.medias].reverse();
-          setFile(reversedMedias);
-        } else {
-          setFile([]);
-        }
-      } catch (error) {
-        console.error('Failed to fetch media:', error.message);
-        setFile([]); // Optionally set media to an empty array or handle differently
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    console.log('.................');
+    setLoading(true); // Ensure loading state is true when starting to fetch data
+    try {
+      const response = await axiosInstance.post(`/chat/media/${chat?._id}`, {
+        limit: 50,
+        type: 'voice',
+      });
+      console.log('response.data', JSON.stringify(response.data, null, 1));
+      if (response.data && Array.isArray(response.data.medias)) {
+        const reversedMedias = [...response.data.medias].reverse();
+        setFile(reversedMedias);
+      } else {
+        setFile([]);
       }
-    };
-
+    } catch (error) {
+      console.error('Failed to fetch media:', error.message);
+      setFile([]); // Optionally set media to an empty array or handle differently
+    } finally {
+      setLoading(false);
+    }
+  };
+  React.useEffect(() => {
     fetchData();
-  }, [chat?._id]);
+  }, []);
+
+  console.log('file', JSON.stringify(file, null, 1));
 
   const newFile = file?.length > 4 ? file.slice(0, 4) : file;
   const allFile = seeMoreClicked ? file : newFile;
@@ -137,11 +140,11 @@ export default function UserModalVoice() {
                             backgroundColor: Colors.Background_color,
                             borderRadius: 100,
                           }}>
-                          {/* <AudioMessage
+                          <AudioMessage
                             audioUrl={item.url}
                             isActive={currentPlayingUrl === item.url}
                             onTogglePlay={() => handlePlayToggle(item.url)}
-                          /> */}
+                          />
                         </View>
                         <Text
                           style={{
