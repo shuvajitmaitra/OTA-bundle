@@ -23,11 +23,14 @@ import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLocalMessages} from '../../store/reducer/chatSlice';
+import PinIcon from '../../assets/Icons/PinIcon';
+import StarIcon from '../../assets/Icons/StartIcon';
 
-export default function MessageTopPart() {
+export default function MessageTopPart({pinned}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat} = useSelector(state => state.chat);
+  const {pinnedMessages} = useSelector(state => state.chatSlice);
   //   console.log('singleChat', JSON.stringify(chat, null, 1));
   //   const chat = {
   //     isChannel: false,
@@ -111,19 +114,20 @@ export default function MessageTopPart() {
       </View>
       <View style={styles.rightSection}>
         {/* Pinned Icon Placeholder */}
-        <AntIcons color={Colors.Primary} size={22} name="pushpino" />
+        {pinned.length > 0 && <PinIcon size={25} />}
         {/* Favourite Icon */}
-        {chat.myData.isFavourite ? (
-          <FIcons color="gold" size={22} name="star" />
+        <StarIcon color={chat.myData.isFavourite ? 'gold' : 'gray'} />
+        {/* {chat.myData.isFavourite ? (
+          <StartIcon color="gold" size={22} name="star" />
         ) : (
           <FIcons color={Colors.BodyText} size={22} name="star-o" />
-        )}
+        )} */}
 
         {/* Call Icons Placeholder */}
-        <View style={styles.iconContainer}>
+        {/* <View style={styles.iconContainer}>
           <PhoneIcon />
           <VideoIcon />
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -149,6 +153,9 @@ const getStyles = Colors =>
     leftSection: {
       flexDirection: 'row',
       alignItems: 'center',
+      // backgroundColor: 'yellow',
+      flex: 0.8,
+      overflow: 'hidden',
     },
     backButtonContainer: {
       width: 50,
@@ -168,12 +175,15 @@ const getStyles = Colors =>
     },
     profileNameContainer: {
       marginLeft: responsiveScreenWidth(2),
-      flexBasis: '55%',
+      // flexBasis: '55%',
+      // backgroundColor: 'red',
     },
     name: {
       color: Colors.Heading,
       fontFamily: CustomeFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
+      // flexBasis: '10%',
+      width: '80%',
     },
     avaliableContainer: {
       flexDirection: 'row',
@@ -196,8 +206,11 @@ const getStyles = Colors =>
       flexDirection: 'row',
       gap: responsiveScreenWidth(2.5),
       alignItems: 'center',
-      flex: 0.35,
       justifyContent: 'flex-end',
+      paddingRight: 20,
+      // backgroundColor: 'blue',
+      // width: '100%',
+      flex: 0.2,
     },
     iconContainer: {
       flexDirection: 'row',

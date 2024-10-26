@@ -1,18 +1,19 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Markdown from 'react-native-markdown-display';
 import {autoLinkify, removeHtmlTags, transFormDate} from './MessageHelper';
 import {useTheme} from '../../context/ThemeContext';
 import CustomeFonts from '../../constants/CustomeFonts';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import UserNameImageSection from './UserNameImageSection';
+import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 
 const Message2 = ({item, index, nextSender}) => {
+  const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
   const Colors = useTheme();
   const my = item.sender?._id === user?._id;
-
   const styles = getStyles(Colors, my);
   return (
     <View style={styles.mainContainer}>
@@ -22,7 +23,9 @@ const Message2 = ({item, index, nextSender}) => {
           image={item?.sender?.profilePicture}
         />
       )}
-      <View style={styles.messagesContainer}>
+      <TouchableOpacity
+        onPress={() => dispatch(setMessageOptionData(item))}
+        style={styles.messagesContainer}>
         <Markdown style={styles.markdownStyle}>
           {autoLinkify(
             transFormDate(
@@ -33,7 +36,7 @@ const Message2 = ({item, index, nextSender}) => {
         <Text style={styles.timeText}>
           {moment(item.createdAt).format('h:m A')}
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   localMessages: [],
   crowdMembers: [],
+  pinnedMessages: [],
 };
 
 const chatSlice = createSlice({
@@ -18,11 +19,18 @@ const chatSlice = createSlice({
     setCrowdMembers: (state, action) => {
       state.crowdMembers = action.payload;
     },
+    setPinnedMessages: (state, action) => {
+      state.pinnedMessages = action.payload;
+    },
   },
 });
 
-export const {setLocalMessages, appendLocalMessage, setCrowdMembers} =
-  chatSlice.actions;
+export const {
+  setLocalMessages,
+  appendLocalMessage,
+  setCrowdMembers,
+  setPinnedMessages,
+} = chatSlice.actions;
 
 // Export the reducer
 export default chatSlice.reducer;

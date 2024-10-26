@@ -5,6 +5,8 @@ import {
   View,
   ActivityIndicator,
   Text,
+  TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import axiosInstance from '../../utility/axiosInstance';
@@ -19,7 +21,13 @@ import MessageTopPart from '../../components/ChatCom/MessageTopPart';
 import Message2 from '../../components/ChatCom/Message2';
 import {formatDynamicDate} from '../../utility/commonFunction';
 import {useMMKVObject} from 'react-native-mmkv';
-import {setLocalMessages} from '../../store/reducer/chatSlice';
+import {
+  setLocalMessages,
+  setPinnedMessages,
+} from '../../store/reducer/chatSlice';
+import {setMessageOptionData} from '../../store/reducer/ModalReducer';
+import PinIcon from '../../assets/Icons/PinIcon';
+import {setPinned} from '../../store/reducer/chatReducer';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -32,12 +40,28 @@ const MessageScreen2 = () => {
     state => state.modal,
   );
   const {localMessages} = useSelector(state => state.chatSlice);
+  const {messageOptionData} = useSelector(state => state.modal);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [messages = {}, setMessages] = useMMKVObject('allMessages');
   // const [localMessages, setLocalMessages] = useState([]);
-
+  const [pinned, setPinned] = useState([]);
   const LIMIT = 20;
+
+  const fetchPinned = chatId => {
+    if (!chatId) return console.log('Chat id is missing');
+    axiosInstance
+      .get(`/chat/fetchpinned/${chatId}`)
+      .then(res => {
+        // console.log('res.data', JSON.stringify(res.data, null, 1));
+        // if (res.data?.pinnedMessages?.length === 0)
+        // dispatch(setPinnedMessages(res.data.pinnedMessages));
+        setPinned(res?.data?.pinnedMessages);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const initialGetMessage = useCallback(async () => {
     setIsLoading(true);
@@ -49,6 +73,9 @@ const MessageScreen2 = () => {
     try {
       const res = await axiosInstance.post('/chat/messages', options);
       const newMessages = res.data.messages.reverse();
+      if (res.data.messages.length) {
+        fetchPinned(selectedChat.chatId);
+      }
       setMessages({
         ...messages,
         [selectedChat.chatId]: newMessages,
@@ -114,7 +141,30 @@ const MessageScreen2 = () => {
       setIsLoading(false);
     }
   }, [isLoading, hasMore, page, selectedChat.chatId]);
+  const handlePin = id => {
+    axiosInstance
+      .patch(`/chat/pin/${id}`)
+      .then(res => {
+        if (res.data.message) {
+          console.log(
+            'res.data.message',
+            JSON.stringify(res.data.message, null, 1),
+          );
+          // handleUpdateMessage(res.data.message);
 
+          // if (res.data.message?.pinnedBy === null) {
+          //   showToast("Unpinned successfully...", Colors.Primary);
+          //   return;
+          // } else {
+          //   showToast("Pinned successfully...");
+          //   return;
+          // }
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   const ListFooterComponent = () => {
     if (!isLoading) return null;
     return (
@@ -137,7 +187,7 @@ const MessageScreen2 = () => {
     // const isSameDate = currentMessageDate === nextMessageDate;
 
     const nextSender = nextMessage
-      ? item.sender._id !== nextMessage.sender._id
+      ? item?.sender?._id !== nextMessage?.sender?._id
       : false;
 
     return (
@@ -162,14 +212,41 @@ const MessageScreen2 = () => {
       </>
     );
   };
-
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View
       style={[
         styles.container,
         {paddingBottom: bottom, paddingTop: top / 1.5},
       ]}>
-      <MessageTopPart />
+      {messageOptionData?._id && (
+        <Pressable
+          onPress={() => dispatch(setMessageOptionData(null))}
+          style={{
+            height: responsiveScreenHeight(100),
+            position: 'absolute',
+            backgroundColor: Colors.BackDropColor,
+            zIndex: 1,
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: Colors.White,
+              padding: 10,
+              borderRadius: 4,
+            }}>
+            <TouchableOpacity
+              onPress={() => handlePin(messageOptionData._id)}
+              style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+              <PinIcon />
+              <Text>Pin Message</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      )}
+      <MessageTopPart pinned={pinned} />
       <View style={styles.flatListContainer}>
         <FlatList
           data={
