@@ -15,7 +15,7 @@ const PinnedMessagesScreen = ({pinned, setPinnedScreenVisible}) => {
   };
 
   return (
-    <CustomModal customStyles={styles.customStyles}>
+    <CustomModal parentStyle={{zIndex: 1}} customStyles={styles.customStyles}>
       <FlatList
         data={pinned || []}
         renderItem={renderItem}
@@ -50,5 +50,6 @@ const getStyles = Colors =>
     customStyles: {
       flex: 1,
       width: '100%',
+      zIndex: 2,
     },
   });

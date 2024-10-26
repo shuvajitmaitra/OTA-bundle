@@ -22,6 +22,19 @@ const chatSlice = createSlice({
     setPinnedMessages: (state, action) => {
       state.pinnedMessages = action.payload;
     },
+    updatePinnedMessage: ({localMessages}, {payload}) => {
+      const messageIndex = localMessages.findIndex(
+        item => item._id === payload._id,
+      );
+      console.log('messageIndex', JSON.stringify(messageIndex, null, 1));
+
+      if (messageIndex !== -1) {
+        localMessages[messageIndex] = {
+          ...localMessages[messageIndex],
+          ...payload,
+        };
+      }
+    },
   },
 });
 
@@ -30,6 +43,7 @@ export const {
   appendLocalMessage,
   setCrowdMembers,
   setPinnedMessages,
+  updatePinnedMessage,
 } = chatSlice.actions;
 
 // Export the reducer

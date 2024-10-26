@@ -4,12 +4,12 @@ import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const CustomModal = ({children, customStyles, onPress}) => {
+const CustomModal = ({children, customStyles, onPress, parentStyle}) => {
   const Colors = useTheme();
-  const styles = getStyles(Colors);
   const {top} = useSafeAreaInsets();
+  const styles = getStyles(Colors, top);
   return (
-    <Pressable onPress={onPress} style={[styles.container, {paddingTop: top}]}>
+    <Pressable onPress={onPress} style={[styles.container, parentStyle]}>
       <View style={[styles.subContainer, customStyles]}>{children}</View>
     </Pressable>
   );
@@ -17,12 +17,13 @@ const CustomModal = ({children, customStyles, onPress}) => {
 
 export default CustomModal;
 
-const getStyles = Colors =>
+const getStyles = (Colors, top) =>
   StyleSheet.create({
     subContainer: {
       backgroundColor: Colors.White,
       padding: 10,
       borderRadius: 4,
+      paddingTop: top,
     },
     container: {
       height: responsiveScreenHeight(100),

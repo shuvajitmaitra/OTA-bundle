@@ -26,7 +26,11 @@ import {setLocalMessages} from '../../store/reducer/chatSlice';
 import PinIcon from '../../assets/Icons/PinIcon';
 import StarIcon from '../../assets/Icons/StartIcon';
 
-export default function MessageTopPart({setPinnedScreenVisible, pinned}) {
+export default function MessageTopPart({
+  setPinnedScreenVisible,
+  pinned,
+  fetchPinned,
+}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat} = useSelector(state => state.chat);
@@ -115,7 +119,11 @@ export default function MessageTopPart({setPinnedScreenVisible, pinned}) {
         {/* Pinned Icon Placeholder */}
 
         {pinned?.length > 0 && (
-          <TouchableOpacity onPress={() => setPinnedScreenVisible(true)}>
+          <TouchableOpacity
+            onPress={() => {
+              fetchPinned(chat._id);
+              setPinnedScreenVisible(true);
+            }}>
             <PinIcon size={25} />
           </TouchableOpacity>
         )}

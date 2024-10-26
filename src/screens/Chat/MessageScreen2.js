@@ -24,6 +24,7 @@ import {useMMKVObject} from 'react-native-mmkv';
 import {
   setLocalMessages,
   setPinnedMessages,
+  updatePinnedMessage,
 } from '../../store/reducer/chatSlice';
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinIcon from '../../assets/Icons/PinIcon';
@@ -48,6 +49,8 @@ const MessageScreen2 = () => {
   const [messages = {}, setMessages] = useMMKVObject('allMessages');
   // const [localMessages, setLocalMessages] = useState([]);
   const [pinned, setPinned] = useState([]);
+  const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);
+
   const LIMIT = 20;
 
   const fetchPinned = chatId => {
@@ -148,11 +151,15 @@ const MessageScreen2 = () => {
       .patch(`/chat/pin/${id}`)
       .then(res => {
         if (res.data.message) {
-          console.log(
-            'res.data.message',
-            JSON.stringify(res.data.message, null, 1),
-          );
-          setPinned(pre => [messageOptionData, ...pre]);
+          if (res.data.message.pinnedBy) {
+            setPinned(pre => [messageOptionData, ...pre]);
+          } else {
+            setPinned(pre =>
+              pre.filter(item => item._id !== res.data.message._id),
+            );
+          }
+          dispatch(updatePinnedMessage(res.data.message));
+          dispatch(setMessageOptionData(null));
           // handleUpdateMessage(res.data.message);
 
           // if (res.data.message?.pinnedBy === null) {
@@ -215,12 +222,7 @@ const MessageScreen2 = () => {
       </>
     );
   };
-  const [modalVisible, setModalVisible] = useState(false);
-  const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);
-  console.log(
-    'pinnedScreenVisible',
-    JSON.stringify(pinnedScreenVisible, null, 1),
-  );
+  console.log('messageOptionData', JSON.stringify(messageOptionData, null, 1));
   return (
     <View
       style={[
@@ -228,7 +230,10 @@ const MessageScreen2 = () => {
         {paddingBottom: bottom, paddingTop: top / 1.5},
       ]}>
       {messageOptionData?._id && (
-        <CustomModal onPress={() => dispatch(setMessageOptionData(null))}>
+        <CustomModal
+          customStyles={{paddingTop: 10}}
+          parentStyle={{zIndex: 2}}
+          onPress={() => dispatch(setMessageOptionData(null))}>
           <TouchableOpacity
             onPress={() => handlePin(messageOptionData._id)}
             style={{
@@ -237,7 +242,9 @@ const MessageScreen2 = () => {
               gap: 10,
             }}>
             <PinIcon />
-            <Text>Pin Message</Text>
+            <Text>
+              {messageOptionData.pinnedBy ? 'Unpin Message' : 'Pin Message'}
+            </Text>
           </TouchableOpacity>
         </CustomModal>
       )}
@@ -248,6 +255,7 @@ const MessageScreen2 = () => {
         />
       )}
       <MessageTopPart
+        fetchPinned={fetchPinned}
         pinned={pinned}
         setPinnedScreenVisible={setPinnedScreenVisible}
       />
