@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-} from "react-native";
-import { Audio } from "expo-av";
-import { MaterialIcons } from "@expo/vector-icons";
-import Waveform from "./WaveForm";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveScreenWidth } from "react-native-responsive-dimensions";
-import AudioManager from "../../utility/AudioManager";
-import { useFocusEffect } from "@react-navigation/native";
+} from 'react-native';
+import {Audio} from 'expo-av';
+import {MaterialIcons} from '@expo/vector-icons';
+import Waveform from './WaveForm';
+import {useTheme} from '../../context/ThemeContext';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
+import AudioManager from '../../utility/AudioManager';
+import {useFocusEffect} from '@react-navigation/native';
 
-const formatTime = (time) => {
+const formatTime = time => {
   return new Date(time * 1000).toISOString().substr(14, 5);
 };
 
-const AudioMessage = ({ audioUrl, background }) => {
+const AudioMessage = ({audioUrl, background}) => {
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
@@ -32,19 +32,19 @@ const AudioMessage = ({ audioUrl, background }) => {
 
     const loadAudio = async () => {
       try {
-        const { sound: loadedSound } = await Audio.Sound.createAsync(
-          { uri: audioUrl },
+        const {sound: loadedSound} = await Audio.Sound.createAsync(
+          {uri: audioUrl},
           {
             shouldPlay: false, // Prevents automatic playback on load
             isLooping: false, // Ensures audio doesn't loop
-          }
+          },
         );
 
         if (isMounted) {
           setSound(loadedSound);
 
           // Set playback status update
-          loadedSound.setOnPlaybackStatusUpdate((status) => {
+          loadedSound.setOnPlaybackStatusUpdate(status => {
             if (status.isLoaded) {
               setCurrentPlaybackTime(status.positionMillis / 1000);
               setTotalDuration(status.durationMillis / 1000);
@@ -66,7 +66,7 @@ const AudioMessage = ({ audioUrl, background }) => {
           setIsLoading(false);
         }
       } catch (error) {
-        console.log("Error loading audio:", error);
+        console.log('Error loading audio:', error);
         if (isMounted) {
           setLoadError(error);
           setIsLoading(false);
@@ -98,7 +98,7 @@ const AudioMessage = ({ audioUrl, background }) => {
           sound.pauseAsync().catch(() => {});
         }
       };
-    }, [sound])
+    }, [sound]),
   );
 
   const handlePlayPause = async () => {
@@ -119,20 +119,19 @@ const AudioMessage = ({ audioUrl, background }) => {
   };
 
   const Colors = useTheme();
-  const styles = getStyles({ Colors });
+  const styles = getStyles({Colors});
 
   return (
     <View
       style={[
         styles.container,
-        { backgroundColor: background || Colors.ModalBoxColor },
-      ]}
-    >
+        {backgroundColor: background || Colors.ModalBoxColor},
+      ]}>
       {loadError ? (
-        <Text style={{ color: Colors.BodyText }}>Error loading audio</Text>
+        <Text style={{color: Colors.BodyText}}>Error loading audio</Text>
       ) : isLoading ? (
         <ActivityIndicator
-          style={{ marginRight: 10 }}
+          style={{marginRight: 10}}
           size="small"
           color={Colors.Primary}
         />
@@ -140,7 +139,7 @@ const AudioMessage = ({ audioUrl, background }) => {
         <TouchableOpacity onPress={handlePlayPause} style={styles.playButton}>
           <MaterialIcons
             style={styles.playIcon}
-            name={isPlaying ? "pause" : "play-arrow"}
+            name={isPlaying ? 'pause' : 'play-arrow'}
             size={24}
           />
         </TouchableOpacity>
@@ -154,7 +153,7 @@ const AudioMessage = ({ audioUrl, background }) => {
   );
 };
 
-const getStyles = ({ Colors }) =>
+const getStyles = ({Colors}) =>
   StyleSheet.create({
     playIcon: {
       color: Colors.Primary,
@@ -164,11 +163,11 @@ const getStyles = ({ Colors }) =>
       color: Colors.BodyText,
     },
     container: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       padding: 10,
       borderRadius: 10,
-      width: "90%",
+      width: '90%',
     },
     playButton: {
       marginRight: 10,

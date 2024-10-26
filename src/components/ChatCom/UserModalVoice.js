@@ -140,11 +140,11 @@ export default function UserModalVoice() {
                             backgroundColor: Colors.Background_color,
                             borderRadius: 100,
                           }}>
-                          <AudioMessage
+                          {/* <AudioMessage
                             audioUrl={item.url}
                             isActive={currentPlayingUrl === item.url}
                             onTogglePlay={() => handlePlayToggle(item.url)}
-                          />
+                          /> */}
                         </View>
                         <Text
                           style={{

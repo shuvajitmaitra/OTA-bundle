@@ -8,8 +8,6 @@ import {
 
 import CustomeFonts from '../../../constants/CustomeFonts';
 import UserModalImageGallary from '../UserModalImageGallary';
-import UserModalUploadedFile from '../UserModalUploadedFile';
-import UserModalVoice from '../UserModalVoice';
 import GroupModalMembers from './GroupModalMembers';
 import {useTheme} from '../../../context/ThemeContext';
 import {useSelector} from 'react-redux';
@@ -118,7 +116,7 @@ export default GroupModalTabView = () => {
           isLoading={isLoading}
         />
       )}
-      {status === 'Voices' && <UserModalVoice />}
+      {/* {status === 'Voices' && <UserModalVoice />} */}
       {/* <View>
         {
           //  ||
