@@ -28,6 +28,8 @@ import {
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinIcon from '../../assets/Icons/PinIcon';
 import {setPinned} from '../../store/reducer/chatReducer';
+import PinnedMessagesScreen from './PinnedMessagesScreen';
+import CustomModal from '../../components/SharedComponent/CustomModal';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -150,6 +152,7 @@ const MessageScreen2 = () => {
             'res.data.message',
             JSON.stringify(res.data.message, null, 1),
           );
+          setPinned(pre => [messageOptionData, ...pre]);
           // handleUpdateMessage(res.data.message);
 
           // if (res.data.message?.pinnedBy === null) {
@@ -213,6 +216,11 @@ const MessageScreen2 = () => {
     );
   };
   const [modalVisible, setModalVisible] = useState(false);
+  const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);
+  console.log(
+    'pinnedScreenVisible',
+    JSON.stringify(pinnedScreenVisible, null, 1),
+  );
   return (
     <View
       style={[
@@ -220,33 +228,29 @@ const MessageScreen2 = () => {
         {paddingBottom: bottom, paddingTop: top / 1.5},
       ]}>
       {messageOptionData?._id && (
-        <Pressable
-          onPress={() => dispatch(setMessageOptionData(null))}
-          style={{
-            height: responsiveScreenHeight(100),
-            position: 'absolute',
-            backgroundColor: Colors.BackDropColor,
-            zIndex: 1,
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <View
+        <CustomModal onPress={() => dispatch(setMessageOptionData(null))}>
+          <TouchableOpacity
+            onPress={() => handlePin(messageOptionData._id)}
             style={{
-              backgroundColor: Colors.White,
-              padding: 10,
-              borderRadius: 4,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 10,
             }}>
-            <TouchableOpacity
-              onPress={() => handlePin(messageOptionData._id)}
-              style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-              <PinIcon />
-              <Text>Pin Message</Text>
-            </TouchableOpacity>
-          </View>
-        </Pressable>
+            <PinIcon />
+            <Text>Pin Message</Text>
+          </TouchableOpacity>
+        </CustomModal>
       )}
-      <MessageTopPart pinned={pinned} />
+      {pinnedScreenVisible && (
+        <PinnedMessagesScreen
+          pinned={pinned}
+          setPinnedScreenVisible={setPinnedScreenVisible}
+        />
+      )}
+      <MessageTopPart
+        pinned={pinned}
+        setPinnedScreenVisible={setPinnedScreenVisible}
+      />
       <View style={styles.flatListContainer}>
         <FlatList
           data={

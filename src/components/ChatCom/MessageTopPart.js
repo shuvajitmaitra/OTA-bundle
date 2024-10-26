@@ -26,7 +26,7 @@ import {setLocalMessages} from '../../store/reducer/chatSlice';
 import PinIcon from '../../assets/Icons/PinIcon';
 import StarIcon from '../../assets/Icons/StartIcon';
 
-export default function MessageTopPart({pinned}) {
+export default function MessageTopPart({setPinnedScreenVisible, pinned}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat} = useSelector(state => state.chat);
@@ -60,7 +60,6 @@ export default function MessageTopPart({pinned}) {
   };
 
   const styles = getStyles(Colors);
-
   return (
     <View style={styles.container}>
       <View style={styles.leftSection}>
@@ -114,7 +113,12 @@ export default function MessageTopPart({pinned}) {
       </View>
       <View style={styles.rightSection}>
         {/* Pinned Icon Placeholder */}
-        {pinned.length > 0 && <PinIcon size={25} />}
+
+        {pinned?.length > 0 && (
+          <TouchableOpacity onPress={() => setPinnedScreenVisible(true)}>
+            <PinIcon size={25} />
+          </TouchableOpacity>
+        )}
         {/* Favourite Icon */}
         <StarIcon color={chat.myData.isFavourite ? 'gold' : 'gray'} />
         {/* {chat.myData.isFavourite ? (
