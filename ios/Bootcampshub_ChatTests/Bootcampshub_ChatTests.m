@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface Bootcampshub_ChatTests : XCTestCase
+@interface Bootcampshub_chatTests : XCTestCase
 
 @end
 
-@implementation Bootcampshub_ChatTests
+@implementation Bootcampshub_chatTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {

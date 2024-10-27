@@ -28,8 +28,8 @@ const App = () => {
                 />
 
                 <Router />
-                {/* <Text>Hello</Text>
-                <CommentsIcon /> */}
+                {/* <Text>Hellodsljkafkfaskldafskj</Text> */}
+                {/*  <CommentsIcon /> */}
               </MainProvider>
             </ThemeProvider>
           </PersistGate>

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Bootcampshub_Chat.app"
-               BlueprintName = "Bootcampshub_Chat"
-               ReferencedContainer = "container:Bootcampshub_Chat.xcodeproj">
+               BuildableName = "Bootcampshub_chat.app"
+               BlueprintName = "Bootcampshub_chat"
+               ReferencedContainer = "container:Bootcampshub_chat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "Bootcampshub_ChatTests.xctest"
-               BlueprintName = "Bootcampshub_ChatTests"
-               ReferencedContainer = "container:Bootcampshub_Chat.xcodeproj">
+               BuildableName = "Bootcampshub_chatTests.xctest"
+               BlueprintName = "Bootcampshub_chatTests"
+               ReferencedContainer = "container:Bootcampshub_chat.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Bootcampshub_Chat.app"
-            BlueprintName = "Bootcampshub_Chat"
-            ReferencedContainer = "container:Bootcampshub_Chat.xcodeproj">
+            BuildableName = "Bootcampshub_chat.app"
+            BlueprintName = "Bootcampshub_chat"
+            ReferencedContainer = "container:Bootcampshub_chat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Bootcampshub_Chat.app"
-            BlueprintName = "Bootcampshub_Chat"
-            ReferencedContainer = "container:Bootcampshub_Chat.xcodeproj">
+            BuildableName = "Bootcampshub_chat.app"
+            BlueprintName = "Bootcampshub_chat"
+            ReferencedContainer = "container:Bootcampshub_chat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
