@@ -11,6 +11,7 @@ import CustomeFonts from '../constants/CustomeFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ArrowLeft from '../assets/Icons/ArrowLeft';
 import {useTheme} from '../context/ThemeContext';
+import ThreadScreen from '../screens/Chat/ThreadScreen';
 
 const ChatStack = createStackNavigator();
 
@@ -39,7 +40,10 @@ const ChatStackScreen = ({}) => {
           headerTitle: '',
           headerLeft: () => {
             return (
-              <View
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.goBack();
+                }}
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',
@@ -55,9 +59,17 @@ const ChatStackScreen = ({}) => {
                   }}>
                   Back
                 </Text>
-              </View>
+              </TouchableOpacity>
             );
           },
+        })}
+      />
+      <ChatStack.Screen
+        name="ThreadScreen"
+        component={ThreadScreen}
+        options={({route, navigation}) => ({
+          headerTitle: 'ThreadScreen',
+          headerShown: false,
         })}
       />
       <ChatStack.Screen

@@ -9,6 +9,7 @@ import moment from 'moment';
 import UserNameImageSection from './UserNameImageSection';
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import {RegularFonts} from '../../constants/Fonts';
+import {useNavigation} from '@react-navigation/native';
 
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Message2 = ({item, index, nextSender}) => {
   const Colors = useTheme();
   const my = item.sender?._id === user?._id;
   const styles = getStyles(Colors, my);
+  const navigation = useNavigation();
   return (
     <View style={styles.mainContainer}>
       {!my && nextSender && (
@@ -36,7 +38,10 @@ const Message2 = ({item, index, nextSender}) => {
         </Markdown>
         <View style={styles.messageBottomContainer}>
           {item.replyCount && (
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('ThreadScreen', {params: item})
+              }>
               <Text style={styles.replyCountText}>{`${item.replyCount} ${
                 item?.replyCount == 1 ? 'reply' : 'replies'
               }`}</Text>

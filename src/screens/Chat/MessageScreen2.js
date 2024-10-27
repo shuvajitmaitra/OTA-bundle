@@ -36,6 +36,7 @@ const MessageScreen2 = () => {
     state => state.modal,
   );
   const {localMessages} = useSelector(state => state.chatSlice);
+  console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const {messageOptionData} = useSelector(state => state.modal);
   const Colors = useTheme();
   const styles = getStyles(Colors);

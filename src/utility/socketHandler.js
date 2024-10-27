@@ -47,7 +47,7 @@ const setupSocketListeners = socket => {
       // store.dispatch(
       //   pushMessage({chat: data.chat?._id, message: data.message}),
       // );
-      // console.log('data.message', JSON.stringify(data.message, null, 1));
+      console.log('data.message', JSON.stringify(data.message, null, 1));
       addNewMessage(data.chat?._id, data.message);
       // store.dispatch(
       //   addNewMessage({chatId: data.chat?._id, message: data.message}),

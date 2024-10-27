@@ -12,9 +12,9 @@ import Markdown from 'react-native-markdown-display';
 import {removeHtmlTags, transFormDate} from './MessageHelper';
 import {useTheme} from '../../context/ThemeContext';
 import moment from 'moment';
-import AudioMessage from './AudioMessage';
-import ImageViewing from 'react-native-image-viewing';
-import VideoPlayer from '../SharedComponent/VideoPlayer';
+// import AudioMessage from './AudioMessage';
+// import ImageViewing from 'react-native-image-viewing';
+// import VideoPlayer from '../SharedComponent/VideoPlayer';
 
 export default function ThreadMessageItem({message}) {
   const {onlineUsers} = useSelector(state => state.chat);
@@ -95,21 +95,21 @@ export default function ThreadMessageItem({message}) {
             />
           </TouchableOpacity>
         )}
-
+        {/* 
         {audioUrl && (
           <AudioMessage background={Colors.White} audioUrl={audioUrl} />
-        )}
+        )} */}
+        {/* 
+        {videoUrl && <VideoPlayer url={videoUrl} />} */}
 
-        {videoUrl && <VideoPlayer url={videoUrl} />}
-
-        {imageUrl && (
+        {/* {imageUrl && (
           <ImageViewing
             images={[{uri: imageUrl}]}
             imageIndex={0}
             visible={isViewerVisible}
             onRequestClose={() => setIsViewerVisible(false)}
           />
-        )}
+        )} */}
       </View>
     </View>
   );
