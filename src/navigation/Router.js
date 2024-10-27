@@ -14,6 +14,7 @@ import CloseIcon from '../assets/Icons/CloseIcon';
 import SignOutIcon from '../assets/Icons/SignOutIcon';
 import {useMainContext} from '../context/MainContext';
 import {storage} from '../utility/mmkvInstance';
+import DisplaySettingsIcon from '../assets/Icons/DisplaySettingsIcon';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -31,12 +32,19 @@ const CustomDrawerContent = ({navigation}) => {
   };
 
   return (
-    <DrawerContentScrollView
-      contentContainerStyle={{flex: 1, justifyContent: 'space-between'}}>
+    <DrawerContentScrollView contentContainerStyle={{flex: 1}}>
       <DrawerItem
         icon={({color, size}) => <CloseIcon color={color} size={size} />}
         label="Toggle Drawer"
         onPress={() => navigation.toggleDrawer()}
+        labelStyle={{marginLeft: responsiveScreenWidth(-5)}}
+      />
+      <DrawerItem
+        icon={({color, size}) => (
+          <DisplaySettingsIcon color={color} size={size} />
+        )}
+        label="Display Settings"
+        onPress={() => navigation.navigate('DisplaySettingsScreen')}
         labelStyle={{marginLeft: responsiveScreenWidth(-5)}}
       />
       <DrawerItem

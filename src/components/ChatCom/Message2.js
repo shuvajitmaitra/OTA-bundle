@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import UserNameImageSection from './UserNameImageSection';
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
+import {RegularFonts} from '../../constants/Fonts';
 
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const Message2 = ({item, index, nextSender}) => {
         />
       )}
       <TouchableOpacity
-        onPress={() => dispatch(setMessageOptionData(item))}
+        onLongPress={() => dispatch(setMessageOptionData(item))}
         style={styles.messagesContainer}>
         <Markdown style={styles.markdownStyle}>
           {autoLinkify(
@@ -33,9 +34,20 @@ const Message2 = ({item, index, nextSender}) => {
             ),
           )}
         </Markdown>
-        <Text style={styles.timeText}>
-          {moment(item.createdAt).format('h:m A')}
-        </Text>
+        <View style={styles.messageBottomContainer}>
+          {item.replyCount && (
+            <TouchableOpacity>
+              <Text style={styles.replyCountText}>{`${item.replyCount} ${
+                item?.replyCount == 1 ? 'reply' : 'replies'
+              }`}</Text>
+            </TouchableOpacity>
+          )}
+          <View style={{flexGrow: 1}}></View>
+
+          <Text style={styles.timeText}>
+            {moment(item.createdAt).format('h:m A')}
+          </Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -45,6 +57,17 @@ export default Message2;
 
 const getStyles = (Colors, my) =>
   StyleSheet.create({
+    replyCountText: {
+      fontWeight: '600',
+      fontSize: RegularFonts.HS,
+      color: Colors.Red,
+    },
+    messageBottomContainer: {
+      // backgroundColor: 'red',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
     timeText: {
       color: my ? Colors.PureWhite : Colors.BodyText,
       alignSelf: 'flex-end',

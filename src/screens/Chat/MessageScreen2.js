@@ -6,37 +6,30 @@ import {
   ActivityIndicator,
   Text,
   TouchableOpacity,
-  Pressable,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import axiosInstance from '../../utility/axiosInstance';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from '../../context/ThemeContext';
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from 'react-native-responsive-dimensions';
+import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import ChatFooter2 from '../../components/ChatCom/ChatFooter2';
 import MessageTopPart from '../../components/ChatCom/MessageTopPart';
 import Message2 from '../../components/ChatCom/Message2';
-import {formatDynamicDate} from '../../utility/commonFunction';
 import {useMMKVObject} from 'react-native-mmkv';
 import {
   setLocalMessages,
-  setPinnedMessages,
   updatePinnedMessage,
 } from '../../store/reducer/chatSlice';
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinIcon from '../../assets/Icons/PinIcon';
-import {setPinned} from '../../store/reducer/chatReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import CustomModal from '../../components/SharedComponent/CustomModal';
+import ImageGallery from '../../components/ChatCom/ChatFooter/ImageGallery';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
   const {bottom, top} = useSafeAreaInsets();
   const [page, setPage] = useState(1);
-  const [totalMessage, setTotalMessage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const {selectedMessageScreen: selectedChat} = useSelector(
@@ -50,7 +43,7 @@ const MessageScreen2 = () => {
   // const [localMessages, setLocalMessages] = useState([]);
   const [pinned, setPinned] = useState([]);
   const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);
-
+  const [openGallery, setOpenGallery] = useState(false);
   const LIMIT = 20;
 
   const fetchPinned = chatId => {
@@ -86,7 +79,6 @@ const MessageScreen2 = () => {
         [selectedChat.chatId]: newMessages,
       });
       dispatch(setLocalMessages(newMessages));
-      setTotalMessage(res.data.count || 0);
       console.log('Initial call done');
       if (newMessages.length < options.limit) {
         setHasMore(false);
@@ -275,6 +267,7 @@ const MessageScreen2 = () => {
         />
       </View>
       <ChatFooter2 chatId={selectedChat.chatId} setMessages={setMessages} />
+      {/* {openGallery && <ImageGallery />} */}
     </View>
   );
 };

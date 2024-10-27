@@ -1,19 +1,18 @@
-import * as React from "react";
-import Svg, { G, Circle, Path, Defs } from "react-native-svg";
-import { useTheme } from "../../context/ThemeContext";
+import * as React from 'react';
+import Svg, {G, Circle, Path, Defs} from 'react-native-svg';
+import {useTheme} from '../../context/ThemeContext';
 /* SVGR has dropped some elements not supported by react-native-svg: filter */
 
-function ArrowRightCircle(props) {
+function ArrowRightCircle({size, color, ...props}) {
   const Colors = useTheme();
   return (
     <Svg
-      width={40}
-      height={40}
+      width={size || 40}
+      height={size || 40}
       viewBox="0 0 40 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+      {...props}>
       <G filter="url(#filter0_d_3_50432)">
         <Circle
           cx={12}
@@ -25,9 +24,8 @@ function ArrowRightCircle(props) {
       </G>
       <Path
         d="M20.667 23.33L24 19.998l-3.333-3.333M16.003 23.33l3.333-3.333-3.333-3.333"
-        stroke={Colors.BodyText}
-        strokeOpacity={0.5}
-        strokeWidth={1.2}
+        stroke={color || Colors.BodyText}
+        strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

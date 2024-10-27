@@ -1,41 +1,55 @@
-// import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Alert, Platform, StatusBar } from "react-native";
-// import React, { useState, useRef, useEffect, useCallback } from "react";
-// import { Provider, Snackbar } from "react-native-paper";
-// import { AntDesign } from "@expo/vector-icons";
-// import moment from "moment";
-// import { Divider } from "react-native-paper";
-// import { useDispatch, useSelector } from "react-redux";
-// import * as Clipboard from "expo-clipboard";
-// import Modal from "react-native-modal";
-// import CloseIcon from "../../assets/Icons/CloseIcon";
-// import TrashIcon from "../../assets/Icons/TrashIcon";
-// import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
+// import {
+//   StyleSheet,
+//   Text,
+//   View,
+//   KeyboardAvoidingView,
+//   ScrollView,
+//   TouchableOpacity,
+//   Alert,
+//   Platform,
+//   StatusBar,
+// } from 'react-native';
+// import React, {useState, useRef, useEffect, useCallback} from 'react';
+// import {Provider, Snackbar} from 'react-native-paper';
+// import {AntDesign} from '@expo/vector-icons';
+// import moment from 'moment';
+// import {Divider} from 'react-native-paper';
+// import {useDispatch, useSelector} from 'react-redux';
+// import * as Clipboard from 'expo-clipboard';
+// import Modal from 'react-native-modal';
+// import CloseIcon from '../../assets/Icons/CloseIcon';
+// import TrashIcon from '../../assets/Icons/TrashIcon';
+// import {
+//   responsiveScreenWidth,
+//   responsiveScreenFontSize,
+//   responsiveScreenHeight,
+// } from 'react-native-responsive-dimensions';
 
-// import color from "../../constants/color";
-// import axios from "../../utility/axiosInstance";
-// import ChatFooter from "../../components/ChatCom/ChatFooter";
+// import color from '../../constants/color';
+// import axios from '../../utility/axiosInstance';
+// import ChatFooter from '../../components/ChatCom/ChatFooter';
 
-// import { updateMessage } from "../../store/reducer/chatReducer";
-// import ThreadMessageItem from "../../components/ChatCom/ThreadMessageItem";
-// import ThreadMessageReplyItem from "../../components/ChatCom/ThreadMessageReplyItem";
-// import CustomeFonts from "../../constants/CustomeFonts";
-// import Loading from "../../components/SharedComponent/Loading";
-// import LoadingSmall from "../../components/SharedComponent/LoadingSmall";
-// import { useTheme } from "../../context/ThemeContext";
-// import NoDataAvailable from "../../components/SharedComponent/NoDataAvailable";
-// import { useSafeAreaInsets } from "react-native-safe-area-context";
-// import { setThreadOpen } from "../../store/reducer/ModalReducer";
+// import {updateMessage} from '../../store/reducer/chatReducer';
+// import ThreadMessageItem from '../../components/ChatCom/ThreadMessageItem';
+// import ThreadMessageReplyItem from '../../components/ChatCom/ThreadMessageReplyItem';
+// import CustomeFonts from '../../constants/CustomeFonts';
+// import Loading from '../../components/SharedComponent/Loading';
+// import LoadingSmall from '../../components/SharedComponent/LoadingSmall';
+// import {useTheme} from '../../context/ThemeContext';
+// import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
+// import {useSafeAreaInsets} from 'react-native-safe-area-context';
+// import {setThreadOpen} from '../../store/reducer/ModalReducer';
 
-// export default ThreadScreen = ({ route }) => {
+// export default ThreadScreen = ({route}) => {
 //   // --------------------------
 //   // ----------- Import theme Colors -----------
 //   // --------------------------
 //   const Colors = useTheme();
 //   const styles = getStyles(Colors);
-//   const { chatMessages } = useSelector((state) => state.chat);
+//   const {chatMessages} = useSelector(state => state.chat);
 //   const [chat, setChat] = useState(null);
 //   const [message, setMessage] = useState(null);
-//   const [text, setText] = useState("");
+//   const [text, setText] = useState('');
 
 //   const [muteData, setMuteData] = useState(null);
 //   let dispatch = useDispatch();
@@ -58,7 +72,7 @@
 
 //   useEffect(() => {
 //     if (chatMessages[chatId]) {
-//       let findMessage = chatMessages[chatId]?.find((x) => x?._id === messageId);
+//       let findMessage = chatMessages[chatId]?.find(x => x?._id === messageId);
 
 //       setReplies(findMessage?.replies || []);
 //     }
@@ -76,7 +90,7 @@
 //       };
 //       axios
 //         .post(`/chat/messages`, options)
-//         .then((res) => {
+//         .then(res => {
 //           setIsLoading(false);
 //           // setChat(res.data.chat)
 //           setCount(res.data.count);
@@ -91,10 +105,10 @@
 //                 chat: chat?._id,
 //                 replies: res.data.messages,
 //               },
-//             })
+//             }),
 //           );
 //         })
-//         .catch((err) => {
+//         .catch(err => {
 //           setIsLoading(false);
 //           err && err.response && setError(err.response?.data);
 //           console.log(err);
@@ -109,20 +123,22 @@
 //     bottomSheetModalRef.current?.close();
 //     setSelectedMessage(null);
 //   }, []);
-//   const copyToClipboard = async (message) => {
+//   const copyToClipboard = async message => {
 //     setIsSnakbarVisible(true);
-//     await Clipboard.setStringAsync(message?.text.replace(/<[^>]*>?/gm, "").trim());
+//     await Clipboard.setStringAsync(
+//       message?.text.replace(/<[^>]*>?/gm, '').trim(),
+//     );
 //   };
 
 //   useEffect(() => {
 //     if (route?.fromNoti) {
 //       axios
 //         .get(`/chat/message/${route?.messageId}`)
-//         .then((res) => {
+//         .then(res => {
 //           setChat(res.data.chat);
 //           setMessage(res.data.message);
 //         })
-//         .catch((err) => {
+//         .catch(err => {
 //           Alert.alert(err?.response?.data?.error);
 //           console.log(err);
 //         });
@@ -132,41 +148,41 @@
 //     }
 //   }, [route]);
 
-//   const handleUpdateMessage = (message) => {
-//     dispatch(updateMessage({ chat: chat?._id, message }));
+//   const handleUpdateMessage = message => {
+//     dispatch(updateMessage({chat: chat?._id, message}));
 
-//     setMessage((prev) => ({ ...prev, ...message }));
+//     setMessage(prev => ({...prev, ...message}));
 //   };
 
-//   const handleDelete = (threadMessage) => {
+//   const handleDelete = threadMessage => {
 //     setIsDeleting(true);
 //     axios
 //       .delete(`/chat/delete/message/${threadMessage?._id}`)
-//       .then((res) => {
+//       .then(res => {
 //         handleUpdateMessage(res.data.message);
 //         setIsDeleting(false);
 //         setMessageToDelete(null);
 //         setSelectedMessage(null);
 //       })
-//       .catch((err) => {
+//       .catch(err => {
 //         setIsDeleting(false);
 //         console.log(err);
-//         Alert.error({ message: err?.response?.data?.error });
+//         Alert.error({message: err?.response?.data?.error});
 //       });
 //   };
 
-//   const handleSetEdit = (message) => {
+//   const handleSetEdit = message => {
 //     setMessageToEdit(message);
-//     setText(message?.content?.replace(/<[^>]*>?/gm, "").trim());
+//     setText(message?.content?.replace(/<[^>]*>?/gm, '').trim());
 //     handlePresentModalClose();
 //     //inputRef.current.focus()
 //   };
 
-//   const handleSetDelete = (message) => {
+//   const handleSetDelete = message => {
 //     setMessageToDelete(message);
 //     handlePresentModalClose();
 //   };
-//   const { top, bottom } = useSafeAreaInsets();
+//   const {top, bottom} = useSafeAreaInsets();
 //   return (
 //     <View
 //       style={{
@@ -174,45 +190,62 @@
 //         backgroundColor: Colors.White,
 //         paddingTop: top / 1.5,
 //         // paddingBottom: bottom ,
-//       }}
-//     >
+//       }}>
 //       <StatusBar
 //         translucent={true}
 //         backgroundColor={Colors.White}
-//         barStyle={Colors.Background_color === "#F5F5F5" ? "dark-content" : "light-content"}
+//         barStyle={
+//           Colors.Background_color === '#F5F5F5'
+//             ? 'dark-content'
+//             : 'light-content'
+//         }
 //       />
 //       <Provider>
-//         <Snackbar visible={isSnakbarVisible} onDismiss={() => setIsSnakbarVisible(false)} duration={1000} style={{ zIndex: 1 }}>
+//         <Snackbar
+//           visible={isSnakbarVisible}
+//           onDismiss={() => setIsSnakbarVisible(false)}
+//           duration={1000}
+//           style={{zIndex: 1}}>
 //           Message Copied to clipboard
 //         </Snackbar>
 //         <TouchableOpacity
 //           onPress={() => {
 //             dispatch(setThreadOpen(false));
 //           }}
-//           style={styles.theadHeaderContainer}
-//         >
-//           <AntDesign name="arrowleft" style={{ marginLeft: 10 }} size={24} color={Colors.BodyText} />
+//           style={styles.theadHeaderContainer}>
+//           <AntDesign
+//             name="arrowleft"
+//             style={{marginLeft: 10}}
+//             size={24}
+//             color={Colors.BodyText}
+//           />
 //           <Text
 //             style={{
 //               marginLeft: 10,
 //               fontFamily: CustomeFonts.MEDIUM,
 //               fontSize: responsiveScreenFontSize(2),
 //               color: Colors.BodyText,
-//             }}
-//           >
+//             }}>
 //             Back
 //           </Text>
 //         </TouchableOpacity>
 //         <ScrollView
 //           style={[{}, styles.container]}
 //           ref={scrollViewRef}
-//           onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-//         >
+//           onContentSizeChange={() =>
+//             scrollViewRef.current.scrollToEnd({animated: true})
+//           }>
 //           {message && <ThreadMessageItem message={message} />}
 //           <View style={styles.replayCountContainer}>
 //             <Text style={styles.replayCountText}>
-//               {isLoading ? <LoadingSmall color={Colors.Primary} /> : replies?.length ? replies?.length : 0}{" "}
-//               {replies?.length > 1 ? "Replies" : "Reply"}
+//               {isLoading ? (
+//                 <LoadingSmall color={Colors.Primary} />
+//               ) : replies?.length ? (
+//                 replies?.length
+//               ) : (
+//                 0
+//               )}{' '}
+//               {replies?.length > 1 ? 'Replies' : 'Reply'}
 //               {/* {replies.length || 0} */}
 //             </Text>
 //             {/* <CommentsIcon color={Colors.Primary} size={20} /> */}
@@ -238,25 +271,29 @@
 //         </ScrollView>
 
 //         <KeyboardAvoidingView
-//           behavior={Platform.OS === "ios" ? "padding" : "height"}
+//           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 //           //style={styles.container}
-//           keyboardVerticalOffset={88}
-//         >
+//           keyboardVerticalOffset={88}>
 //           <View style={styles.footer}>
 //             {muteData && muteData?.isMuted ? (
 //               <View>
 //                 {muteData?.isMuted && (
 //                   <Text
 //                     style={{
-//                       color: "red",
-//                       textAlign: "center",
+//                       color: 'red',
+//                       textAlign: 'center',
 //                       fontSize: 18,
 //                       marginVertical: 20,
-//                       fontWeight: "bold",
-//                     }}
-//                   >
+//                       fontWeight: 'bold',
+//                     }}>
 //                     You have been muted from this channel
-//                     {muteData?.date && <> - untill ({moment(muteData?.date).format("D MMM, YYYY HH:MM a")})</>}
+//                     {muteData?.date && (
+//                       <>
+//                         {' '}
+//                         - untill (
+//                         {moment(muteData?.date).format('D MMM, YYYY HH:MM a')})
+//                       </>
+//                     )}
 //                   </Text>
 //                 )}
 //               </View>
@@ -267,31 +304,30 @@
 //                   {messageToEdit && (
 //                     <View
 //                       style={{
-//                         flexDirection: "row",
-//                         justifyContent: "center",
+//                         flexDirection: 'row',
+//                         justifyContent: 'center',
 //                         paddingTop: responsiveScreenHeight(1),
 //                         backgroundColor: Colors.White,
-//                       }}
-//                     >
+//                       }}>
 //                       <Text
 //                         style={{
 //                           color: Colors.BodyText,
-//                           fontWeight: "500",
-//                           textAlign: "center",
+//                           fontWeight: '500',
+//                           textAlign: 'center',
 //                           marginBottom: 3,
-//                         }}
-//                       >
+//                         }}>
 //                         Editing message:
 //                       </Text>
 //                       <TouchableOpacity
 //                         onPress={() => {
 //                           setMessageToEdit(null);
-//                           setText("");
+//                           setText('');
 //                         }}
-//                         style={{ marginLeft: 10 }}
-//                         activeOpacity={0.5}
-//                       >
-//                         <Text style={{ color: "red", fontWeight: "bold" }}>Cancel</Text>
+//                         style={{marginLeft: 10}}
+//                         activeOpacity={0.5}>
+//                         <Text style={{color: 'red', fontWeight: 'bold'}}>
+//                           Cancel
+//                         </Text>
 //                       </TouchableOpacity>
 //                     </View>
 //                   )}
@@ -312,15 +348,25 @@
 //           </View>
 //         </KeyboardAvoidingView>
 
-//         <Modal backdropColor={Colors.BackDropColor} style={styles.modal} isVisible={Boolean(messageToDelete)}>
+//         <Modal
+//           backdropColor={Colors.BackDropColor}
+//           style={styles.modal}
+//           isVisible={Boolean(messageToDelete)}>
 //           <View style={styles.modalStyle}>
-//             <TouchableOpacity style={styles.crossIconStyle} onPress={() => setMessageToDelete(false)}>
+//             <TouchableOpacity
+//               style={styles.crossIconStyle}
+//               onPress={() => setMessageToDelete(false)}>
 //               <CloseIcon />
 //             </TouchableOpacity>
 //             <View style={styles.textContainer}>
-//               <Text style={styles.modalText}>Do you want to remove this message?</Text>
+//               <Text style={styles.modalText}>
+//                 Do you want to remove this message?
+//               </Text>
 //             </View>
-//             <TouchableOpacity onPress={() => handleDelete(messageToDelete)} activeOpacity={0.5} style={styles.modalBottom}>
+//             <TouchableOpacity
+//               onPress={() => handleDelete(messageToDelete)}
+//               activeOpacity={0.5}
+//               style={styles.modalBottom}>
 //               <Text style={styles.btnText}>Remove for everyone</Text>
 //               <TrashIcon />
 //             </TouchableOpacity>
@@ -331,19 +377,19 @@
 //   );
 // };
 
-// const getStyles = (Colors) =>
+// const getStyles = Colors =>
 //   StyleSheet.create({
 //     theadHeaderContainer: {
 //       height: 50,
 //       backgroundColor: Colors.White,
-//       flexDirection: "row",
-//       alignItems: "center",
-//       justifyContent: "flex-start",
+//       flexDirection: 'row',
+//       alignItems: 'center',
+//       justifyContent: 'flex-start',
 //       borderBottomWidth: 1,
 //       borderBottomColor: Colors.BorderColor,
 //     },
 //     replayCountContainer: {
-//       flexDirection: "row",
+//       flexDirection: 'row',
 //       paddingHorizontal: responsiveScreenWidth(3),
 //       gap: responsiveScreenWidth(1),
 //       paddingVertical: responsiveScreenHeight(1),
@@ -353,33 +399,33 @@
 //       flex: 1,
 //     },
 //     footer: {
-//       width: "100%",
-//       flexDirection: "column",
+//       width: '100%',
+//       flexDirection: 'column',
 //       backgroundColor: Colors.Background_color,
 //     },
 //     footerWrapper: {
-//       width: "100%",
-//       alignItems: "center",
-//       flexDirection: "row",
+//       width: '100%',
+//       alignItems: 'center',
+//       flexDirection: 'row',
 //     },
 //     textInput: {
 //       backgroundColor: Colors.White,
 //       padding: 10,
 //       color: Colors.Heading,
 //       borderRadius: 10,
-//       width: "85%",
-//       display: "flex",
-//       flexDirection: "column",
+//       width: '85%',
+//       display: 'flex',
+//       flexDirection: 'column',
 //       marginHorizontal: 5,
-//       position: "relative",
+//       position: 'relative',
 //     },
 //     messageItem: {
-//       flexDirection: "row",
+//       flexDirection: 'row',
 //       marginVertical: 7,
 //     },
 //     userImageWrapper: {
 //       marginRight: 10,
-//       alignSelf: "flex-start",
+//       alignSelf: 'flex-start',
 //     },
 //     userImg: {
 //       height: 45,
@@ -387,7 +433,7 @@
 //       borderRadius: 5,
 //     },
 //     modalWrapper: {
-//       backgroundColor: "#f0f0f0",
+//       backgroundColor: '#f0f0f0',
 //     },
 //     listItem: {
 //       paddingVertical: 5,
@@ -396,7 +442,7 @@
 //       borderBottomWidth: 1,
 //     },
 //     shadow: {
-//       shadowColor: "#000",
+//       shadowColor: '#000',
 //       shadowOffset: {
 //         width: 0,
 //         height: 2,
@@ -430,30 +476,30 @@
 //     },
 
 //     crossIconStyle: {
-//       width: "100%",
-//       alignItems: "flex-end",
+//       width: '100%',
+//       alignItems: 'flex-end',
 //       marginTop: responsiveScreenHeight(1),
 //     },
 //     textContainer: {
-//       width: "100%",
+//       width: '100%',
 //     },
 
 //     modalText: {
 //       fontSize: responsiveScreenFontSize(2),
-//       textAlign: "center",
+//       textAlign: 'center',
 //       fontFamily: CustomeFonts.SEMI_BOLD,
 //       paddingHorizontal: responsiveScreenWidth(4),
 //       color: Colors.BodyText,
 //     },
 //     modalBottom: {
-//       flexDirection: "row",
-//       justifyContent: "space-between",
+//       flexDirection: 'row',
+//       justifyContent: 'space-between',
 //       width: responsiveScreenWidth(80),
 //       height: responsiveScreenHeight(5),
 //       marginTop: responsiveScreenHeight(2),
-//       alignSelf: "center",
+//       alignSelf: 'center',
 //       borderRadius: 8,
-//       alignItems: "center",
+//       alignItems: 'center',
 //       paddingHorizontal: responsiveScreenWidth(4),
 //       backgroundColor: Colors.LightRed,
 //     },

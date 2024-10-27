@@ -1,15 +1,18 @@
 import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import MicIcon from '../../../assets/Icons/MicIcon';
 import GallaryIcon from '../../../assets/Icons/GallaryIcon';
+import ImageGallery from './ImageGallery';
 
-const IconContainer = () => {
+const IconContainer = ({setOpenGallery, selectImage}) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        // onPress={() => setOpenGallery(true)}
+        style={styles.button}>
         <MicIcon size={25} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity onPress={selectImage} style={styles.button}>
         <GallaryIcon size={23} />
       </TouchableOpacity>
     </View>

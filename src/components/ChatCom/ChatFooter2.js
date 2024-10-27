@@ -1,7 +1,14 @@
 // ChatFooter2.js
 
 import React, {useState, useCallback} from 'react';
-import {Keyboard, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import IconContainer from './ChatFooter/IconContainer';
 import SendContainer from './ChatFooter/SendContainer';
@@ -11,6 +18,8 @@ import ChatMessageInput from './ChatMessageInput';
 import {pushMessage, updateSendingInfo} from '../../store/reducer/chatReducer';
 import axiosInstance from '../../utility/axiosInstance';
 import {setLocalMessages} from '../../store/reducer/chatSlice';
+import {launchImageLibrary} from 'react-native-image-picker';
+import ImageGallery from './ChatFooter/ImageGallery';
 
 // Precompiled regular expressions outside the component for performance
 const URL_REGEX =
@@ -45,15 +54,14 @@ const convertLink = text => {
 const ChatFooter2 = ({chatId, setMessages}) => {
   // Local state for the message text
   const [text, setText] = useState('');
-
-  // Redux selectors
+  const [selectedImages, setSelectedImages] = useState([]);
+  console.log('selectedImages', JSON.stringify(selectedImages, null, 1));
   const {user} = useSelector(state => state.auth);
 
   const {localMessages} = useSelector(state => state.chatSlice);
 
   const dispatch = useDispatch();
 
-  // Local state to toggle message input visibility
   const [messageClicked, setMessageClicked] = useState(false);
 
   // Theme context
@@ -69,7 +77,7 @@ const ChatFooter2 = ({chatId, setMessages}) => {
    * @param {Array} files - Optional files to send with the message.
    */
   const sendMessage = useCallback(
-    async files => {
+    async (text, files) => {
       if (!text.trim()) {
         // Optionally, show a warning to the user
         // Example:
@@ -128,6 +136,7 @@ const ChatFooter2 = ({chatId, setMessages}) => {
         }));
         dispatch(setLocalMessages([res.data.message, ...localMessages]));
         // setLocalMessages(pre => [res.data.message, ...pre]);
+        setSelectedImages([]);
       } catch (err) {
         setIsSendingText(false);
 
@@ -148,25 +157,60 @@ const ChatFooter2 = ({chatId, setMessages}) => {
     setMessageClicked(prev => !prev);
   }, []);
 
+  const selectImage = () => {
+    const options = {
+      mediaType: 'photo',
+      maxWidth: 300,
+      maxHeight: 300,
+      quality: 1,
+      selectionLimit: 5,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        setSelectedImages(response.assets);
+      }
+    });
+  };
   return (
-    <View style={styles.container}>
-      {messageClicked ? (
-        <ChatMessageInput text={text} setText={setText} />
-      ) : (
-        <TouchableOpacity
-          onPress={toggleMessageClicked}
-          style={styles.initialContainer}>
-          <Text style={styles.messageText}>
-            {text.trim() ? text : 'Message...'}
-          </Text>
-        </TouchableOpacity>
+    <>
+      <View style={styles.container}>
+        {messageClicked ? (
+          <ChatMessageInput text={text} setText={setText} />
+        ) : (
+          <TouchableOpacity
+            onPress={toggleMessageClicked}
+            style={styles.initialContainer}>
+            <Text style={styles.messageText}>
+              {text.trim() ? text : 'Message...'}
+            </Text>
+          </TouchableOpacity>
+        )}
+        {text.length > 0 ? (
+          <SendContainer sendMessage={() => sendMessage(text)} />
+        ) : (
+          <IconContainer
+            selectImage={selectImage}
+            // setOpenGallery={setOpenGallery}
+          />
+        )}
+      </View>
+      {selectedImages?.length > 0 && (
+        <ImageGallery
+          selectedImages={selectedImages}
+          onClose={() => {
+            setSelectedImages([]);
+          }}
+          onSend={message => {
+            sendMessage(message);
+          }}
+        />
       )}
-      {text.length > 0 ? (
-        <SendContainer sendMessage={sendMessage} />
-      ) : (
-        <IconContainer />
-      )}
-    </View>
+    </>
   );
 };
 
