@@ -3,6 +3,7 @@ import {
   initialActivities,
   setActivitiesCount,
 } from '../store/reducer/activitiesReducer';
+import {updateDeletedMessage} from '../store/reducer/chatSlice';
 import {setCalendar, setMockInterview} from '../store/reducer/dashboardReducer';
 import {
   setNotificationCount,
@@ -12,6 +13,47 @@ import axiosInstance from '../utility/axiosInstance';
 import {handleError} from './chat-noti';
 
 // handle read all notifications
+
+export const handleDelete = id => {
+  // setIsDeleting(true);
+
+  axiosInstance
+    .delete(`/chat/delete/message/${id}`)
+    .then(res => {
+      console.log('res.data', JSON.stringify(res.data, null, 1));
+      if (res.data.success) {
+        store.dispatch(updateDeletedMessage(res.data.message));
+      }
+      // handleUpdateMessage(res.data.message);
+      // const isItPinned = pinnedMessages?.filter(
+      //   (item) => item._id === message._id
+      // );
+      // if (isItPinned?.length) {
+      //   axiosInstance
+      //     .patch(`/chat/pin/${message?._id}`)
+      //     .then((res) => {
+      //       if (res.data.message) {
+      //         handleUpdateMessage(res.data.message);
+      //       }
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //     });
+      // }
+      // dispatch(
+      //   updateLatestMessage({
+      //     chatId: chat?._id,
+      //     latestMessage: { text: "" },
+      //     counter: 1,
+      //   })
+      // );
+      // setMessageToDelete(null);
+    })
+    .catch(err => {
+      console.log(err);
+      // Alert.alert(err?.response?.data?.error || "Error");
+    });
+};
 export const handleReadAllNotification = () => {
   axiosInstance
     .patch('/notification/markreadall', {})

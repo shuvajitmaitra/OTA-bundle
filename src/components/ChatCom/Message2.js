@@ -10,6 +10,7 @@ import UserNameImageSection from './UserNameImageSection';
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import {RegularFonts} from '../../constants/Fonts';
 import {useNavigation} from '@react-navigation/native';
+import DeleteMessageContainer from './DeleteMessageContainer';
 
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
@@ -18,6 +19,10 @@ const Message2 = ({item, index, nextSender}) => {
   const my = item.sender?._id === user?._id;
   const styles = getStyles(Colors, my);
   const navigation = useNavigation();
+  console.log('item', JSON.stringify(item, null, 1));
+  if (item.type === 'delete') {
+    return <DeleteMessageContainer item={item} my={my} />;
+  }
   return (
     <View style={styles.mainContainer}>
       {!my && nextSender && (
@@ -50,7 +55,9 @@ const Message2 = ({item, index, nextSender}) => {
           <View style={{flexGrow: 1}}></View>
 
           <Text style={styles.timeText}>
-            {moment(item.createdAt).format('h:m A')}
+            {moment(item?.createdAt).format('MMM DD, 2024')}
+            {' at '}
+            {moment(item?.createdAt).format('h:m A')}
           </Text>
         </View>
       </TouchableOpacity>

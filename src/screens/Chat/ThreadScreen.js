@@ -54,6 +54,7 @@ import {useNavigation} from '@react-navigation/native';
 import axiosInstance from '../../utility/axiosInstance';
 import Message2 from '../../components/ChatCom/Message2';
 import ChatFooter2 from '../../components/ChatCom/ChatFooter2';
+import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
 
 const ThreadScreen = routes => {
   const chatMessage = routes.route.params.params;
@@ -118,14 +119,7 @@ const ThreadScreen = routes => {
         backgroundColor: Colors.White,
         paddingBottom: 20,
       }}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity
-          style={styles.backButtonContainer}
-          onPress={() => navigation.goBack()}>
-          <ArrowLeft color={Colors.BodyText} />
-          <Text style={styles.backButtonText}>Back</Text>
-        </TouchableOpacity>
-      </View>
+      <ScreenHeader />
       <View style={styles.flatListContainer}>
         <FlatList
           data={localMessages}
@@ -155,22 +149,5 @@ const getStyles = Colors =>
     flatListContainer: {
       backgroundColor: Colors.White,
       flex: 1,
-    },
-    headerContainer: {
-      height: 50,
-      justifyContent: 'center',
-      paddingHorizontal: 10,
-      borderBottomColor: Colors.BorderColor,
-      borderBottomWidth: 1,
-    },
-    backButtonContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    backButtonText: {
-      marginLeft: 10,
-      fontFamily: CustomeFonts.MEDIUM,
-      fontSize: responsiveScreenFontSize(2),
-      color: Colors.BodyText,
     },
   });

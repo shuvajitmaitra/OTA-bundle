@@ -35,30 +35,7 @@ const ChatStackScreen = ({}) => {
         component={DisplaySettingsScreen}
         options={({route, navigation}) => ({
           headerTitle: '',
-          headerLeft: () => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.goBack();
-                }}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <ArrowLeft />
-                <Text
-                  style={{
-                    marginLeft: 10,
-                    fontFamily: CustomeFonts.MEDIUM,
-                    fontSize: responsiveScreenFontSize(2),
-                    color: Colors.BodyText,
-                  }}>
-                  Back
-                </Text>
-              </TouchableOpacity>
-            );
-          },
+          headerShown: false,
         })}
       />
       <ChatStack.Screen

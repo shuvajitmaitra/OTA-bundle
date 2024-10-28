@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '../../context/ThemeContext';
 import {setDisplayMode} from '../../store/reducer/chatReducer';
 import CustomeFonts from '../../constants/CustomeFonts';
+import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
 
 const DisplaySettingsScreen = () => {
   const Colors = useTheme();
@@ -49,6 +50,7 @@ const DisplaySettingsScreen = () => {
             : 'light-content'
         }
       />
+      <ScreenHeader />
       <Text style={styles.headingText}>Display settings</Text>
       <Text style={styles.description}>Choose your display color</Text>
       <View style={styles.themeContainer}>

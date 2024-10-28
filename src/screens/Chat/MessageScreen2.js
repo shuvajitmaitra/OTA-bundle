@@ -25,6 +25,8 @@ import PinIcon from '../../assets/Icons/PinIcon';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import CustomModal from '../../components/SharedComponent/CustomModal';
 import ImageGallery from '../../components/ChatCom/ChatFooter/ImageGallery';
+import BinIcon from '../../assets/Icons/BinIcon';
+import {handleDelete} from '../../actions/apiCall';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const MessageScreen2 = () => {
     state => state.modal,
   );
   const {localMessages} = useSelector(state => state.chatSlice);
-  console.log('localMessages', JSON.stringify(localMessages, null, 1));
+  // console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const {messageOptionData} = useSelector(state => state.modal);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -168,6 +170,7 @@ const MessageScreen2 = () => {
         console.log(err);
       });
   };
+
   const ListFooterComponent = () => {
     if (!isLoading) return null;
     return (
@@ -238,6 +241,19 @@ const MessageScreen2 = () => {
             <Text>
               {messageOptionData.pinnedBy ? 'Unpin Message' : 'Pin Message'}
             </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              handleDelete(messageOptionData._id),
+                dispatch(setMessageOptionData(null));
+            }}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 10,
+            }}>
+            <BinIcon />
+            <Text>Delete this message</Text>
           </TouchableOpacity>
         </CustomModal>
       )}

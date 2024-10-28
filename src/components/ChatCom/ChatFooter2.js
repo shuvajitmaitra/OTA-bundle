@@ -181,10 +181,10 @@ const ChatFooter2 = ({chatId, setMessages}) => {
   return (
     <>
       <View style={styles.container}>
-        {messageClicked ? (
+        {messageClicked && !startRecording ? (
           <ChatMessageInput text={text} setText={setText} />
         ) : startRecording ? (
-          <AudioRecorder />
+          <AudioRecorder onCancel={() => setStartRecording(false)} />
         ) : (
           <TouchableOpacity
             onPress={toggleMessageClicked}

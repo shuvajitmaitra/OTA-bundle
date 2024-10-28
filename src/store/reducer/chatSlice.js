@@ -35,10 +35,24 @@ const chatSlice = createSlice({
         };
       }
     },
+    updateDeletedMessage: ({localMessages}, {payload}) => {
+      const messageIndex = localMessages.findIndex(
+        item => item._id === payload._id,
+      );
+      console.log('messageIndex', JSON.stringify(messageIndex, null, 1));
+
+      if (messageIndex !== -1) {
+        localMessages[messageIndex] = {
+          ...localMessages[messageIndex],
+          ...payload,
+        };
+      }
+    },
   },
 });
 
 export const {
+  updateDeletedMessage,
   setLocalMessages,
   appendLocalMessage,
   setCrowdMembers,
