@@ -10,7 +10,18 @@ const CustomModal = ({children, customStyles, onPress, parentStyle}) => {
   const styles = getStyles(Colors, top);
   return (
     <Pressable onPress={onPress} style={[styles.container, parentStyle]}>
-      <View style={[styles.subContainer, customStyles]}>{children}</View>
+      <View
+        style={[
+          {
+            backgroundColor: Colors.White,
+            padding: 10,
+            borderRadius: 4,
+            paddingTop: top,
+          },
+          customStyles,
+        ]}>
+        {children}
+      </View>
     </Pressable>
   );
 };
@@ -19,12 +30,6 @@ export default CustomModal;
 
 const getStyles = (Colors, top) =>
   StyleSheet.create({
-    subContainer: {
-      backgroundColor: Colors.White,
-      padding: 10,
-      borderRadius: 4,
-      paddingTop: top,
-    },
     container: {
       height: responsiveScreenHeight(100),
       position: 'absolute',

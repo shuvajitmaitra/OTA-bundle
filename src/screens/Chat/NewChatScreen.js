@@ -1,35 +1,28 @@
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  FlatList,
-  StatusBar,
-  Platform,
-} from 'react-native';
-import React, {useState, useEffect, useCallback} from 'react';
+import {ScrollView, StyleSheet, View, FlatList, StatusBar} from 'react-native';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import SearchAndFilter from '../../components/ChatCom/SearchAndFilter';
+import ChatItem from '../../components/ChatCom/ChatItem';
 import CustomeFonts from '../../constants/CustomeFonts';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../context/ThemeContext';
-import CreateCrowdModal from '../../components/ChatCom/Modal/CreateCrowdModal';
 import OnlineUsersItem from '../../components/ChatCom/OnlineUsersItem';
+import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import {SafeAreaView} from 'react-native';
+import {loadChats} from '../../actions/chat-noti';
 import {setSelectedMessageScreen} from '../../store/reducer/ModalReducer';
 import ChatHeaderFilter from '../../components/ChatCom/ChatHeaderFilter';
 import {RegularFonts} from '../../constants/Fonts';
-import ChatTopPart from '../../components/ChatCom/ChatTopPart';
-import ChatItem from '../../components/ChatCom/ChatItem';
-import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import Divider from '../../components/SharedComponent/Divider';
-import axiosInstance from '../../utility/axiosInstance';
-import {setChats, setGroupNameId} from '../../store/reducer/chatReducer';
-
+import ChatSearchField from '../../components/ChatCom/ChatSearchField';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import FilterOptionModal from '../../components/ChatCom/Modal/FilterOptionModal';
+import {TouchableWithoutFeedback} from 'react-native';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 export function sortByNestedProperty(array, propertyPath, order = 'desc') {
   const getValue = (obj, path) =>
     path.split('.').reduce((o, k) => (o || {})[k], obj);
@@ -56,23 +49,25 @@ function sortByLatestMessage(data = []) {
         ? new Date(b?.latestMessage.createdAt)
         : new Date(0);
 
-    return dateB - dateA;
+    return dateB - dateA; // For descending order
   });
 }
 
-export default function NewChatScreen() {
+export default function NewChatScreen({navigation: {goBack}}) {
   const dispatch = useDispatch();
   const Colors = useTheme();
-  const styles = getStyles(Colors);
   const {chats, onlineUsers} = useSelector(state => state.chat);
   const {user} = useSelector(state => state.auth);
-
+  const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
+
   const [focusedChat, setFocusedChat] = useState(null);
   const [checked, setChecked] = useState('chats');
   const [records, setRecords] = useState([]);
   const [results, setResults] = useState([]);
   const [isOnlineUsers, setOnlineUsers] = useState(onlineUsers);
+
+  const bottomSheetRef = useRef(null);
 
   const handleSetSelectedChat = useCallback(chat => {
     dispatch(setSelectedMessageScreen(chat));
@@ -83,31 +78,6 @@ export default function NewChatScreen() {
     setRecords(filteredChats);
     setResults(filteredChats);
   }, [chats]);
-  const loadChats = () => {
-    // console.log('Chat load.......');
-    axiosInstance
-      .get('/chat/mychats')
-      .then(res => {
-        // console.log('res.data', JSON.stringify(res.data, null, 1));
-        dispatch(setChats(res.data.chats));
-        // // console.log("res.data.chats", JSON.stringify(res.data.chats, null, 1));
-        dispatch(setGroupNameId(res.data.chats));
-
-        // let totalUnread = res.data.chats?.filter(
-        //   chat =>
-        //     !chat?.myData?.isRead &&
-        //     chat.myData.user !== chat?.latestMessage?.sender?._id,
-        // )?.length;
-
-        // await Notifications.setBadgeCountAsync(totalUnread || 0);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    loadChats();
-  }, []);
 
   const handleRadioChecked = useCallback(
     item => {
@@ -117,7 +87,7 @@ export default function NewChatScreen() {
           filteredChats = [];
           break;
         case 'chats':
-          // loadChats();
+          loadChats();
           console.log('called');
           filteredChats = chats?.filter(x => !x?.isArchived) || [];
           break;
@@ -171,6 +141,9 @@ export default function NewChatScreen() {
         if (val) {
           const filteredChats = results?.filter(
             c =>
+              c?.latestMessage?.text
+                ?.toLowerCase()
+                .includes(val?.toLowerCase()) ||
               c?.name?.toLowerCase().includes(val?.toLowerCase()) ||
               c?.otherUser?.fullName
                 ?.toLowerCase()
@@ -184,15 +157,9 @@ export default function NewChatScreen() {
     },
     [checked, onlineUsers, records, handleRadioChecked],
   );
-  const [isCreateCrowdModalVisible, setIsCreateCrowdModalVisible] =
-    useState(false);
-
-  const toggleCreateCrowdModal = useCallback(() => {
-    setIsCreateCrowdModalVisible(prev => !prev);
-  }, [isCreateCrowdModalVisible]);
 
   const renderChatItem = useCallback(
-    ({item, index}) => (
+    ({item}) => (
       <ChatItem
         setChecked={setChecked}
         setFocusedChat={setFocusedChat}
@@ -225,88 +192,87 @@ export default function NewChatScreen() {
   //   ),
   //   [focusedChat, navigation, onlineUsers]
   // );
-
+  const openBottomSheet = useCallback(() => {
+    bottomSheetRef.current?.present();
+  }, []);
+  const styles = getStyles(Colors, checked);
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        {paddingTop: Platform.OS === 'android' && StatusBar.currentHeight},
-      ]}>
-      <StatusBar
-        translucent={true}
-        backgroundColor={Colors.White}
-        barStyle={
-          Colors.Background_color === '#F5F5F5'
-            ? 'dark-content'
-            : 'light-content'
-        }
-      />
-      <ChatTopPart handleRadioChecked={handleRadioChecked} />
-      <View style={styles.searchContainer}>
-        <SearchAndFilter
-          handleFilter={handleFilter}
+    <TouchableWithoutFeedback
+      style={{zIndex: 1111111}}
+      onPress={() => bottomSheetRef.current?.dismiss()}>
+      <SafeAreaView style={[styles.container, {paddingTop: top}]}>
+        <StatusBar
+          translucent={true}
+          backgroundColor={Colors.Background_color}
+          barStyle={
+            Colors.Background_color === '#F5F5F5'
+              ? 'dark-content'
+              : 'light-content'
+          }
+        />
+        {/* <ChatTopPart handleRadioChecked={handleRadioChecked} /> */}
+        <View style={styles.searchContainer}>
+          <ChatSearchField
+            handleFilter={handleFilter}
+            checked={checked}
+            handleRadioChecked={handleRadioChecked}
+            goBack={goBack}
+          />
+        </View>
+        <ChatHeaderFilter
+          handleFilterModalPress={openBottomSheet}
           checked={checked}
           handleRadioChecked={handleRadioChecked}
         />
-      </View>
-      <ChatHeaderFilter
-        checked={checked}
-        handleRadioChecked={handleRadioChecked}
-      />
-      {checked === 'onlines' ? (
-        <ScrollView>
-          {isOnlineUsers?.map(item => (
-            <View key={item._id}>
-              {user?._id !== item?._id && (
-                <OnlineUsersItem item={item} navigation={navigation} />
-              )}
-            </View>
-          ))}
-        </ScrollView>
-      ) : (
-        <View
-          style={[
-            styles.chatListContainer,
+        {checked === 'onlines' ? (
+          <ScrollView>
+            {isOnlineUsers?.map(item => (
+              <View key={item._id}>
+                {user?._id !== item?._id && (
+                  <OnlineUsersItem item={item} navigation={navigation} />
+                )}
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <View style={[styles.chatListContainer, {}]}>
             {
-              height: checked === 'crowds' && '73%',
-              flex: 1,
-            },
-          ]}>
-          {
-            <FlatList
-              data={sortByLatestMessage(records, 'latestMessage.createdAt')}
-              renderItem={renderChatItem}
-              keyExtractor={item => item?._id || Math.random().toString()}
-              showsVerticalScrollIndicator={false}
-              initialNumToRender={8}
-              ItemSeparatorComponent={() => (
-                <Divider marginTop={0.000001} marginBottom={0.00001} />
-              )}
-              ListEmptyComponent={() => (
-                <View
-                  style={{
-                    height: responsiveScreenHeight(80),
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <NoDataAvailable />
-                </View>
-              )}
-            />
-          }
-        </View>
-      )}
-      <CreateCrowdModal
-        isCreateCrowdModalVisible={isCreateCrowdModalVisible}
-        toggleCreateCrowdModal={toggleCreateCrowdModal}
-        setIsCreateCrowdModalVisible={setIsCreateCrowdModalVisible}
-      />
-      {/* <ChatMessageModal /> */}
-    </SafeAreaView>
+              <FlatList
+                data={sortByLatestMessage(records, 'latestMessage.createdAt')}
+                renderItem={renderChatItem}
+                keyExtractor={item => item?._id || Math.random().toString()}
+                showsVerticalScrollIndicator={false}
+                initialNumToRender={8}
+                ItemSeparatorComponent={() => (
+                  <Divider marginTop={0.000001} marginBottom={0.00001} />
+                )}
+                ListEmptyComponent={() => (
+                  <View
+                    style={{
+                      height: responsiveScreenHeight(80),
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <NoDataAvailable />
+                  </View>
+                )}
+              />
+            }
+          </View>
+        )}
+        <BottomSheetModalProvider>
+          <FilterOptionModal
+            bottomSheetRef={bottomSheetRef}
+            openBottomSheet={openBottomSheet}
+            handleRadioChecked={handleRadioChecked}
+          />
+        </BottomSheetModalProvider>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
-const getStyles = Colors =>
+const getStyles = (Colors, checked) =>
   StyleSheet.create({
     createCrowdText: {
       fontFamily: CustomeFonts.MEDIUM,
@@ -351,13 +317,15 @@ const getStyles = Colors =>
     },
     searchContainer: {
       paddingHorizontal: responsiveScreenWidth(4),
-      marginTop: responsiveScreenHeight(2),
+      // marginTop: responsiveScreenHeight(1),
       zIndex: 1,
     },
     chatListContainer: {
       paddingHorizontal: responsiveScreenWidth(4),
       // paddingTop: responsiveScreenHeight(1),
       // backgroundColor: Colors.Red
+      height: checked === 'crowds' && '73%',
+      flex: 1,
     },
     recentText: {
       fontFamily: CustomeFonts.SEMI_BOLD,
