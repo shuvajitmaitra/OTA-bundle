@@ -23,7 +23,6 @@ export function transFormDate(text) {
 
 export const generateActivityText = (message, senderName) => {
   let activity = message.activity;
-  console.log('activity', JSON.stringify(message, null, 1));
   if (activity?.type === 'createChannel') {
     return (
       <>

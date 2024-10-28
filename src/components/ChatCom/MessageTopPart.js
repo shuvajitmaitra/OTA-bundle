@@ -25,6 +25,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setLocalMessages} from '../../store/reducer/chatSlice';
 import PinIcon from '../../assets/Icons/PinIcon';
 import StarIcon from '../../assets/Icons/StartIcon';
+import {handleChatFavorite} from '../../actions/apiCall';
 
 export default function MessageTopPart({
   setPinnedScreenVisible,
@@ -34,25 +35,7 @@ export default function MessageTopPart({
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat} = useSelector(state => state.chat);
-  const {pinnedMessages} = useSelector(state => state.chatSlice);
-  //   console.log('singleChat', JSON.stringify(chat, null, 1));
-  //   const chat = {
-  //     isChannel: false,
-  //     avatar: null,
-  //     name: 'John Doe',
-  //     otherUser: {
-  //       fullName: 'John Doe',
-  //       lastActive: moment().subtract(2, 'hours').toISOString(),
-  //     },
-  //     typingData: {
-  //       isTyping: false,
-  //       user: {firstName: 'Jane'},
-  //     },
-  //     membersCount: 10,
-  //     myData: {
-  //       isFavourite: true,
-  //     },
-  //   };
+  console.log('singleChat', JSON.stringify(chat, null, 1));
 
   const Colors = {
     Primary: '#6200EE',
@@ -127,8 +110,17 @@ export default function MessageTopPart({
             <PinIcon size={25} />
           </TouchableOpacity>
         )}
-        {/* Favourite Icon */}
-        <StarIcon color={chat.myData.isFavourite ? 'gold' : 'gray'} />
+        {chat.isChannel && (
+          <TouchableOpacity
+            onPress={() =>
+              handleChatFavorite({
+                isFavourite: !chat?.myData?.isFavourite,
+                chat: chat?._id,
+              })
+            }>
+            <StarIcon color={chat.myData.isFavourite ? 'gold' : 'gray'} />
+          </TouchableOpacity>
+        )}
         {/* {chat.myData.isFavourite ? (
           <StartIcon color="gold" size={22} name="star" />
         ) : (

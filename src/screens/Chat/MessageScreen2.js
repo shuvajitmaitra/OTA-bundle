@@ -183,44 +183,14 @@ const MessageScreen2 = () => {
   };
 
   const renderItem = ({item, index}) => {
-    // const currentMessageDate = new Date(
-    //   item?.createdAt || item?.updatedAt,
-    // ).toDateString();
     const nextMessage = localMessages[index + 1];
-    // const nextMessageDate = nextMessage
-    //   ? new Date(
-    //       nextMessage?.createdAt || nextMessage?.updatedAt,
-    //     ).toDateString()
-    //   : null;
-    // const isSameDate = currentMessageDate === nextMessageDate;
 
     const nextSender = nextMessage
       ? item?.sender?._id !== nextMessage?.sender?._id
       : false;
 
-    return (
-      <>
-        <Message2 item={item} index={index} nextSender={nextSender} />
-        {/* {!isSameDate && (
-          <View
-            style={{
-              backgroundColor: Colors.PrimaryOpacityColor,
-              width: responsiveScreenWidth(24),
-              alignItems: 'center',
-              paddingVertical: 5,
-              borderRadius: 4,
-              alignSelf: 'center',
-              marginTop: 10,
-            }}>
-            <Text style={{color: Colors.Primary, fontWeight: '600'}}>
-              {formatDynamicDate(item?.updatedAt || item?.createdAt)}
-            </Text>
-          </View>
-        )} */}
-      </>
-    );
+    return <Message2 item={item} index={index} nextSender={nextSender} />;
   };
-  console.log('messageOptionData', JSON.stringify(messageOptionData, null, 1));
   return (
     <View
       style={[

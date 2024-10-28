@@ -11,6 +11,7 @@ import {useTheme} from '../../context/ThemeContext';
 import {setDisplayMode} from '../../store/reducer/chatReducer';
 import CustomeFonts from '../../constants/CustomeFonts';
 import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const DisplaySettingsScreen = () => {
   const Colors = useTheme();
@@ -37,10 +38,13 @@ const DisplaySettingsScreen = () => {
       dispatch(setDisplayMode('default'));
     }
   };
-
+  const {top} = useSafeAreaInsets();
   return (
     <View
-      style={[styles.container, {backgroundColor: Colors.Background_color}]}>
+      style={[
+        styles.container,
+        {backgroundColor: Colors.White, paddingTop: top},
+      ]}>
       <StatusBar
         translucent={true}
         backgroundColor={Colors.White}
@@ -132,7 +136,7 @@ const getStyles = Colors =>
     radioContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: Colors.Background_color,
+      backgroundColor: Colors.White,
       width: responsiveScreenWidth(40),
       paddingRight: responsiveScreenWidth(2),
       borderRadius: 10,
@@ -144,7 +148,7 @@ const getStyles = Colors =>
     },
     themeContainer: {
       flexDirection: 'row',
-      backgroundColor: Colors.White,
+      backgroundColor: Colors.Background_color,
       justifyContent: 'space-between',
       borderRadius: 10,
       paddingVertical: responsiveScreenHeight(3),
@@ -161,6 +165,7 @@ const getStyles = Colors =>
       fontWeight: '600',
       color: Colors.Heading,
       fontFamily: CustomeFonts.SEMI_BOLD,
+      marginTop: 10,
     },
     container: {
       flex: 1,

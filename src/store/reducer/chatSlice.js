@@ -48,10 +48,29 @@ const chatSlice = createSlice({
         };
       }
     },
+    // updateMyChat: ({localMessages}, action) => {
+    //   const {_id, field, value} = action.payload;
+
+    //   console.log('_id', JSON.stringify(_id, null, 1));
+    //   console.log('field', JSON.stringify(field, null, 1));
+    //   console.log('value', JSON.stringify(value, null, 1));
+    //   console.log('localMessages', JSON.stringify(localMessages, null, 1));
+    //   const chatIndex = localMessages.findIndex(x => x?._id === _id);
+    //   console.log('chatIndex', JSON.stringify(chatIndex, null, 1));
+    //   if (chatIndex !== -1) {
+    //     localMessages[chatIndex].myData = {
+    //       ...localMessages[chatIndex].myData,
+    //       [field]: value,
+    //     };
+    //   } else {
+    //     console.log('it is -1');
+    //   }
+    // },
   },
 });
 
 export const {
+  // updateMyChat,
   updateDeletedMessage,
   setLocalMessages,
   appendLocalMessage,

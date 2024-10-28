@@ -3,6 +3,7 @@ import {
   initialActivities,
   setActivitiesCount,
 } from '../store/reducer/activitiesReducer';
+import {updateMyData, updateSingleChat} from '../store/reducer/chatReducer';
 import {updateDeletedMessage} from '../store/reducer/chatSlice';
 import {setCalendar, setMockInterview} from '../store/reducer/dashboardReducer';
 import {
@@ -13,6 +14,30 @@ import axiosInstance from '../utility/axiosInstance';
 import {handleError} from './chat-noti';
 
 // handle read all notifications
+
+export const handleChatFavorite = data => {
+  axiosInstance
+    .put('/chat/favourite', data)
+    .then(res => {
+      if (res.data.success) {
+        store.dispatch(
+          updateMyData({
+            field: 'isFavourite',
+            value: res.data.member.isFavourite,
+            _id: data.chat,
+          }),
+        ),
+          store.dispatch(
+            updateSingleChat({
+              isFavourite: res.data.member.isFavourite,
+            }),
+          );
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 
 export const handleDelete = id => {
   // setIsDeleting(true);
