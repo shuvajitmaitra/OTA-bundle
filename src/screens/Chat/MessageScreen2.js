@@ -102,6 +102,9 @@ const MessageScreen2 = () => {
     if (selectedChat.chatId) {
       initialGetMessage();
     }
+    return () => {
+      dispatch(setLocalMessages([]));
+    };
   }, [selectedChat.chatId]);
 
   const handleLoadMore = useCallback(async () => {
@@ -243,7 +246,7 @@ const MessageScreen2 = () => {
       <View style={styles.flatListContainer}>
         <FlatList
           data={
-            localMessages.length
+            localMessages?.length
               ? localMessages
               : messages[selectedChat?.chatId]
           }
