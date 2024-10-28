@@ -20,6 +20,7 @@ import axiosInstance from '../../utility/axiosInstance';
 import {setLocalMessages} from '../../store/reducer/chatSlice';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ImageGallery from './ChatFooter/ImageGallery';
+import AudioRecorder from './ChatFooter/AudioRecorder';
 
 // Precompiled regular expressions outside the component for performance
 const URL_REGEX =
@@ -63,6 +64,7 @@ const ChatFooter2 = ({chatId, setMessages}) => {
   const dispatch = useDispatch();
 
   const [messageClicked, setMessageClicked] = useState(false);
+  const [startRecording, setStartRecording] = useState(false);
 
   // Theme context
   const Colors = useTheme();
@@ -181,6 +183,8 @@ const ChatFooter2 = ({chatId, setMessages}) => {
       <View style={styles.container}>
         {messageClicked ? (
           <ChatMessageInput text={text} setText={setText} />
+        ) : startRecording ? (
+          <AudioRecorder />
         ) : (
           <TouchableOpacity
             onPress={toggleMessageClicked}
@@ -190,13 +194,19 @@ const ChatFooter2 = ({chatId, setMessages}) => {
             </Text>
           </TouchableOpacity>
         )}
-        {text.length > 0 ? (
-          <SendContainer sendMessage={() => sendMessage(text)} />
-        ) : (
-          <IconContainer
-            selectImage={selectImage}
-            // setOpenGallery={setOpenGallery}
-          />
+
+        {!startRecording && (
+          <>
+            {text.length > 0 ? (
+              <SendContainer sendMessage={() => sendMessage(text)} />
+            ) : (
+              <IconContainer
+                setStartRecording={setStartRecording}
+                selectImage={selectImage}
+                // setOpenGallery={setOpenGallery}
+              />
+            )}
+          </>
         )}
       </View>
       {selectedImages?.length > 0 && (

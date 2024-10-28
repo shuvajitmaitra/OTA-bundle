@@ -4,11 +4,11 @@ import MicIcon from '../../../assets/Icons/MicIcon';
 import GallaryIcon from '../../../assets/Icons/GallaryIcon';
 import ImageGallery from './ImageGallery';
 
-const IconContainer = ({setOpenGallery, selectImage}) => {
+const IconContainer = ({setStartRecording, selectImage}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        // onPress={() => setOpenGallery(true)}
+        onPress={() => setStartRecording(true)}
         style={styles.button}>
         <MicIcon size={25} />
       </TouchableOpacity>
