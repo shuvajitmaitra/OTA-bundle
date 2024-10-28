@@ -1,7 +1,12 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Markdown from 'react-native-markdown-display';
-import {autoLinkify, removeHtmlTags, transFormDate} from './MessageHelper';
+import {
+  autoLinkify,
+  generateActivityText,
+  removeHtmlTags,
+  transFormDate,
+} from './MessageHelper';
 import {useTheme} from '../../context/ThemeContext';
 import CustomeFonts from '../../constants/CustomeFonts';
 import {useDispatch, useSelector} from 'react-redux';
@@ -19,9 +24,23 @@ const Message2 = ({item, index, nextSender}) => {
   const my = item.sender?._id === user?._id;
   const styles = getStyles(Colors, my);
   const navigation = useNavigation();
-  console.log('item', JSON.stringify(item, null, 1));
+  const senderName =
+    item?.sender?.profilePicture === user?.profilePicture
+      ? 'You'
+      : item?.sender?.firstName;
   if (item.type === 'delete') {
     return <DeleteMessageContainer item={item} my={my} />;
+  }
+  if (item.type === 'activity') {
+    return (
+      <>
+        <View style={styles.activityContainer}>
+          <Text style={styles.activityText}>
+            {generateActivityText(item, senderName)}
+          </Text>
+        </View>
+      </>
+    );
   }
   return (
     <View style={styles.mainContainer}>
@@ -69,6 +88,19 @@ export default Message2;
 
 const getStyles = (Colors, my) =>
   StyleSheet.create({
+    activityText: {
+      backgroundColor: Colors.White,
+      color: Colors.BodyText,
+      paddingVertical: 3,
+      paddingHorizontal: 5,
+      borderRadius: 3,
+      fontFamily: CustomeFonts.REGULAR,
+    },
+    activityContainer: {
+      justifyContent: 'center',
+      flexDirection: 'row',
+      marginVertical: 5,
+    },
     replyCountText: {
       fontWeight: '600',
       fontSize: RegularFonts.HS,

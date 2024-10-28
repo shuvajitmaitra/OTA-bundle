@@ -94,29 +94,6 @@ const Message = ({
   if (message.type === 'delete') {
     return (
       <View style={[styles.messageItem, {justifyContent: 'flex-start'}]}>
-        {/* {myMessage ? null : (
-          <View style={styles.userImageWrapper}>
-            {!lastSender ? (
-              <Image
-                source={
-                  message.sender?.profilePicture
-                    ? { uri: message.sender?.profilePicture }
-                    : userIcon
-                }
-                style={styles.userImg}
-              />
-            ) : (
-              <View style={{ width: responsiveScreenWidth(8) }}></View>
-            )}
-            {!lastSender &&
-            onlineUsers?.find((x) => x?._id === message?.sender?._id) ? (
-              <View style={styles.activeStatus}></View>
-            ) : null}
-          </View>
-        )} */}
-        {/* -------------------------- */}
-        {/* ----------- delete message ----------- */}
-        {/* -------------------------- */}
         <View
           style={{
             flex: 1,

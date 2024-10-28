@@ -172,7 +172,9 @@ const MessageScreen2 = () => {
   };
 
   const ListFooterComponent = () => {
-    if (!isLoading) return null;
+    if (!isLoading) {
+      return null;
+    }
     return (
       <View style={[styles.footer, page === 1 && styles.initialFooter]}>
         <ActivityIndicator size="small" color={Colors.Primary} />

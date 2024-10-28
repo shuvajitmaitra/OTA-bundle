@@ -23,7 +23,16 @@ export function transFormDate(text) {
 
 export const generateActivityText = (message, senderName) => {
   let activity = message.activity;
-  if (activity?.type === 'add') {
+  console.log('activity', JSON.stringify(message, null, 1));
+  if (activity?.type === 'createChannel') {
+    return (
+      <>
+        <Text style={{color: 'green', fontWeight: '600'}}>
+          Channel created by {senderName}
+        </Text>
+      </>
+    );
+  } else if (activity?.type === 'add') {
     return (
       <>
         {senderName} <Text style={{color: 'green'}}>added</Text>{' '}
