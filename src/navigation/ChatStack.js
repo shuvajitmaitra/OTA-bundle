@@ -1,6 +1,9 @@
 import React from 'react';
 
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from '@react-navigation/stack';
 import NewChatScreen from '../screens/Chat/NewChatScreen';
 import MessageScreen2 from '../screens/Chat/MessageScreen2';
 import TestMessageScreen from '../screens/Chat/TestMessageScreen';
@@ -20,13 +23,7 @@ const ChatStackScreen = ({}) => {
   return (
     <ChatStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: 'white',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
       }}>
       <ChatStack.Screen
         name="NewChatScreen"

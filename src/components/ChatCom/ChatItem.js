@@ -108,11 +108,13 @@ const ChatItem = ({
         //     image: chat?.avatar || chat?.otherUser?.profilePicture,
         //   },
         // });
-        navigation.navigate('MessageScreen2', {
-          chatId: chat?._id,
-          name: chat?.isChannel ? chat?.name : chat?.otherUser?.fullName,
-          image: chat?.avatar || chat?.otherUser?.profilePicture,
-        });
+        navigation.navigate('MessageScreen2', {animationEnabled: false});
+
+        // navigation.navigate('MessageScreen2', {
+        //   chatId: chat?._id,
+        //   name: chat?.isChannel ? chat?.name : chat?.otherUser?.fullName,
+        //   image: chat?.avatar || chat?.otherUser?.profilePicture,
+        // });
       }}>
       {/* <View style={styles.subContainer}> */}
       <View style={styles.profileImageContainer}>
@@ -249,6 +251,7 @@ const getStyles = Colors =>
       // paddingHorizontal: responsiveScreenWidth(4),
       paddingVertical: responsiveScreenHeight(1.8),
       borderRadius: responsiveScreenWidth(2),
+      // backgroundColor: 'blue',
     },
     subContainer: {
       backgroundColor: 'red',
