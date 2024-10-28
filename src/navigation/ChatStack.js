@@ -15,6 +15,7 @@ import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ArrowLeft from '../assets/Icons/ArrowLeft';
 import {useTheme} from '../context/ThemeContext';
 import ThreadScreen from '../screens/Chat/ThreadScreen';
+import CreateNewUser from '../components/ChatCom/CreateNewUser';
 
 const ChatStack = createStackNavigator();
 
@@ -28,6 +29,11 @@ const ChatStackScreen = ({}) => {
       <ChatStack.Screen
         name="NewChatScreen"
         component={NewChatScreen}
+        options={{headerShown: false}}
+      />
+      <ChatStack.Screen
+        name="CreateNewUser"
+        component={CreateNewUser}
         options={{headerShown: false}}
       />
       <ChatStack.Screen

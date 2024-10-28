@@ -1,52 +1,80 @@
-import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomeFonts from "../../constants/CustomeFonts";
-import { useNavigation } from "@react-navigation/native";
-import GoToChatIcon from "../../assets/Icons/GoToChatIcon";
-import UserIconTwo from "../../assets/Icons/UserIconTwo";
-import axiosInstance from "../../utility/axiosInstance";
-import { useDispatch, useSelector } from "react-redux";
-import { updateChats } from "../../store/reducer/chatReducer";
-import { setSelectedMessageScreen } from "../../store/reducer/ModalReducer";
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomeFonts from '../../constants/CustomeFonts';
+import {useNavigation} from '@react-navigation/native';
+import GoToChatIcon from '../../assets/Icons/GoToChatIcon';
+import UserIconTwo from '../../assets/Icons/UserIconTwo';
+import axiosInstance from '../../utility/axiosInstance';
+import {useDispatch, useSelector} from 'react-redux';
+import {setSingleChat, updateChats} from '../../store/reducer/chatReducer';
+import {setSelectedMessageScreen} from '../../store/reducer/ModalReducer';
 
-const OnlineUsersItem = ({ item }) => {
+const OnlineUsersItem = ({item}) => {
   const [creating, setCreating] = useState(false);
   const [Loading, setLoading] = useState(false);
-  const { chats } = useSelector((state) => state.chat);
+  const {chats} = useSelector(state => state.chat);
   const dispatch = useDispatch();
-
-  const handleCreateChat = async (id) => {
+  const navigation = useNavigation();
+  const handleCreateChat = async id => {
     if (creating) return;
     setCreating(true);
     try {
       setLoading(true);
       const res = await axiosInstance.post(`/chat/findorcreate/${id}`);
+      console.log('res.data', JSON.stringify(res.data, null, 1));
       if (res.data.success) {
-        // navigation.push("NewMessageScreen", {
-        //   chatId: res.data.chat._id,
-        //   name: item?.fullName,
-        //   image: item?.profilePicture,
-        // });
-
-        dispatch(
-          setSelectedMessageScreen({
-            chatId: res.data.chat._id,
-            name: item?.fullName,
-            image: item?.profilePicture,
-          })
-        );
-
-        const chatExists = chats.some((chat) => chat._id === res.data.chat._id);
-        setLoading(false);
-        if (!chatExists) {
-          dispatch(updateChats(res.data.chat));
-        }
+        navigation.push('MessageScreen2', {
+          chatId: res.data.chat._id,
+          name: item?.fullName,
+          image: item?.profilePicture,
+        });
       }
+
+      dispatch(setSingleChat(res.data.chat));
+
+      dispatch(
+        setSelectedMessageScreen({
+          chatId: res.data.chat._id,
+          name: res.data.chat?.isChannel
+            ? res.data.chat?.name
+            : res.data.chat?.otherUser?.fullName,
+          image:
+            res.data.chat?.avatar ||
+            res.data.chat?.otherUser?.profilePicture ||
+            '',
+          limit: res.data.chat?.unreadCount || 0,
+        }),
+      );
+      // dispatch(
+      //   setSelectedMessageScreen({
+      //     chatId: res.data.chat._id,
+      //     name: item?.fullName,
+      //     image: item?.profilePicture,
+      //   })
+      // );
+
+      // const chatExists = chats.some(chat => chat._id === res.data.chat._id);
+      // setLoading(false);
+      // if (!chatExists) {
+      //   dispatch(updateChats(res.data.chat));
+      // }
+      // }
     } catch (err) {
       setLoading(false);
-      console.error("Error creating chat:", err?.response?.data?.error);
+      console.error('Error creating chat:', err?.response?.data);
     } finally {
       setLoading(false);
 
@@ -64,8 +92,7 @@ const OnlineUsersItem = ({ item }) => {
       onPress={() => {
         handleCreateChat(item._id);
       }}
-      style={styles.mainContainer}
-    >
+      style={styles.mainContainer}>
       <View style={[styles.container]}>
         <View style={styles.subContainer}>
           <View style={styles.profileImageContainer}>
@@ -73,7 +100,11 @@ const OnlineUsersItem = ({ item }) => {
               <Image
                 resizeMode="contain"
                 style={styles.profileImage}
-                source={item?.profilePicture ? { uri: item?.profilePicture } : require("../../assets/Images/user.png")}
+                source={
+                  item?.profilePicture
+                    ? {uri: item?.profilePicture}
+                    : require('../../assets/Images/user.png')
+                }
               />
             ) : (
               <UserIconTwo size={responsiveScreenWidth(10)} />
@@ -85,50 +116,62 @@ const OnlineUsersItem = ({ item }) => {
                 {
                   backgroundColor: Colors.Primary,
                 },
-              ]}
-            ></View>
+              ]}></View>
           </View>
 
           <View>
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-              <Text numberOfLines={1} ellipsizeMode="tail" style={styles.profileName}>
-                {item?.fullName ? item?.fullName : "Schools Hub User"}
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                style={styles.profileName}>
+                {item?.fullName ? item?.fullName : 'Schools Hub User'}
               </Text>
             </View>
           </View>
         </View>
-        {Loading ? <ActivityIndicator color={Colors.Primary} animating={true} size="large" style={{ marginRight: 5 }} /> : <GoToChatIcon />}
+        {Loading ? (
+          <ActivityIndicator
+            color={Colors.Primary}
+            animating={true}
+            size="large"
+            style={{marginRight: 5}}
+          />
+        ) : (
+          <GoToChatIcon />
+        )}
       </View>
     </TouchableOpacity>
   );
 };
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     mainContainer: {
       paddingHorizontal: 20,
     },
     container: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       // paddingHorizontal: responsiveScreenWidth(4),
       paddingVertical: responsiveScreenHeight(1.8),
       //   borderRadius: responsiveScreenWidth(2),
     },
     subContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(4),
     },
     altOfProfileImage: {
       width: responsiveScreenWidth(10),
       height: responsiveScreenWidth(10),
       borderRadius: responsiveScreenWidth(100),
-      position: "relative",
+      position: 'relative',
       backgroundColor: Colors.DarkGreen,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     sortName: {
       color: Colors.White,
@@ -138,15 +181,15 @@ const getStyles = (Colors) =>
       width: responsiveScreenWidth(10),
       height: responsiveScreenWidth(10),
       borderRadius: responsiveScreenWidth(100),
-      resizeMode: "cover",
-      position: "relative",
+      resizeMode: 'cover',
+      position: 'relative',
       backgroundColor: Colors.LightGreen,
     },
     activeDot: {
       width: responsiveScreenWidth(2.8),
       height: responsiveScreenWidth(2.8),
       borderRadius: responsiveScreenWidth(100),
-      position: "absolute",
+      position: 'absolute',
       bottom: responsiveScreenWidth(0.9),
       right: -2,
       borderWidth: 1,
@@ -164,19 +207,19 @@ const getStyles = (Colors) =>
       fontFamily: CustomeFonts.REGULAR,
     },
     timeContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenHeight(1),
-      alignItems: "center",
-      justifyContent: "space-between",
+      alignItems: 'center',
+      justifyContent: 'space-between',
       width: responsiveScreenWidth(70),
     },
     messageNumberContainer: {
-      alignItems: "center",
+      alignItems: 'center',
     },
     messageNumber: {
       paddingHorizontal: responsiveScreenWidth(1.2),
       backgroundColor: Colors.Primary,
-      textAlign: "center",
+      textAlign: 'center',
       color: Colors.PureWhite,
       borderRadius: responsiveScreenWidth(100),
       fontSize: responsiveScreenFontSize(1.3),

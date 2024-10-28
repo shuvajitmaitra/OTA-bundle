@@ -44,7 +44,7 @@ const FilterOptionModal = ({
     {
       label: 'New chat',
       onPress: () => {
-        navigation.navigate('HomeStack', {screen: 'CreateNewUser'});
+        navigation.navigate('CreateNewUser');
         closeBottomSheet();
       },
       icon: <CommentsIcon />,
@@ -52,7 +52,7 @@ const FilterOptionModal = ({
     {
       label: 'New crowd',
       onPress: () => {
-        toggleCreateCrowdModal();
+        // toggleCreateCrowdModal();
       },
       icon: <CrowdIcon width={23} height={23} color={Colors.BodyText} />,
     },
