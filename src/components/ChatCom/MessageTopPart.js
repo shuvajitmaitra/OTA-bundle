@@ -16,8 +16,6 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import CustomeFonts from '../../constants/CustomeFonts';
-import PhoneIcon from '../../assets/Icons/PhoneIcon';
-import VideoIcon from '../../assets/Icons/VideoIcon';
 import Images from '../../constants/Images';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import {useNavigation} from '@react-navigation/native';
@@ -35,7 +33,6 @@ export default function MessageTopPart({
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat} = useSelector(state => state.chat);
-  console.log('singleChat', JSON.stringify(chat, null, 1));
 
   const Colors = {
     Primary: '#6200EE',

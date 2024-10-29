@@ -66,11 +66,23 @@ const chatSlice = createSlice({
     //     console.log('it is -1');
     //   }
     // },
+    updateMessage: ({localMessages}, {payload}) => {
+      const messageIndex = localMessages.findIndex(
+        item => item._id === payload._id,
+      );
+      if (messageIndex !== 1) {
+        localMessages[messageIndex] = {
+          ...localMessages[messageIndex],
+          ...payload,
+        };
+      }
+    },
   },
 });
 
 export const {
   // updateMyChat,
+  updateMessage,
   updateDeletedMessage,
   setLocalMessages,
   appendLocalMessage,

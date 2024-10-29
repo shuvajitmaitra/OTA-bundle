@@ -15,9 +15,13 @@ import SendContainer from './ChatFooter/SendContainer';
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
 import ChatMessageInput from './ChatMessageInput';
-import {pushMessage, updateSendingInfo} from '../../store/reducer/chatReducer';
+import {
+  pushMessage,
+  updateLatestMessage,
+  updateSendingInfo,
+} from '../../store/reducer/chatReducer';
 import axiosInstance from '../../utility/axiosInstance';
-import {setLocalMessages} from '../../store/reducer/chatSlice';
+import {setLocalMessages, updateMessage} from '../../store/reducer/chatSlice';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ImageGallery from './ChatFooter/ImageGallery';
 import AudioRecorder from './ChatFooter/AudioRecorder';
@@ -52,13 +56,18 @@ const convertLink = text => {
  * @param {function} props.setMessages - Function to update messages state.
  * @returns {JSX.Element}
  */
-const ChatFooter2 = ({chatId, setMessages}) => {
+const ChatFooter2 = ({
+  chatId,
+  setMessages,
+  messageEditVisible,
+  messageOptionData,
+
+  setMessageEditVisible,
+}) => {
   // Local state for the message text
   const [text, setText] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
-  console.log('selectedImages', JSON.stringify(selectedImages, null, 1));
   const {user} = useSelector(state => state.auth);
-
   const {localMessages} = useSelector(state => state.chatSlice);
 
   const dispatch = useDispatch();
@@ -178,6 +187,60 @@ const ChatFooter2 = ({chatId, setMessages}) => {
       }
     });
   };
+
+  const handleEditMessage = message => {
+    // if (!text) {
+    // return showAlertModal({
+    //   title: 'Write something',
+    //   type: 'warning',
+    //   message: 'Please write something in the input field before proceeding',
+    // });
+    // }
+    console.log('function called');
+    let data = {
+      text: convertLink(text),
+    };
+    Keyboard.dismiss();
+    setIsSendingText(true);
+    axiosInstance
+      .patch(`/chat/update/message/${message?._id}`, data)
+      .then(res => {
+        setText('');
+        // setMessageToEdit(null);
+        let newMessage = {...res.data.message, editedAt: new Date()};
+        dispatch(updateMessage(newMessage));
+        dispatch(
+          updateLatestMessage({
+            chatId: message?.chat,
+            latestMessage: res.data.message,
+            counter: 1,
+          }),
+        );
+        setMessageEditVisible('');
+        setIsSendingText(false);
+      })
+      .catch(err => {
+        setIsSendingText(false);
+      });
+  };
+  if (messageEditVisible) {
+    return (
+      <>
+        <View style={styles.cancelContainer}>
+          <Text style={styles.editingText}>Editing message: </Text>
+          <TouchableOpacity onPress={() => setMessageEditVisible('')}>
+            <Text style={styles.editingButtonText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.container}>
+          <ChatMessageInput text={messageEditVisible.text} setText={setText} />
+          <SendContainer
+            sendMessage={() => handleEditMessage(messageEditVisible)}
+          />
+        </View>
+      </>
+    );
+  }
   return (
     <>
       <View style={styles.container}>
@@ -235,6 +298,21 @@ export default React.memo(ChatFooter2);
  */
 const getStyles = Colors =>
   StyleSheet.create({
+    editingButtonText: {
+      color: Colors.Red,
+      fontWeight: '600',
+      // backgroundColor: 'red',
+    },
+    editingText: {
+      fontWeight: '600',
+      color: Colors.Heading,
+    },
+    cancelContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 10,
+    },
     messageText: {
       color: Colors.BodyText,
       fontSize: RegularFonts.HS,

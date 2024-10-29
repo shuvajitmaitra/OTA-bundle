@@ -73,11 +73,18 @@ const Message2 = ({item, index, nextSender}) => {
           )}
           <View style={{flexGrow: 1}}></View>
 
-          <Text style={styles.timeText}>
-            {moment(item?.createdAt).format('MMM DD, 2024')}
-            {' at '}
-            {moment(item?.createdAt).format('h:m A')}
-          </Text>
+          <View>
+            <Text style={styles.timeText}>
+              {moment(item.editedAt ? item.editedAt : item?.createdAt).format(
+                'MMM DD, 2024',
+              )}
+              {' at '}
+              {moment(item.editedAt ? item.editedAt : item?.createdAt).format(
+                'h:mm A',
+              )}
+            </Text>
+            {item.editedAt && <Text style={styles.editedText}>(Edited)</Text>}
+          </View>
         </View>
       </TouchableOpacity>
     </View>
@@ -88,6 +95,10 @@ export default Message2;
 
 const getStyles = (Colors, my) =>
   StyleSheet.create({
+    editedText: {
+      color: Colors.Red,
+      textAlign: 'right',
+    },
     activityText: {
       backgroundColor: Colors.White,
       color: Colors.BodyText,

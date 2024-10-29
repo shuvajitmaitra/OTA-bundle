@@ -27,6 +27,9 @@ import CustomModal from '../../components/SharedComponent/CustomModal';
 import ImageGallery from '../../components/ChatCom/ChatFooter/ImageGallery';
 import BinIcon from '../../assets/Icons/BinIcon';
 import {handleDelete} from '../../actions/apiCall';
+import EditIcon from '../../assets/Icons/EditIcon';
+import EditIconTwo from '../../assets/Icons/EditIcon2';
+import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -40,6 +43,7 @@ const MessageScreen2 = () => {
   const {localMessages} = useSelector(state => state.chatSlice);
   // console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const {messageOptionData} = useSelector(state => state.modal);
+  console.log('messageOptionData', JSON.stringify(messageOptionData, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [messages = {}, setMessages] = useMMKVObject('allMessages');
@@ -47,6 +51,7 @@ const MessageScreen2 = () => {
   const [pinned, setPinned] = useState([]);
   const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);
   const [openGallery, setOpenGallery] = useState(false);
+  const [messageEditVisible, setMessageEditVisible] = useState('');
   const LIMIT = 20;
 
   const fetchPinned = chatId => {
@@ -201,36 +206,11 @@ const MessageScreen2 = () => {
         {paddingBottom: bottom, paddingTop: top / 1.5},
       ]}>
       {messageOptionData?._id && (
-        <CustomModal
-          customStyles={{paddingTop: 10}}
-          parentStyle={{zIndex: 2}}
-          onPress={() => dispatch(setMessageOptionData(null))}>
-          <TouchableOpacity
-            onPress={() => handlePin(messageOptionData._id)}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <PinIcon />
-            <Text>
-              {messageOptionData.pinnedBy ? 'Unpin Message' : 'Pin Message'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              handleDelete(messageOptionData._id),
-                dispatch(setMessageOptionData(null));
-            }}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <BinIcon />
-            <Text>Delete this message</Text>
-          </TouchableOpacity>
-        </CustomModal>
+        <MessageOptionModal
+          handlePin={handlePin}
+          setMessageEditVisible={setMessageEditVisible}
+          messageOptionData={messageOptionData}
+        />
       )}
       {pinnedScreenVisible && (
         <PinnedMessagesScreen
@@ -258,7 +238,13 @@ const MessageScreen2 = () => {
           inverted
         />
       </View>
-      <ChatFooter2 chatId={selectedChat.chatId} setMessages={setMessages} />
+      <ChatFooter2
+        chatId={selectedChat.chatId}
+        setMessages={setMessages}
+        messageEditVisible={messageEditVisible}
+        setMessageEditVisible={setMessageEditVisible}
+        messageOptionData={messageOptionData}
+      />
       {/* {openGallery && <ImageGallery />} */}
     </View>
   );
