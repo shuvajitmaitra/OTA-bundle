@@ -9,6 +9,7 @@ import EditIconTwo from '../../../assets/Icons/EditIcon2';
 import NewPinIcon from '../../../assets/Icons/NewPinIcon';
 import CopyIcon from '../../../assets/Icons/CopyIcon';
 import Divider from '../../SharedComponent/Divider';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const MessageOptionModal = ({
   handlePin,
@@ -17,6 +18,9 @@ const MessageOptionModal = ({
 }) => {
   const dispatch = useDispatch();
   //   const {messageOptionData} = useSelector(state => state.chatSlice);
+  const copyToClipboard = () => {
+    Clipboard.setString(messageOptionData.text);
+  };
   const optionData = [
     {
       label: messageOptionData?.pinnedBy ? 'Unpin Message' : 'Pin Message',
@@ -43,6 +47,7 @@ const MessageOptionModal = ({
       label: 'Copy this message',
       icon: <CopyIcon />,
       function: () => {
+        copyToClipboard();
         dispatch(setMessageOptionData(null));
       },
     },

@@ -189,14 +189,9 @@ const ChatFooter2 = ({
   };
 
   const handleEditMessage = message => {
-    // if (!text) {
-    // return showAlertModal({
-    //   title: 'Write something',
-    //   type: 'warning',
-    //   message: 'Please write something in the input field before proceeding',
-    // });
-    // }
-    console.log('function called');
+    if (!text) {
+      return Alert.alert('Write something');
+    }
     let data = {
       text: convertLink(text),
     };

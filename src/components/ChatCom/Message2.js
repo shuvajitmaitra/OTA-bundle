@@ -16,6 +16,7 @@ import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import {RegularFonts} from '../../constants/Fonts';
 import {useNavigation} from '@react-navigation/native';
 import DeleteMessageContainer from './DeleteMessageContainer';
+import MessageFileContainer from './MessageFileContainer';
 
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const Message2 = ({item, index, nextSender}) => {
       <TouchableOpacity
         onLongPress={() => dispatch(setMessageOptionData(item))}
         style={styles.messagesContainer}>
+        {item.files.length > 0 && <MessageFileContainer files={item.files} />}
         <Markdown style={styles.markdownStyle}>
           {autoLinkify(
             transFormDate(
@@ -61,7 +63,7 @@ const Message2 = ({item, index, nextSender}) => {
           )}
         </Markdown>
         <View style={styles.messageBottomContainer}>
-          {item.replyCount && (
+          {item.replyCount > 0 && (
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate('ThreadScreen', {params: item})
