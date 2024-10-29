@@ -68,6 +68,7 @@ const ChatItem = ({
   onlineUsers,
   setFocusedChat,
   setChecked,
+  bottomSheetRef,
 }) => {
   const dispatch = useDispatch();
   // console.log(JSON.stringify(chat?.latestMessage?.files, null, 1));

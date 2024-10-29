@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Image,
@@ -9,30 +9,31 @@ import {
   ToastAndroid,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
-import ReactNativeModal from "react-native-modal";
-import SearchIcon from "../../../assets/Icons/SearchIcon";
-import CheckIcon from "../../../assets/Icons/CheckIcon";
-import UnCheckIcon from "../../../assets/Icons/UnCheckIcon";
-import CircleIcon from "../../../assets/Icons/CircleIcon";
-import ModalBackAndCrossButton from "./ModalBackAndCrossButton";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import BlackCrossIcon from "../../../assets/Icons/BlackCrossIcon";
-import axiosInstance from "../../../utility/axiosInstance";
-import useChat from "../../../hook/useChat";
-import { useTheme } from "../../../context/ThemeContext";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import { updateChats } from "../../../store/reducer/chatReducer";
-import { showToast } from "../../HelperFunction";
-import Images from "../../../constants/Images";
-import { useGlobalAlert } from "../../SharedComponent/GlobalAlertContext";
+} from 'react-native-responsive-dimensions';
+import ReactNativeModal from 'react-native-modal';
+import SearchIcon from '../../../assets/Icons/SearchIcon';
+import CheckIcon from '../../../assets/Icons/CheckIcon';
+import UnCheckIcon from '../../../assets/Icons/UnCheckIcon';
+import CircleIcon from '../../../assets/Icons/CircleIcon';
+import ModalBackAndCrossButton from './ModalBackAndCrossButton';
+import CustomeFonts from '../../../constants/CustomeFonts';
+import BlackCrossIcon from '../../../assets/Icons/BlackCrossIcon';
+import axiosInstance from '../../../utility/axiosInstance';
+import useChat from '../../../hook/useChat';
+import {useTheme} from '../../../context/ThemeContext';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {setSingleChat, updateChats} from '../../../store/reducer/chatReducer';
+import {showToast} from '../../HelperFunction';
+import Images from '../../../constants/Images';
+import {setSelectedMessageScreen} from '../../../store/reducer/ModalReducer';
+// import { useGlobalAlert } from "../../SharedComponent/GlobalAlertContext";
 const CreateCrowdAddMember = ({
   setIsAddMembersModalVisible,
   setIsCreateCrowdModalVisible,
@@ -50,12 +51,12 @@ const CreateCrowdAddMember = ({
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const navigation = useNavigation();
-  const { showAlert } = useGlobalAlert();
+  // const { showAlert } = useGlobalAlert();
   //   const { chat = [], fetchMembers } = useChat();
   const [users, setUsers] = useState([]);
   const [checked, setChecked] = useState([]);
   //   console.log(JSON.stringify(checked, null, 1));
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState('');
   const dispatch = useDispatch();
   // console.log("Chat Id", userDetails);
   // console.log(JSON.stringify(chat?._id, null, 1));
@@ -64,107 +65,108 @@ const CreateCrowdAddMember = ({
   // For handling checkbox toggle
   // ....................
 
-  const handleCheckboxToggle = (userId) => {
+  const handleCheckboxToggle = userId => {
     // Toggle 'checked' property of the user with the given userId in the 'users' state
     setUsers(
-      users.map((user) =>
-        user?._id === userId ? { ...user, checked: !user.checked } : user
-      )
+      users.map(user =>
+        user?._id === userId ? {...user, checked: !user.checked} : user,
+      ),
     );
 
-    const userInValidUsers = checked.find((item) => item._id === userId);
+    const userInValidUsers = checked.find(item => item._id === userId);
 
     if (userInValidUsers) {
-      const newValidUsers = checked?.filter((item) => item._id !== userId);
+      const newValidUsers = checked?.filter(item => item._id !== userId);
       setChecked(newValidUsers);
     } else {
-      const userInUsers = users.find((item) => item._id === userId);
+      const userInUsers = users.find(item => item._id === userId);
       if (userInUsers) {
-        setChecked((prevValidUsers) => [...prevValidUsers, userInUsers]);
+        setChecked(prevValidUsers => [...prevValidUsers, userInUsers]);
       }
     }
   };
 
-  const handleUncheck = (id) => {
-    const newValidUsers = checked?.filter((item) => item._id !== id);
+  const handleUncheck = id => {
+    const newValidUsers = checked?.filter(item => item._id !== id);
     setChecked(newValidUsers);
   };
 
   useEffect(() => {
     axiosInstance
       .get(`/chat/searchuser?query=${inputText}`)
-      .then((res) => {
+      .then(res => {
         setUsers(res?.data?.users);
       })
-      .then((err) => {
+      .then(err => {
         console.log(err);
       });
   }, [inputText]);
 
   const handleCreateCrowd = () => {
     if (checked?.length < 1) {
-      return showAlert({
-        title: "Minimum Members Required",
-        type: "warning",
-        message:
-          "Please add at least 2 member",
-      });
-      ;
+      return; // return showAlert({
+      //   title: "Minimum Members Required",
+      //   type: "warning",
+      //   message:
+      //     "Please add at least 2 member",
+      // });
     }
     let data = {
       description: chatDescription,
-      isPublic: isPublic === "Public" ? true : false,
-      isReadOnly: isReadOnly === "Yes" ? true : false,
+      isPublic: isPublic === 'Public' ? true : false,
+      isReadOnly: isReadOnly === 'Yes' ? true : false,
       name: chatName,
-      users: checked.map((item) => item._id),
+      users: checked.map(item => item._id),
     };
 
     // console.log(JSON.stringify(data.users, null, 1));
     axiosInstance
-      .post(`/chat/channel/create`, data)
-      .then((res) => {
+      .post('/chat/channel/create', data)
+      .then(res => {
         // console.log(JSON.stringify(res.data, null, 1));
         if (res.data.success) {
           dispatch(updateChats(res?.data?.chat));
+          dispatch(setSingleChat(res?.data?.chat));
           //   toggleAddMembersModal();
           //   toggleCreateCrowdModal();
           setIsAddMembersModalVisible(false);
           setIsCreateCrowdModalVisible(false);
-          navigation.push("NewMessageScreen", {
-            chatId: res?.data?.chat?._id,
-            name: res?.data?.chat?.isChannel
-              ? res?.data?.chat?.name
-              : res?.data?.chat?.otherUser?.fullName,
-            image:
-              res?.data?.chat?.avatar ||
-              res?.data?.chat?.otherUser?.profilePicture,
-          });
-          showToast("Crowd Created");
+          dispatch(
+            setSelectedMessageScreen({
+              chatId: res?.data?.chat?._id,
+              name: res?.data?.chat?.isChannel
+                ? res?.data?.chat?.name
+                : res?.data?.chat?.otherUser?.fullName,
+              image:
+                res?.data?.chat?.avatar ||
+                res?.data?.chat?.otherUser?.profilePicture,
+            }),
+          );
+          navigation.push('MessageScreen2');
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        if (err.response && err.response.data) {
-          showAlert({
-            title: "Error",
-            type: "error",
-            message: (err?.response?.data?.error),
-          });
-        } else {
-          showAlert({
-            title: "Error",
-            type: "error",
-            message: "An unexpected error occurred. Please try again.",
-          });
-        }
+        // if (err.response && err.response.data) {
+        //   // showAlert({
+        //   //   title: 'Error',
+        //   //   type: 'error',
+        //   //   message: err?.response?.data?.error,
+        //   // });
+        // } else {
+        //   // showAlert({
+        //   //   title: 'Error',
+        //   //   type: 'error',
+        //   //   message: 'An unexpected error occurred. Please try again.',
+        //   // });
+        // }
       });
   };
 
   return (
     <ReactNativeModal
       backdropColor={Colors.BackDropColor}
-      isVisible={isAddMembersModalVisible}
-    >
+      isVisible={isAddMembersModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalStyle}>
           {/* -------------------------- */}
@@ -184,12 +186,12 @@ const CreateCrowdAddMember = ({
             <View style={styles.inputField}>
               <TextInput
                 keyboardAppearance={
-                  Colors.Background_color === "#F5F5F5" ? "light" : "dark"
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
                 }
                 style={styles.textInput}
                 placeholder="Search"
                 placeholderTextColor={Colors.BodyText}
-                onChangeText={(text) => setInputText(text)}
+                onChangeText={text => setInputText(text)}
                 value={inputText}
               />
               <SearchIcon />
@@ -202,28 +204,24 @@ const CreateCrowdAddMember = ({
               <>
                 <ScrollView
                   horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                >
+                  showsHorizontalScrollIndicator={false}>
                   <View
                     style={{
-                      flexDirection: "row",
+                      flexDirection: 'row',
                       gap: 10,
                       marginTop: responsiveScreenHeight(1),
-                    }}
-                  >
+                    }}>
                     {checked?.map((item, index) => (
                       <View
                         key={index}
                         style={{
-                          alignItems: "center",
-                        }}
-                      >
+                          alignItems: 'center',
+                        }}>
                         <View
                           style={{
-                            alignItems: "center",
-                            position: "relative",
-                          }}
-                        >
+                            alignItems: 'center',
+                            position: 'relative',
+                          }}>
                           <Image
                             source={
                               item?.profilePicture
@@ -238,17 +236,16 @@ const CreateCrowdAddMember = ({
                             onPress={() => handleUncheck(item?._id)}
                             activeOpacity={0.5}
                             style={{
-                              position: "absolute",
+                              position: 'absolute',
                               bottom: responsiveScreenHeight(1),
                               right: responsiveScreenWidth(0),
-                            }}
-                          >
+                            }}>
                             <BlackCrossIcon />
                           </TouchableOpacity>
                         </View>
                         <Text style={styles.checkedText}>
-                          {item?.fullName.split(" ")?.length > 2
-                            ? `${item?.fullName.split(" ")[0]}`
+                          {item?.fullName.split(' ')?.length > 2
+                            ? `${item?.fullName.split(' ')[0]}`
                             : `${item?.fullName}`}
                         </Text>
                       </View>
@@ -257,8 +254,7 @@ const CreateCrowdAddMember = ({
                 </ScrollView>
                 <TouchableOpacity
                   activeOpacity={0.3}
-                  onPress={() => handleCreateCrowd()}
-                >
+                  onPress={() => handleCreateCrowd()}>
                   <Text style={styles.addButtonText}>Create</Text>
                 </TouchableOpacity>
               </>
@@ -274,7 +270,7 @@ const CreateCrowdAddMember = ({
                 return (
                   <View style={styles.imageContainer} key={index}>
                     <View style={styles.profileContainer}>
-                      <View style={{ position: "relative" }}>
+                      <View style={{position: 'relative'}}>
                         <Image
                           style={styles.user}
                           source={
@@ -290,18 +286,17 @@ const CreateCrowdAddMember = ({
                         </View>
                       </View>
                       <Text style={styles.userName}>
-                        {user?.fullName.split(" ")?.length > 3
-                          ? `${user?.fullName.split(" ")[0]}  ${
-                              user?.fullName.split(" ")[1]
+                        {user?.fullName.split(' ')?.length > 3
+                          ? `${user?.fullName.split(' ')[0]}  ${
+                              user?.fullName.split(' ')[1]
                             }`
                           : `${user?.fullName}`}
                       </Text>
                     </View>
                     {/* Show Check box icon by help of svg */}
                     <TouchableOpacity
-                      onPress={() => handleCheckboxToggle(user?._id)}
-                    >
-                      {checked.find((item) => item._id == user._id) ? (
+                      onPress={() => handleCheckboxToggle(user?._id)}>
+                      {checked.find(item => item._id == user._id) ? (
                         <CheckIcon />
                       ) : (
                         <UnCheckIcon />
@@ -320,12 +315,12 @@ const CreateCrowdAddMember = ({
 
 export default CreateCrowdAddMember;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     Description: {
       color: Colors.BodyText,
       fontFamily: CustomeFonts.REGULAR,
-      width: "85%",
+      width: '85%',
       paddingTop: responsiveScreenHeight(1),
     },
     addButtonText: {
@@ -334,7 +329,7 @@ const getStyles = (Colors) =>
       paddingHorizontal: responsiveScreenWidth(7),
       paddingVertical: responsiveScreenHeight(1),
       fontFamily: CustomeFonts.REGULAR,
-      color: "#ffffff",
+      color: '#ffffff',
       borderRadius: 7,
     },
     checkedText: {
@@ -357,8 +352,8 @@ const getStyles = (Colors) =>
     container: {
       flex: 1,
       backgroundColor: Colors.Background_color,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       paddingHorizontal: responsiveScreenWidth(3),
     },
     modalContainer: {
@@ -374,19 +369,19 @@ const getStyles = (Colors) =>
     },
 
     btn: {
-      backgroundColor: "#27ac1f",
+      backgroundColor: '#27ac1f',
       marginBottom: responsiveScreenHeight(3),
     },
     text: {
-      alignSelf: "center",
+      alignSelf: 'center',
       paddingTop: responsiveScreenHeight(1),
-      color: "#fff",
+      color: '#fff',
     },
 
     inputField: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       backgroundColor: Colors.ScreenBoxColor,
       padding: responsiveScreenWidth(1.9),
       marginTop: responsiveScreenHeight(1),
@@ -410,17 +405,17 @@ const getStyles = (Colors) =>
     },
 
     topContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       // justifyContent: "space-between",
       gap: responsiveScreenWidth(2.2),
-      alignItems: "center",
+      alignItems: 'center',
       paddingTop: responsiveScreenHeight(1.5),
     },
     allContact: {
       color: Colors.Heading,
       paddingTop: responsiveScreenHeight(1.8),
       fontFamily: CustomeFonts.MEDIUM,
-      fontWeight: "500",
+      fontWeight: '500',
       fontSize: responsiveScreenFontSize(2),
       marginBottom: responsiveScreenHeight(1),
     },
@@ -428,33 +423,33 @@ const getStyles = (Colors) =>
       marginTop: responsiveScreenHeight(1),
     },
     imageContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       marginVertical: responsiveScreenWidth(2),
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
     user: {
       width: responsiveScreenWidth(6.5),
       height: responsiveScreenWidth(6.7),
       backgroundColor: Colors.LightGreen,
-      resizeMode: "cover",
+      resizeMode: 'cover',
       borderRadius: 100,
     },
     userName: {
       fontSize: responsiveScreenFontSize(1.9),
       fontFamily: CustomeFonts.MEDIUM,
-      fontWeight: "500",
+      fontWeight: '500',
       color: Colors.BodyText,
     },
     smallCircle: {
-      position: "absolute",
+      position: 'absolute',
       right: responsiveScreenWidth(-1),
       top: responsiveScreenHeight(1.8),
       padding: 1,
     },
     profileContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(4),
-      alignItems: "center",
+      alignItems: 'center',
     },
   });

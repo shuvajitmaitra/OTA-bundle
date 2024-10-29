@@ -23,6 +23,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import FilterOptionModal from '../../components/ChatCom/Modal/FilterOptionModal';
 import {TouchableWithoutFeedback} from 'react-native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import CreateCrowdModal from '../../components/ChatCom/Modal/CreateCrowdModal';
 export function sortByNestedProperty(array, propertyPath, order = 'desc') {
   const getValue = (obj, path) =>
     path.split('.').reduce((o, k) => (o || {})[k], obj);
@@ -66,7 +67,11 @@ export default function NewChatScreen({navigation: {goBack}}) {
   const [records, setRecords] = useState([]);
   const [results, setResults] = useState([]);
   const [isOnlineUsers, setOnlineUsers] = useState(onlineUsers);
-
+  const [isCreateCrowdModalVisible, setIsCreateCrowdModalVisible] =
+    useState(false);
+  const toggleCreateCrowdModal = () => {
+    setIsCreateCrowdModalVisible(!isCreateCrowdModalVisible);
+  };
   const bottomSheetRef = useRef(null);
 
   const handleSetSelectedChat = useCallback(chat => {
@@ -168,30 +173,12 @@ export default function NewChatScreen({navigation: {goBack}}) {
         chat={item}
         isChatClicked={focusedChat === item?._id}
         setSelectedChat={handleSetSelectedChat}
+        bottomSheetRef={bottomSheetRef}
       />
     ),
     [],
   );
 
-  // const renderChatItem = useCallback(
-  //   ({ item, index }) => (
-  //     <Animatable.View
-  //       animation={"slideInLeft"}
-  //       duration={1000}
-  //       delay={index * 200}
-  //     >
-  //       <ChatItem
-  //         setChecked={setChecked}
-  //         setFocusedChat={setFocusedChat}
-  //         onlineUsers={onlineUsers}
-  //         navigation={navigation}
-  //         chat={item}
-  //         isChatClicked={focusedChat === item?._id}
-  //       />
-  //     </Animatable.View>
-  //   ),
-  //   [focusedChat, navigation, onlineUsers]
-  // );
   const openBottomSheet = useCallback(() => {
     bottomSheetRef.current?.present();
   }, []);
@@ -265,8 +252,14 @@ export default function NewChatScreen({navigation: {goBack}}) {
             bottomSheetRef={bottomSheetRef}
             openBottomSheet={openBottomSheet}
             handleRadioChecked={handleRadioChecked}
+            toggleCreateCrowdModal={toggleCreateCrowdModal}
           />
         </BottomSheetModalProvider>
+        <CreateCrowdModal
+          isCreateCrowdModalVisible={isCreateCrowdModalVisible}
+          setIsCreateCrowdModalVisible={setIsCreateCrowdModalVisible}
+          toggleCreateCrowdModal={toggleCreateCrowdModal}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

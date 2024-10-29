@@ -24,15 +24,11 @@ const FilterOptionModal = ({
   bottomSheetRef,
   openBottomSheet,
   handleRadioChecked,
+  toggleCreateCrowdModal,
 }) => {
   // Define snap points for the bottom sheet modal
   const snapPoints = useMemo(() => ['35%', '35%', '35%'], []);
   const navigation = useNavigation();
-  const [isCreateCrowdModalVisible, setIsCreateCrowdModalVisible] =
-    useState(false);
-  const toggleCreateCrowdModal = () => {
-    setIsCreateCrowdModalVisible(prev => !prev);
-  };
   // Function to handle closing the modal
   const closeBottomSheet = useCallback(() => {
     bottomSheetRef.current?.dismiss();
@@ -52,7 +48,8 @@ const FilterOptionModal = ({
     {
       label: 'New crowd',
       onPress: () => {
-        // toggleCreateCrowdModal();
+        closeBottomSheet();
+        toggleCreateCrowdModal();
       },
       icon: <CrowdIcon width={23} height={23} color={Colors.BodyText} />,
     },
@@ -127,11 +124,6 @@ const FilterOptionModal = ({
                 marginBottom={0.8}
               />
             )}
-          />
-          <CreateCrowdModal
-            isCreateCrowdModalVisible={isCreateCrowdModalVisible}
-            toggleCreateCrowdModal={toggleCreateCrowdModal}
-            setIsCreateCrowdModalVisible={setIsCreateCrowdModalVisible}
           />
         </BottomSheetView>
       </BottomSheetModal>

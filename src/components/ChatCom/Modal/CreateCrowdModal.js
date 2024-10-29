@@ -1,38 +1,21 @@
-import {
-  Alert,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import React, { memo, useState } from "react";
+import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {memo, useState} from 'react';
 // import ArrowLeft from "../../../assets/svgs/ArrowLeft";
 // import CrossIcon from "../../../assets/svgs/CrossIcon";
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import Modal from "react-native-modal";
-// import CrowdIcon from "../../../assets/svgs/CrowdIcon";
-// import CustomButton from "../CustomButton";
-// import CustomDropDown from "../SharedComponent/CustomDropDown";
-import ArrowLeft from "../../../assets/Icons/ArrowLeft";
-import CrossIcon from "../../../assets/Icons/CrossIcon";
-import CrowdIcon from "../../../assets/Icons/CrowedIcon";
-import ModalCustomButton from "./ModalCustomButton";
-import CustomDropDown from "../../SharedComponent/CustomDropDown";
-import ModalBackAndCrossButton from "./ModalBackAndCrossButton";
-import { useTheme } from "../../../context/ThemeContext";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import useChat from "../../../hook/useChat";
-import axiosInstance from "../../../utility/axiosInstance";
-import { useDispatch } from "react-redux";
-import { updateChats } from "../../../store/reducer/chatReducer";
-import AddMembers from "./AddMembers";
-import CreateCrowdAddMember from "./CreateCrowdAddMember";
+} from 'react-native-responsive-dimensions';
+import Modal from 'react-native-modal';
+import CrowdIcon from '../../../assets/Icons/CrowedIcon';
+import ModalCustomButton from './ModalCustomButton';
+import CustomDropDown from '../../SharedComponent/CustomDropDown';
+import ModalBackAndCrossButton from './ModalBackAndCrossButton';
+import {useTheme} from '../../../context/ThemeContext';
+import CustomeFonts from '../../../constants/CustomeFonts';
+import {useDispatch} from 'react-redux';
+import CreateCrowdAddMember from './CreateCrowdAddMember';
 
 const CreateCrowdModal = ({
   isCreateCrowdModalVisible,
@@ -46,8 +29,8 @@ const CreateCrowdModal = ({
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const options = [{ type: "Public" }, { type: "Private" }];
-  const modeOption = [{ type: "Yes" }, { type: "No" }];
+  const options = [{type: 'Public'}, {type: 'Private'}];
+  const modeOption = [{type: 'Yes'}, {type: 'No'}];
   const [chatName, setChatName] = useState(chat?.name);
   const [chatDescription, setChatDescription] = useState(chat?.description);
   const [isReadOnly, setIsReadOnly] = useState(chat?.isReadOnly);
@@ -55,12 +38,10 @@ const CreateCrowdModal = ({
   const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
 
-
-  
   const [isAddMembersModalVisible, setIsAddMembersModalVisible] =
     useState(false);
   const toggleAddMembersModal = () => {
-    setIsAddMembersModalVisible((pre) => !pre);
+    setIsAddMembersModalVisible(pre => !pre);
   };
   return (
     <Modal isVisible={isCreateCrowdModalVisible}>
@@ -89,20 +70,20 @@ const CreateCrowdModal = ({
               <Text style={styles.Text}>Crowd Name*</Text>
               <TextInput
                 keyboardAppearance={
-                  Colors.Background_color === "#F5F5F5" ? "light" : "dark"
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
                 }
                 placeholderTextColor={Colors.BodyText}
                 style={styles.inputField}
-                placeholder={chat?.name ? chat?.name : "Write crowd name"}
+                placeholder={chat?.name ? chat?.name : 'Write crowd name'}
                 onChangeText={setChatName}
               />
             </View>
             <View style={styles.fieldContainer}>
               <Text style={styles.Text}>Crowd Description</Text>
-              <View style={[styles.inputContainer, { height: "auto" }]}>
+              <View style={[styles.inputContainer, {height: 'auto'}]}>
                 <TextInput
                   keyboardAppearance={
-                    Colors.Background_color === "#F5F5F5" ? "light" : "dark"
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
                   }
                   style={[styles.textAreaInput]}
                   multiline={true}
@@ -111,7 +92,7 @@ const CreateCrowdModal = ({
                   placeholder={
                     chat?.description
                       ? chat?.description
-                      : "Write crowd description"
+                      : 'Write crowd description'
                   }
                 />
               </View>
@@ -123,7 +104,7 @@ const CreateCrowdModal = ({
               <Text style={styles.Text}>Crowd Type</Text>
               <CustomDropDown
                 options={options}
-                type={"Private"}
+                type={'Private'}
                 setState={setIsPublic}
               />
             </View>
@@ -131,7 +112,7 @@ const CreateCrowdModal = ({
               <Text style={styles.Text}>Read Only</Text>
               <CustomDropDown
                 options={modeOption}
-                type={"No"}
+                type={'No'}
                 setState={setIsReadOnly}
               />
             </View>
@@ -144,8 +125,7 @@ const CreateCrowdModal = ({
                 borderBottomWidth: 1,
                 marginBottom: responsiveScreenHeight(2),
                 borderBottomColor: Colors.BorderColor,
-              }}
-            ></View>
+              }}></View>
             <View style={styles.buttonContainer}>
               <ModalCustomButton
                 toggleModal={toggleCreateCrowdModal}
@@ -183,12 +163,12 @@ const CreateCrowdModal = ({
 
 export default memo(CreateCrowdModal);
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     buttonContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2.5),
-      justifyContent: "center",
+      justifyContent: 'center',
       // paddingVertical: responsiveScreenHeight(2.5),
     },
     // bottomBorder: {
@@ -214,19 +194,19 @@ const getStyles = (Colors) =>
     inputContainer: {
       borderRadius: 10,
       borderWidth: 1,
-      flexDirection: "row",
+      flexDirection: 'row',
       backgroundColor: Colors.ModalBoxColor,
-      alignItems: "center",
+      alignItems: 'center',
       borderColor: Colors.BorderColor,
     },
     textAreaInput: {
-      width: "100%",
+      width: '100%',
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.Heading,
       // backgroundColor: "red",
       fontFamily: CustomeFonts.REGULAR,
       paddingVertical: responsiveScreenHeight(1),
-      textAlignVertical: "top",
+      textAlignVertical: 'top',
       marginLeft: responsiveScreenWidth(2),
       minHeight: responsiveScreenHeight(10),
     },
@@ -244,8 +224,8 @@ const getStyles = (Colors) =>
     // ----------- Header Container -----------
     // --------------------------
     headerContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(2),
       marginBottom: responsiveScreenHeight(2),
       marginTop: responsiveScreenHeight(1),
@@ -266,9 +246,9 @@ const getStyles = (Colors) =>
       borderRadius: responsiveScreenWidth(2),
     },
     topBarContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      minWidth: "100%",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      minWidth: '100%',
     },
     subContainer: {
       minHeight: responsiveScreenHeight(30),
@@ -276,8 +256,8 @@ const getStyles = (Colors) =>
     },
     modalArrowIcon: {
       paddingBottom: responsiveScreenHeight(0.8),
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(2),
       color: Colors.BodyText,
     },
@@ -290,7 +270,7 @@ const getStyles = (Colors) =>
       backgroundColor: Colors.PrimaryOpacityColor,
       padding: responsiveScreenWidth(2.5),
       borderRadius: 100,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
