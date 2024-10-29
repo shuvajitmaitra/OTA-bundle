@@ -7,6 +7,7 @@ import {
   View,
   KeyboardAvoidingView,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import CustomModal from '../../SharedComponent/CustomModal';
 import {
@@ -54,7 +55,7 @@ const ImageGallery = ({selectedImages = [], isVisible, onClose, onSend}) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={Platform.select({android: 80})}>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           {/* Close Button */}
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <CrossCircle size={40} />
@@ -81,23 +82,24 @@ const ImageGallery = ({selectedImages = [], isVisible, onClose, onSend}) => {
               <ArrowRightCircle size={60} color={Colors.Primary} />
             </TouchableOpacity>
           </View>
-
-          {/* Message Input */}
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Type your message..."
-              value={message}
-              onChangeText={setMessage}
-              multiline
-            />
-            <TouchableOpacity
-              onPress={() => onSend(message)}
-              style={styles.sendButton}>
-              <SendIcon color={Colors.PureWhite} />
-            </TouchableOpacity>
-          </View>
-        </View>
+          <KeyboardAvoidingView>
+            {/* Message Input */}
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Type your message..."
+                value={message}
+                onChangeText={setMessage}
+                multiline
+              />
+              <TouchableOpacity
+                onPress={() => onSend(message)}
+                style={styles.sendButton}>
+                <SendIcon color={Colors.PureWhite} />
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
       </KeyboardAvoidingView>
     </CustomModal>
   );
@@ -156,6 +158,7 @@ const getStyles = Colors =>
       backgroundColor: '#fff',
       alignItems: 'center',
       width: '100%',
+      marginBottom: 30,
     },
     textInput: {
       flex: 1,

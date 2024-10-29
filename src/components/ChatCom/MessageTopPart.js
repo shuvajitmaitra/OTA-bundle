@@ -184,7 +184,7 @@ const getStyles = Colors =>
       fontFamily: CustomeFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
       // flexBasis: '10%',
-      width: '80%',
+      width: '90%',
     },
     avaliableContainer: {
       flexDirection: 'row',

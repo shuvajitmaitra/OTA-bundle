@@ -88,33 +88,18 @@ const ChatFooter2 = ({
    * @param {Array} files - Optional files to send with the message.
    */
   const sendMessage = useCallback(
-    async (text, files) => {
-      if (!text.trim()) {
-        // Optionally, show a warning to the user
-        // Example:
-        // showAlertModal({
-        //   title: "Write something",
-        //   type: "warning",
-        //   message: "Please write something before proceeding",
-        // });
-        return;
-      }
+    async (txt, files) => {
+      console.log(files);
+      setSelectedImages([]);
 
-      // Dismiss the keyboard
       Keyboard.dismiss();
       setIsSendingText(true);
-
-      // Prepare message data
       const data = {
-        text: convertLink(text),
-        // Uncomment and handle files if necessary
-        // files: files || [],
+        text: convertLink(txt || text),
+        files: files || [],
       };
-
-      // Generate a random ID for optimistic UI update
       const randomId = Math.floor(Math.random() * (999999 - 1111) + 1111);
 
-      // Construct the message object
       const messageData = {
         message: {
           ...data,
@@ -158,7 +143,17 @@ const ChatFooter2 = ({
         setIsSendingText(false);
       }
     },
-    [text, user, chatId],
+    [
+      text,
+      user?._id,
+      user?.firstName,
+      user?.lastName,
+      user.profilePicture,
+      chatId,
+      setMessages,
+      dispatch,
+      localMessages,
+    ],
   );
 
   /**
@@ -167,6 +162,71 @@ const ChatFooter2 = ({
   const toggleMessageClicked = useCallback(() => {
     setMessageClicked(prev => !prev);
   }, []);
+
+  const [isUploading, setIsUploading] = useState(false);
+  const UploadImages = async txt => {
+    // closePopover();
+    try {
+      // if (selected?.length > 5) {
+      //   showAlert({
+      //     title: 'Limit Exceeded',
+      //     type: 'warning',
+      //     message: 'Maximum 5 files can be uploaded',
+      //   });
+      // }
+
+      setIsUploading(true);
+
+      let results = await Promise.all(
+        selectedImages?.map(async item => {
+          try {
+            let formData = new FormData();
+            formData.append('file', {
+              uri: item.uri,
+              name: item.name || 'uploaded_file',
+              type: item.mimeType || 'application/octet-stream',
+            });
+
+            const config = {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            };
+
+            let res = await axiosInstance.post('/chat/file', formData, config);
+            let file = res.data.file;
+            return file;
+          } catch (error) {
+            setIsUploading(false);
+            console.log({error});
+            Alert.alert('Failed', 'Upload Failed');
+            // showAlert({
+            //   title: 'Failed',
+            //   type: 'error',
+            //   message: 'Upload Failed',
+            // });
+            // throw error;
+          }
+        }),
+      );
+      let files = results?.map(file => ({
+        name: file?.name || 'uploaded_file',
+        size: file?.size,
+        type: file?.type,
+        url: file?.location,
+      }));
+      // setAllFiles(files);
+      sendMessage(txt, files);
+      setIsUploading(false);
+    } catch (error) {
+      console.log(error);
+      // showAlert({
+      //   title: 'Failed',
+      //   type: 'error',
+      //   message: 'Upload Failed',
+      // });
+    }
+  };
 
   const selectImage = () => {
     const options = {
@@ -273,8 +333,8 @@ const ChatFooter2 = ({
           onClose={() => {
             setSelectedImages([]);
           }}
-          onSend={message => {
-            sendMessage(message);
+          onSend={txt => {
+            UploadImages(txt);
           }}
         />
       )}
