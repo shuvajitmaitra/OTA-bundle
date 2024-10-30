@@ -24,6 +24,7 @@ import {setLocalMessages} from '../../store/reducer/chatSlice';
 import PinIcon from '../../assets/Icons/PinIcon';
 import StarIcon from '../../assets/Icons/StartIcon';
 import {handleChatFavorite} from '../../actions/apiCall';
+import {useTheme} from '../../context/ThemeContext';
 
 export default function MessageTopPart({
   setPinnedScreenVisible,
@@ -33,17 +34,9 @@ export default function MessageTopPart({
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat} = useSelector(state => state.chat);
-
-  const Colors = {
-    Primary: '#6200EE',
-    White: '#FFFFFF',
-    BodyText: '#000000',
-    Heading: '#333333',
-    BackDropColor: 'rgba(0,0,0,0.5)',
-    LineColor: '#E0E0E0',
-  };
-
+  const Colors = useTheme();
   const styles = getStyles(Colors);
+
   return (
     <View style={styles.container}>
       <View style={styles.leftSection}>
@@ -118,17 +111,6 @@ export default function MessageTopPart({
             <StarIcon color={chat.myData.isFavourite ? 'gold' : 'gray'} />
           </TouchableOpacity>
         )}
-        {/* {chat.myData.isFavourite ? (
-          <StartIcon color="gold" size={22} name="star" />
-        ) : (
-          <FIcons color={Colors.BodyText} size={22} name="star-o" />
-        )} */}
-
-        {/* Call Icons Placeholder */}
-        {/* <View style={styles.iconContainer}>
-          <PhoneIcon />
-          <VideoIcon />
-        </View> */}
       </View>
     </View>
   );
@@ -145,9 +127,9 @@ const getStyles = Colors =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      // backgroundColor: 'pink',
+      backgroundColor: Colors.White,
       borderBottomWidth: 1,
-      borderBottomColor: Colors.LineColor,
+      borderBottomColor: Colors.BorderColor,
       height: 80,
       // flex: 1,
     },
@@ -175,7 +157,7 @@ const getStyles = Colors =>
       position: 'relative',
     },
     profileNameContainer: {
-      marginLeft: responsiveScreenWidth(2),
+      marginLeft: 10,
       // flexBasis: '55%',
       // backgroundColor: 'red',
     },
@@ -184,14 +166,14 @@ const getStyles = Colors =>
       fontFamily: CustomeFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
       // flexBasis: '10%',
-      width: '90%',
+      width: '100%',
     },
     avaliableContainer: {
       flexDirection: 'row',
       alignItems: 'center',
     },
     avaliable: {
-      color: Colors.BodyText,
+      color: Colors.Primary,
       fontFamily: CustomeFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
     },

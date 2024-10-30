@@ -6,13 +6,15 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import {Audio} from 'expo-av';
-import {MaterialIcons} from '@expo/vector-icons';
+import Sound from 'react-native-sound';
 import Waveform from './WaveForm';
 import {useTheme} from '../../context/ThemeContext';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import AudioManager from '../../utility/AudioManager';
 import {useFocusEffect} from '@react-navigation/native';
+import {PlayButtonIcon} from '../../assets/Icons/PlayButtonIcon';
+
+Sound.setCategory('Playback');
 
 const formatTime = time => {
   return new Date(time * 1000).toISOString().substr(14, 5);
@@ -26,94 +28,79 @@ const AudioMessage = ({audioUrl, background}) => {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
+  let interval = null;
 
   useEffect(() => {
     let isMounted = true;
 
-    const loadAudio = async () => {
-      try {
-        const {sound: loadedSound} = await Audio.Sound.createAsync(
-          {uri: audioUrl},
-          {
-            shouldPlay: false, // Prevents automatic playback on load
-            isLooping: false, // Ensures audio doesn't loop
-          },
-        );
-
-        if (isMounted) {
-          setSound(loadedSound);
-
-          // Set playback status update
-          loadedSound.setOnPlaybackStatusUpdate(status => {
-            if (status.isLoaded) {
-              setCurrentPlaybackTime(status.positionMillis / 1000);
-              setTotalDuration(status.durationMillis / 1000);
-              setProgress(status.positionMillis / status.durationMillis);
-
-              // If the audio just finished playing, reset the state
-              if (status.didJustFinish) {
-                setIsPlaying(false); // This ensures play button is shown
-                setProgress(0); // Reset progress
-                setCurrentPlaybackTime(0); // Reset playback time
-                loadedSound.setPositionAsync(0); // Ensure sound is reset
-                loadedSound.pauseAsync().catch(() => {});
-              } else {
-                setIsPlaying(status.isPlaying);
-              }
-            }
-          });
-
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.log('Error loading audio:', error);
-        if (isMounted) {
+    const loadAudio = () => {
+      const loadedSound = new Sound(audioUrl, null, error => {
+        if (error) {
+          console.log('Error loading audio:', error);
           setLoadError(error);
           setIsLoading(false);
+          return;
         }
-      }
+        if (isMounted) {
+          setSound(loadedSound);
+          setTotalDuration(loadedSound.getDuration());
+          setIsLoading(false);
+        }
+      });
+
+      return () => {
+        isMounted = false;
+        if (sound) {
+          sound.stop(() => {});
+          sound.release();
+          if (AudioManager.getInstance().currentAudio === sound) {
+            AudioManager.getInstance().reset();
+          }
+        }
+      };
     };
 
     loadAudio();
-
-    return () => {
-      isMounted = false;
-
-      if (sound) {
-        sound.pauseAsync().catch(() => {});
-        sound.unloadAsync().catch(() => {});
-
-        // Resetting AudioManager if this sound was the current audio
-        if (AudioManager.getInstance().currentAudio === sound) {
-          AudioManager.getInstance().reset();
-        }
-      }
-    };
   }, [audioUrl]);
 
   useFocusEffect(
     React.useCallback(() => {
       return () => {
         if (sound) {
-          sound.pauseAsync().catch(() => {});
+          sound.pause();
+          clearInterval(interval); // Clear interval when losing focus
         }
       };
     }, [sound]),
   );
 
-  const handlePlayPause = async () => {
+  const handlePlayPause = () => {
     if (sound) {
       if (isPlaying) {
-        await sound.pauseAsync();
+        sound.pause();
         setIsPlaying(false);
+        clearInterval(interval); // Clear interval when paused
       } else {
-        // Check if the audio has finished to reset it
         if (Math.floor(currentPlaybackTime) === Math.floor(totalDuration)) {
-          await sound.setPositionAsync(0); // Reset position if audio ended
+          sound.setCurrentTime(0);
         }
         AudioManager.getInstance().setAudio(sound);
-        await sound.playAsync();
+        sound.play(success => {
+          if (success) {
+            setIsPlaying(false);
+            setProgress(0);
+            setCurrentPlaybackTime(0);
+          }
+        });
         setIsPlaying(true);
+
+        // Start interval to update playback time
+        interval = setInterval(() => {
+          sound.getCurrentTime(seconds => {
+            setCurrentPlaybackTime(seconds);
+            setProgress(seconds / totalDuration);
+          });
+        }, 1000); // Update every second
       }
     }
   };
@@ -137,11 +124,7 @@ const AudioMessage = ({audioUrl, background}) => {
         />
       ) : (
         <TouchableOpacity onPress={handlePlayPause} style={styles.playButton}>
-          <MaterialIcons
-            style={styles.playIcon}
-            name={isPlaying ? 'pause' : 'play-arrow'}
-            size={24}
-          />
+          <PlayButtonIcon />
         </TouchableOpacity>
       )}
 

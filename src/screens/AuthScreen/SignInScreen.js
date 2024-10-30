@@ -60,6 +60,7 @@ export default function SignInScreen({navigation}) {
 
     setIsLoading(true);
 
+    console.log('data', JSON.stringify(data, null, 1));
     try {
       const response = await axiosInstance.post('/user/login', {
         email: data.email,

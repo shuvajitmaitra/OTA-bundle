@@ -4,39 +4,32 @@ import React, {useState, useCallback} from 'react';
 import {
   Alert,
   Keyboard,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import IconContainer from './ChatFooter/IconContainer';
 import SendContainer from './ChatFooter/SendContainer';
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
 import ChatMessageInput from './ChatMessageInput';
-import {
-  pushMessage,
-  updateLatestMessage,
-  updateSendingInfo,
-} from '../../store/reducer/chatReducer';
+import {updateLatestMessage} from '../../store/reducer/chatReducer';
 import axiosInstance from '../../utility/axiosInstance';
 import {setLocalMessages, updateMessage} from '../../store/reducer/chatSlice';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ImageGallery from './ChatFooter/ImageGallery';
 import AudioRecorder from './ChatFooter/AudioRecorder';
+import PlusIcon from '../../assets/Icons/PlusIcon';
+import DocumentPicker from 'react-native-document-picker';
+import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
 
-// Precompiled regular expressions outside the component for performance
+import GallaryIcon from '../../assets/Icons/GallaryIcon';
 const URL_REGEX =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 const WWW_REGEX = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
 
-/**
- * Converts URLs in the text to clickable anchor tags.
- *
- * @param {string} text - The input text containing URLs.
- * @returns {string} - The text with URLs converted to anchor tags.
- */
 const convertLink = text => {
   let textWithLinks = text.replace(
     URL_REGEX,
@@ -48,28 +41,21 @@ const convertLink = text => {
   );
 };
 
-/**
- * ChatFooter2 Component
- *
- * @param {object} props
- * @param {string} props.chatId - The ID of the current chat.
- * @param {function} props.setMessages - Function to update messages state.
- * @returns {JSX.Element}
- */
 const ChatFooter2 = ({
   chatId,
   setMessages,
   messageEditVisible,
-  messageOptionData,
-
   setMessageEditVisible,
 }) => {
-  // Local state for the message text
   const [text, setText] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
   const {user} = useSelector(state => state.auth);
   const {localMessages} = useSelector(state => state.chatSlice);
-
+  const [showBottom, setShowBottom] = useState(false);
+  const toggleBottom = () => {
+    Keyboard.dismiss();
+    setShowBottom(pre => !pre);
+  };
   const dispatch = useDispatch();
 
   const [messageClicked, setMessageClicked] = useState(false);
@@ -79,14 +65,8 @@ const ChatFooter2 = ({
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
-  // Local state to indicate if a message is being sent
   const [isSendingText, setIsSendingText] = useState(false);
 
-  /**
-   * Handles sending a message.
-   *
-   * @param {Array} files - Optional files to send with the message.
-   */
   const sendMessage = useCallback(
     async (txt, files) => {
       console.log(files);
@@ -156,9 +136,6 @@ const ChatFooter2 = ({
     ],
   );
 
-  /**
-   * Toggles the visibility of the message input field.
-   */
   const toggleMessageClicked = useCallback(() => {
     setMessageClicked(prev => !prev);
   }, []);
@@ -247,7 +224,22 @@ const ChatFooter2 = ({
       }
     });
   };
+  const [selectedFile, setSelectedFile] = useState(null);
 
+  const handleDocumentSelection = async () => {
+    try {
+      const result = await DocumentPicker.multiplePicker({
+        type: [DocumentPicker.types.allFiles],
+      });
+      setSelectedFile(result[0]); // Set the first file selected
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('User canceled the picker');
+      } else {
+        throw err;
+      }
+    }
+  };
   const handleEditMessage = message => {
     if (!text) {
       return Alert.alert('Write something');
@@ -298,35 +290,68 @@ const ChatFooter2 = ({
   }
   return (
     <>
-      <View style={styles.container}>
-        {messageClicked && !startRecording ? (
-          <ChatMessageInput text={text} setText={setText} />
-        ) : startRecording ? (
-          <AudioRecorder onCancel={() => setStartRecording(false)} />
-        ) : (
-          <TouchableOpacity
-            onPress={toggleMessageClicked}
-            style={styles.initialContainer}>
-            <Text style={styles.messageText}>
-              {text.trim() ? text : 'Message...'}
-            </Text>
-          </TouchableOpacity>
-        )}
-
-        {!startRecording && (
-          <>
-            {text.length > 0 ? (
-              <SendContainer sendMessage={() => sendMessage(text)} />
+      {!startRecording && (
+        <View style={styles.mainContainer}>
+          <Pressable style={styles.toggleButton} onPress={toggleBottom}>
+            <PlusIcon />
+          </Pressable>
+          <View style={styles.container}>
+            {messageClicked && !startRecording ? (
+              <ChatMessageInput text={text} setText={setText} />
             ) : (
-              <IconContainer
-                setStartRecording={setStartRecording}
-                selectImage={selectImage}
-                // setOpenGallery={setOpenGallery}
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  toggleMessageClicked();
+                  setShowBottom(false);
+                }}
+                style={styles.initialContainer}>
+                <Text style={styles.messageText}>
+                  {text.trim() ? text : 'Message...'}
+                </Text>
+              </TouchableOpacity>
+            )}
+
+            {/* {!startRecording && (
+          <>
+          {text.length > 0 ? (
+            <SendContainer sendMessage={() => sendMessage(text)} />
+     
+            ) : (
+              <>
+                <TouchableOpacity onPress={handleDocumentSelection}>
+                  <AiIcon2 />
+                </TouchableOpacity>
+                <AudioRecorder startRecording={startRecording} />
+                <IconContainer
+                  setStartRecording={setStartRecording}
+                  selectImage={selectImage}
+                  // setOpenGallery={setOpenGallery}
+                />
+              </>
             )}
           </>
-        )}
-      </View>
+        )} */}
+          </View>
+        </View>
+      )}
+      {showBottom && (
+        <View style={styles.bottomContainer}>
+          {!startRecording && (
+            <TouchableOpacity style={styles.buttonContainer}>
+              <AttachmentIcon />
+            </TouchableOpacity>
+          )}
+          <AudioRecorder
+            sendMessage={sendMessage}
+            setStartRecording={setStartRecording}
+          />
+          {!startRecording && (
+            <TouchableOpacity style={styles.buttonContainer}>
+              <GallaryIcon />
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
       {selectedImages?.length > 0 && (
         <ImageGallery
           selectedImages={selectedImages}
@@ -342,17 +367,41 @@ const ChatFooter2 = ({
   );
 };
 
-// Memoize the component to prevent unnecessary re-renders
 export default React.memo(ChatFooter2);
 
-/**
- * Styles for the ChatFooter2 component.
- *
- * @param {object} Colors - Theme colors from the context.
- * @returns {object} - StyleSheet object.
- */
 const getStyles = Colors =>
   StyleSheet.create({
+    toggleButton: {
+      width: 40,
+      alignItems: 'center',
+      // backgroundColor: 'red',
+      height: 40,
+      justifyContent: 'center',
+    },
+    buttonContainer: {
+      padding: 20,
+      backgroundColor: Colors.CyanOpacity,
+      borderRadius: 100,
+      height: 60,
+      // marginTop: 20,
+    },
+    bottomContainer: {
+      // backgroundColor: Colors.Red,
+      height: 100,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 20,
+      justifyContent: 'flex-start',
+      paddingHorizontal: 20,
+    },
+    mainContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      // backgroundColor: 'red',
+      marginTop: 10,
+      // paddingHorizontal: 20,
+      // minHeight: 200,
+    },
     editingButtonText: {
       color: Colors.Red,
       fontWeight: '600',
@@ -376,17 +425,19 @@ const getStyles = Colors =>
       backgroundColor: Colors.Background_color,
       minHeight: 50,
       borderRadius: 30,
-      marginHorizontal: 10,
+      marginRight: 10,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingHorizontal: 15,
-      marginTop: 10,
+      flex: 1,
       overflow: 'hidden',
     },
     initialContainer: {
-      width: '85%',
+      // width: '90%',
+      flex: 1,
       height: 49,
       justifyContent: 'center',
+      // backgroundColor: 'red',
     },
   });

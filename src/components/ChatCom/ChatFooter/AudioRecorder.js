@@ -1,189 +1,219 @@
-// // components/AudioRecorder.js
-// import React, {useState, useRef, useEffect} from 'react';
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   TouchableOpacity,
-//   Alert,
-//   Platform,
-// } from 'react-native';
-// import AudioWaveform from './AudioWaveform';
-// import AudioRecorderPlayer from 'react-native-audio-recorder-player';
-// import {PERMISSIONS, request, check, RESULTS} from 'react-native-permissions';
-// import CrossCircle from '../../../assets/Icons/CrossCircle';
-// import CheckIconTwo from '../../../assets/Icons/CheckIconTwo';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
+import Sound from 'react-native-sound';
+import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+import AudioWaveform from './AudioWaveform';
+import CrossCircle from '../../../assets/Icons/CrossCircle';
+import CheckIconTwo from '../../../assets/Icons/CheckIconTwo';
+import AudioMessage from '../AudioMessage';
+import MicIcon from '../../../assets/Icons/MicIcon';
+import ChatMessageInput from '../ChatMessageInput';
+import {useTheme} from '../../../context/ThemeContext';
+import axiosInstance from '../../../utility/axiosInstance';
+import SendIcon from '../../../assets/Icons/SendIcon';
 
-// const AudioRecorder = ({onCancel, onConfirm}) => {
-//   const [isRecording, setIsRecording] = useState(false);
-//   const [recordTime, setRecordTime] = useState('00:00');
-//   const audioRecorderPlayer = useRef(new AudioRecorderPlayer()).current;
+const audioRecorderPlayer = new AudioRecorderPlayer();
 
-//   useEffect(() => {
-//     return () => {
-//       audioRecorderPlayer.stopRecorder();
-//       audioRecorderPlayer.removeRecordBackListener();
-//     };
-//   }, [audioRecorderPlayer]);
+const AudioRecorder = ({setStartRecording, sendMessage}) => {
+  const [recording, setRecording] = useState(false);
+  const [recordedAudioPath, setRecordedAudioPath] = useState('');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [sound, setSound] = useState(null);
+  const [text, setText] = useState('');
+  const sendAudioMessage = async RecordedURI => {
+    const formData = new FormData();
+    formData.append('file', {
+      uri: RecordedURI,
+      name: 'recording.mp3',
+      type: 'audio/mp3',
+    });
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+      let response = await axiosInstance.post('/chat/file', formData, config);
+      let fileData = response?.data?.file;
 
-//   const onStartRecord = async () => {
-//     const hasPermission = await requestPermission();
-//     if (!hasPermission) {
-//       Alert.alert(
-//         'Permission required',
-//         'App needs microphone access to record audio.',
-//       );
-//       return;
-//     }
+      let files = [
+        {
+          name: fileData?.name,
+          type: fileData?.type,
+          size: fileData?.size,
+          url: fileData?.location,
+        },
+      ];
+      sendMessage(text, files);
+    } catch (error) {
+      // showAlert({
+      //   title: 'Error',
+      //   type: 'error',
+      //   message: err?.response?.data?.error,
+      // });
+      // setIsSendingAudio(false);
+    }
+  };
+  const startAudioRecording = async () => {
+    try {
+      const result = await audioRecorderPlayer.startRecorder();
+      setRecording(true);
+      setStartRecording(true);
+      audioRecorderPlayer.addRecordBackListener(e => {
+        console.log('Recording', e);
+        return;
+      });
+      console.log('Recording started', result);
+    } catch (error) {
+      console.error('Failed to start recording:', error);
+    }
+  };
 
-//     setIsRecording(true);
-//     const path = 'hello.m4a'; // Specify the path as needed
-//     try {
-//       const uri = await audioRecorderPlayer.startRecorder(path);
-//       audioRecorderPlayer.addRecordBackListener(e => {
-//         setRecordTime(
-//           audioRecorderPlayer.mmssss(Math.floor(e.current_position)),
-//         );
-//         return;
-//       });
-//       console.log(`Recording started at: ${uri}`);
-//     } catch (error) {
-//       console.error('Failed to start recording:', error);
-//       setIsRecording(false);
-//     }
-//   };
+  const stopRecording = async () => {
+    try {
+      const result = await audioRecorderPlayer.stopRecorder();
+      setRecording(false);
+      setRecordedAudioPath(result);
+      audioRecorderPlayer.removeRecordBackListener();
+      console.log('Recording stopped, file saved at:', result);
+    } catch (error) {
+      console.error('Failed to stop recording:', error);
+    }
+  };
+  const cancelRecording = async () => {
+    try {
+      const result = await audioRecorderPlayer.stopRecorder();
+      setRecording(false);
+      setStartRecording(false);
+      setRecordedAudioPath('');
+      audioRecorderPlayer.removeRecordBackListener();
+      console.log('Recording canceled');
+    } catch (error) {
+      console.error('Failed to stop recording:', error);
+    }
+  };
 
-//   const onStopRecord = async () => {
-//     try {
-//       const result = await audioRecorderPlayer.stopRecorder();
-//       audioRecorderPlayer.removeRecordBackListener();
-//       setRecordTime('00:00');
-//       setIsRecording(false);
-//       console.log(`Recording stopped: ${result}`);
-//       // Optionally, handle the recorded file (e.g., save, upload)
-//     } catch (error) {
-//       console.error('Failed to stop recording:', error);
-//     }
-//   };
+  const playRecording = async () => {
+    if (recordedAudioPath) {
+      const playbackSound = new Sound(recordedAudioPath, '', error => {
+        if (error) {
+          console.log('Failed to load the sound', error);
+          return;
+        }
+        playbackSound.play(success => {
+          if (success) {
+            console.log('Playback finished successfully');
+            setIsPlaying(false);
+          } else {
+            console.log('Playback failed due to audio decoding errors');
+          }
+        });
+      });
+      setSound(playbackSound);
+      setIsPlaying(true);
+    }
+  };
 
-//   const requestPermission = async () => {
-//     const permission =
-//       Platform.OS === 'android'
-//         ? PERMISSIONS.ANDROID.RECORD_AUDIO
-//         : PERMISSIONS.IOS.MICROPHONE;
+  const stopPlayback = () => {
+    if (sound) {
+      sound.stop(() => {
+        console.log('Playback stopped');
+        setIsPlaying(false);
+      });
+    }
+  };
 
-//     const result = await check(permission);
-//     switch (result) {
-//       case RESULTS.UNAVAILABLE:
-//         console.log('This feature is not available on this device.');
-//         return false;
-//       case RESULTS.DENIED:
-//         const requestResult = await request(permission);
-//         return requestResult === RESULTS.GRANTED;
-//       case RESULTS.GRANTED:
-//         return true;
-//       case RESULTS.BLOCKED:
-//         console.log('The permission is blocked and cannot be requested.');
-//         return false;
-//       default:
-//         return false;
-//     }
-//   };
+  const Colors = useTheme();
+  const styles = getStyles(Colors);
 
-//   const handleCancel = () => {
-//     if (isRecording) {
-//       onStopRecord();
-//     }
-//     onCancel();
-//   };
-
-//   const handleConfirm = () => {
-//     if (isRecording) {
-//       onStopRecord();
-//     }
-//     onConfirm();
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <TouchableOpacity onPress={handleCancel}>
-//         <CrossCircle size={35} />
-//       </TouchableOpacity>
-
-//       <AudioWaveform />
-
-//       <Text style={styles.timer}>{recordTime}</Text>
-
-//       <TouchableOpacity onPress={handleConfirm}>
-//         <CheckIconTwo size={35} />
-//       </TouchableOpacity>
-
-//       {!isRecording ? (
-//         <TouchableOpacity style={styles.recordButton} onPress={onStartRecord}>
-//           <Text style={styles.recordText}>Record</Text>
-//         </TouchableOpacity>
-//       ) : (
-//         <TouchableOpacity style={styles.stopButton} onPress={onStopRecord}>
-//           <Text style={styles.stopText}>Stop</Text>
-//         </TouchableOpacity>
-//       )}
-//     </View>
-//   );
-// };
-
-// export default AudioRecorder;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     padding: 20,
-//     backgroundColor: '#fff', // Adjust as needed
-//     borderRadius: 10,
-//     elevation: 2, // For Android shadow
-//     shadowColor: '#000', // For iOS shadow
-//     shadowOffset: {width: 0, height: 2}, // For iOS shadow
-//     shadowOpacity: 0.25, // For iOS shadow
-//     shadowRadius: 3.84, // For iOS shadow
-//   },
-//   timer: {
-//     marginHorizontal: 10,
-//     fontSize: 16,
-//     color: '#333',
-//   },
-//   recordButton: {
-//     marginLeft: 20,
-//     padding: 10,
-//     backgroundColor: 'red',
-//     borderRadius: 50,
-//   },
-//   recordText: {
-//     color: '#fff',
-//     fontWeight: 'bold',
-//   },
-//   stopButton: {
-//     marginLeft: 20,
-//     padding: 10,
-//     backgroundColor: 'gray',
-//     borderRadius: 50,
-//   },
-//   stopText: {
-//     color: '#fff',
-//     fontWeight: 'bold',
-//   },
-// });
-
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-
-const AudioRecorder = () => {
   return (
-    <View>
-      <Text>AudioRecorder</Text>
+    <View style={styles.container}>
+      {!recording && recordedAudioPath && (
+        <View style={styles.inputContainer}>
+          <ChatMessageInput text={text} setText={setText} />
+          {text.length > 0 && (
+            <TouchableOpacity onPress={sendAudioMessage(recordedAudioPath)}>
+              <SendIcon />
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
+      {!recording && !recordedAudioPath && (
+        <TouchableOpacity onPress={startAudioRecording}>
+          <MicIcon size={25} />
+        </TouchableOpacity>
+      )}
+      {recording && (
+        <View style={styles.containerTwo}>
+          <Pressable onPress={cancelRecording}>
+            <CrossCircle />
+          </Pressable>
+          <AudioWaveform />
+          <Pressable onPress={stopRecording}>
+            <CheckIconTwo />
+          </Pressable>
+        </View>
+      )}
+      {recordedAudioPath && (
+        <View style={styles.containerTwo}>
+          <AudioMessage audioUrl={recordedAudioPath} background={'gray'} />
+          <Pressable
+            onPress={() => {
+              setRecordedAudioPath('');
+              setStartRecording(false);
+            }}>
+            <CrossCircle />
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 };
 
 export default AudioRecorder;
 
-const styles = StyleSheet.create({});
+const getStyles = Colors =>
+  StyleSheet.create({
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 10,
+      // minHeight: 80,
+    },
+    containerTwo: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+    },
+    container: {
+      // flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: Colors.Background_color,
+      borderRadius: 30,
+      minHeight: 60,
+      padding: 20,
+    },
+    title: {
+      fontSize: 24,
+      marginBottom: 20,
+    },
+    button: {
+      backgroundColor: '#1E90FF',
+      padding: 15,
+      borderRadius: 10,
+      marginVertical: 10,
+      width: '80%',
+      alignItems: 'center',
+    },
+    buttonText: {
+      color: 'white',
+      fontSize: 16,
+    },
+  });

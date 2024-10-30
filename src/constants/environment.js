@@ -1,7 +1,7 @@
 export default {
   production: true,
 };
-/* 
+/*
 
 186mdshimul@gmail.com
 Ashraful186@
@@ -18,5 +18,5 @@ mitul.das@ts4u.us
 Mituldas@24
 
 
-eas build -p android --profile preview 
+eas build -p android --profile preview
 */

@@ -2,6 +2,7 @@ import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
+import AudioMessage from './AudioMessage';
 
 const MessageFileContainer = ({files}) => {
   const [imageDimensions, setImageDimensions] = useState({});
@@ -36,18 +37,19 @@ const MessageFileContainer = ({files}) => {
     );
   };
 
-  const renderAudio = () => {
+  const renderAudio = ({item}) => {
     return (
-      <View
-        style={{
-          backgroundColor: Colors.WhiteOpacityColor,
-          paddingHorizontal: 10,
-          borderRadius: 100,
-          marginTop: 5,
-          paddingVertical: 5,
-        }}>
-        <Text>Audio will playable soon...</Text>
-      </View>
+      // <View
+      //   style={{
+      //     backgroundColor: Colors.WhiteOpacityColor,
+      //     paddingHorizontal: 10,
+      //     borderRadius: 100,
+      //     marginTop: 5,
+      //     paddingVertical: 5,
+      //   }}>
+      //   <Text>Audio will playable soon...</Text>
+      // </View>
+      <AudioMessage audioUrl={item.url} />
     );
   };
 
@@ -55,7 +57,9 @@ const MessageFileContainer = ({files}) => {
     <FlatList
       data={files}
       renderItem={({item}) =>
-        item.type.startsWith('audio') ? renderAudio() : imageRender({item})
+        item.type.startsWith('audio')
+          ? renderAudio({item})
+          : imageRender({item})
       }
       keyExtractor={item => item.url}
       contentContainerStyle={styles.container}

@@ -7,11 +7,6 @@ import ImageGallery from './ImageGallery';
 const IconContainer = ({setStartRecording, selectImage}) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => setStartRecording(true)}
-        style={styles.button}>
-        <MicIcon size={25} />
-      </TouchableOpacity>
       <TouchableOpacity onPress={selectImage} style={styles.button}>
         <GallaryIcon size={23} />
       </TouchableOpacity>

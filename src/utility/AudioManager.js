@@ -10,8 +10,9 @@ class AudioManager {
   }
 
   setAudio(audio) {
+    // Check if there is an existing audio playing and pause it
     if (this.currentAudio && this.currentAudio !== audio) {
-      this.currentAudio.pauseAsync();
+      this.currentAudio.pause(); // Using pause instead of pauseAsync
     }
     this.currentAudio = audio;
   }
