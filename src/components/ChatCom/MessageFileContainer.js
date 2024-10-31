@@ -1,13 +1,25 @@
-import {FlatList, Image, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
 import AudioMessage from './AudioMessage';
+import FileIcon from '../../assets/Icons/FileIcon';
+import CustomeFonts from '../../constants/CustomeFonts';
+import {RegularFonts} from '../../constants/Fonts';
+// import {MaterialIcons} from '@expo/vector-icons'; // Ensure you have this package installed
 
 const MessageFileContainer = ({files}) => {
   const [imageDimensions, setImageDimensions] = useState({});
   const Colors = useTheme();
   const styles = getStyles(Colors);
+
   const handleImageLayout = (uri, width, height) => {
     const aspectRatio = width / height;
     setImageDimensions(prev => ({
@@ -52,17 +64,61 @@ const MessageFileContainer = ({files}) => {
     );
   };
 
+  const renderDocument = ({item}) => {
+    // Define a mapping for file types to icons
+    const fileIcons = {
+      pdf: 'picture-as-pdf',
+      doc: 'description',
+      docx: 'description',
+      xls: 'grid-view',
+      xlsx: 'grid-view',
+      ppt: 'slideshow',
+      pptx: 'slideshow',
+      txt: 'text-snippet',
+    };
+
+    const fileExtension = item.url.split('.').pop();
+    const iconName = fileIcons[fileExtension] || 'attach-file'; // Fallback icon
+    const fileSizeInKb = (item.size / 1024).toFixed(2); // Assuming size is in bytes
+
+    return (
+      <View style={styles.documentContainer}>
+        {/* <MaterialIcons name={iconName} size={40} color={Colors.Gray2} /> */}
+        <FileIcon />
+        <View style={styles.documentInfo}>
+          <Text style={styles.fileName}>{item.name}</Text>
+          <Text
+            style={
+              styles.fileDetails
+            }>{`Type: ${fileExtension.toUpperCase()}`}</Text>
+          <Text style={styles.fileDetails}>{`Size: ${fileSizeInKb} KB`}</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.downloadButton}
+          onPress={() => handleDownload(item.url)}>
+          <Text style={styles.downloadButtonText}>Download</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const handleDownload = url => {
+    // Implement download logic here
+    console.log(`Downloading file from: ${url}`);
+  };
+
   return (
     <FlatList
       data={files}
       renderItem={({item}) =>
         item.type.startsWith('audio')
           ? renderAudio({item})
-          : imageRender({item})
+          : item.type.startsWith('image')
+          ? imageRender({item})
+          : renderDocument({item})
       }
       keyExtractor={item => item.url}
       contentContainerStyle={styles.container}
-      //   ItemSeparatorComponent={() => <View style={{height: 5}}></View>}
     />
   );
 };
@@ -79,5 +135,35 @@ const getStyles = Colors =>
       resizeMode: 'contain',
       marginBottom: 10,
       marginTop: 5,
+    },
+    documentContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: Colors.WhiteOpacityColor,
+      padding: 10,
+      borderRadius: 8,
+      marginVertical: 5,
+    },
+    documentInfo: {
+      flex: 1,
+      marginLeft: 10,
+    },
+    fileName: {
+      fontWeight: 'bold',
+      color: Colors.PureWhite,
+      fontSize: RegularFonts.HS,
+    },
+    fileDetails: {
+      color: Colors.PureWhite,
+    },
+    downloadButton: {
+      backgroundColor: Colors.Primary,
+      padding: 10,
+      borderRadius: 5,
+      marginLeft: 10,
+    },
+    downloadButtonText: {
+      color: Colors.PureWhite,
+      fontWeight: 'bold',
     },
   });
