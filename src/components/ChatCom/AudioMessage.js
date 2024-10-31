@@ -13,6 +13,8 @@ import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import AudioManager from '../../utility/AudioManager';
 import {useFocusEffect} from '@react-navigation/native';
 import {PlayButtonIcon} from '../../assets/Icons/PlayButtonIcon';
+import PlayIcon from '../../assets/Icons/PlayIcon';
+import PauseIcon from '../../assets/Icons/PauseIcon';
 
 Sound.setCategory('Playback');
 
@@ -120,11 +122,11 @@ const AudioMessage = ({audioUrl, background}) => {
         <ActivityIndicator
           style={{marginRight: 10}}
           size="small"
-          color={Colors.Primary}
+          color={Colors.PureWhite}
         />
       ) : (
         <TouchableOpacity onPress={handlePlayPause} style={styles.playButton}>
-          <PlayButtonIcon />
+          {isPlaying ? <PauseIcon /> : <PlayIcon />}
         </TouchableOpacity>
       )}
 
@@ -143,7 +145,7 @@ const getStyles = ({Colors}) =>
     },
     audioTimer: {
       marginLeft: responsiveScreenWidth(2),
-      color: Colors.BodyText,
+      color: Colors.PureWhite,
     },
     container: {
       flexDirection: 'row',

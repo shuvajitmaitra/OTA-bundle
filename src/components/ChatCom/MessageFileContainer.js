@@ -39,17 +39,16 @@ const MessageFileContainer = ({files}) => {
 
   const renderAudio = ({item}) => {
     return (
-      // <View
-      //   style={{
-      //     backgroundColor: Colors.WhiteOpacityColor,
-      //     paddingHorizontal: 10,
-      //     borderRadius: 100,
-      //     marginTop: 5,
-      //     paddingVertical: 5,
-      //   }}>
-      //   <Text>Audio will playable soon...</Text>
-      // </View>
-      <AudioMessage audioUrl={item.url} />
+      <View
+        style={{
+          backgroundColor: Colors.Gray3,
+          paddingHorizontal: 10,
+          borderRadius: 100,
+          marginTop: 5,
+          paddingVertical: 5,
+        }}>
+        <AudioMessage audioUrl={item.url} background={'transparent'} />
+      </View>
     );
   };
 
