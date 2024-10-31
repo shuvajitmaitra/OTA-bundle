@@ -15,6 +15,7 @@ import SignOutIcon from '../assets/Icons/SignOutIcon';
 import {useMainContext} from '../context/MainContext';
 import {storage} from '../utility/mmkvInstance';
 import DisplaySettingsIcon from '../assets/Icons/DisplaySettingsIcon';
+import {useTheme} from '../context/ThemeContext';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -31,13 +32,19 @@ const CustomDrawerContent = ({navigation}) => {
     }
   };
 
+  const Colors = useTheme();
+
   return (
-    <DrawerContentScrollView contentContainerStyle={{flex: 1}}>
+    <DrawerContentScrollView
+      contentContainerStyle={{flex: 1, backgroundColor: Colors.White}}>
       <DrawerItem
         icon={({color, size}) => <CloseIcon color={color} size={size} />}
         label="Toggle Drawer"
         onPress={() => navigation.toggleDrawer()}
-        labelStyle={{marginLeft: responsiveScreenWidth(-5)}}
+        labelStyle={{
+          marginLeft: responsiveScreenWidth(-5),
+          color: Colors.Heading,
+        }}
       />
       <DrawerItem
         icon={({color, size}) => (
@@ -45,7 +52,10 @@ const CustomDrawerContent = ({navigation}) => {
         )}
         label="Display Settings"
         onPress={() => navigation.navigate('DisplaySettingsScreen')}
-        labelStyle={{marginLeft: responsiveScreenWidth(-5)}}
+        labelStyle={{
+          marginLeft: responsiveScreenWidth(-5),
+          color: Colors.Heading,
+        }}
       />
       <DrawerItem
         icon={({color, size}) => <SignOutIcon color={color} size={size} />}

@@ -98,7 +98,7 @@ const ChatProfile = () => {
           JSON.stringify(error, null, 1),
         );
       });
-  }, [chat._id]);
+  }, [chat, chat.isChannel, dispatch]);
 
   // --------------------------
   // ----------- Invitation Link copy Function -----------

@@ -1,4 +1,4 @@
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';

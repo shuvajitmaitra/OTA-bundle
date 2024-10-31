@@ -25,12 +25,13 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import ImageGallery from './ChatFooter/ImageGallery';
 import AudioRecorder from './ChatFooter/AudioRecorder';
 import PlusIcon from '../../assets/Icons/PlusIcon';
-import DocumentPicker from 'react-native-document-picker';
 import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
-
+import DocumentPicker from 'react-native-document-picker';
 import GallaryIcon from '../../assets/Icons/GallaryIcon';
 import SendIcon from '../../assets/Icons/SendIcon';
 import ArrowTopIcon from '../../assets/Icons/ArrowTopIcon';
+import DocumentContainer from './DocumentContainer';
+import LoadingSmall from '../SharedComponent/LoadingSmall';
 const URL_REGEX =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 const WWW_REGEX = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
@@ -56,7 +57,11 @@ const ChatFooter2 = ({
   const [selectedImages, setSelectedImages] = useState([]);
   const {user} = useSelector(state => state.auth);
   const {localMessages} = useSelector(state => state.chatSlice);
+  const [documentVisible, setDocumentVisible] = useState(null);
   const [showBottom, setShowBottom] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [uploading, setUploading] = useState(false);
+
   useEffect(() => {
     if (
       Platform.OS === 'android' &&
@@ -85,7 +90,8 @@ const ChatFooter2 = ({
     async (txt, files) => {
       console.log(files);
       setSelectedImages([]);
-
+      setDocumentVisible(false);
+      setSelected([]);
       Keyboard.dismiss();
       setIsSendingText(true);
       const data = {
@@ -135,6 +141,7 @@ const ChatFooter2 = ({
         }
       } finally {
         setIsSendingText(false);
+        setUploading(false);
       }
     },
     [
@@ -238,20 +245,88 @@ const ChatFooter2 = ({
       }
     });
   };
-  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleDocumentSelection = async () => {
+    setDocumentVisible(true);
+    console.log('Document Picker called');
     try {
-      const result = await DocumentPicker.multiplePicker({
+      const result = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
+        allowMultiSelection: false,
       });
-      setSelectedFile(result[0]); // Set the first file selected
+      setSelected(result);
+      //   console.log('Selected File:', result);
+      console.log('result[0]', JSON.stringify(result, null, 1));
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('User canceled the picker');
+        setDocumentVisible(false);
+        setSelected({});
       } else {
-        throw err;
+        console.error(err);
       }
+    }
+  };
+
+  const UploadDocument = async txt => {
+    // closePopover();
+    setUploading(true);
+    setDocumentVisible(false);
+    try {
+      //   if (selected?.length > 5) {
+      //     showAlertModal({
+      //       title: "Limit Exceeded",
+      //       type: "warning",
+      //       message: "Maximum 5 files can be uploaded",
+      //     });
+      //   }
+
+      //   setIsUploading(true);
+
+      let results = await Promise.all(
+        selected?.map(async item => {
+          try {
+            let formData = new FormData();
+            formData.append('file', {
+              uri: item.uri,
+              name: item.name || 'uploaded_file',
+              type: item.mimeType || 'application/octet-stream',
+            });
+
+            const config = {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            };
+
+            let res = await axiosInstance.post('/chat/file', formData, config);
+            let file = res.data.file;
+            return file;
+          } catch (error) {
+            // setIsUploading(false);
+            console.log({error});
+            // Alert.alert("Failed", "Upload Failed");
+            // showAlertModal({
+            //   title: "Failed",
+            //   type: "error",
+            //   message: "Upload Failed",
+            // });
+            throw error;
+          }
+        }),
+      );
+      let files = results?.map(file => ({
+        name: file?.name || 'uploaded_file',
+        size: file?.size,
+        type: file?.type,
+        url: file?.location,
+      }));
+      console.log('files', JSON.stringify(files, null, 1));
+      sendMessage(txt, files);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUploading(false);
     }
   };
   const handleEditMessage = message => {
@@ -284,6 +359,7 @@ const ChatFooter2 = ({
         setIsSendingText(false);
       });
   };
+
   if (messageEditVisible) {
     return (
       <>
@@ -302,11 +378,27 @@ const ChatFooter2 = ({
       </>
     );
   }
+
+  if (documentVisible) {
+    return (
+      <DocumentContainer
+        selected={selected}
+        setSelected={setSelected}
+        setDocumentVisible={setDocumentVisible}
+        documentVisible={documentVisible}
+        sendMessages={sendMessage}
+        UploadDocument={UploadDocument}
+      />
+    );
+  }
   return (
     <View>
       {!startRecording && (
         <View style={styles.mainContainer}>
-          <Pressable style={styles.toggleButton} onPress={toggleBottom}>
+          <Pressable
+            style={styles.toggleButton}
+            // onPress={() => handleDocumentSelection()}
+            onPress={toggleBottom}>
             {showBottom ? <ArrowTopIcon size={40} /> : <PlusIcon />}
           </Pressable>
           <View style={styles.container}>
@@ -356,8 +448,10 @@ const ChatFooter2 = ({
       {showBottom && (
         <View style={styles.bottomContainer}>
           {!startRecording && (
-            <TouchableOpacity style={styles.buttonContainer}>
-              <AttachmentIcon />
+            <TouchableOpacity
+              onPress={() => handleDocumentSelection()}
+              style={styles.buttonContainer}>
+              {uploading ? <LoadingSmall /> : <AttachmentIcon />}
             </TouchableOpacity>
           )}
           <AudioRecorder
@@ -452,6 +546,7 @@ const getStyles = Colors =>
       flex: 1,
       overflow: 'hidden',
     },
+
     initialContainer: {
       // width: '90%',
       flex: 1,

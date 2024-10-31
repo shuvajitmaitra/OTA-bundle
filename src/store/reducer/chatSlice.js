@@ -14,6 +14,9 @@ const chatSlice = createSlice({
       state.localMessages = action.payload;
     },
     appendLocalMessage: (state, action) => {
+      if (action.payload.chat !== state.localMessages[0].chat) {
+        return;
+      }
       state.localMessages = [action.payload, ...state.localMessages];
     },
     setCrowdMembers: (state, action) => {
