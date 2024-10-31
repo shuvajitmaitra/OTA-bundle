@@ -10,25 +10,31 @@ import NewPinIcon from '../../../assets/Icons/NewPinIcon';
 import CopyIcon from '../../../assets/Icons/CopyIcon';
 import Divider from '../../SharedComponent/Divider';
 import Clipboard from '@react-native-clipboard/clipboard';
+import {useTheme} from '../../../context/ThemeContext';
 
 const MessageOptionModal = ({
   handlePin,
   setMessageEditVisible,
-  messageOptionData,
+  messageOptionData = {},
 }) => {
   const dispatch = useDispatch();
+  const Colors = useTheme();
+  const styles = getStyles(Colors);
   //   const {messageOptionData} = useSelector(state => state.chatSlice);
+  console.log('messageOptionData', JSON.stringify(messageOptionData, null, 1));
   const copyToClipboard = () => {
     Clipboard.setString(messageOptionData.text);
   };
   const optionData = [
     {
       label: messageOptionData?.pinnedBy ? 'Unpin Message' : 'Pin Message',
+      value: 'pin',
       icon: <NewPinIcon />,
       function: () => handlePin(messageOptionData._id),
     },
     {
       label: 'Delete this message',
+      value: 'delete',
       icon: <BinIcon />,
       function: () => {
         handleDelete(messageOptionData._id),
@@ -37,6 +43,7 @@ const MessageOptionModal = ({
     },
     {
       label: 'Edit this message',
+      value: 'edit',
       icon: <EditIconTwo />,
       function: () => {
         setMessageEditVisible(messageOptionData);
@@ -45,18 +52,28 @@ const MessageOptionModal = ({
     },
     {
       label: 'Copy this message',
+      value: 'copy',
       icon: <CopyIcon />,
       function: () => {
         copyToClipboard();
         dispatch(setMessageOptionData(null));
       },
     },
-    // {
-    //   label: messageOptionData?.pinnedBy ? 'Unpin Message' : 'Pin Message',
-    //   icon: <NewPinIcon />,
-    //   function: () => handlePin(messageOptionData._id),
-    // },
   ];
+
+  console.log(
+    'messageOptionData.my',
+    JSON.stringify(!messageOptionData.my, null, 1),
+  );
+
+  const opponentOption = optionData.filter(
+    item => item.value !== 'delete' && item.value !== 'edit',
+  );
+  const filteredOption = !messageOptionData.my
+    ? opponentOption
+    : messageOptionData.text.length === 0
+    ? optionData.filter(item => item.value !== 'edit' && item.value !== 'copy')
+    : optionData;
 
   const renderItem = ({item}) => {
     return (
@@ -68,7 +85,9 @@ const MessageOptionModal = ({
           gap: 10,
         }}>
         {item?.icon}
-        <Text>{item?.label || 'Unavailable'}</Text>
+        <Text style={{color: Colors.BodyText}}>
+          {item?.label || 'Unavailable'}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -78,7 +97,7 @@ const MessageOptionModal = ({
       parentStyle={{zIndex: 2}}
       onPress={() => dispatch(setMessageOptionData(null))}>
       <FlatList
-        data={optionData}
+        data={filteredOption}
         renderItem={renderItem}
         keyExtractor={() => Math.random()}
         ItemSeparatorComponent={() => (
@@ -91,4 +110,4 @@ const MessageOptionModal = ({
 
 export default MessageOptionModal;
 
-const styles = StyleSheet.create({});
+const getStyles = Colors => StyleSheet.create({});

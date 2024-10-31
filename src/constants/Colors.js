@@ -89,7 +89,7 @@ const DarkTheme = {
   PureWhite: '#FFFFFF',
   Red: '#F34141',
   LightRed: '#361D1D',
-  BackDropColor: 'rgba(0, 0, 0, 0.8)',
+  BackDropColor: 'rgba(0, 0, 0, 0.5)',
   PrimaryOpacityColor: 'rgba(39, 172, 31, 0.1)',
   WhiteOpacityColor: 'rgba(255,255,255, 0.1)',
   datePickerDisableTextColor: 'rgba(255,255,255, 0.5)',

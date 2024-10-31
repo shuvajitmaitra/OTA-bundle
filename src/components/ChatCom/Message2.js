@@ -52,7 +52,7 @@ const Message2 = ({item, index, nextSender}) => {
         />
       )}
       <TouchableOpacity
-        onLongPress={() => dispatch(setMessageOptionData(item))}
+        onLongPress={() => dispatch(setMessageOptionData({...item, my}))}
         style={styles.messagesContainer}>
         {item.files.length > 0 && <MessageFileContainer files={item.files} />}
         <Markdown style={styles.markdownStyle}>
