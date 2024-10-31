@@ -17,16 +17,19 @@ import ChatMessageInput from '../ChatMessageInput';
 import {useTheme} from '../../../context/ThemeContext';
 import axiosInstance from '../../../utility/axiosInstance';
 import SendIcon from '../../../assets/Icons/SendIcon';
+import LoadingSmall from '../../SharedComponent/LoadingSmall';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
 const AudioRecorder = ({setStartRecording, sendMessage}) => {
   const [recording, setRecording] = useState(false);
   const [recordedAudioPath, setRecordedAudioPath] = useState('');
+  const [Uploading, setUploading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState(null);
   const [text, setText] = useState('');
-  const sendAudioMessage = async RecordedURI => {
+  const sendAudioMessage = async (txt, RecordedURI) => {
+    setUploading(true);
     const formData = new FormData();
     formData.append('file', {
       uri: RecordedURI,
@@ -50,7 +53,8 @@ const AudioRecorder = ({setStartRecording, sendMessage}) => {
           url: fileData?.location,
         },
       ];
-      sendMessage(text, files);
+
+      sendMessage(txt, files);
     } catch (error) {
       // showAlert({
       //   title: 'Error',
@@ -58,6 +62,8 @@ const AudioRecorder = ({setStartRecording, sendMessage}) => {
       //   message: err?.response?.data?.error,
       // });
       // setIsSendingAudio(false);
+    } finally {
+      setUploading(false);
     }
   };
   const startAudioRecording = async () => {
@@ -137,17 +143,28 @@ const AudioRecorder = ({setStartRecording, sendMessage}) => {
       {!recording && recordedAudioPath && (
         <View style={styles.inputContainer}>
           <ChatMessageInput text={text} setText={setText} />
-          {text.length > 0 && (
-            <TouchableOpacity onPress={sendAudioMessage(recordedAudioPath)}>
-              <SendIcon />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            onPress={() => {
+              sendAudioMessage(text, recordedAudioPath);
+              setRecordedAudioPath('');
+              setText('');
+              setRecording(false);
+              setStartRecording(false);
+            }}>
+            <SendIcon />
+          </TouchableOpacity>
         </View>
       )}
       {!recording && !recordedAudioPath && (
-        <TouchableOpacity onPress={startAudioRecording}>
-          <MicIcon size={25} />
-        </TouchableOpacity>
+        <>
+          {Uploading ? (
+            <LoadingSmall size={20} color={Colors.Primary} />
+          ) : (
+            <TouchableOpacity onPress={startAudioRecording}>
+              <MicIcon size={25} />
+            </TouchableOpacity>
+          )}
+        </>
       )}
       {recording && (
         <View style={styles.containerTwo}>
@@ -162,7 +179,7 @@ const AudioRecorder = ({setStartRecording, sendMessage}) => {
       )}
       {recordedAudioPath && (
         <View style={styles.containerTwo}>
-          <AudioMessage audioUrl={recordedAudioPath} background={'gray'} />
+          <AudioMessage audioUrl={recordedAudioPath} />
           <Pressable
             onPress={() => {
               setRecordedAudioPath('');
@@ -185,11 +202,16 @@ const getStyles = Colors =>
       alignItems: 'center',
       paddingVertical: 10,
       // minHeight: 80,
+      justifyContent: 'space-between',
+      width: '100%',
+      marginTop: 10,
     },
     containerTwo: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 10,
+      // backgroundColor: 'red',
+      justifyContent: 'space-between',
+      width: '100%',
     },
     container: {
       // flex: 1,

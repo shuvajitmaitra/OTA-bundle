@@ -1,13 +1,16 @@
 // ChatFooter2.js
 
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
   Alert,
   Keyboard,
+  LayoutAnimation,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
+  UIManager,
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -26,6 +29,8 @@ import DocumentPicker from 'react-native-document-picker';
 import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
 
 import GallaryIcon from '../../assets/Icons/GallaryIcon';
+import SendIcon from '../../assets/Icons/SendIcon';
+import ArrowTopIcon from '../../assets/Icons/ArrowTopIcon';
 const URL_REGEX =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 const WWW_REGEX = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
@@ -52,7 +57,16 @@ const ChatFooter2 = ({
   const {user} = useSelector(state => state.auth);
   const {localMessages} = useSelector(state => state.chatSlice);
   const [showBottom, setShowBottom] = useState(false);
+  useEffect(() => {
+    if (
+      Platform.OS === 'android' &&
+      UIManager.setLayoutAnimationEnabledExperimental
+    ) {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }, []);
   const toggleBottom = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     Keyboard.dismiss();
     setShowBottom(pre => !pre);
   };
@@ -289,15 +303,20 @@ const ChatFooter2 = ({
     );
   }
   return (
-    <>
+    <View>
       {!startRecording && (
         <View style={styles.mainContainer}>
           <Pressable style={styles.toggleButton} onPress={toggleBottom}>
-            <PlusIcon />
+            {showBottom ? <ArrowTopIcon size={40} /> : <PlusIcon />}
           </Pressable>
           <View style={styles.container}>
             {messageClicked && !startRecording ? (
-              <ChatMessageInput text={text} setText={setText} />
+              <>
+                <ChatMessageInput text={text} setText={setText} />
+                {text.length > 0 && (
+                  <SendContainer sendMessage={() => sendMessage(text)} />
+                )}
+              </>
             ) : (
               <TouchableOpacity
                 onPress={() => {
@@ -363,7 +382,7 @@ const ChatFooter2 = ({
           }}
         />
       )}
-    </>
+    </View>
   );
 };
 
