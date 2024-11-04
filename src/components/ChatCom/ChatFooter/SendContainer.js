@@ -1,11 +1,12 @@
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import SendIcon from '../../../assets/Icons/SendIcon';
+import SendIconTwo from '../../../assets/Icons/SendIconTwo';
 
 const SendContainer = ({sendMessage}) => {
   return (
     <TouchableOpacity style={styles.container} onPress={sendMessage}>
-      <SendIcon />
+      <SendIcon size={30} />
     </TouchableOpacity>
   );
 };
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     minWidth: 40,
-    alignItems: 'flex-end',
+    alignItems: 'center',
     zIndex: 100,
   },
 });

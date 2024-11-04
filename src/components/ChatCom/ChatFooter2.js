@@ -369,7 +369,7 @@ const ChatFooter2 = ({
             <Text style={styles.editingButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.container}>
+        <View style={styles.editMessageContainer}>
           <ChatMessageInput text={messageEditVisible.text} setText={setText} />
           <SendContainer
             sendMessage={() => handleEditMessage(messageEditVisible)}
@@ -545,6 +545,19 @@ const getStyles = Colors =>
       paddingHorizontal: 15,
       flex: 1,
       overflow: 'hidden',
+    },
+    editMessageContainer: {
+      backgroundColor: Colors.Background_color,
+      minHeight: 50,
+      borderRadius: 30,
+      marginRight: 10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 15,
+      // flex: 1,
+      overflow: 'hidden',
+      maxHeight: 100,
     },
 
     initialContainer: {
