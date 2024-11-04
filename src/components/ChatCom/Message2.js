@@ -68,7 +68,7 @@ const Message2 = ({item, index, nextSender}) => {
           {item.replyCount > 0 && (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ThreadScreen', {params: item})
+                navigation.navigate('ThreadScreen', {chatMessage: item})
               }>
               <Text style={styles.replyCountText}>{`${item.replyCount} ${
                 item?.replyCount == 1 ? 'reply' : 'replies'

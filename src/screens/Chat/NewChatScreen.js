@@ -24,6 +24,7 @@ import FilterOptionModal from '../../components/ChatCom/Modal/FilterOptionModal'
 import {TouchableWithoutFeedback} from 'react-native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import CreateCrowdModal from '../../components/ChatCom/Modal/CreateCrowdModal';
+import {initializeOneSignal} from '../../utility/NotificationHandler';
 export function sortByNestedProperty(array, propertyPath, order = 'desc') {
   const getValue = (obj, path) =>
     path.split('.').reduce((o, k) => (o || {})[k], obj);
@@ -77,7 +78,9 @@ export default function NewChatScreen({navigation: {goBack}}) {
   const handleSetSelectedChat = useCallback(chat => {
     dispatch(setSelectedMessageScreen(chat));
   }, []);
-
+  useEffect(() => {
+    initializeOneSignal();
+  }, []);
   useEffect(() => {
     const filteredChats = chats?.filter(x => !x?.isArchived) || [];
     setRecords(filteredChats);

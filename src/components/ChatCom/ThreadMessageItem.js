@@ -12,11 +12,9 @@ import Markdown from 'react-native-markdown-display';
 import {removeHtmlTags, transFormDate} from './MessageHelper';
 import {useTheme} from '../../context/ThemeContext';
 import moment from 'moment';
-// import AudioMessage from './AudioMessage';
-// import ImageViewing from 'react-native-image-viewing';
-// import VideoPlayer from '../SharedComponent/VideoPlayer';
-
-export default function ThreadMessageItem({message}) {
+import AudioMessage from './AudioMessage';
+import LoadingSmall from '../SharedComponent/LoadingSmall';
+export default function ThreadMessageItem({message, isLoading = false}) {
   const {onlineUsers} = useSelector(state => state.chat);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -30,7 +28,6 @@ export default function ThreadMessageItem({message}) {
   const imageUrl = file && file.type.startsWith('image/') ? file.url : null;
   const audioUrl = file && file.type.startsWith('audio/') ? file.url : null;
   const videoUrl = file && file.type.startsWith('video/') ? file.url : null;
-
   return (
     <View style={styles.container}>
       <View style={styles.profileImageContainer}>
@@ -75,15 +72,17 @@ export default function ThreadMessageItem({message}) {
         ) : null}
 
         {/* Render Image if URL exists */}
-        {/* {imageUrl && (
-          <TouchableOpacity style={styles.img} onPress={() => setIsViewerVisible(true)}>
+        {imageUrl && (
+          <TouchableOpacity
+            style={styles.img}
+            onPress={() => setIsViewerVisible(true)}>
             <Image
-              source={{ uri: imageUrl }}
+              source={{uri: imageUrl}}
               style={styles.messageImage}
               resizeMode="contain"
             />
           </TouchableOpacity>
-        )} */}
+        )}
         {imageUrl && (
           <TouchableOpacity
             style={styles.img}
@@ -95,10 +94,10 @@ export default function ThreadMessageItem({message}) {
             />
           </TouchableOpacity>
         )}
-        {/* 
+
         {audioUrl && (
           <AudioMessage background={Colors.White} audioUrl={audioUrl} />
-        )} */}
+        )}
         {/* 
         {videoUrl && <VideoPlayer url={videoUrl} />} */}
 
@@ -111,12 +110,35 @@ export default function ThreadMessageItem({message}) {
           />
         )} */}
       </View>
+      <View style={styles.replayCountContainer}>
+        <Text style={styles.replayCountText}>
+          {isLoading ? (
+            <LoadingSmall color={Colors.Primary} />
+          ) : message.replyCount ? (
+            message.replyCount
+          ) : (
+            0
+          )}{' '}
+          {message.replyCount > 1 ? 'Replies' : 'Reply'}
+        </Text>
+      </View>
+      {/* <Divider /> */}
     </View>
   );
 }
 
 const getStyles = Colors =>
   StyleSheet.create({
+    replayCountContainer: {
+      flexDirection: 'row',
+      gap: responsiveScreenWidth(1),
+      paddingTop: responsiveScreenHeight(1),
+    },
+    replayCountText: {
+      color: Colors.Primary,
+      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontSize: responsiveScreenFontSize(2),
+    },
     container: {
       backgroundColor: Colors.Background_color,
       padding: responsiveScreenWidth(3),

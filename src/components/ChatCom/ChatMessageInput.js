@@ -19,6 +19,7 @@ import {useTheme} from '../../context/ThemeContext';
 import {ScrollView} from 'react-native';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import {MentionInput} from './mention-input';
+import UserIconTwo from '../../assets/Icons/UserIconTwo';
 
 let prevSearchTermRef = 'init';
 
@@ -75,7 +76,7 @@ const ChatMessageInput = ({chat, setText, text, handleKey, isChannel}) => {
     handleSearch(
       {
         query: keyword?.toLowerCase(),
-        limit: 5,
+        limit: 4,
       },
       chat,
       setUsers,
@@ -91,14 +92,14 @@ const ChatMessageInput = ({chat, setText, text, handleKey, isChannel}) => {
             // bottom: '140%', // This pushes the view above the reference point
             left: 0,
             right: 0,
-            backgroundColor: Colors.White,
+            // backgroundColor: Colors.White,
             zIndex: 999,
             flexDirection: 'column',
             width: width / 1.5,
           },
           styles.shadow,
         ]}>
-        <ScrollView>
+        <ScrollView contentContainerStyle={{maxHeight: 400}}>
           {isLoading ? (
             <ActivityIndicator
               size="small"
@@ -119,19 +120,22 @@ const ChatMessageInput = ({chat, setText, text, handleKey, isChannel}) => {
                 }}
                 style={{
                   padding: 12,
-                  backgroundColor: Colors.Background_color,
+                  // backgroundColor: Colors.Background_color,
                   zIndex: 999,
                   borderBottomWidth: 1,
                   borderBottomColor: Colors.BorderColor,
                   flexDirection: 'row',
                   gap: 10,
                 }}>
-                <Image
-                  size={30}
-                  source={
-                    one?.profilePicture ? {uri: one?.profilePicture} : userIcon
-                  }
-                />
+                {one?.profilePicture ? (
+                  <Image
+                    source={{uri: one?.profilePicture}}
+                    height={50}
+                    width={50}
+                  />
+                ) : (
+                  <UserIconTwo size={40} />
+                )}
                 <Text style={{color: Colors.Heading}}>@{one?.name}</Text>
               </TouchableOpacity>
             ))

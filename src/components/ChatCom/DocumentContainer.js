@@ -1,5 +1,7 @@
 import {
   Image,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -18,10 +20,12 @@ import axiosInstance from '../../utility/axiosInstance';
 import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
 
 const DocumentContainer = ({
-  setDocumentVisible,
+  onClose,
   selected,
-  setSelected,
   UploadDocument,
+  handleKey,
+  chat,
+  isChannel,
 }) => {
   const [text, setText] = useState('');
   const Colors = useTheme();
@@ -31,9 +35,18 @@ const DocumentContainer = ({
   const fileType =
     selected[0]?.type?.split('/')?.pop()?.toUpperCase() || 'Unavailable';
   return (
-    <View style={styles.docContainer}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // For iOS and Android
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}
+      style={styles.docContainer}>
       <View style={styles.inputContainer}>
-        <ChatMessageInput text={text} setText={setText} />
+        <ChatMessageInput
+          chat={chat}
+          handleKey={handleKey}
+          isChannel={isChannel}
+          text={text}
+          setText={setText}
+        />
         <TouchableOpacity
           onPress={() => {
             UploadDocument(text);
@@ -50,16 +63,12 @@ const DocumentContainer = ({
             <Text style={styles.fileName}>{fileType}</Text>
           </View>
           <View style={{flexGrow: 1}} />
-          <Pressable
-            onPress={() => {
-              setSelected([]);
-              setDocumentVisible(false);
-            }}>
+          <Pressable onPress={onClose}>
             <CrossCircle />
           </Pressable>
         </View>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

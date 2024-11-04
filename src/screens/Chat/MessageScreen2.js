@@ -6,6 +6,8 @@ import {
   ActivityIndicator,
   Text,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import axiosInstance from '../../utility/axiosInstance';
@@ -23,6 +25,7 @@ import {
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
+import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -36,7 +39,6 @@ const MessageScreen2 = () => {
   const {localMessages} = useSelector(state => state.chatSlice);
   // console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const {messageOptionData} = useSelector(state => state.modal);
-  console.log('messageOptionData', JSON.stringify(messageOptionData, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [messages = {}, setMessages] = useMMKVObject('allMessages');
@@ -194,53 +196,55 @@ const MessageScreen2 = () => {
     return <Message2 item={item} index={index} nextSender={nextSender} />;
   };
   return (
-    <View
-      style={[
-        styles.container,
-        {paddingBottom: bottom, paddingTop: top / 1.5},
-      ]}>
-      {messageOptionData?._id && (
-        <MessageOptionModal
-          handlePin={handlePin}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // For iOS and Android
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+      style={styles.container}>
+      <View
+        style={[, {flex: 1, paddingBottom: bottom / 2, paddingTop: top / 1.5}]}>
+        {messageOptionData?._id && (
+          <MessageOptionModal
+            handlePin={handlePin}
+            setMessageEditVisible={setMessageEditVisible}
+            messageOptionData={messageOptionData}
+          />
+        )}
+        {pinnedScreenVisible && (
+          <PinnedMessagesScreen
+            pinned={pinned}
+            setPinnedScreenVisible={setPinnedScreenVisible}
+          />
+        )}
+        <MessageTopPart
+          fetchPinned={fetchPinned}
+          pinnedCount={pinnedCount}
+          setPinnedScreenVisible={setPinnedScreenVisible}
+        />
+        <View style={styles.flatListContainer}>
+          <FlatList
+            data={
+              localMessages?.length
+                ? localMessages
+                : messages[selectedChat?.chatId]
+            }
+            renderItem={renderItem}
+            keyExtractor={item => item._id.toString()} // Use a stable key
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5} // Adjust as needed
+            ListFooterComponent={ListFooterComponent}
+            inverted
+          />
+        </View>
+        <ChatFooter2
+          chatId={selectedChat.chatId}
+          setMessages={setMessages}
+          messageEditVisible={messageEditVisible}
           setMessageEditVisible={setMessageEditVisible}
           messageOptionData={messageOptionData}
         />
-      )}
-      {pinnedScreenVisible && (
-        <PinnedMessagesScreen
-          pinned={pinned}
-          setPinnedScreenVisible={setPinnedScreenVisible}
-        />
-      )}
-      <MessageTopPart
-        fetchPinned={fetchPinned}
-        pinnedCount={pinnedCount}
-        setPinnedScreenVisible={setPinnedScreenVisible}
-      />
-      <View style={styles.flatListContainer}>
-        <FlatList
-          data={
-            localMessages?.length
-              ? localMessages
-              : messages[selectedChat?.chatId]
-          }
-          renderItem={renderItem}
-          keyExtractor={item => item._id.toString()} // Use a stable key
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5} // Adjust as needed
-          ListFooterComponent={ListFooterComponent}
-          inverted
-        />
+        {/* {openGallery && <ImageGallery />} */}
       </View>
-      <ChatFooter2
-        chatId={selectedChat.chatId}
-        setMessages={setMessages}
-        messageEditVisible={messageEditVisible}
-        setMessageEditVisible={setMessageEditVisible}
-        messageOptionData={messageOptionData}
-      />
-      {/* {openGallery && <ImageGallery />} */}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

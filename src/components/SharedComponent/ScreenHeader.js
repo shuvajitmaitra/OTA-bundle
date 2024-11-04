@@ -30,7 +30,7 @@ const getStyles = Colors =>
       height: 50,
       justifyContent: 'center',
       paddingHorizontal: 10,
-      borderBottomColor: Colors.BorderColor,
+      borderBottomColor: Colors.BodyTextOpacity,
       borderBottomWidth: 1,
     },
     backButtonContainer: {

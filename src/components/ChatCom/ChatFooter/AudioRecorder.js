@@ -21,7 +21,13 @@ import LoadingSmall from '../../SharedComponent/LoadingSmall';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
-const AudioRecorder = ({setStartRecording, sendMessage}) => {
+const AudioRecorder = ({
+  setStartRecording,
+  sendMessage,
+  handleKey,
+  chat,
+  isChannel,
+}) => {
   const [recording, setRecording] = useState(false);
   const [recordedAudioPath, setRecordedAudioPath] = useState('');
   const [Uploading, setUploading] = useState(false);
@@ -142,7 +148,13 @@ const AudioRecorder = ({setStartRecording, sendMessage}) => {
     <View style={styles.container}>
       {!recording && recordedAudioPath && (
         <View style={styles.inputContainer}>
-          <ChatMessageInput text={text} setText={setText} />
+          <ChatMessageInput
+            chat={chat}
+            handleKey={handleKey}
+            isChannel={isChannel}
+            text={text}
+            setText={setText}
+          />
           <TouchableOpacity
             onPress={() => {
               sendAudioMessage(text, recordedAudioPath);
@@ -200,11 +212,11 @@ const getStyles = Colors =>
     inputContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      paddingVertical: 10,
+      // paddingVertical: 10,
       // minHeight: 80,
       justifyContent: 'space-between',
       width: '100%',
-      marginTop: 10,
+      // marginTop: 10,
     },
     containerTwo: {
       flexDirection: 'row',
@@ -212,6 +224,9 @@ const getStyles = Colors =>
       // backgroundColor: 'red',
       justifyContent: 'space-between',
       width: '100%',
+      padding: 5,
+      borderWidth: 1,
+      borderColor: Colors.BodyTextOpacity,
     },
     container: {
       // flex: 1,
@@ -219,8 +234,11 @@ const getStyles = Colors =>
       alignItems: 'center',
       backgroundColor: Colors.Background_color,
       borderRadius: 30,
-      minHeight: 60,
+      // minHeight: 60,
       padding: 20,
+      paddingTop: 10,
+      gap: 20,
+      marginTop: 10,
     },
     title: {
       fontSize: 24,

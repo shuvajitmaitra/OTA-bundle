@@ -11,6 +11,8 @@ import CopyIcon from '../../../assets/Icons/CopyIcon';
 import Divider from '../../SharedComponent/Divider';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useTheme} from '../../../context/ThemeContext';
+import MessageIcon from '../../../assets/Icons/MessageIcon';
+import {useNavigation} from '@react-navigation/native';
 
 const MessageOptionModal = ({
   handlePin,
@@ -24,7 +26,15 @@ const MessageOptionModal = ({
   const copyToClipboard = () => {
     Clipboard.setString(messageOptionData.text);
   };
+  const navigation = useNavigation();
   const optionData = [
+    {
+      label: 'Reply in thread',
+      value: 'pin',
+      icon: <MessageIcon />,
+      function: () =>
+        navigation.navigate('ThreadScreen', {chatMessage: messageOptionData}),
+    },
     {
       label: messageOptionData?.pinnedBy ? 'Unpin Message' : 'Pin Message',
       value: 'pin',
@@ -59,11 +69,6 @@ const MessageOptionModal = ({
       },
     },
   ];
-
-  console.log(
-    'messageOptionData.my',
-    JSON.stringify(!messageOptionData.my, null, 1),
-  );
 
   const opponentOption = optionData.filter(
     item => item.value !== 'delete' && item.value !== 'edit',

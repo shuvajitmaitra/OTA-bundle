@@ -32,6 +32,7 @@ import SendIcon from '../../assets/Icons/SendIcon';
 import ArrowTopIcon from '../../assets/Icons/ArrowTopIcon';
 import DocumentContainer from './DocumentContainer';
 import LoadingSmall from '../SharedComponent/LoadingSmall';
+import {socket} from '../../utility/socketManager';
 const URL_REGEX =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 const WWW_REGEX = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
@@ -48,19 +49,24 @@ const convertLink = text => {
 };
 
 const ChatFooter2 = ({
-  chatId,
-  setMessages,
-  messageEditVisible,
-  setMessageEditVisible,
+  chatId = '',
+  setMessages = () => {},
+  messageEditVisible = false,
+  setMessageEditVisible = () => {},
+  parentId = '',
 }) => {
   const [text, setText] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
   const {user} = useSelector(state => state.auth);
   const {localMessages} = useSelector(state => state.chatSlice);
+  const {singleChat} = useSelector(state => state.chat);
   const [documentVisible, setDocumentVisible] = useState(null);
   const [showBottom, setShowBottom] = useState(false);
   const [selected, setSelected] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState(null);
+  const [editedText, setEditedText] = useState(messageEditVisible.text);
 
   useEffect(() => {
     if (
@@ -97,9 +103,9 @@ const ChatFooter2 = ({
       const data = {
         text: convertLink(txt || text),
         files: files || [],
+        parentMessage: parentId,
       };
       const randomId = Math.floor(Math.random() * (999999 - 1111) + 1111);
-
       const messageData = {
         message: {
           ...data,
@@ -125,12 +131,16 @@ const ChatFooter2 = ({
           `/chat/sendmessage/${chatId}`,
           data,
         );
-
-        setMessages(prev => ({
-          ...prev,
-          [chatId]: [res.data.message, ...(prev[chatId] || [])],
-        }));
-        dispatch(setLocalMessages([res.data.message, ...localMessages]));
+        console.log('res.data', JSON.stringify(res.data, null, 1));
+        if (parentId) {
+          setMessages(pre => [res.data.message, ...pre]);
+        } else {
+          setMessages(prev => ({
+            ...prev,
+            [chatId]: [res.data.message, ...(prev[chatId] || [])],
+          }));
+          dispatch(setLocalMessages([res.data.message, ...localMessages]));
+        }
         // setLocalMessages(pre => [res.data.message, ...pre]);
         setSelectedImages([]);
       } catch (err) {
@@ -227,6 +237,7 @@ const ChatFooter2 = ({
   };
 
   const selectImage = () => {
+    Keyboard.dismiss();
     const options = {
       mediaType: 'photo',
       maxWidth: 300,
@@ -247,6 +258,7 @@ const ChatFooter2 = ({
   };
 
   const handleDocumentSelection = async () => {
+    setShowBottom(false);
     setDocumentVisible(true);
     console.log('Document Picker called');
     try {
@@ -329,6 +341,36 @@ const ChatFooter2 = ({
       setUploading(false);
     }
   };
+
+  let handleKey = () => {
+    let profileData = {
+      _id: user?._id,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      fullName: user?.fullName,
+      profilePicture: user?.profilePicture,
+    };
+
+    if (!typing) {
+      setTyping(true);
+      socket.emit('typing', {
+        chatId: singleChat?._id,
+        typingData: {isTyping: true, user: profileData},
+      });
+    }
+
+    clearTimeout(typingTimeout);
+
+    setTypingTimeout(
+      setTimeout(() => {
+        setTyping(false);
+        socket.emit('typing', {
+          chatId: singleChat?._id,
+          typingData: {isTyping: false, user: profileData},
+        });
+      }, 2000),
+    );
+  };
   const handleEditMessage = message => {
     if (!text) {
       return Alert.alert('Write something');
@@ -370,7 +412,13 @@ const ChatFooter2 = ({
           </TouchableOpacity>
         </View>
         <View style={styles.editMessageContainer}>
-          <ChatMessageInput text={messageEditVisible.text} setText={setText} />
+          <ChatMessageInput
+            handleKey={handleKey}
+            chat={singleChat?._id}
+            isChannel={singleChat?.isChannel}
+            text={editedText}
+            setText={setEditedText}
+          />
           <SendContainer
             sendMessage={() => handleEditMessage(messageEditVisible)}
           />
@@ -383,11 +431,30 @@ const ChatFooter2 = ({
     return (
       <DocumentContainer
         selected={selected}
-        setSelected={setSelected}
-        setDocumentVisible={setDocumentVisible}
-        documentVisible={documentVisible}
-        sendMessages={sendMessage}
+        onClose={() => {
+          setSelected([]);
+          setDocumentVisible(false);
+          setShowBottom(false);
+        }}
         UploadDocument={UploadDocument}
+        handleKey={handleKey}
+        chat={singleChat?._id}
+        isChannel={singleChat?.isChannel}
+      />
+    );
+  }
+
+  if (selectedImages.length) {
+    return (
+      <ImageGallery
+        selectedImages={selectedImages}
+        onClose={() => {
+          toggleBottom();
+          setSelectedImages([]);
+        }}
+        onSend={txt => {
+          UploadImages(txt);
+        }}
       />
     );
   }
@@ -404,7 +471,14 @@ const ChatFooter2 = ({
           <View style={styles.container}>
             {messageClicked && !startRecording ? (
               <>
-                <ChatMessageInput text={text} setText={setText} />
+                <ChatMessageInput
+                  chat={singleChat?._id}
+                  isChannel={singleChat?.isChannel}
+                  text={text}
+                  setText={setText}
+                  handleKey={handleKey}
+                  // text={text} setText={setText}
+                />
                 {text.length > 0 && (
                   <SendContainer sendMessage={() => sendMessage(text)} />
                 )}
@@ -421,27 +495,6 @@ const ChatFooter2 = ({
                 </Text>
               </TouchableOpacity>
             )}
-
-            {/* {!startRecording && (
-          <>
-          {text.length > 0 ? (
-            <SendContainer sendMessage={() => sendMessage(text)} />
-     
-            ) : (
-              <>
-                <TouchableOpacity onPress={handleDocumentSelection}>
-                  <AiIcon2 />
-                </TouchableOpacity>
-                <AudioRecorder startRecording={startRecording} />
-                <IconContainer
-                  setStartRecording={setStartRecording}
-                  selectImage={selectImage}
-                  // setOpenGallery={setOpenGallery}
-                />
-              </>
-            )}
-          </>
-        )} */}
           </View>
         </View>
       )}
@@ -457,24 +510,18 @@ const ChatFooter2 = ({
           <AudioRecorder
             sendMessage={sendMessage}
             setStartRecording={setStartRecording}
+            handleKey={handleKey}
+            chat={singleChat?._id}
+            isChannel={singleChat?.isChannel}
           />
           {!startRecording && (
-            <TouchableOpacity style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={selectImage}
+              style={styles.buttonContainer}>
               <GallaryIcon />
             </TouchableOpacity>
           )}
         </View>
-      )}
-      {selectedImages?.length > 0 && (
-        <ImageGallery
-          selectedImages={selectedImages}
-          onClose={() => {
-            setSelectedImages([]);
-          }}
-          onSend={txt => {
-            UploadImages(txt);
-          }}
-        />
       )}
     </View>
   );
@@ -500,7 +547,7 @@ const getStyles = Colors =>
     },
     bottomContainer: {
       // backgroundColor: Colors.Red,
-      height: 100,
+      // height: 100,
       flexDirection: 'row',
       alignItems: 'center',
       gap: 20,
@@ -528,7 +575,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 10,
+      marginVertical: 10,
     },
     messageText: {
       color: Colors.BodyText,
@@ -557,7 +604,7 @@ const getStyles = Colors =>
       paddingHorizontal: 15,
       // flex: 1,
       overflow: 'hidden',
-      maxHeight: 100,
+      // maxHeight: 100,
     },
 
     initialContainer: {

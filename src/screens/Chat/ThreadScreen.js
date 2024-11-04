@@ -55,9 +55,12 @@ import axiosInstance from '../../utility/axiosInstance';
 import Message2 from '../../components/ChatCom/Message2';
 import ChatFooter2 from '../../components/ChatCom/ChatFooter2';
 import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
+import ThreadMessageItem from '../../components/ChatCom/ThreadMessageItem';
+import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 
-const ThreadScreen = routes => {
-  const chatMessage = routes.route.params.params;
+const ThreadScreen = ({route}) => {
+  const {chatMessage} = route.params;
+  // console.log('chatMessage', JSON.stringify(chatMessage, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {top} = useSafeAreaInsets();
@@ -65,6 +68,7 @@ const ThreadScreen = routes => {
   const [localMessages, setLocalMessages] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [messageEditVisible, setMessageEditVisible] = useState(false);
   useEffect(() => {
     getReplies({
       parentMessage: chatMessage._id,
@@ -84,7 +88,7 @@ const ThreadScreen = routes => {
       .post(`/chat/messages`, options)
       .then(res => {
         console.log('res.data', JSON.stringify(res.data, null, 1));
-        setLocalMessages(pre => [...pre, ...res.data.messages]);
+        setLocalMessages(pre => [...pre, ...res.data.messages.reverse()]);
         setPage(pre => pre + 1);
       })
       .catch(error => {
@@ -120,6 +124,7 @@ const ThreadScreen = routes => {
         paddingBottom: 20,
       }}>
       <ScreenHeader />
+      {<ThreadMessageItem message={chatMessage} isLoading={isLoading} />}
       <View style={styles.flatListContainer}>
         <FlatList
           data={localMessages}
@@ -135,9 +140,17 @@ const ThreadScreen = routes => {
           onEndReachedThreshold={0.5}
           //   ListFooterComponent={ListFooterComponent}
           inverted
+          // ListEmptyComponent={() => <NoDataAvailable />}
         />
       </View>
-      <ChatFooter2 chatId={{}} setMessages={() => {}} />
+      <ChatFooter2
+        parentId={chatMessage._id}
+        chatId={chatMessage.chat}
+        messageEditVisible={messageEditVisible}
+        setMessageEditVisible={setMessageEditVisible}
+        messageOptionData={chatMessage}
+        setMessages={setLocalMessages}
+      />
     </View>
   );
 };
