@@ -17,6 +17,7 @@ import {RegularFonts} from '../../constants/Fonts';
 import {useNavigation} from '@react-navigation/native';
 import DeleteMessageContainer from './DeleteMessageContainer';
 import MessageFileContainer from './MessageFileContainer';
+import EmojiContainer from './EmojiContainer';
 
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ const Message2 = ({item, index, nextSender}) => {
             ),
           )}
         </Markdown>
+        <EmojiContainer reacts={item.emoji} messageId={item._id} />
         <View style={styles.messageBottomContainer}>
           {item.replyCount > 0 && (
             <TouchableOpacity

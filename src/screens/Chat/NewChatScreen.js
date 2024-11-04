@@ -1,5 +1,5 @@
-import {ScrollView, StyleSheet, View, FlatList, StatusBar} from 'react-native';
 import React, {useState, useEffect, useCallback, useRef} from 'react';
+import {ScrollView, StyleSheet, View, FlatList, StatusBar} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   responsiveScreenFontSize,

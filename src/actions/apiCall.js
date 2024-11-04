@@ -3,7 +3,11 @@ import {
   initialActivities,
   setActivitiesCount,
 } from '../store/reducer/activitiesReducer';
-import {updateMyData, updateSingleChat} from '../store/reducer/chatReducer';
+import {
+  updateLatestMessage,
+  updateMyData,
+  updateSingleChat,
+} from '../store/reducer/chatReducer';
 import {updateDeletedMessage} from '../store/reducer/chatSlice';
 import {setCalendar, setMockInterview} from '../store/reducer/dashboardReducer';
 import {
@@ -48,6 +52,13 @@ export const handleDelete = id => {
       console.log('res.data', JSON.stringify(res.data, null, 1));
       if (res.data.success) {
         store.dispatch(updateDeletedMessage(res.data.message));
+        store.dispatch(
+          updateLatestMessage({
+            chatId: res.data.message.chat,
+            latestMessage: {text: ''},
+            counter: 1,
+          }),
+        );
       }
       // handleUpdateMessage(res.data.message);
       // const isItPinned = pinnedMessages?.filter(

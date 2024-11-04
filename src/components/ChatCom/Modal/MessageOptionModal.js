@@ -21,7 +21,6 @@ const MessageOptionModal = ({
   const Colors = useTheme();
   const styles = getStyles(Colors);
   //   const {messageOptionData} = useSelector(state => state.chatSlice);
-  console.log('messageOptionData', JSON.stringify(messageOptionData, null, 1));
   const copyToClipboard = () => {
     Clipboard.setString(messageOptionData.text);
   };

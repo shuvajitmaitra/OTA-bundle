@@ -28,7 +28,7 @@ import {useTheme} from '../../context/ThemeContext';
 
 export default function MessageTopPart({
   setPinnedScreenVisible,
-  pinned,
+  pinnedCount,
   fetchPinned,
 }) {
   const navigation = useNavigation();
@@ -89,9 +89,9 @@ export default function MessageTopPart({
         </Pressable>
       </View>
       <View style={styles.rightSection}>
-        {/* Pinned Icon Placeholder */}
+        {/* PinnedCount Icon Placeholder */}
 
-        {pinned?.length > 0 && (
+        {pinnedCount > 0 && (
           <TouchableOpacity
             onPress={() => {
               fetchPinned(chat._id);

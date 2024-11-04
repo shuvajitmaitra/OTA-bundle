@@ -21,14 +21,7 @@ import {
   updatePinnedMessage,
 } from '../../store/reducer/chatSlice';
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
-import PinIcon from '../../assets/Icons/PinIcon';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
-import CustomModal from '../../components/SharedComponent/CustomModal';
-import ImageGallery from '../../components/ChatCom/ChatFooter/ImageGallery';
-import BinIcon from '../../assets/Icons/BinIcon';
-import {handleDelete} from '../../actions/apiCall';
-import EditIcon from '../../assets/Icons/EditIcon';
-import EditIconTwo from '../../assets/Icons/EditIcon2';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 
 const MessageScreen2 = () => {
@@ -49,8 +42,8 @@ const MessageScreen2 = () => {
   const [messages = {}, setMessages] = useMMKVObject('allMessages');
   // const [localMessages, setLocalMessages] = useState([]);
   const [pinned, setPinned] = useState([]);
+  const [pinnedCount, setPinnedCount] = useState(0);
   const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);
-  const [openGallery, setOpenGallery] = useState(false);
   const [messageEditVisible, setMessageEditVisible] = useState('');
   const LIMIT = 20;
 
@@ -78,10 +71,11 @@ const MessageScreen2 = () => {
     };
     try {
       const res = await axiosInstance.post('/chat/messages', options);
+      setPinnedCount(res.data.pinnedCount);
       const newMessages = res.data.messages.reverse();
-      if (res.data.messages.length) {
-        fetchPinned(selectedChat.chatId);
-      }
+      // if (res.data.messages.length) {
+      //   fetchPinned(selectedChat.chatId);
+      // }
       setMessages({
         ...messages,
         [selectedChat.chatId]: newMessages,
@@ -101,7 +95,7 @@ const MessageScreen2 = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedChat.chatId, messages, setMessages]);
+  }, [selectedChat.chatId, messages, dispatch]);
 
   useEffect(() => {
     if (selectedChat.chatId) {
@@ -220,7 +214,7 @@ const MessageScreen2 = () => {
       )}
       <MessageTopPart
         fetchPinned={fetchPinned}
-        pinned={pinned}
+        pinnedCount={pinnedCount}
         setPinnedScreenVisible={setPinnedScreenVisible}
       />
       <View style={styles.flatListContainer}>
