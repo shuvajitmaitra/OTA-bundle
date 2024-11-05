@@ -136,7 +136,7 @@ const getStyles = Colors =>
     },
     replayCountText: {
       color: Colors.Primary,
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: 'WorkSans-SemiBold',
       fontSize: responsiveScreenFontSize(2),
     },
     container: {

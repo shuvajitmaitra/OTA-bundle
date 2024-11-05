@@ -34,6 +34,11 @@ export default function MessageTopPart({
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat} = useSelector(state => state.chat);
+  console.log('chat', JSON.stringify(chat, null, 1));
+  const {selectedMessageScreen: selectedChat} = useSelector(
+    state => state.modal,
+  );
+  console.log('selectedChat', JSON.stringify(selectedChat, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
@@ -56,17 +61,15 @@ export default function MessageTopPart({
               style={styles.profileImage}
               size={35}
               source={
-                chat.isChannel
-                  ? chat.avatar
-                    ? {uri: chat.avatar}
-                    : Images.DEFAULT_IMAGE
+                selectedChat.image
+                  ? {uri: selectedChat.image}
                   : Images.DEFAULT_IMAGE
               }
             />
           </View>
           <View style={styles.profileNameContainer}>
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
-              {chat.isChannel ? chat.name : chat.otherUser.fullName}
+              {selectedChat.name && selectedChat.name}
             </Text>
             <View>
               {chat?.typingData?.isTyping ? (

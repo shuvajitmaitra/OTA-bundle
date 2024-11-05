@@ -57,9 +57,13 @@ import ChatFooter2 from '../../components/ChatCom/ChatFooter2';
 import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
 import ThreadMessageItem from '../../components/ChatCom/ThreadMessageItem';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
+import {useDispatch, useSelector} from 'react-redux';
+import {setThreadMessages} from '../../store/reducer/chatSlice';
 
 const ThreadScreen = ({route}) => {
   const {chatMessage} = route.params;
+  const dispatch = useDispatch();
+  const {threadMessages} = useSelector(state => state.chatSlice);
   // console.log('chatMessage', JSON.stringify(chatMessage, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -88,7 +92,13 @@ const ThreadScreen = ({route}) => {
       .post(`/chat/messages`, options)
       .then(res => {
         console.log('res.data', JSON.stringify(res.data, null, 1));
-        setLocalMessages(pre => [...pre, ...res.data.messages.reverse()]);
+        dispatch(
+          setThreadMessages([
+            ...threadMessages,
+            ...res.data.messages.reverse(),
+          ]),
+        );
+        // setLocalMessages(pre => [...pre, ...res.data.messages.reverse()]);
         setPage(pre => pre + 1);
       })
       .catch(error => {
