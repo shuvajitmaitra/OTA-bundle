@@ -39,6 +39,8 @@
 import {
   ActivityIndicator,
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -92,14 +94,10 @@ const ThreadScreen = ({route}) => {
       .post(`/chat/messages`, options)
       .then(res => {
         console.log('res.data', JSON.stringify(res.data, null, 1));
-        dispatch(
-          setThreadMessages([
-            ...threadMessages,
-            ...res.data.messages.reverse(),
-          ]),
-        );
+        dispatch(setThreadMessages(res.data.messages.reverse()));
         // setLocalMessages(pre => [...pre, ...res.data.messages.reverse()]);
-        setPage(pre => pre + 1);
+        // if(threadMessages.length  )
+        // setPage(pre => pre + 1);
       })
       .catch(error => {
         console.log('error getting replies', JSON.stringify(error, null, 1));
@@ -128,39 +126,47 @@ const ThreadScreen = ({route}) => {
   return (
     <View
       style={{
-        paddingTop: top,
         flex: 1,
         backgroundColor: Colors.White,
+        paddingTop: top,
         paddingBottom: 20,
       }}>
-      <ScreenHeader />
-      {<ThreadMessageItem message={chatMessage} isLoading={isLoading} />}
-      <View style={styles.flatListContainer}>
-        <FlatList
-          data={localMessages}
-          renderItem={renderItem}
-          keyExtractor={item => item._id.toString()}
-          onEndReached={() =>
-            getReplies({
-              parentMessage: chatMessage._id,
-              chat: chatMessage.chat,
-              page,
-            })
-          }
-          onEndReachedThreshold={0.5}
-          //   ListFooterComponent={ListFooterComponent}
-          inverted
-          // ListEmptyComponent={() => <NoDataAvailable />}
+      <KeyboardAvoidingView
+        style={{
+          flex: 1,
+          backgroundColor: Colors.White,
+        }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}>
+        <ScreenHeader />
+        {<ThreadMessageItem message={chatMessage} isLoading={isLoading} />}
+        <View style={styles.flatListContainer}>
+          <FlatList
+            data={threadMessages}
+            renderItem={renderItem}
+            keyExtractor={item => item._id.toString()}
+            // onEndReached={() =>
+            //   getReplies({
+            //     parentMessage: chatMessage._id,
+            //     chat: chatMessage.chat,
+            //     page,
+            //   })
+            // }
+            onEndReachedThreshold={0.5}
+            //   ListFooterComponent={ListFooterComponent}
+            inverted
+            // ListEmptyComponent={() => <NoDataAvailable />}
+          />
+        </View>
+        <ChatFooter2
+          parentId={chatMessage._id}
+          chatId={chatMessage.chat}
+          messageEditVisible={messageEditVisible}
+          setMessageEditVisible={setMessageEditVisible}
+          messageOptionData={chatMessage}
+          setMessages={setLocalMessages}
         />
-      </View>
-      <ChatFooter2
-        parentId={chatMessage._id}
-        chatId={chatMessage.chat}
-        messageEditVisible={messageEditVisible}
-        setMessageEditVisible={setMessageEditVisible}
-        messageOptionData={chatMessage}
-        setMessages={setLocalMessages}
-      />
+      </KeyboardAvoidingView>
     </View>
   );
 };

@@ -63,7 +63,9 @@ const Message2 = ({item, index, nextSender}) => {
             ),
           )}
         </Markdown>
-        <EmojiContainer reacts={item.emoji} messageId={item._id} />
+        {!item?.parentMessage && (
+          <EmojiContainer reacts={item.emoji} messageId={item._id} />
+        )}
         <View style={styles.messageBottomContainer}>
           {item.replyCount > 0 && (
             <TouchableOpacity

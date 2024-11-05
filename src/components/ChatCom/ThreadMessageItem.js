@@ -16,6 +16,7 @@ import AudioMessage from './AudioMessage';
 import LoadingSmall from '../SharedComponent/LoadingSmall';
 export default function ThreadMessageItem({message, isLoading = false}) {
   const {onlineUsers} = useSelector(state => state.chat);
+  const {threadMessages} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
@@ -114,12 +115,12 @@ export default function ThreadMessageItem({message, isLoading = false}) {
         <Text style={styles.replayCountText}>
           {isLoading ? (
             <LoadingSmall color={Colors.Primary} />
-          ) : message.replyCount ? (
-            message.replyCount
+          ) : threadMessages?.length ? (
+            threadMessages?.length
           ) : (
             0
           )}{' '}
-          {message.replyCount > 1 ? 'Replies' : 'Reply'}
+          {threadMessages?.length > 1 ? 'Replies' : 'Reply'}
         </Text>
       </View>
       {/* <Divider /> */}

@@ -20,7 +20,12 @@ import {RegularFonts} from '../../constants/Fonts';
 import ChatMessageInput from './ChatMessageInput';
 import {updateLatestMessage} from '../../store/reducer/chatReducer';
 import axiosInstance from '../../utility/axiosInstance';
-import {setLocalMessages, updateMessage} from '../../store/reducer/chatSlice';
+import {
+  setLocalMessages,
+  setThreadMessages,
+  updateMessage,
+  updateRepliesCount,
+} from '../../store/reducer/chatSlice';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ImageGallery from './ChatFooter/ImageGallery';
 import AudioRecorder from './ChatFooter/AudioRecorder';
@@ -58,7 +63,7 @@ const ChatFooter2 = ({
   const [text, setText] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
   const {user} = useSelector(state => state.auth);
-  const {localMessages} = useSelector(state => state.chatSlice);
+  const {localMessages, threadMessages} = useSelector(state => state.chatSlice);
   const {singleChat} = useSelector(state => state.chat);
   const [documentVisible, setDocumentVisible] = useState(null);
   const [showBottom, setShowBottom] = useState(false);
@@ -133,7 +138,8 @@ const ChatFooter2 = ({
         );
         console.log('res.data', JSON.stringify(res.data, null, 1));
         if (parentId) {
-          setMessages(pre => [res.data.message, ...pre]);
+          dispatch(setThreadMessages([res.data.message, ...threadMessages]));
+          dispatch(updateRepliesCount(parentId));
         } else {
           setMessages(prev => ({
             ...prev,
