@@ -12,6 +12,7 @@ import {setDisplayMode} from '../../store/reducer/chatReducer';
 import CustomeFonts from '../../constants/CustomeFonts';
 import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import GlobalRadioGroup from '../../components/SharedComponent/GlobalRadioButton';
 
 const DisplaySettingsScreen = () => {
   const Colors = useTheme();
@@ -20,6 +21,10 @@ const DisplaySettingsScreen = () => {
   const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const [checked, setChecked] = useState(displayMode || 'default');
+  const options = [
+    {value: 'default', label: 'Default'},
+    {value: 'dark', label: 'Dark'},
+  ];
   useEffect(() => {
     if (displayMode) {
       setChecked(displayMode);
@@ -58,70 +63,18 @@ const DisplaySettingsScreen = () => {
       <Text style={styles.headingText}>Display settings</Text>
       <Text style={styles.description}>Choose your display color</Text>
       <View style={styles.themeContainer}>
-        <View style={styles.radioContainer}>
-          <RadioButton
-            value={displayMode}
-            status={checked == 'default' ? 'checked' : 'unchecked'}
-            onPress={() => {
-              handleRadioChecked('default');
-            }}
-            color={Colors.Primary}
-          />
-          <Text
-            style={[
-              checked === 'system'
-                ? styles.radioText
-                : {
-                    color: Colors.Heading,
-                    fontFamily: CustomeFonts.REGULAR,
-                  },
-            ]}>
-            Default
-          </Text>
-        </View>
-        <View style={styles.radioContainer}>
-          <RadioButton
-            value={displayMode}
-            status={checked === 'dark' ? 'checked' : 'unchecked'}
-            onPress={() => {
-              handleRadioChecked('dark');
-            }}
-            color={Colors.Primary}
-          />
-          <Text
-            style={[
-              checked === 'system'
-                ? styles.radioText
-                : {
-                    color: Colors.Heading,
-                    fontFamily: CustomeFonts.REGULAR,
-                  },
-            ]}>
-            Dark
-          </Text>
-        </View>
-        {/* <View style={styles.radioContainer}>
-          <RadioButton
-            value={displayMode}
-            status={checked === "system" ? "checked" : "unchecked"}
-            onPress={() => {
-              handleRadioChecked("system");
-            }}
-            color={Colors.Primary}
-          />
-          <Text
-            style={[
-              checked === "system"
-                ? styles.radioText
-                : {
-                  color: Colors.Heading,
-                  fontFamily: CustomeFonts.REGULAR,
-                },
-            ]}
-          >
-            System
-          </Text>
-        </View> */}
+        <GlobalRadioGroup
+          options={options}
+          onSelect={stc => handleRadioChecked(stc)}
+          selectedValue={checked}
+          customStyle={{
+            flexDirection: 'row',
+            gap: 30,
+            // justifyContent: 'space-between',
+            // backgroundColor: 'red',
+            // flex: 1,
+          }}
+        />
       </View>
 
       {/* <Button title="Restart" onPress={() => Restart()} /> */}
