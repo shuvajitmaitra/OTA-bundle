@@ -8,6 +8,7 @@ import {
   Image,
   Switch,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 
 import {
@@ -178,6 +179,11 @@ const ChatProfile = () => {
 
   return (
     <View style={[styles.container, {paddingTop: top}]}>
+      <StatusBar
+        translucent={true}
+        backgroundColor={Colors.White}
+        barStyle={'dark-content'}
+      />
       <GlobalBackButton />
       <ScrollView
         showsVerticalScrollIndicator={false}

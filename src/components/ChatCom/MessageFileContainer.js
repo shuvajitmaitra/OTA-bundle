@@ -53,7 +53,7 @@ const MessageFileContainer = ({files}) => {
     return (
       <View
         style={{
-          backgroundColor: Colors.Gray3,
+          backgroundColor: Colors.WhiteOpacityColor,
           paddingHorizontal: 10,
           borderRadius: 100,
           marginTop: 5,

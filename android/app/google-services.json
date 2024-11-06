@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:325477367628:android:8d4b2876550324b37d59e9",
+        "mobilesdk_app_id": "1:325477367628:android:3344c31cf89b244e7d59e9",
         "android_client_info": {
-          "package_name": "com.ts4u.bootcampshubChat"
+          "package_name": "com.bootcampshub_chat"
         }
       },
       "oauth_client": [],

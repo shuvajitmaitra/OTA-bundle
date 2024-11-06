@@ -12,6 +12,7 @@ import GroupModalMembers from './GroupModalMembers';
 import {useTheme} from '../../../context/ThemeContext';
 import {useSelector} from 'react-redux';
 import axiosInstance from '../../../utility/axiosInstance';
+import UserModalVoice from '../UserModalVoice';
 
 // eslint-disable-next-line no-undef
 export default GroupModalTabView = () => {
@@ -116,7 +117,7 @@ export default GroupModalTabView = () => {
           isLoading={isLoading}
         />
       )}
-      {/* {status === 'Voices' && <UserModalVoice />} */}
+      {status === 'Voices' && <UserModalVoice />}
       {/* <View>
         {
           //  ||
