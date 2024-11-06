@@ -38,6 +38,10 @@ export default function MessageTopPart({
   const {selectedMessageScreen: selectedChat} = useSelector(
     state => state.modal,
   );
+  // console.log(
+  //   'selectedChat.image',
+  //   JSON.stringify(selectedChat.image, null, 1),
+  // );
   const Colors = useTheme();
   const styles = getStyles(Colors);
 

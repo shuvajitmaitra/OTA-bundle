@@ -88,10 +88,10 @@ const ChatProfile = () => {
       .post(`/chat/members/${chat._id}`)
       .then(res => {
         dispatch(setCrowdMembers(res.data.results));
-        console.log(
-          'res.data.results',
-          JSON.stringify(res.data.results, null, 1),
-        );
+        // console.log(
+        //   'res.data.results',
+        //   JSON.stringify(res.data.results, null, 1),
+        // );
       })
       .catch(error => {
         console.log(

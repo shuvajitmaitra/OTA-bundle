@@ -84,6 +84,30 @@ const ChatItem = ({
       : chat?.latestMessage?.sender?.firstName?.split(' ')[0];
   const Colors = useTheme();
   const styles = getStyles(Colors);
+
+  function removeMarkdown(text) {
+    if (!text) {
+      return '';
+    }
+
+    // Regular expressions for matching common Markdown syntax
+    return (
+      text
+        .replace(/(\*\*|__)(.*?)\1/g, '$2') // Bold (e.g., **text** or __text__)
+        .replace(/(\*|_)(.*?)\1/g, '$2') // Italics (e.g., *text* or _text_)
+        .replace(/~~(.*?)~~/g, '$1') // Strikethrough (e.g., ~~text~~)
+        .replace(/`(.*?)`/g, '$1') // Inline code (e.g., `code`)
+        .replace(/!\[.*?\]\(.*?\)/g, '') // Images (e.g., ![alt text](url))
+        // .replace(/\[.*?\]\(.*?\)/g, "$1") // Links (e.g., [text](url))
+        .replace(/^\s*#{1,6}\s*/gm, '') // Headers (e.g., # Header)
+        .replace(/>\s?/g, '') // Blockquotes (e.g., > text)
+        .replace(/^-{3,}\s*$/gm, '') // Horizontal rules (e.g., ---)
+        .replace(/(?:^|\n)\s*-\s+/g, '\n') // Lists (e.g., - item)
+        .replace(/(?:^|\n)\s*\d+\.\s+/g, '\n') // Ordered lists (e.g., 1. item)
+        .replace(/\n{2,}/g, '\n') // Collapse multiple newlines
+        .trim()
+    ); // Trim leading/trailing whitespace
+  }
   return (
     <TouchableOpacity
       style={[styles.container]}
@@ -223,7 +247,8 @@ const ChatItem = ({
                 <Text style={{color: Colors.BodyText}}>
                   {`${senderName}: ${getText(
                     replaceMentionToName(
-                      chat?.latestMessage?.text || 'Deleted the message',
+                      removeMarkdown(chat?.latestMessage?.text) ||
+                        'Deleted the message',
                     ),
                   )}`}
                 </Text>
