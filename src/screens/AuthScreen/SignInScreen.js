@@ -20,6 +20,8 @@ import TopLogo from '../../components/AuthenticationCom/TopLogo';
 import axiosInstance from '../../utility/axiosInstance';
 import {useMainContext} from '../../context/MainContext';
 import {storage} from '../../utility/mmkvInstance';
+import EyeIcon from '../../assets/Icons/EyeIcon';
+import EyeClose from '../../assets/Icons/EyeClose';
 
 export default function SignInScreen({navigation}) {
   const {handleVerify} = useMainContext();
@@ -32,6 +34,7 @@ export default function SignInScreen({navigation}) {
     isValidPassword: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(true);
 
   // Validate email and update state
   const textInputChange = val => {
@@ -125,7 +128,9 @@ export default function SignInScreen({navigation}) {
         <TextInput
           style={[
             styles.inputField,
-            data.isValidUser ? styles.validInput : styles.invalidInput,
+            data.isValidUser || data.email.length === 0
+              ? styles.validInput
+              : styles.invalidInput,
           ]}
           placeholder="Enter email"
           placeholderTextColor={Colors.BodyText}
@@ -142,17 +147,30 @@ export default function SignInScreen({navigation}) {
       {/* Password Input Field */}
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Password *</Text>
-        <TextInput
-          style={[
-            styles.inputField,
-            data.isValidPassword ? styles.validInput : styles.invalidInput,
-          ]}
-          placeholder="Enter password"
-          placeholderTextColor={Colors.BodyText}
-          secureTextEntry={true}
-          onChangeText={handlePasswordChange}
-          value={data.password}
-        />
+        <View style={{position: 'relative'}}>
+          <TextInput
+            style={[
+              styles.inputField,
+              data.isValidPassword || data.password.length === 0
+                ? styles.validInput
+                : styles.invalidInput,
+            ]}
+            placeholder="Enter password"
+            placeholderTextColor={Colors.BodyText}
+            secureTextEntry={passwordVisible}
+            onChangeText={handlePasswordChange}
+            value={data.password}
+          />
+          <TouchableOpacity
+            onPress={() => setPasswordVisible(pre => !pre)}
+            style={{position: 'absolute', right: 20, top: '44%'}}>
+            {passwordVisible ? (
+              <EyeClose />
+            ) : (
+              <EyeIcon color={Colors.BodyText} />
+            )}
+          </TouchableOpacity>
+        </View>
         <Text style={styles.passwordDetails}>
           Must be at least 8 characters
         </Text>
@@ -222,6 +240,7 @@ const getStyles = Colors =>
       marginTop: responsiveScreenHeight(1),
       fontSize: responsiveScreenFontSize(2),
       //   fontFamily: CustomeFonts.REGULAR,
+      color: Colors.BodyText,
     },
     validInput: {
       borderColor: 'rgba(39, 172, 31, 1)',

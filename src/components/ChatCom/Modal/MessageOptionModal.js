@@ -163,7 +163,7 @@ const MessageOptionModal = ({
               },
             ]}
             key={item.name}>
-            <Text style={{fontSize: 22}}>{item.symbol}</Text>
+            <Text style={{fontSize: 25}}>{item.symbol}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -179,9 +179,10 @@ const getStyles = Colors =>
       flexDirection: 'row',
       gap: 10,
       marginTop: 20,
+      justifyContent: 'space-between',
     },
     emoji: {
-      padding: 10,
+      padding: 12,
       backgroundColor: Colors.CyanOpacity,
       borderRadius: 100,
     },

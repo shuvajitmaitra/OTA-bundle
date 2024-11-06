@@ -8,8 +8,9 @@ import {useDispatch} from 'react-redux';
 import {updateMessage} from '../../store/reducer/chatSlice';
 import {updateLatestMessage} from '../../store/reducer/chatReducer';
 import {onEmojiClick} from '../../actions/apiCall';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 
-const EmojiContainer = ({reacts = [], messageId}) => {
+const EmojiContainer = ({reacts = [], messageId, my}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const dispatch = useDispatch();
@@ -44,6 +45,33 @@ const EmojiContainer = ({reacts = [], messageId}) => {
     acc[item?.symbol] = (acc[item?.symbol] || 0) + 1;
     return acc;
   }, {});
+  const groupBy = (key, array) => {
+    return array.reduce(function (r, a) {
+      r[a.symbol] = r[a.symbol] || [];
+      r[a.symbol].push(a);
+      return r;
+    }, Object.create(null));
+  };
+
+  return (
+    <View>
+      {Object.keys(groupBy('symbil', reacts)).map((key, index) => (
+        <TouchableOpacity
+          onPress={() => onEmojiClick(key, messageId)}
+          style={styles.emojiContainer}
+          key={index}>
+          <Text>{key}</Text>
+          <Text
+            style={[
+              styles.emojiText,
+              {color: my ? Colors.PureWhite : Colors.BodyText},
+            ]}>
+            {groupBy('symbil', reacts)[key]?.length}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
 
   const results = emojies?.map(emoji => ({
     name: emoji?.name,
@@ -56,7 +84,7 @@ const EmojiContainer = ({reacts = [], messageId}) => {
       <TouchableOpacity
         onPress={() => onEmojiClick(item.symbol, messageId)}
         style={styles.emojiContainer}>
-        <Text>{item?.symbol || '👍'}</Text>
+        <Text style={{fontSize: 20}}>{item?.symbol || '👍'}</Text>
         {item.count !== 0 && <Text style={styles.emojiText}>{item.count}</Text>}
       </TouchableOpacity>
     );
@@ -87,9 +115,10 @@ const getStyles = Colors =>
       gap: 5,
       alignItems: 'center',
       marginVertical: 10,
+      width: responsiveScreenWidth(10),
     },
     emojiText: {
-      color: Colors.Heading,
+      color: Colors.BodyText,
       fontSize: RegularFonts.HS,
     },
   });

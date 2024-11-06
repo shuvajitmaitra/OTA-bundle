@@ -2,6 +2,7 @@ import moment from 'moment';
 import {Alert, Share} from 'react-native';
 import {showToast} from '../components/HelperFunction';
 import store from '../store';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 export const eventTypes = type => {
   return type == 'showNTell'
@@ -126,9 +127,15 @@ export const onShare = async message => {
     Alert.alert(error.message);
   }
 };
-// export const handleCopyLink = async (text, toast) => {
-//   await Clipboard.setStringAsync(text);
-// };
+export const handleCopyText = text => {
+  console.log('text', JSON.stringify(text, null, 1));
+  try {
+    Clipboard.setString(text);
+    // showToast('Link copied!');
+  } catch (error) {
+    console.error('Error while copying to clipboard:', error);
+  }
+};
 
 export const nameTrim = fullName => {
   const n = fullName || 'New User';

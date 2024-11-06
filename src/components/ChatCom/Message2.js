@@ -18,6 +18,8 @@ import {useNavigation} from '@react-navigation/native';
 import DeleteMessageContainer from './DeleteMessageContainer';
 import MessageFileContainer from './MessageFileContainer';
 import EmojiContainer from './EmojiContainer';
+import LinkIcon2 from '../../assets/Icons/LinkIcon2';
+import {handleCopyText} from '../../utility/commonFunction';
 
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
@@ -64,7 +66,7 @@ const Message2 = ({item, index, nextSender}) => {
           )}
         </Markdown>
         {!item?.parentMessage && (
-          <EmojiContainer reacts={item.emoji} messageId={item._id} />
+          <EmojiContainer my={my} reacts={item.emoji} messageId={item._id} />
         )}
         <View style={styles.messageBottomContainer}>
           {item.replyCount > 0 && (
@@ -78,6 +80,15 @@ const Message2 = ({item, index, nextSender}) => {
             </TouchableOpacity>
           )}
           <View style={{flexGrow: 1}}></View>
+
+          <TouchableOpacity
+            onPress={() => {
+              item.text && handleCopyText(item.text);
+            }}
+            style={styles.copyContainer}>
+            <LinkIcon2 color={my ? Colors.PureWhite : Colors.BodyText} />
+            <Text style={styles.copyText}>Copy</Text>
+          </TouchableOpacity>
 
           <View>
             <Text style={styles.timeText}>
@@ -101,6 +112,17 @@ export default Message2;
 
 const getStyles = (Colors, my) =>
   StyleSheet.create({
+    copyText: {
+      fontSize: 18,
+      color: my ? Colors.PureWhite : Colors.BodyText,
+      fontFamily: CustomeFonts.MEDIUM,
+    },
+    copyContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      // gap: ,
+      paddingRight: 10,
+    },
     editedText: {
       color: Colors.Red,
       textAlign: 'right',
@@ -144,7 +166,7 @@ const getStyles = (Colors, my) =>
     },
     messagesContainer: {
       backgroundColor: my ? Colors.Primary : Colors.Background_color,
-      padding: 3,
+      padding: 10,
       // paddingVertical: 10,
       marginHorizontal: 10,
       borderRadius: 10,
@@ -160,7 +182,7 @@ const getStyles = (Colors, my) =>
       whiteSpace: 'pre',
       body: {
         fontFamily: CustomeFonts.REGULAR,
-        fontSize: 16,
+        fontSize: 18,
         color: my ? Colors.PureWhite : Colors.BodyText,
         lineHeight: 20,
       },
