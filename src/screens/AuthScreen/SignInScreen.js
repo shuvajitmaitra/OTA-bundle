@@ -198,18 +198,17 @@ export default function SignInScreen({navigation}) {
       </TouchableOpacity>
 
       {/* Forgot Password Link */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         // onPress={() => navigation.navigate('ForgotPasswordPage')}
         activeOpacity={0.6}>
         <Text style={styles.forgotPasswordLink}>Forgot Password?</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Terms and Conditions */}
       <Text style={styles.terms}>
         By clicking “Sign in”, you agree to our{' '}
         <TouchableOpacity
-        // onPress={() => navigation.navigate('PrivacyPolicyScreen')}
-        >
+          onPress={() => navigation.navigate('PrivacyPolicyScreen')}>
           <Text style={styles.termsLink}>Terms of Use and Privacy Policy.</Text>
         </TouchableOpacity>
       </Text>
