@@ -7,6 +7,7 @@ import axiosInstance from '../../utility/axiosInstance';
 import {useDispatch} from 'react-redux';
 import {updateMessage} from '../../store/reducer/chatSlice';
 import {updateLatestMessage} from '../../store/reducer/chatReducer';
+import {onEmojiClick} from '../../actions/apiCall';
 
 const EmojiContainer = ({reacts = [], messageId}) => {
   const Colors = useTheme();
@@ -50,28 +51,10 @@ const EmojiContainer = ({reacts = [], messageId}) => {
     count: reacts.length > 0 ? symbolCountMap[emoji?.symbol] : 0,
   }));
 
-  const onEmojiClick = emoji => {
-    axiosInstance
-      .put(`/chat/react/${messageId}`, {symbol: emoji})
-      .then(res => {
-        dispatch(updateMessage(res.data.message));
-        dispatch(
-          updateLatestMessage({
-            chatId: res.data.message.chat,
-            latestMessage: res.data.message,
-            counter: 1,
-          }),
-        );
-      })
-      .catch(err => {
-        console.log('error in chat reaction', err);
-      });
-  };
-
   const renderItem = ({item}) => {
     return (
       <TouchableOpacity
-        onPress={() => onEmojiClick(item.symbol)}
+        onPress={() => onEmojiClick(item.symbol, messageId)}
         style={styles.emojiContainer}>
         <Text>{item?.symbol || '👍'}</Text>
         {item.count !== 0 && <Text style={styles.emojiText}>{item.count}</Text>}

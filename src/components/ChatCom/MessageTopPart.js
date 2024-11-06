@@ -34,11 +34,10 @@ export default function MessageTopPart({
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat} = useSelector(state => state.chat);
-  console.log('chat', JSON.stringify(chat, null, 1));
+  // console.log('chat', JSON.stringify(chat, null, 1));
   const {selectedMessageScreen: selectedChat} = useSelector(
     state => state.modal,
   );
-  console.log('selectedChat', JSON.stringify(selectedChat, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
 

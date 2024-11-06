@@ -14,30 +14,38 @@ import {
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
+import {launchImageLibrary} from 'react-native-image-picker';
+import DocumentPicker from 'react-native-document-picker';
+
 import SendContainer from './ChatFooter/SendContainer';
+import ChatMessageInput from './ChatMessageInput';
+import ImageGallery from './ChatFooter/ImageGallery';
+import AudioRecorder from './ChatFooter/AudioRecorder';
+import DocumentContainer from './DocumentContainer';
+import LoadingSmall from '../SharedComponent/LoadingSmall';
+
+import PlusIcon from '../../assets/Icons/PlusIcon';
+import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
+import GallaryIcon from '../../assets/Icons/GallaryIcon';
+import ArrowTopIcon from '../../assets/Icons/ArrowTopIcon';
+import MicIcon from '../../assets/Icons/MicIcon';
+import SendIcon from '../../assets/Icons/SendIcon';
+
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
-import ChatMessageInput from './ChatMessageInput';
-import {updateLatestMessage} from '../../store/reducer/chatReducer';
 import axiosInstance from '../../utility/axiosInstance';
+import {socket} from '../../utility/socketManager';
+
 import {
   setLocalMessages,
   setThreadMessages,
   updateMessage,
   updateRepliesCount,
 } from '../../store/reducer/chatSlice';
-import {launchImageLibrary} from 'react-native-image-picker';
-import ImageGallery from './ChatFooter/ImageGallery';
-import AudioRecorder from './ChatFooter/AudioRecorder';
-import PlusIcon from '../../assets/Icons/PlusIcon';
-import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
-import DocumentPicker from 'react-native-document-picker';
-import GallaryIcon from '../../assets/Icons/GallaryIcon';
-import SendIcon from '../../assets/Icons/SendIcon';
-import ArrowTopIcon from '../../assets/Icons/ArrowTopIcon';
-import DocumentContainer from './DocumentContainer';
-import LoadingSmall from '../SharedComponent/LoadingSmall';
-import {socket} from '../../utility/socketManager';
+import {updateLatestMessage} from '../../store/reducer/chatReducer';
+
+// Utility functions and constants
 const URL_REGEX =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 const WWW_REGEX = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
@@ -60,19 +68,29 @@ const ChatFooter2 = ({
   setMessageEditVisible = () => {},
   parentId = '',
 }) => {
-  const [text, setText] = useState('');
-  const [selectedImages, setSelectedImages] = useState([]);
+  const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
   const {localMessages, threadMessages} = useSelector(state => state.chatSlice);
   const {singleChat} = useSelector(state => state.chat);
+
+  const Colors = useTheme();
+  const styles = getStyles(Colors);
+
+  // State variables
+  const [text, setText] = useState('');
+  const [selectedImages, setSelectedImages] = useState([]);
   const [documentVisible, setDocumentVisible] = useState(null);
   const [showBottom, setShowBottom] = useState(false);
-  const [selected, setSelected] = useState([]);
+  const [selectedDocuments, setSelectedDocuments] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [typing, setTyping] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState(null);
-  const [editedText, setEditedText] = useState(messageEditVisible.text);
+  const [editedText, setEditedText] = useState(messageEditVisible.text || '');
+  const [messageClicked, setMessageClicked] = useState(false);
+  const [startRecording, setStartRecording] = useState(false);
+  const [isSendingText, setIsSendingText] = useState(false);
 
+  // Enable LayoutAnimation on Android
   useEffect(() => {
     if (
       Platform.OS === 'android' &&
@@ -81,275 +99,34 @@ const ChatFooter2 = ({
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
   }, []);
+
+  // Keyboard event listeners
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => setShowBottom(false),
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {},
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  // Toggle the bottom container
   const toggleBottom = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     Keyboard.dismiss();
-    setShowBottom(pre => !pre);
-  };
-  const dispatch = useDispatch();
-
-  const [messageClicked, setMessageClicked] = useState(false);
-  const [startRecording, setStartRecording] = useState(false);
-
-  // Theme context
-  const Colors = useTheme();
-  const styles = getStyles(Colors);
-
-  const [isSendingText, setIsSendingText] = useState(false);
-
-  const sendMessage = useCallback(
-    async (txt, files) => {
-      console.log(files);
-      setSelectedImages([]);
-      setDocumentVisible(false);
-      setSelected([]);
-      Keyboard.dismiss();
-      setIsSendingText(true);
-      const data = {
-        text: convertLink(txt || text),
-        files: files || [],
-        parentMessage: parentId,
-      };
-      const randomId = Math.floor(Math.random() * (999999 - 1111) + 1111);
-      const messageData = {
-        message: {
-          ...data,
-          _id: randomId,
-          sender: {
-            _id: user?._id,
-            fullName: `${user?.firstName} ${user?.lastName}`,
-            profilePicture: user.profilePicture,
-          },
-          createdAt: Date.now(),
-          status: 'sending',
-          chat: chatId,
-          type: 'message',
-        },
-      };
-
-      // Optimistically add the message to the UI
-      // dispatch(pushMessage(messageData));
-      setText('');
-
-      try {
-        const res = await axiosInstance.put(
-          `/chat/sendmessage/${chatId}`,
-          data,
-        );
-        console.log('res.data', JSON.stringify(res.data, null, 1));
-        if (parentId) {
-          dispatch(setThreadMessages([res.data.message, ...threadMessages]));
-          dispatch(updateRepliesCount(parentId));
-        } else {
-          setMessages(prev => ({
-            ...prev,
-            [chatId]: [res.data.message, ...(prev[chatId] || [])],
-          }));
-          dispatch(setLocalMessages([res.data.message, ...localMessages]));
-        }
-        // setLocalMessages(pre => [res.data.message, ...pre]);
-        setSelectedImages([]);
-      } catch (err) {
-        setIsSendingText(false);
-
-        if (__DEV__) {
-          console.error('Error sending message:', err.response?.data);
-        }
-      } finally {
-        setIsSendingText(false);
-        setUploading(false);
-      }
-    },
-    [
-      text,
-      user?._id,
-      user?.firstName,
-      user?.lastName,
-      user.profilePicture,
-      chatId,
-      setMessages,
-      dispatch,
-      localMessages,
-    ],
-  );
-
-  const toggleMessageClicked = useCallback(() => {
-    setMessageClicked(prev => !prev);
-  }, []);
-
-  const [isUploading, setIsUploading] = useState(false);
-  const UploadImages = async txt => {
-    // closePopover();
-    try {
-      // if (selected?.length > 5) {
-      //   showAlert({
-      //     title: 'Limit Exceeded',
-      //     type: 'warning',
-      //     message: 'Maximum 5 files can be uploaded',
-      //   });
-      // }
-
-      setIsUploading(true);
-
-      let results = await Promise.all(
-        selectedImages?.map(async item => {
-          try {
-            let formData = new FormData();
-            formData.append('file', {
-              uri: item.uri,
-              name: item.name || 'uploaded_file',
-              type: item.mimeType || 'application/octet-stream',
-            });
-
-            const config = {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            };
-
-            let res = await axiosInstance.post('/chat/file', formData, config);
-            let file = res.data.file;
-            return file;
-          } catch (error) {
-            setIsUploading(false);
-            console.log({error});
-            Alert.alert('Failed', 'Upload Failed');
-            // showAlert({
-            //   title: 'Failed',
-            //   type: 'error',
-            //   message: 'Upload Failed',
-            // });
-            // throw error;
-          }
-        }),
-      );
-      let files = results?.map(file => ({
-        name: file?.name || 'uploaded_file',
-        size: file?.size,
-        type: file?.type,
-        url: file?.location,
-      }));
-      // setAllFiles(files);
-      sendMessage(txt, files);
-      setIsUploading(false);
-    } catch (error) {
-      console.log(error);
-      // showAlert({
-      //   title: 'Failed',
-      //   type: 'error',
-      //   message: 'Upload Failed',
-      // });
-    }
+    setShowBottom(prev => !prev);
   };
 
-  const selectImage = () => {
-    Keyboard.dismiss();
-    const options = {
-      mediaType: 'photo',
-      maxWidth: 300,
-      maxHeight: 300,
-      quality: 1,
-      selectionLimit: 5,
-    };
-
-    launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        setSelectedImages(response.assets);
-      }
-    });
-  };
-
-  const handleDocumentSelection = async () => {
-    setShowBottom(false);
-    setDocumentVisible(true);
-    console.log('Document Picker called');
-    try {
-      const result = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
-        allowMultiSelection: false,
-      });
-      setSelected(result);
-      //   console.log('Selected File:', result);
-      console.log('result[0]', JSON.stringify(result, null, 1));
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('User canceled the picker');
-        setDocumentVisible(false);
-        setSelected({});
-      } else {
-        console.error(err);
-      }
-    }
-  };
-
-  const UploadDocument = async txt => {
-    // closePopover();
-    setUploading(true);
-    setDocumentVisible(false);
-    try {
-      //   if (selected?.length > 5) {
-      //     showAlertModal({
-      //       title: "Limit Exceeded",
-      //       type: "warning",
-      //       message: "Maximum 5 files can be uploaded",
-      //     });
-      //   }
-
-      //   setIsUploading(true);
-
-      let results = await Promise.all(
-        selected?.map(async item => {
-          try {
-            let formData = new FormData();
-            formData.append('file', {
-              uri: item.uri,
-              name: item.name || 'uploaded_file',
-              type: item.mimeType || 'application/octet-stream',
-            });
-
-            const config = {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            };
-
-            let res = await axiosInstance.post('/chat/file', formData, config);
-            let file = res.data.file;
-            return file;
-          } catch (error) {
-            // setIsUploading(false);
-            console.log({error});
-            // Alert.alert("Failed", "Upload Failed");
-            // showAlertModal({
-            //   title: "Failed",
-            //   type: "error",
-            //   message: "Upload Failed",
-            // });
-            throw error;
-          }
-        }),
-      );
-      let files = results?.map(file => ({
-        name: file?.name || 'uploaded_file',
-        size: file?.size,
-        type: file?.type,
-        url: file?.location,
-      }));
-      console.log('files', JSON.stringify(files, null, 1));
-      sendMessage(txt, files);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  let handleKey = () => {
-    let profileData = {
+  // Handle message input changes and typing status
+  const handleKey = () => {
+    const profileData = {
       _id: user?._id,
       firstName: user?.firstName,
       lastName: user?.lastName,
@@ -377,46 +154,258 @@ const ChatFooter2 = ({
       }, 2000),
     );
   };
-  const handleEditMessage = message => {
-    if (!text) {
-      return Alert.alert('Write something');
-    }
-    let data = {
-      text: convertLink(text),
-    };
-    Keyboard.dismiss();
-    setIsSendingText(true);
-    axiosInstance
-      .patch(`/chat/update/message/${message?._id}`, data)
-      .then(res => {
-        setText('');
-        // setMessageToEdit(null);
-        let newMessage = {...res.data.message, editedAt: new Date()};
-        dispatch(updateMessage(newMessage));
-        dispatch(
-          updateLatestMessage({
-            chatId: message?.chat,
-            latestMessage: res.data.message,
-            counter: 1,
-          }),
+
+  // Send message handler
+  const sendMessage = useCallback(
+    async (txt, files) => {
+      setSelectedImages([]);
+      setSelectedDocuments([]);
+      setDocumentVisible(false);
+      setShowBottom(false);
+      Keyboard.dismiss();
+      setIsSendingText(true);
+
+      const data = {
+        text: convertLink(txt || text),
+        files: files || [],
+        parentMessage: parentId,
+      };
+      const randomId = Math.floor(Math.random() * (999999 - 1111) + 1111);
+      const messageData = {
+        message: {
+          ...data,
+          _id: randomId,
+          sender: {
+            _id: user?._id,
+            fullName: `${user?.firstName} ${user?.lastName}`,
+            profilePicture: user.profilePicture,
+          },
+          createdAt: Date.now(),
+          status: 'sending',
+          chat: chatId,
+          type: 'message',
+        },
+      };
+
+      setText('');
+
+      try {
+        const res = await axiosInstance.put(
+          `/chat/sendmessage/${chatId}`,
+          data,
         );
-        setMessageEditVisible('');
+
+        if (parentId) {
+          dispatch(setThreadMessages([res.data.message, ...threadMessages]));
+          dispatch(updateRepliesCount(parentId));
+        } else {
+          setMessages(prev => ({
+            ...prev,
+            [chatId]: [res.data.message, ...(prev[chatId] || [])],
+          }));
+          dispatch(setLocalMessages([res.data.message, ...localMessages]));
+        }
+        setSelectedImages([]);
+        setSelectedDocuments([]);
+      } catch (err) {
         setIsSendingText(false);
-      })
-      .catch(err => {
+        if (__DEV__) {
+          console.error('Error sending message:', err.response?.data);
+        }
+        Alert.alert('Error', 'Failed to send message.');
+      } finally {
         setIsSendingText(false);
-      });
+        setUploading(false);
+      }
+    },
+    [
+      text,
+      user,
+      chatId,
+      setMessages,
+      dispatch,
+      localMessages,
+      parentId,
+      threadMessages,
+    ],
+  );
+
+  // Handle image selection
+  const selectImage = () => {
+    Keyboard.dismiss();
+    const options = {
+      mediaType: 'photo',
+      maxWidth: 300,
+      maxHeight: 300,
+      quality: 1,
+      selectionLimit: 5,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        setSelectedImages(response.assets);
+      }
+    });
   };
 
+  // Handle document selection
+  const handleDocumentSelection = async () => {
+    setShowBottom(false);
+    setDocumentVisible(true);
+    try {
+      const result = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+        allowMultiSelection: false,
+      });
+      setSelectedDocuments(result);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('User canceled the picker');
+        setDocumentVisible(false);
+        setSelectedDocuments([]);
+      } else {
+        console.error(err);
+        Alert.alert('Error', 'Failed to pick document.');
+      }
+    }
+  };
+
+  // Upload images and send message
+  const uploadImagesAndSend = async txt => {
+    setUploading(true);
+    try {
+      const uploadedFiles = await Promise.all(
+        selectedImages.map(async item => {
+          const formData = new FormData();
+          formData.append('file', {
+            uri: item.uri,
+            name: item.fileName || 'uploaded_image',
+            type: item.type || 'image/jpeg',
+          });
+
+          const config = {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          };
+
+          const res = await axiosInstance.post('/chat/file', formData, config);
+          return res.data.file;
+        }),
+      );
+
+      const files = uploadedFiles.map(file => ({
+        name: file.name || 'uploaded_file',
+        size: file.size,
+        type: file.type,
+        url: file.location,
+      }));
+
+      sendMessage(txt, files);
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Error', 'Failed to upload images.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // Upload documents and send message
+  const uploadDocumentsAndSend = async txt => {
+    setUploading(true);
+    setDocumentVisible(false);
+    try {
+      const uploadedFiles = await Promise.all(
+        selectedDocuments.map(async item => {
+          const formData = new FormData();
+          formData.append('file', {
+            uri: item.uri,
+            name: item.name || 'uploaded_document',
+            type: item.type || 'application/pdf',
+          });
+
+          const config = {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          };
+
+          const res = await axiosInstance.post('/chat/file', formData, config);
+          return res.data.file;
+        }),
+      );
+
+      const files = uploadedFiles.map(file => ({
+        name: file.name || 'uploaded_file',
+        size: file.size,
+        type: file.type,
+        url: file.location,
+      }));
+
+      sendMessage(txt, files);
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Error', 'Failed to upload document.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // Toggle message edit mode
+  const toggleMessageClicked = useCallback(() => {
+    setMessageClicked(prev => !prev);
+  }, []);
+
+  // Handle message editing
+  const handleEditMessage = async message => {
+    if (!editedText.trim()) {
+      return Alert.alert('Validation', 'Please write something.');
+    }
+
+    const data = {
+      text: convertLink(editedText),
+    };
+
+    Keyboard.dismiss();
+    setIsSendingText(true);
+
+    try {
+      const res = await axiosInstance.patch(
+        `/chat/update/message/${message._id}`,
+        data,
+      );
+      const newMessage = {...res.data.message, editedAt: new Date()};
+      dispatch(updateMessage(newMessage));
+      dispatch(
+        updateLatestMessage({
+          chatId: message.chat,
+          latestMessage: res.data.message,
+          counter: 1,
+        }),
+      );
+      setMessageEditVisible(false);
+      setEditedText('');
+    } catch (err) {
+      console.error(err);
+      Alert.alert('Error', 'Failed to edit message.');
+    } finally {
+      setIsSendingText(false);
+    }
+  };
+
+  // Render different states based on visibility
   if (messageEditVisible) {
     return (
       <>
-        <View style={styles.cancelContainer}>
-          <Text style={styles.editingText}>Editing message: </Text>
-          <TouchableOpacity onPress={() => setMessageEditVisible('')}>
-            <Text style={styles.editingButtonText}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
+        <EditMessageHeader
+          onCancel={() => setMessageEditVisible(false)}
+          styles={styles}
+          Colors={Colors}
+        />
         <View style={styles.editMessageContainer}>
           <ChatMessageInput
             handleKey={handleKey}
@@ -436,13 +425,13 @@ const ChatFooter2 = ({
   if (documentVisible) {
     return (
       <DocumentContainer
-        selected={selected}
+        selected={selectedDocuments}
         onClose={() => {
-          setSelected([]);
+          setSelectedDocuments([]);
           setDocumentVisible(false);
           setShowBottom(false);
         }}
-        UploadDocument={UploadDocument}
+        uploadDocument={uploadDocumentsAndSend}
         handleKey={handleKey}
         chat={singleChat?._id}
         isChannel={singleChat?.isChannel}
@@ -458,20 +447,16 @@ const ChatFooter2 = ({
           toggleBottom();
           setSelectedImages([]);
         }}
-        onSend={txt => {
-          UploadImages(txt);
-        }}
+        onSend={uploadImagesAndSend}
       />
     );
   }
+
   return (
     <View>
       {!startRecording && (
         <View style={styles.mainContainer}>
-          <Pressable
-            style={styles.toggleButton}
-            // onPress={() => handleDocumentSelection()}
-            onPress={toggleBottom}>
+          <Pressable style={styles.toggleButton} onPress={toggleBottom}>
             {showBottom ? <ArrowTopIcon size={40} /> : <PlusIcon />}
           </Pressable>
           <View style={styles.container}>
@@ -483,9 +468,8 @@ const ChatFooter2 = ({
                   text={text}
                   setText={setText}
                   handleKey={handleKey}
-                  // text={text} setText={setText}
                 />
-                {text.length > 0 && (
+                {text.trim().length > 0 && (
                   <SendContainer sendMessage={() => sendMessage(text)} />
                 )}
               </>
@@ -504,15 +488,18 @@ const ChatFooter2 = ({
           </View>
         </View>
       )}
+
       {showBottom && (
-        <View style={styles.bottomContainer}>
+        <View
+          style={[styles.bottomContainer, !startRecording && {height: 150}]}>
           {!startRecording && (
             <TouchableOpacity
-              onPress={() => handleDocumentSelection()}
+              onPress={handleDocumentSelection}
               style={styles.buttonContainer}>
               {uploading ? <LoadingSmall /> : <AttachmentIcon />}
             </TouchableOpacity>
           )}
+
           <AudioRecorder
             sendMessage={sendMessage}
             setStartRecording={setStartRecording}
@@ -520,6 +507,7 @@ const ChatFooter2 = ({
             chat={singleChat?._id}
             isChannel={singleChat?.isChannel}
           />
+
           {!startRecording && (
             <TouchableOpacity
               onPress={selectImage}
@@ -535,13 +523,13 @@ const ChatFooter2 = ({
 
 export default React.memo(ChatFooter2);
 
+// Styles
 const getStyles = Colors =>
   StyleSheet.create({
     toggleButton: {
       width: 40,
-      alignItems: 'center',
-      // backgroundColor: 'red',
       height: 40,
+      alignItems: 'center',
       justifyContent: 'center',
     },
     buttonContainer: {
@@ -549,29 +537,22 @@ const getStyles = Colors =>
       backgroundColor: Colors.CyanOpacity,
       borderRadius: 100,
       height: 60,
-      // marginTop: 20,
     },
     bottomContainer: {
-      // backgroundColor: Colors.Red,
-      // height: 100,
       flexDirection: 'row',
-      alignItems: 'center',
+      alignItems: 'flex-start',
+      marginTop: 20,
       gap: 20,
-      justifyContent: 'flex-start',
       paddingHorizontal: 20,
     },
     mainContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      // backgroundColor: 'red',
       marginTop: 10,
-      // paddingHorizontal: 20,
-      // minHeight: 200,
     },
     editingButtonText: {
       color: Colors.Red,
       fontWeight: '600',
-      // backgroundColor: 'red',
     },
     editingText: {
       fontWeight: '600',
@@ -608,16 +589,21 @@ const getStyles = Colors =>
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingHorizontal: 15,
-      // flex: 1,
       overflow: 'hidden',
-      // maxHeight: 100,
     },
-
     initialContainer: {
-      // width: '90%',
       flex: 1,
       height: 49,
       justifyContent: 'center',
-      // backgroundColor: 'red',
     },
   });
+
+// Additional Component: EditMessageHeader
+const EditMessageHeader = ({onCancel, styles, Colors}) => (
+  <View style={styles.cancelContainer}>
+    <Text style={styles.editingText}>Editing message: </Text>
+    <TouchableOpacity onPress={onCancel}>
+      <Text style={styles.editingButtonText}>Cancel</Text>
+    </TouchableOpacity>
+  </View>
+);

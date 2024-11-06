@@ -5,6 +5,7 @@ import {
 } from '../store/reducer/activitiesReducer';
 import {
   updateLatestMessage,
+  updateMessage,
   updateMyData,
   updateSingleChat,
 } from '../store/reducer/chatReducer';
@@ -42,7 +43,24 @@ export const handleChatFavorite = data => {
       console.log(err);
     });
 };
-
+export const onEmojiClick = (emoji, messageId) => {
+  axiosInstance
+    .put(`/chat/react/${messageId}`, {symbol: emoji})
+    .then(res => {
+      console.log('res.data', JSON.stringify(res.data, null, 1));
+      store.dispatch(updateMessage(res.data.message));
+      store.dispatch(
+        updateLatestMessage({
+          chatId: res.data.message.chat,
+          latestMessage: res.data.message,
+          counter: 1,
+        }),
+      );
+    })
+    .catch(err => {
+      console.log('error in chat reaction', err);
+    });
+};
 export const handleDelete = id => {
   // setIsDeleting(true);
 

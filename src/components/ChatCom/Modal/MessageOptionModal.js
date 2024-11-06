@@ -3,7 +3,7 @@ import React from 'react';
 import CustomModal from '../../SharedComponent/CustomModal';
 import {useDispatch, useSelector} from 'react-redux';
 import {setMessageOptionData} from '../../../store/reducer/ModalReducer';
-import {handleDelete} from '../../../actions/apiCall';
+import {handleDelete, onEmojiClick} from '../../../actions/apiCall';
 import BinIcon from '../../../assets/Icons/BinIcon';
 import EditIconTwo from '../../../assets/Icons/EditIcon2';
 import NewPinIcon from '../../../assets/Icons/NewPinIcon';
@@ -70,6 +70,37 @@ const MessageOptionModal = ({
     },
   ];
 
+  let emojies = [
+    {
+      name: 'like',
+      symbol: '👍',
+    },
+    {
+      name: 'lovely',
+      symbol: '😍',
+    },
+    {
+      name: 'love',
+      symbol: '❤️',
+    },
+    {
+      name: 'luffing',
+      symbol: '😂',
+    },
+    {
+      name: 'cute',
+      symbol: '🥰',
+    },
+    {
+      name: 'wow',
+      symbol: '😯',
+    },
+  ];
+
+  const withMyEmoji = emojies.map(item =>
+    item.symbol == messageOptionData.myReaction ? {...item, my: true} : item,
+  );
+
   const opponentOption = optionData.filter(
     item => item.value !== 'delete' && item.value !== 'edit',
   );
@@ -89,7 +120,7 @@ const MessageOptionModal = ({
           gap: 10,
         }}>
         {item?.icon}
-        <Text style={{color: Colors.BodyText}}>
+        <Text style={{color: Colors.BodyText, fontSize: 20}}>
           {item?.label || 'Unavailable'}
         </Text>
       </TouchableOpacity>
@@ -97,7 +128,13 @@ const MessageOptionModal = ({
   };
   return (
     <CustomModal
-      customStyles={{paddingTop: 10, maxHeight: 160, minHeight: 100}}
+      customStyles={{
+        padding: 20,
+        maxHeight: 100 * filteredOption.length,
+        minHeight: 150,
+        width: '90%',
+        paddingTop: 20,
+      }}
       parentStyle={{zIndex: 2}}
       onPress={() => dispatch(setMessageOptionData(null))}>
       <FlatList
@@ -105,13 +142,47 @@ const MessageOptionModal = ({
         renderItem={renderItem}
         keyExtractor={() => Math.random()}
         ItemSeparatorComponent={() => (
-          <Divider marginTop={1} marginBottom={1} />
+          <Divider
+            style={{backgroundColor: Colors.BodyText}}
+            marginTop={1.5}
+            marginBottom={1.5}
+          />
         )}
       />
+      <View style={styles.emojiBox}>
+        {withMyEmoji.map(item => (
+          <TouchableOpacity
+            onPress={() => {
+              onEmojiClick(item.symbol, messageOptionData._id);
+              dispatch(setMessageOptionData(null));
+            }}
+            style={[
+              styles.emoji,
+              item.my && {
+                backgroundColor: Colors.SecondaryButtonBackgroundColor,
+              },
+            ]}
+            key={item.name}>
+            <Text style={{fontSize: 22}}>{item.symbol}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     </CustomModal>
   );
 };
 
 export default MessageOptionModal;
 
-const getStyles = Colors => StyleSheet.create({});
+const getStyles = Colors =>
+  StyleSheet.create({
+    emojiBox: {
+      flexDirection: 'row',
+      gap: 10,
+      marginTop: 20,
+    },
+    emoji: {
+      padding: 10,
+      backgroundColor: Colors.CyanOpacity,
+      borderRadius: 100,
+    },
+  });

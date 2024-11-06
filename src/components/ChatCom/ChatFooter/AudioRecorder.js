@@ -145,7 +145,18 @@ const AudioRecorder = ({
   const styles = getStyles(Colors);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        !recording && !recordedAudioPath
+          ? {
+              backgroundColor: Colors.CyanOpacity,
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 20,
+              borderRadius: 100,
+            }
+          : styles.container,
+      ]}>
       {!recording && recordedAudioPath && (
         <View style={styles.inputContainer}>
           <ChatMessageInput
@@ -172,7 +183,9 @@ const AudioRecorder = ({
           {Uploading ? (
             <LoadingSmall size={20} color={Colors.Primary} />
           ) : (
-            <TouchableOpacity onPress={startAudioRecording}>
+            <TouchableOpacity
+              // style={{backgroundColor: 'red', padding: 20}}
+              onPress={startAudioRecording}>
               <MicIcon size={25} />
             </TouchableOpacity>
           )}
