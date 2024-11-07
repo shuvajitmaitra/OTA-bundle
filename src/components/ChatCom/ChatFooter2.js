@@ -158,6 +158,7 @@ const ChatFooter2 = ({
   // Send message handler
   const sendMessage = useCallback(
     async (txt, files) => {
+      console.log('calledddddd');
       setSelectedImages([]);
       setSelectedDocuments([]);
       setDocumentVisible(false);

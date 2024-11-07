@@ -19,4 +19,6 @@ Mituldas@24
 
 
 eas build -p android --profile preview
+
+./gradlew bundleRelease
 */

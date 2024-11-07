@@ -9,7 +9,7 @@ import {
   updateMyData,
   updateSingleChat,
 } from '../store/reducer/chatReducer';
-import {updateDeletedMessage} from '../store/reducer/chatSlice';
+import {updateDeletedMessage, updateEmoji} from '../store/reducer/chatSlice';
 import {setCalendar, setMockInterview} from '../store/reducer/dashboardReducer';
 import {
   setNotificationCount,
@@ -48,7 +48,7 @@ export const onEmojiClick = (emoji, messageId) => {
     .put(`/chat/react/${messageId}`, {symbol: emoji})
     .then(res => {
       console.log('res.data', JSON.stringify(res.data, null, 1));
-      store.dispatch(updateMessage(res.data.message));
+      // store.dispatch(updateEmoji({data: res.data.message, symbol: emoji}));
       // store.dispatch(
       //   updateLatestMessage({
       //     chatId: res.data.message.chat,

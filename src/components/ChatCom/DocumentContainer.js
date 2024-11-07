@@ -22,7 +22,7 @@ import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
 const DocumentContainer = ({
   onClose,
   selected,
-  UploadDocument,
+  uploadDocument,
   handleKey,
   chat,
   isChannel,
@@ -49,7 +49,7 @@ const DocumentContainer = ({
         />
         <TouchableOpacity
           onPress={() => {
-            UploadDocument(text);
+            uploadDocument(text);
           }}>
           <SendIcon />
         </TouchableOpacity>

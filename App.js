@@ -26,7 +26,6 @@ const App = () => {
                   backgroundColor={Colors.White}
                   barStyle={'dark-content'}
                 />
-
                 <Router />
                 {/* <Text>Hellodsljkafkfaskldafskj</Text> */}
                 {/*  <CommentsIcon /> */}
