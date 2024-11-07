@@ -201,7 +201,15 @@ const MessageScreen2 = () => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       style={styles.container}>
       <View
-        style={[, {flex: 1, paddingBottom: bottom / 2, paddingTop: top / 1.5}]}>
+        style={[
+          ,
+          {
+            flex: 1,
+            // paddingBottom: bottom / 2,
+            paddingTop: top / 1.5,
+            // backgroundColor: ,
+          },
+        ]}>
         {messageOptionData?._id && (
           <MessageOptionModal
             handlePin={handlePin}

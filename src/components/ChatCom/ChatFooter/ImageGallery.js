@@ -177,8 +177,11 @@ const getStyles = Colors =>
       padding: 10,
       backgroundColor: Colors.Background_color,
       alignItems: 'center',
-      width: '100%',
+      width: '95%',
       marginBottom: 30,
+      justifyContent: 'space-between',
+      borderRadius: 30,
+      marginHorizontal: 50,
     },
     textInput: {
       flex: 1,

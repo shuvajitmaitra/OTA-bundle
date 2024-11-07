@@ -20,6 +20,7 @@ import MessageFileContainer from './MessageFileContainer';
 import EmojiContainer from './EmojiContainer';
 import LinkIcon2 from '../../assets/Icons/LinkIcon2';
 import {handleCopyText} from '../../utility/commonFunction';
+import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
@@ -80,7 +81,7 @@ const Message2 = ({item, index, nextSender}) => {
             </TouchableOpacity>
           )}
           <View style={{flexGrow: 1}}></View>
-
+          {/* 
           <TouchableOpacity
             onPress={() => {
               item.text && handleCopyText(item.text);
@@ -88,7 +89,7 @@ const Message2 = ({item, index, nextSender}) => {
             style={styles.copyContainer}>
             <LinkIcon2 color={my ? Colors.PureWhite : Colors.BodyText} />
             <Text style={styles.copyText}>Copy</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <View>
             <Text style={styles.timeText}>
@@ -178,6 +179,7 @@ const getStyles = (Colors, my) =>
       minHeight: 30,
       //   gap: -1,
     },
+
     markdownStyle: {
       whiteSpace: 'pre',
       body: {
@@ -192,21 +194,30 @@ const getStyles = (Colors, my) =>
         padding: 0, // Remove padding from paragraphs
       },
       heading1: {
+        // fontSize: responsiveScreenFontSize(3),
+        // marginTop: 20,
+
         fontFamily: CustomeFonts.SEMI_BOLD,
+        paddingTop: 10,
+        fontSize: responsiveScreenFontSize(1.8),
+        // lineHeight: responsiveScreenFontSize(),
       },
       heading2: {
+        // fontWeight: "bold",
+        fontSize: responsiveScreenFontSize(1.8),
         fontFamily: CustomeFonts.SEMI_BOLD,
       },
       heading3: {
+        // paddingTop: 10,
+        fontSize: responsiveScreenFontSize(1.8),
         fontFamily: CustomeFonts.SEMI_BOLD,
       },
       heading4: {
+        // fontWeight: "bold",
         fontFamily: CustomeFonts.SEMI_BOLD,
       },
       heading5: {
-        fontFamily: CustomeFonts.SEMI_BOLD,
-      },
-      heading6: {
+        // fontWeight: "bold",
         fontFamily: CustomeFonts.SEMI_BOLD,
       },
       strong: {fontFamily: CustomeFonts.SEMI_BOLD},
@@ -257,86 +268,4 @@ const getStyles = (Colors, my) =>
         marginVertical: 10,
       },
     },
-    // markdownStyle: {
-    //   whiteSpace: 'pre',
-    //   body: {
-    //     fontFamily: CustomeFonts.REGULAR,
-    //     fontSize: 16,
-    //     color: Colors.BodyText,
-    //     lineHeight: 20,
-    //     // marginBottom: 100,
-    //   },
-    //   heading1: {
-    //     // fontWeight: "bold",
-    //     fontFamily: CustomeFonts.SEMI_BOLD,
-    //   },
-    //   heading2: {
-    //     // fontWeight: "bold",
-    //     fontFamily: CustomeFonts.SEMI_BOLD,
-    //   },
-    //   heading3: {
-    //     // fontWeight: "bold",
-    //     fontFamily: CustomeFonts.SEMI_BOLD,
-    //   },
-    //   heading4: {
-    //     // fontWeight: "bold",
-    //     fontFamily: CustomeFonts.SEMI_BOLD,
-    //   },
-    //   heading5: {
-    //     // fontWeight: "bold",
-    //     fontFamily: CustomeFonts.SEMI_BOLD,
-    //   },
-    //   heading6: {
-    //     // fontWeight: "bold",
-    //     fontFamily: CustomeFonts.SEMI_BOLD,
-    //   },
-    //   strong: {fontFamily: CustomeFonts.SEMI_BOLD},
-    //   code_inline: {
-    //     color: Colors.BodyText,
-    //     backgroundColor: Colors.White,
-    //   },
-    //   hr: {
-    //     backgroundColor: Colors.BodyText,
-    //   },
-    //   fence: {color: Colors.BodyText},
-    //   code_block: {
-    //     color: Colors.BodyText,
-    //     backgroundColor: Colors.White,
-    //     borderWidth: 0,
-    //   },
-    //   blockquote: {color: Colors.BodyText},
-    //   table: {
-    //     borderColor: Colors.BorderColor,
-    //   },
-    //   thead: {
-    //     borderColor: Colors.BorderColor,
-    //   },
-    //   tbody: {
-    //     borderColor: Colors.BorderColor,
-    //   },
-    //   th: {
-    //     borderColor: Colors.BorderColor,
-    //   },
-    //   tr: {
-    //     borderColor: Colors.BorderColor,
-    //   },
-    //   td: {
-    //     borderColor: Colors.BorderColor,
-    //   },
-    //   link: {
-    //     // backgroundColor:  Colors.LightGreen,
-    //     color: Colors.Primary,
-    //     // fontWeight: "bold",
-    //     fontFamily: CustomeFonts.SEMI_BOLD,
-    //   },
-    //   bullet_list: {
-    //     marginVertical: 10,
-    //   },
-    //   ordered_list: {
-    //     marginVertical: 10,
-    //   },
-    //   list_item: {
-    //     marginVertical: 10,
-    //   },
-    // },
   });

@@ -550,6 +550,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       alignItems: 'center',
       marginTop: 10,
+      marginBottom: Platform.OS === 'ios' ? 25 : 10,
     },
     editingButtonText: {
       color: Colors.Red,
