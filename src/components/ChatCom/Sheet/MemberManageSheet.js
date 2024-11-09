@@ -46,6 +46,7 @@ const MemberManageSheet = ({
                 <CustomeBtn
                   handlePress={() => {
                     dispatch(setSelectedMembers({}));
+                    setBlockConfirm(false);
                   }}
                   title="Cancel"
                   customeContainerStyle={{
@@ -83,6 +84,7 @@ const MemberManageSheet = ({
                 <CustomeBtn
                   handlePress={() => {
                     dispatch(setSelectedMembers({}));
+                    setRemoveConfirm(false);
                   }}
                   title="Cancel"
                   customeContainerStyle={{

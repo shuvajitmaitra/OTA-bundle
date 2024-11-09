@@ -1,11 +1,4 @@
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  ToastAndroid,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import ReactNativeModal from 'react-native-modal';
 import React from 'react';
 import {
@@ -18,7 +11,6 @@ import CrossIcon from '../../../assets/Icons/CrossIcon';
 import ModalCustomButton from './ModalCustomButton';
 import CustomeFonts from '../../../constants/CustomeFonts';
 import axiosInstance from '../../../utility/axiosInstance';
-import useChat from '../../../hook/useChat';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../../context/ThemeContext';
 import {useDispatch, useSelector} from 'react-redux';
@@ -35,11 +27,9 @@ const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
 
   const handleLeaveCrowed = async () => {
     toggleLeaveCrowdModal();
-    // console.log(JSON.stringify(chat?._id, null, 1));
     try {
       const res = await axiosInstance.patch(`/chat/channel/leave/${chat?._id}`);
 
-      // console.log("🚀 ~ handleLeaveCrowed ~ res:", res.data);
       if (res.data?.success) {
         dispatch(removeChat(chat?._id));
         navigation.navigate('NewChatScreen');

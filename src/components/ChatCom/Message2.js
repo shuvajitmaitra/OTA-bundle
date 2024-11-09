@@ -21,6 +21,7 @@ import EmojiContainer from './EmojiContainer';
 import LinkIcon2 from '../../assets/Icons/LinkIcon2';
 import {handleCopyText} from '../../utility/commonFunction';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
+import ThreedotIcon from '../../assets/Icons/ThreedotIcon';
 
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
@@ -58,6 +59,11 @@ const Message2 = ({item, index, nextSender}) => {
       <TouchableOpacity
         onLongPress={() => dispatch(setMessageOptionData({...item, my}))}
         style={styles.messagesContainer}>
+        <TouchableOpacity
+          onPress={() => dispatch(setMessageOptionData({...item, my}))}
+          style={styles.threeDotContainer}>
+          <ThreedotIcon color={Colors.PureWhite} />
+        </TouchableOpacity>
         {item.files.length > 0 && <MessageFileContainer files={item.files} />}
         <Markdown style={styles.markdownStyle}>
           {autoLinkify(
@@ -113,6 +119,17 @@ export default Message2;
 
 const getStyles = (Colors, my) =>
   StyleSheet.create({
+    threeDotContainer: {
+      position: 'absolute',
+      right: 0,
+      top: 5,
+      // backgroundColor: 'red',
+      width: 30,
+      height: 30,
+      zIndex: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     copyText: {
       fontSize: 18,
       color: my ? Colors.PureWhite : Colors.BodyText,
@@ -168,6 +185,7 @@ const getStyles = (Colors, my) =>
     messagesContainer: {
       backgroundColor: my ? Colors.Primary : Colors.Background_color,
       padding: 10,
+      paddingRight: 30,
       // paddingVertical: 10,
       marginHorizontal: 10,
       borderRadius: 10,
@@ -178,6 +196,7 @@ const getStyles = (Colors, my) =>
       alignSelf: my ? 'flex-end' : 'flex-start',
       minHeight: 30,
       //   gap: -1,
+      position: 'relative',
     },
 
     markdownStyle: {
