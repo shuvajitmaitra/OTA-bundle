@@ -7,8 +7,6 @@ import {
   Pressable,
 } from 'react-native';
 import React from 'react';
-import AntIcons from 'react-native-vector-icons/AntDesign';
-import FIcons from 'react-native-vector-icons/FontAwesome';
 
 import {
   responsiveScreenFontSize,
@@ -25,6 +23,7 @@ import PinIcon from '../../assets/Icons/PinIcon';
 import StarIcon from '../../assets/Icons/StartIcon';
 import {handleChatFavorite} from '../../actions/apiCall';
 import {useTheme} from '../../context/ThemeContext';
+import moment from 'moment';
 
 export default function MessageTopPart({
   setPinnedScreenVisible,
@@ -33,7 +32,7 @@ export default function MessageTopPart({
 }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {singleChat: chat} = useSelector(state => state.chat);
+  const {singleChat: chat, onlineUsers} = useSelector(state => state.chat);
   // console.log('chat', JSON.stringify(chat, null, 1));
   const {selectedMessageScreen: selectedChat} = useSelector(
     state => state.modal,
@@ -80,15 +79,18 @@ export default function MessageTopPart({
                   {chat?.typingData?.user?.firstName} is typing...
                 </Text>
               ) : chat?.isChannel ? (
-                <Text
-                  style={
-                    styles.avaliable
-                  }>{`${chat?.membersCount} members`}</Text>
-              ) : (
+                <Text style={styles.avaliable}>{`${
+                  chat?.membersCount || ''
+                } members`}</Text>
+              ) : onlineUsers?.find(x => x?._id === chat?.otherUser?._id) ? (
                 <View style={styles.avaliableContainer}>
                   <Text style={styles.avaliable}>Available</Text>
                   <View style={styles.onlineStatus}></View>
                 </View>
+              ) : (
+                <Text style={styles.avaliable}>
+                  {moment(chat?.otherUser?.lastActive).fromNow()}
+                </Text>
               )}
             </View>
           </View>

@@ -4,8 +4,6 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  Text,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -25,20 +23,18 @@ import {
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
-import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
-  const {bottom, top} = useSafeAreaInsets();
+  const {top} = useSafeAreaInsets();
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const {selectedMessageScreen: selectedChat} = useSelector(
+  const {selectedMessageScreen: selectedChat, messageOptionData} = useSelector(
     state => state.modal,
   );
   const {localMessages} = useSelector(state => state.chatSlice);
   // console.log('localMessages', JSON.stringify(localMessages, null, 1));
-  const {messageOptionData} = useSelector(state => state.modal);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [messages = {}, setMessages] = useMMKVObject('allMessages');
@@ -50,7 +46,9 @@ const MessageScreen2 = () => {
   const LIMIT = 20;
 
   const fetchPinned = chatId => {
-    if (!chatId) return console.log('Chat id is missing');
+    if (!chatId) {
+      return console.log('Chat id is missing');
+    }
     axiosInstance
       .get(`/chat/fetchpinned/${chatId}`)
       .then(res => {
