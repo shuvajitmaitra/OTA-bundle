@@ -10,7 +10,7 @@ import TestMessageScreen from '../screens/Chat/TestMessageScreen';
 import {Text, TouchableOpacity, View} from 'react-native';
 import ChatProfile from '../screens/Chat/ChatProfile';
 import DisplaySettingsScreen from '../screens/DisplaySettings/DisplaySettingsScreen';
-import CustomeFonts from '../constants/CustomeFonts';
+import CustomFonts from '../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ArrowLeft from '../assets/Icons/ArrowLeft';
 import {useTheme} from '../context/ThemeContext';
@@ -95,7 +95,7 @@ const ChatStackScreen = ({}) => {
                   style={
                     {
                       // marginLeft: 10,
-                      // fontFamily: CustomeFonts.MEDIUM,
+                      // fontFamily: CustomFonts.MEDIUM,
                       // fontSize: responsiveScreenFontSize(2),
                       // color: Colors.BodyText,
                     }

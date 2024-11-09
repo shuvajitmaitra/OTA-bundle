@@ -11,7 +11,7 @@ import {
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
 
@@ -100,7 +100,7 @@ const getStyles = Colors =>
     },
     btnContent: {},
     btnText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: RegularFonts.HR,
     },
   });

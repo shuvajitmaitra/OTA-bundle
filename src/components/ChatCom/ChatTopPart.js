@@ -13,7 +13,7 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {RegularFonts} from '../../constants/Fonts';
 import ThreedotIcon from '../../assets/Icons/ThreedotIcon';
 import Popover, {usePopover} from 'react-native-modal-popover';
@@ -131,7 +131,7 @@ const getStyles = Colors =>
     headingText: {
       color: Colors.Heading,
       fontSize: RegularFonts.HXXL,
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
     },
     threeDotContainer: {
       width: responsiveScreenWidth(8),
@@ -151,7 +151,7 @@ const getStyles = Colors =>
     },
     popupContryText: {
       color: Colors.Heading,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       marginVertical: 7,
       fontSize: responsiveScreenFontSize(1.9),
     },

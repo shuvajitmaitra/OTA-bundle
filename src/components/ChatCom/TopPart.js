@@ -1,22 +1,26 @@
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { useSelector } from "react-redux";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import { useTheme } from "../../context/ThemeContext";
-import CustomeFonts from "../../constants/CustomeFonts";
-import { Dimensions } from "react-native";
-import Images from "../../constants/Images";
+import React from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {Dimensions} from 'react-native';
+import Images from '../../constants/Images';
 
 function TopPart() {
-  const deviceWidth = Dimensions.get("window").width;
-  const { user } = useSelector((state) => state.auth);
+  const deviceWidth = Dimensions.get('window').width;
+  const {user} = useSelector(state => state.auth);
   const Colors = useTheme();
 
   const styles = getStyles(Colors, deviceWidth);
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", width: "95%" }}>
+      <View style={{flexDirection: 'row', width: '95%'}}>
         <Image
           source={
             user?.profilePicture
@@ -29,9 +33,9 @@ function TopPart() {
         />
         <View style={styles.userDetailsContainer}>
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.userName}>
-            {user?.fullName || "User Name"}
+            {user?.fullName || 'User Name'}
           </Text>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={styles.userStatus}>Available</Text>
             <View style={styles.onlineStatus2}></View>
           </View>
@@ -47,7 +51,7 @@ const getStyles = (Colors, deviceWidth) =>
       backgroundColor: Colors.BackDropColor,
     },
     buttonText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
     },
     buttonContainer: {
@@ -55,9 +59,9 @@ const getStyles = (Colors, deviceWidth) =>
       paddingVertical: responsiveScreenHeight(1),
       borderRadius: 5,
       gap: 3,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     popupContent: {
       paddingTop: 16,
@@ -76,11 +80,11 @@ const getStyles = (Colors, deviceWidth) =>
     container: {
       backgroundColor: Colors.White,
       width: deviceWidth,
-      flexDirection: "row",
+      flexDirection: 'row',
       paddingVertical: responsiveScreenHeight(2),
       paddingHorizontal: responsiveScreenWidth(4),
-      alignItems: "center",
-      justifyContent: "space-between",
+      alignItems: 'center',
+      justifyContent: 'space-between',
       elevation: 3,
     },
     image: {
@@ -90,16 +94,16 @@ const getStyles = (Colors, deviceWidth) =>
     },
     userDetailsContainer: {
       marginLeft: responsiveScreenWidth(3),
-      width: "80%",
+      width: '80%',
     },
     userName: {
       color: Colors.Heading,
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.2),
     },
     userStatus: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
     },
     onlineStatus2: {

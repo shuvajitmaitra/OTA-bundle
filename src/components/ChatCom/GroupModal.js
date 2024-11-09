@@ -22,7 +22,7 @@ import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {AntDesign} from '@expo/vector-icons';
 import Feather from 'react-native-vector-icons/Feather';
 import GroupModalTabView from './Modal/GroupModalTabView';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import * as Clipboard from 'expo-clipboard';
 import MembersIcon from '../../assets/Icons/MembersIcon';
 import PlusCircle from '../../assets/Icons/PlusCircle';
@@ -261,7 +261,7 @@ export default function GroupModal({}) {
             <Text
               style={{
                 color: Colors.BodyText,
-                fontFamily: CustomeFonts.REGULAR,
+                fontFamily: CustomFonts.REGULAR,
                 fontSize: responsiveScreenFontSize(2),
               }}>
               Notification
@@ -283,7 +283,7 @@ export default function GroupModal({}) {
             <Text
               style={{
                 fontSize: responsiveScreenFontSize(2.1),
-                fontFamily: CustomeFonts.MEDIUM,
+                fontFamily: CustomFonts.MEDIUM,
                 paddingTop: responsiveScreenHeight(2),
                 paddingBottom: responsiveScreenHeight(1.7),
                 color: Colors.Heading,
@@ -293,7 +293,7 @@ export default function GroupModal({}) {
             <Text
               style={{
                 color: Colors.BodyText,
-                fontFamily: CustomeFonts.REGULAR,
+                fontFamily: CustomFonts.REGULAR,
                 fontSize: responsiveScreenFontSize(1.7),
               }}>
               {chat.description || chat.name}
@@ -421,7 +421,7 @@ const getStyles = Colors =>
       marginVertical: responsiveScreenHeight(1),
     },
     ContainerText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.BodyText,
     },
@@ -431,12 +431,12 @@ const getStyles = Colors =>
     // --------------------------
 
     memberNumberText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(2),
       color: Colors.BodyText,
     },
     addMemberText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
       color: '#17855F',
     },
@@ -468,7 +468,7 @@ const getStyles = Colors =>
     // ----------- Invitation Link Container -----------
     // --------------------------
     invitationLinkText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(2),
       color: '#17855F',
     },

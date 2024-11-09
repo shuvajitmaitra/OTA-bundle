@@ -1,24 +1,29 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import {
   responsiveHeight,
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import GallaryIcon from "../../assets/Icons/GallaryIcon";
-import { useTheme } from "../../context/ThemeContext";
-import FileIcon from "../../assets/Icons/FileIcon";
-import FolderIcon from "../../assets/Icons/FolderIcon";
-import FolderIconTwo from "../../assets/Icons/FolderIconTwo";
-import { useDispatch } from "react-redux";
-import { setIsBoxShowing } from "../../store/reducer/chatReducer";
-import CameraIcon from "../../assets/Icons/CameraIcon";
-import EmojiIcon from "../../assets/Icons/EmojiIcon";
-import CustomeFonts from "../../constants/CustomeFonts";
-import Camera from "../SharedComponent/Camera";
+} from 'react-native-responsive-dimensions';
+import GallaryIcon from '../../assets/Icons/GallaryIcon';
+import {useTheme} from '../../context/ThemeContext';
+import FileIcon from '../../assets/Icons/FileIcon';
+import FolderIcon from '../../assets/Icons/FolderIcon';
+import FolderIconTwo from '../../assets/Icons/FolderIconTwo';
+import {useDispatch} from 'react-redux';
+import {setIsBoxShowing} from '../../store/reducer/chatReducer';
+import CameraIcon from '../../assets/Icons/CameraIcon';
+import EmojiIcon from '../../assets/Icons/EmojiIcon';
+import CustomFonts from '../../constants/CustomFonts';
+import Camera from '../SharedComponent/Camera';
 
-const AttachmentItem = ({ galleryOpenFunction, closePopover, pickDocument, handleSendCapturedPhoto }) => {
+const AttachmentItem = ({
+  galleryOpenFunction,
+  closePopover,
+  pickDocument,
+  handleSendCapturedPhoto,
+}) => {
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const dispatch = useDispatch();
   const Colors = useTheme();
@@ -29,8 +34,7 @@ const AttachmentItem = ({ galleryOpenFunction, closePopover, pickDocument, handl
         onPress={() => {
           setIsCameraOpen(!isCameraOpen);
         }}
-        style={styles.galleryButton}
-      >
+        style={styles.galleryButton}>
         <View style={styles.iconContainer}>
           <CameraIcon size={25} />
         </View>
@@ -41,8 +45,7 @@ const AttachmentItem = ({ galleryOpenFunction, closePopover, pickDocument, handl
           closePopover();
           galleryOpenFunction();
         }}
-        style={styles.galleryButton}
-      >
+        style={styles.galleryButton}>
         <View style={styles.iconContainer}>
           <GallaryIcon size={25} />
         </View>
@@ -53,8 +56,7 @@ const AttachmentItem = ({ galleryOpenFunction, closePopover, pickDocument, handl
           // closePopover();
           pickDocument();
         }}
-        style={styles.galleryButton}
-      >
+        style={styles.galleryButton}>
         <View style={styles.iconContainer}>
           <FolderIconTwo size={25} />
         </View>
@@ -63,10 +65,9 @@ const AttachmentItem = ({ galleryOpenFunction, closePopover, pickDocument, handl
       <TouchableOpacity
         onPress={() => {
           closePopover();
-          Alert?.alert("Coming soon...");
+          Alert?.alert('Coming soon...');
         }}
-        style={styles.galleryButton}
-      >
+        style={styles.galleryButton}>
         <View style={styles.iconContainer}>
           <EmojiIcon size={25} />
         </View>
@@ -89,11 +90,11 @@ const AttachmentItem = ({ galleryOpenFunction, closePopover, pickDocument, handl
 
 export default AttachmentItem;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     buttonText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2),
     },
     iconContainer: {
@@ -105,8 +106,8 @@ const getStyles = (Colors) =>
       // width: responsiveScreenWidth(10),
       // height: responsiveScreenWidth(10),
       // backgroundColor: Colors.Red,
-      justifyContent: "flex-start",
-      alignItems: "center",
+      justifyContent: 'flex-start',
+      alignItems: 'center',
       // borderRadius: 100,
       // flexDirection: "row",
       // marginRight: responsiveScreenWidth(5),
@@ -114,14 +115,14 @@ const getStyles = (Colors) =>
       width: responsiveScreenWidth(17),
     },
     container: {
-      position: "absolute",
+      position: 'absolute',
       minHeight: 100,
       minWidth: 100,
       borderRadius: 10,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 20,
       padding: 20,
-      flexWrap: "wrap",
+      flexWrap: 'wrap',
       backgroundColor: Colors.White,
       width: responsiveScreenWidth(78),
       // justifyContent: "center",

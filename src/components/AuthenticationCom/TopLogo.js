@@ -5,7 +5,7 @@ import {
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 
 export default function TopLogo({title = 'Write the Tittle', height}) {
@@ -55,7 +55,7 @@ const getStyles = Colors =>
       alignSelf: 'center',
       // position: "absolute",
       color: Colors.Heading,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2.7),
       // marginTop: responsiveScreenHeight(1),
       // marginBottom: responsiveScreenHeight(2),

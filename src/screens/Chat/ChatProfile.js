@@ -35,7 +35,7 @@ import NotifyBell from '../../assets/Icons/NotifyBell';
 import GroupModalTabView from '../../components/ChatCom/Modal/GroupModalTabView';
 import ReportModal from '../../components/ChatCom/Modal/ReportModal';
 import LeaveCrowdModal from '../../components/ChatCom/Modal/LeaveCrowdModal';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import Images from '../../constants/Images';
 import CameraIcon from '../../assets/Icons/CameraIcon';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -59,7 +59,6 @@ const ChatProfile = () => {
   console.log('chat', JSON.stringify(chat, null, 1));
 
   const {selectedMember} = useSelector(state => state.chatSlice);
-  const [notificationSwitch, setNotificationSwitch] = useState(false);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [isLoading, setIsLoading] = useState(false);
@@ -389,7 +388,7 @@ const getStyles = Colors =>
   StyleSheet.create({
     listText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: 18,
     },
     list: {
@@ -417,7 +416,7 @@ const getStyles = Colors =>
 
     headerTitle: {
       fontSize: responsiveScreenFontSize(2.2),
-      fontFamily: CustomeFonts.BOLD,
+      fontFamily: CustomFonts.BOLD,
       color: Colors.Heading,
     },
     scrollContent: {
@@ -460,19 +459,19 @@ const getStyles = Colors =>
     },
     notificationText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(2),
     },
     descriptionContainer: {},
     descriptionTitle: {
       fontSize: responsiveScreenFontSize(2.1),
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       paddingBottom: responsiveScreenHeight(1),
       color: Colors.Heading,
     },
     descriptionText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
     },
     separator: {
@@ -493,7 +492,7 @@ const getStyles = Colors =>
       alignItems: 'center',
     },
     memberNumberText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(2),
       color: Colors.BodyText,
     },
@@ -503,12 +502,12 @@ const getStyles = Colors =>
       gap: responsiveScreenWidth(1),
     },
     addMemberText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
       color: '#17855F',
     },
     invitationLinkText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(2),
       color: '#17855F',
     },
@@ -529,7 +528,7 @@ const getStyles = Colors =>
       marginVertical: responsiveScreenHeight(1),
     },
     containerText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.BodyText,
     },

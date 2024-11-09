@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Image,
@@ -9,26 +9,26 @@ import {
   ToastAndroid,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
-import ReactNativeModal from "react-native-modal";
-import SearchIcon from "../../../assets/Icons/SearchIcon";
-import CheckIcon from "../../../assets/Icons/CheckIcon";
-import UnCheckIcon from "../../../assets/Icons/UnCheckIcon";
-import CircleIcon from "../../../assets/Icons/CircleIcon";
-import ModalBackAndCrossButton from "./ModalBackAndCrossButton";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import BlackCrossIcon from "../../../assets/Icons/BlackCrossIcon";
-import axiosInstance from "../../../utility/axiosInstance";
-import useChat from "../../../hook/useChat";
-import { useTheme } from "../../../context/ThemeContext";
-import Images from "../../../constants/Images";
-import { useGlobalAlert } from "../../SharedComponent/GlobalAlertContext";
+} from 'react-native-responsive-dimensions';
+import ReactNativeModal from 'react-native-modal';
+import SearchIcon from '../../../assets/Icons/SearchIcon';
+import CheckIcon from '../../../assets/Icons/CheckIcon';
+import UnCheckIcon from '../../../assets/Icons/UnCheckIcon';
+import CircleIcon from '../../../assets/Icons/CircleIcon';
+import ModalBackAndCrossButton from './ModalBackAndCrossButton';
+import CustomFonts from '../../../constants/CustomFonts';
+import BlackCrossIcon from '../../../assets/Icons/BlackCrossIcon';
+import axiosInstance from '../../../utility/axiosInstance';
+import useChat from '../../../hook/useChat';
+import {useTheme} from '../../../context/ThemeContext';
+import Images from '../../../constants/Images';
+import {useGlobalAlert} from '../../SharedComponent/GlobalAlertContext';
 const ForwardMember = ({
   isForwardMemberModalVisible,
   toggleForwardMemberModal,
@@ -40,44 +40,44 @@ const ForwardMember = ({
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { showAlert } = useGlobalAlert();
+  const {showAlert} = useGlobalAlert();
   //   const { chat = [], fetchMembers } = useChat();
   const [users, setUsers] = useState([]);
   const [checked, setChecked] = useState([]);
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState('');
   // console.log("Chat Id", userDetails);
   // console.log(JSON.stringify(chat?._id, null, 1));
 
   // ...................
   // For handling checkbox toggle
   // ....................
-  const handleCheckboxToggle = (userId) => {
+  const handleCheckboxToggle = userId => {
     setUsers(
-      users.map((user) =>
-        user?._id === userId ? { ...user, checked: !user.checked } : user
-      )
+      users.map(user =>
+        user?._id === userId ? {...user, checked: !user.checked} : user,
+      ),
     );
   };
   useEffect(() => {
-    setChecked(users?.filter((item) => item.checked));
+    setChecked(users?.filter(item => item.checked));
   }, [users]);
 
   // --------------------------
   // ----------- Uncheck Function -----------
   // --------------------------
-  const handleUncheck = (id) => {
-    setChecked(checked?.filter((item) => item?._id !== id));
-    const uncheck = users.find((item) => item?._id == id);
+  const handleUncheck = id => {
+    setChecked(checked?.filter(item => item?._id !== id));
+    const uncheck = users.find(item => item?._id == id);
     uncheck.checked = false;
   };
 
   useEffect(() => {
     axiosInstance
       .get(`/chat/searchuser?query=${inputText}`)
-      .then((res) => {
+      .then(res => {
         setUsers(res?.data?.users);
       })
-      .then((err) => {
+      .then(err => {
         console.log(err);
       });
   }, [inputText]);
@@ -85,8 +85,7 @@ const ForwardMember = ({
   return (
     <ReactNativeModal
       backdropColor={Colors.BackDropColor}
-      isVisible={isForwardMemberModalVisible}
-    >
+      isVisible={isForwardMemberModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalStyle}>
           {/* -------------------------- */}
@@ -117,22 +116,19 @@ const ForwardMember = ({
               <>
                 <ScrollView
                   horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  <View style={{ flexDirection: "row", gap: 10 }}>
+                  showsHorizontalScrollIndicator={false}>
+                  <View style={{flexDirection: 'row', gap: 10}}>
                     {checked?.map((item, index) => (
                       <View
                         key={index}
                         style={{
-                          alignItems: "center",
-                        }}
-                      >
+                          alignItems: 'center',
+                        }}>
                         <View
                           style={{
-                            alignItems: "center",
-                            position: "relative",
-                          }}
-                        >
+                            alignItems: 'center',
+                            position: 'relative',
+                          }}>
                           <Image
                             source={
                               item?.profilePicture
@@ -147,18 +143,17 @@ const ForwardMember = ({
                             onPress={() => handleUncheck(item?._id)}
                             activeOpacity={0.5}
                             style={{
-                              position: "absolute",
+                              position: 'absolute',
                               bottom: responsiveScreenHeight(1),
                               right: responsiveScreenWidth(0),
-                            }}
-                          >
+                            }}>
                             <BlackCrossIcon />
                           </TouchableOpacity>
                         </View>
                         <Text style={styles.checkedText}>
-                          {item?.fullName.split(" ")?.length > 3
-                            ? `${item?.fullName.split(" ")[0]}  ${
-                                item?.fullName.split(" ")[1]
+                          {item?.fullName.split(' ')?.length > 3
+                            ? `${item?.fullName.split(' ')[0]}  ${
+                                item?.fullName.split(' ')[1]
                               }`
                             : `${item?.fullName}`}
                         </Text>
@@ -169,14 +164,13 @@ const ForwardMember = ({
                 <TouchableOpacity
                   activeOpacity={0.3}
                   style={styles.addButtonContainer}
-                  onPress={() => showAlert({
-                    title: "Coming Soon...",
-                    type: "warning",
-                    message:
-                      "This feature is coming soon.",
-                  })}
-                  
-                >
+                  onPress={() =>
+                    showAlert({
+                      title: 'Coming Soon...',
+                      type: 'warning',
+                      message: 'This feature is coming soon.',
+                    })
+                  }>
                   <Text style={styles.addButtonText}>Forward</Text>
                 </TouchableOpacity>
               </>
@@ -185,12 +179,12 @@ const ForwardMember = ({
                 <View style={styles.inputField}>
                   <TextInput
                     keyboardAppearance={
-                      Colors.Background_color === "#F5F5F5" ? "light" : "dark"
+                      Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
                     }
                     style={styles.textInput}
                     placeholder="Search"
                     placeholderTextColor={Colors.BodyText}
-                    onChangeText={(text) => setInputText(text)}
+                    onChangeText={text => setInputText(text)}
                     value={inputText}
                   />
                   <SearchIcon />
@@ -207,7 +201,7 @@ const ForwardMember = ({
               {users?.map((user, index) => (
                 <View style={styles.imageContainer} key={index}>
                   <View style={styles.profileContainer}>
-                    <View style={{ position: "relative" }}>
+                    <View style={{position: 'relative'}}>
                       <Image
                         style={styles.user}
                         source={
@@ -223,17 +217,16 @@ const ForwardMember = ({
                       </View>
                     </View>
                     <Text style={styles.userName}>
-                      {user?.fullName.split(" ")?.length > 3
-                        ? `${user?.fullName.split(" ")[0]}  ${
-                            user?.fullName.split(" ")[1]
+                      {user?.fullName.split(' ')?.length > 3
+                        ? `${user?.fullName.split(' ')[0]}  ${
+                            user?.fullName.split(' ')[1]
                           }`
                         : `${user?.fullName}`}
                     </Text>
                   </View>
                   {/* Show Check box icon by help of svg */}
                   <TouchableOpacity
-                    onPress={() => handleCheckboxToggle(user?._id)}
-                  >
+                    onPress={() => handleCheckboxToggle(user?._id)}>
                     {user.checked ? <CheckIcon /> : <UnCheckIcon />}
                   </TouchableOpacity>
                 </View>
@@ -248,12 +241,12 @@ const ForwardMember = ({
 
 export default ForwardMember;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     Description: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
-      width: "85%",
+      fontFamily: CustomFonts.REGULAR,
+      width: '85%',
       paddingTop: responsiveScreenHeight(1),
     },
     addButtonContainer: {
@@ -264,16 +257,16 @@ const getStyles = (Colors) =>
       borderRadius: 7,
     },
     addButtonText: {
-      fontFamily: CustomeFonts.REGULAR,
-      color: "#ffffff",
+      fontFamily: CustomFonts.REGULAR,
+      color: '#ffffff',
     },
     checkedText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(1.5),
     },
     checkedHeading: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2.2),
       color: Colors.Heading,
       paddingTop: responsiveScreenHeight(2),
@@ -287,8 +280,8 @@ const getStyles = (Colors) =>
     container: {
       flex: 1,
       // backgroundColor: Colors.Background_color,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       paddingHorizontal: responsiveScreenWidth(3),
     },
     modalContainer: {
@@ -304,19 +297,19 @@ const getStyles = (Colors) =>
     },
 
     btn: {
-      backgroundColor: "#27ac1f",
+      backgroundColor: '#27ac1f',
       marginBottom: responsiveScreenHeight(3),
     },
     text: {
-      alignSelf: "center",
+      alignSelf: 'center',
       paddingTop: responsiveScreenHeight(1),
-      color: "#fff",
+      color: '#fff',
     },
 
     inputField: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       backgroundColor: Colors.ScreenBoxColor,
 
       padding: responsiveScreenWidth(1.9),
@@ -330,23 +323,23 @@ const getStyles = (Colors) =>
 
     textInput: {
       fontSize: responsiveScreenFontSize(1.8),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.Heading,
       flex: 1,
     },
 
     topContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       // justifyContent: "space-between",
       gap: responsiveScreenWidth(2.2),
-      alignItems: "center",
+      alignItems: 'center',
       paddingTop: responsiveScreenHeight(1.5),
     },
     allContact: {
       color: Colors.Heading,
       paddingTop: responsiveScreenHeight(1.8),
-      fontFamily: CustomeFonts.MEDIUM,
-      fontWeight: "500",
+      fontFamily: CustomFonts.MEDIUM,
+      fontWeight: '500',
       fontSize: responsiveScreenFontSize(2),
       marginBottom: responsiveScreenHeight(1),
     },
@@ -354,33 +347,33 @@ const getStyles = (Colors) =>
       marginTop: responsiveScreenHeight(1),
     },
     imageContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       marginVertical: responsiveScreenWidth(2),
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
     user: {
       width: responsiveScreenWidth(6.5),
       height: responsiveScreenWidth(6.7),
       backgroundColor: Colors.LightGreen,
-      resizeMode: "cover",
+      resizeMode: 'cover',
       borderRadius: 100,
     },
     userName: {
       fontSize: responsiveScreenFontSize(1.9),
-      fontFamily: CustomeFonts.MEDIUM,
-      fontWeight: "500",
+      fontFamily: CustomFonts.MEDIUM,
+      fontWeight: '500',
       color: Colors.BodyText,
     },
     smallCircle: {
-      position: "absolute",
+      position: 'absolute',
       right: responsiveScreenWidth(-1),
       top: responsiveScreenHeight(1.8),
       padding: 1,
     },
     profileContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(4),
-      alignItems: "center",
+      alignItems: 'center',
     },
   });

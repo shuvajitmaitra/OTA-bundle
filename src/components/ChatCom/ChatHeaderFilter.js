@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useTheme} from '../../context/ThemeContext';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import ArrowDownThree from '../../assets/Icons/ArrowDownThree';
 
@@ -110,7 +110,7 @@ const getStyles = (Colors, checked) =>
   StyleSheet.create({
     tabText: {
       color: Colors.PureWhite,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
     },
     tabContainer: {
       paddingHorizontal: 10,

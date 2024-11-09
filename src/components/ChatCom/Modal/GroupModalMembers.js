@@ -14,7 +14,7 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import GroupMemberInfo from './GroupMemberInfo';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import SearchAndFilter from './SearchAndFilter';
 import ArrowRight from '../../../assets/Icons/ArrowRight';
 import NoDataAvailable from '../../SharedComponent/NoDataAvailable';
@@ -113,7 +113,7 @@ export default function GroupModalMembers() {
             <Text
               style={{
                 color: 'rgba(39, 172, 31, 1)',
-                fontFamily: CustomeFonts.SEMI_BOLD,
+                fontFamily: CustomFonts.SEMI_BOLD,
                 fontSize: responsiveScreenFontSize(1.8),
               }}>
               {seeMoreClicked ? 'See Less' : 'See More'}

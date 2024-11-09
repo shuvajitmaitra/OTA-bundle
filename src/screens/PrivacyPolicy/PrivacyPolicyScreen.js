@@ -14,7 +14,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
 import Markdown from 'react-native-markdown-display';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import SectionHeading from '../../components/PrivacyPolicyCom/SectionHeading';
@@ -431,7 +431,7 @@ Email: [support@bootcampshub.ai](support@bootcampshub.ai)
           {/* <Text
             style={{
               marginLeft: 10,
-              fontFamily: CustomeFonts.MEDIUM,
+              fontFamily: CustomFonts.MEDIUM,
               fontSize: responsiveScreenFontSize(2),
               color: Colors.BodyText,
             }}>
@@ -574,16 +574,16 @@ export default PrivacyPolicyScreen;
 const getStyles = Colors =>
   StyleSheet.create({
     leftCell: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       //   textAlign: "justify",
       color: Colors.Heading,
     },
     rightCell: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
     },
     headerCell: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       color: Colors.Heading,
     },
     table: {
@@ -615,7 +615,7 @@ const getStyles = Colors =>
         color: Colors.BodyText,
         // fontSize: 16,
 
-        fontFamily: CustomeFonts.REGULAR,
+        fontFamily: CustomFonts.REGULAR,
         lineHeight: 24,
         textAlign: 'justify',
         marginBottom: responsiveScreenHeight(1.5),
@@ -657,7 +657,7 @@ const getStyles = Colors =>
     normalText: {
       textAlign: 'justify',
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       marginBottom: 10,
       lineHeight: 20,
     },

@@ -3,7 +3,7 @@ import Modal from 'react-native-modal';
 import {Text, View, StyleSheet} from 'react-native';
 import {useTheme} from '../../context/ThemeContext';
 import BinIcon from '../../assets/Icons/BinIcon';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {RegularFonts} from '../../constants/Fonts';
 import AlertIcon2 from '../../assets/Icons/AlertIcon2';
 import ErrorIcon from '../../assets/Icons/ErrorIcon';
@@ -119,16 +119,16 @@ const getStyles = Colors =>
       color: Colors.BodyText,
       fontSize: RegularFonts.BL,
       textAlign: 'center',
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     linkText: {
       color: Colors.Primary,
       fontSize: RegularFonts.BL,
       textAlign: 'center',
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
     },
     heading: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: RegularFonts.HL,
       color: Colors.Heading,
       textAlign: 'center',
@@ -147,7 +147,7 @@ const getStyles = Colors =>
         flex: 1,
         width: responsiveScreenWidth(73),
         color: Colors.BodyText,
-        fontFamily: CustomeFonts.REGULAR,
+        fontFamily: CustomFonts.REGULAR,
         lineHeight: 24,
         textAlign: 'justify',
         marginBottom: responsiveScreenHeight(1.5),

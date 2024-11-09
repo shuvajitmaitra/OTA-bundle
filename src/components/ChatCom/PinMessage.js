@@ -25,7 +25,7 @@
 // import Modal from 'react-native-modal';
 
 // import userIcon from '../../assets/Images/user.png';
-// import CustomeFonts from '../../constants/CustomeFonts';
+// import CustomFonts from '../../constants/CustomFonts';
 // import LoadingSmall from '../SharedComponent/LoadingSmall';
 // import ForwardMember from './Modal/ForwardMessageModal';
 // import ThreeDotGrayIcon from '../../assets/Icons/ThreeDotGrayIcon';
@@ -658,7 +658,7 @@
 //     },
 //     popupText: {
 //       color: Colors.BodyText,
-//       fontFamily: CustomeFonts.REGULAR,
+//       fontFamily: CustomFonts.REGULAR,
 //       fontSize: responsiveScreenFontSize(1.7),
 //       marginBottom: 2,
 //     },

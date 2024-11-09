@@ -1,24 +1,35 @@
 // AiDrawer.js
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState, useCallback } from "react";
-import { useTheme } from "../../../context/ThemeContext";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CrossCircle from "../../../assets/Icons/CrossCircle";
-import RightArrowButtonWithoutTail from "../../../assets/Icons/RightArrowButtonWithoutTail";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import { RegularFonts } from "../../../constants/Fonts";
-import GlobalRadioGroup2 from "../GlobalRadioGroup2";
-import GlobalRadioGroup from "../GlobalRadioButton";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {useTheme} from '../../../context/ThemeContext';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
+import CrossCircle from '../../../assets/Icons/CrossCircle';
+import RightArrowButtonWithoutTail from '../../../assets/Icons/RightArrowButtonWithoutTail';
+import CustomFonts from '../../../constants/CustomFonts';
+import {RegularFonts} from '../../../constants/Fonts';
+import GlobalRadioGroup2 from '../GlobalRadioGroup2';
+import GlobalRadioGroup from '../GlobalRadioButton';
 
-const AiDrawer = ({ generatedText = "", toggle, setSelectedValues, selectedValues }) => {
-  const { top } = useSafeAreaInsets();
+const AiDrawer = ({
+  generatedText = '',
+  toggle,
+  setSelectedValues,
+  selectedValues,
+}) => {
+  const {top} = useSafeAreaInsets();
   const Colors = useTheme();
   const styles = getStyles(Colors, top);
   const [expandedCategories, setExpandedCategories] = useState({});
 
-  const toggleCategory = useCallback((category) => {
-    setExpandedCategories((prev) => ({
+  const toggleCategory = useCallback(category => {
+    setExpandedCategories(prev => ({
       ...prev,
       [category]: !prev[category],
     }));
@@ -26,123 +37,123 @@ const AiDrawer = ({ generatedText = "", toggle, setSelectedValues, selectedValue
 
   const keywordsCategories = [
     {
-      title: "Rewrite",
+      title: 'Rewrite',
       keywords: [
-        { label: "Discussion", value: "Rewrite as Discussion" },
-        { label: "Opinions", value: "Rewrite as Opinions" },
-        { label: "Advise", value: "Rewrite as Advise" },
-        { label: "Recommendations", value: "Rewrite as Recommendations" },
-        { label: "Outstanding", value: "Rewrite as Outstanding" },
-        { label: "Exceptional", value: "Rewrite as Exceptional" },
-        { label: "Feedback", value: "Rewrite as Feedback" },
+        {label: 'Discussion', value: 'Rewrite as Discussion'},
+        {label: 'Opinions', value: 'Rewrite as Opinions'},
+        {label: 'Advise', value: 'Rewrite as Advise'},
+        {label: 'Recommendations', value: 'Rewrite as Recommendations'},
+        {label: 'Outstanding', value: 'Rewrite as Outstanding'},
+        {label: 'Exceptional', value: 'Rewrite as Exceptional'},
+        {label: 'Feedback', value: 'Rewrite as Feedback'},
       ],
-      inputType: "radio",
+      inputType: 'radio',
     },
     {
-      title: "Questions",
+      title: 'Questions',
       keywords: [
         {
-          label: "What",
+          label: 'What',
           value: `What is ${generatedText}?  and answer with first line question  and under write answer`,
         },
         {
-          label: "Why",
+          label: 'Why',
           value: `Why is used ${generatedText}?  and answer with first line question  and under write answer`,
         },
         {
-          label: "Where",
+          label: 'Where',
           value: `Where is used  ${generatedText}?  and answer with first line question  and under write answer`,
         },
         {
-          label: "When",
+          label: 'When',
           value: `When is use ${generatedText}?  and answer with first line question  and under write answer`,
         },
         {
-          label: "Advantage",
+          label: 'Advantage',
           value: `What is the Advantage of ${generatedText}?  and answer with first line question  and under write answer`,
         },
         {
-          label: "Disadvantages ",
+          label: 'Disadvantages ',
           value: `What is the  Disadvantages of ${generatedText}?  and answer with first line question  and under write answer`,
         },
         {
-          label: "Alternative",
+          label: 'Alternative',
           value: `Alternative of ${generatedText}?  and answer with first line question  and under write answer`,
         },
         {
-          label: "How ",
+          label: 'How ',
           value: `How to use ${generatedText}?  and give the example? and answer with first line question  and under write answer`,
         },
       ],
-      inputType: "checkbox",
+      inputType: 'checkbox',
     },
     {
-      title: "About",
+      title: 'About',
       keywords: [
-        { label: "Objective", value: "Objective" },
-        { label: "Mission", value: "Mission" },
+        {label: 'Objective', value: 'Objective'},
+        {label: 'Mission', value: 'Mission'},
       ],
-      inputType: "checkbox",
+      inputType: 'checkbox',
     },
     {
-      title: "Styles",
+      title: 'Styles',
       keywords: [
-        { value: "write with Professional", label: "Professional" },
-        { value: "write with Formal", label: "Formal" },
-        { value: "write with Informal", label: "Informal" },
-        { value: "write with Funny", label: "Funny" },
-        { value: "write with Humor", label: "Humor" },
-        { value: "write with Political", label: "Political" },
-        { value: "write with Motivational", label: "Motivational" },
-        { value: "write with Inspirational", label: "Inspirational" },
-        { value: " write with Sad", label: "Sad" },
-        { value: "write with Sorrow", label: "Sorrow" },
-        { value: "write with Welcoming", label: "Welcoming" },
-        { value: "write with Excited", label: "Excited" },
-        { value: "write with Innovative", label: "Innovative" },
-        { value: "write with Revolutionary", label: "Revolutionary" },
+        {value: 'write with Professional', label: 'Professional'},
+        {value: 'write with Formal', label: 'Formal'},
+        {value: 'write with Informal', label: 'Informal'},
+        {value: 'write with Funny', label: 'Funny'},
+        {value: 'write with Humor', label: 'Humor'},
+        {value: 'write with Political', label: 'Political'},
+        {value: 'write with Motivational', label: 'Motivational'},
+        {value: 'write with Inspirational', label: 'Inspirational'},
+        {value: ' write with Sad', label: 'Sad'},
+        {value: 'write with Sorrow', label: 'Sorrow'},
+        {value: 'write with Welcoming', label: 'Welcoming'},
+        {value: 'write with Excited', label: 'Excited'},
+        {value: 'write with Innovative', label: 'Innovative'},
+        {value: 'write with Revolutionary', label: 'Revolutionary'},
       ],
-      inputType: "radio",
+      inputType: 'radio',
     },
     {
-      title: "S Media posts",
+      title: 'S Media posts',
       keywords: [
-        { label: "Engaging", value: "Engaging" },
-        { label: "Lucrative", value: "Lucrative" },
-        { label: "Quick Outcome centric", value: "Quick Outcome centric" },
-        { label: "Exceptional", value: "Exceptional" },
-        { label: "Ask questions to engage", value: "Ask questions to engage" },
+        {label: 'Engaging', value: 'Engaging'},
+        {label: 'Lucrative', value: 'Lucrative'},
+        {label: 'Quick Outcome centric', value: 'Quick Outcome centric'},
+        {label: 'Exceptional', value: 'Exceptional'},
+        {label: 'Ask questions to engage', value: 'Ask questions to engage'},
         {
-          label: "Provide constructive feedback",
-          value: "Provide constructive feedback",
+          label: 'Provide constructive feedback',
+          value: 'Provide constructive feedback',
         },
       ],
-      inputType: "checkbox",
+      inputType: 'checkbox',
     },
     {
-      title: "Size",
+      title: 'Size',
       keywords: [
-        { label: "Long", value: "write in Long" },
-        { label: "Shots", value: "write in Shots" },
-        { label: "Medium", value: "write in  Medium" },
-        { label: "100 words", value: "write in 100 words" },
-        { label: "200 words", value: "write in 200 words" },
+        {label: 'Long', value: 'write in Long'},
+        {label: 'Shots', value: 'write in Shots'},
+        {label: 'Medium', value: 'write in  Medium'},
+        {label: '100 words', value: 'write in 100 words'},
+        {label: '200 words', value: 'write in 200 words'},
       ],
-      inputType: "radio",
+      inputType: 'radio',
     },
 
     // Add more categories as needed
   ];
 
   const handleRadioSelect = useCallback((category, value) => {
-    setSelectedValues((prev) => ({
+    setSelectedValues(prev => ({
       ...prev,
       [category]: value,
     }));
   }, []);
 
   const handleCheckboxToggle = useCallback((category, updatedSelections) => {
-    setSelectedValues((prev) => ({
+    setSelectedValues(prev => ({
       ...prev,
       [category]: updatedSelections,
     }));
@@ -159,8 +170,7 @@ const AiDrawer = ({ generatedText = "", toggle, setSelectedValues, selectedValue
           toggle();
           //   generatePrompt();
         }}
-        style={styles.drawerContainer}
-      >
+        style={styles.drawerContainer}>
         <CrossCircle size={40} />
       </TouchableOpacity>
 
@@ -175,25 +185,30 @@ const AiDrawer = ({ generatedText = "", toggle, setSelectedValues, selectedValue
                 marginHorizontal: responsiveScreenWidth(4),
                 paddingBottom: expandedCategories[item.title] && 10,
               }}
-              key={item.title + index}
-            >
-              <TouchableOpacity onPress={() => toggleCategory(item.title)} style={styles.buttonContainer}>
+              key={item.title + index}>
+              <TouchableOpacity
+                onPress={() => toggleCategory(item.title)}
+                style={styles.buttonContainer}>
                 <Text style={styles.itemText}>{item.title}</Text>
-                <RightArrowButtonWithoutTail bgColor={Colors.Background_color} />
+                <RightArrowButtonWithoutTail
+                  bgColor={Colors.Background_color}
+                />
               </TouchableOpacity>
-              <View style={{ paddingHorizontal: responsiveScreenWidth(8) }}>
+              <View style={{paddingHorizontal: responsiveScreenWidth(8)}}>
                 {expandedCategories[item.title] &&
-                  (item.inputType === "radio" ? (
+                  (item.inputType === 'radio' ? (
                     <GlobalRadioGroup
                       options={item.keywords}
-                      selected={selectedValues[item.title] || ""}
-                      onSelect={(value) => handleRadioSelect(item.title, value)}
+                      selected={selectedValues[item.title] || ''}
+                      onSelect={value => handleRadioSelect(item.title, value)}
                     />
                   ) : (
                     <GlobalRadioGroup2
                       options={item.keywords}
                       selected={selectedValues[item.title] || []}
-                      onSelect={(updatedSelections) => handleCheckboxToggle(item.title, updatedSelections)}
+                      onSelect={updatedSelections =>
+                        handleCheckboxToggle(item.title, updatedSelections)
+                      }
                     />
                   ))}
               </View>
@@ -224,17 +239,17 @@ const getStyles = (Colors, top) =>
       zIndex: 10,
     },
     buttonContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       backgroundColor: Colors.Background_color,
       //   marginTop: top / 1.2,
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
       paddingHorizontal: responsiveScreenWidth(2),
       borderRadius: 10,
       paddingVertical: 15,
     },
     itemText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: RegularFonts.HL,
       color: Colors.Heading,
     },

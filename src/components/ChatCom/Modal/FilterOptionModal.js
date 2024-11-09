@@ -14,7 +14,7 @@ import BinIcon from '../../../assets/Icons/BinIcon';
 import NewPinIcon from '../../../assets/Icons/NewPinIcon';
 import {FlatList} from 'react-native';
 import Divider from '../../SharedComponent/Divider';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 // import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import CreateCrowdModal from './CreateCrowdModal';
@@ -137,7 +137,7 @@ const getStyles = Colors =>
   StyleSheet.create({
     popupContryText: {
       color: Colors.Heading,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       marginVertical: 7,
       fontSize: responsiveScreenFontSize(1.9),
     },

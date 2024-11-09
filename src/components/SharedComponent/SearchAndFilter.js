@@ -17,7 +17,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {Popover, usePopover} from 'react-native-modal-popover';
 import {RadioButton} from 'react-native-paper';
 import CrossIcon from '../../assets/Icons/CrossIcon';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 import GlobalRadioGroup from './GlobalRadioButton';
 
@@ -141,13 +141,13 @@ const getStyles = Colors =>
     },
     radioText: {
       fontSize: responsiveScreenFontSize(1.8),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     // --------------------------
     // ----------- Header of the popup -----------
     // --------------------------
     headerText: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
       color: Colors.Heading,
     },
@@ -200,7 +200,7 @@ const getStyles = Colors =>
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.6),
       flex: 1,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
 
       // backgroundColor: "red",
     },
@@ -210,7 +210,7 @@ const getStyles = Colors =>
     },
     filterButtonText: {
       fontSize: responsiveScreenFontSize(1.8),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.PureWhite,
     },
     threeDotIcon: {

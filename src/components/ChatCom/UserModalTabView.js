@@ -8,7 +8,7 @@ import {
 import UserModalImageGallary from './UserModalImageGallary';
 import UserModalUploadedFile from './UserModalUploadedFile';
 import UserModalVoice from './UserModalVoice';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 
 export const UserModalTabView = ({chat}) => {
@@ -44,7 +44,7 @@ export const UserModalTabView = ({chat}) => {
             <Text
               style={[
                 {
-                  fontFamily: CustomeFonts.MEDIUM,
+                  fontFamily: CustomFonts.MEDIUM,
                   fontSize: responsiveScreenFontSize(1.8),
                   color: Colors.BodyText,
                 },

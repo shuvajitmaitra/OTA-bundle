@@ -20,7 +20,7 @@ import ModalCustomButton from './ModalCustomButton';
 import CustomDropDown from '../../SharedComponent/CustomDropDown';
 import ModalBackAndCrossButton from './ModalBackAndCrossButton';
 import {useTheme} from '../../../context/ThemeContext';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import useChat from '../../../hook/useChat';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateChats} from '../../../store/reducer/chatReducer';
@@ -204,7 +204,7 @@ const getStyles = Colors =>
       marginBottom: responsiveScreenHeight(1),
     },
     Text: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       marginBottom: responsiveScreenHeight(1),
       color: Colors.Heading,
@@ -226,7 +226,7 @@ const getStyles = Colors =>
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.Heading,
       // backgroundColor: "red",
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       paddingVertical: responsiveScreenHeight(1),
       textAlignVertical: 'top',
       minHeight: responsiveScreenHeight(10),
@@ -238,7 +238,7 @@ const getStyles = Colors =>
       borderColor: Colors.BorderColor,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       paddingVertical: responsiveScreenHeight(1),
       marginBottom: responsiveScreenHeight(3),
     },
@@ -252,7 +252,7 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1.5),
     },
     headerText: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.5),
       color: Colors.Heading,
     },
@@ -284,7 +284,7 @@ const getStyles = Colors =>
     },
     backButtonText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
     },
     cancelButton: {

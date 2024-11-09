@@ -22,7 +22,7 @@ import {useTheme} from '../../context/ThemeContext';
 import ArrowRight from '../../assets/Icons/ArrowRight';
 import NoDataAvailable from '../SharedComponent/NoDataAvailable';
 import Loading from '../SharedComponent/Loading';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
 import Images from '../../constants/Images';
@@ -177,7 +177,7 @@ export default function UserModalVoice() {
           <Text
             style={{
               color: 'rgba(39, 172, 31, 1)',
-              fontFamily: CustomeFonts.SEMI_BOLD,
+              fontFamily: CustomFonts.SEMI_BOLD,
               fontSize: responsiveScreenFontSize(1.8),
             }}>
             {seeMoreClicked ? 'See Less' : 'See More'}

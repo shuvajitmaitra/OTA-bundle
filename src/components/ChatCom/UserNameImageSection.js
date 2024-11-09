@@ -1,14 +1,14 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Images from '../../constants/Images';
 import {useTheme} from '../../context/ThemeContext';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 
-const UserNameImageSection = ({image = '', name = 'N/A'}) => {
+const UserNameImageSection = ({image = '', name = 'N/A', handleCreateChat}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container}>
       <Image
         resizeMode="contain"
         source={
@@ -21,7 +21,7 @@ const UserNameImageSection = ({image = '', name = 'N/A'}) => {
         style={styles.userImg}
       />
       <Text style={styles.name}>{name}</Text>
-    </View>
+    </Pressable>
   );
 };
 
@@ -33,7 +33,7 @@ const getStyles = Colors =>
       //   alignSelf: 'flex-end',
       color: Colors.Heading,
       // fontWeight: "500",
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       // marginBottom: responsiveScreenHeight(1),
     },
     container: {

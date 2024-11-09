@@ -1,16 +1,16 @@
-import React from "react";
-import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import React from 'react';
+import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
-import SearchIcon from "../../../assets/Icons/SearchIcon";
-import ArrowLeft from "../../../assets/Icons/ArrowLeft";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import { useTheme } from "../../../context/ThemeContext";
+} from 'react-native-responsive-dimensions';
+import SearchIcon from '../../../assets/Icons/SearchIcon';
+import ArrowLeft from '../../../assets/Icons/ArrowLeft';
+import CustomFonts from '../../../constants/CustomFonts';
+import {useTheme} from '../../../context/ThemeContext';
 
-const AddMembersHeader = ({ text, toggleModal }) => {
+const AddMembersHeader = ({text, toggleModal}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
@@ -35,21 +35,21 @@ const AddMembersHeader = ({ text, toggleModal }) => {
 
 export default AddMembersHeader;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {},
     headerContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       paddingHorizontal: responsiveScreenWidth(2),
 
-      alignItems: "center",
+      alignItems: 'center',
       height: responsiveScreenHeight(8),
     },
 
     headerLeft: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       width: responsiveScreenWidth(70),
     },
     headerRight: {
@@ -62,15 +62,15 @@ const getStyles = (Colors) =>
     },
     headerText: {
       fontSize: responsiveScreenFontSize(2.3),
-      color: "#474748",
+      color: '#474748',
       marginLeft: responsiveScreenWidth(3),
-      fontWeight: "500",
-      fontFamily: CustomeFonts.MEDIUM,
+      fontWeight: '500',
+      fontFamily: CustomFonts.MEDIUM,
     },
     line: {
       borderBottomWidth: 1,
       borderBottomColor: Colors.LineColor,
       width: responsiveScreenWidth(80),
-      alignSelf: "center",
+      alignSelf: 'center',
     },
   });

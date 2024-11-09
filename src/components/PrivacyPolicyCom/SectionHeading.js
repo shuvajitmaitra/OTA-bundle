@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {useTheme} from '../../context/ThemeContext';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 
 const SectionHeading = ({heading, text}) => {
   // --------------------------
@@ -23,11 +23,11 @@ const getStyles = Colors =>
   StyleSheet.create({
     description: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     heading: {
       color: Colors.Heading,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
     },
     container: {
       backgroundColor: Colors.PrimaryOpacityColor,

@@ -17,7 +17,7 @@ import UpArrowIcon from '../../assets/Icons/UpArrowIcon';
 import DownArrowIcon from '../../assets/Icons/DownArrowIcon';
 import {useTheme} from '../../context/ThemeContext';
 import useChat from '../../hook/useChat';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 // import ArrowLeft from "../../../assets/svgs/ArrowLeft";
 // import UpArrowIcon from "../../../assets/svgs/UpArrowIcon";
 // import DownArrowIcon from "../../../assets/svgs/DownArrowIcon";
@@ -91,7 +91,7 @@ const getStyles = Colors =>
       borderBottomLeftRadius: 10,
     },
     Text: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.5),
       color: Colors.BodyText,
       paddingHorizontal: responsiveScreenWidth(4),
@@ -103,7 +103,7 @@ const getStyles = Colors =>
       borderColor: Colors.BorderColor,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       paddingVertical: responsiveScreenHeight(1),
     },
   });

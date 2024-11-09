@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Popover, usePopover} from 'react-native-modal-popover';
 
 import userIcon from '../../assets/Images/user.png';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import CopyIcon from '../../assets/Icons/CopyIcon';
 import EditIcon2 from '../../assets/Icons/EditIcon2';
 import DeleteIcon from '../../assets/Icons/DeleteIcon';
@@ -320,7 +320,7 @@ const getStyles = Colors =>
     },
     profileName: {
       fontSize: responsiveScreenFontSize(1.8),
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Primary,
       // backgroundColor: "blue",
       // paddingLeft: responsiveScreenWidth(3),
@@ -328,13 +328,13 @@ const getStyles = Colors =>
     comments: {
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(1.8),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       width: responsiveScreenWidth(60),
     },
     commentsTime: {
       color: Colors.BodyText,
       // backgroundColor: "pink",
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.5),
       // marginTop: 2,
       // textAlign: "right",
@@ -354,7 +354,7 @@ const getStyles = Colors =>
     },
     popupText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
       marginBottom: 2,
     },

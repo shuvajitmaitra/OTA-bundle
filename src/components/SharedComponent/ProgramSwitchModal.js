@@ -1,31 +1,31 @@
-import React, { memo, useEffect, useState } from "react";
+import React, {memo, useEffect, useState} from 'react';
 import {
   Text,
   StyleSheet,
   TouchableOpacity,
   View,
   ScrollView,
-} from "react-native";
-import Modal from "react-native-modal";
-import { AntDesign, Entypo } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { setEnrollment } from "../../store/reducer/authReducer";
-import { setProgramActive } from "../../store/reducer/programReducer";
-import { useTheme } from "../../context/ThemeContext";
-import PopupProgramItem from "../ProgramCom/PopupProgramItem";
-import CustomeFonts from "../../constants/CustomeFonts";
+} from 'react-native';
+import Modal from 'react-native-modal';
+import {AntDesign, Entypo} from '@expo/vector-icons';
+import {useDispatch, useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {setEnrollment} from '../../store/reducer/authReducer';
+import {setProgramActive} from '../../store/reducer/programReducer';
+import {useTheme} from '../../context/ThemeContext';
+import PopupProgramItem from '../ProgramCom/PopupProgramItem';
+import CustomFonts from '../../constants/CustomFonts';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+} from 'react-native-responsive-dimensions';
 
-const ProgramSwitchModal = memo(({ modalOpen, setModalOpen, handleVerify }) => {
+const ProgramSwitchModal = memo(({modalOpen, setModalOpen, handleVerify}) => {
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { myEnrollments } = useSelector((state) => state.auth);
+  const {myEnrollments} = useSelector(state => state.auth);
   const [active, setActive] = useState(null);
   // console.log(
   //   "myEnrollments.length",
@@ -33,7 +33,7 @@ const ProgramSwitchModal = memo(({ modalOpen, setModalOpen, handleVerify }) => {
   // );
 
   const getActive = async () => {
-    let activeE = await AsyncStorage.getItem("active_enrolment");
+    let activeE = await AsyncStorage.getItem('active_enrolment');
     if (activeE) {
       setActive(JSON.parse(activeE));
       dispatch(setProgramActive(JSON.parse(activeE)));
@@ -44,9 +44,9 @@ const ProgramSwitchModal = memo(({ modalOpen, setModalOpen, handleVerify }) => {
     getActive();
   }, [myEnrollments]);
 
-  const handleSwitch = async (enrollment) => {
+  const handleSwitch = async enrollment => {
     dispatch(setEnrollment(enrollment));
-    await AsyncStorage.setItem("active_enrolment", JSON.stringify(enrollment));
+    await AsyncStorage.setItem('active_enrolment', JSON.stringify(enrollment));
     getActive();
     handleVerify();
   };
@@ -55,8 +55,7 @@ const ProgramSwitchModal = memo(({ modalOpen, setModalOpen, handleVerify }) => {
     <Modal
       backdropColor={Colors.BackDropColor}
       style={styles.modal}
-      isVisible={modalOpen}
-    >
+      isVisible={modalOpen}>
       <View style={styles.popupContainer}>
         <View style={styles.popupTopContainer}>
           <View style={styles.popupArrowContainer}>
@@ -71,8 +70,7 @@ const ProgramSwitchModal = memo(({ modalOpen, setModalOpen, handleVerify }) => {
           <TouchableOpacity
             onPress={() => setModalOpen(false)}
             activeOpacity={0.9}
-            style={styles.popupCrossContainer}
-          >
+            style={styles.popupCrossContainer}>
             <Entypo name="cross" size={20} color={Colors.BodyText} />
           </TouchableOpacity>
         </View>
@@ -88,7 +86,7 @@ const ProgramSwitchModal = memo(({ modalOpen, setModalOpen, handleVerify }) => {
               />
             ))
           ) : (
-            <View style={{ flex: 1, backgroundColor: Colors.Background_color }}>
+            <View style={{flex: 1, backgroundColor: Colors.Background_color}}>
               <Text style={styles.headingText}>
                 Enrollment is not available
               </Text>
@@ -104,25 +102,24 @@ const ProgramSwitchModal = memo(({ modalOpen, setModalOpen, handleVerify }) => {
   );
 });
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     headingText: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.8),
       color: Colors.Heading,
-      textAlign: "center",
+      textAlign: 'center',
     },
     bodyText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(2),
       color: Colors.BodyText,
-      textAlign: "center",
+      textAlign: 'center',
       marginHorizontal: responsiveScreenWidth(4),
       lineHeight: responsiveScreenHeight(3),
     },
     modal: {
       // marginHorizontal: responsiveScreenWidth(4),
-      
     },
     popupContainer: {
       paddingHorizontal: responsiveScreenWidth(4.5),
@@ -133,17 +130,17 @@ const getStyles = (Colors) =>
       maxHeight: responsiveScreenHeight(80),
     },
     popupTopContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
       height: responsiveScreenHeight(3.5),
     },
     popupArrowContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     popupTitle: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(1.9),
       marginLeft: responsiveScreenWidth(2),
       color: Colors.BodyText,
@@ -153,8 +150,8 @@ const getStyles = (Colors) =>
       height: responsiveScreenWidth(7),
       backgroundColor: Colors.ModalBoxColor,
       borderRadius: 20,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     popupLine: {
       width: responsiveScreenWidth(85),
@@ -162,7 +159,7 @@ const getStyles = (Colors) =>
       backgroundColor: Colors.BorderColor,
       marginTop: responsiveScreenHeight(2),
       marginBottom: responsiveScreenHeight(1),
-      alignSelf: "center",
+      alignSelf: 'center',
     },
   });
 

@@ -13,7 +13,7 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useNavigation} from '@react-navigation/native';
 import GoToChatIcon from '../../assets/Icons/GoToChatIcon';
 import UserIconTwo from '../../assets/Icons/UserIconTwo';
@@ -197,14 +197,14 @@ const getStyles = Colors =>
     },
     profileName: {
       fontSize: responsiveScreenFontSize(2),
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
       width: responsiveScreenWidth(50),
     },
     messageTime: {
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(1.7),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     timeContainer: {
       flexDirection: 'row',

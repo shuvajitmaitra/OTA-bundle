@@ -13,7 +13,7 @@ import ModalCustomButton from './ModalCustomButton';
 import CustomDropDown from '../../SharedComponent/CustomDropDown';
 import ModalBackAndCrossButton from './ModalBackAndCrossButton';
 import {useTheme} from '../../../context/ThemeContext';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import {useDispatch} from 'react-redux';
 import CreateCrowdAddMember from './CreateCrowdAddMember';
 
@@ -186,7 +186,7 @@ const getStyles = Colors =>
       // marginBottom: responsiveScreenHeight(1),
     },
     Text: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       marginBottom: responsiveScreenHeight(1),
       color: Colors.Heading,
@@ -204,7 +204,7 @@ const getStyles = Colors =>
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.Heading,
       // backgroundColor: "red",
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       paddingVertical: responsiveScreenHeight(1),
       textAlignVertical: 'top',
       marginLeft: responsiveScreenWidth(2),
@@ -217,7 +217,7 @@ const getStyles = Colors =>
       borderColor: Colors.BorderColor,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       paddingVertical: responsiveScreenHeight(1),
     },
     // --------------------------
@@ -231,7 +231,7 @@ const getStyles = Colors =>
       marginTop: responsiveScreenHeight(1),
     },
     headerText: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.5),
       color: Colors.Heading,
     },
@@ -263,7 +263,7 @@ const getStyles = Colors =>
     },
     backButtonText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
     },
     cancelButton: {

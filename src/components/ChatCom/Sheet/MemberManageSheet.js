@@ -4,7 +4,7 @@ import CustomBottomSheet from '../../SharedComponent/CustomBottomSheet';
 import {useDispatch, useSelector} from 'react-redux';
 import {setSelectedMembers} from '../../../store/reducer/chatSlice';
 import Divider from '../../SharedComponent/Divider';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import {useTheme} from '../../../context/ThemeContext';
 import CustomeBtn from '../../AuthenticationCom/CustomeBtn';
 import {handleRemoveUser, handleUpdateMember} from '../../../actions/apiCall';
@@ -117,14 +117,14 @@ export default MemberManageSheet;
 const getStyles = Colors =>
   StyleSheet.create({
     titleText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: 20,
       textAlign: 'center',
       color: Colors.Heading,
     },
     listText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: 18,
     },
     list: {

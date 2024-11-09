@@ -7,7 +7,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import moment from 'moment';
 
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import groupIcon from '../../assets/Images/group.png';
 import userIcon from '../../assets/Images/user.png';
 import botIcon from '../../assets/Images/bot.png';
@@ -192,8 +192,8 @@ const ChatItem = ({
               fontFamily:
                 chat?.unreadCount > 0 &&
                 chat.myData.user != chat?.latestMessage?.sender?._id
-                  ? CustomeFonts.SEMI_BOLD
-                  : CustomeFonts.REGULAR,
+                  ? CustomFonts.SEMI_BOLD
+                  : CustomFonts.REGULAR,
               color:
                 chat?.unreadCount > 0 &&
                 chat.myData.user != chat?.latestMessage?.sender?._id
@@ -318,14 +318,14 @@ const getStyles = Colors =>
     },
     profileName: {
       fontSize: responsiveScreenFontSize(2),
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
       width: responsiveScreenWidth(50),
     },
     messageTime: {
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(1.7),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     timeContainer: {
       flexDirection: 'row',

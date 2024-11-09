@@ -9,7 +9,7 @@ import ReactNativeModal from 'react-native-modal';
 
 import ModalCustomButton from './ModalCustomButton';
 import ModalBackAndCrossButton from './ModalBackAndCrossButton';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import axiosInstance from '../../../utility/axiosInstance';
 import {useTheme} from '../../../context/ThemeContext';
 import {showToast} from '../../HelperFunction';
@@ -168,7 +168,7 @@ const getStyles = Colors =>
     },
     modalHeadingText: {
       fontSize: responsiveScreenFontSize(2),
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
     },
     //  -------------------------------------------------------------
@@ -179,7 +179,7 @@ const getStyles = Colors =>
     modalDescriptionText: {
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(1.7),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       paddingVertical: responsiveScreenHeight(1.5),
     },
 
@@ -195,7 +195,7 @@ const getStyles = Colors =>
       marginHorizontal: responsiveScreenWidth(-1),
     },
     radioText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.9),
     },
 
@@ -206,7 +206,7 @@ const getStyles = Colors =>
     noteTitle: {
       fontSize: responsiveScreenFontSize(1.9),
       paddingVertical: responsiveScreenWidth(4),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
     },
     noteTextArea: {

@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useTheme} from '../../context/ThemeContext';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {RegularFonts} from '../../constants/Fonts';
 
 const GlobalRadioGroup = ({options, onSelect, selectedValue, customStyle}) => {
@@ -74,7 +74,7 @@ const getStyles = Colors =>
     },
     radioText: {
       fontSize: RegularFonts.HS,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
   });
 

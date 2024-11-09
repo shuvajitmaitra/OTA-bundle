@@ -1,43 +1,43 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+} from 'react-native-responsive-dimensions';
 
-import ArrowRight from "../../assets/Icons/ArrowRight";
-import ArrowDown from "../../assets/Icons/ArrowDown";
-import CustomeFonts from "../../constants/CustomeFonts";
-import axiosInstance from "../../utility/axiosInstance";
-import NoDataIcon from "../../assets/Icons/NotDataIcon";
-import { useTheme } from "../../context/ThemeContext";
-import FileIcon from "../../assets/Icons/FileIcon";
-import Loading from "../SharedComponent/Loading";
-import NoDataAvailable from "../SharedComponent/NoDataAvailable";
-import { bytesToSize } from "./MessageHelper";
+import ArrowRight from '../../assets/Icons/ArrowRight';
+import ArrowDown from '../../assets/Icons/ArrowDown';
+import CustomFonts from '../../constants/CustomFonts';
+import axiosInstance from '../../utility/axiosInstance';
+import NoDataIcon from '../../assets/Icons/NotDataIcon';
+import {useTheme} from '../../context/ThemeContext';
+import FileIcon from '../../assets/Icons/FileIcon';
+import Loading from '../SharedComponent/Loading';
+import NoDataAvailable from '../SharedComponent/NoDataAvailable';
+import {bytesToSize} from './MessageHelper';
 
-const timeFormate = (timestamp) => {
+const timeFormate = timestamp => {
   const date = new Date(timestamp);
-  const timeFormatter = new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
+  const timeFormatter = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
   });
   const formattedTime = timeFormatter.format(date);
-  const dateFormatter = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
+  const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
   });
   const formattedDate = dateFormatter.format(date);
 
-  const result = `${formattedDate.replace(/\//g, ".")} at ${formattedTime}`;
+  const result = `${formattedDate.replace(/\//g, '.')} at ${formattedTime}`;
 
   return result;
 };
 
-export default function UserModalUploadedFile({ chat }) {
+export default function UserModalUploadedFile({chat}) {
   const [file, setFile] = React.useState();
   const [isLoading, setLoading] = useState(true);
   const [seeMoreClicked, setSeeMoreClicked] = useState(false);
@@ -54,7 +54,7 @@ export default function UserModalUploadedFile({ chat }) {
       try {
         const response = await axiosInstance.post(`/chat/media/${chat?._id}`, {
           limit: 50,
-          type: "file",
+          type: 'file',
         });
         if (response.data && Array.isArray(response.data.medias)) {
           const reversedMedias = [...response.data.medias].reverse();
@@ -63,7 +63,7 @@ export default function UserModalUploadedFile({ chat }) {
           setFile([]);
         }
       } catch (error) {
-        console.error("Failed to fetch media:", error.message);
+        console.error('Failed to fetch media:', error.message);
         setFile([]); // Optionally set media to an empty array or handle differently
       } finally {
         setLoading(false);
@@ -90,8 +90,7 @@ export default function UserModalUploadedFile({ chat }) {
                   <Text
                     numberOfLines={1}
                     ellipsizeMode="tail"
-                    style={styles.fileName}
-                  >
+                    style={styles.fileName}>
                     {item.name}
                   </Text>
                   <View style={styles.sizeAndDateContainer}>
@@ -110,14 +109,13 @@ export default function UserModalUploadedFile({ chat }) {
             <View
               style={{
                 minHeight: responsiveScreenHeight(30),
-                minWidth: "100%",
-                justifyContent: "center",
-                alignItems: "center",
+                minWidth: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
                 backgroundColor: Colors.LightGreen,
                 borderRadius: 10,
                 marginBottom: responsiveScreenHeight(2),
-              }}
-            >
+              }}>
               <NoDataIcon />
             </View>
           )}
@@ -125,21 +123,19 @@ export default function UserModalUploadedFile({ chat }) {
       )}
       {file?.length > 4 && (
         <TouchableOpacity
-          onPress={() => setSeeMoreClicked((prev) => !prev)}
+          onPress={() => setSeeMoreClicked(prev => !prev)}
           style={{
-            flexDirection: "row",
-            alignItems: "center",
+            flexDirection: 'row',
+            alignItems: 'center',
             gap: responsiveScreenWidth(2),
-          }}
-        >
+          }}>
           <Text
             style={{
-              color: "rgba(39, 172, 31, 1)",
-              fontFamily: CustomeFonts.SEMI_BOLD,
+              color: 'rgba(39, 172, 31, 1)',
+              fontFamily: CustomFonts.SEMI_BOLD,
               fontSize: responsiveScreenFontSize(1.8),
-            }}
-          >
-            {seeMoreClicked ? "See Less" : "See More"}
+            }}>
+            {seeMoreClicked ? 'See Less' : 'See More'}
           </Text>
           <ArrowRight />
         </TouchableOpacity>
@@ -148,10 +144,10 @@ export default function UserModalUploadedFile({ chat }) {
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     subContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(3),
       borderTopWidth: 1,
       borderTopColor: Colors.BorderColor,
@@ -166,23 +162,23 @@ const getStyles = (Colors) =>
       gap: responsiveScreenHeight(1),
     },
     fileName: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       width: responsiveScreenWidth(60),
       color: Colors.Heading,
-      flexBasis: "40%",
+      flexBasis: '40%',
     },
     sizeAndDateContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(1),
       width: responsiveScreenWidth(60),
       fontSize: responsiveScreenFontSize(1),
-      flexWrap: "wrap",
+      flexWrap: 'wrap',
     },
     sizeTimeText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.5),
     },
   });

@@ -1,16 +1,27 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, Image } from "react-native";
-import * as DocumentPicker from "expo-document-picker"; // For Expo
-import axiosInstance from "../../utility/axiosInstance";
-import { useGlobalAlert } from "./GlobalAlertContext";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomeFonts from "../../constants/CustomeFonts";
-import CrossCircle from "../../assets/Icons/CrossCircle";
-import { getFileTypeFromUri } from "../TechnicalTestCom/TestNow";
-const FileUploader = ({ setAttachments, attachments, maxFiles = 5 }) => {
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  StyleSheet,
+  Image,
+} from 'react-native';
+import * as DocumentPicker from 'expo-document-picker'; // For Expo
+import axiosInstance from '../../utility/axiosInstance';
+import {useGlobalAlert} from './GlobalAlertContext';
+import {useTheme} from '../../context/ThemeContext';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import CrossCircle from '../../assets/Icons/CrossCircle';
+import {getFileTypeFromUri} from '../TechnicalTestCom/TestNow';
+const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
   const [isUploading, setIsUploading] = useState(false);
-  const { showAlert } = useGlobalAlert();
+  const {showAlert} = useGlobalAlert();
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
@@ -18,116 +29,128 @@ const FileUploader = ({ setAttachments, attachments, maxFiles = 5 }) => {
     try {
       const selected = await DocumentPicker.getDocumentAsync({
         type: [
-          "image/*",
-          "application/pdf",
-          "application/msword",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          'image/*',
+          'application/pdf',
+          'application/msword',
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ],
         multiple: true,
         copyToCacheDirectory: true,
       });
 
       if (!selected.assets) {
-        console.error("No assets found");
+        console.error('No assets found');
         return;
       }
 
       if (selected?.assets?.length > 5) {
         return showAlert({
-          title: "Limit Exceeded",
-          type: "warning",
-          message: "Maximum 5 files can be uploaded",
+          title: 'Limit Exceeded',
+          type: 'warning',
+          message: 'Maximum 5 files can be uploaded',
         });
       }
 
-      console.log("selected", JSON.stringify(selected, null, 1));
+      console.log('selected', JSON.stringify(selected, null, 1));
 
       setIsUploading(true);
 
       let results = await Promise.all(
-        selected?.assets?.map(async (item) => {
+        selected?.assets?.map(async item => {
           try {
-            console.log("item", JSON.stringify(item, null, 1));
-            const isImage = item.type && typeof item.type === "string" && item.type.startsWith("image");
+            console.log('item', JSON.stringify(item, null, 1));
+            const isImage =
+              item.type &&
+              typeof item.type === 'string' &&
+              item.type.startsWith('image');
             const data = isImage
               ? {
                   uri: item.uri,
-                  name: "uploaded_file.png",
-                  type: item.mimeType || "image/png",
+                  name: 'uploaded_file.png',
+                  type: item.mimeType || 'image/png',
                 }
               : {
                   uri: item.uri,
-                  name: item.name || "uploaded_file",
-                  type: item.mimeType || "application/octet-stream",
+                  name: item.name || 'uploaded_file',
+                  type: item.mimeType || 'application/octet-stream',
                 };
-            console.log("data", JSON.stringify(data, null, 1));
+            console.log('data', JSON.stringify(data, null, 1));
             let formData = new FormData();
-            formData.append("file", data);
+            formData.append('file', data);
 
             const config = {
               headers: {
-                "Content-Type": "multipart/form-data",
+                'Content-Type': 'multipart/form-data',
               },
             };
 
-            let res = await axiosInstance.post("/document/userdocumentfile", formData, config);
+            let res = await axiosInstance.post(
+              '/document/userdocumentfile',
+              formData,
+              config,
+            );
 
             if (res?.data?.fileUrl) {
               return res.data.fileUrl;
             } else {
-              console.error("No file URL returned from server");
+              console.error('No file URL returned from server');
               return null;
             }
           } catch (error) {
             if (error.response) {
-              console.error("Server error:", error.response.data);
+              console.error('Server error:', error.response.data);
             } else if (error.request) {
-              console.error("Network error:", error.request);
-              console.log("Network error:", JSON.stringify(error.request, null, 1));
+              console.error('Network error:', error.request);
+              console.log(
+                'Network error:',
+                JSON.stringify(error.request, null, 1),
+              );
             } else {
-              console.error("Error:", error.message);
+              console.error('Error:', error.message);
             }
             return null;
           }
-        })
+        }),
       );
 
-      results = results?.filter((result) => result !== null);
+      results = results?.filter(result => result !== null);
 
-      setAttachments((prev) => [...prev, ...results]);
+      setAttachments(prev => [...prev, ...results]);
       setIsUploading(false);
     } catch (error) {
       if (error.response) {
-        console.error("Server error:", error.response.data);
+        console.error('Server error:', error.response.data);
       } else if (error.request) {
-        console.error("Network error:", error.request);
-        console.log("Network error:", JSON.stringify(error.request, null, 1));
+        console.error('Network error:', error.request);
+        console.log('Network error:', JSON.stringify(error.request, null, 1));
       } else {
-        console.error("Error:", error.message);
+        console.error('Error:', error.message);
       }
       setIsUploading(false);
     }
   };
 
-  const removeDocument = (uri) => {
-    setAttachments(attachments?.filter((item) => item !== uri));
+  const removeDocument = uri => {
+    setAttachments(attachments?.filter(item => item !== uri));
   };
 
   return (
     <View>
       <View style={styles.fieldContainer}>
         <Text style={styles.idStyle}>Upload Attachment (Optional)</Text>
-        <TouchableOpacity onPress={UploadAnyFile} style={styles.attachment} disabled={isUploading}>
+        <TouchableOpacity
+          onPress={UploadAnyFile}
+          style={styles.attachment}
+          disabled={isUploading}>
           <Text style={styles.uploadText}>Upload Attachment</Text>
           {isUploading ? (
             <View
               style={{
-                position: "absolute",
+                position: 'absolute',
                 zIndex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               <ActivityIndicator color={Colors?.Primary} size={40} />
             </View>
           ) : null}
@@ -141,18 +164,25 @@ const FileUploader = ({ setAttachments, attachments, maxFiles = 5 }) => {
           attachments?.length && {
             marginVertical: responsiveScreenHeight(1.5),
           },
-        ]}
-      >
-        {attachments?.map((item) => (
-          <View key={item} style={{ position: "relative" }}>
-            {getFileTypeFromUri(item) == "image" ? (
-              <Image style={{ height: 100, width: 100 }} source={{ uri: item }} />
-            ) : getFileTypeFromUri(item) === "pdf" ? (
-              <Image style={{ height: 100, width: 100 }} source={require("../../assets/Images/pdf.png")} />
+        ]}>
+        {attachments?.map(item => (
+          <View key={item} style={{position: 'relative'}}>
+            {getFileTypeFromUri(item) == 'image' ? (
+              <Image style={{height: 100, width: 100}} source={{uri: item}} />
+            ) : getFileTypeFromUri(item) === 'pdf' ? (
+              <Image
+                style={{height: 100, width: 100}}
+                source={require('../../assets/Images/pdf.png')}
+              />
             ) : (
-              <Image style={{ height: 100, width: 100 }} source={require("../../assets/Images/doc.png")} />
+              <Image
+                style={{height: 100, width: 100}}
+                source={require('../../assets/Images/doc.png')}
+              />
             )}
-            <TouchableOpacity onPress={() => removeDocument(item)} style={styles.CrossCircle}>
+            <TouchableOpacity
+              onPress={() => removeDocument(item)}
+              style={styles.CrossCircle}>
               <CrossCircle color={Colors.Red} />
             </TouchableOpacity>
           </View>
@@ -162,13 +192,13 @@ const FileUploader = ({ setAttachments, attachments, maxFiles = 5 }) => {
   );
 };
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     fieldContainer: {
       marginBottom: responsiveScreenHeight(2),
     },
     idStyle: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.Heading,
       marginTop: responsiveScreenWidth(3),
@@ -178,40 +208,40 @@ const getStyles = (Colors) =>
       backgroundColor: Colors.PrimaryOpacityColor,
       borderRadius: responsiveScreenWidth(3),
       marginVertical: responsiveScreenHeight(1),
-      borderStyle: "dashed",
+      borderStyle: 'dashed',
       borderColor: Colors.Primary,
       borderWidth: 1.5,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     uploadText: {
       color: Colors.Primary,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
     },
     attachmentText: {
       color: Colors.Heading,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.6),
     },
 
     docPreview: {
-      width: "100%",
+      width: '100%',
       // backgroundColor: "red",
-      flexDirection: "row",
-      flexWrap: "wrap",
+      flexDirection: 'row',
+      flexWrap: 'wrap',
       flexBasis: 99,
       gap: 10,
     },
     CrossCircle: {
       // backgroundColor: Colors.Primary,
       width: 20,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       height: 20,
       borderRadius: 100,
-      position: "absolute",
+      position: 'absolute',
       top: -10,
       right: -10,
     },

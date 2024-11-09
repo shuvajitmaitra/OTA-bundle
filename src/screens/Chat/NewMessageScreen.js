@@ -42,7 +42,7 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import ChatProvider from './ChatProvider';
 
 import PinMessage from '../../components/ChatCom/PinMessage';
@@ -530,7 +530,7 @@ const NewMessageScreen = ({selectedChat, setSelectedChat}) => {
                     style={{
                       color: Colors.BodyText,
                       textAlign: 'center',
-                      fontFamily: CustomeFonts.SEMI_BOLD,
+                      fontFamily: CustomFonts.SEMI_BOLD,
                     }}>
                     Exit pin messages
                   </Text>

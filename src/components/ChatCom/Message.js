@@ -26,7 +26,7 @@ import Modal from 'react-native-modal';
 
 import userIcon from '../../assets/Images/user.png';
 
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import axiosInstance from '../../utility/axiosInstance';
 
 import ThreeDotGrayIcon from '../../assets/Icons/ThreeDotGrayIcon';
@@ -194,7 +194,7 @@ const Message = ({
                   color: Colors.Heading,
                   paddingVertical: 1,
                   // fontWeight: "500",
-                  fontFamily: CustomeFonts.MEDIUM,
+                  fontFamily: CustomFonts.MEDIUM,
                   marginBottom: responsiveScreenHeight(1),
                 }}>
                 {message?.sender?.fullName}
@@ -361,7 +361,7 @@ const Message = ({
                                       color: myMessage
                                         ? Colors.Primary
                                         : Colors.BodyText,
-                                      fontFamily: CustomeFonts.REGULAR,
+                                      fontFamily: CustomFonts.REGULAR,
                                     }}>
                                     {mime?.getExtension(file.type) || 'File'}
                                   </Text>
@@ -370,7 +370,7 @@ const Message = ({
                                       color: myMessage
                                         ? Colors.Primary
                                         : Colors.BodyText,
-                                      fontFamily: CustomeFonts.REGULAR,
+                                      fontFamily: CustomFonts.REGULAR,
                                       fontSize: responsiveScreenFontSize(1.4),
                                     }}>
                                     ({bytesToSize(file.size || 0)})
@@ -559,7 +559,7 @@ const getStyles = (Colors, message, myMessage, lastSender) =>
       flex: 1,
       flexBasis: '40%',
       color: myMessage ? Colors.Primary : Colors.Heading,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     threeDotButton: {
       padding: 5,
@@ -574,7 +574,7 @@ const getStyles = (Colors, message, myMessage, lastSender) =>
     markdownStyle: {
       whiteSpace: 'pre',
       body: {
-        fontFamily: CustomeFonts.REGULAR,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: 16,
         color: myMessage ? Colors.BodyText : Colors.BodyText,
         lineHeight: 20,
@@ -582,29 +582,29 @@ const getStyles = (Colors, message, myMessage, lastSender) =>
       },
       heading1: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading2: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading3: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading4: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading5: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading6: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
-      strong: {fontFamily: CustomeFonts.SEMI_BOLD},
+      strong: {fontFamily: CustomFonts.SEMI_BOLD},
       code_inline: {
         color: myMessage ? Colors.BodyText : Colors.BodyText,
         backgroundColor: myMessage ? Colors.LightGreen : Colors.White,
@@ -641,7 +641,7 @@ const getStyles = (Colors, message, myMessage, lastSender) =>
         // backgroundColor: myMessage ? Colors.White : Colors.LightGreen,
         color: Colors.Primary,
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       bullet_list: {
         marginVertical: 10,
@@ -657,7 +657,7 @@ const getStyles = (Colors, message, myMessage, lastSender) =>
       color: myMessage ? Colors.BodyText : Colors.BodyText,
       fontSize: 12,
       textTransform: 'capitalize',
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     iconStyle: {
       color: myMessage ? Colors.Primary : Colors.Primary,
@@ -683,7 +683,7 @@ const getStyles = (Colors, message, myMessage, lastSender) =>
       paddingVertical: 3,
       paddingHorizontal: 5,
       borderRadius: 3,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     activityContainer: {
       justifyContent: 'center',
@@ -716,14 +716,14 @@ const getStyles = (Colors, message, myMessage, lastSender) =>
       color: myMessage ? Colors.Primary : Colors.BodyText,
       alignSelf: 'flex-start',
       paddingTop: responsiveScreenHeight(1.2),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     messageTime: {
       // backgroundColor: "red",
       paddingLeft: responsiveScreenWidth(1),
       fontSize: 12,
       color: myMessage ? Colors.BodyText : Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     userImageWrapper: {
       marginRight: 10,
@@ -772,7 +772,7 @@ const getStyles = (Colors, message, myMessage, lastSender) =>
     },
     repliesText: {
       // fontWeight: "bold",
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Red,
     },
     replyWrapper: {
@@ -800,7 +800,7 @@ const getStyles = (Colors, message, myMessage, lastSender) =>
     },
     popupText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
       marginBottom: 2,
     },

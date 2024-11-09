@@ -1,18 +1,18 @@
-import { View, StyleSheet, Text, ToastAndroid } from "react-native";
-import React from "react";
+import {View, StyleSheet, Text, ToastAndroid} from 'react-native';
+import React from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import ReactNativeModal from "react-native-modal";
+} from 'react-native-responsive-dimensions';
+import ReactNativeModal from 'react-native-modal';
 
-import ModalCustomButton from "./ModalCustomButton";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import ModalBackAndCrossButton from "./ModalBackAndCrossButton";
-import axiosInstance from "../../../utility/axiosInstance";
-import { useTheme } from "../../../context/ThemeContext";
-import { showToast } from "../../HelperFunction";
+import ModalCustomButton from './ModalCustomButton';
+import CustomFonts from '../../../constants/CustomFonts';
+import ModalBackAndCrossButton from './ModalBackAndCrossButton';
+import axiosInstance from '../../../utility/axiosInstance';
+import {useTheme} from '../../../context/ThemeContext';
+import {showToast} from '../../HelperFunction';
 
 export default function BlockMemberModal({
   toggleBlockMemberModal,
@@ -31,12 +31,12 @@ export default function BlockMemberModal({
       .post(`/chat/member/update`, {
         member: item?._id,
         chat: item?.chat,
-        actionType: "block",
+        actionType: 'block',
       })
-      .then((res) => {
-        console.log("🚀 ~ handleBlockMember ~ res:", res.data);
+      .then(res => {
+        console.log('🚀 ~ handleBlockMember ~ res:', res.data);
         if (res.data?.success) {
-          showToast("Block successfully...");
+          showToast('Block successfully...');
           fetchMembers();
           //   console.log("item", item);
         }
@@ -48,12 +48,12 @@ export default function BlockMemberModal({
       .post(`/chat/member/update`, {
         member: item?._id,
         chat: item?.chat,
-        actionType: "Unblock",
+        actionType: 'Unblock',
       })
-      .then((res) => {
-        console.log("🚀 ~ handleUnBlockMember ~ res:", res.data);
+      .then(res => {
+        console.log('🚀 ~ handleUnBlockMember ~ res:', res.data);
         if (res.data?.success) {
-          showToast("Unlocked successfully...");
+          showToast('Unlocked successfully...');
           fetchMembers();
           //   console.log("item", item);
         }
@@ -62,17 +62,16 @@ export default function BlockMemberModal({
   return (
     <ReactNativeModal
       backdropColor={Colors.BackDropColor}
-      isVisible={isBlockMemberModalVisible}
-    >
+      isVisible={isBlockMemberModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalChild}>
           <ModalBackAndCrossButton toggleModal={toggleBlockMemberModal} />
           <View style={styles.modalHeading}>
             <Text style={styles.modalHeadingText}>
-              {item.isBlocked ? "Unblock" : "Block"} this member
+              {item.isBlocked ? 'Unblock' : 'Block'} this member
             </Text>
             <Text style={styles.headingDescription}>
-              Are you sure, you want to {item.isBlocked ? "unblock" : "block"}
+              Are you sure, you want to {item.isBlocked ? 'unblock' : 'block'}
               this member?
             </Text>
           </View>
@@ -106,13 +105,13 @@ export default function BlockMemberModal({
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     modalContainer: {
       height: responsiveScreenHeight(100),
       flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 
     modalChild: {
@@ -120,40 +119,40 @@ const getStyles = (Colors) =>
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4.5),
       paddingVertical: responsiveScreenWidth(4.5),
-      alignItems: "center",
+      alignItems: 'center',
       maxHeight: responsiveScreenHeight(80),
     },
     modalHeading: {
-      alignItems: "center",
+      alignItems: 'center',
       paddingTop: responsiveScreenHeight(1.7),
       gap: responsiveScreenWidth(2),
     },
     modalArrowIcon: {
       fontSize: responsiveScreenFontSize(2.5),
-      color: "rgba(71, 71, 72, 1)",
+      color: 'rgba(71, 71, 72, 1)',
     },
     modalHeadingText: {
       fontSize: responsiveScreenFontSize(2),
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
     },
     headingDescription: {
       color: Colors.BodyText,
       paddingHorizontal: responsiveScreenWidth(10),
-      textAlign: "center",
+      textAlign: 'center',
       fontSize: responsiveScreenFontSize(1.7),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     radioButton: {
-      flexDirection: "row",
-      justifyContent: "flex-start",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
     },
 
     buttonContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2.5),
-      justifyContent: "center",
+      justifyContent: 'center',
       paddingTop: responsiveScreenHeight(2.5),
     },
   });

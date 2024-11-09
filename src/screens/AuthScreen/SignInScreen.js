@@ -15,7 +15,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import validator from 'validator';
 import {useTheme} from '../../context/ThemeContext';
-// import CustomeFonts from '../../constants/CustomeFonts';
+// import CustomFonts from '../../constants/CustomFonts';
 import TopLogo from '../../components/AuthenticationCom/TopLogo';
 import axiosInstance from '../../utility/axiosInstance';
 import {useMainContext} from '../../context/MainContext';
@@ -228,7 +228,7 @@ const getStyles = Colors =>
       marginTop: responsiveScreenHeight(2),
     },
     inputLabel: {
-      //   fontFamily: CustomeFonts.MEDIUM,
+      //   fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2),
       color: Colors.BodyText,
     },
@@ -238,7 +238,7 @@ const getStyles = Colors =>
       padding: responsiveScreenHeight(1.5),
       marginTop: responsiveScreenHeight(1),
       fontSize: responsiveScreenFontSize(2),
-      //   fontFamily: CustomeFonts.REGULAR,
+      //   fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
     },
     validInput: {
@@ -266,7 +266,7 @@ const getStyles = Colors =>
     },
     signinBtnText: {
       color: '#FFF',
-      //   fontFamily: CustomeFonts.MEDIUM,
+      //   fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2),
     },
     disabledBtn: {
@@ -276,7 +276,7 @@ const getStyles = Colors =>
       textAlign: 'center',
       fontSize: responsiveScreenFontSize(2),
       color: 'rgba(39, 172, 31, 1)',
-      //   fontFamily: CustomeFonts.MEDIUM,
+      //   fontFamily: CustomFonts.MEDIUM,
       marginTop: responsiveScreenHeight(2),
     },
     terms: {
@@ -285,7 +285,7 @@ const getStyles = Colors =>
       textAlign: 'center',
       marginTop: responsiveScreenHeight(3),
       color: Colors.BodyText,
-      //   fontFamily: CustomeFonts.REGULAR,
+      //   fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.6),
       marginBottom: responsiveScreenHeight(3),
     },

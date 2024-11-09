@@ -1,20 +1,20 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Popover } from "react-native-modal-popover";
-import { useTheme } from "../../../context/ThemeContext";
-import { Image } from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState, useCallback, useMemo} from 'react';
+import {Popover} from 'react-native-modal-popover';
+import {useTheme} from '../../../context/ThemeContext';
+import {Image} from 'react-native';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import axiosInstance from "../../../utility/axiosInstance";
-import MessageIcon from "../../../assets/Icons/MessageIcon";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import { useDispatch, useSelector } from "react-redux";
+} from 'react-native-responsive-dimensions';
+import axiosInstance from '../../../utility/axiosInstance';
+import MessageIcon from '../../../assets/Icons/MessageIcon';
+import CustomFonts from '../../../constants/CustomFonts';
+import {useDispatch, useSelector} from 'react-redux';
 
-import LoadingSmall from "../../SharedComponent/LoadingSmall";
-import Images from "../../../constants/Images";
+import LoadingSmall from '../../SharedComponent/LoadingSmall';
+import Images from '../../../constants/Images';
 
 const ProfileDetailsModal = ({
   closePopover,
@@ -28,11 +28,11 @@ const ProfileDetailsModal = ({
 
   const [creating, setCreating] = useState(false);
   const [Loading, setLoading] = useState(false);
-  const { chats } = useSelector((state) => state.chat);
+  const {chats} = useSelector(state => state.chat);
   const dispatch = useDispatch();
 
   const handleCreateChat = useCallback(
-    async (id) => {
+    async id => {
       if (creating) return;
       setCreating(true);
       try {
@@ -45,15 +45,15 @@ const ProfileDetailsModal = ({
           //   name: message?.sender?.fullName,
           //   image: message?.sender?.profilePicture,
           // });
-          dispatch(setSelectedMessageScreen({
-            chatId: res.data.chat._id,
-            name: message?.sender?.fullName,
-            image: message?.sender?.profilePicture,
-          }))
-          
-          const chatExists = chats.some(
-            (chat) => chat._id === res.data.chat._id
+          dispatch(
+            setSelectedMessageScreen({
+              chatId: res.data.chat._id,
+              name: message?.sender?.fullName,
+              image: message?.sender?.profilePicture,
+            }),
           );
+
+          const chatExists = chats.some(chat => chat._id === res.data.chat._id);
           setLoading(false);
           if (!chatExists) {
             dispatch(updateChats(res.data.chat));
@@ -61,18 +61,17 @@ const ProfileDetailsModal = ({
         }
       } catch (err) {
         setLoading(false);
-        console.error("Error creating chat:", err?.response?.data?.error);
-        alert("Failed to create chat: " + err?.response?.data?.error);
+        console.error('Error creating chat:', err?.response?.data?.error);
+        alert('Failed to create chat: ' + err?.response?.data?.error);
       } finally {
         setLoading(false);
         setCreating(false);
       }
     },
-    [creating, chats, closePopover, dispatch, message, navigation]
+    [creating, chats, closePopover, dispatch, message, navigation],
   );
 
   // console.log("rendering ProfileDetailsModal");
-  
 
   return (
     <Popover
@@ -82,8 +81,7 @@ const ProfileDetailsModal = ({
       visible={popoverVisible}
       onClose={closePopover}
       fromRect={popoverAnchorRect}
-      supportedOrientations={["portrait", "landscape"]}
-    >
+      supportedOrientations={['portrait', 'landscape']}>
       {Loading ? (
         <LoadingSmall />
       ) : (
@@ -102,8 +100,7 @@ const ProfileDetailsModal = ({
       <Text style={styles.headingText}>{message?.sender?.fullName}</Text>
       <TouchableOpacity
         onPress={() => handleCreateChat(message?.sender?._id)}
-        style={styles.buttonContainer}
-      >
+        style={styles.buttonContainer}>
         <MessageIcon />
         <Text style={styles.text}>Send message</Text>
       </TouchableOpacity>
@@ -113,22 +110,22 @@ const ProfileDetailsModal = ({
 
 export default React.memo(ProfileDetailsModal);
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     headingText: {
-      alignSelf: "center",
+      alignSelf: 'center',
       color: Colors.Heading,
       paddingVertical: 1,
       marginTop: responsiveScreenHeight(1),
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
     },
     text: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
     },
     buttonContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(2),
       marginTop: responsiveScreenHeight(1),
     },
@@ -150,8 +147,8 @@ const getStyles = (Colors) =>
       borderRadius: 45,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
-      resizeMode: "cover",
-      position: "relative",
-      alignSelf: "center",
+      resizeMode: 'cover',
+      position: 'relative',
+      alignSelf: 'center',
     },
   });

@@ -1,62 +1,71 @@
-import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
-import { DrawerLayout } from "react-native-gesture-handler";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useTheme } from "../../../context/ThemeContext";
-import { Ionicons } from "@expo/vector-icons"; // For expo vector icons
-import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import TextArea from "../../Calendar/Modal/TextArea";
-import AiButtonContainer from "./AiButtonContainer";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import { RegularFonts } from "../../../constants/Fonts";
-import Markdown from "react-native-markdown-display";
-import ReactNativeModal from "react-native-modal";
-import AiDrawer from "./AiDrawer";
-import axiosInstance from "../../../utility/axiosInstance";
-import { handleError } from "../../../actions/chat-noti";
+import React, {useEffect, useRef, useState} from 'react';
+import {StyleSheet, Text, View, Button, TextInput} from 'react-native';
+import {DrawerLayout} from 'react-native-gesture-handler';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useTheme} from '../../../context/ThemeContext';
+import {Ionicons} from '@expo/vector-icons'; // For expo vector icons
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import TextArea from '../../Calendar/Modal/TextArea';
+import AiButtonContainer from './AiButtonContainer';
+import CustomFonts from '../../../constants/CustomFonts';
+import {RegularFonts} from '../../../constants/Fonts';
+import Markdown from 'react-native-markdown-display';
+import ReactNativeModal from 'react-native-modal';
+import AiDrawer from './AiDrawer';
+import axiosInstance from '../../../utility/axiosInstance';
+import {handleError} from '../../../actions/chat-noti';
 
-const AiModal = ({ post, setPost, onCancelPress, isVisible }) => {
-  const { top } = useSafeAreaInsets();
+const AiModal = ({post, setPost, onCancelPress, isVisible}) => {
+  const {top} = useSafeAreaInsets();
   const Colors = useTheme();
   const styles = getStyles(Colors, top);
   const [generatedText, setGeneratedText] = useState(post);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
-  const [prompt, setPrompt] = useState("");
+  const [prompt, setPrompt] = useState('');
   const [selectedValues, setSelectedValues] = useState({});
 
   const generatePrompt = () => {
-    let pro = "";
+    let pro = '';
 
-    if (selectedValues["Rewrite"]) {
-      pro += ` ${selectedValues["Rewrite"]}:\n`;
+    if (selectedValues['Rewrite']) {
+      pro += ` ${selectedValues['Rewrite']}:\n`;
     }
 
-    if (selectedValues["Questions"] && Array.isArray(selectedValues["Questions"])) {
-      const questions = selectedValues["Questions"]
+    if (
+      selectedValues['Questions'] &&
+      Array.isArray(selectedValues['Questions'])
+    ) {
+      const questions = selectedValues['Questions']
         .map((q, index) => {
-          const [questionText, answerText] = q.split(" and ");
+          const [questionText, answerText] = q.split(' and ');
           return `${questionText.trim()}${answerText.trim()}`;
         })
-        .join("\n");
+        .join('\n');
       pro += ` ${questions}`;
     }
 
-    if (selectedValues["About"] && Array.isArray(selectedValues["About"])) {
-      const about = selectedValues["About"].join(".\n");
+    if (selectedValues['About'] && Array.isArray(selectedValues['About'])) {
+      const about = selectedValues['About'].join('.\n');
       pro += ` ${about}.\n`;
     }
 
-    if (selectedValues["Styles"]) {
-      pro += ` ${selectedValues["Styles"]}\n`;
+    if (selectedValues['Styles']) {
+      pro += ` ${selectedValues['Styles']}\n`;
     }
 
-    if (selectedValues["S Media posts"] && Array.isArray(selectedValues["S Media posts"])) {
-      const sMediaPosts = selectedValues["S Media posts"].join(".\n");
+    if (
+      selectedValues['S Media posts'] &&
+      Array.isArray(selectedValues['S Media posts'])
+    ) {
+      const sMediaPosts = selectedValues['S Media posts'].join('.\n');
       pro += ` ${sMediaPosts}.\n`;
     }
 
-    if (selectedValues["Size"]) {
-      pro += ` ${selectedValues["Size"]}\n`;
+    if (selectedValues['Size']) {
+      pro += ` ${selectedValues['Size']}\n`;
     }
 
     setPrompt(pro.trim());
@@ -65,13 +74,16 @@ const AiModal = ({ post, setPost, onCancelPress, isVisible }) => {
 
   const handleGenerate = () => {
     axiosInstance
-      .post("/organization/integration/generate-text", { prompt })
-      .then((res) => console.log("res.data", JSON.stringify(res.data, null, 1)))
-      .catch((error) => handleError(error));
+      .post('/organization/integration/generate-text', {prompt})
+      .then(res => console.log('res.data', JSON.stringify(res.data, null, 1)))
+      .catch(error => handleError(error));
   };
 
   return (
-    <ReactNativeModal isVisible={isVisible} onBackdropPress={() => onCancelPress()} style={{ margin: 0 }}>
+    <ReactNativeModal
+      isVisible={isVisible}
+      onBackdropPress={() => onCancelPress()}
+      style={{margin: 0}}>
       {/* <View style={styles.drawerContent}>
         <Text style={styles.drawerText}>This is the secondary drawer</Text>
         <Ionicons name="settings" size={24} color="black" />
@@ -79,7 +91,7 @@ const AiModal = ({ post, setPost, onCancelPress, isVisible }) => {
       {isDrawerVisible ? (
         <AiDrawer
           generatedText={generatedText}
-          toggle={() => setIsDrawerVisible((pre) => !pre)}
+          toggle={() => setIsDrawerVisible(pre => !pre)}
           selectedValues={selectedValues}
           setSelectedValues={setSelectedValues}
         />
@@ -91,21 +103,24 @@ const AiModal = ({ post, setPost, onCancelPress, isVisible }) => {
               size={30}
               color={Colors.Heading}
               onPress={() => {
-                setIsDrawerVisible((pre) => !pre);
+                setIsDrawerVisible(pre => !pre);
               }}
             />
           </View>
           <Markdown style={styles.markdownStyle}>{prompt}</Markdown>
-          <View style={{ flexGrow: 1 }}></View>
+          <View style={{flexGrow: 1}}></View>
           <TextInput
             placeholder="Write your queries"
             multiline
             style={styles.input}
             value={generatedText}
-            onChangeText={(text) => setGeneratedText(text)}
+            onChangeText={text => setGeneratedText(text)}
             placeholderTextColor={Colors.BodyText}
           />
-          <AiButtonContainer onCancelPress={onCancelPress} generatePrompt={generatePrompt} />
+          <AiButtonContainer
+            onCancelPress={onCancelPress}
+            generatePrompt={generatePrompt}
+          />
         </View>
       )}
     </ReactNativeModal>
@@ -118,7 +133,7 @@ const getStyles = (Colors, top) =>
   StyleSheet.create({
     input: {
       backgroundColor: Colors.ScreenBoxColor,
-      width: "100%",
+      width: '100%',
       borderWidth: 1,
       borderColor: Colors.BorderColor,
       minHeight: 40,
@@ -127,12 +142,12 @@ const getStyles = (Colors, top) =>
       paddingHorizontal: responsiveScreenWidth(4),
       paddingTop: 10,
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: RegularFonts.HS,
       // marginHorizontal: 100,
     },
     drawerContainer: {
-      position: "absolute",
+      position: 'absolute',
       top: top,
       left: responsiveScreenWidth(4),
     },
@@ -140,9 +155,9 @@ const getStyles = (Colors, top) =>
       backgroundColor: Colors.Background_color,
       paddingTop: top,
       flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      position: "relative",
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
       gap: 10,
       paddingHorizontal: responsiveScreenWidth(2),
       paddingBottom: 30,
@@ -171,9 +186,9 @@ const getStyles = (Colors, top) =>
       body: {
         flex: 1,
         color: Colors.BodyText,
-        fontFamily: CustomeFonts.REGULAR,
+        fontFamily: CustomFonts.REGULAR,
         lineHeight: 24,
-        textAlign: "justify",
+        textAlign: 'justify',
         // marginBottom: responsiveScreenHeight(1.5),
         // backgroundColor: Colors.ScreenBoxColor,
         maxHeight: responsiveScreenHeight(72),
@@ -206,7 +221,7 @@ const getStyles = (Colors, top) =>
 
         marginTop: 10,
         marginBottom: 10,
-        textAlign: "justify",
+        textAlign: 'justify',
       },
       link: {
         flex: 1,
@@ -220,7 +235,7 @@ const getStyles = (Colors, top) =>
         backgroundColor: Colors.White,
         borderRadius: 4,
         padding: 8,
-        fontFamily: "monospace",
+        fontFamily: 'monospace',
       },
       code_block: {
         flex: 1,
@@ -228,7 +243,7 @@ const getStyles = (Colors, top) =>
         backgroundColor: Colors.White,
         borderRadius: 4,
         padding: 8,
-        fontFamily: "monospace",
+        fontFamily: 'monospace',
       },
       code_inline: {
         flex: 1,
@@ -236,7 +251,7 @@ const getStyles = (Colors, top) =>
         backgroundColor: Colors.White,
         borderRadius: 4,
         padding: 4,
-        fontFamily: "monospace",
+        fontFamily: 'monospace',
       },
     },
   });

@@ -17,7 +17,7 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {RadioButton} from 'react-native-paper';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 import ChatIconBig from '../../assets/Icons/ChatIconBig';
 import DeleteIcon from '../../assets/Icons/DeleteIcon';
@@ -175,7 +175,7 @@ const getStyles = Colors =>
     textInput: {
       fontSize: responsiveScreenFontSize(1.6),
       width: responsiveScreenWidth(52),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.Heading,
     },
     inputFieldIcon: {
@@ -203,7 +203,7 @@ const getStyles = Colors =>
       gap: 10,
     },
     radioText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: RegularFonts.HR,
       color: Colors.Heading,
     },

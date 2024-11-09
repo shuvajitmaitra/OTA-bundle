@@ -1,17 +1,17 @@
-import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
-import React from "react";
+import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import React from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+} from 'react-native-responsive-dimensions';
 
-import ArrowLeft from "../../../assets/Icons/ArrowLeft";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import CrossIcon from "../../../assets/Icons/CrossIcon";
-import { useTheme } from "../../../context/ThemeContext";
+import ArrowLeft from '../../../assets/Icons/ArrowLeft';
+import CustomFonts from '../../../constants/CustomFonts';
+import CrossIcon from '../../../assets/Icons/CrossIcon';
+import {useTheme} from '../../../context/ThemeContext';
 
-export default function ModalBackAndCrossButton({ toggleModal }) {
+export default function ModalBackAndCrossButton({toggleModal}) {
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
@@ -30,33 +30,33 @@ export default function ModalBackAndCrossButton({ toggleModal }) {
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     topBarContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      minWidth: "100%",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      minWidth: '100%',
       paddingBottom: responsiveScreenHeight(1.5),
       borderBottomWidth: 1,
       borderColor: Colors.BorderColor,
     },
     modalArrowIcon: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(2),
-      color: "rgba(71, 71, 72, 1)",
+      color: 'rgba(71, 71, 72, 1)',
     },
     backButtonText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
     },
     cancelButton: {
       backgroundColor: Colors.Background_color,
       padding: responsiveScreenWidth(2.2),
       borderRadius: 100,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });

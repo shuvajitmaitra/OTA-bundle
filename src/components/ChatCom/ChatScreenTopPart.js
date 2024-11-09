@@ -21,7 +21,7 @@ import {
 import {Popover, usePopover} from 'react-native-modal-popover';
 import Modal, {ReactNativeModal} from 'react-native-modal';
 
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import PhoneIcon from '../../assets/Icons/PhoneIcon';
 import VideoIcon from '../../assets/Icons/VideoIcon';
 import ThreedotIcon from '../../assets/Icons/ThreedotIcon';
@@ -388,7 +388,7 @@ const getStyles = Colors =>
     },
     name: {
       color: Colors.Heading,
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
       // backgroundColor: "red",
     },
@@ -398,7 +398,7 @@ const getStyles = Colors =>
     },
     avaliable: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
     },
     onlineStatus: {
@@ -425,7 +425,7 @@ const getStyles = Colors =>
     },
     popupText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
       marginBottom: 2,
     },

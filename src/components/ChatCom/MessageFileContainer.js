@@ -11,7 +11,7 @@ import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
 import AudioMessage from './AudioMessage';
 import FileIcon from '../../assets/Icons/FileIcon';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {RegularFonts} from '../../constants/Fonts';
 // import {MaterialIcons} from '@expo/vector-icons'; // Ensure you have this package installed
 

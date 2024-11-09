@@ -19,7 +19,7 @@ import NotifyBell from '../../assets/Icons/NotifyBell';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import Feather from 'react-native-vector-icons/Feather';
 import {UserModalTabView} from './UserModalTabView';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import useChat from '../../hook/useChat';
 import {useTheme} from '../../context/ThemeContext';
 import {useSelector} from 'react-redux';
@@ -50,7 +50,7 @@ export default function UserModal() {
         <ArrowLeft />
         <Text
           style={{
-            fontFamily: CustomeFonts.REGULAR,
+            fontFamily: CustomFonts.REGULAR,
             paddingLeft: 8,
             fontSize: responsiveScreenFontSize(1.9),
             color: Colors.BodyText,
@@ -90,7 +90,7 @@ export default function UserModal() {
               <Text
                 style={{
                   color: Colors.BodyText,
-                  fontFamily: CustomeFonts.REGULAR,
+                  fontFamily: CustomFonts.REGULAR,
                 }}>
                 {online ? 'Online' : 'Offline'}
               </Text>
@@ -103,7 +103,7 @@ export default function UserModal() {
               <Text
                 style={{
                   color: Colors.BodyText,
-                  fontFamily: CustomeFonts.REGULAR,
+                  fontFamily: CustomFonts.REGULAR,
                   fontSize: responsiveScreenFontSize(2),
                 }}>
                 Notification
@@ -125,7 +125,7 @@ export default function UserModal() {
               style={{
                 color: Colors.Heading,
                 fontSize: responsiveScreenFontSize(2.1),
-                fontFamily: CustomeFonts.MEDIUM,
+                fontFamily: CustomFonts.MEDIUM,
                 paddingTop: responsiveScreenHeight(2),
                 paddingBottom: responsiveScreenHeight(1.7),
               }}>
@@ -134,7 +134,7 @@ export default function UserModal() {
             <Text
               style={{
                 color: Colors.BodyText,
-                fontFamily: CustomeFonts.REGULAR,
+                fontFamily: CustomFonts.REGULAR,
                 fontSize: responsiveScreenFontSize(1.7),
               }}>
               Hi there! I&apos;m using this app long time.
@@ -253,7 +253,7 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1.7),
     },
     profileName: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
       color: Colors.Heading,
       width: responsiveScreenWidth(60),
@@ -293,7 +293,7 @@ const getStyles = Colors =>
       marginVertical: responsiveScreenHeight(1),
     },
     ContainerText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.BodyText,
     },

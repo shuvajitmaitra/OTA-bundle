@@ -8,11 +8,14 @@ import {
   transFormDate,
 } from './MessageHelper';
 import {useTheme} from '../../context/ThemeContext';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import UserNameImageSection from './UserNameImageSection';
-import {setMessageOptionData} from '../../store/reducer/ModalReducer';
+import {
+  setMessageOptionData,
+  setSelectedMessageScreen,
+} from '../../store/reducer/ModalReducer';
 import {RegularFonts} from '../../constants/Fonts';
 import {useNavigation} from '@react-navigation/native';
 import DeleteMessageContainer from './DeleteMessageContainer';
@@ -22,6 +25,8 @@ import LinkIcon2 from '../../assets/Icons/LinkIcon2';
 import {handleCopyText} from '../../utility/commonFunction';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ThreedotIcon from '../../assets/Icons/ThreedotIcon';
+import axiosInstance from '../../utility/axiosInstance';
+import {setSingleChat} from '../../store/reducer/chatReducer';
 
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
@@ -34,6 +39,50 @@ const Message2 = ({item, index, nextSender}) => {
     item?.sender?.profilePicture === user?.profilePicture
       ? 'You'
       : item?.sender?.firstName;
+
+  const handleCreateChat = async () => {
+    try {
+      const res = await axiosInstance.post(`/chat/findorcreate/${item._id}`);
+      console.log('res.data', JSON.stringify(res.data, null, 1));
+      if (res.data.success) {
+        navigation.push('MessageScreen2');
+      }
+
+      dispatch(setSingleChat(res.data.chat));
+
+      dispatch(
+        setSelectedMessageScreen({
+          chatId: res.data.chat._id,
+          name: res.data.chat?.isChannel
+            ? res.data.chat?.name
+            : res.data.chat?.otherUser?.fullName,
+          image:
+            res.data.chat?.avatar ||
+            res.data.chat?.otherUser?.profilePicture ||
+            '',
+          limit: res.data.chat?.unreadCount || 0,
+        }),
+      );
+      // dispatch(
+      //   setSelectedMessageScreen({
+      //     chatId: res.data.chat._id,
+      //     name: item?.fullName,
+      //     image: item?.profilePicture,
+      //   })
+      // );
+
+      // const chatExists = chats.some(chat => chat._id === res.data.chat._id);
+      // setLoading(false);
+      // if (!chatExists) {
+      //   dispatch(updateChats(res.data.chat));
+      // }
+      // }
+    } catch (err) {
+      console.error('Error creating chat:', err?.response?.data);
+    } finally {
+      // ÷(false);
+    }
+  };
   if (item.type === 'delete') {
     return <DeleteMessageContainer item={item} my={my} />;
   }
@@ -54,6 +103,7 @@ const Message2 = ({item, index, nextSender}) => {
         <UserNameImageSection
           name={item?.sender?.fullName}
           image={item?.sender?.profilePicture}
+          handleCreateChat={handleCreateChat}
         />
       )}
       <TouchableOpacity
@@ -133,7 +183,7 @@ const getStyles = (Colors, my) =>
     copyText: {
       fontSize: 18,
       color: my ? Colors.PureWhite : Colors.BodyText,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
     },
     copyContainer: {
       flexDirection: 'row',
@@ -151,7 +201,7 @@ const getStyles = (Colors, my) =>
       paddingVertical: 3,
       paddingHorizontal: 5,
       borderRadius: 3,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     activityContainer: {
       justifyContent: 'center',
@@ -202,7 +252,7 @@ const getStyles = (Colors, my) =>
     markdownStyle: {
       whiteSpace: 'pre',
       body: {
-        fontFamily: CustomeFonts.REGULAR,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: 18,
         color: my ? Colors.PureWhite : Colors.BodyText,
         lineHeight: 20,
@@ -216,7 +266,7 @@ const getStyles = (Colors, my) =>
         // fontSize: responsiveScreenFontSize(3),
         // marginTop: 20,
 
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
         paddingTop: 10,
         fontSize: responsiveScreenFontSize(1.8),
         // lineHeight: responsiveScreenFontSize(),
@@ -224,22 +274,22 @@ const getStyles = (Colors, my) =>
       heading2: {
         // fontWeight: "bold",
         fontSize: responsiveScreenFontSize(1.8),
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading3: {
         // paddingTop: 10,
         fontSize: responsiveScreenFontSize(1.8),
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading4: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading5: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
-      strong: {fontFamily: CustomeFonts.SEMI_BOLD},
+      strong: {fontFamily: CustomFonts.SEMI_BOLD},
       code_inline: {
         color: Colors.BodyText,
         backgroundColor: Colors.LightGreen,
@@ -274,7 +324,7 @@ const getStyles = (Colors, my) =>
       },
       link: {
         color: Colors.ThemeSecondaryColor,
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
         fontWeight: '700',
       },
       bullet_list: {

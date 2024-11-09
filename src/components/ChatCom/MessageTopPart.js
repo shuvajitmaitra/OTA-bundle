@@ -13,7 +13,7 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import Images from '../../constants/Images';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import {useNavigation} from '@react-navigation/native';
@@ -171,7 +171,7 @@ const getStyles = Colors =>
     },
     name: {
       color: Colors.Heading,
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
       // flexBasis: '10%',
       width: '100%',
@@ -182,7 +182,7 @@ const getStyles = Colors =>
     },
     avaliable: {
       color: Colors.Primary,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
     },
     onlineStatus: {
@@ -218,7 +218,7 @@ const getStyles = Colors =>
     },
     popupText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
       marginBottom: 2,
     },

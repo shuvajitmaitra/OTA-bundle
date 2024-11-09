@@ -1,21 +1,31 @@
-import React, { useState, useEffect, useCallback, memo } from "react";
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, Platform, Animated } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { setGalleryOpen } from "../../store/reducer/chatReducer";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import * as MediaLibrary from "expo-media-library";
-import { useTheme } from "../../context/ThemeContext";
-import { RegularFonts } from "../../constants/Fonts";
-import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import axiosInstance from "../../utility/axiosInstance";
-import { useGlobalAlert } from "../SharedComponent/GlobalAlertContext";
-import CustomeFonts from "../../constants/CustomeFonts";
-import { TextInput } from "react-native-gesture-handler";
-import CrossCircle from "../../assets/Icons/CrossCircle";
-import { PanGestureHandler, State } from "react-native-gesture-handler";
-import HorizontalLineIcon from "../../assets/Icons/HorizontalLine";
-import SendIcon from "../../assets/Icons/SendIcon";
-import ChatMessageInput from "./ChatMessageInput";
+import React, {useState, useEffect, useCallback, memo} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+  Platform,
+  Animated,
+} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {setGalleryOpen} from '../../store/reducer/chatReducer';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import * as MediaLibrary from 'expo-media-library';
+import {useTheme} from '../../context/ThemeContext';
+import {RegularFonts} from '../../constants/Fonts';
+import {manipulateAsync, SaveFormat} from 'expo-image-manipulator';
+import axiosInstance from '../../utility/axiosInstance';
+import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {TextInput} from 'react-native-gesture-handler';
+import CrossCircle from '../../assets/Icons/CrossCircle';
+import {PanGestureHandler, State} from 'react-native-gesture-handler';
+import HorizontalLineIcon from '../../assets/Icons/HorizontalLine';
+import SendIcon from '../../assets/Icons/SendIcon';
+import ChatMessageInput from './ChatMessageInput';
 
 const Gallery = ({
   // setSelectedImage,
@@ -30,8 +40,8 @@ const Gallery = ({
   handleKey,
   sendMessage,
 }) => {
-  const { galleryOpen } = useSelector((state) => state.chat);
-  const { top } = useSafeAreaInsets();
+  const {galleryOpen} = useSelector(state => state.chat);
+  const {top} = useSafeAreaInsets();
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -39,19 +49,19 @@ const Gallery = ({
   const [loading, setLoading] = useState(false);
   const [after, setAfter] = useState(null);
   const [hasMore, setHasMore] = useState(true);
-  const { showAlert } = useGlobalAlert();
+  const {showAlert} = useGlobalAlert();
   const [selectedImages, setSelectedImages] = useState([]);
   const translateY = useState(new Animated.Value(0))[0];
   const [onFocus, setOnFocus] = useState(true);
 
-  const getAlbums = useCallback(async (afterId) => {
+  const getAlbums = useCallback(async afterId => {
     setLoading(true);
-    let { status } = await MediaLibrary.requestPermissionsAsync();
+    let {status} = await MediaLibrary.requestPermissionsAsync();
 
-    if (status === "granted") {
+    if (status === 'granted') {
       let media = await MediaLibrary.getAssetsAsync({
-        mediaType: ["photo"],
-        sortBy: "creationTime",
+        mediaType: ['photo'],
+        sortBy: 'creationTime',
         first: 52,
         after: afterId,
       });
@@ -61,15 +71,15 @@ const Gallery = ({
 
       if (media?.assets?.length) {
         const assetsWithFilePaths = await Promise.all(
-          media.assets.map(async (asset) => {
+          media.assets.map(async asset => {
             const assetInfo = await MediaLibrary.getAssetInfoAsync(asset.id);
             return {
               ...asset,
               uri: assetInfo.localUri || assetInfo.uri,
             };
-          })
+          }),
         );
-        setAllMedias((prevMedias) => [...prevMedias, ...assetsWithFilePaths]);
+        setAllMedias(prevMedias => [...prevMedias, ...assetsWithFilePaths]);
       }
     }
     setLoading(false);
@@ -92,44 +102,58 @@ const Gallery = ({
   };
 
   const toggleSelectImage = (item, index) => {
-    const isSelected = selectedImages.find((i) => i.id === item.id);
+    const isSelected = selectedImages.find(i => i.id === item.id);
     if (isSelected) {
-      setSelectedImages(selectedImages.filter((i) => i.id !== item.id));
-      setAllFiles((prev) => prev.filter((item, i) => i !== index));
+      setSelectedImages(selectedImages.filter(i => i.id !== item.id));
+      setAllFiles(prev => prev.filter((item, i) => i !== index));
     } else {
-      setSelectedImages([...selectedImages, { ...item, index: selectedImages.length + 1 }]);
+      setSelectedImages([
+        ...selectedImages,
+        {...item, index: selectedImages.length + 1},
+      ]);
       UploadFile([item]);
     }
   };
 
-  const renderItem = ({ item, index }) => {
-    const isSelected = selectedImages.find((i) => i.id === item.id);
+  const renderItem = ({item, index}) => {
+    const isSelected = selectedImages.find(i => i.id === item.id);
     return (
-      <TouchableOpacity style={[styles.imageContainer, isSelected && styles.selectedImage]} onPress={() => toggleSelectImage(item, index)}>
-        <Image source={{ uri: item.uri }} style={styles.image} />
+      <TouchableOpacity
+        style={[styles.imageContainer, isSelected && styles.selectedImage]}
+        onPress={() => toggleSelectImage(item, index)}>
+        <Image source={{uri: item.uri}} style={styles.image} />
         {isSelected && (
           <View style={styles.indexOverlay}>
-            <Text style={styles.indexText}>{selectedImages.findIndex((i) => i.id === item.id) + 1}</Text>
+            <Text style={styles.indexText}>
+              {selectedImages.findIndex(i => i.id === item.id) + 1}
+            </Text>
           </View>
         )}
       </TouchableOpacity>
     );
   };
 
-  const renderImagePreview = ({ item, index }) => {
+  const renderImagePreview = ({item, index}) => {
     return (
-      <TouchableOpacity style={styles.imagePreviewContainer} onPress={() => toggleSelectImage(item, index)}>
-        <Image source={{ uri: item.uri }} style={styles.imagePreview} />
-        <TouchableOpacity onPress={() => toggleSelectImage(item, index)} style={styles.crossIconContainer}>
+      <TouchableOpacity
+        style={styles.imagePreviewContainer}
+        onPress={() => toggleSelectImage(item, index)}>
+        <Image source={{uri: item.uri}} style={styles.imagePreview} />
+        <TouchableOpacity
+          onPress={() => toggleSelectImage(item, index)}
+          style={styles.crossIconContainer}>
           <CrossCircle color={Colors.BodyText} />
         </TouchableOpacity>
       </TouchableOpacity>
     );
   };
 
-  const onGestureEvent = Animated.event([{ nativeEvent: { translationY: translateY } }], { useNativeDriver: true });
+  const onGestureEvent = Animated.event(
+    [{nativeEvent: {translationY: translateY}}],
+    {useNativeDriver: true},
+  );
 
-  const onHandlerStateChange = ({ nativeEvent }) => {
+  const onHandlerStateChange = ({nativeEvent}) => {
     if (nativeEvent.state === State.END) {
       if (nativeEvent.translationY > 150) {
         closeGallery();
@@ -143,8 +167,10 @@ const Gallery = ({
   };
 
   return (
-    <PanGestureHandler onGestureEvent={onGestureEvent} onHandlerStateChange={onHandlerStateChange}>
-      <Animated.View style={[styles.container, { transform: [{ translateY }] }]}>
+    <PanGestureHandler
+      onGestureEvent={onGestureEvent}
+      onHandlerStateChange={onHandlerStateChange}>
+      <Animated.View style={[styles.container, {transform: [{translateY}]}]}>
         <View style={styles.closeContainer}>
           <HorizontalLineIcon />
         </View>
@@ -156,11 +182,15 @@ const Gallery = ({
               <FlatList
                 data={allMedias}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id}
+                keyExtractor={item => item.id}
                 numColumns={4}
                 onEndReached={loadMoreImages}
                 onEndReachedThreshold={0.5}
-                ListFooterComponent={loading ? <ActivityIndicator size="small" color={Colors.Primary} /> : null}
+                ListFooterComponent={
+                  loading ? (
+                    <ActivityIndicator size="small" color={Colors.Primary} />
+                  ) : null
+                }
               />
             )}
           </>
@@ -171,19 +201,33 @@ const Gallery = ({
               horizontal={true}
               data={selectedImages}
               renderItem={renderImagePreview}
-              keyExtractor={(item) => item.id}
-              ItemSeparatorComponent={<View style={{ width: 10 }}></View>}
+              keyExtractor={item => item.id}
+              ItemSeparatorComponent={<View style={{width: 10}}></View>}
             />
 
             <View style={styles.bottomSection}>
-              <TouchableOpacity style={{ flex: 0.1, alignItems: "center", justifyContent: "center" }} onPress={() => closeGallery()}>
+              <TouchableOpacity
+                style={{
+                  flex: 0.1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                onPress={() => closeGallery()}>
                 <CrossCircle color={Colors.SecondaryButtonBackgroundColor} />
               </TouchableOpacity>
               <View style={styles.inputField}>
-                <ChatMessageInput chat={chat} isChannel={isChannel} text={text} setText={setText} handleKey={handleKey} />
+                <ChatMessageInput
+                  chat={chat}
+                  isChannel={isChannel}
+                  text={text}
+                  setText={setText}
+                  handleKey={handleKey}
+                />
               </View>
               {/* <TextInput onFocus={() => setOnFocus(false)} style={styles.inputField} /> */}
-              <TouchableOpacity onPress={() => sendMessage()} style={styles.buttonContainer}>
+              <TouchableOpacity
+                onPress={() => sendMessage()}
+                style={styles.buttonContainer}>
                 <SendIcon />
               </TouchableOpacity>
             </View>
@@ -196,48 +240,48 @@ const Gallery = ({
 
 export default memo(Gallery);
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     closeContainer: {
       backgroundColor: Colors.BodyText,
-      alignItems: "center",
+      alignItems: 'center',
     },
     inputField: {
       backgroundColor: Colors.White,
       height: 40,
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
       flex: 0.8,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
       borderRadius: 100,
     },
     bottomSection: {
-      width: "100%",
-      flexDirection: "row",
-      backgroundColor: "skyblue",
+      width: '100%',
+      flexDirection: 'row',
+      backgroundColor: 'skyblue',
       bottom: 0,
-      position: "absolute",
+      position: 'absolute',
     },
     buttonContainer: {
       // backgroundColor: Colors.Primary,
-      alignSelf: "center",
+      alignSelf: 'center',
       borderRadius: 10,
       flex: 0.1,
     },
     buttonText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       color: Colors.PureWhite,
       fontSize: RegularFonts.HR,
     },
     container: {
       height: 500,
-      position: "relative",
+      position: 'relative',
     },
     imageContainer: {
       flex: 1,
       margin: 2,
-      position: "relative",
+      position: 'relative',
     },
     selectedImage: {
       opacity: 0.6,
@@ -245,37 +289,37 @@ const getStyles = (Colors) =>
     image: {
       width: 100,
       height: 100,
-      resizeMode: "cover",
+      resizeMode: 'cover',
     },
     imagePreview: {
       width: 80,
       height: 100,
-      resizeMode: "cover",
+      resizeMode: 'cover',
     },
     imagePreviewContainer: {
       backgroundColor: Colors.Background_color,
       paddingTop: 10,
-      position: "relative",
+      position: 'relative',
       marginBottom: 50,
     },
     crossIconContainer: {
-      position: "absolute",
+      position: 'absolute',
       top: 0,
       right: -10,
     },
     indexOverlay: {
-      position: "absolute",
+      position: 'absolute',
       top: 0,
       right: 0,
       bottom: 0,
       left: 0,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     indexText: {
       color: Colors.PureWhite,
       fontSize: 24,
-      fontWeight: "bold",
+      fontWeight: 'bold',
     },
   });

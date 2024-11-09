@@ -13,7 +13,7 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import {useTheme} from '../../../context/ThemeContext';
 import SearchIcon from '../../../assets/Icons/SearchIcon';
 import FilterIcon2 from '../../../assets/Icons/FilterIcon2';
@@ -135,7 +135,7 @@ const getStyles = Colors =>
     },
     filterButtonText: {
       fontSize: responsiveScreenFontSize(1.8),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.PureWhite,
     },
   });

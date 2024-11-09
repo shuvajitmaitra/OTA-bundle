@@ -9,7 +9,7 @@ import ArrowRight from '../../assets/Icons/ArrowRight';
 import NoDataIcon from '../../assets/Icons/NotDataIcon';
 import Loading from '../SharedComponent/Loading';
 import {useTheme} from '../../context/ThemeContext';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import ImageView from 'react-native-image-viewing';
 
 const UserModalImageGallery = ({media, isLoading}) => {
@@ -114,7 +114,7 @@ const getStyles = Colors =>
     },
     seeMoreText: {
       color: 'rgba(39, 172, 31, 1)',
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(1.8),
     },
   });

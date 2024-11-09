@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -6,24 +6,24 @@ import {
   StyleSheet,
   ActivityIndicator,
   TouchableWithoutFeedback,
-} from "react-native";
-import { Audio } from "expo-av";
-import { MaterialIcons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+} from 'react-native';
+import {Audio} from 'expo-av';
+import {MaterialIcons, FontAwesome, FontAwesome5} from '@expo/vector-icons';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import { useTheme } from "../../context/ThemeContext";
-import CheckIconTwo from "../../assets/Icons/CheckIconTwo";
-import CustomeFonts from "../../constants/CustomeFonts";
+} from 'react-native-responsive-dimensions';
+import {useTheme} from '../../context/ThemeContext';
+import CheckIconTwo from '../../assets/Icons/CheckIconTwo';
+import CustomFonts from '../../constants/CustomFonts';
 
-const formatTime = (time) => {
-  if (isNaN(time)) return "00:00";
+const formatTime = time => {
+  if (isNaN(time)) return '00:00';
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes?.toString().padStart(2, "0")}:${seconds
+  return `${minutes?.toString().padStart(2, '0')}:${seconds
     ?.toString()
-    .padStart(2, "0")}`;
+    .padStart(2, '0')}`;
 };
 
 const CaptureAudio = ({
@@ -57,7 +57,7 @@ const CaptureAudio = ({
 
   useEffect(() => {
     if (sound) {
-      sound.setOnPlaybackStatusUpdate((status) => {
+      sound.setOnPlaybackStatusUpdate(status => {
         setPlaybackPosition(status.positionMillis);
         setPlaybackDuration(status.durationMillis);
 
@@ -78,12 +78,12 @@ const CaptureAudio = ({
 
   const handleStartRecording = async () => {
     if (isRecording) {
-      console.warn("Already recording!");
+      console.warn('Already recording!');
       return;
     }
 
     if (isCreatingRecording.current) {
-      console.warn("Recording is already being created.");
+      console.warn('Recording is already being created.');
       return;
     }
 
@@ -112,7 +112,7 @@ const CaptureAudio = ({
 
       const recordingOptions = {
         android: {
-          extension: ".m4a",
+          extension: '.m4a',
           outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
           audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
           sampleRate: 22050,
@@ -120,7 +120,7 @@ const CaptureAudio = ({
           bitRate: 32000,
         },
         ios: {
-          extension: ".m4a",
+          extension: '.m4a',
           outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
           audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MIN,
           sampleRate: 22050,
@@ -140,7 +140,7 @@ const CaptureAudio = ({
 
       // Start an interval to update recording duration every second
       recordingIntervalRef.current = setInterval(() => {
-        setRecordingDuration((prevDuration) => {
+        setRecordingDuration(prevDuration => {
           if (prevDuration >= recordingDurationLimit) {
             handleStopRecording(); // Automatically stop recording when the limit is reached
           }
@@ -179,7 +179,7 @@ const CaptureAudio = ({
     }
 
     if (!sound) {
-      const newSound = await Audio.Sound.createAsync({ uri: recordedURI });
+      const newSound = await Audio.Sound.createAsync({uri: recordedURI});
       setSound(newSound.sound);
       await newSound.sound.playAsync();
     } else {
@@ -200,7 +200,7 @@ const CaptureAudio = ({
         setIsPlaying(false);
       }
     } catch (err) {
-      console.error("Error while pausing:", err);
+      console.error('Error while pausing:', err);
     }
   };
 
@@ -225,10 +225,12 @@ const CaptureAudio = ({
       {/* Duration Display */}
       {recordedURI && !isRecording && (
         <View style={styles.durationContainer}>
-          <Text style={{ color: Colors.BodyText, fontFamily: CustomeFonts.REGULAR }}>
+          <Text
+            style={{color: Colors.BodyText, fontFamily: CustomFonts.REGULAR}}>
             {formatTime(playbackPosition / 1000)}
           </Text>
-          <Text style={{ color: Colors.BodyText, fontFamily: CustomeFonts.REGULAR }}>
+          <Text
+            style={{color: Colors.BodyText, fontFamily: CustomFonts.REGULAR}}>
             {formatTime(playbackDuration / 1000)}
           </Text>
         </View>
@@ -258,7 +260,7 @@ const CaptureAudio = ({
         </TouchableWithoutFeedback>
 
         <Text style={styles.recordingText}>
-          {isRecording ? `Recording ${recordingDuration}s` : ""}
+          {isRecording ? `Recording ${recordingDuration}s` : ''}
         </Text>
 
         {recordedURI &&
@@ -296,7 +298,7 @@ const CaptureAudio = ({
             name="trash"
             size={25}
             onPress={() => {
-              console.log("trash pressed");
+              console.log('trash pressed');
               setSelectedAudio([]);
               setIsRecorderVisible(false);
             }}
@@ -308,44 +310,44 @@ const CaptureAudio = ({
   );
 };
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       // backgroundColor: "red",
       // minHeight: responsiveScreenHeight(100),
     },
     progressContainer: {
-      width: "80%",
+      width: '80%',
       height: 10,
-      backgroundColor: "#EFEFEF",
+      backgroundColor: '#EFEFEF',
       borderRadius: 5,
       marginTop: 10,
       marginBottom: 10,
     },
     progressBar: {
-      height: "100%",
-      backgroundColor: "#4a9eff",
+      height: '100%',
+      backgroundColor: '#4a9eff',
       borderRadius: 5,
     },
     durationContainer: {
-      flexDirection: "row",
-      width: "80%",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      width: '80%',
+      justifyContent: 'space-between',
     },
     hidden: {
-      display: "none",
+      display: 'none',
     },
     waveformContainer: {
-      position: "relative",
-      backgroundColor: "#EFEFEF",
+      position: 'relative',
+      backgroundColor: '#EFEFEF',
       padding: 10,
       borderRadius: 20,
-      width: "100%",
+      width: '100%',
       maxWidth: 400,
-      shadowColor: "#000",
+      shadowColor: '#000',
       shadowOffset: {
         width: 1,
         height: 1,
@@ -353,23 +355,23 @@ const getStyles = (Colors) =>
       shadowOpacity: 0.1,
     },
     currentTime: {
-      position: "absolute",
+      position: 'absolute',
       left: 10,
       bottom: 10,
       fontSize: 12,
-      color: "gray",
+      color: 'gray',
     },
     totalDuration: {
-      position: "absolute",
+      position: 'absolute',
       right: 10,
       bottom: 10,
       fontSize: 12,
-      color: "gray",
+      color: 'gray',
     },
     controls: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
       gap: responsiveScreenWidth(5),
       backgroundColor: Colors.PrimaryOpacityColor,
       paddingHorizontal: responsiveScreenWidth(10),
@@ -377,7 +379,7 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenHeight(1),
     },
     greenIcon: {
-      color: "#25D366",
+      color: '#25D366',
     },
     redIcon: {
       color: Colors.Red,
@@ -387,7 +389,7 @@ const getStyles = (Colors) =>
     },
     recordingText: {
       fontSize: 12,
-      color: "gray",
+      color: 'gray',
     },
   });
 

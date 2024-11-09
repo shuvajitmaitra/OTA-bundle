@@ -9,7 +9,7 @@ import {RadioButton} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '../../context/ThemeContext';
 import {setDisplayMode} from '../../store/reducer/chatReducer';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import GlobalRadioGroup from '../../components/SharedComponent/GlobalRadioButton';
@@ -95,7 +95,7 @@ const getStyles = Colors =>
       borderRadius: 10,
     },
     radioText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
       color: Colors.Heading,
     },
@@ -111,13 +111,13 @@ const getStyles = Colors =>
     description: {
       color: Colors.BodyText,
       paddingTop: responsiveScreenHeight(1),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     headingText: {
       fontSize: responsiveScreenFontSize(2.5),
       fontWeight: '600',
       color: Colors.Heading,
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       marginTop: 10,
     },
     container: {

@@ -6,29 +6,29 @@ import {
   Alert,
   TouchableOpacity,
   Pressable,
-} from "react-native";
-import React, { useCallback, useState } from "react";
-import Modal, { ReactNativeModal } from "react-native-modal";
-import { useTheme } from "../../context/ThemeContext";
-import MessageIcon from "../../assets/Icons/MessageIcon";
-import NewPinIcon from "../../assets/Icons/NewPinIcon";
-import CopyIcon from "../../assets/Icons/CopyIcon";
-import { useDispatch, useSelector } from "react-redux";
-import EditIcon2 from "../../assets/Icons/EditIcon2";
-import DeleteIcon from "../../assets/Icons/DeleteIcon";
-import axiosInstance from "../../utility/axiosInstance";
+} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import Modal, {ReactNativeModal} from 'react-native-modal';
+import {useTheme} from '../../context/ThemeContext';
+import MessageIcon from '../../assets/Icons/MessageIcon';
+import NewPinIcon from '../../assets/Icons/NewPinIcon';
+import CopyIcon from '../../assets/Icons/CopyIcon';
+import {useDispatch, useSelector} from 'react-redux';
+import EditIcon2 from '../../assets/Icons/EditIcon2';
+import DeleteIcon from '../../assets/Icons/DeleteIcon';
+import axiosInstance from '../../utility/axiosInstance';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import CustomeFonts from "../../constants/CustomeFonts";
-import ForwardIcon from "../../assets/Icons/ForwardIcon";
-import ForwardMember from "./Modal/ForwardMessageModal";
-import CloseIcon from "../../assets/Icons/CloseIcon";
-import TrashIcon from "../../assets/Icons/TrashIcon";
-import { useGlobalAlert } from "../SharedComponent/GlobalAlertContext";
-import { setParams, setThreadOpen } from "../../store/reducer/ModalReducer";
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import ForwardIcon from '../../assets/Icons/ForwardIcon';
+import ForwardMember from './Modal/ForwardMessageModal';
+import CloseIcon from '../../assets/Icons/CloseIcon';
+import TrashIcon from '../../assets/Icons/TrashIcon';
+import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
+import {setParams, setThreadOpen} from '../../store/reducer/ModalReducer';
 
 const MessageOptionModal = ({
   messageToDelete,
@@ -44,60 +44,60 @@ const MessageOptionModal = ({
   handleDelete,
   setSelectedChat,
 }) => {
-  const { user: profile } = useSelector((state) => state.auth);
+  const {user: profile} = useSelector(state => state.auth);
   const myMessage = message?.sender?._id === profile?._id;
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors, message);
-  const { showAlert } = useGlobalAlert();
-  const { onlineUsers, pinned } = useSelector((state) => state.chat);
-  const isPinned = pinned?.find((item) => item?._id === message?._id);
+  const {showAlert} = useGlobalAlert();
+  const {onlineUsers, pinned} = useSelector(state => state.chat);
+  const isPinned = pinned?.find(item => item?._id === message?._id);
   const [isDeleteMessageModalVisible, setIsDeleteMessageModalVisible] =
     useState(false);
 
-  const onEmojiClick = (emoji) => {
+  const onEmojiClick = emoji => {
     axiosInstance
-      .put(`/chat/react/${message?._id}`, { symbol: emoji })
-      .then((res) => {
+      .put(`/chat/react/${message?._id}`, {symbol: emoji})
+      .then(res => {
         // if (res.data.message) {
         //   handleUpdateMessage(res.data.message);
         // }
 
         setSelectedMessage(null);
       })
-      .catch((err) => {
-        console.log("error in chat reaction", err);
+      .catch(err => {
+        console.log('error in chat reaction', err);
         showAlert({
-          title: "Error",
-          type: "error",
+          title: 'Error',
+          type: 'error',
           message: err?.response?.data?.error,
         });
       });
   };
   let emojies = [
     {
-      name: "like",
-      symbol: "👍",
+      name: 'like',
+      symbol: '👍',
     },
     {
-      name: "lovely",
-      symbol: "😍",
+      name: 'lovely',
+      symbol: '😍',
     },
     {
-      name: "love",
-      symbol: "❤️",
+      name: 'love',
+      symbol: '❤️',
     },
     {
-      name: "luffing",
-      symbol: "😂",
+      name: 'luffing',
+      symbol: '😂',
     },
     {
-      name: "cute",
-      symbol: "🥰",
+      name: 'cute',
+      symbol: '🥰',
     },
     {
-      name: "wow",
-      symbol: "😯",
+      name: 'wow',
+      symbol: '😯',
     },
   ];
 
@@ -105,7 +105,7 @@ const MessageOptionModal = ({
     useState(false);
 
   const toggleForwardMessageModal = useCallback(() => {
-    setIsForwardMessageModalVisible((prevState) => !prevState);
+    setIsForwardMessageModalVisible(prevState => !prevState);
   }, [isForwardMessageModalVisible]);
 
   return (
@@ -115,8 +115,7 @@ const MessageOptionModal = ({
       backdropOpacity={0.9}
       backdropColor={Colors.BackDropColor}
       isVisible={Boolean(message)}
-      onBackdropPress={() => setSelectedMessage(null)}
-    >
+      onBackdropPress={() => setSelectedMessage(null)}>
       <View style={[styles.popupContent, styles.background]}>
         <TouchableOpacity
           activeOpacity={0.5}
@@ -128,15 +127,14 @@ const MessageOptionModal = ({
             //   message: message,
             // });
             dispatch(setThreadOpen(true));
-            dispatch(setParams({ chat, message }));
+            dispatch(setParams({chat, message}));
           }}
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             gap: 5,
-            alignItems: "center",
+            alignItems: 'center',
             paddingHorizontal: 7,
-          }}
-        >
+          }}>
           <MessageIcon />
           <Text style={styles.popupText}>Reply in thread</Text>
         </TouchableOpacity>
@@ -179,15 +177,14 @@ const MessageOptionModal = ({
             setSelectedMessage(false);
           }}
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             gap: 5,
-            alignItems: "center",
+            alignItems: 'center',
             paddingHorizontal: 7,
-          }}
-        >
+          }}>
           <NewPinIcon />
           <Text style={styles.popupText}>
-            {isPinned?.pinnedBy ? "Unpin" : "Pin"}
+            {isPinned?.pinnedBy ? 'Unpin' : 'Pin'}
           </Text>
         </TouchableOpacity>
 
@@ -200,12 +197,11 @@ const MessageOptionModal = ({
                 copyToClipboard(message);
               }}
               style={{
-                flexDirection: "row",
+                flexDirection: 'row',
                 gap: 5,
-                alignItems: "center",
+                alignItems: 'center',
                 paddingHorizontal: 7,
-              }}
-            >
+              }}>
               <CopyIcon />
               <Text style={styles.popupText}>Copy</Text>
             </TouchableOpacity>
@@ -224,12 +220,11 @@ const MessageOptionModal = ({
                 handleSetEdit(message);
               }}
               style={{
-                flexDirection: "row",
+                flexDirection: 'row',
                 gap: 5,
-                alignItems: "center",
+                alignItems: 'center',
                 paddingHorizontal: 7,
-              }}
-            >
+              }}>
               <EditIcon2 />
               <Text style={styles.popupText}>Edit your message</Text>
             </TouchableOpacity>
@@ -269,12 +264,11 @@ const MessageOptionModal = ({
               handleSetDelete(message);
             }}
             style={{
-              flexDirection: "row",
+              flexDirection: 'row',
               gap: 5,
-              alignItems: "center",
+              alignItems: 'center',
               paddingHorizontal: 7,
-            }}
-          >
+            }}>
             <DeleteIcon />
             <Text style={styles.popupText}>Delete this message</Text>
           </TouchableOpacity>
@@ -282,18 +276,16 @@ const MessageOptionModal = ({
 
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
+            flexDirection: 'row',
+            justifyContent: 'space-around',
             marginTop: responsiveScreenHeight(2),
-            overflow: "hidden",
-          }}
-        >
+            overflow: 'hidden',
+          }}>
           {emojies.map((item, index) => (
             <Text
-              style={{ fontSize: 20 }}
+              style={{fontSize: 20}}
               onPress={() => onEmojiClick(item.symbol)}
-              key={index}
-            >
+              key={index}>
               {item.symbol}
             </Text>
           ))}
@@ -307,18 +299,16 @@ const MessageOptionModal = ({
 
         {
           <Modal
-            backdropColor={"#000000"}
+            backdropColor={'#000000'}
             style={styles.modal}
-            isVisible={isDeleteMessageModalVisible}
-          >
+            isVisible={isDeleteMessageModalVisible}>
             <View style={styles.modalStyle}>
               <TouchableOpacity
                 style={styles.crossIconStyle}
                 onPress={() => {
                   setIsDeleteMessageModalVisible(!isDeleteMessageModalVisible);
                   setMessageToDelete(false);
-                }}
-              >
+                }}>
                 <CloseIcon />
               </TouchableOpacity>
               <View style={styles.textContainer}>
@@ -333,8 +323,7 @@ const MessageOptionModal = ({
                   setIsDeleteMessageModalVisible(!isDeleteMessageModalVisible);
                 }}
                 activeOpacity={0.5}
-                style={styles.modalBottom}
-              >
+                style={styles.modalBottom}>
                 <Text style={styles.btnText}>Remove for everyone</Text>
                 <TrashIcon />
               </TouchableOpacity>
@@ -352,35 +341,35 @@ const getStyles = (Colors, message) =>
   StyleSheet.create({
     modalText: {
       fontSize: responsiveScreenFontSize(2),
-      textAlign: "center",
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      textAlign: 'center',
+      fontFamily: CustomFonts.SEMI_BOLD,
       paddingHorizontal: responsiveScreenWidth(4),
       color: Colors.BodyText,
     },
     modalBottom: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       width: responsiveScreenWidth(80),
       height: responsiveScreenHeight(5),
       marginTop: responsiveScreenHeight(2),
-      alignSelf: "center",
+      alignSelf: 'center',
       borderRadius: 8,
-      alignItems: "center",
+      alignItems: 'center',
       paddingHorizontal: responsiveScreenWidth(4),
       backgroundColor: Colors.LightRed,
     },
 
     btnText: {
       color: Colors.ThemeWarningColor,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
     },
     textContainer: {
-      width: "100%",
+      width: '100%',
     },
     crossIconStyle: {
-      width: "100%",
-      alignItems: "flex-end",
+      width: '100%',
+      alignItems: 'flex-end',
       marginTop: responsiveScreenHeight(1),
     },
     modalStyle: {
@@ -399,12 +388,12 @@ const getStyles = (Colors, message) =>
       backgroundColor: Colors.White,
     },
     messageItem: {
-      flexDirection: "row",
+      flexDirection: 'row',
       marginVertical: responsiveScreenHeight(0.5),
       // backgroundColor: "green",
     },
     messageContainer: {
-      maxWidth: "90%",
+      maxWidth: '90%',
       borderRadius: 8,
       paddingTop: 10,
       paddingBottom: 5,
@@ -412,13 +401,13 @@ const getStyles = (Colors, message) =>
       paddingHorizontal: responsiveScreenWidth(4),
     },
     messageTime: {
-      alignSelf: "flex-end",
+      alignSelf: 'flex-end',
       paddingLeft: responsiveScreenWidth(5),
       fontSize: 12,
     },
     userImageWrapper: {
       marginRight: 10,
-      alignSelf: "flex-start",
+      alignSelf: 'flex-start',
       // backgroundColor: "red",
       marginTop: responsiveScreenHeight(0.5),
     },
@@ -435,12 +424,12 @@ const getStyles = (Colors, message) =>
       height: 8,
       borderRadius: 8,
       backgroundColor: Colors.Primary,
-      position: "absolute",
+      position: 'absolute',
       right: responsiveScreenWidth(0),
       bottom: responsiveScreenHeight(0.5),
     },
     modalWrapper: {
-      backgroundColor: "#f0f0f0",
+      backgroundColor: '#f0f0f0',
     },
     listItem: {
       paddingVertical: 5,
@@ -449,7 +438,7 @@ const getStyles = (Colors, message) =>
       borderBottomWidth: 1,
     },
     shadow: {
-      shadowColor: "#000",
+      shadowColor: '#000',
       shadowOffset: {
         width: 0,
         height: 2,
@@ -466,15 +455,15 @@ const getStyles = (Colors, message) =>
       // marginBottom: 10,
     },
     deleted: {
-      fontStyle: "italic",
-      color: "#bcc0c4",
+      fontStyle: 'italic',
+      color: '#bcc0c4',
     },
     popupContent: {
       backgroundColor: Colors.White,
       borderRadius: 8,
       width: responsiveScreenWidth(60),
       paddingVertical: 16,
-      position: "absolute",
+      position: 'absolute',
       right: responsiveScreenWidth(16),
       // top: responsiveScreenHeight(45),
     },
@@ -483,16 +472,16 @@ const getStyles = (Colors, message) =>
     },
     popupText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(2),
       // marginBottom: 2,
-      paddingVertical: responsiveScreenWidth(1.5)
+      paddingVertical: responsiveScreenWidth(1.5),
     },
     line: {
-      width: "100%",
+      width: '100%',
       height: 1.5,
       backgroundColor: Colors.LineColor,
-      position: "relative",
+      position: 'relative',
       marginVertical: responsiveScreenWidth(2),
     },
   });

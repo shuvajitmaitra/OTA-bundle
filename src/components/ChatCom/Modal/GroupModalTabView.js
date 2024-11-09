@@ -6,7 +6,7 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import UserModalImageGallary from '../UserModalImageGallary';
 import GroupModalMembers from './GroupModalMembers';
 import {useTheme} from '../../../context/ThemeContext';
@@ -98,7 +98,7 @@ export default GroupModalTabView = () => {
             <Text
               style={[
                 {
-                  fontFamily: CustomeFonts.MEDIUM,
+                  fontFamily: CustomFonts.MEDIUM,
                   fontSize: responsiveScreenFontSize(1.8),
                   color: Colors.BodyText,
                 },

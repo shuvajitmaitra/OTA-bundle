@@ -3,7 +3,7 @@ import React from 'react';
 import CustomModal from '../../components/SharedComponent/CustomModal';
 import Message2 from '../../components/ChatCom/Message2';
 import {useTheme} from '../../context/ThemeContext';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 // import {FlashList} from '@shopify/flash-list';
 
@@ -44,7 +44,7 @@ const getStyles = Colors =>
     },
     exitText: {
       color: Colors.Primary,
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(1.8),
     },
     customStyles: {

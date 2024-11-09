@@ -8,7 +8,7 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import ThreeDotGrayIcon from '../../../assets/Icons/ThreeDotGrayIcon';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import {useTheme} from '../../../context/ThemeContext';
 import NewUserIcons from '../../../assets/Icons/NewUserIcons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -105,13 +105,13 @@ const getStyles = Colors =>
   StyleSheet.create({
     roleText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.5),
       textTransform: 'capitalize',
     },
     blockText: {
       color: Colors.PrimaryRed,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.5),
       textTransform: 'capitalize',
     },
@@ -139,14 +139,14 @@ const getStyles = Colors =>
     profileName: {
       fontSize: responsiveScreenFontSize(1.8),
       width: responsiveScreenWidth(60),
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
     },
     status: {
       color: 'rgba(11, 42, 70, 1)',
       fontSize: responsiveScreenFontSize(1.8),
       paddingVertical: responsiveScreenHeight(0.2),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     commentsTime: {
       color: 'rgba(111, 116, 124, 1)',
@@ -161,7 +161,7 @@ const getStyles = Colors =>
     buttonText: {
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     iconAndTextContainer: {
       flexDirection: 'row',

@@ -47,7 +47,7 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';

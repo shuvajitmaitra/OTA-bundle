@@ -22,7 +22,7 @@ import CheckIcon from '../../../assets/Icons/CheckIcon';
 import UnCheckIcon from '../../../assets/Icons/UnCheckIcon';
 import CircleIcon from '../../../assets/Icons/CircleIcon';
 import ModalBackAndCrossButton from './ModalBackAndCrossButton';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import BlackCrossIcon from '../../../assets/Icons/BlackCrossIcon';
 import axiosInstance from '../../../utility/axiosInstance';
 import useChat from '../../../hook/useChat';
@@ -319,7 +319,7 @@ const getStyles = Colors =>
   StyleSheet.create({
     Description: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       width: '85%',
       paddingTop: responsiveScreenHeight(1),
     },
@@ -328,17 +328,17 @@ const getStyles = Colors =>
       backgroundColor: Colors.Primary,
       paddingHorizontal: responsiveScreenWidth(7),
       paddingVertical: responsiveScreenHeight(1),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: '#ffffff',
       borderRadius: 7,
     },
     checkedText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(1.5),
     },
     checkedHeading: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2.2),
       color: Colors.Heading,
       paddingTop: responsiveScreenHeight(2),
@@ -397,7 +397,7 @@ const getStyles = Colors =>
 
     textInput: {
       fontSize: responsiveScreenFontSize(1.8),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.Heading,
       flex: 1,
       // padding: 19,
@@ -414,7 +414,7 @@ const getStyles = Colors =>
     allContact: {
       color: Colors.Heading,
       paddingTop: responsiveScreenHeight(1.8),
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontWeight: '500',
       fontSize: responsiveScreenFontSize(2),
       marginBottom: responsiveScreenHeight(1),
@@ -437,7 +437,7 @@ const getStyles = Colors =>
     },
     userName: {
       fontSize: responsiveScreenFontSize(1.9),
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontWeight: '500',
       color: Colors.BodyText,
     },

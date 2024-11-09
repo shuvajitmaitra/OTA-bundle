@@ -1,20 +1,20 @@
-import { StyleSheet, Text, ToastAndroid, View } from "react-native";
-import React from "react";
+import {StyleSheet, Text, ToastAndroid, View} from 'react-native';
+import React from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import ReactNativeModal from "react-native-modal";
-import { RadioButton } from "react-native-paper";
+} from 'react-native-responsive-dimensions';
+import ReactNativeModal from 'react-native-modal';
+import {RadioButton} from 'react-native-paper';
 
-import ModalCustomButton from "./ModalCustomButton";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import ModalBackAndCrossButton from "./ModalBackAndCrossButton";
-import axiosInstance from "../../../utility/axiosInstance";
-import { useTheme } from "../../../context/ThemeContext";
-import { showToast } from "../../HelperFunction";
-import GlobalRadioGroup from "../../SharedComponent/GlobalRadioButton";
+import ModalCustomButton from './ModalCustomButton';
+import CustomFonts from '../../../constants/CustomFonts';
+import ModalBackAndCrossButton from './ModalBackAndCrossButton';
+import axiosInstance from '../../../utility/axiosInstance';
+import {useTheme} from '../../../context/ThemeContext';
+import {showToast} from '../../HelperFunction';
+import GlobalRadioGroup from '../../SharedComponent/GlobalRadioButton';
 
 export default function RoleAssignModal({
   toggleRoleAssignModal,
@@ -23,7 +23,7 @@ export default function RoleAssignModal({
   item,
   fetchMembers,
 }) {
-  const [value, setValue] = React.useState("admin");
+  const [value, setValue] = React.useState('admin');
 
   // --------------------------
   // ----------- Import theme Colors -----------
@@ -32,21 +32,21 @@ export default function RoleAssignModal({
   const styles = getStyles(Colors);
 
   const roleOptions = [
-    { label: "Admin", value: "admin" },
-    { label: "Moderator", value: "moderator" },
-    { label: "Member", value: "member" },
+    {label: 'Admin', value: 'admin'},
+    {label: 'Moderator', value: 'moderator'},
+    {label: 'Member', value: 'member'},
   ];
 
   const handleRoleAssignModal = () => {
     toggleRoleAssignModal();
     axiosInstance
       .post(`/chat/member/update`, {
-        actionType: "role",
+        actionType: 'role',
         member: item?._id,
         chat: item?.chat,
         role: value,
       })
-      .then((res) => {
+      .then(res => {
         if (res.data?.success) {
           showToast(`Assigned as ${value}`);
           fetchMembers();
@@ -57,8 +57,7 @@ export default function RoleAssignModal({
   return (
     <ReactNativeModal
       backdropColor={Colors.BackDropColor}
-      isVisible={isRoleAssignModalVisible}
-    >
+      isVisible={isRoleAssignModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalChild}>
           <ModalBackAndCrossButton toggleModal={toggleRoleAssignModal} />
@@ -66,8 +65,7 @@ export default function RoleAssignModal({
             <Text
               numberOfLines={1}
               ellipsizeMode="tail"
-              style={styles.modalHeadingText}
-            >
+              style={styles.modalHeadingText}>
               Role Options for {fullName}
             </Text>
             <Text style={styles.headingDescription}>
@@ -76,11 +74,11 @@ export default function RoleAssignModal({
           </View>
 
           <View style={styles.buttonGroup}>
-          <GlobalRadioGroup
-            options={roleOptions} 
-            selectedValue={value} 
-            onSelect={setValue} 
-          />
+            <GlobalRadioGroup
+              options={roleOptions}
+              selectedValue={value}
+              onSelect={setValue}
+            />
           </View>
           <View style={styles.buttonContainer}>
             <ModalCustomButton
@@ -102,13 +100,13 @@ export default function RoleAssignModal({
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     modalContainer: {
       height: responsiveScreenHeight(100),
       flex: 1,
       width: responsiveScreenWidth(90),
-      justifyContent: "center",
+      justifyContent: 'center',
     },
 
     modalChild: {
@@ -119,45 +117,45 @@ const getStyles = (Colors) =>
       maxHeight: responsiveScreenHeight(80),
     },
     modalHeading: {
-      justifyContent: "flex-start",
+      justifyContent: 'flex-start',
       paddingTop: responsiveScreenHeight(1.7),
       gap: responsiveScreenWidth(2),
     },
     modalArrowIcon: {
       fontSize: responsiveScreenFontSize(2.5),
-      color: "rgba(71, 71, 72, 1)",
+      color: 'rgba(71, 71, 72, 1)',
     },
     modalHeadingText: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
       color: Colors.Heading,
     },
     headingDescription: {
       color: Colors.BodyText,
-      width: "100%",
-      fontFamily: CustomeFonts.REGULAR,
+      width: '100%',
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
     },
     radioButton: {
-      flexDirection: "row",
-      justifyContent: "flex-start",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
     },
     buttonGroup: {
       borderBottomWidth: 1,
       borderColor: Colors.BorderColor,
       paddingTop: responsiveScreenHeight(2),
       paddingBottom: responsiveScreenHeight(2.5),
-      paddingLeft: responsiveScreenWidth(2)
+      paddingLeft: responsiveScreenWidth(2),
     },
     radioText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.9),
     },
     buttonContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2.5),
-      justifyContent: "center",
+      justifyContent: 'center',
       paddingTop: responsiveScreenHeight(2.2),
     },
   });

@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {useTheme} from '../../../context/ThemeContext';
 import Markdown from 'react-native-markdown-display';
 import {TouchableOpacity} from 'react-native';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import mime from 'mime';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import {
@@ -66,7 +66,7 @@ const ThreadMessageContent = ({message, downloadFile, setSelectedImages}) => {
                 style={{
                   color: Colors.Primary,
                   fontSize: responsiveScreenFontSize(1.65),
-                  fontFamily: CustomeFonts.SEMI_BOLD,
+                  fontFamily: CustomFonts.SEMI_BOLD,
                 }}>
                 {isSeeMoreClicked ? 'Read less' : 'Read more'}
               </Text>
@@ -146,11 +146,11 @@ const ThreadMessageContent = ({message, downloadFile, setSelectedImages}) => {
                               numberOfLines={1}
                               style={{
                                 fontWeight: 'bold',
-                                fontFamily: CustomeFonts.REGULAR,
+                                fontFamily: CustomFonts.REGULAR,
                                 flex: 1,
                                 flexBasis: '40%',
                                 color: Colors.Heading,
-                                fontFamily: CustomeFonts.REGULAR,
+                                fontFamily: CustomFonts.REGULAR,
                               }}>
                               {file?.name || 'N/A'}
                             </Text>
@@ -170,14 +170,14 @@ const ThreadMessageContent = ({message, downloadFile, setSelectedImages}) => {
                                 className="mime"
                                 style={{
                                   color: Colors.BodyText,
-                                  fontFamily: CustomeFonts.REGULAR,
+                                  fontFamily: CustomFonts.REGULAR,
                                 }}>
                                 {mime?.getExtension(file.type) || 'File'}
                               </Text>
                               <Text
                                 style={{
                                   color: Colors.BodyText,
-                                  fontFamily: CustomeFonts.REGULAR,
+                                  fontFamily: CustomFonts.REGULAR,
                                   fontSize: responsiveScreenFontSize(1.4),
                                 }}>
                                 ({bytesToSize(file.size || 0)})
@@ -227,7 +227,7 @@ const getStyles = (Colors, message) =>
       // marginLeft: responsiveScreenWidth(3),
     },
     deleteText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.Red,
       //   marginLeft: responsiveScreenWidth(15),
     },
@@ -246,7 +246,7 @@ const getStyles = (Colors, message) =>
         marginBottom: -10,
         marginTop: -5,
         maxWidth: responsiveScreenWidth(80),
-        fontFamily: CustomeFonts.REGULAR,
+        fontFamily: CustomFonts.REGULAR,
         color: Colors.Heading,
         // paddingHorizontal: responsiveScreenWidth(3),
         fontSize: 15,

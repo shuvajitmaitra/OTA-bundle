@@ -9,7 +9,7 @@ import {
 import ArrowLeft from '../../../assets/Icons/ArrowLeft';
 import CrossIcon from '../../../assets/Icons/CrossIcon';
 import ModalCustomButton from './ModalCustomButton';
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import axiosInstance from '../../../utility/axiosInstance';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../../context/ThemeContext';
@@ -100,7 +100,7 @@ const getStyles = Colors =>
     // ------------------
     // Main Content
     mainContentText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       textAlign: 'center',
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(2.5),
@@ -137,7 +137,7 @@ const getStyles = Colors =>
     },
     backButtonText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
     },
     cancelButton: {

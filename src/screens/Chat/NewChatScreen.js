@@ -7,7 +7,7 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import ChatItem from '../../components/ChatCom/ChatItem';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../context/ThemeContext';
 import OnlineUsersItem from '../../components/ChatCom/OnlineUsersItem';
@@ -273,7 +273,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
 const getStyles = (Colors, checked) =>
   StyleSheet.create({
     createCrowdText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       color: Colors.Primary,
       fontSize: RegularFonts.HS,
     },
@@ -294,7 +294,7 @@ const getStyles = (Colors, checked) =>
       // paddingVertical: 5,
     },
     CrowdsTexts: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2.2),
       color: Colors.Heading,
     },
@@ -326,7 +326,7 @@ const getStyles = (Colors, checked) =>
       flex: 1,
     },
     recentText: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       marginVertical: responsiveScreenHeight(2),
       fontSize: responsiveScreenFontSize(2.5),
       color: Colors.Heading,

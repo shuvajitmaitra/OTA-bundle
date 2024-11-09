@@ -15,7 +15,7 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 import DeleteIcon from '../../assets/Icons/DeleteIcon';
 import NewPinIcon from '../../assets/Icons/NewPinIcon';
@@ -179,7 +179,7 @@ const getStyles = Colors =>
     textInput: {
       fontSize: responsiveScreenFontSize(1.6),
       minWidth: responsiveScreenWidth(52),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.Heading,
       // backgroundColor: "red",
     },
@@ -209,7 +209,7 @@ const getStyles = Colors =>
       gap: 10,
     },
     radioText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: RegularFonts.HR,
       color: Colors.Heading,
     },
@@ -228,7 +228,7 @@ const getStyles = Colors =>
     headingText: {
       color: Colors.Heading,
       fontSize: RegularFonts.HR,
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
     },
     threeDotContainer: {
       width: responsiveScreenWidth(8),
@@ -248,7 +248,7 @@ const getStyles = Colors =>
     },
     popupContryText: {
       color: Colors.Heading,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       marginVertical: 7,
       fontSize: responsiveScreenFontSize(1.9),
     },

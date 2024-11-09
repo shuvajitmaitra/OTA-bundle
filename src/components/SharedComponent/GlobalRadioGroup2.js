@@ -1,12 +1,12 @@
 // GlobalRadioGroup2.js
-import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useTheme } from "../../context/ThemeContext";
-import CustomeFonts from "../../constants/CustomeFonts";
-import { RegularFonts } from "../../constants/Fonts";
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {RegularFonts} from '../../constants/Fonts';
 
 // GlobalRadioGroup2 component supporting multiple selections
-const GlobalRadioGroup2 = ({ options, onSelect, selected = [] }) => {
+const GlobalRadioGroup2 = ({options, onSelect, selected = []}) => {
   const [localSelected, setLocalSelected] = useState(selected); // Track multiple selections
 
   useEffect(() => {
@@ -14,9 +14,9 @@ const GlobalRadioGroup2 = ({ options, onSelect, selected = [] }) => {
   }, [selected]);
 
   // Handle selecting and deselecting items
-  const handleSelect = (value) => {
+  const handleSelect = value => {
     const updatedSelections = localSelected.includes(value)
-      ? localSelected.filter((item) => item !== value) // Deselect if already selected
+      ? localSelected.filter(item => item !== value) // Deselect if already selected
       : [...localSelected, value]; // Select if not already selected
 
     setLocalSelected(updatedSelections); // Update local state
@@ -31,25 +31,32 @@ const GlobalRadioGroup2 = ({ options, onSelect, selected = [] }) => {
   return (
     <View>
       {options.map((option, index) => (
-        <TouchableOpacity key={index} style={styles.radioButtonContainer} onPress={() => handleSelect(option.value)}>
+        <TouchableOpacity
+          key={index}
+          style={styles.radioButtonContainer}
+          onPress={() => handleSelect(option.value)}>
           <View
             style={[
               styles.radioCircle,
               {
-                borderColor: localSelected.includes(option.value) ? Colors.Primary : Colors.BodyText,
+                borderColor: localSelected.includes(option.value)
+                  ? Colors.Primary
+                  : Colors.BodyText,
               },
-            ]}
-          >
-            {localSelected.includes(option.value) && <View style={styles.selectedRb} />}
+            ]}>
+            {localSelected.includes(option.value) && (
+              <View style={styles.selectedRb} />
+            )}
           </View>
           <Text
             style={[
               styles.radioText,
               {
-                color: localSelected.includes(option.value) ? Colors.Primary : Colors.BodyText,
+                color: localSelected.includes(option.value)
+                  ? Colors.Primary
+                  : Colors.BodyText,
               },
-            ]}
-          >
+            ]}>
             {option.label}
           </Text>
         </TouchableOpacity>
@@ -58,11 +65,11 @@ const GlobalRadioGroup2 = ({ options, onSelect, selected = [] }) => {
   );
 };
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     radioButtonContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       marginVertical: 5,
     },
     radioCircle: {
@@ -70,8 +77,8 @@ const getStyles = (Colors) =>
       width: 20,
       borderRadius: 4,
       borderWidth: 2,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       marginRight: 10,
     },
     selectedRb: {
@@ -82,7 +89,7 @@ const getStyles = (Colors) =>
     },
     radioText: {
       fontSize: RegularFonts.HS,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
   });
 

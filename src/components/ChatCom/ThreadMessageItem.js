@@ -7,7 +7,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useSelector} from 'react-redux';
 import userIcon from '../../assets/Images/user.png';
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import Markdown from 'react-native-markdown-display';
 import {removeHtmlTags, transFormDate} from './MessageHelper';
 import {useTheme} from '../../context/ThemeContext';
@@ -169,20 +169,20 @@ const getStyles = Colors =>
     },
     profileName: {
       fontSize: responsiveScreenFontSize(2.2),
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
       width: responsiveScreenWidth(75),
     },
     messageTime: {
       color: Colors.BodyText,
       paddingVertical: responsiveScreenHeight(0.2),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
     },
     threadText: {
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(2),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     messageImage: {
       // width: "100%",
@@ -200,7 +200,7 @@ const getStyles = Colors =>
     markdownStyle: {
       whiteSpace: 'pre',
       body: {
-        fontFamily: CustomeFonts.REGULAR,
+        fontFamily: CustomFonts.REGULAR,
         // fontSize: responsiveScreenFontSize(1.9),
         color: Colors.BodyText,
         lineHeight: 20,
@@ -209,28 +209,28 @@ const getStyles = Colors =>
       },
       heading1: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading2: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading3: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading4: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading5: {
         fontWeight: 'bold',
       },
       heading6: {
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
-      strong: {fontFamily: CustomeFonts.SEMI_BOLD},
+      strong: {fontFamily: CustomFonts.SEMI_BOLD},
       code_inline: {
         color: Colors.BodyText,
       },
@@ -264,7 +264,7 @@ const getStyles = Colors =>
         //   : Colors.LightGreen,
         color: Colors.Primary,
         // fontWeight: "bold",
-        fontFamily: CustomeFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       bullet_list: {
         marginVertical: 10,

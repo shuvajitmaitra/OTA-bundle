@@ -10,7 +10,7 @@ import {
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 
-import CustomeFonts from '../../constants/CustomeFonts';
+import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 
 export default function CustomeBtn({
@@ -84,7 +84,7 @@ const getStyles = Colors =>
     },
     btnText: {
       color: Colors.PureWhite,
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2),
     },
   });

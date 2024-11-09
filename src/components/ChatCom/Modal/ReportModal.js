@@ -1,19 +1,19 @@
-import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
-import Modal from "react-native-modal";
-import React from "react";
+import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
+import Modal from 'react-native-modal';
+import React from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import { RadioButton, Text } from "react-native-paper";
-import ModalCustomButton from "./ModalCustomButton";
-import ArrowLeft from "../../../assets/Icons/ArrowLeft";
-import CrossIcon from "../../../assets/Icons/CrossIcon";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import { useTheme } from "../../../context/ThemeContext";
-import { useGlobalAlert } from "../../SharedComponent/GlobalAlertContext";
-import GlobalRadioGroup from "../../SharedComponent/GlobalRadioButton";
+} from 'react-native-responsive-dimensions';
+import {RadioButton, Text} from 'react-native-paper';
+import ModalCustomButton from './ModalCustomButton';
+import ArrowLeft from '../../../assets/Icons/ArrowLeft';
+import CrossIcon from '../../../assets/Icons/CrossIcon';
+import CustomFonts from '../../../constants/CustomFonts';
+import {useTheme} from '../../../context/ThemeContext';
+import {useGlobalAlert} from '../../SharedComponent/GlobalAlertContext';
+import GlobalRadioGroup from '../../SharedComponent/GlobalRadioButton';
 
 const ReportModal = ({
   toggleReportMembersModal,
@@ -24,15 +24,18 @@ const ReportModal = ({
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { showAlert } = useGlobalAlert();
-  const [value, setValue] = React.useState("Harassment");
+  const {showAlert} = useGlobalAlert();
+  const [value, setValue] = React.useState('Harassment');
 
   const itemList = [
-    { value: "Harassment", label: "Harassment" },
-    { value: "Sharing inappropriate things", label: "Sharing inappropriate things" },
-    { value: "Hate speech", label: "Hate speech" },
-    { value: "Scams", label: "Scams" },
-    { value: "Others", label: "Others" },
+    {value: 'Harassment', label: 'Harassment'},
+    {
+      value: 'Sharing inappropriate things',
+      label: 'Sharing inappropriate things',
+    },
+    {value: 'Hate speech', label: 'Hate speech'},
+    {value: 'Scams', label: 'Scams'},
+    {value: 'Others', label: 'Others'},
   ];
   // const itemList = [
   //   {
@@ -54,32 +57,28 @@ const ReportModal = ({
   const handleClick = () => {
     toggleReportMembersModal();
     return showAlert({
-      title: "Coming Soon...",
-      type: "warning",
-      message:
-        "This feature is coming soon.",
+      title: 'Coming Soon...',
+      type: 'warning',
+      message: 'This feature is coming soon.',
     });
   };
   return (
     <Modal
       backdropColor={Colors.BackDropColor}
-      isVisible={isReportMembersModalVisible}
-    >
+      isVisible={isReportMembersModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalChild}>
           {/* Modal Back Button */}
           <View style={styles.topBarContainer}>
             <TouchableOpacity
               onPress={toggleReportMembersModal}
-              style={styles.arrow}
-            >
+              style={styles.arrow}>
               <ArrowLeft />
               <Text style={styles.backButtonText}>Back</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={toggleReportMembersModal}
-            >
+              onPress={toggleReportMembersModal}>
               <CrossIcon />
             </TouchableOpacity>
           </View>
@@ -103,7 +102,7 @@ const ReportModal = ({
             <GlobalRadioGroup
               options={itemList}
               selectedValue={value}
-              onSelect={(newValue) => setValue(newValue)} 
+              onSelect={newValue => setValue(newValue)}
             />
 
             {/* -------------------------- */}
@@ -133,15 +132,15 @@ const ReportModal = ({
 
 export default ReportModal;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     //  -------------------------------------------------------------
     // Modal radio button
     // -------------------------------------------------------------
     radioButton: {
-      flexDirection: "row",
-      justifyContent: "flex-start",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
     },
     buttonGroup: {
       marginHorizontal: responsiveScreenWidth(-1),
@@ -152,14 +151,14 @@ const getStyles = (Colors) =>
     },
     // Main Content
     mainContentText: {
-      fontFamily: CustomeFonts.MEDIUM,
+      fontFamily: CustomFonts.MEDIUM,
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(2.5),
     },
     mainContentDescription: {
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(2),
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
     },
     mainContent: {
       gap: responsiveScreenHeight(1.5),
@@ -172,37 +171,37 @@ const getStyles = (Colors) =>
     },
     // Cancel and the back button.................
     topBarContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      minWidth: "100%",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      minWidth: '100%',
       marginBottom: responsiveScreenHeight(2),
     },
     arrow: {
       paddingBottom: responsiveScreenHeight(0.8),
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(2),
-      color: "red",
+      color: 'red',
     },
     backButtonText: {
       color: Colors.BodyText,
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
     },
     cancelButton: {
       backgroundColor: Colors.ModalBoxColor,
       padding: responsiveScreenWidth(2.5),
       borderRadius: 100,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 
     //   Main container...............
     modalContainer: {
       height: responsiveScreenHeight(100),
       flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 
     modalChild: {
@@ -215,9 +214,9 @@ const getStyles = (Colors) =>
     },
 
     buttonContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2.5),
-      justifyContent: "center",
+      justifyContent: 'center',
       paddingVertical: responsiveScreenHeight(2.5),
     },
   });

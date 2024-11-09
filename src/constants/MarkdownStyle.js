@@ -1,5 +1,8 @@
-import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomeFonts from "./CustomeFonts";
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from './CustomFonts';
 
 export const markdownStyle = {
   bullet_list: {
@@ -15,9 +18,9 @@ export const markdownStyle = {
     flex: 1,
     width: responsiveScreenWidth(73),
     color: Colors.BodyText,
-    fontFamily: CustomeFonts.REGULAR,
+    fontFamily: CustomFonts.REGULAR,
     lineHeight: 24,
-    textAlign: "justify",
+    textAlign: 'justify',
     marginBottom: responsiveScreenHeight(1.5),
     // backgroundColor: "yellow",
   },
@@ -47,12 +50,12 @@ export const markdownStyle = {
     width: responsiveScreenWidth(73),
     marginTop: 10,
     marginBottom: 10,
-    textAlign: "justify",
+    textAlign: 'justify',
   },
   link: {
     flex: 1,
     width: responsiveScreenWidth(73),
-    color: "#27AC1F",
+    color: '#27AC1F',
     // marginBottom: 100,
   },
   blockquote: {
@@ -61,7 +64,7 @@ export const markdownStyle = {
     backgroundColor: Colors.White,
     borderRadius: 4,
     padding: 8,
-    fontFamily: "monospace",
+    fontFamily: 'monospace',
   },
   code_block: {
     flex: 1,
@@ -69,7 +72,7 @@ export const markdownStyle = {
     backgroundColor: Colors.White,
     borderRadius: 4,
     padding: 8,
-    fontFamily: "monospace",
+    fontFamily: 'monospace',
   },
   code_inline: {
     flex: 1,
@@ -77,6 +80,6 @@ export const markdownStyle = {
     backgroundColor: Colors.White,
     borderRadius: 4,
     padding: 4,
-    fontFamily: "monospace",
+    fontFamily: 'monospace',
   },
 };

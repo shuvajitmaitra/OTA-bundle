@@ -1,14 +1,14 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import { useTheme } from "../../context/ThemeContext";
-import UpDownIcon from "../../assets/Icons/UpDownIcon";
-import CustomeFonts from "../../constants/CustomeFonts";
-import CheckMarkIcon from "../../assets/Icons/CheckMarkIcon";
+} from 'react-native-responsive-dimensions';
+import {useTheme} from '../../context/ThemeContext';
+import UpDownIcon from '../../assets/Icons/UpDownIcon';
+import CustomFonts from '../../constants/CustomFonts';
+import CheckMarkIcon from '../../assets/Icons/CheckMarkIcon';
 
 const CustomDropDownTwo = ({
   data,
@@ -17,7 +17,6 @@ const CustomDropDownTwo = ({
   width,
   placeholder,
   flex,
-  
 }) => {
   // --------------------------
   // ----------- Import theme Colors -----------
@@ -26,14 +25,12 @@ const CustomDropDownTwo = ({
   const styles = getStyles(Colors);
   const [itemVisible, setItemVisible] = useState(false);
   const itemWidth = responsiveScreenWidth(width) || responsiveScreenWidth(30);
-  
 
   return (
-    <View style={[styles.mainContainer, { flex: flex }]}>
+    <View style={[styles.mainContainer, {flex: flex}]}>
       <TouchableOpacity
-        onPress={() => setItemVisible((pre) => !pre)}
-        style={[styles.container]}
-      >
+        onPress={() => setItemVisible(pre => !pre)}
+        style={[styles.container]}>
         <Text numberOfLines={1} style={styles.dropDownText}>
           {state ? state : placeholder}
         </Text>
@@ -41,28 +38,26 @@ const CustomDropDownTwo = ({
       </TouchableOpacity>
 
       {itemVisible && (
-        <View style={[styles.itemContainer, { width: "100%" }]}>
+        <View style={[styles.itemContainer, {width: '100%'}]}>
           {data?.map((item, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => {
                 setState(item);
-                setItemVisible((pre) => !pre);
+                setItemVisible(pre => !pre);
               }}
               style={[
                 state === item ? styles.activeText : styles.itemDropDownText,
                 ,
-              ]}
-            >
+              ]}>
               {state === item ? <CheckMarkIcon /> : null}
               <Text
                 style={{
-                  fontFamily: CustomeFonts.REGULAR,
+                  fontFamily: CustomFonts.REGULAR,
                   color: state === item ? Colors.PureWhite : Colors.BodyText,
                   fontSize: responsiveScreenFontSize(2),
-                  textTransform: "capitalize"
-                }}
-              >
+                  textTransform: 'capitalize',
+                }}>
                 {item}
               </Text>
             </TouchableOpacity>
@@ -75,7 +70,7 @@ const CustomDropDownTwo = ({
 
 export default CustomDropDownTwo;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     activeText: {
       backgroundColor: Colors.Primary,
@@ -86,28 +81,28 @@ const getStyles = (Colors) =>
       borderWidth: 1,
       borderColor: Colors.BorderColor,
       borderRadius: 5,
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: 5,
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     mainContainer: {
-      position: "relative",
+      position: 'relative',
       zIndex: 1,
       // backgroundColor: "red",
     },
     dropDownText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
       paddingVertical: responsiveScreenHeight(0.7),
       flex: 0.8,
       fontSize: responsiveScreenFontSize(2),
     },
     itemDropDownText: {
-      fontFamily: CustomeFonts.REGULAR,
+      fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
       paddingHorizontal: responsiveScreenWidth(2),
       paddingVertical: responsiveScreenHeight(1),
     },
@@ -119,13 +114,13 @@ const getStyles = (Colors) =>
       borderWidth: 1,
       borderColor: Colors.BorderColor,
       borderRadius: 5,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
       gap: 10,
     },
     itemContainer: {
-      position: "absolute",
+      position: 'absolute',
       zIndex: 1,
       top: responsiveScreenHeight(5),
       //   marginTop: responsiveScreenHeight(-10),
@@ -135,6 +130,6 @@ const getStyles = (Colors) =>
       borderWidth: 1,
       borderColor: Colors.BorderColor,
       borderRadius: 5,
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
   });

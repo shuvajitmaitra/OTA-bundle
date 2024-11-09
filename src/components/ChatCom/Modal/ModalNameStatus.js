@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 
-import CustomeFonts from '../../../constants/CustomeFonts';
+import CustomFonts from '../../../constants/CustomFonts';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -55,7 +55,7 @@ export default function ModalNameStatus() {
         <Text
           style={{
             color: Colors.BodyText,
-            fontFamily: CustomeFonts.REGULAR,
+            fontFamily: CustomFonts.REGULAR,
           }}>
           {onlineUsers?.find(x => x?._id === chat?.otherUser?._id)
             ? 'Offline'
@@ -80,7 +80,7 @@ const getStyles = Colors =>
     },
 
     profileName: {
-      fontFamily: CustomeFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
       color: Colors.Heading,
       maxWidth: responsiveScreenWidth(60),
