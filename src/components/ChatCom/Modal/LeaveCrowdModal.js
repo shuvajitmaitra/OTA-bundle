@@ -21,20 +21,18 @@ import axiosInstance from '../../../utility/axiosInstance';
 import useChat from '../../../hook/useChat';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../../context/ThemeContext';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {removeChat} from '../../../store/reducer/chatReducer';
 import {showToast} from '../../HelperFunction';
 
 const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
-  // --------------------------
-  // ----------- Import theme Colors -----------
-  // --------------------------
+  const {singleChat: chat} = useSelector(state => state.chat);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
-  const {chat} = useChat();
+
   const handleLeaveCrowed = async () => {
     toggleLeaveCrowdModal();
     // console.log(JSON.stringify(chat?._id, null, 1));
@@ -44,7 +42,7 @@ const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
       // console.log("🚀 ~ handleLeaveCrowed ~ res:", res.data);
       if (res.data?.success) {
         dispatch(removeChat(chat?._id));
-        navigation.navigate('HomeStack', {screen: 'NewChatScreen'});
+        navigation.navigate('NewChatScreen');
         showToast('Leave successfully...');
       }
     } catch (error) {

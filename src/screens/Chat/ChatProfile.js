@@ -365,10 +365,10 @@ const ChatProfile = () => {
               Leave Crowds
             </Text>
           </TouchableOpacity>
-          {/* <LeaveCrowdModal
+          <LeaveCrowdModal
             toggleLeaveCrowdModal={toggleLeaveCrowdModal}
             isLeaveCrowdModalVisible={isLeaveCrowdModalVisible}
-          /> */}
+          />
         </View>
       </ScrollView>
 
