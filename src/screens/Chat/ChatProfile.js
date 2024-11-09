@@ -9,6 +9,7 @@ import {
   Switch,
   ActivityIndicator,
   StatusBar,
+  FlatList,
 } from 'react-native';
 
 import {
@@ -40,19 +41,32 @@ import CameraIcon from '../../assets/Icons/CameraIcon';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import GlobalBackButton from '../../components/SharedComponent/GlobalBackButton';
 import Divider from '../../components/SharedComponent/Divider';
-import {setCrowdMembers} from '../../store/reducer/chatSlice';
+import {
+  setCrowdMembers,
+  setSelectedMembers,
+} from '../../store/reducer/chatSlice';
+import CustomBottomSheet from '../../components/SharedComponent/CustomBottomSheet';
+import BlockIcon from '../../assets/Icons/BlockIcon';
+import BinIcon from '../../assets/Icons/BinIcon';
+import VolumeMute from '../../assets/Icons/VolumeMute';
+import MemberManageSheet from '../../components/ChatCom/Sheet/MemberManageSheet';
+import {fetchMembers, handleUpdateMember} from '../../actions/apiCall';
 
 const ChatProfile = () => {
   const navigation = useNavigation(); // Initialize navigation
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
+  console.log('chat', JSON.stringify(chat, null, 1));
 
+  const {selectedMember} = useSelector(state => state.chatSlice);
   const [notificationSwitch, setNotificationSwitch] = useState(false);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [isImageViewerVisible, setIsImageViewerVisible] = useState(false);
+  const [blockConfirm, setBlockConfirm] = useState(false);
+  const [removeConfirm, setRemoveConfirm] = useState(false);
 
   // --------------------------
   // ----------- Leave Crowd Modal Function -----------
@@ -78,27 +92,13 @@ const ChatProfile = () => {
   const toggleReportMembersModal = () => {
     setReportMembersModalVisible(!isReportMembersModalVisible);
   };
-
+  console.log('rerendering');
   useEffect(() => {
     if (!chat.isChannel) {
       dispatch(setCrowdMembers([]));
       return;
     }
-    axiosInstance
-      .post(`/chat/members/${chat._id}`)
-      .then(res => {
-        dispatch(setCrowdMembers(res.data.results));
-        // console.log(
-        //   'res.data.results',
-        //   JSON.stringify(res.data.results, null, 1),
-        // );
-      })
-      .catch(error => {
-        console.log(
-          'getting error to fetch member',
-          JSON.stringify(error, null, 1),
-        );
-      });
+    fetchMembers(chat?._id);
   }, [chat, chat.isChannel, dispatch]);
 
   // --------------------------
@@ -177,6 +177,29 @@ const ChatProfile = () => {
     );
   }
 
+  const option = [
+    {
+      label: selectedMember.isBlocked ? 'Unblock user' : 'Block user',
+      icon: <BlockIcon />,
+      function: () => setBlockConfirm(true),
+    },
+    // {
+    //   label: 'Mute user',
+    //   icon: <VolumeMute />,
+    //   function: () =>
+    //     handleUpdateMember({
+    //       member: selectedMember?._id,
+    //       chat: selectedMember?.chat,
+    //       actionType: 'block',
+    //     }),
+    // },
+    {
+      label: 'Remove user',
+      icon: <BinIcon />,
+      function: () => setRemoveConfirm(true),
+    },
+  ];
+
   return (
     <View style={[styles.container, {paddingTop: top}]}>
       <StatusBar
@@ -185,6 +208,14 @@ const ChatProfile = () => {
         barStyle={'dark-content'}
       />
       <GlobalBackButton />
+
+      <MemberManageSheet
+        option={option}
+        blockConfirm={blockConfirm}
+        setBlockConfirm={setBlockConfirm}
+        setRemoveConfirm={setRemoveConfirm}
+        removeConfirm={removeConfirm}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}>
@@ -193,43 +224,55 @@ const ChatProfile = () => {
           <TouchableOpacity onPress={() => setIsImageViewerVisible(true)}>
             <Image
               style={styles.profileImage}
-              source={chat?.avatar ? {uri: chat?.avatar} : Images.DEFAULT_IMAGE}
+              // source={chat?.avatar ? {uri: chat?.avatar} : Images.DEFAULT_IMAGE}
+              source={
+                chat?.isChannel
+                  ? chat?.avatar
+                    ? {uri: chat?.avatar}
+                    : Images.DEFAULT_IMAGE
+                  : chat.otherUser.profilePicture
+                  ? {uri: chat.otherUser.profilePicture}
+                  : Images.DEFAULT_IMAGE
+              }
             />
           </TouchableOpacity>
-          {(chat?.myData?.role === 'owner' ||
-            chat?.myData?.role === 'admin' ||
-            chat?.myData?.role === 'moderator') && (
-            <TouchableOpacity onPress={() => {}} style={styles.cameraIcon}>
-              <CameraIcon />
-            </TouchableOpacity>
-          )}
+          {chat.isChannel &&
+            (chat?.myData?.role === 'owner' ||
+              chat?.myData?.role === 'admin' ||
+              chat?.myData?.role === 'moderator') && (
+              <TouchableOpacity onPress={() => {}} style={styles.cameraIcon}>
+                <CameraIcon />
+              </TouchableOpacity>
+            )}
         </View>
 
         {/* Name and Status */}
         <ModalNameStatus />
 
         {/* Member Section */}
-        <View style={styles.memberContainer}>
-          <View style={styles.memberNumberContainer}>
-            <MembersIcon />
-            <Text style={styles.memberNumberText}>
-              {chat?.membersCount || 0} Members
-            </Text>
+        {chat.isChannel && (
+          <View style={styles.memberContainer}>
+            <View style={styles.memberNumberContainer}>
+              <MembersIcon />
+              <Text style={styles.memberNumberText}>
+                {chat?.membersCount || 0} Members
+              </Text>
+            </View>
+            {(chat?.myData?.role === 'owner' ||
+              chat?.myData?.role === 'admin') && (
+              <TouchableOpacity
+                onPress={toggleAddMembersModal}
+                style={styles.addMemberContainer}>
+                <PlusCircle />
+                <Text style={styles.addMemberText}>Add member</Text>
+              </TouchableOpacity>
+            )}
+            <AddMembers
+              toggleAddMembersModal={toggleAddMembersModal}
+              isAddMembersModalVisible={isAddMembersModalVisible}
+            />
           </View>
-          {(chat?.myData?.role === 'owner' ||
-            chat?.myData?.role === 'admin') && (
-            <TouchableOpacity
-              onPress={toggleAddMembersModal}
-              style={styles.addMemberContainer}>
-              <PlusCircle />
-              <Text style={styles.addMemberText}>Add member</Text>
-            </TouchableOpacity>
-          )}
-          <AddMembers
-            toggleAddMembersModal={toggleAddMembersModal}
-            isAddMembersModalVisible={isAddMembersModalVisible}
-          />
-        </View>
+        )}
 
         {/* Invitation Link Section */}
         {/* {chat?.isPublic && (
@@ -244,7 +287,7 @@ const ChatProfile = () => {
         )} */}
 
         {/* Notification Toggle */}
-        <View style={styles.notificationContainer}>
+        {/* <View style={styles.notificationContainer}>
           <View style={styles.notificationSubContainer}>
             <NotifyBell />
             <Text style={styles.notificationText}>Notification</Text>
@@ -258,15 +301,15 @@ const ChatProfile = () => {
             }
             value={notificationSwitch}
           />
-        </View>
+        </View> */}
 
         {/* Description Section */}
-        <Divider marginBottom={1.5} marginTop={0.001} />
+        {/* <Divider marginBottom={1.5} marginTop={0.001} />
         <Text style={styles.descriptionTitle}>Crowds Description</Text>
         <Text style={styles.descriptionText}>
           {chat.description || 'No description added yet...'}
-        </Text>
-        <Divider marginBottom={1.5} marginTop={1.5} />
+        </Text> */}
+        <Divider marginBottom={1.5} marginTop={0.001} />
 
         <GroupModalTabView />
 
@@ -344,6 +387,16 @@ export default ChatProfile;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    listText: {
+      color: Colors.BodyText,
+      fontFamily: CustomeFonts.MEDIUM,
+      fontSize: 18,
+    },
+    list: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 5,
+    },
     container: {
       flex: 1,
       backgroundColor: Colors.White,
@@ -432,7 +485,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      // marginBottom: responsiveScreenHeight(2),
+      marginBottom: responsiveScreenHeight(2),
     },
     memberNumberContainer: {
       flexDirection: 'row',

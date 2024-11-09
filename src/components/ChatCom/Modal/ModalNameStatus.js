@@ -31,15 +31,16 @@ export default function ModalNameStatus() {
     <View style={styles.modalProfileNameContainer}>
       <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.profileName}>
-          {chat?.name}
+          {chat.isChannel ? chat?.name : chat?.otherUser.fullName}
         </Text>
-        {chat?.myData?.role === 'owner' || chat?.myData?.role === 'admin' ? (
+        {chat.isChannel &&
+        (chat?.myData?.role === 'owner' || chat?.myData?.role === 'admin') ? (
           <TouchableOpacity onPress={toggleUpdateCrowdModal}>
             <EditIconTwo />
           </TouchableOpacity>
         ) : null}
       </View>
-      <View style={styles.activeStatusContainer}>
+      {/* <View style={styles.activeStatusContainer}>
         <View
           style={[
             styles.activeDot,
@@ -60,7 +61,7 @@ export default function ModalNameStatus() {
             ? 'Offline'
             : 'Online'}
         </Text>
-      </View>
+      </View> */}
       <UpdateCrowdModal
         isUpdateCrowdModalVisible={isUpdateCrowdModalVisible}
         toggleUpdateCrowdModal={toggleUpdateCrowdModal}

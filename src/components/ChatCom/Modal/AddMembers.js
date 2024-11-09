@@ -32,6 +32,7 @@ import {
   updateChats,
   updateMemberList,
   updateMembersCount,
+  updateSingleChatMemberCount,
 } from '../../../store/reducer/chatReducer';
 import Loading from '../../SharedComponent/Loading';
 import Images from '../../../constants/Images';
@@ -73,12 +74,7 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
       })
       .then(res => {
         if (res.data.success) {
-          dispatch(
-            updateMembersCount({
-              _id: chat._id,
-              membersCount: chat.membersCount + 1,
-            }),
-          );
+          dispatch(updateSingleChatMemberCount('add'));
           // fetchMembers();
           setUsers(prev => prev?.filter(item => item._id !== id));
           setLoading(false);

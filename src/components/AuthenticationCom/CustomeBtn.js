@@ -37,13 +37,13 @@ disable={{}}
       disabled={isLoading ? isLoading : disable ? disable : null}
       onPress={handlePress}
       style={{
-        ...styles.btnContainer,
-        ...customeContainerStyle,
         ...{
           backgroundColor: disable
             ? Colors.DisablePrimaryBackgroundColor
             : Colors.Primary,
         },
+        ...styles.btnContainer,
+        ...customeContainerStyle,
       }}
       activeOpacity={0.7}>
       {isLoading ? (

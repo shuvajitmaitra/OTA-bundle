@@ -1,3 +1,4 @@
+import {showToast} from '../components/HelperFunction';
 import store from '../store';
 import {
   initialActivities,
@@ -5,11 +6,15 @@ import {
 } from '../store/reducer/activitiesReducer';
 import {
   updateLatestMessage,
-  updateMessage,
   updateMyData,
   updateSingleChat,
+  updateSingleChatMemberCount,
 } from '../store/reducer/chatReducer';
-import {updateDeletedMessage, updateEmoji} from '../store/reducer/chatSlice';
+import {
+  setCrowdMembers,
+  setSelectedMembers,
+  updateDeletedMessage,
+} from '../store/reducer/chatSlice';
 import {setCalendar, setMockInterview} from '../store/reducer/dashboardReducer';
 import {
   setNotificationCount,
@@ -41,6 +46,68 @@ export const handleChatFavorite = data => {
     })
     .catch(err => {
       console.log(err);
+    });
+};
+
+export const fetchMembers = chatId => {
+  axiosInstance
+    .post(`/chat/members/${chatId}`)
+    .then(res => {
+      store.dispatch(setCrowdMembers(res.data.results));
+      // console.log(
+      //   'res.data.results',
+      //   JSON.stringify(res.data.results, null, 1),
+      // );
+    })
+    .catch(error => {
+      console.log(
+        'getting error to fetch member',
+        JSON.stringify(error, null, 1),
+      );
+    });
+};
+
+export const handleUpdateMember = actionData => {
+  // {
+  //   member: item?._id,
+  //   chat: item?.chat,
+  //   actionType: 'block',
+  // }
+  axiosInstance
+    .post('/chat/member/update', actionData)
+    .then(res => {
+      console.log('res.data', JSON.stringify(res.data, null, 1));
+      if (res.data?.success) {
+        showToast('action successfully...');
+        fetchMembers(actionData.chat);
+        //   console.log("item", item);
+        store.dispatch(setSelectedMembers({}));
+      }
+    })
+    .catch(error => {
+      console.log('error', JSON.stringify(error.response.data, null, 1));
+    });
+};
+export const handleRemoveUser = (chatId, memberId) => {
+  axiosInstance
+    .patch(`/chat/channel/remove-user/${chatId}`, {
+      member: memberId,
+    })
+    .then(res => {
+      if (res.data?.success) {
+        fetchMembers(chatId);
+        store.dispatch(setSelectedMembers({}));
+        store.dispatch(updateSingleChatMemberCount('remove'));
+        // dispatch(
+        //   updateMembersCount({
+        //     _id: chat._id,
+        //     membersCount: chat.membersCount - 1,
+        //   })
+        // );
+      }
+    })
+    .catch(error => {
+      console.log('🚀 ~ handleRemoveUser ~ error', error.response.data);
     });
 };
 export const onEmojiClick = (emoji, messageId) => {
@@ -111,7 +178,7 @@ export const handleDelete = id => {
 export const handleReadAllNotification = () => {
   axiosInstance
     .patch('/notification/markreadall', {})
-    .then(res => {
+    .then(response => {
       // console.log("res.data", JSON.stringify(res.data, null, 1));
       axiosInstance
         .get('/notification/mynotifications')

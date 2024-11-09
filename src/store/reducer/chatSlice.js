@@ -5,6 +5,7 @@ const initialState = {
   crowdMembers: [],
   pinnedMessages: [],
   threadMessages: [],
+  selectedMember: {},
 };
 
 const chatSlice = createSlice({
@@ -22,6 +23,10 @@ const chatSlice = createSlice({
     },
     setCrowdMembers: (state, action) => {
       state.crowdMembers = action.payload;
+    },
+    setSelectedMembers: (state, action) => {
+      state.selectedMember = action.payload;
+      // state.crowdMembers = action.payload;
     },
     setPinnedMessages: (state, action) => {
       state.pinnedMessages = action.payload;
@@ -108,6 +113,7 @@ const chatSlice = createSlice({
 });
 
 export const {
+  setSelectedMembers,
   updateEmoji,
   updateRepliesCount,
   setThreadMessages,

@@ -1,31 +1,32 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
 import {
   Popover,
   PopoverController,
   usePopover,
-} from "react-native-modal-popover";
-import moment from "moment";
+} from 'react-native-modal-popover';
+import moment from 'moment';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+} from 'react-native-responsive-dimensions';
 
-import ThreeDotGrayIcon from "../../../assets/Icons/ThreeDotGrayIcon";
-import AddUsers from "../../../assets/Icons/AddUser";
-import VolumeMute from "../../../assets/Icons/VolumeMute";
-import BlockIcon from "../../../assets/Icons/BlockIcon";
-import BinIcon from "../../../assets/Icons/BinIcon";
-import CustomeFonts from "../../../constants/CustomeFonts";
-import RoleAssignModal from "./RoleAssignModal";
-import ChatMuteModal from "./ChatMuteModal";
-import BlockMemberModal from "./BlockMemberModal";
-import RemoveMemberModal from "./RemoveMemberModal";
-import ChatUnmuteModal from "./ChatUnmuteModal";
-import { useTheme } from "../../../context/ThemeContext";
-import NewUserIcons from "../../../assets/Icons/NewUserIcons";
-import { useSelector } from "react-redux";
+import ThreeDotGrayIcon from '../../../assets/Icons/ThreeDotGrayIcon';
+import AddUsers from '../../../assets/Icons/AddUser';
+import VolumeMute from '../../../assets/Icons/VolumeMute';
+import BlockIcon from '../../../assets/Icons/BlockIcon';
+import BinIcon from '../../../assets/Icons/BinIcon';
+import CustomeFonts from '../../../constants/CustomeFonts';
+import RoleAssignModal from './RoleAssignModal';
+import ChatMuteModal from './ChatMuteModal';
+import BlockMemberModal from './BlockMemberModal';
+import RemoveMemberModal from './RemoveMemberModal';
+import ChatUnmuteModal from './ChatUnmuteModal';
+import {useTheme} from '../../../context/ThemeContext';
+import NewUserIcons from '../../../assets/Icons/NewUserIcons';
+import {useDispatch, useSelector} from 'react-redux';
+import {setSelectedMembers} from '../../../store/reducer/chatSlice';
 
 export default function GroupMemberInfo({
   item,
@@ -35,19 +36,21 @@ export default function GroupMemberInfo({
   chat,
 }) {
   const [value, setValue] = React.useState(1);
-  const [muteMessage, setMuteMessage] = useState("");
+  const [muteMessage, setMuteMessage] = useState('');
+  const dispatch = useDispatch();
+  // console.log('item', JSON.stringify(item, null, 1));
 
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { user } = useSelector((state) => state.auth);
+  const {user} = useSelector(state => state.auth);
 
   const name =
-    item.user.fullName.split(" ")?.length > 3
-      ? `${item.user.fullName.split(" ")[0]}  ${
-          item.user.fullName.split(" ")[1]
+    item.user.fullName.split(' ')?.length > 3
+      ? `${item.user.fullName.split(' ')[0]}  ${
+          item.user.fullName.split(' ')[1]
         }`
       : `${item.user.fullName}`;
   // --------------------------
@@ -102,9 +105,8 @@ export default function GroupMemberInfo({
     <View
       style={[
         styles.container,
-        { borderTopColor: index ? Colors.BorderColor : Colors.White },
-      ]}
-    >
+        {borderTopColor: index ? Colors.BorderColor : Colors.White},
+      ]}>
       {/* -------------------------- */}
       {/* ----------- Profile Image ----------- */}
       {/* -------------------------- */}
@@ -114,7 +116,7 @@ export default function GroupMemberInfo({
             <Image
               style={styles.profileImage}
               source={
-                { uri: item?.user?.profilePicture }
+                {uri: item?.user?.profilePicture}
                 // : require("../../../assets/Images/user.png")
               }
             />
@@ -125,7 +127,7 @@ export default function GroupMemberInfo({
         <View>
           <Text style={[styles.profileName]}>
             {name}
-            {item?.role === "member" || (
+            {item?.role === 'member' || (
               <Text style={styles.roleText}>{` (${item.role})`}</Text>
             )}
             {item?.isBlocked ? (
@@ -141,35 +143,31 @@ export default function GroupMemberInfo({
               {
                 color:
                   new Date(item?.user?.lastActive) > new Date()
-                    ? "#06AC6D"
+                    ? '#06AC6D'
                     : Colors.BodyText,
               },
-            ]}
-          >
+            ]}>
             {item?.user?.lastActive
               ? moment(item?.user?.lastActive).fromNow()
-              : "N/A"}
+              : 'N/A'}
           </Text>
         </View>
       </View>
-      {/* -------------------------- */}
-      {/* ----------- Three dot icon popup ----------- */}
-      {/* -------------------------- */}
 
-      {(chat?.myData?.role === "owner" || chat?.myData?.role === "admin") &&
-      user?._id !== item?.user?._id ? (
+      {true ? (
         <TouchableOpacity
           style={styles.threeDotIcon}
-          ref={touchableRef}
-          onPress={openPopover}
-          activeOpacity={0.5}
-        >
+          // ref={touchableRef}
+          // onPress={openPopover}
+          onPress={() => {
+            dispatch(setSelectedMembers(item));
+          }}
+          activeOpacity={0.5}>
           <View
             style={{
               paddingHorizontal: 1,
               borderRadius: 100,
-            }}
-          >
+            }}>
             <ThreeDotGrayIcon />
           </View>
         </TouchableOpacity>
@@ -178,22 +176,20 @@ export default function GroupMemberInfo({
       <Popover
         contentStyle={styles.content}
         arrowStyle={styles.arrow}
-        backgroundStyle={{ backgroundColor: Colors.BackDropColor }}
+        backgroundStyle={{backgroundColor: Colors.BackDropColor}}
         visible={popoverVisible}
         onClose={closePopover}
         fromRect={popoverAnchorRect}
         placement="auto"
         duration={0}
-        supportedOrientations={["portrait", "landscape"]}
-      >
+        supportedOrientations={['portrait', 'landscape']}>
         <View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               onPress={() => {
                 toggleRoleAssignModal();
                 closePopover();
-              }}
-            >
+              }}>
               <View style={styles.iconAndTextContainer}>
                 <AddUsers />
                 <Text style={styles.buttonText}>Role</Text>
@@ -210,12 +206,11 @@ export default function GroupMemberInfo({
                 item?.mute?.isMuted
                   ? [toggleChatUnmuteModal(), closePopover()]
                   : [toggleMuteModal(), closePopover()]
-              }
-            >
+              }>
               <View style={styles.iconAndTextContainer}>
                 <VolumeMute />
                 <Text style={styles.buttonText}>
-                  {item?.mute?.isMuted ? "Unmute" : "Mute"}
+                  {item?.mute?.isMuted ? 'Unmute' : 'Mute'}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -228,23 +223,21 @@ export default function GroupMemberInfo({
               onPress={() => {
                 toggleBlockMemberModal();
                 closePopover();
-              }}
-            >
+              }}>
               <View style={styles.iconAndTextContainer}>
                 <BlockIcon />
                 <Text style={styles.buttonText}>
-                  {item.isBlocked ? "Unblock" : "Block"}
+                  {item.isBlocked ? 'Unblock' : 'Block'}
                 </Text>
               </View>
             </TouchableOpacity>
           </View>
-          <View style={[styles.buttonContainer, { borderBottomWidth: 0 }]}>
+          <View style={[styles.buttonContainer, {borderBottomWidth: 0}]}>
             <TouchableOpacity
               onPress={() => {
                 toggleRemoveMemberModal();
                 closePopover();
-              }}
-            >
+              }}>
               <View style={styles.iconAndTextContainer}>
                 <BinIcon />
                 <Text style={styles.buttonText}>Remove</Text>
@@ -318,39 +311,39 @@ export default function GroupMemberInfo({
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     roleText: {
       color: Colors.BodyText,
       fontFamily: CustomeFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.5),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     blockText: {
       color: Colors.PrimaryRed,
       fontFamily: CustomeFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.5),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     container: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       paddingVertical: responsiveScreenHeight(1),
       borderTopWidth: 1,
       borderTopColor: Colors.BorderColor,
     },
     profileImageContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(4),
     },
     profileImage: {
       width: responsiveScreenWidth(10),
       height: responsiveScreenWidth(10),
       borderRadius: responsiveScreenWidth(100),
-      resizeMode: "cover",
-      position: "relative",
+      resizeMode: 'cover',
+      position: 'relative',
       backgroundColor: Colors.BodyText,
     },
     profileName: {
@@ -360,13 +353,13 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
     },
     status: {
-      color: "rgba(11, 42, 70, 1)",
+      color: 'rgba(11, 42, 70, 1)',
       fontSize: responsiveScreenFontSize(1.8),
       paddingVertical: responsiveScreenHeight(0.2),
       fontFamily: CustomeFonts.REGULAR,
     },
     commentsTime: {
-      color: "rgba(111, 116, 124, 1)",
+      color: 'rgba(111, 116, 124, 1)',
       fontSize: responsiveScreenFontSize(1.9),
     },
     // --------------------------
@@ -381,8 +374,8 @@ const getStyles = (Colors) =>
       fontFamily: CustomeFonts.REGULAR,
     },
     iconAndTextContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(3),
     },
     buttonContainer: {
