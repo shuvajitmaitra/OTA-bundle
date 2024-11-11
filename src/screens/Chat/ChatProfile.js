@@ -56,7 +56,7 @@ const ChatProfile = () => {
   const navigation = useNavigation(); // Initialize navigation
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
-  console.log('chat', JSON.stringify(chat, null, 1));
+  // console.log('chat', JSON.stringify(chat, null, 1));
 
   const {selectedMember} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
@@ -98,7 +98,7 @@ const ChatProfile = () => {
       return;
     }
     fetchMembers(chat?._id);
-  }, [chat, chat.isChannel, dispatch]);
+  }, [chat?._id, chat.isChannel, dispatch]);
 
   // --------------------------
   // ----------- Invitation Link copy Function -----------
