@@ -3,8 +3,8 @@ import React from 'react';
 import CustomModal from '../../components/SharedComponent/CustomModal';
 import Message2 from '../../components/ChatCom/Message2';
 import {useTheme} from '../../context/ThemeContext';
-import CustomFonts from '../../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
 // import {FlashList} from '@shopify/flash-list';
 
 const PinnedMessagesScreen = ({pinned, setPinnedScreenVisible}) => {
