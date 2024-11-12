@@ -1,13 +1,4 @@
-import {
-  Alert,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  ToastAndroid,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
 import {
   responsiveScreenFontSize,
@@ -21,10 +12,11 @@ import CustomDropDown from '../../SharedComponent/CustomDropDown';
 import ModalBackAndCrossButton from './ModalBackAndCrossButton';
 import {useTheme} from '../../../context/ThemeContext';
 import CustomFonts from '../../../constants/CustomFonts';
-import useChat from '../../../hook/useChat';
 import {useDispatch, useSelector} from 'react-redux';
-import {updateChats} from '../../../store/reducer/chatReducer';
-import {useNavigation} from '@react-navigation/native';
+import {
+  updateChats,
+  updateSingleChatProfile,
+} from '../../../store/reducer/chatReducer';
 import {showToast} from '../../HelperFunction';
 import axiosInstance from '../../../utility/axiosInstance';
 
@@ -32,7 +24,6 @@ const UpdateCrowdModal = ({
   isUpdateCrowdModalVisible,
   toggleUpdateCrowdModal,
 }) => {
-  // const { chat, setIsGroupModalVisible } = useChat();
   const {singleChat: chat} = useSelector(state => state.chat);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -44,7 +35,6 @@ const UpdateCrowdModal = ({
   const [isPublic, setIsPublic] = useState(chat?.isPublic);
 
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const handleUpdateCrowd = () => {
     if (!chatName) {
@@ -60,46 +50,28 @@ const UpdateCrowdModal = ({
       .then(res => {
         if (res.data.success) {
           dispatch(updateChats(res?.data?.channel));
+          dispatch(updateSingleChatProfile(res?.data?.channel));
           toggleUpdateCrowdModal();
-          setIsGroupModalVisible(false);
           showToast('Crowd updated');
-          // navigation.navigate("HomeStack", { screen: "NewChatScreen" });
         }
       })
       .catch(err => {
-        // setIsSendingText(false);
         console.log(err);
-        showAlert({
-          title: 'Error',
-          type: 'error',
-          message: 'Something went wrong',
-        });
       });
   };
 
   return (
     <Modal isVisible={isUpdateCrowdModalVisible}>
       <View style={styles.container}>
-        {/* -------------------------- */}
-        {/* ----------- Back Arrow button ----------- */}
-        {/* -------------------------- */}
         <ModalBackAndCrossButton toggleModal={toggleUpdateCrowdModal} />
-        {/* <View style={styles.bottomBorder}></View> */}
-        {/* -------------------------- */}
-        {/* ----------- Main View Start form here ----------- */}
-        {/* -------------------------- */}
+
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.subContainer}>
-            {/* -------------------------- */}
-            {/* ----------- Header container ----------- */}
-            {/* -------------------------- */}
             <View style={styles.headerContainer}>
               <CrowdIcon />
               <Text style={styles.headerText}>Update Crowd</Text>
             </View>
-            {/* -------------------------- */}
-            {/* ----------- Crowd Name Container ----------- */}
-            {/* -------------------------- */}
+
             <View style={styles.fieldContainer}>
               <Text style={styles.Text}>Crowd Name*</Text>
               <TextInput
@@ -133,9 +105,6 @@ const UpdateCrowdModal = ({
                 />
               </View>
             </View>
-            {/* -------------------------- */}
-            {/* ----------- Custom dropdown menu ----------- */}
-            {/* -------------------------- */}
             <View style={styles.inputFieldContainer}>
               <Text style={styles.Text}>Crowd Type</Text>
               <CustomDropDown
@@ -152,12 +121,6 @@ const UpdateCrowdModal = ({
                 setState={setIsReadOnly}
               />
             </View>
-            <View
-              style={{
-                borderBottomWidth: 1,
-                marginTop: responsiveScreenHeight(1),
-                borderBottomColor: Colors.BorderColor,
-              }}></View>
             <View style={styles.buttonContainer}>
               <ModalCustomButton
                 toggleModal={toggleUpdateCrowdModal}
@@ -187,18 +150,11 @@ const getStyles = Colors =>
       flexDirection: 'row',
       gap: responsiveScreenWidth(2.5),
       justifyContent: 'center',
-      paddingTop: responsiveScreenHeight(2.5),
+      paddingTop: responsiveScreenHeight(1.5),
     },
-    // bottomBorder: {
-    //   borderBottomWidth: 0.5,
-    //   borderBottomColor: "rgba(0, 0, 0, 0.3)",
-    // },
-    // --------------------------
-    // ----------- Crowd Name Container -----------
-    // --------------------------
     fieldContainer: {
       // marginBottom: responsiveScreenHeight(2),
-      // backgroundColor: "red",
+      // backgroundColor: 'red',
     },
     inputFieldContainer: {
       marginBottom: responsiveScreenHeight(1),
@@ -240,11 +196,9 @@ const getStyles = Colors =>
       paddingHorizontal: responsiveScreenWidth(4),
       fontFamily: CustomFonts.REGULAR,
       paddingVertical: responsiveScreenHeight(1),
-      marginBottom: responsiveScreenHeight(3),
+      marginBottom: responsiveScreenHeight(1.5),
+      height: 50,
     },
-    // --------------------------
-    // ----------- Header Container -----------
-    // --------------------------
     headerContainer: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -256,9 +210,6 @@ const getStyles = Colors =>
       fontSize: responsiveScreenFontSize(2.5),
       color: Colors.Heading,
     },
-    // --------------------------
-    // ----------- Main Container -----------
-    // --------------------------
     container: {
       paddingHorizontal: responsiveScreenWidth(4.5),
       paddingVertical: responsiveScreenWidth(4.5),

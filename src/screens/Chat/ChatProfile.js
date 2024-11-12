@@ -197,7 +197,6 @@ const ChatProfile = () => {
         `chat/channel/update/${chat?._id}`,
         {avatar},
       );
-      console.log('res.data', JSON.stringify(res.data, null, 1));
       dispatch(updateChats(res?.data?.channel));
       dispatch(updateSingleChatProfile(res?.data?.channel));
     } catch (error) {
