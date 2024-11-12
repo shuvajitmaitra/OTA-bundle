@@ -8,6 +8,7 @@ import {
   Image,
   ActivityIndicator,
   StatusBar,
+  Alert,
 } from 'react-native';
 
 import {
@@ -155,12 +156,41 @@ const ChatProfile = () => {
       } else if (response.errorCode) {
         console.log('ImagePicker Error: ', response.errorMessage);
       } else {
-        updateChannelImage(response.assets[0].uri);
+        uploadImagesAndSend(response.assets);
       }
     });
   };
+
+  const uploadImagesAndSend = async selectedImages => {
+    setIsLoading(true);
+    try {
+      const uploadedFiles = await Promise.all(
+        selectedImages.map(async item => {
+          const formData = new FormData();
+          formData.append('file', {
+            uri: item.uri,
+            name: item.fileName || 'uploaded_image',
+            type: item.type || 'image/jpeg',
+          });
+
+          const config = {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          };
+
+          const res = await axiosInstance.post('/chat/file', formData, config);
+          return res.data.file;
+        }),
+      );
+
+      updateChannelImage(uploadedFiles[0].location);
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Error', 'Failed to upload images.');
+    }
+  };
   const updateChannelImage = async avatar => {
-    console.log('avatar', JSON.stringify(avatar, null, 1));
     setIsLoading(true);
     try {
       const res = await axiosInstance.patch(
