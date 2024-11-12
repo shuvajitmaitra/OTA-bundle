@@ -110,7 +110,7 @@ const getStyles = Colors =>
     },
     description: {
       color: Colors.BodyText,
-      paddingTop: responsiveScreenHeight(1),
+      // paddingTop: responsiveScreenHeight(0.5),
       fontFamily: CustomFonts.REGULAR,
     },
     headingText: {
