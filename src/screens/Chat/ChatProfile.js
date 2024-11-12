@@ -6,10 +6,8 @@ import {
   View,
   TouchableOpacity,
   Image,
-  Switch,
   ActivityIndicator,
   StatusBar,
-  FlatList,
 } from 'react-native';
 
 import {
@@ -24,16 +22,15 @@ import ImageViewing from 'react-native-image-viewing';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../context/ThemeContext';
 import axiosInstance from '../../utility/axiosInstance';
-import {updateChats} from '../../store/reducer/chatReducer';
-import ModalBackBtn from '../../components/ChatCom/Modal/ModalBackBtn';
+import {
+  updateChats,
+  updateSingleChatProfile,
+} from '../../store/reducer/chatReducer';
 import ModalNameStatus from '../../components/ChatCom/Modal/ModalNameStatus';
 import MembersIcon from '../../assets/Icons/MembersIcon';
 import PlusCircle from '../../assets/Icons/PlusCircle';
 import AddMembers from '../../components/ChatCom/Modal/AddMembers';
-import LinkIcon from '../../assets/Icons/LinkIcon';
-import NotifyBell from '../../assets/Icons/NotifyBell';
 import GroupModalTabView from '../../components/ChatCom/Modal/GroupModalTabView';
-import ReportModal from '../../components/ChatCom/Modal/ReportModal';
 import LeaveCrowdModal from '../../components/ChatCom/Modal/LeaveCrowdModal';
 import CustomFonts from '../../constants/CustomFonts';
 import Images from '../../constants/Images';
@@ -41,19 +38,14 @@ import CameraIcon from '../../assets/Icons/CameraIcon';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import GlobalBackButton from '../../components/SharedComponent/GlobalBackButton';
 import Divider from '../../components/SharedComponent/Divider';
-import {
-  setCrowdMembers,
-  setSelectedMembers,
-} from '../../store/reducer/chatSlice';
-import CustomBottomSheet from '../../components/SharedComponent/CustomBottomSheet';
+import {setCrowdMembers} from '../../store/reducer/chatSlice';
 import BlockIcon from '../../assets/Icons/BlockIcon';
 import BinIcon from '../../assets/Icons/BinIcon';
-import VolumeMute from '../../assets/Icons/VolumeMute';
 import MemberManageSheet from '../../components/ChatCom/Sheet/MemberManageSheet';
-import {fetchMembers, handleUpdateMember} from '../../actions/apiCall';
+import {fetchMembers} from '../../actions/apiCall';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const ChatProfile = () => {
-  const navigation = useNavigation(); // Initialize navigation
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
   // console.log('chat', JSON.stringify(chat, null, 1));
@@ -66,7 +58,6 @@ const ChatProfile = () => {
   const [isImageViewerVisible, setIsImageViewerVisible] = useState(false);
   const [blockConfirm, setBlockConfirm] = useState(false);
   const [removeConfirm, setRemoveConfirm] = useState(false);
-
   // --------------------------
   // ----------- Leave Crowd Modal Function -----------
   // --------------------------
@@ -149,19 +140,40 @@ const ChatProfile = () => {
   //       setIsLoading(false);
   //     }
   //   };
+  const selectImage = () => {
+    const options = {
+      mediaType: 'photo',
+      maxWidth: 300,
+      maxHeight: 300,
+      quality: 1,
+      selectionLimit: 1,
+    };
 
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        updateChannelImage(response.assets[0].uri);
+      }
+    });
+  };
   const updateChannelImage = async avatar => {
+    console.log('avatar', JSON.stringify(avatar, null, 1));
     setIsLoading(true);
     try {
       const res = await axiosInstance.patch(
         `chat/channel/update/${chat?._id}`,
         {avatar},
       );
+      console.log('res.data', JSON.stringify(res.data, null, 1));
       dispatch(updateChats(res?.data?.channel));
+      dispatch(updateSingleChatProfile(res?.data?.channel));
     } catch (error) {
       console.log(
         'Error updating channel image:',
-        JSON.stringify(error, null, 1),
+        JSON.stringify(error.response.data, null, 1),
       );
     } finally {
       setIsLoading(false);
@@ -204,7 +216,11 @@ const ChatProfile = () => {
       <StatusBar
         translucent={true}
         backgroundColor={Colors.White}
-        barStyle={'dark-content'}
+        barStyle={
+          Colors.Background_color === '#F5F5F5'
+            ? 'dark-content'
+            : 'light-content'
+        }
       />
       <GlobalBackButton />
 
@@ -239,7 +255,11 @@ const ChatProfile = () => {
             (chat?.myData?.role === 'owner' ||
               chat?.myData?.role === 'admin' ||
               chat?.myData?.role === 'moderator') && (
-              <TouchableOpacity onPress={() => {}} style={styles.cameraIcon}>
+              <TouchableOpacity
+                onPress={() => {
+                  selectImage();
+                }}
+                style={styles.cameraIcon}>
                 <CameraIcon />
               </TouchableOpacity>
             )}
@@ -404,6 +424,7 @@ const getStyles = Colors =>
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor: Colors.White,
     },
     header: {
       // flex: 1,
@@ -441,7 +462,7 @@ const getStyles = Colors =>
       position: 'absolute',
       bottom: responsiveScreenHeight(1),
       right: responsiveScreenWidth(3),
-      backgroundColor: 'rgba(255, 255,255, .7)',
+      backgroundColor: Colors.CyanOpacity,
       padding: 10,
       borderRadius: 100,
     },

@@ -14,7 +14,6 @@ import {
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {useFocusEffect} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import DocumentPicker from 'react-native-document-picker';
 
@@ -29,8 +28,6 @@ import PlusIcon from '../../assets/Icons/PlusIcon';
 import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
 import GallaryIcon from '../../assets/Icons/GallaryIcon';
 import ArrowTopIcon from '../../assets/Icons/ArrowTopIcon';
-import MicIcon from '../../assets/Icons/MicIcon';
-import SendIcon from '../../assets/Icons/SendIcon';
 
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
@@ -88,7 +85,6 @@ const ChatFooter2 = ({
   const [editedText, setEditedText] = useState(messageEditVisible.text || '');
   const [messageClicked, setMessageClicked] = useState(false);
   const [startRecording, setStartRecording] = useState(false);
-  const [isSendingText, setIsSendingText] = useState(false);
 
   // Enable LayoutAnimation on Android
   useEffect(() => {
@@ -164,7 +160,6 @@ const ChatFooter2 = ({
       setDocumentVisible(false);
       setShowBottom(false);
       Keyboard.dismiss();
-      setIsSendingText(true);
 
       const data = {
         text: convertLink(txt || text),
@@ -209,13 +204,11 @@ const ChatFooter2 = ({
         setSelectedImages([]);
         setSelectedDocuments([]);
       } catch (err) {
-        setIsSendingText(false);
         if (__DEV__) {
           console.error('Error sending message:', err.response?.data);
         }
         Alert.alert('Error', 'Failed to send message.');
       } finally {
-        setIsSendingText(false);
         setUploading(false);
       }
     },
@@ -372,7 +365,6 @@ const ChatFooter2 = ({
     };
 
     Keyboard.dismiss();
-    setIsSendingText(true);
 
     try {
       const res = await axiosInstance.patch(
@@ -394,7 +386,6 @@ const ChatFooter2 = ({
       console.error(err);
       Alert.alert('Error', 'Failed to edit message.');
     } finally {
-      setIsSendingText(false);
     }
   };
 
