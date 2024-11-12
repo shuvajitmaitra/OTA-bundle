@@ -3,12 +3,17 @@ import React from 'react';
 import Images from '../../constants/Images';
 import {useTheme} from '../../context/ThemeContext';
 import CustomFonts from '../../constants/CustomFonts';
+import {useSelector} from 'react-redux';
 
 const UserNameImageSection = ({image = '', name = 'N/A', handleCreateChat}) => {
+  const {singleChat} = useSelector(state => state.chat);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
-    <Pressable style={styles.container}>
+    <Pressable
+      disabled={!singleChat.isChannel}
+      onPress={handleCreateChat}
+      style={styles.container}>
       <Image
         resizeMode="contain"
         source={

@@ -61,7 +61,7 @@ const chatSlice = createSlice({
       const messageIndex = localMessages.findIndex(
         item => item._id === payload._id,
       );
-      if (messageIndex !== 1) {
+      if (messageIndex !== -1) {
         localMessages[messageIndex] = {
           ...localMessages[messageIndex],
           ...payload,
@@ -81,11 +81,8 @@ const chatSlice = createSlice({
       const messageIndex = localMessages.findIndex(
         item => item._id === payload,
       );
-      console.log(
-        'localMessages[messageIndex]',
-        JSON.stringify(localMessages[messageIndex], null, 1),
-      );
-      if (messageIndex !== 1) {
+
+      if (messageIndex !== -1) {
         localMessages[messageIndex] = {
           ...localMessages[messageIndex],
           replyCount: localMessages[messageIndex].replyCount + 1,

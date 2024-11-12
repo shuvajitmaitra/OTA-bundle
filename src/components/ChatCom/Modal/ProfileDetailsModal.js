@@ -15,6 +15,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import LoadingSmall from '../../SharedComponent/LoadingSmall';
 import Images from '../../../constants/Images';
+import {updateChats} from '../../../store/reducer/chatReducer';
 
 const ProfileDetailsModal = ({
   closePopover,
@@ -45,13 +46,6 @@ const ProfileDetailsModal = ({
           //   name: message?.sender?.fullName,
           //   image: message?.sender?.profilePicture,
           // });
-          dispatch(
-            setSelectedMessageScreen({
-              chatId: res.data.chat._id,
-              name: message?.sender?.fullName,
-              image: message?.sender?.profilePicture,
-            }),
-          );
 
           const chatExists = chats.some(chat => chat._id === res.data.chat._id);
           setLoading(false);

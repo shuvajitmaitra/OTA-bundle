@@ -10,6 +10,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  TouchableWithoutFeedbackComponent,
   UIManager,
   View,
 } from 'react-native';
@@ -41,6 +43,7 @@ import {
   updateRepliesCount,
 } from '../../store/reducer/chatSlice';
 import {updateLatestMessage} from '../../store/reducer/chatReducer';
+import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 
 // Utility functions and constants
 const URL_REGEX =
@@ -85,7 +88,6 @@ const ChatFooter2 = ({
   const [editedText, setEditedText] = useState(messageEditVisible.text || '');
   const [messageClicked, setMessageClicked] = useState(false);
   const [startRecording, setStartRecording] = useState(false);
-
   // Enable LayoutAnimation on Android
   useEffect(() => {
     if (
@@ -392,25 +394,30 @@ const ChatFooter2 = ({
   // Render different states based on visibility
   if (messageEditVisible) {
     return (
-      <>
-        <EditMessageHeader
-          onCancel={() => setMessageEditVisible(false)}
-          styles={styles}
-          Colors={Colors}
-        />
-        <View style={styles.editMessageContainer}>
-          <ChatMessageInput
-            handleKey={handleKey}
-            chat={singleChat?._id}
-            isChannel={singleChat?.isChannel}
-            text={editedText}
-            setText={setEditedText}
+      <Pressable onPress={() => Keyboard.dismiss()}>
+        <>
+          <EditMessageHeader
+            onCancel={() => setMessageEditVisible(false)}
+            styles={styles}
+            Colors={Colors}
           />
-          <SendContainer
-            sendMessage={() => handleEditMessage(messageEditVisible)}
-          />
-        </View>
-      </>
+          <View style={styles.editMessageContainer}>
+            <ChatMessageInput
+              handleKey={handleKey}
+              chat={singleChat?._id}
+              isChannel={singleChat?.isChannel}
+              text={
+                messageEditVisible.text ? messageEditVisible.text : editedText
+              }
+              setText={setEditedText}
+              maxHeight={responsiveScreenHeight(45)}
+            />
+            <SendContainer
+              sendMessage={() => handleEditMessage(messageEditVisible)}
+            />
+          </View>
+        </>
+      </Pressable>
     );
   }
 
@@ -577,12 +584,13 @@ const getStyles = Colors =>
       backgroundColor: Colors.Background_color,
       minHeight: 50,
       borderRadius: 30,
-      marginRight: 10,
+      marginHorizontal: 10,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingHorizontal: 15,
       overflow: 'hidden',
+      marginBottom: 30,
     },
     initialContainer: {
       flex: 1,

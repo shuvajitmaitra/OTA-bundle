@@ -30,9 +30,8 @@ const MessageScreen2 = () => {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const {selectedMessageScreen: selectedChat, messageOptionData} = useSelector(
-    state => state.modal,
-  );
+  const {singleChat: chat} = useSelector(state => state.chat);
+  const {messageOptionData} = useSelector(state => state.modal);
   const {localMessages} = useSelector(state => state.chatSlice);
   // console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const Colors = useTheme();
@@ -66,19 +65,17 @@ const MessageScreen2 = () => {
     setIsLoading(true);
     const options = {
       page: 1,
-      chat: selectedChat.chatId,
+      chat: chat._id,
       limit: LIMIT,
     };
     try {
       const res = await axiosInstance.post('/chat/messages', options);
       setPinnedCount(res.data.pinnedCount);
+      // console.log('res.data', JSON.stringify(res.data, null, 1));
       const newMessages = res.data.messages.reverse();
-      // if (res.data.messages.length) {
-      //   fetchPinned(selectedChat.chatId);
-      // }
       setMessages({
         ...messages,
-        [selectedChat.chatId]: newMessages,
+        [chat._id]: newMessages,
       });
       dispatch(setLocalMessages(newMessages));
       console.log('Initial call done');
@@ -95,16 +92,16 @@ const MessageScreen2 = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedChat.chatId, messages, dispatch]);
+  }, [chat._id, messages, dispatch]);
 
   useEffect(() => {
-    if (selectedChat.chatId) {
+    if (chat._id) {
       initialGetMessage();
     }
     return () => {
       dispatch(setLocalMessages([]));
     };
-  }, [selectedChat.chatId]);
+  }, [chat._id]);
 
   const handleLoadMore = useCallback(async () => {
     if (isLoading || !hasMore) {
@@ -113,7 +110,7 @@ const MessageScreen2 = () => {
     setIsLoading(true);
     const options = {
       page: page,
-      chat: selectedChat.chatId,
+      chat: chat._id,
       limit: LIMIT,
     };
     try {
@@ -124,10 +121,7 @@ const MessageScreen2 = () => {
       // Update MMKV storage
       setMessages(prevMessages => ({
         ...prevMessages,
-        [selectedChat.chatId]: [
-          ...(prevMessages[selectedChat.chatId] || []),
-          ...newMessages,
-        ],
+        [chat._id]: [...(prevMessages[chat._id] || []), ...newMessages],
       }));
       if (newMessages.length < options.limit) {
         setHasMore(false);
@@ -142,18 +136,21 @@ const MessageScreen2 = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, hasMore, page, selectedChat.chatId]);
+  }, [isLoading, hasMore, page, chat._id]);
   const handlePin = id => {
     axiosInstance
       .patch(`/chat/pin/${id}`)
       .then(res => {
+        console.log('res.data', JSON.stringify(res.data, null, 1));
         if (res.data.message) {
           if (res.data.message.pinnedBy) {
             setPinned(pre => [messageOptionData, ...pre]);
+            setPinnedCount(pre => pre + 1);
           } else {
             setPinned(pre =>
               pre.filter(item => item._id !== res.data.message._id),
             );
+            setPinnedCount(pre => pre - 1);
           }
           dispatch(updatePinnedMessage(res.data.message));
           dispatch(setMessageOptionData(null));
@@ -228,11 +225,7 @@ const MessageScreen2 = () => {
         />
         <View style={styles.flatListContainer}>
           <FlatList
-            data={
-              localMessages?.length
-                ? localMessages
-                : messages[selectedChat?.chatId]
-            }
+            data={localMessages?.length ? localMessages : messages[chat._id]}
             renderItem={renderItem}
             keyExtractor={item => item._id.toString()} // Use a stable key
             onEndReached={handleLoadMore}
@@ -242,7 +235,7 @@ const MessageScreen2 = () => {
           />
         </View>
         <ChatFooter2
-          chatId={selectedChat.chatId}
+          chatId={chat._id}
           setMessages={setMessages}
           messageEditVisible={messageEditVisible}
           setMessageEditVisible={setMessageEditVisible}

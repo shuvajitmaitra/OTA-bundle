@@ -13,33 +13,14 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import {useNavigation} from '@react-navigation/native';
 import GoToChatIcon from '../../assets/Icons/GoToChatIcon';
 import UserIconTwo from '../../assets/Icons/UserIconTwo';
-import axiosInstance from '../../utility/axiosInstance';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateChats} from '../../store/reducer/chatReducer';
-import {setSelectedMessageScreen} from '../../store/reducer/ModalReducer';
 import CustomFonts from '../../constants/CustomFonts';
 
 const HeaderChatItem = ({item, toggleFocus}) => {
-  const [creating, setCreating] = useState(false);
   const [Loading, setLoading] = useState(false);
-  const {chats} = useSelector(state => state.chat);
-  const dispatch = useDispatch();
 
-  const handleCreateChat = async id => {
-    // if (creating) return;
-    // setCreating(true);
-    // toggleFocus();
-    dispatch(
-      setSelectedMessageScreen({
-        chatId: item?._id,
-        name: item?.isChannel ? item?.name : item?.otherUser?.fullName,
-        image: item?.avatar || item?.otherUser?.profilePicture || '',
-      }),
-    );
-  };
+  const handleCreateChat = async id => {};
 
   // --------------------------
   // ----------- Import theme Colors -----------

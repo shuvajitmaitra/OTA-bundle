@@ -15,7 +15,6 @@ import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../context/ThemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {markRead, setSingleChat} from '../../store/reducer/chatReducer';
-import {setSelectedMessageScreen} from '../../store/reducer/ModalReducer';
 
 function formatTime(dateString) {
   const today = moment().startOf('day');
@@ -62,14 +61,7 @@ function replaceMentionToName(str) {
   return str.replace(/@\[([^\]]+)\]\([^)]+\)/g, '@$1');
 }
 
-const ChatItem = ({
-  isChatClicked = false, // isChatClicked means it clicked or not if it was clicked its background will be white otherwise it will be gray
-  chat,
-  onlineUsers,
-  setFocusedChat,
-  setChecked,
-  bottomSheetRef,
-}) => {
+const ChatItem = ({chat, onlineUsers}) => {
   const dispatch = useDispatch();
   // console.log(JSON.stringify(chat?.latestMessage?.files, null, 1));
   const {user} = useSelector(state => state.auth);
@@ -112,34 +104,8 @@ const ChatItem = ({
     <TouchableOpacity
       style={[styles.container]}
       onPress={() => {
-        // setFocusedChat(chat?._id);
-        // setChecked('chats');
-        // dispatch(markRead({chatId: chat?._id}));
         dispatch(setSingleChat(chat));
-        // console.log(JSON.stringify(chat, null, 1));
-        dispatch(
-          setSelectedMessageScreen({
-            chatId: chat?._id,
-            name: chat?.isChannel ? chat?.name : chat?.otherUser?.fullName,
-            image: chat?.avatar || chat?.otherUser?.profilePicture || '',
-            limit: chat?.unreadCount || 0,
-          }),
-        );
-        // navigation.navigate('ChatStack', {
-        //   screen: 'MessageScreen2',
-        //   params: {
-        //     chatId: chat?._id,
-        //     name: chat?.isChannel ? chat?.name : chat?.otherUser?.fullName,
-        //     image: chat?.avatar || chat?.otherUser?.profilePicture,
-        //   },
-        // });
         navigation.navigate('MessageScreen2', {animationEnabled: false});
-
-        // navigation.navigate('MessageScreen2', {
-        //   chatId: chat?._id,
-        //   name: chat?.isChannel ? chat?.name : chat?.otherUser?.fullName,
-        //   image: chat?.avatar || chat?.otherUser?.profilePicture,
-        // });
       }}>
       {/* <View style={styles.subContainer}> */}
       <View style={styles.profileImageContainer}>
@@ -203,57 +169,50 @@ const ChatItem = ({
             }}
             numberOfLines={1}
             ellipsizeMode="tail">
-            {
-              // chat?.latestMessage?.files?.length == 0 &&
-              // chat?.latestMessage?.files?.length == 0 &&
-              // chat?.latestMessage?.text == undefined ? (
-              //   <Text>{`${chat.latestMessage.sender?.firstName}: deleted the message`}</Text>
-              // ) :
-              chat?.latestMessage?.files?.length > 0 ? (
-                <Text style={{color: Colors.BodyText}}>
-                  {`${
-                    chat?.latestMessage?.sender?.profilePicture ===
-                    user?.profilePicture
-                      ? 'You'
-                      : chat?.latestMessage?.sender?.firstName
-                  }: ${
-                    (chat?.latestMessage?.files[0].type?.startsWith('image/') &&
-                      'Sent a photo') ||
-                    (chat?.latestMessage?.files[0].type?.startsWith('audio/') &&
-                      'Sent a voice message') ||
-                    (chat?.latestMessage?.files[0].type?.startsWith('video/') &&
-                      'Sent a video') ||
-                    'Sent a attachment'
-                  }`}
-                </Text>
-              ) : chat?.latestMessage?.emoji?.length > 0 ? (
-                <Text
-                  style={{
-                    color: Colors.BodyText,
-                  }}>{`${senderName}: Sent a ${chat?.latestMessage?.emoji[0].symbol} reaction`}</Text>
-              ) : chat?.myData?.isBlocked ? (
-                <Text style={{color: 'red'}}>Blocked</Text>
-              ) : chat?.typingData?.isTyping ? (
-                <Text style={{color: 'green'}}>
-                  {chat?.typingData?.user?.firstName} is typing...
-                </Text>
-              ) : !chat?.latestMessage?._id ? (
-                <Text style={{color: Colors.BodyText}}>New chat</Text>
-              ) : chat?.latestMessage?.type === 'activity' ? (
-                <Text style={{color: Colors.BodyText}}>
-                  {generateActivityText(chat?.latestMessage, senderName)}
-                </Text>
-              ) : (
-                <Text style={{color: Colors.BodyText}}>
-                  {`${senderName}: ${getText(
-                    replaceMentionToName(
-                      removeMarkdown(chat?.latestMessage?.text) ||
-                        'Deleted the message',
-                    ),
-                  )}`}
-                </Text>
-              )
-            }
+            {chat?.latestMessage?.files?.length > 0 ? (
+              <Text style={{color: Colors.BodyText}}>
+                {`${
+                  chat?.latestMessage?.sender?.profilePicture ===
+                  user?.profilePicture
+                    ? 'You'
+                    : chat?.latestMessage?.sender?.firstName
+                }: ${
+                  (chat?.latestMessage?.files[0].type?.startsWith('image/') &&
+                    'Sent a photo') ||
+                  (chat?.latestMessage?.files[0].type?.startsWith('audio/') &&
+                    'Sent a voice message') ||
+                  (chat?.latestMessage?.files[0].type?.startsWith('video/') &&
+                    'Sent a video') ||
+                  'Sent a attachment'
+                }`}
+              </Text>
+            ) : chat?.latestMessage?.emoji?.length > 0 ? (
+              <Text
+                style={{
+                  color: Colors.BodyText,
+                }}>{`${senderName}: Sent a ${chat?.latestMessage?.emoji[0].symbol} reaction`}</Text>
+            ) : chat?.myData?.isBlocked ? (
+              <Text style={{color: 'red'}}>Blocked</Text>
+            ) : chat?.typingData?.isTyping ? (
+              <Text style={{color: 'green'}}>
+                {chat?.typingData?.user?.firstName} is typing...
+              </Text>
+            ) : !chat?.latestMessage?._id ? (
+              <Text style={{color: Colors.BodyText}}>New chat</Text>
+            ) : chat?.latestMessage?.type === 'activity' ? (
+              <Text style={{color: Colors.BodyText}}>
+                {generateActivityText(chat?.latestMessage, senderName)}
+              </Text>
+            ) : (
+              <Text style={{color: Colors.BodyText}}>
+                {`${senderName}: ${getText(
+                  replaceMentionToName(
+                    removeMarkdown(chat?.latestMessage?.text) ||
+                      'Deleted the message',
+                  ),
+                )}`}
+              </Text>
+            )}
           </Text>
           <View style={styles.messageNumberContainer}>
             {chat?.unreadCount > 0 &&

@@ -53,7 +53,14 @@ const handleSearch = _.debounce(
   400,
 );
 
-const ChatMessageInput = ({chat, setText, text, handleKey, isChannel}) => {
+const ChatMessageInput = ({
+  chat,
+  setText,
+  text,
+  handleKey,
+  isChannel,
+  maxHeight,
+}) => {
   let width = Dimensions.get('window').width;
   const [users, setUsers] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -154,7 +161,7 @@ const ChatMessageInput = ({chat, setText, text, handleKey, isChannel}) => {
           color: Colors.Heading,
           // backgroundColor: "red",
           width: '100%',
-          maxHeight: 100,
+          maxHeight: maxHeight || 200,
           fontSize: responsiveScreenFontSize(2),
           // alignItems: "flex-start",
         }}

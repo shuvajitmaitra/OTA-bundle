@@ -20,7 +20,6 @@ import UserIconTwo from '../../assets/Icons/UserIconTwo';
 import axiosInstance from '../../utility/axiosInstance';
 import {useDispatch, useSelector} from 'react-redux';
 import {setSingleChat, updateChats} from '../../store/reducer/chatReducer';
-import {setSelectedMessageScreen} from '../../store/reducer/ModalReducer';
 
 const OnlineUsersItem = ({item}) => {
   const [creating, setCreating] = useState(false);
@@ -44,34 +43,6 @@ const OnlineUsersItem = ({item}) => {
       }
 
       dispatch(setSingleChat(res.data.chat));
-
-      dispatch(
-        setSelectedMessageScreen({
-          chatId: res.data.chat._id,
-          name: res.data.chat?.isChannel
-            ? res.data.chat?.name
-            : res.data.chat?.otherUser?.fullName,
-          image:
-            res.data.chat?.avatar ||
-            res.data.chat?.otherUser?.profilePicture ||
-            '',
-          limit: res.data.chat?.unreadCount || 0,
-        }),
-      );
-      // dispatch(
-      //   setSelectedMessageScreen({
-      //     chatId: res.data.chat._id,
-      //     name: item?.fullName,
-      //     image: item?.profilePicture,
-      //   })
-      // );
-
-      // const chatExists = chats.some(chat => chat._id === res.data.chat._id);
-      // setLoading(false);
-      // if (!chatExists) {
-      //   dispatch(updateChats(res.data.chat));
-      // }
-      // }
     } catch (err) {
       setLoading(false);
       console.error('Error creating chat:', err?.response?.data);

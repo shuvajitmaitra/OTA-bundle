@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {ScrollView, StyleSheet, View, FlatList, StatusBar} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -14,7 +14,6 @@ import OnlineUsersItem from '../../components/ChatCom/OnlineUsersItem';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import {SafeAreaView} from 'react-native';
 import {loadChats} from '../../actions/chat-noti';
-import {setSelectedMessageScreen} from '../../store/reducer/ModalReducer';
 import ChatHeaderFilter from '../../components/ChatCom/ChatHeaderFilter';
 import {RegularFonts} from '../../constants/Fonts';
 import Divider from '../../components/SharedComponent/Divider';
@@ -24,7 +23,6 @@ import FilterOptionModal from '../../components/ChatCom/Modal/FilterOptionModal'
 import {TouchableWithoutFeedback} from 'react-native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import CreateCrowdModal from '../../components/ChatCom/Modal/CreateCrowdModal';
-// import initializeOneSignal from '../../utility/PushNotiService';
 export function sortByNestedProperty(array, propertyPath, order = 'desc') {
   const getValue = (obj, path) =>
     path.split('.').reduce((o, k) => (o || {})[k], obj);
@@ -56,14 +54,12 @@ function sortByLatestMessage(data = []) {
 }
 
 export default function NewChatScreen({navigation: {goBack}}) {
-  const dispatch = useDispatch();
   const Colors = useTheme();
   const {chats, onlineUsers} = useSelector(state => state.chat);
   const {user} = useSelector(state => state.auth);
   const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
 
-  const [focusedChat, setFocusedChat] = useState(null);
   const [checked, setChecked] = useState('chats');
   const [records, setRecords] = useState([]);
   const [results, setResults] = useState([]);
@@ -74,14 +70,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
     setIsCreateCrowdModalVisible(!isCreateCrowdModalVisible);
   };
   const bottomSheetRef = useRef(null);
-
-  // useEffect(() => {
-  //   initializeOneSignal();
-  // }, []);
-
-  const handleSetSelectedChat = useCallback(chat => {
-    dispatch(setSelectedMessageScreen(chat));
-  }, []);
 
   useEffect(() => {
     const filteredChats = chats?.filter(x => !x?.isArchived) || [];
@@ -165,23 +153,12 @@ export default function NewChatScreen({navigation: {goBack}}) {
         }
       }
     },
-    [checked, onlineUsers, records, handleRadioChecked],
+    [checked, onlineUsers, results, handleRadioChecked],
   );
 
   const renderChatItem = useCallback(
-    ({item}) => (
-      <ChatItem
-        setChecked={setChecked}
-        setFocusedChat={setFocusedChat}
-        onlineUsers={onlineUsers}
-        navigation={navigation}
-        chat={item}
-        isChatClicked={focusedChat === item?._id}
-        setSelectedChat={handleSetSelectedChat}
-        bottomSheetRef={bottomSheetRef}
-      />
-    ),
-    [],
+    ({item}) => <ChatItem onlineUsers={onlineUsers} chat={item} />,
+    [onlineUsers],
   );
 
   const openBottomSheet = useCallback(() => {

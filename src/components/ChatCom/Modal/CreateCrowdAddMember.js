@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Alert,
   Image,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -25,15 +23,11 @@ import ModalBackAndCrossButton from './ModalBackAndCrossButton';
 import CustomFonts from '../../../constants/CustomFonts';
 import BlackCrossIcon from '../../../assets/Icons/BlackCrossIcon';
 import axiosInstance from '../../../utility/axiosInstance';
-import useChat from '../../../hook/useChat';
 import {useTheme} from '../../../context/ThemeContext';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {setSingleChat, updateChats} from '../../../store/reducer/chatReducer';
-import {showToast} from '../../HelperFunction';
 import Images from '../../../constants/Images';
-import {setSelectedMessageScreen} from '../../../store/reducer/ModalReducer';
-// import { useGlobalAlert } from "../../SharedComponent/GlobalAlertContext";
 const CreateCrowdAddMember = ({
   setIsAddMembersModalVisible,
   setIsCreateCrowdModalVisible,
@@ -131,17 +125,6 @@ const CreateCrowdAddMember = ({
           //   toggleCreateCrowdModal();
           setIsAddMembersModalVisible(false);
           setIsCreateCrowdModalVisible(false);
-          dispatch(
-            setSelectedMessageScreen({
-              chatId: res?.data?.chat?._id,
-              name: res?.data?.chat?.isChannel
-                ? res?.data?.chat?.name
-                : res?.data?.chat?.otherUser?.fullName,
-              image:
-                res?.data?.chat?.avatar ||
-                res?.data?.chat?.otherUser?.profilePicture,
-            }),
-          );
           navigation.push('MessageScreen2');
         }
       })

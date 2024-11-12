@@ -33,14 +33,6 @@ export default function MessageTopPart({
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat, onlineUsers} = useSelector(state => state.chat);
-  // console.log('chat', JSON.stringify(chat, null, 1));
-  const {selectedMessageScreen: selectedChat} = useSelector(
-    state => state.modal,
-  );
-  // console.log(
-  //   'selectedChat.image',
-  //   JSON.stringify(selectedChat.image, null, 1),
-  // );
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
@@ -63,15 +55,19 @@ export default function MessageTopPart({
               style={styles.profileImage}
               size={35}
               source={
-                selectedChat.image
-                  ? {uri: selectedChat.image}
+                chat?.isChannel
+                  ? chat?.avatar
+                    ? {uri: chat?.avatar}
+                    : Images.DEFAULT_IMAGE
+                  : chat.otherUser.profilePicture
+                  ? {uri: chat.otherUser.profilePicture}
                   : Images.DEFAULT_IMAGE
               }
             />
           </View>
           <View style={styles.profileNameContainer}>
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
-              {selectedChat.name && selectedChat.name}
+              {chat?.isChannel ? chat?.name : chat?.otherUser?.fullName}
             </Text>
             <View>
               {chat?.typingData?.isTyping ? (
@@ -97,8 +93,6 @@ export default function MessageTopPart({
         </Pressable>
       </View>
       <View style={styles.rightSection}>
-        {/* PinnedCount Icon Placeholder */}
-
         {pinnedCount > 0 && (
           <TouchableOpacity
             onPress={() => {
@@ -108,7 +102,7 @@ export default function MessageTopPart({
             <PinIcon size={25} />
           </TouchableOpacity>
         )}
-        {chat.isChannel && (
+        {chat?.isChannel && (
           <TouchableOpacity
             onPress={() =>
               handleChatFavorite({
