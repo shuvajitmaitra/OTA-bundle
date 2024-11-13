@@ -77,11 +77,6 @@ const ChatFooter2 = ({
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
-  console.log(
-    'messageEditVisible',
-    JSON.stringify(messageEditVisible, null, 1),
-  );
-  // State variables
   const [text, setText] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
   const [documentVisible, setDocumentVisible] = useState(null);

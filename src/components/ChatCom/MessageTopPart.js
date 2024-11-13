@@ -33,7 +33,6 @@ export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [pinnedCount = {}] = useMMKVObject('pinCount');
-  console.log('pinnedCount', JSON.stringify(pinnedCount, null, 1));
   return (
     <View style={styles.container}>
       <View style={styles.leftSection}>

@@ -115,7 +115,7 @@ export const onEmojiClick = (emoji, messageId) => {
   axiosInstance
     .put(`/chat/react/${messageId}`, {symbol: emoji})
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data, null, 1));
+      // console.log('res.data', JSON.stringify(res.data, null, 1));
       // store.dispatch(updateEmoji({data: res.data.message, symbol: emoji}));
       // store.dispatch(
       //   updateLatestMessage({

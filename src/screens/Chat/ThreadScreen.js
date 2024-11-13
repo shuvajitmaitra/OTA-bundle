@@ -68,9 +68,6 @@ const ThreadScreen = ({route}) => {
   const dispatch = useDispatch();
   const {threadMessages} = useSelector(state => state.chatSlice);
   const {messageOptionData} = useSelector(state => state.modal);
-
-  console.log('messageOptionData', JSON.stringify(messageOptionData, null, 1));
-  console.log('chatMessage', JSON.stringify(chatMessage, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {top} = useSafeAreaInsets();

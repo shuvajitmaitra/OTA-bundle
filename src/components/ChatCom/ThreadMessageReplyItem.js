@@ -50,7 +50,7 @@ export default function ThreadMessageReplyItem({
       .delete(`/chat/delete/message/${message?._id}`)
       .then(res => {
         if (res.data.success) {
-          console.log('res.data', JSON.stringify(res.data, null, 1));
+          // console.log('res.data', JSON.stringify(res.data, null, 1));
           dispatch(updateMessage({chat: chat?._id, message: res.data.message}));
           dispatch(
             updateLatestMessage({

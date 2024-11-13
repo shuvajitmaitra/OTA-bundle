@@ -33,7 +33,7 @@ const OnlineUsersItem = ({item}) => {
     try {
       setLoading(true);
       const res = await axiosInstance.post(`/chat/findorcreate/${id}`);
-      console.log('res.data', JSON.stringify(res.data, null, 1));
+      // console.log('res.data', JSON.stringify(res.data, null, 1));
       if (res.data.success) {
         navigation.push('MessageScreen2', {
           chatId: res.data.chat._id,
