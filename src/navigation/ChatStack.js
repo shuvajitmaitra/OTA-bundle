@@ -6,7 +6,6 @@ import {
 } from '@react-navigation/stack';
 import NewChatScreen from '../screens/Chat/NewChatScreen';
 import MessageScreen2 from '../screens/Chat/MessageScreen2';
-import TestMessageScreen from '../screens/Chat/TestMessageScreen';
 import {Text, TouchableOpacity, View} from 'react-native';
 import ChatProfile from '../screens/Chat/ChatProfile';
 import DisplaySettingsScreen from '../screens/DisplaySettings/DisplaySettingsScreen';
@@ -66,45 +65,6 @@ const ChatStackScreen = ({}) => {
         options={({route, navigation}) => ({
           headerTitle: 'Chat_Profile',
           headerShown: false,
-        })}
-      />
-      <ChatStack.Screen
-        name="TestMessageScreen"
-        component={TestMessageScreen}
-        options={({route, navigation}) => ({
-          headerTitle: '',
-          header: () => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.goBack();
-                }}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                {/* <AntDesign
-            name="arrowleft"
-            style={{ marginLeft: 10 }}
-
-            size={24}
-            color={Colors.BodyText}
-          /> */}
-                <Text
-                  style={
-                    {
-                      // marginLeft: 10,
-                      // fontFamily: CustomFonts.MEDIUM,
-                      // fontSize: responsiveScreenFontSize(2),
-                      // color: Colors.BodyText,
-                    }
-                  }>
-                  Back
-                </Text>
-              </TouchableOpacity>
-            );
-          },
         })}
       />
     </ChatStack.Navigator>

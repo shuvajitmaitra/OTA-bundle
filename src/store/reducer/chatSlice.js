@@ -77,6 +77,17 @@ const chatSlice = createSlice({
       }
       state.threadMessages = [payload, ...state.threadMessages];
     },
+    updateThreadMessage: ({threadMessages}, {payload}) => {
+      const messageIndex = threadMessages.findIndex(
+        item => item._id === payload._id,
+      );
+      if (messageIndex !== -1) {
+        threadMessages[messageIndex] = {
+          ...threadMessages[messageIndex],
+          ...payload,
+        };
+      }
+    },
     updateRepliesCount: ({localMessages}, {payload}) => {
       const messageIndex = localMessages.findIndex(
         item => item._id === payload,
@@ -110,6 +121,7 @@ const chatSlice = createSlice({
 });
 
 export const {
+  updateThreadMessage,
   setSelectedMembers,
   updateEmoji,
   updateRepliesCount,

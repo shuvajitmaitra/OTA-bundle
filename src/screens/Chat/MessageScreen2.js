@@ -37,9 +37,10 @@ const MessageScreen2 = () => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [messages = {}, setMessages] = useMMKVObject('allMessages');
+
   // const [localMessages, setLocalMessages] = useState([]);
   const [pinned, setPinned] = useState([]);
-  const [pinnedCount, setPinnedCount] = useState(0);
+  const [pinnedCount = {}, setPinnedCount] = useMMKVObject('pinCount');
   const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);
   const [messageEditVisible, setMessageEditVisible] = useState('');
   const LIMIT = 20;
@@ -70,7 +71,10 @@ const MessageScreen2 = () => {
     };
     try {
       const res = await axiosInstance.post('/chat/messages', options);
-      setPinnedCount(res.data.pinnedCount);
+      setPinnedCount({
+        ...pinnedCount,
+        [chat._id]: res.data.pinnedCount,
+      });
       // console.log('res.data', JSON.stringify(res.data, null, 1));
       const newMessages = res.data.messages.reverse();
       setMessages({
@@ -145,12 +149,19 @@ const MessageScreen2 = () => {
         if (res.data.message) {
           if (res.data.message.pinnedBy) {
             setPinned(pre => [messageOptionData, ...pre]);
-            setPinnedCount(pre => pre + 1);
+            setPinnedCount({
+              ...pinnedCount,
+              [chat._id]: pinnedCount[chat._id] + 1,
+            });
           } else {
             setPinned(pre =>
               pre.filter(item => item._id !== res.data.message._id),
             );
-            setPinnedCount(pre => pre - 1);
+
+            setPinnedCount({
+              ...pinnedCount,
+              [chat._id]: pinnedCount[chat._id] - 1,
+            });
           }
           dispatch(updatePinnedMessage(res.data.message));
           dispatch(setMessageOptionData(null));
@@ -182,7 +193,9 @@ const MessageScreen2 = () => {
   };
 
   const renderItem = ({item, index}) => {
-    const nextMessage = localMessages[index + 1];
+    const nextMessage = localMessages?.length
+      ? localMessages[index + 1]
+      : messages[chat._id][index + 1];
 
     const nextSender = nextMessage
       ? item?.sender?._id !== nextMessage?.sender?._id
@@ -220,7 +233,6 @@ const MessageScreen2 = () => {
         )}
         <MessageTopPart
           fetchPinned={fetchPinned}
-          pinnedCount={pinnedCount}
           setPinnedScreenVisible={setPinnedScreenVisible}
         />
         <View style={styles.flatListContainer}>

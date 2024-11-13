@@ -1,7 +1,14 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import CustomModal from '../../SharedComponent/CustomModal';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setMessageOptionData} from '../../../store/reducer/ModalReducer';
 import {handleDelete, onEmojiClick} from '../../../actions/apiCall';
 import BinIcon from '../../../assets/Icons/BinIcon';
@@ -13,27 +20,31 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {useTheme} from '../../../context/ThemeContext';
 import MessageIcon from '../../../assets/Icons/MessageIcon';
 import {useNavigation} from '@react-navigation/native';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
+const {width} = Dimensions.get('window');
 
 const MessageOptionModal = ({
   handlePin,
   setMessageEditVisible,
   messageOptionData = {},
+  isThread = '',
 }) => {
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  //   const {messageOptionData} = useSelector(state => state.chatSlice);
   const copyToClipboard = () => {
-    Clipboard.setString(messageOptionData.text);
+    Clipboard.setString(messageOptionData?.text);
   };
   const navigation = useNavigation();
-  const optionData = [
+  const data = [
     {
       label: 'Reply in thread',
-      value: 'pin',
+      value: 'thread',
       icon: <MessageIcon />,
-      function: () =>
+      function: () => {
         navigation.navigate('ThreadScreen', {chatMessage: messageOptionData}),
+          dispatch(setMessageOptionData(null));
+      },
     },
     {
       label: messageOptionData?.pinnedBy ? 'Unpin Message' : 'Pin Message',
@@ -46,7 +57,7 @@ const MessageOptionModal = ({
       value: 'delete',
       icon: <BinIcon />,
       function: () => {
-        handleDelete(messageOptionData._id),
+        handleDelete(messageOptionData._id, isThread),
           dispatch(setMessageOptionData(null));
       },
     },
@@ -69,6 +80,10 @@ const MessageOptionModal = ({
       },
     },
   ];
+
+  const optionData = isThread
+    ? data.filter(item => item.value !== 'thread' && item.value !== 'pin')
+    : data;
 
   let emojies = [
     {
@@ -98,16 +113,16 @@ const MessageOptionModal = ({
   ];
 
   const withMyEmoji = emojies.map(item =>
-    item.symbol == messageOptionData.myReaction ? {...item, my: true} : item,
+    item.symbol == messageOptionData?.myReaction ? {...item, my: true} : item,
   );
 
   const opponentOption = optionData.filter(
     item => item.value !== 'delete' && item.value !== 'edit',
   );
-  const filteredOption = !messageOptionData.my
+  const filteredOption = !messageOptionData?.my
     ? opponentOption
-    : messageOptionData.text.length === 0
-    ? optionData.filter(item => item.value !== 'edit' && item.value !== 'copy')
+    : messageOptionData?.text?.length === 0
+    ? optionData?.filter(item => item.value !== 'edit' && item.value !== 'copy')
     : optionData;
 
   const renderItem = ({item}) => {
@@ -149,24 +164,26 @@ const MessageOptionModal = ({
           />
         )}
       />
-      <View style={styles.emojiBox}>
-        {withMyEmoji.map(item => (
-          <TouchableOpacity
-            onPress={() => {
-              onEmojiClick(item.symbol, messageOptionData._id);
-              dispatch(setMessageOptionData(null));
-            }}
-            style={[
-              styles.emoji,
-              item.my && {
-                backgroundColor: Colors.SecondaryButtonBackgroundColor,
-              },
-            ]}
-            key={item.name}>
-            <Text style={{fontSize: 25}}>{item.symbol}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      {!isThread && (
+        <View style={styles.emojiBox}>
+          {withMyEmoji.map(item => (
+            <TouchableOpacity
+              onPress={() => {
+                onEmojiClick(item.symbol, messageOptionData._id);
+                dispatch(setMessageOptionData(null));
+              }}
+              style={[
+                styles.emoji,
+                item.my && {
+                  backgroundColor: Colors.SecondaryButtonBackgroundColor,
+                },
+              ]}
+              key={item.name}>
+              <Text style={{fontSize: 25}}>{item.symbol}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </CustomModal>
   );
 };
@@ -182,7 +199,7 @@ const getStyles = Colors =>
       justifyContent: 'space-between',
     },
     emoji: {
-      padding: 12,
+      padding: responsiveScreenWidth(1.8),
       backgroundColor: Colors.CyanOpacity,
       borderRadius: 100,
     },

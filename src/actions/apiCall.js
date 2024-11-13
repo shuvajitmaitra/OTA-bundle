@@ -14,6 +14,7 @@ import {
   setCrowdMembers,
   setSelectedMembers,
   updateDeletedMessage,
+  updateThreadMessage,
 } from '../store/reducer/chatSlice';
 import {setCalendar, setMockInterview} from '../store/reducer/dashboardReducer';
 import {
@@ -136,14 +137,18 @@ export const handleDelete = id => {
     .then(res => {
       console.log('res.data', JSON.stringify(res.data, null, 1));
       if (res.data.success) {
-        store.dispatch(updateDeletedMessage(res.data.message));
-        store.dispatch(
-          updateLatestMessage({
-            chatId: res.data.message.chat,
-            latestMessage: {text: ''},
-            counter: 1,
-          }),
-        );
+        if (!res.data.message.parentMessage) {
+          store.dispatch(updateDeletedMessage(res.data.message));
+          store.dispatch(
+            updateLatestMessage({
+              chatId: res.data.message.chat,
+              latestMessage: {text: ''},
+              counter: 1,
+            }),
+          );
+        } else {
+          store.dispatch(updateThreadMessage(res.data.message));
+        }
       }
       // handleUpdateMessage(res.data.message);
       // const isItPinned = pinnedMessages?.filter(

@@ -41,6 +41,7 @@ import {
   setThreadMessages,
   updateMessage,
   updateRepliesCount,
+  updateThreadMessage,
 } from '../../store/reducer/chatSlice';
 import {updateLatestMessage} from '../../store/reducer/chatReducer';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
@@ -76,6 +77,10 @@ const ChatFooter2 = ({
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
+  console.log(
+    'messageEditVisible',
+    JSON.stringify(messageEditVisible, null, 1),
+  );
   // State variables
   const [text, setText] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
@@ -374,14 +379,19 @@ const ChatFooter2 = ({
         data,
       );
       const newMessage = {...res.data.message, editedAt: new Date()};
-      dispatch(updateMessage(newMessage));
-      dispatch(
-        updateLatestMessage({
-          chatId: message.chat,
-          latestMessage: res.data.message,
-          counter: 1,
-        }),
-      );
+      console.log('newMessage', JSON.stringify(newMessage, null, 1));
+      if (!newMessage.parentMessage) {
+        dispatch(updateMessage(newMessage));
+        dispatch(
+          updateLatestMessage({
+            chatId: message.chat,
+            latestMessage: res.data.message,
+            counter: 1,
+          }),
+        );
+      } else {
+        dispatch(updateThreadMessage(newMessage));
+      }
       setMessageEditVisible(false);
       setEditedText('');
     } catch (err) {

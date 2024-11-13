@@ -13,10 +13,8 @@ import {removeHtmlTags, transFormDate} from './MessageHelper';
 import {useTheme} from '../../context/ThemeContext';
 import moment from 'moment';
 import AudioMessage from './AudioMessage';
-import LoadingSmall from '../SharedComponent/LoadingSmall';
-export default function ThreadMessageItem({message, isLoading = false}) {
+export default function ThreadMessageItem({message, replyCount = 0}) {
   const {onlineUsers} = useSelector(state => state.chat);
-  const {threadMessages} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
@@ -113,14 +111,7 @@ export default function ThreadMessageItem({message, isLoading = false}) {
       </View>
       <View style={styles.replayCountContainer}>
         <Text style={styles.replayCountText}>
-          {isLoading ? (
-            <LoadingSmall color={Colors.Primary} />
-          ) : threadMessages?.length ? (
-            threadMessages?.length
-          ) : (
-            0
-          )}{' '}
-          {threadMessages?.length > 1 ? 'Replies' : 'Reply'}
+          {replyCount} {replyCount > 1 ? 'Replies' : 'Reply'}
         </Text>
       </View>
       {/* <Divider /> */}

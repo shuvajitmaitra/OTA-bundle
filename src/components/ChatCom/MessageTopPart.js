@@ -24,18 +24,16 @@ import StarIcon from '../../assets/Icons/StartIcon';
 import {handleChatFavorite} from '../../actions/apiCall';
 import {useTheme} from '../../context/ThemeContext';
 import moment from 'moment';
+import {useMMKVObject} from 'react-native-mmkv';
 
-export default function MessageTopPart({
-  setPinnedScreenVisible,
-  pinnedCount,
-  fetchPinned,
-}) {
+export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat, onlineUsers} = useSelector(state => state.chat);
   const Colors = useTheme();
   const styles = getStyles(Colors);
-
+  const [pinnedCount = {}] = useMMKVObject('pinCount');
+  console.log('pinnedCount', JSON.stringify(pinnedCount, null, 1));
   return (
     <View style={styles.container}>
       <View style={styles.leftSection}>
@@ -93,7 +91,7 @@ export default function MessageTopPart({
         </Pressable>
       </View>
       <View style={styles.rightSection}>
-        {pinnedCount > 0 && (
+        {pinnedCount[chat._id] > 0 && (
           <TouchableOpacity
             onPress={() => {
               fetchPinned(chat._id);

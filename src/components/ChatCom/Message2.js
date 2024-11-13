@@ -79,7 +79,7 @@ const Message2 = ({item, index, nextSender}) => {
         <TouchableOpacity
           onPress={() => dispatch(setMessageOptionData({...item, my}))}
           style={styles.threeDotContainer}>
-          <ThreedotIcon color={Colors.PureWhite} />
+          <ThreedotIcon color={my ? Colors.PureWhite : Colors.BodyText} />
         </TouchableOpacity>
         {item.files.length > 0 && <MessageFileContainer files={item.files} />}
         <Markdown style={styles.markdownStyle}>

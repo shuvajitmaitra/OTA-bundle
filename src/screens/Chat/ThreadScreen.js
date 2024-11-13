@@ -61,17 +61,19 @@ import ThreadMessageItem from '../../components/ChatCom/ThreadMessageItem';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import {useDispatch, useSelector} from 'react-redux';
 import {setThreadMessages} from '../../store/reducer/chatSlice';
+import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 
 const ThreadScreen = ({route}) => {
   const {chatMessage} = route.params;
   const dispatch = useDispatch();
   const {threadMessages} = useSelector(state => state.chatSlice);
-  // console.log('chatMessage', JSON.stringify(chatMessage, null, 1));
+  const {messageOptionData} = useSelector(state => state.modal);
+
+  console.log('messageOptionData', JSON.stringify(messageOptionData, null, 1));
+  console.log('chatMessage', JSON.stringify(chatMessage, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {top} = useSafeAreaInsets();
-  const navigation = useNavigation();
-  const [localMessages, setLocalMessages] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [messageEditVisible, setMessageEditVisible] = useState(false);
@@ -91,7 +93,7 @@ const ThreadScreen = ({route}) => {
       chat,
     };
     axiosInstance
-      .post(`/chat/messages`, options)
+      .post('/chat/messages', options)
       .then(res => {
         console.log('res.data', JSON.stringify(res.data, null, 1));
         dispatch(setThreadMessages(res.data.messages.reverse()));
@@ -138,8 +140,25 @@ const ThreadScreen = ({route}) => {
         }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}>
+        {messageOptionData?._id && (
+          <MessageOptionModal
+            handlePin={() => {}}
+            setMessageEditVisible={setMessageEditVisible}
+            messageOptionData={messageOptionData}
+            isThread={chatMessage._id}
+          />
+        )}
         <ScreenHeader />
-        {<ThreadMessageItem message={chatMessage} isLoading={isLoading} />}
+        {
+          <ThreadMessageItem
+            message={chatMessage}
+            replyCount={
+              threadMessages.length
+                ? threadMessages.length
+                : chatMessage.replyCount
+            }
+          />
+        }
         <View style={styles.flatListContainer}>
           <FlatList
             data={threadMessages}
@@ -164,7 +183,6 @@ const ThreadScreen = ({route}) => {
           messageEditVisible={messageEditVisible}
           setMessageEditVisible={setMessageEditVisible}
           messageOptionData={chatMessage}
-          setMessages={setLocalMessages}
         />
       </KeyboardAvoidingView>
     </View>
