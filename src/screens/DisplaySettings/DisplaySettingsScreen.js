@@ -5,7 +5,6 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import {RadioButton} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '../../context/ThemeContext';
 import {setDisplayMode} from '../../store/reducer/chatReducer';
@@ -35,7 +34,7 @@ const DisplaySettingsScreen = () => {
     setChecked(status);
     if (status === 'default') {
       dispatch(setDisplayMode(status));
-    } else if (status == 'dark') {
+    } else if (status === 'dark') {
       dispatch(setDisplayMode(status));
     } else if (colorScheme === 'dark') {
       dispatch(setDisplayMode('dark'));
@@ -67,13 +66,7 @@ const DisplaySettingsScreen = () => {
           options={options}
           onSelect={stc => handleRadioChecked(stc)}
           selectedValue={checked}
-          customStyle={{
-            flexDirection: 'row',
-            gap: 30,
-            // justifyContent: 'space-between',
-            // backgroundColor: 'red',
-            // flex: 1,
-          }}
+          customStyle={styles.customStyle}
         />
       </View>
 
@@ -86,6 +79,10 @@ export default DisplaySettingsScreen;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    customStyle: {
+      flexDirection: 'row',
+      gap: 30,
+    },
     radioContainer: {
       flexDirection: 'row',
       alignItems: 'center',

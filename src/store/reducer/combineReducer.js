@@ -18,6 +18,7 @@ import progressReducer from './progressReducer';
 import modalReducer from './ModalReducer';
 import newChatReducer from './newChatReducer';
 import chatSlice from './chatSlice';
+import userStatusReducer from './userStatusReducer';
 
 const rootReducer = combineReducers({
   auth: authReducers,
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   progress: progressReducer,
   modal: modalReducer,
   newChat: newChatReducer,
+  userStatus: userStatusReducer,
   chatSlice: chatSlice,
 });
 

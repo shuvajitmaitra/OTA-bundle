@@ -5,8 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
-import ReactNativeModal from 'react-native-modal';
+import React, {useState} from 'react';
 import CrossIcon from '../../assets/Icons/CrossIcon';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../context/ThemeContext';
@@ -20,9 +19,8 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../constants/CustomFonts';
 import CodingIcon from '../../assets/Icons/CodingIcon';
-import {handleOpenLink} from '../HelperFunction';
-import {MainContext} from '../../App';
 import ProgramSwitchModal from './ProgramSwitchModal';
+import {useMainContext} from '../../context/MainContext';
 
 const DefaultRoute = ({route}) => {
   const {params} = route;
@@ -35,7 +33,7 @@ const DefaultRoute = ({route}) => {
   const {top} = useSafeAreaInsets();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const {handleVerify} = useContext(MainContext);
+  const {handleVerify} = useMainContext();
   return (
     <View
       style={{

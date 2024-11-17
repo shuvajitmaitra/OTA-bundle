@@ -25,7 +25,6 @@ import {
   setTotalPost,
 } from '../store/reducer/communityReducer';
 import {setComments} from '../store/reducer/commentReducer';
-// import * as ImagePicker from 'expo-image-picker';
 import {setPrograms} from '../store/reducer/programReducer';
 
 export const loadChats = () => {

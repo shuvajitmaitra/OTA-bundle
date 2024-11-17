@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Platform,
   Animated,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,11 +15,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import * as MediaLibrary from 'expo-media-library';
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
-import {manipulateAsync, SaveFormat} from 'expo-image-manipulator';
-import axiosInstance from '../../utility/axiosInstance';
 import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
 import CustomFonts from '../../constants/CustomFonts';
-import {TextInput} from 'react-native-gesture-handler';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import HorizontalLineIcon from '../../assets/Icons/HorizontalLine';

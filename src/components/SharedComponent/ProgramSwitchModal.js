@@ -7,7 +7,6 @@ import {
   ScrollView,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {AntDesign, Entypo} from '@expo/vector-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setEnrollment} from '../../store/reducer/authReducer';
@@ -20,6 +19,8 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
+import CrossIcon from '../../assets/Icons/CrossIcon';
+import ArrowLeft from '../../assets/Icons/ArrowLeft';
 
 const ProgramSwitchModal = memo(({modalOpen, setModalOpen, handleVerify}) => {
   const dispatch = useDispatch();
@@ -59,22 +60,17 @@ const ProgramSwitchModal = memo(({modalOpen, setModalOpen, handleVerify}) => {
       <View style={styles.popupContainer}>
         <View style={styles.popupTopContainer}>
           <View style={styles.popupArrowContainer}>
-            <AntDesign
-              onPress={() => setModalOpen(false)}
-              name="arrowleft"
-              size={24}
-              color={Colors.BodyText}
-            />
+            <ArrowLeft />
             <Text style={styles.popupTitle}>Program</Text>
           </View>
           <TouchableOpacity
             onPress={() => setModalOpen(false)}
             activeOpacity={0.9}
             style={styles.popupCrossContainer}>
-            <Entypo name="cross" size={20} color={Colors.BodyText} />
+            <CrossIcon />
           </TouchableOpacity>
         </View>
-        <View style={styles.popupLine}></View>
+        <View style={styles.popupLine} />
         <ScrollView showsVerticalScrollIndicator={false}>
           {myEnrollments.length ? (
             myEnrollments.map((item, index) => (

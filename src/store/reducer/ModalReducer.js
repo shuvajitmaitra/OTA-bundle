@@ -4,6 +4,9 @@ const initialState = {
   selectedMessageScreen: null,
   isThreadOpen: false,
   params: {},
+  alert: {visible: false, data: {}},
+  commentModalIndex: -1,
+  bottomSheetVisible: false,
   messageOptionData: null,
 };
 

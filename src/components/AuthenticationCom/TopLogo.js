@@ -8,7 +8,7 @@ import {
 import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 
-export default function TopLogo({title = 'Write the Tittle', height}) {
+export default function TopLogo({title, height}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (

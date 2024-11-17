@@ -12,9 +12,6 @@ import {
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {manipulateAsync, SaveFormat} from 'expo-image-manipulator';
-import * as DocumentPicker from 'expo-document-picker';
-
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -41,15 +38,13 @@ import ArrowRightWithoutTail from '../../assets/Icons/ArrowRightWithoutTail';
 import {removeHtmlTags, transFormDate} from './MessageHelper';
 import CrossIcon from '../../assets/Icons/CrossIcon';
 import ImageView from 'react-native-image-viewing';
-import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
-import {Popover, usePopover} from 'react-native-modal-popover';
+import {usePopover} from 'react-native-modal-popover';
 import {useNavigation} from '@react-navigation/native';
 import Camera from '../SharedComponent/Camera';
 import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
 import GallaryIcon from '../../assets/Icons/GallaryIcon';
 import ExpandLeftIcon from '../../assets/Icons/ExpandLeft';
 import FullScreenEditorModal from './Modal/FullScreenEditorModal';
-import CaptureAudio from './CaptureAudio';
 
 const convertLink = text => {
   var exp =

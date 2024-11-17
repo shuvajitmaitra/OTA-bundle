@@ -1,0 +1,93 @@
+{
+  "success": true,
+  "metrics": {
+    "totalMark": 0,
+    "totalObtainedMark": 0,
+    "overallPercentageAllItems": 0
+  },
+  "results": [
+    {
+      "_id": "6567f1372334d200199cd881",
+      "id": "showAndTell",
+      "title": "SnT/Presentation",
+      "limit": 20,
+      "count": 1,
+      "additionalData": {
+        "totalItems": 1,
+        "acceptedItems": 1,
+        "pendingItems": 0,
+        "rejectedItems": 0
+      }
+    },
+    {
+      "_id": "6567f1372334d200199cd882",
+      "id": "messages",
+      "title": "Chat Messages",
+      "limit": 1000,
+      "count": 699,
+      "additionalData": {
+        "totalMessage": 699,
+        "totalChat": 88,
+        "totalUnreadChat": 34,
+        "totalReadChat": 54,
+        "totalPinnedMessages": 5,
+        "totalUnreadCrowd": 21,
+        "totalUnreadDirect": 13
+      }
+    },
+    {
+      "_id": "6567f1372334d200199cd883",
+      "id": "uploadedDocuments",
+      "title": "Uploaded Documents",
+      "limit": 30,
+      "count": 0,
+      "additionalData": {
+        "uploadedDocument": 0
+      }
+    },
+    {
+      "_id": "6567f1372334d200199cd884",
+      "id": "events",
+      "title": "Calendar",
+      "limit": 45,
+      "count": 41,
+      "additionalData": {
+        "total": 41,
+        "totalAccepted": 41,
+        "totalPending": 0,
+        "totalDenied": 0,
+        "totalFinished": 0,
+        "totalProposedTime": 0
+      }
+    },
+    {
+      "_id": "6567f1372334d200199cd885",
+      "id": "technicalTestAnswers",
+      "title": "Technical Interview Tests",
+      "limit": 1000,
+      "count": 21,
+      "additionalData": {
+        "totalItems": 21,
+        "pendingItems": 0,
+        "acceptedItems": 0,
+        "rejectedItems": 0
+      }
+    },
+    {
+      "_id": "6567f1372334d200199cd886",
+      "id": "day2day",
+      "title": "Day to Day Activities/Logs",
+      "limit": 350,
+      "count": 17,
+      "additionalData": {
+        "total": 17
+      }
+    }
+  ],
+  "_id": "666678b9a76c31001ad87498",
+  "enrollment": "65bb05d6db6873002120fbf0",
+  "user": "65b9bfa5d1e72a0019b18341",
+  "createdAt": "2024-06-10T03:53:29.356Z",
+  "updatedAt": "2024-06-10T03:53:29.356Z",
+  "__v": 0
+}

@@ -1,0 +1,932 @@
+[
+  {
+    "title": "2024-5-24",
+    "data": [
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "sf sdfsd ",
+        "meetingLink": "",
+        "actionItems": "sdf sdfsdfsd",
+        "followUp": "sdf sdfsd ",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "orientation",
+        "_id": "663d3b18d05ef70019ecfa6f",
+        "title": "dfgdfgdfg",
+        "start": "2024-05-23T21:19:51.521Z",
+        "end": "2024-05-23T21:49:51.521Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-09T21:07:36.777Z",
+        "updatedAt": "2024-05-09T21:07:36.777Z",
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "title": "2024-5-12",
+    "data": [
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [
+          {
+            "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+            "lastName": "Shimul",
+            "_id": "64ef676669eaf6370c11429c",
+            "email": "186mdshimul@gmail.com",
+            "firstName": "Ashraful Islam",
+            "fullName": "Ashraful Islam Shimul"
+          }
+        ],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "Test das",
+        "meetingLink": "[https://us04web.zoom.us/j/74164271681?pwd=ejcQk9ZWqMaLyaTmg2ErNI0h0loaRg.1](https://us04web.zoom.us/j/74164271681?pwd=ejcQk9ZWqMaLyaTmg2ErNI0h0loaRg.1)",
+        "actionItems": "fsdf",
+        "followUp": "fdsdv",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "technicalInterview",
+        "_id": "663fb427d05ef70019ecfad0",
+        "title": "Mitul_test_Mahamadul",
+        "start": "2024-05-11T18:20:45.105Z",
+        "end": "2024-05-11T18:50:45.105Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1713424227983-My-Pic.JPEG",
+          "lastName": "Das",
+          "_id": "650e70e7165fc20019352988",
+          "email": "mitul.das@ts4u.us",
+          "firstName": "Mitul",
+          "fullName": "Mitul Das"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "662881e86151d4001ac8aa2f",
+        "eventColor": "gray",
+        "createdAt": "2024-05-11T18:08:39.215Z",
+        "updatedAt": "2024-05-11T18:28:13.410Z",
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "title": "2024-5-13",
+    "data": [
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [
+          {
+            "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1713424227983-My-Pic.JPEG",
+            "lastName": "Das",
+            "_id": "650e70e7165fc20019352988",
+            "email": "mitul.das@ts4u.us",
+            "firstName": "Mitul",
+            "fullName": "Mitul Das"
+          }
+        ],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "test",
+        "meetingLink": "[https://meet.google.com/wou-hehu-dvp](https://meet.google.com/wou-hehu-dvp)",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [
+          {
+            "profilePicture": "",
+            "lastName": "Ebrahim",
+            "_id": "660e71d97dca5d0019110d2f",
+            "email": "ebrahim.official200@gmail.com",
+            "firstName": "Md. ",
+            "fullName": "Md.  Ebrahim"
+          },
+          {
+            "profilePicture": "",
+            "lastName": "Baidaya",
+            "_id": "66384970546f7b001a63da12",
+            "email": "shukantobaidya2061@gmail.com",
+            "firstName": "Trishon",
+            "fullName": "Trishon Baidaya"
+          }
+        ],
+        "eventType": "orientation",
+        "_id": "66412d75d05ef70019ecfc23",
+        "title": "Review Meeting",
+        "start": "2024-05-13T09:30:23.815Z",
+        "end": "2024-05-13T10:00:23.815Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-12T20:58:29.606Z",
+        "updatedAt": "2024-05-12T21:02:11.998Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [
+          {
+            "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+            "lastName": "Shimul",
+            "_id": "64ef676669eaf6370c11429c",
+            "email": "186mdshimul@gmail.com",
+            "firstName": "Ashraful Islam",
+            "fullName": "Ashraful Islam Shimul"
+          }
+        ],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "test",
+        "meetingLink": "[https://us05web.zoom.us/j/87507549684?pwd=uDFY94NhTgXSVJDPtTYIAnuTg3bUas.1](https://us05web.zoom.us/j/87507549684?pwd=uDFY94NhTgXSVJDPtTYIAnuTg3bUas.1)",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "technicalInterview",
+        "_id": "66420b9265bf440019034263",
+        "title": "Notification_Test",
+        "start": "2024-05-13T12:59:20.310Z",
+        "end": "2024-05-13T13:29:20.310Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1713424227983-My-Pic.JPEG",
+          "lastName": "Das",
+          "_id": "650e70e7165fc20019352988",
+          "email": "mitul.das@ts4u.us",
+          "firstName": "Mitul",
+          "fullName": "Mitul Das"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "662881e86151d4001ac8aa2f",
+        "eventColor": "gray",
+        "createdAt": "2024-05-13T12:46:10.933Z",
+        "updatedAt": "2024-05-19T20:01:23.242Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [
+          {
+            "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+            "lastName": "Shimul",
+            "_id": "64ef676669eaf6370c11429c",
+            "email": "186mdshimul@gmail.com",
+            "firstName": "Ashraful Islam",
+            "fullName": "Ashraful Islam Shimul"
+          }
+        ],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "test",
+        "meetingLink": "",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "technicalInterview",
+        "_id": "66422b3465bf4400190342d0",
+        "title": "Mitul_test_13",
+        "start": "2024-05-13T15:46:02.632Z",
+        "end": "2024-05-13T16:16:02.632Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1713424227983-My-Pic.JPEG",
+          "lastName": "Das",
+          "_id": "650e70e7165fc20019352988",
+          "email": "mitul.das@ts4u.us",
+          "firstName": "Mitul",
+          "fullName": "Mitul Das"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "662881e86151d4001ac8aa2f",
+        "eventColor": "gray",
+        "createdAt": "2024-05-13T15:01:08.664Z",
+        "updatedAt": "2024-05-19T20:01:26.259Z",
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "title": "2024-5-19",
+    "data": [
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [
+          {
+            "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+            "lastName": "Shimul",
+            "_id": "64ef676669eaf6370c11429c",
+            "email": "186mdshimul@gmail.com",
+            "firstName": "Ashraful Islam",
+            "fullName": "Ashraful Islam Shimul"
+          }
+        ],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "sds",
+        "meetingLink": "[https://us02web.zoom.us/j/9054225753?pwd=a0tmbWRRMFo2UnQrU3lISzArOGtEZz09](https://us02web.zoom.us/j/9054225753?pwd=a0tmbWRRMFo2UnQrU3lISzArOGtEZz09)",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [
+          {
+            "profilePicture": "",
+            "lastName": "ISLAM",
+            "_id": "65d2f7f966b89f00194ff9b9",
+            "email": "perepa7745@laymro.com",
+            "firstName": "mahmud",
+            "fullName": "mahmud ISLAM"
+          }
+        ],
+        "eventType": "orientation",
+        "_id": "664a3579cb2f680019ef06f7",
+        "title": "Test Mahamud",
+        "start": "2024-05-19T17:35:40.864Z",
+        "end": "2024-05-19T18:05:40.864Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1713424227983-My-Pic.JPEG",
+          "lastName": "Das",
+          "_id": "650e70e7165fc20019352988",
+          "email": "mitul.das@ts4u.us",
+          "firstName": "Mitul",
+          "fullName": "Mitul Das"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "662881e86151d4001ac8aa2f",
+        "eventColor": "gray",
+        "createdAt": "2024-05-19T17:23:05.164Z",
+        "updatedAt": "2024-05-19T20:01:29.051Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "dfs \n\n dsf sdf  df d\n\n- sdfsd\n- f d \n- fd\n- f\n-  d\n- f d\n- f \n- df\n-  d\n- f\n-  df\n- d\n-  f\n- d ",
+        "meetingLink": "",
+        "actionItems": "sdfsd",
+        "followUp": "df ds",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "technicalInterview",
+        "_id": "664a3787cb2f680019ef0733",
+        "title": " sdf sdf dsfds",
+        "start": "2024-05-19T17:46:51.205Z",
+        "end": "2024-05-19T18:16:51.205Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-19T17:31:51.827Z",
+        "updatedAt": "2024-05-19T17:31:51.827Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [6],
+          "turnOn": true,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "agenda",
+        "meetingLink": "[https://meet.schoolshub.ai/Dev-Ninja](https://meet.schoolshub.ai/Dev-Ninja)",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [
+          {
+            "profilePicture": "",
+            "lastName": "Baidaya",
+            "_id": "65e930d2aba05c0019044d1d",
+            "email": "shukantobaidya2018@gmail.com",
+            "firstName": "Trishon",
+            "fullName": "Trishon Baidaya"
+          }
+        ],
+        "eventType": "other",
+        "_id": "664a37d2cb2f680019ef0740",
+        "title": "title",
+        "start": "2024-05-19T17:48:04.637Z",
+        "end": "2024-05-19T18:18:04.637Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "tomato",
+        "createdAt": "2024-05-19T17:33:06.100Z",
+        "updatedAt": "2024-05-19T17:33:06.100Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [6],
+          "turnOn": true,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "agenda",
+        "meetingLink": "[https://meet.schoolshub.ai/Dev-Ninja](https://meet.schoolshub.ai/Dev-Ninja)",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [
+          {
+            "profilePicture": "",
+            "lastName": "Baidaya",
+            "_id": "65e930d2aba05c0019044d1d",
+            "email": "shukantobaidya2018@gmail.com",
+            "firstName": "Trishon",
+            "fullName": "Trishon Baidaya"
+          }
+        ],
+        "eventType": "other",
+        "_id": "664a39a0cb2f680019ef074a",
+        "title": "title",
+        "start": "2024-05-19T17:55:46.463Z",
+        "end": "2024-05-19T18:25:46.463Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "tomato",
+        "createdAt": "2024-05-19T17:40:48.634Z",
+        "updatedAt": "2024-05-19T17:40:48.634Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [3],
+          "turnOn": true,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "fsdsdfsdfdsfdsf  ds d fdf sdfs fds fd",
+        "meetingLink": "",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "behavioralInterview",
+        "_id": "664a3a8bcb2f680019ef0754",
+        "title": "mahmud test 333",
+        "start": "2024-05-19T17:59:42.533Z",
+        "end": "2024-05-19T18:29:42.533Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-19T17:44:43.413Z",
+        "updatedAt": "2024-05-19T17:44:43.413Z",
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "title": "2024-5-31",
+    "data": [
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "dfs \n\n dsf sdf  df d\n\n- sdfsd\n- f d \n- fd\n- f\n-  d\n- f d\n- f \n- df\n-  d\n- f\n-  df\n- d\n-  f\n- d ",
+        "meetingLink": "",
+        "actionItems": "sdfsd",
+        "followUp": "df ds",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "technicalInterview",
+        "_id": "664a36aecb2f680019ef0700",
+        "title": " sdf sdf dsfds",
+        "start": "2024-05-31T17:15:00.000Z",
+        "end": "2024-05-31T17:45:00.000Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-19T17:28:14.763Z",
+        "updatedAt": "2024-05-19T17:28:14.763Z",
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "title": "2024-5-20",
+    "data": [
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [
+          {
+            "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+            "lastName": "Shimul",
+            "_id": "64ef676669eaf6370c11429c",
+            "email": "186mdshimul@gmail.com",
+            "firstName": "Ashraful Islam",
+            "fullName": "Ashraful Islam Shimul"
+          }
+        ],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "fsdf",
+        "meetingLink": "[https://meet.google.com/nvf-gfnf-joj](https://meet.google.com/nvf-gfnf-joj)",
+        "actionItems": "",
+        "followUp": "dcsd",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "technicalInterview",
+        "_id": "664a5a59cb2f680019ef099c",
+        "title": "Meeting link test",
+        "start": "2024-05-19T20:15:31.239Z",
+        "end": "2024-05-19T20:45:31.239Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1713424227983-My-Pic.JPEG",
+          "lastName": "Das",
+          "_id": "650e70e7165fc20019352988",
+          "email": "mitul.das@ts4u.us",
+          "firstName": "Mitul",
+          "fullName": "Mitul Das"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "662881e86151d4001ac8aa2f",
+        "eventColor": "gray",
+        "createdAt": "2024-05-19T20:00:25.137Z",
+        "updatedAt": "2024-05-19T20:01:31.627Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "sd fsdf sdf",
+        "meetingLink": "[https://meet.google.com/nvf-gfnf-joj](https://meet.google.com/nvf-gfnf-joj)",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "reviewMeeting",
+        "_id": "664a5b37cb2f680019ef09b8",
+        "title": "fsdfsd f",
+        "start": "2024-05-19T22:00:00.000Z",
+        "end": "2024-05-19T22:30:00.000Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-19T20:04:07.116Z",
+        "updatedAt": "2024-05-19T20:04:07.116Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [3],
+          "turnOn": true,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "fsdsdfsdfdsfdsf  ds d fdf sdfs fds fd",
+        "meetingLink": "",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "behavioralInterview",
+        "_id": "664a5c7acb2f680019ef09bb",
+        "title": "mahmud test 333",
+        "start": "2024-05-19T20:24:28.959Z",
+        "end": "2024-05-19T20:54:28.959Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-19T20:09:30.472Z",
+        "updatedAt": "2024-05-19T20:09:30.472Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "aiImag",
+        "meetingLink": "[[https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z](https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z)]([https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z](https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z))",
+        "actionItems": "Action",
+        "followUp": "  Message",
+        "attachments": [],
+        "invitations": [
+          {
+            "profilePicture": "",
+            "lastName": "Bruen",
+            "_id": "663b2f5b2e9c740019d30359",
+            "email": "elvie_mann@hotmail.com",
+            "firstName": "Leland",
+            "fullName": "Leland Bruen"
+          },
+          {
+            "profilePicture": "",
+            "lastName": "Baidaya",
+            "_id": "6638ef30546f7b001a63ef7a",
+            "email": "shukantobaidya2070@gmail.com",
+            "firstName": "Trishon",
+            "fullName": "Trishon Baidaya"
+          },
+          {
+            "profilePicture": "",
+            "lastName": "Zieme",
+            "_id": "663b2e712e9c740019d30338",
+            "email": "nola38@yahoo.com",
+            "firstName": "Deontae",
+            "fullName": "Deontae Zieme"
+          }
+        ],
+        "eventType": "technicalInterview",
+        "_id": "664ae8a2cb2f680019ef0a21",
+        "title": "Event title",
+        "start": "2024-05-20T06:22:01.842Z",
+        "end": "2024-05-20T06:52:01.842Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-20T06:07:30.483Z",
+        "updatedAt": "2024-05-20T06:07:30.483Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "aiImag",
+        "meetingLink": "[https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z](https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z)",
+        "actionItems": "Action",
+        "followUp": "  Message",
+        "attachments": [],
+        "invitations": [
+          {
+            "profilePicture": "",
+            "lastName": "Bruen",
+            "_id": "663b2f5b2e9c740019d30359",
+            "email": "elvie_mann@hotmail.com",
+            "firstName": "Leland",
+            "fullName": "Leland Bruen"
+          },
+          {
+            "profilePicture": "",
+            "lastName": "Baidaya",
+            "_id": "6638ef30546f7b001a63ef7a",
+            "email": "shukantobaidya2070@gmail.com",
+            "firstName": "Trishon",
+            "fullName": "Trishon Baidaya"
+          },
+          {
+            "profilePicture": "",
+            "lastName": "Zieme",
+            "_id": "663b2e712e9c740019d30338",
+            "email": "nola38@yahoo.com",
+            "firstName": "Deontae",
+            "fullName": "Deontae Zieme"
+          }
+        ],
+        "eventType": "technicalInterview",
+        "_id": "664aea4bcb2f680019ef0a24",
+        "title": "Event title",
+        "start": "2024-05-20T06:29:15.153Z",
+        "end": "2024-05-20T06:59:15.153Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-20T06:14:35.995Z",
+        "updatedAt": "2024-05-20T06:14:35.995Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "aiImag",
+        "meetingLink": "[[https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z](https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z)]([https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z](https://us02web.zoom.us/postattendee?mn=LFEmVXwgEPNWgYrvx3IUhSyUpAou4KpoaiI.oy4R76LL0JJPQq7Z))",
+        "actionItems": "Action",
+        "followUp": "  Message",
+        "attachments": [],
+        "invitations": [
+          {
+            "profilePicture": "",
+            "lastName": "Bruen",
+            "_id": "663b2f5b2e9c740019d30359",
+            "email": "elvie_mann@hotmail.com",
+            "firstName": "Leland",
+            "fullName": "Leland Bruen"
+          },
+          {
+            "profilePicture": "",
+            "lastName": "Baidaya",
+            "_id": "6638ef30546f7b001a63ef7a",
+            "email": "shukantobaidya2070@gmail.com",
+            "firstName": "Trishon",
+            "fullName": "Trishon Baidaya"
+          },
+          {
+            "profilePicture": "",
+            "lastName": "Zieme",
+            "_id": "663b2e712e9c740019d30338",
+            "email": "nola38@yahoo.com",
+            "firstName": "Deontae",
+            "fullName": "Deontae Zieme"
+          }
+        ],
+        "eventType": "technicalInterview",
+        "_id": "664aea70cb2f680019ef0a27",
+        "title": "Event title",
+        "start": "2024-05-20T06:30:08.265Z",
+        "end": "2024-05-20T07:00:08.265Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-20T06:15:12.084Z",
+        "updatedAt": "2024-05-20T06:15:12.084Z",
+        "__v": 0
+      },
+      {
+        "timeRange": {
+          "repeatDays": [3],
+          "turnOn": true,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "fsdsdfsdfdsfdsf  ds d fdf sdfs fds fd",
+        "meetingLink": "",
+        "actionItems": "",
+        "followUp": "",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "behavioralInterview",
+        "_id": "664b6570cb2f680019ef0a82",
+        "title": "mahmud test 333",
+        "start": "2024-05-20T15:14:47.836Z",
+        "end": "2024-05-20T16:30:47.836Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-20T15:00:00.335Z",
+        "updatedAt": "2024-05-20T15:00:00.335Z",
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "title": "2024-5-28",
+    "data": [
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "https://staging-portal.schoolshub.ai/dashboard/calendar",
+        "meetingLink": "[[https://staging-portal.schoolshub.ai/dashboard/calendar](https://staging-portal.schoolshub.ai/dashboard/calendar)]([https://staging-portal.schoolshub.ai/dashboard/calendar](https://staging-portal.schoolshub.ai/dashboard/calendar))",
+        "actionItems": "https://staging-portal.schoolshub.ai/dashboard/calendar",
+        "followUp": "https://staging-portal.schoolshub.ai/dashboard/calendar",
+        "attachments": [],
+        "invitations": [
+          {
+            "profilePicture": "",
+            "lastName": "Maitra",
+            "_id": "66372988546f7b001a63cfec",
+            "email": "shuvajitmaitrrrra@gmail.com",
+            "firstName": "Shuvajit",
+            "fullName": "Shuvajit Maitra"
+          },
+          {
+            "profilePicture": "",
+            "lastName": "Maitra",
+            "_id": "6635cef6546f7b001a63bb73",
+            "email": "shuvo@gmail.com",
+            "firstName": "Shuvajit",
+            "fullName": "Shuvajit Maitra"
+          }
+        ],
+        "eventType": "orientation",
+        "_id": "66549d30cb2f680019ef0dc2",
+        "title": "dashboard/calendar",
+        "start": "2024-05-28T14:45:25.723Z",
+        "end": "2024-05-28T15:30:25.723Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-27T14:48:16.094Z",
+        "updatedAt": "2024-05-27T14:50:52.061Z",
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "title": "2024-6-7",
+    "data": [
+      {
+        "timeRange": {
+          "repeatDays": [],
+          "turnOn": false,
+          "repeatPeriod": "week"
+        },
+        "users": [],
+        "status": "accepted",
+        "isAllDay": false,
+        "description": "sd fsd fsdf",
+        "meetingLink": "",
+        "actionItems": " sd",
+        "followUp": "fsd fsd fsd",
+        "attachments": [],
+        "invitations": [],
+        "eventType": "technicalInterview",
+        "_id": "66550089d456da0019e7ba5a",
+        "title": "holiday event",
+        "start": "2024-06-06T21:15:00.000Z",
+        "end": "2024-06-06T21:45:00.000Z",
+        "createdBy": {
+          "profilePicture": "https://ts4uportal-all-files-upload.nyc3.digitaloceanspaces.com/1717099930696-1716747005463-T",
+          "lastName": "Shimul",
+          "_id": "64ef676669eaf6370c11429c",
+          "email": "186mdshimul@gmail.com",
+          "firstName": "Ashraful Islam",
+          "fullName": "Ashraful Islam Shimul"
+        },
+        "branch": "64fcb4e8944cf215d8d32f95",
+        "enrollment": "6523d8d71eab265c60cf30ce",
+        "eventColor": "gray",
+        "createdAt": "2024-05-27T21:52:09.667Z",
+        "updatedAt": "2024-05-27T21:52:09.667Z",
+        "__v": 0
+      }
+    ]
+  }
+]
