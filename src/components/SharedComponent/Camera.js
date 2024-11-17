@@ -6,39 +6,39 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import ReactNativeModal from "react-native-modal";
-import { useTheme } from "../../context/ThemeContext";
-import { CameraView, useCameraPermissions } from "expo-camera";
-import { useNavigation } from "@react-navigation/native";
-import CrossIcon from "../../assets/Icons/CrossIcon";
-import RefreshIcon from "../../assets/Icons/RefreshIcon";
-import { ScrollView } from "react-native";
-import { Image } from "react-native";
-import GallaryIcon from "../../assets/Icons/GallaryIcon";
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import ReactNativeModal from 'react-native-modal';
+import {useTheme} from '../../context/ThemeContext';
+import {CameraView, useCameraPermissions} from 'expo-camera';
+import {useNavigation} from '@react-navigation/native';
+import CrossIcon from '../../assets/Icons/CrossIcon';
+import RefreshIcon from '../../assets/Icons/RefreshIcon';
+import {ScrollView} from 'react-native';
+import {Image} from 'react-native';
+import GallaryIcon from '../../assets/Icons/GallaryIcon';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import FullScreenModal from "./FullScreenModal";
-import { Button } from "react-native";
-import CameraImagePreview from "./CameraImagePreview";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useGlobalAlert } from "./GlobalAlertContext";
-const Camera = ({ isVisible, toggleCamera, handleSendCapturedPhoto }) => {
+} from 'react-native-responsive-dimensions';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FullScreenModal from './FullScreenModal';
+import {Button} from 'react-native';
+import CameraImagePreview from './CameraImagePreview';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useGlobalAlert} from './GlobalAlertContext';
+const Camera = ({isVisible, toggleCamera, handleSendCapturedPhoto}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { showAlert } = useGlobalAlert();
-  const [facing, setFacing] = useState("back");
+  const {showAlert} = useGlobalAlert();
+  const [facing, setFacing] = useState('back');
   const [permission, requestPermission] = useCameraPermissions();
   const [gallery, setGallery] = useState([]);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
   const [isFlashOpen, setIsFlashOpen] = useState(false);
   const [isImagePreviewVisible, setIsImagePreviewVisible] = useState(false);
-  const { top } = useSafeAreaInsets();
+  const {top} = useSafeAreaInsets();
 
   useEffect(() => {
     if (permission && !permission.granted) {
@@ -47,7 +47,7 @@ const Camera = ({ isVisible, toggleCamera, handleSendCapturedPhoto }) => {
   }, [permission]);
 
   const toggleCameraFacing = () => {
-    setFacing((current) => (current === "back" ? "front" : "back"));
+    setFacing(current => (current === 'back' ? 'front' : 'back'));
   };
 
   const takePicture = async () => {
@@ -58,7 +58,7 @@ const Camera = ({ isVisible, toggleCamera, handleSendCapturedPhoto }) => {
         setGallery([photo.uri]);
       }
     } catch (error) {
-      console.error("Error taking picture:", error);
+      console.error('Error taking picture:', error);
     }
   };
 
@@ -72,29 +72,27 @@ const Camera = ({ isVisible, toggleCamera, handleSendCapturedPhoto }) => {
         <View
           style={[
             styles.buttonContainer,
-            Platform.OS === "ios" && { marginTop: top / 2 },
-          ]}
-        >
+            Platform.OS === 'ios' && {marginTop: top / 2},
+          ]}>
           <View style={styles.firstContainer}>
             <TouchableOpacity
               onPress={() => toggleCamera()}
-              style={styles.crossButton}
-            >
-              <CrossIcon color={"white"} />
+              style={styles.crossButton}>
+              <CrossIcon color={'white'} />
             </TouchableOpacity>
             <TouchableOpacity
-               onPress={() => showAlert({
-                title: "Coming Soon...",
-                type: "warning",
-                message:
-                  "This feature is coming soon.",
-              })}
-              style={[styles.crossButton, { padding: 10 }]}
-            >
+              onPress={() =>
+                showAlert({
+                  title: 'Coming Soon...',
+                  type: 'warning',
+                  message: 'This feature is coming soon.',
+                })
+              }
+              style={[styles.crossButton, {padding: 10}]}>
               <Ionicons
-                name={isFlashOpen ? "flash-sharp" : "flash-off-outline"}
+                name={isFlashOpen ? 'flash-sharp' : 'flash-off-outline'}
                 size={20}
-                color={isFlashOpen ? Colors.Primary : "white"}
+                color={isFlashOpen ? Colors.Primary : 'white'}
               />
             </TouchableOpacity>
           </View>
@@ -104,7 +102,7 @@ const Camera = ({ isVisible, toggleCamera, handleSendCapturedPhoto }) => {
                 {gallery.map((item, index) => (
                   <Image
                     key={index}
-                    source={{ uri: item }}
+                    source={{uri: item}}
                     style={styles.galleryImage}
                   />
                 ))}
@@ -113,25 +111,23 @@ const Camera = ({ isVisible, toggleCamera, handleSendCapturedPhoto }) => {
             <View style={styles.snapContainer}>
               <TouchableOpacity
                 style={styles.RefreshIconContainer}
-                onPress={toggleCameraFacing}
-              >
+                onPress={toggleCameraFacing}>
                 <RefreshIcon />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={takePicture}
-                style={styles.snapButtonContainer}
-              >
+                style={styles.snapButtonContainer}>
                 <View style={styles.snapButton}></View>
               </TouchableOpacity>
               <TouchableOpacity
-                 onPress={() => showAlert({
-                  title: "Coming Soon...",
-                  type: "warning",
-                  message:
-                    "This feature is coming soon.",
-                })}
-                style={styles.RefreshIconContainer}
-              >
+                onPress={() =>
+                  showAlert({
+                    title: 'Coming Soon...',
+                    type: 'warning',
+                    message: 'This feature is coming soon.',
+                  })
+                }
+                style={styles.RefreshIconContainer}>
                 <GallaryIcon />
               </TouchableOpacity>
             </View>
@@ -151,49 +147,49 @@ const Camera = ({ isVisible, toggleCamera, handleSendCapturedPhoto }) => {
 
 export default Camera;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     snapContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      width: "100%",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '100%',
     },
     secondContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       //   alignItems: "center",
       //   justifyContent: "space-between",
       paddingHorizontal: responsiveScreenWidth(4),
       paddingBottom: 20,
     },
     firstContainer: {
-      justifyContent: "space-between",
-      flexDirection: "row",
-      alignItems: "center",
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'center',
       paddingTop: 20,
       paddingHorizontal: responsiveScreenWidth(4),
     },
     crossButton: {
       // marginLeft: responsiveScreenWidth(4),
       padding: 15,
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
       borderRadius: 100,
     },
     RefreshIconContainer: {
       // flex: 0.1,
       //   alignSelf: "flex-end",
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
       borderRadius: 100,
       padding: 10,
       //   margin: 20,
     },
     snapButtonContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       //   backgroundColor: "red",
       borderRadius: 5,
-      justifyContent: "center",
+      justifyContent: 'center',
     },
     snapButton: {
       height: 60,
@@ -202,21 +198,21 @@ const getStyles = (Colors) =>
       borderWidth: 5,
       borderColor: Colors.WhiteOpacityColor,
       fontSize: 24,
-      fontWeight: "bold",
-      color: "white",
-      backgroundColor: "white",
+      fontWeight: 'bold',
+      color: 'white',
+      backgroundColor: 'white',
     },
     button: {
-      alignSelf: "flex-end",
-      alignItems: "center",
-      backgroundColor: "white",
+      alignSelf: 'flex-end',
+      alignItems: 'center',
+      backgroundColor: 'white',
       borderRadius: 5,
       padding: 10,
       margin: 20,
     },
     galleryContainer: {
       flex: 1,
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
       maxHeight: 120,
     },
     galleryImage: {
@@ -226,8 +222,8 @@ const getStyles = (Colors) =>
     },
     container: {
       flex: 1,
-      justifyContent: "center",
-      backgroundColor: "white",
+      justifyContent: 'center',
+      backgroundColor: 'white',
     },
     camera: {
       flex: 1,
@@ -238,16 +234,16 @@ const getStyles = (Colors) =>
       // backgroundColor: "red",
       //   // margin: 15,
       //   position: "relative",
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
     button: {
       flex: 1,
-      alignSelf: "flex-end",
-      alignItems: "center",
+      alignSelf: 'flex-end',
+      alignItems: 'center',
     },
     text: {
       fontSize: 24,
-      fontWeight: "bold",
-      color: "white",
+      fontWeight: 'bold',
+      color: 'white',
     },
   });

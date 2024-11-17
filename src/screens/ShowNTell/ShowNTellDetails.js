@@ -24,7 +24,7 @@ import {extractFilename, handleOpenLink} from '../../components/HelperFunction';
 import DownloadIconTwo from '../../assets/Icons/DownloadIconTwo';
 import Divider from '../../components/SharedComponent/Divider';
 import BackNextButton from '../../components/SharedComponent/BackNextButton';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {formattingDate} from '../../utility/commonFunction';
 
 const ShowNTellDetails = ({route}) => {

@@ -1,13 +1,16 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import Feather from "@expo/vector-icons/Feather";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveFontSize, responsiveWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import { Image } from "react-native";
-import whatWeLearnImage from "../../assets/Images/whatYouWillLearn.png";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import Feather from 'react-native-vector-icons/Feather';
+import {useTheme} from '../../context/ThemeContext';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import {Image} from 'react-native';
+import whatWeLearnImage from '../../assets/Images/whatYouWillLearn.png';
 
-const WhatLearns = ({ whatLearnsData }) => {
+const WhatLearns = ({whatLearnsData}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [showCount, setShowCount] = useState(6);
@@ -24,17 +27,21 @@ const WhatLearns = ({ whatLearnsData }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.whatLearnsTitle}>What you'll learn</Text>
-      {dataToDisplay?.map((text) => (
+      {dataToDisplay?.map(text => (
         <View key={text.key} style={styles.pointContainer}>
-          <View style={{ paddingTop: 5 }}>
+          <View style={{paddingTop: 5}}>
             <Feather name="check-circle" size={24} color={Colors.Primary} />
           </View>
 
           <Text style={styles.learnsPointText}>{text.title}</Text>
         </View>
       ))}
-      <TouchableOpacity onPress={handleShowMoreOrLess} style={styles.showMoreButton}>
-        <Text style={styles.showMoreButtonText}>{showCount >= whatLearnsData.length ? "See Less" : "See More"}</Text>
+      <TouchableOpacity
+        onPress={handleShowMoreOrLess}
+        style={styles.showMoreButton}>
+        <Text style={styles.showMoreButtonText}>
+          {showCount >= whatLearnsData.length ? 'See Less' : 'See More'}
+        </Text>
       </TouchableOpacity>
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={whatWeLearnImage} />
@@ -45,7 +52,7 @@ const WhatLearns = ({ whatLearnsData }) => {
 
 export default WhatLearns;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -60,25 +67,25 @@ const getStyles = (Colors) =>
     },
     showMoreButtonText: {
       fontFamily: CustomFonts.MEDIUM,
-      textAlign: "center",
+      textAlign: 'center',
       color: Colors.PureWhite,
       paddingVertical: 8,
       fontSize: responsiveFontSize(2),
     },
     pointContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 10,
-      alignItems: "flex-start",
+      alignItems: 'flex-start',
       marginVertical: 10,
       flex: 1,
-      flexWrap: "wrap",
+      flexWrap: 'wrap',
     },
     whatLearnsTitle: {
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveFontSize(3),
       marginVertical: 10,
       color: Colors.Heading,
-      textAlign: "left",
+      textAlign: 'left',
     },
     learnsPointText: {
       fontSize: responsiveFontSize(2),
@@ -87,13 +94,13 @@ const getStyles = (Colors) =>
       flex: 1,
     },
     imageContainer: {
-      width: "100%",
-      alignItems: "center",
+      width: '100%',
+      alignItems: 'center',
       marginTop: 30,
     },
     image: {
       height: 380,
-      width: "100%",
-      resizeMode: "contain",
+      width: '100%',
+      resizeMode: 'contain',
     },
   });

@@ -27,7 +27,7 @@ import Divider from '../SharedComponent/Divider';
 import {useNavigation} from '@react-navigation/native';
 import SearchWhiteIcon from '../../assets/Icons/SearchWhiteIcon';
 import MenuIcon from '../../assets/Icons/MenuIcon';
-// import Ionicons from "@expo/vector-icons/Ionicons";
+// import Ionicons from "react-native-vector-icons/Ionicons";
 
 const ChatSearchField = ({checked, handleRadioChecked, handleFilter}) => {
   const [inputFocused, setInputFocused] = useState(false);

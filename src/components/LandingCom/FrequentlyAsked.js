@@ -1,11 +1,15 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import React, { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import faqIcon from "../../assets/Images/faq.png";
-const FrequentlyAsked = ({ faqs }) => {
+import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
+import React, {useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import faqIcon from '../../assets/Images/faq.png';
+const FrequentlyAsked = ({faqs}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [openFaq, setOpenFaq] = useState(null);
@@ -13,28 +17,45 @@ const FrequentlyAsked = ({ faqs }) => {
 
   const dataToDisplay = faqs.slice(0, displayCount);
 
-  const handleOpenDescription = (faqId) => {
+  const handleOpenDescription = faqId => {
     setOpenFaq(openFaq === faqId ? null : faqId);
   };
 
-  const renderFaqItem = (item) => (
+  const renderFaqItem = item => (
     <View key={item._id} style={styles.accordionContainer}>
       <TouchableOpacity
         onPress={() => handleOpenDescription(item._id)}
-        style={[styles.accordion, openFaq === item._id ? styles.activeAccordion : styles.inactiveAccordion]}
-      >
-        <Text style={[styles.accordionTitleText, openFaq === item._id ? styles.activeAccordionText : styles.inactiveAccordionText]}>
+        style={[
+          styles.accordion,
+          openFaq === item._id
+            ? styles.activeAccordion
+            : styles.inactiveAccordion,
+        ]}>
+        <Text
+          style={[
+            styles.accordionTitleText,
+            openFaq === item._id
+              ? styles.activeAccordionText
+              : styles.inactiveAccordionText,
+          ]}>
           {item.question}
         </Text>
-        <View style={openFaq === item._id ? styles.activeIconContainer : styles.inActiveIconContainer}>
+        <View
+          style={
+            openFaq === item._id
+              ? styles.activeIconContainer
+              : styles.inActiveIconContainer
+          }>
           <AntDesign
-            name={openFaq === item._id ? "minus" : "plus"}
+            name={openFaq === item._id ? 'minus' : 'plus'}
             size={20}
             color={openFaq === item._id ? Colors.PureWhite : Colors.Primary}
           />
         </View>
       </TouchableOpacity>
-      {openFaq === item._id && <Text style={styles.AccordionDescription}>{item.answer}</Text>}
+      {openFaq === item._id && (
+        <Text style={styles.AccordionDescription}>{item.answer}</Text>
+      )}
     </View>
   );
 
@@ -52,10 +73,14 @@ const FrequentlyAsked = ({ faqs }) => {
       <View style={styles.container}>
         <Text style={styles.titleText}>Frequently Asked Questions</Text>
 
-        {dataToDisplay.map((item) => renderFaqItem(item))}
+        {dataToDisplay.map(item => renderFaqItem(item))}
 
-        <TouchableOpacity onPress={handleShowMoreOrLess} style={styles.showMoreButton}>
-          <Text style={styles.showMoreButtonText}>{displayCount >= faqs.length ? "See Less" : "See More"}</Text>
+        <TouchableOpacity
+          onPress={handleShowMoreOrLess}
+          style={styles.showMoreButton}>
+          <Text style={styles.showMoreButtonText}>
+            {displayCount >= faqs.length ? 'See Less' : 'See More'}
+          </Text>
         </TouchableOpacity>
 
         <View style={styles.imageContainer}>
@@ -68,17 +93,17 @@ const FrequentlyAsked = ({ faqs }) => {
 
 export default FrequentlyAsked;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     imageContainer: {
-      width: "100%",
-      alignItems: "center",
+      width: '100%',
+      alignItems: 'center',
       marginTop: 30,
     },
     image: {
       height: 390,
-      width: "100%",
-      resizeMode: "contain",
+      width: '100%',
+      resizeMode: 'contain',
     },
     showMoreButton: {
       backgroundColor: Colors.Primary,
@@ -89,7 +114,7 @@ const getStyles = (Colors) =>
 
     showMoreButtonText: {
       fontFamily: CustomFonts.MEDIUM,
-      textAlign: "center",
+      textAlign: 'center',
       color: Colors.PureWhite,
       paddingVertical: 8,
       fontSize: responsiveFontSize(2),
@@ -105,22 +130,22 @@ const getStyles = (Colors) =>
       backgroundColor: Colors.White,
       marginBottom: 10,
       borderRadius: 10,
-      overflow: "hidden",
+      overflow: 'hidden',
     },
     activeIconContainer: {
       height: 30,
       width: 30,
       borderRadius: 50,
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: Colors.WhiteOpacityColor,
     },
     inActiveIconContainer: {
       height: 30,
       width: 30,
       borderRadius: 50,
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: Colors.PrimaryOpacityColor,
     },
     container: {
@@ -140,16 +165,16 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveFontSize(2),
       lineHeight: responsiveHeight(2.5),
-      flexWrap: "wrap",
+      flexWrap: 'wrap',
     },
     accordion: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       paddingHorizontal: 15,
       paddingVertical: 20,
       borderRadius: 10,
       gap: 5,
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
     activeAccordion: {
       backgroundColor: Colors.Primary,

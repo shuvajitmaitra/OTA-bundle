@@ -1,12 +1,26 @@
-import { LayoutAnimation, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, UIManager, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import CreatePostButtonContainer from "./CreatePostButtonContainer";
-import ArrowTopIcon from "../../assets/Icons/ArrowTopIcon";
-import { RegularFonts } from "../../constants/Fonts";
-import Feather from "@expo/vector-icons/Feather";
+import {
+  LayoutAnimation,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  UIManager,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import CreatePostButtonContainer from './CreatePostButtonContainer';
+import ArrowTopIcon from '../../assets/Icons/ArrowTopIcon';
+import {RegularFonts} from '../../constants/Fonts';
+import Feather from 'react-native-vector-icons/Feather';
 
 const CommunityCreatePost = () => {
   const Colors = useTheme();
@@ -14,7 +28,10 @@ const CommunityCreatePost = () => {
   const [post, setPost] = useState({});
   const [fullView, setFullView] = useState(false);
   useEffect(() => {
-    if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+    if (
+      Platform.OS === 'android' &&
+      UIManager.setLayoutAnimationEnabledExperimental
+    ) {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
   }, []);
@@ -36,20 +53,24 @@ const CommunityCreatePost = () => {
           <View style={styles.fieldContainer}>
             {/* <Text style={styles.fieldLabel}>Title*</Text> */}
             <TextInput
-              keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+              keyboardAppearance={
+                Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+              }
               placeholder="Enter post title..."
               multiline
               textAlignVertical="top"
               placeholderTextColor={Colors.BodyText}
-              style={[styles.input, { fontFamily: CustomFonts.REGULAR }]}
-              onChangeText={(text) => setPost((pre) => ({ ...pre, title: text }))}
-              value={post.title || ""}
+              style={[styles.input, {fontFamily: CustomFonts.REGULAR}]}
+              onChangeText={text => setPost(pre => ({...pre, title: text}))}
+              value={post.title || ''}
             />
           </View>
           <View style={styles.fieldContainer}>
             {/* <Text style={styles.fieldLabel}>Post*</Text> */}
             <TextInput
-              keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+              keyboardAppearance={
+                Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+              }
               placeholder="Write post..."
               placeholderTextColor={Colors.BodyText}
               textAlignVertical="top"
@@ -61,14 +82,18 @@ const CommunityCreatePost = () => {
                   fontFamily: CustomFonts.REGULAR,
                 },
               ]}
-              onChangeText={(text) => setPost((pre) => ({ ...pre, description: text }))}
-              value={post.description || ""}
+              onChangeText={text =>
+                setPost(pre => ({...pre, description: text}))
+              }
+              value={post.description || ''}
             />
           </View>
           <CreatePostButtonContainer post={post} setPost={setPost} />
         </>
       ) : (
-        <TouchableOpacity onPress={toggleStatusSection} style={styles.dummyInput}>
+        <TouchableOpacity
+          onPress={toggleStatusSection}
+          style={styles.dummyInput}>
           <Text style={styles.sloganText}>What's on your mind?</Text>
         </TouchableOpacity>
       )}
@@ -95,16 +120,16 @@ const CommunityCreatePost = () => {
 
 export default CommunityCreatePost;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     sloganText: {
       color: Colors.BodyText,
       fontSize: RegularFonts.HS,
     },
     toggleSection: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       // backgroundColor: "red",
       marginTop: responsiveScreenHeight(1),
     },
@@ -115,7 +140,7 @@ const getStyles = (Colors) =>
       marginBottom: 10,
       borderRadius: 7,
       paddingHorizontal: 15,
-      justifyContent: "center",
+      justifyContent: 'center',
     },
     input: {
       backgroundColor: Colors.Background_color,

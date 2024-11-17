@@ -4,21 +4,20 @@ import {useSelector} from 'react-redux';
 import SplashScreen from '../screens/SplashScreen';
 import AuthStackScreen from './AuthStackScreen';
 import DrawerNavigator from './DrawerNavigator';
-import BottomTabNavigator from './BottomTabNavigator';
 
 const Navigation = () => {
-  const {isAuthenticated} = useSelector(state => state.auth);
   const user = useSelector(state => state.auth.user);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  console.log('user', JSON.stringify(user, null, 1));
 
-  const [hasToken, setHasToken] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchToken() {
       if (user._id) {
-        setHasToken(true);
+        setIsAuthenticated(true);
       } else {
-        setHasToken(false);
+        setIsAuthenticated(false);
       }
       setLoading(false);
     }

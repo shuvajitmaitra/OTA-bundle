@@ -19,6 +19,7 @@ import modalReducer from './ModalReducer';
 import newChatReducer from './newChatReducer';
 import chatSlice from './chatSlice';
 import userStatusReducer from './userStatusReducer';
+import landingReducer from './landingReducer';
 
 const rootReducer = combineReducers({
   auth: authReducers,
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
   newChat: newChatReducer,
   userStatus: userStatusReducer,
   chatSlice: chatSlice,
+  landing: landingReducer,
 });
 
 export default rootReducer;

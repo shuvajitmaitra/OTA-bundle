@@ -16,7 +16,7 @@ import {FlatList} from 'react-native';
 import Divider from '../../SharedComponent/Divider';
 import CustomFonts from '../../../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
-// import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CreateCrowdModal from './CreateCrowdModal';
 import {useNavigation} from '@react-navigation/native';
 

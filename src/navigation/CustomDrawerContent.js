@@ -10,14 +10,28 @@ const CustomDrawerContent = props => {
   const {navigation} = props;
 
   const navigateToDisplaySettings = () => {
-    // Navigate to DisplaySettingsScreen within HomeStack
     navigation.navigate('BottomTabNavigator', {
       screen: 'HomeStack',
       params: {
         screen: 'DisplaySettingsScreen',
       },
     });
-    // navigation.closeDrawer(); // Optional: Close the drawer after navigation
+  };
+  const navigateToMyProfile = () => {
+    navigation.navigate('BottomTabNavigator', {
+      screen: 'HomeStack',
+      params: {
+        screen: 'MyProfile',
+      },
+    });
+  };
+  const handleChangePassword = () => {
+    navigation.navigate('BottomTabNavigator', {
+      screen: 'HomeStack',
+      params: {
+        screen: 'ChangePasswordScreen',
+      },
+    });
   };
 
   return (
@@ -34,6 +48,12 @@ const CustomDrawerContent = props => {
           style={styles.button}
           onPress={navigateToDisplaySettings}>
           <Text style={styles.buttonText}>Display Settings</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={navigateToMyProfile}>
+          <Text style={styles.buttonText}>My Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
+          <Text style={styles.buttonText}>Change Password</Text>
         </TouchableOpacity>
       </View>
     </DrawerContentScrollView>

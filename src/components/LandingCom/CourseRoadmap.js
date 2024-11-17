@@ -1,39 +1,50 @@
-import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import axiosInstance from "../../utility/axiosInstance";
-import Feather from "@expo/vector-icons/Feather";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
-const { width } = Dimensions.get("window");
+import {
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import axiosInstance from '../../utility/axiosInstance';
+import Feather from 'react-native-vector-icons/Feather';
+import CustomFonts from '../../constants/CustomFonts';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+const {width} = Dimensions.get('window');
 
-const CourseRoadmap = ({ courseId }) => {
+const CourseRoadmap = ({courseId}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
   const [benefits, setBenefits] = useState([]);
   // console.log("courseId", JSON.stringify(benefits?.roadmap?.quarters, null, 1));
   const weeksData = benefits?.roadmap?.quarters;
-  const weeks = weeksData?.[0]?.["weeks"] || [];
+  const weeks = weeksData?.[0]?.['weeks'] || [];
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   // console.log("weeks", JSON.stringify(weeks, null, 1));
   const handleNext = () => {
     if (currentIndex < weeks.length - 1) {
-      flatListRef.current.scrollToIndex({ index: currentIndex + 1 });
+      flatListRef.current.scrollToIndex({index: currentIndex + 1});
       setCurrentIndex(currentIndex + 1);
     }
   };
 
   const handlePrev = () => {
     if (currentIndex > 0) {
-      flatListRef.current.scrollToIndex({ index: currentIndex - 1 });
+      flatListRef.current.scrollToIndex({index: currentIndex - 1});
       setCurrentIndex(currentIndex - 1);
     }
   };
 
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({item, index}) => (
     <View style={styles.slide}>
       <Text style={styles.slideText}>{item.title}</Text>
       <Text style={styles.descriptionText}>{item.description}</Text>
@@ -49,7 +60,7 @@ const CourseRoadmap = ({ courseId }) => {
       const res = await axiosInstance.get(`/course/roadmap/find/${courseId}`);
       setBenefits(res?.data);
     } catch (error) {
-      console.error("Error fetching course data:", error);
+      console.error('Error fetching course data:', error);
     } finally {
       setIsLoading(false);
     }
@@ -74,10 +85,16 @@ const CourseRoadmap = ({ courseId }) => {
           showsHorizontalScrollIndicator={false}
         />
 
-        <TouchableOpacity onPress={handlePrev} style={styles.leftButton} disabled={currentIndex === 0}>
+        <TouchableOpacity
+          onPress={handlePrev}
+          style={styles.leftButton}
+          disabled={currentIndex === 0}>
           <Feather name="chevron-left" size={24} color={Colors.Primary} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleNext} style={styles.rightButton} disabled={currentIndex === weeks.length - 1}>
+        <TouchableOpacity
+          onPress={handleNext}
+          style={styles.rightButton}
+          disabled={currentIndex === weeks.length - 1}>
           <Feather name="chevron-right" size={24} color={Colors.Primary} />
         </TouchableOpacity>
       </View>
@@ -87,7 +104,7 @@ const CourseRoadmap = ({ courseId }) => {
 
 export default CourseRoadmap;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     weeksText: {
       color: Colors.Primary,
@@ -95,7 +112,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveFontSize(3),
     },
     weeksContainer: {
-      position: "absolute",
+      position: 'absolute',
       paddingVertical: 10,
       paddingHorizontal: 30,
       top: -30,
@@ -110,7 +127,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveFontSize(3),
       color: Colors.Heading,
       paddingBottom: responsiveHeight(3),
-      textAlign: "center",
+      textAlign: 'center',
     },
     container: {
       flex: 1,
@@ -124,14 +141,14 @@ const getStyles = (Colors) =>
       width: width - 40,
       marginHorizontal: 20,
       marginTop: 30,
-      alignItems: "center",
+      alignItems: 'center',
       paddingTop: 50,
     },
     slideText: {
       fontSize: responsiveFontSize(3.5),
       fontWeight: CustomFonts.MEDIUM,
       color: Colors.Heading,
-      textAlign: "center",
+      textAlign: 'center',
       marginBottom: 10,
       paddingHorizontal: 20,
     },
@@ -141,7 +158,7 @@ const getStyles = (Colors) =>
       borderWidth: 1,
       borderColor: Colors.Primary,
       backgroundColor: Colors.White,
-      position: "absolute",
+      position: 'absolute',
       bottom: 160,
       right: 5,
     },
@@ -150,13 +167,13 @@ const getStyles = (Colors) =>
       borderRadius: 50,
       borderWidth: 1,
       borderColor: Colors.Primary,
-      position: "absolute",
+      position: 'absolute',
       bottom: 160,
       left: 5,
       backgroundColor: Colors.White,
     },
     descriptionText: {
-      textAlign: "center",
+      textAlign: 'center',
       marginHorizontal: 30,
       fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,

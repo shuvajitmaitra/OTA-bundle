@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { useTheme } from "../../context/ThemeContext";
-import MentorCard from "./MentorCard";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
-import HorizontalLine from "../../constants/HorizontalLine";
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import MentorCard from './MentorCard';
+import CustomFonts from '../../constants/CustomFonts';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import HorizontalLine from '../../constants/HorizontalLine';
 
-const ClassDeliveryBy = ({ instructurs }) => {
+const ClassDeliveryBy = ({instructurs}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
@@ -23,12 +23,12 @@ const ClassDeliveryBy = ({ instructurs }) => {
 
 export default ClassDeliveryBy;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     titleText: {
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveFontSize(3),
-      textAlign: "center",
+      textAlign: 'center',
       color: Colors.Heading,
     },
     container: {

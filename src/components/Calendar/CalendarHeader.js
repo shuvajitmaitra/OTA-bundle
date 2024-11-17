@@ -1,35 +1,45 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import MessageNotificationContainer from "../MessageNotificationContainer";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native";
-import PlusCircleIcon from "../../assets/Icons/PlusCircleIcon";
-import CustomFonts from "../../constants/CustomFonts";
-import { RegularFonts } from "../../constants/Fonts";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import MessageNotificationContainer from '../MessageNotificationContainer';
+import {useTheme} from '../../context/ThemeContext';
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+import PlusCircleIcon from '../../assets/Icons/PlusCircleIcon';
+import CustomFonts from '../../constants/CustomFonts';
+import {RegularFonts} from '../../constants/Fonts';
 
-const CalendarHeader = ({ toggleModal }) => {
+const CalendarHeader = ({toggleModal}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { top } = useSafeAreaInsets();
+  const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
 
   return (
     <>
-      <View style={[styles.container, { paddingTop: top, paddingHorizontal: responsiveScreenWidth(2), paddingBottom: 10 }]}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+      <View
+        style={[
+          styles.container,
+          {
+            paddingTop: top,
+            paddingHorizontal: responsiveScreenWidth(2),
+            paddingBottom: 10,
+          },
+        ]}>
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
           <TouchableOpacity
             style={{
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
               backgroundColor: Colors.White,
               padding: 10,
               borderRadius: 100,
             }}
-            onPress={() => navigation.goBack()}
-          >
+            onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back" size={25} color={Colors.BodyText} />
           </TouchableOpacity>
           <TouchableOpacity style={[styles.btn]} onPress={toggleModal}>
@@ -48,29 +58,29 @@ const CalendarHeader = ({ toggleModal }) => {
 
 export default CalendarHeader;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     btnText: {
-      color: "white",
+      color: 'white',
       fontFamily: CustomFonts.MEDIUM,
       fontSize: RegularFonts.HS,
     },
     container: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       backgroundColor: Colors.Background_color,
-      alignItems: "center",
+      alignItems: 'center',
     },
     MessageNotificationContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
     btn: {
       // width: responsiveScreenWidth(44),
       height: 40,
       backgroundColor: Colors.Primary,
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       paddingHorizontal: responsiveScreenWidth(2),
       gap: 8,
       borderRadius: responsiveScreenWidth(2),
