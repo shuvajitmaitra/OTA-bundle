@@ -1,38 +1,41 @@
-import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import * as DocumentPicker from "expo-document-picker";
+import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
 
-import Modal from "react-native-modal";
-import { useDispatch, useSelector } from "react-redux";
-import { useTheme } from "../../context/ThemeContext";
-import ModalBackAndCrossButton from "../ChatCom/Modal/ModalBackAndCrossButton";
-import CrowdIcon from "../../assets/Icons/CrowedIcon";
-import CustomDropDown from "../SharedComponent/CustomDropDown";
-import ModalCustomButton from "../ChatCom/Modal/ModalCustomButton";
-import CustomFonts from "../../constants/CustomFonts";
-import moment from "moment";
-import CalenderIcon from "../../assets/Icons/CalenderIcon";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import axios from "axios";
-import axiosInstance from "../../utility/axiosInstance";
-import { ActivityIndicator } from "react-native";
-import { getFileTypeFromUri } from "../TechnicalTestCom/TestNow";
-import CrossCircle from "../../assets/Icons/CrossCircle";
-import { initialActivities } from "../../store/reducer/activitiesReducer";
-import { showToast } from "../HelperFunction";
-import { useGlobalAlert } from "../SharedComponent/GlobalAlertContext";
-import FileUploader from "../SharedComponent/FileUploder";
-import GlobalAlertModal from "../SharedComponent/GlobalAlertModal";
-import { showAlertModal } from "../../utility/commonFunction";
-import RequireFieldStar from "../../constants/RequireFieldStar";
+import Modal from 'react-native-modal';
+import {useDispatch, useSelector} from 'react-redux';
+import {useTheme} from '../../context/ThemeContext';
+import ModalBackAndCrossButton from '../ChatCom/Modal/ModalBackAndCrossButton';
+import ModalCustomButton from '../ChatCom/Modal/ModalCustomButton';
+import CustomFonts from '../../constants/CustomFonts';
+import axiosInstance from '../../utility/axiosInstance';
+import {initialActivities} from '../../store/reducer/activitiesReducer';
+import {showToast} from '../HelperFunction';
+import FileUploader from '../SharedComponent/FileUploder';
+import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
+import {showAlertModal} from '../../utility/commonFunction';
+import RequireFieldStar from '../../constants/RequireFieldStar';
 
-const CreateActivitiesModal = ({ isCreateActivitiesModalVisible, toggleCreateActivitiesModal, action, activityId }) => {
-  const { activities } = useSelector((state) => state?.activities);
-  const activityData = activities.length && activities?.find((item) => item._id === activityId);
-  const [title, setTitle] = useState(action ? activityData?.title : "");
-  const [description, setDescription] = useState(action ? activityData?.description : "");
-  const [attachments, setAttachments] = useState(action ? activityData?.attachments : []);
+const CreateActivitiesModal = ({
+  isCreateActivitiesModalVisible,
+  toggleCreateActivitiesModal,
+  action,
+  activityId,
+}) => {
+  const {activities} = useSelector(state => state?.activities);
+  const activityData =
+    activities.length && activities?.find(item => item._id === activityId);
+  const [title, setTitle] = useState(action ? activityData?.title : '');
+  const [description, setDescription] = useState(
+    action ? activityData?.description : '',
+  );
+  const [attachments, setAttachments] = useState(
+    action ? activityData?.attachments : [],
+  );
   const [isUploading, setIsUploading] = useState(false);
 
   const Colors = useTheme();
@@ -42,79 +45,87 @@ const CreateActivitiesModal = ({ isCreateActivitiesModalVisible, toggleCreateAct
 
   const data = {
     title,
-    category: "day2day",
+    category: 'day2day',
     description,
     attachments,
   };
   const handleCreateActivities = () => {
     if (!title) {
       return showAlertModal({
-        title: "Empty Title",
-        type: "warning",
-        message: "Title field is required",
+        title: 'Empty Title',
+        type: 'warning',
+        message: 'Title field is required',
       });
     }
     if (!description) {
       return showAlertModal({
-        title: "Empty Description",
-        type: "warning",
-        message: "Description field is required",
+        title: 'Empty Description',
+        type: 'warning',
+        message: 'Description field is required',
       });
     }
     axiosInstance
-      .post("/communication/shout", data)
-      .then((res) => {
+      .post('/communication/shout', data)
+      .then(res => {
         if (res.data.success) {
           dispatch(
             initialActivities({
               data: [res?.data?.post, ...activities],
               page: 1,
-            })
+            }),
           );
-          setTitle("");
+          setTitle('');
           setAttachments([]);
-          setDescription("");
+          setDescription('');
           toggleCreateActivitiesModal();
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (error.response) {
-          console.log("Server error:", JSON.stringify(error.response.data, null, 1));
+          console.log(
+            'Server error:',
+            JSON.stringify(error.response.data, null, 1),
+          );
         } else if (error.request) {
-          console.log("Network error:", JSON.stringify(error.request, null, 1));
+          console.log('Network error:', JSON.stringify(error.request, null, 1));
         } else {
-          console.log("Error:", JSON.stringify(error.message, null, 1));
+          console.log('Error:', JSON.stringify(error.message, null, 1));
         }
       });
   };
 
-  const handleUpdateActivities = (id) => {
+  const handleUpdateActivities = id => {
     if (!description) {
-      return alert("Description field require");
+      return alert('Description field require');
     }
     axiosInstance
       .patch(`communication/update/${id}`, data)
-      .then((res) => {
+      .then(res => {
         if (res.data.success) {
           dispatch(
             initialActivities({
-              data: activities?.map((item) => (item?._id === id ? res.data.post : item)),
+              data: activities?.map(item =>
+                item?._id === id ? res.data.post : item,
+              ),
               page: 1,
-            })
+            }),
           );
-          showToast("Activities updated");
+          showToast('Activities updated');
           toggleCreateActivitiesModal();
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
-        console.log("error communication update create activities modal", JSON.stringify(error, null, 1));
+        console.log(
+          'error communication update create activities modal',
+          JSON.stringify(error, null, 1),
+        );
       });
   };
 
-  const removeDocument = (uri) => {
+  const removeDocument = uri => {
     // console.log("uri", JSON.stringify(uri, null, 1));
-    setAttachments(attachments?.filter((item) => item !== uri));
+    setAttachments(attachments?.filter(item => item !== uri));
   };
 
   return (
@@ -133,8 +144,13 @@ const CreateActivitiesModal = ({ isCreateActivitiesModalVisible, toggleCreateAct
             {/* ----------- Header container ----------- */}
             {/* -------------------------- */}
             <View style={styles.headerContainer}>
-              <Text style={styles.headerText}>{action ? action : "create"} Activities</Text>
-              <Text style={styles.headerDescription}>Please fill out the form to {action ? action : "create"} an activity.</Text>
+              <Text style={styles.headerText}>
+                {action ? action : 'create'} Activities
+              </Text>
+              <Text style={styles.headerDescription}>
+                Please fill out the form to {action ? action : 'create'} an
+                activity.
+              </Text>
             </View>
             <View style={styles.fieldContainer}>
               <Text style={styles.Text}>
@@ -143,12 +159,14 @@ const CreateActivitiesModal = ({ isCreateActivitiesModalVisible, toggleCreateAct
               </Text>
 
               <TextInput
-                keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
                 placeholderTextColor={Colors.BodyText}
                 style={styles.inputField}
-                placeholder={"Enter title"}
+                placeholder={'Enter title'}
                 value={title}
-                onChangeText={(text) => setTitle(text)}
+                onChangeText={text => setTitle(text)}
               />
             </View>
 
@@ -157,21 +175,26 @@ const CreateActivitiesModal = ({ isCreateActivitiesModalVisible, toggleCreateAct
                 Description
                 <RequireFieldStar />
               </Text>
-              <View style={[styles.inputContainer, { height: "auto" }]}>
+              <View style={[styles.inputContainer, {height: 'auto'}]}>
                 <TextInput
-                  keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                  keyboardAppearance={
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                  }
                   spellCheck={true}
                   style={[styles.textAreaInput]}
                   multiline={true}
                   value={description}
-                  onChangeText={(text) => setDescription(text)}
+                  onChangeText={text => setDescription(text)}
                   placeholderTextColor={Colors.BodyText}
-                  placeholder={"Enter description"}
+                  placeholder={'Enter description'}
                 />
               </View>
             </View>
 
-            <FileUploader setAttachments={setAttachments} attachments={attachments} />
+            <FileUploader
+              setAttachments={setAttachments}
+              attachments={attachments}
+            />
 
             {/* -------------------------- */}
             {/* ----------- Border and button  ----------- */}
@@ -181,8 +204,7 @@ const CreateActivitiesModal = ({ isCreateActivitiesModalVisible, toggleCreateAct
                 borderBottomWidth: 1,
                 marginBottom: responsiveScreenHeight(2),
                 borderBottomColor: Colors.BorderColor,
-              }}
-            ></View>
+              }}></View>
             {/* <View style={styles.buttonContainer}>
               <ModalCustomButton
                 toggleModal={toggleCreateActivitiesModal}
@@ -228,12 +250,22 @@ const CreateActivitiesModal = ({ isCreateActivitiesModalVisible, toggleCreateAct
                   toggleModal={() => {
                     if (!isUploading) {
                       // Only allow submission if not uploading
-                      action ? handleUpdateActivities(activityId) : handleCreateActivities();
+                      action
+                        ? handleUpdateActivities(activityId)
+                        : handleCreateActivities();
                     }
                   }}
-                  textColor={isUploading ? Colors.DisablePrimaryButtonTextColor : Colors.PureWhite}
-                  backgroundColor={isUploading ? Colors.DisablePrimaryBackgroundColor : Colors.Primary}
-                  buttonText={activityId ? "Update" : "Submit"}
+                  textColor={
+                    isUploading
+                      ? Colors.DisablePrimaryButtonTextColor
+                      : Colors.PureWhite
+                  }
+                  backgroundColor={
+                    isUploading
+                      ? Colors.DisablePrimaryBackgroundColor
+                      : Colors.Primary
+                  }
+                  buttonText={activityId ? 'Update' : 'Submit'}
                   disabled={isUploading} // Disable the button while uploading
                 />
               )}
@@ -248,24 +280,24 @@ const CreateActivitiesModal = ({ isCreateActivitiesModalVisible, toggleCreateAct
 
 export default CreateActivitiesModal;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     docPreview: {
-      width: "100%",
+      width: '100%',
       // backgroundColor: "red",
-      flexDirection: "row",
-      flexWrap: "wrap",
+      flexDirection: 'row',
+      flexWrap: 'wrap',
       flexBasis: 99,
       gap: 10,
     },
     CrossCircle: {
       backgroundColor: Colors.Primary,
       width: 20,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       height: 20,
       borderRadius: 100,
-      position: "absolute",
+      position: 'absolute',
       top: -10,
       right: -10,
     },
@@ -279,13 +311,13 @@ const getStyles = (Colors) =>
       backgroundColor: Colors.PrimaryOpacityColor,
       borderRadius: responsiveScreenWidth(3),
       marginVertical: responsiveScreenHeight(1),
-      borderStyle: "dashed",
+      borderStyle: 'dashed',
       borderColor: Colors.Primary,
       borderWidth: 1.5,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      position: "relative",
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
     },
     uploadText: {
       color: Colors.Primary,
@@ -298,9 +330,9 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.6),
     },
     buttonContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2.5),
-      justifyContent: "center",
+      justifyContent: 'center',
       // paddingVertical: responsiveScreenHeight(2.5),
     },
     // bottomBorder: {
@@ -326,20 +358,20 @@ const getStyles = (Colors) =>
     inputContainer: {
       borderRadius: 10,
       borderWidth: 1,
-      flexDirection: "row",
+      flexDirection: 'row',
       backgroundColor: Colors.ModalBoxColor,
-      alignItems: "center",
+      alignItems: 'center',
       borderColor: Colors.BorderColor,
       paddingRight: responsiveScreenWidth(3),
     },
     textAreaInput: {
-      width: "100%",
+      width: '100%',
       fontSize: responsiveScreenFontSize(1.7),
       color: Colors.Heading,
       // backgroundColor: "red",
       fontFamily: CustomFonts.REGULAR,
       paddingVertical: responsiveScreenHeight(1),
-      textAlignVertical: "top",
+      textAlignVertical: 'top',
       marginLeft: responsiveScreenWidth(2),
       minHeight: responsiveScreenHeight(10),
     },
@@ -366,12 +398,12 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.5),
       color: Colors.Heading,
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     headerDescription: {
       fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
-      width: "80%",
+      width: '80%',
     },
     // --------------------------
     // ----------- Main Container -----------
@@ -386,9 +418,9 @@ const getStyles = (Colors) =>
       maxHeight: responsiveScreenHeight(80),
     },
     topBarContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      minWidth: "100%",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      minWidth: '100%',
     },
     subContainer: {
       // maxHeight: responsiveScreenHeight(70),
@@ -396,8 +428,8 @@ const getStyles = (Colors) =>
     },
     modalArrowIcon: {
       paddingBottom: responsiveScreenHeight(0.8),
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(2),
       color: Colors.BodyText,
     },
@@ -410,7 +442,7 @@ const getStyles = (Colors) =>
       backgroundColor: Colors.PrimaryOpacityColor,
       padding: responsiveScreenWidth(2.5),
       borderRadius: 100,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });

@@ -1,38 +1,38 @@
-import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import ArrowLeftWhite from "../../assets/Icons/ArrowLeftWhite";
-import ArrowRightWhite from "../../assets/Icons/ArrowRightWhite";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import moment from "moment";
-import Markdown from "react-native-markdown-display";
-import EditIcon from "../../assets/Icons/EditIcon";
-import DeleteIcon from "../../assets/Icons/DeleteIcon";
-import EditIconTwo from "../../assets/Icons/EditIcon2";
-import BinIcon from "../../assets/Icons/BinIcon";
-import { SafeAreaView } from "react-native-safe-area-context";
-import axiosInstance from "../../utility/axiosInstance";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
-import { initialActivities } from "../../store/reducer/activitiesReducer";
-import CreateActivitiesModal from "../../components/DayToDayActivitiesCom/CreateActivitiesModal";
-import DoubleArrowLeft from "../../assets/Icons/DoubleArrowLeftIcon";
-import DoubleArrowRightIcon from "../../assets/Icons/DoubleArrowRightIcon";
-import { getFileTypeFromUri } from "../../components/TechnicalTestCom/TestNow";
-import Images from "../../constants/Images";
-import ImageView from "react-native-image-viewing";
-import { extractFilename, handleOpenLink } from "../../components/HelperFunction";
-import DownloadIconTwo from "../../assets/Icons/DownloadIconTwo";
+import {
+  Image,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
+import ArrowLeftWhite from '../../assets/Icons/ArrowLeftWhite';
+import ArrowRightWhite from '../../assets/Icons/ArrowRightWhite';
+import {useTheme} from '../../context/ThemeContext';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import moment from 'moment';
+import Markdown from 'react-native-markdown-display';
+import {useSelector} from 'react-redux';
+import DoubleArrowLeft from '../../assets/Icons/DoubleArrowLeftIcon';
+import DoubleArrowRightIcon from '../../assets/Icons/DoubleArrowRightIcon';
+import {getFileTypeFromUri} from '../../components/TechnicalTestCom/TestNow';
+import ImageView from 'react-native-image-viewing';
+import {extractFilename, handleOpenLink} from '../../components/HelperFunction';
+import DownloadIconTwo from '../../assets/Icons/DownloadIconTwo';
 
-const ActivitiesDetails = ({ route }) => {
+const ActivitiesDetails = ({route}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [dataIndex, setDataIndex] = useState(route?.params?.index);
-  const { activities } = useSelector((state) => state.activities);
-  const dispatch = useDispatch();
+  const {activities} = useSelector(state => state.activities);
   const data = activities[dataIndex];
-  const navigation = useNavigation();
   const [imageNumber, setImageNumber] = useState(0);
   const [viewImage, setViewImage] = useState([]);
 
@@ -41,7 +41,11 @@ const ActivitiesDetails = ({ route }) => {
       <StatusBar
         translucent={true}
         backgroundColor={Colors.White}
-        barStyle={Colors.Background_color === "#F5F5F5" ? "dark-content" : "light-content"}
+        barStyle={
+          Colors.Background_color === '#F5F5F5'
+            ? 'dark-content'
+            : 'light-content'
+        }
       />
 
       <View style={styles.contain}>
@@ -60,14 +64,12 @@ const ActivitiesDetails = ({ route }) => {
                   {
                     backgroundColor: Colors.PrimaryButtonBackgroundColor,
                   },
-                ]}
-              >
+                ]}>
                 <ArrowLeftWhite color={Colors.PrimaryButtonTextColor} />
                 <Text
                   style={{
                     color: Colors.PrimaryButtonTextColor,
-                  }}
-                >
+                  }}>
                   Back
                 </Text>
               </TouchableOpacity>
@@ -85,13 +87,11 @@ const ActivitiesDetails = ({ route }) => {
                   {
                     backgroundColor: Colors.SecondaryButtonBackgroundColor,
                   },
-                ]}
-              >
+                ]}>
                 <Text
                   style={{
                     color: Colors.SecondaryButtonTextColor,
-                  }}
-                >
+                  }}>
                   Next
                 </Text>
                 <ArrowRightWhite color={Colors.SecondaryButtonTextColor} />
@@ -104,37 +104,44 @@ const ActivitiesDetails = ({ route }) => {
                   -----------top section--------
                   ------------------------------------ */}
           <View style={styles.testContainer}>
-            <ImageView images={viewImage} imageIndex={0} visible={viewImage?.length !== 0} onRequestClose={() => setViewImage([])} />
+            <ImageView
+              images={viewImage}
+              imageIndex={0}
+              visible={viewImage?.length !== 0}
+              onRequestClose={() => setViewImage([])}
+            />
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
                 // backgroundColor: "red",
-                position: "relative",
-              }}
-            >
+                position: 'relative',
+              }}>
               {imageNumber > 0 && data?.attachments?.length > 1 ? (
                 <TouchableOpacity
                   onPress={() => setImageNumber(imageNumber - 1)}
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     left: responsiveScreenWidth(-5),
                     zIndex: 1,
-                  }}
-                >
+                  }}>
                   <DoubleArrowLeft />
                 </TouchableOpacity>
               ) : null}
-              {getFileTypeFromUri(data?.attachments[imageNumber]) == "image" ? (
-                <TouchableOpacity style={styles.image} onPress={() => setViewImage([{ uri: data?.attachments[imageNumber] }])}>
+              {getFileTypeFromUri(data?.attachments[imageNumber]) == 'image' ? (
+                <TouchableOpacity
+                  style={styles.image}
+                  onPress={() =>
+                    setViewImage([{uri: data?.attachments[imageNumber]}])
+                  }>
                   <Image
                     style={{
-                      width: "100%",
+                      width: '100%',
                       height: 200,
                       borderRadius: 10,
                     }}
-                    source={{ uri: data?.attachments[imageNumber] }}
+                    source={{uri: data?.attachments[imageNumber]}}
                   />
                 </TouchableOpacity>
               ) : // <TouchableOpacity
@@ -145,34 +152,58 @@ const ActivitiesDetails = ({ route }) => {
               //     source={{ uri: data?.attachments[imageNumber] }}
               //   />
               // </TouchableOpacity>
-              getFileTypeFromUri(data?.attachments[imageNumber]) == "pdf" ? (
+              getFileTypeFromUri(data?.attachments[imageNumber]) == 'pdf' ? (
                 <>
-                  <Image style={styles.image} source={require(`../../assets/Images/placeholder-pdf.png`)} />
-                  <Text style={styles.fileName}>{extractFilename(data?.attachments[imageNumber])}</Text>
-                  <TouchableOpacity onPress={() => handleOpenLink(data?.attachments[imageNumber])} style={styles.downloadIcon}>
+                  <Image
+                    style={styles.image}
+                    source={require(`../../assets/Images/placeholder-pdf.png`)}
+                  />
+                  <Text style={styles.fileName}>
+                    {extractFilename(data?.attachments[imageNumber])}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      handleOpenLink(data?.attachments[imageNumber])
+                    }
+                    style={styles.downloadIcon}>
                     <DownloadIconTwo color={Colors.PureGray} size={30} />
                   </TouchableOpacity>
                 </>
-              ) : getFileTypeFromUri(data?.attachments[imageNumber]) == "document" ? (
+              ) : getFileTypeFromUri(data?.attachments[imageNumber]) ==
+                'document' ? (
                 <>
-                  <Image resizeMode="cover" style={styles.image} source={require(`../../assets/Images/placeholder-doc.png`)} />
-                  <Text style={styles.fileName}>{extractFilename(data?.attachments[imageNumber])}</Text>
-                  <TouchableOpacity onPress={() => handleOpenLink(data?.attachments[imageNumber])} style={styles.downloadIcon}>
+                  <Image
+                    resizeMode="cover"
+                    style={styles.image}
+                    source={require(`../../assets/Images/placeholder-doc.png`)}
+                  />
+                  <Text style={styles.fileName}>
+                    {extractFilename(data?.attachments[imageNumber])}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      handleOpenLink(data?.attachments[imageNumber])
+                    }
+                    style={styles.downloadIcon}>
                     <DownloadIconTwo color={Colors.PureGray} size={30} />
                   </TouchableOpacity>
                 </>
               ) : (
-                <Image resizeMode="cover" style={styles.image} source={require(`../../assets/Images/placeholder-default.png`)} />
+                <Image
+                  resizeMode="cover"
+                  style={styles.image}
+                  source={require(`../../assets/Images/placeholder-default.png`)}
+                />
               )}
-              {imageNumber < data?.attachments?.length - 1 && data?.attachments?.length > 1 ? (
+              {imageNumber < data?.attachments?.length - 1 &&
+              data?.attachments?.length > 1 ? (
                 <TouchableOpacity
                   onPress={() => setImageNumber(imageNumber + 1)}
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     right: responsiveScreenWidth(-5),
                     zIndex: 1,
-                  }}
-                >
+                  }}>
                   <DoubleArrowRightIcon />
                 </TouchableOpacity>
               ) : null}
@@ -180,27 +211,34 @@ const ActivitiesDetails = ({ route }) => {
 
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
               <Text style={styles.titleText}>{data?.title}</Text>
             </View>
 
             <View style={styles.statusContainer}>
               <Text style={styles.statusTitle}>Date:</Text>
-              <Text style={styles.statusText}>{moment(data?.createdAt).format("MMM DD, YYYY")}</Text>
+              <Text style={styles.statusText}>
+                {moment(data?.createdAt).format('MMM DD, YYYY')}
+              </Text>
             </View>
             <View style={styles.statusContainer}>
               <Text style={styles.statusTitle}>Created By:</Text>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 7 }}>
-                <Image style={styles.imageSmall} source={{ uri: data?.sender?.profilePicture }} />
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 7}}>
+                <Image
+                  style={styles.imageSmall}
+                  source={{uri: data?.sender?.profilePicture}}
+                />
                 <Text style={styles.statusText}>{data?.sender.fullName}</Text>
               </View>
             </View>
             <View style={styles.markdownContainer}>
-              <Markdown style={styles.markdownStyle}>{data?.description}</Markdown>
+              <Markdown style={styles.markdownStyle}>
+                {data?.description}
+              </Markdown>
             </View>
             {/* <View style={styles.line}></View> */}
 
@@ -239,22 +277,22 @@ const ActivitiesDetails = ({ route }) => {
 
 export default ActivitiesDetails;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     downloadIcon: {
-      position: "absolute",
+      position: 'absolute',
       top: responsiveScreenHeight(12),
     },
     fileName: {
-      position: "absolute",
-      width: "70%",
+      position: 'absolute',
+      width: '70%',
       borderWidth: 1.5,
       borderColor: Colors.PureGray,
       color: Colors.PureGray,
       borderRadius: 5,
       paddingHorizontal: responsiveScreenWidth(3),
       paddingVertical: responsiveScreenHeight(0.5),
-      textAlign: "center",
+      textAlign: 'center',
       top: responsiveScreenHeight(6),
     },
     editIcon: {
@@ -293,7 +331,7 @@ const getStyles = (Colors) =>
 
         fontFamily: CustomFonts.REGULAR,
         lineHeight: 24,
-        textAlign: "justify",
+        textAlign: 'justify',
         marginBottom: responsiveScreenHeight(1.5),
       },
       heading1: {
@@ -320,7 +358,7 @@ const getStyles = (Colors) =>
       paragraph: {
         marginTop: 10,
         marginBottom: 10,
-        textAlign: "justify",
+        textAlign: 'justify',
       },
       link: {
         color: Colors.Primary,
@@ -331,7 +369,7 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(1.8),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     statusTitle: {
       fontFamily: CustomFonts.MEDIUM,
@@ -339,8 +377,8 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.8),
     },
     statusContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: 5,
       marginTop: responsiveScreenHeight(0.5),
     },
@@ -351,7 +389,7 @@ const getStyles = (Colors) =>
       flex: 1,
     },
     image: {
-      width: "100%",
+      width: '100%',
       height: 200,
       borderRadius: 10,
       marginBottom: responsiveScreenHeight(2),
@@ -365,7 +403,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(2.5),
       color: Colors.Heading,
       fontFamily: CustomFonts.SEMI_BOLD,
-      width: "50%",
+      width: '50%',
     },
     container: {
       flex: 1,
@@ -379,13 +417,13 @@ const getStyles = (Colors) =>
       marginBottom: responsiveScreenHeight(10),
     },
     headingContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       marginVertical: responsiveScreenHeight(1),
-      alignItems: "center",
+      alignItems: 'center',
     },
     btnContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       // justifyContent: "space-between",
       gap: responsiveScreenWidth(2),
       height: responsiveScreenHeight(3.5),
@@ -395,33 +433,33 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.6),
       color: Colors.PureWhite,
-      textAlign: "center",
+      textAlign: 'center',
     },
     backBtn: {
       paddingHorizontal: responsiveScreenWidth(2),
       // paddingVertical: responsiveScreenHeight(1),
       borderRadius: responsiveScreenWidth(2),
       backgroundColor: Colors.Primary,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(1),
-      alignItems: "center",
+      alignItems: 'center',
     },
     nextBtn: {
       paddingHorizontal: responsiveScreenWidth(2),
       // paddingVertical: responsiveScreenHeight(1),
       borderRadius: responsiveScreenWidth(2),
       backgroundColor: Colors.BodyText,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(1),
-      alignItems: "center",
+      alignItems: 'center',
     },
 
     line: {
       marginBottom: responsiveScreenHeight(2),
       borderBottomWidth: 1,
       borderBottomColor: Colors.LineColor,
-      width: "100%",
-      alignSelf: "center",
+      width: '100%',
+      alignSelf: 'center',
     },
     reportTitle: {
       color: Colors.Heading,
@@ -429,7 +467,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(2),
     },
     reportContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(4),
       marginVertical: responsiveScreenHeight(1),
     },
@@ -442,7 +480,7 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      textAlignVertical: "top",
+      textAlignVertical: 'top',
 
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(3),
@@ -452,8 +490,8 @@ const getStyles = (Colors) =>
       width: responsiveScreenWidth(67),
     },
     reportSubmit: {
-      display: "flex",
-      alignSelf: "flex-end",
+      display: 'flex',
+      alignSelf: 'flex-end',
       marginTop: responsiveScreenHeight(2),
     },
     reportBtn: {
@@ -467,6 +505,6 @@ const getStyles = (Colors) =>
       color: Colors.PureWhite,
       fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
-      textAlign: "center",
+      textAlign: 'center',
     },
   });

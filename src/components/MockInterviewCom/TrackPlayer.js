@@ -7,15 +7,15 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {Audio} from 'expo-av';
-import {MaterialIcons} from '@expo/vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 import {
   responsiveFontSize,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import Waveform from '../../components/chat/WaveForm';
 import {useFocusEffect} from '@react-navigation/native';
+import Waveform from '../ChatCom/WaveForm';
 
 const formatTime = time => {
   return new Date(time * 1000).toISOString().substr(14, 5);

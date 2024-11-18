@@ -15,7 +15,6 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
-import {BlurView} from 'expo-blur';
 import PlayButtonCircle from '../../assets/Icons/PlayButtonCircle';
 import AudioIcon from '../../assets/Icons/AudioIcon';
 import axiosInstance from '../../utility/axiosInstance';
@@ -130,7 +129,7 @@ export default function AudioVideoScreen() {
                     )}
                   </TouchableOpacity>
                 </View>
-                <BlurView intensity={100} style={styles.infoContainer}>
+                <View style={styles.infoContainer}>
                   <View style={styles.info}>
                     <Text style={styles.doc}>
                       {media?.title?.length > 28
@@ -141,7 +140,7 @@ export default function AudioVideoScreen() {
                       Date: {formattingDate(media?.createdAt)}
                     </Text>
                   </View>
-                </BlurView>
+                </View>
               </View>
             ))
           ) : (

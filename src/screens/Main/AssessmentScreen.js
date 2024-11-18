@@ -1,31 +1,46 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View, Platform, ScrollView, StatusBar, Animated, Alert } from "react-native";
-import React, { useEffect, useState } from "react";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
-import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Platform,
+  ScrollView,
+  StatusBar,
+  Animated,
+  Alert,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useNavigation} from '@react-navigation/native';
 
-import { useSelector, useDispatch } from "react-redux";
+import {useSelector, useDispatch} from 'react-redux';
 
-import CustomFonts from "../../constants/CustomFonts";
-import CustomeBtn from "../../components/AuthenticationCom/CustomeBtn";
-import CustomePasswordField from "../../components/AuthenticationCom/CustomePasswordField";
-import MyButton from "../../components/AuthenticationCom/MyButton";
-import axiosInstance from "../../utility/axiosInstance";
-import { useTheme } from "../../context/ThemeContext";
-import TopContainer from "../../components/TopContainer";
-import FolderIcon from "../../assets/Icons/FolderIcon";
-import { LineChapterModuleIcon } from "../../assets/Icons/LineChapterModuleIcon";
-import AssessmentLineIcon from "../../assets/Icons/AssessmentLineIcon";
-import Modal from "react-native-modal";
-import ModalHeader from "../../components/ModalHeader";
-import CrossIcon from "../../assets/Icons/CrossIcon";
-import AssessmentRulesModal from "../../components/AssessmentCom/AssessmentRulesModal";
-import StartTestModal from "../../components/AssessmentCom/StartTestModal";
-import CongratulationModal from "../../components/AssessmentCom/CongratulationModal";
-import Loading from "../../components/SharedComponent/Loading";
-import NoDataAvailable from "../../components/SharedComponent/NoDataAvailable";
-import moment from "moment";
-import ResultModal from "../../components/AssessmentCom/ResultModal";
+import CustomFonts from '../../constants/CustomFonts';
+import CustomeBtn from '../../components/AuthenticationCom/CustomeBtn';
+import CustomePasswordField from '../../components/AuthenticationCom/CustomePasswordField';
+import MyButton from '../../components/AuthenticationCom/MyButton';
+import axiosInstance from '../../utility/axiosInstance';
+import {useTheme} from '../../context/ThemeContext';
+import TopContainer from '../../components/TopContainer';
+import FolderIcon from '../../assets/Icons/FolderIcon';
+import {LineChapterModuleIcon} from '../../assets/Icons/LineChapterModuleIcon';
+import AssessmentLineIcon from '../../assets/Icons/AssessmentLineIcon';
+import Modal from 'react-native-modal';
+import ModalHeader from '../../components/ModalHeader';
+import CrossIcon from '../../assets/Icons/CrossIcon';
+import AssessmentRulesModal from '../../components/AssessmentCom/AssessmentRulesModal';
+import StartTestModal from '../../components/AssessmentCom/StartTestModal';
+import CongratulationModal from '../../components/AssessmentCom/CongratulationModal';
+import Loading from '../../components/SharedComponent/Loading';
+import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
+import moment from 'moment';
+import ResultModal from '../../components/AssessmentCom/ResultModal';
 // import { calculateNewMassToMatchDuration } from "react-native-reanimated/lib/typescript/reanimated2/animation/springUtils";
 export default function AssessmentScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,85 +50,87 @@ export default function AssessmentScreen() {
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { user } = useSelector((state) => state.auth);
+  const {user} = useSelector(state => state.auth);
   const navigation = useNavigation();
-  const [isAssessmentRuleModalVisible, setIsAssessmentRuleModalVisible] = useState(false);
+  const [isAssessmentRuleModalVisible, setIsAssessmentRuleModalVisible] =
+    useState(false);
   const [items, setItems] = useState([]);
   const [isResultModalVisible, setIsResultModalVisible] = useState(false);
 
   const toggleAssessmentRuleModal = () => {
-    setIsAssessmentRuleModalVisible((pre) => !pre);
+    setIsAssessmentRuleModalVisible(pre => !pre);
   };
   const [isStartTestModalVisible, setIsStartTestModalVisible] = useState(false);
   const toggleStartTestModal = () => {
     setIsAssessmentRuleModalVisible(false);
-    setIsStartTestModalVisible((pre) => !pre);
+    setIsStartTestModalVisible(pre => !pre);
   };
 
   const toggleResultModal = () => {
-    setIsResultModalVisible((pre) => !pre);
+    setIsResultModalVisible(pre => !pre);
   };
 
-  const [congratulationModalVisible, setCongratulationModalVisible] = useState(false);
+  const [congratulationModalVisible, setCongratulationModalVisible] =
+    useState(false);
 
   useEffect(() => {
     setIsLoading(true);
 
     axiosInstance
-      .get("/enrollment/enrollment-test/mytests")
-      .then((res) => {
+      .get('/enrollment/enrollment-test/mytests')
+      .then(res => {
         if (res.data.success) {
           setItems(res.data.results);
           setIsLoading(false);
         }
       })
-      .catch((error) => {
-        console.log("error you got", JSON.stringify(error, null, 1));
+      .catch(error => {
+        console.log('error you got', JSON.stringify(error, null, 1));
         setIsLoading(false);
       });
   }, []);
 
   const toggleCongratulationModal = () => {
-    toggleStartTestModal((prev) => !prev);
-    setCongratulationModalVisible((pre) => !pre);
+    toggleStartTestModal(prev => !prev);
+    setCongratulationModalVisible(pre => !pre);
   };
 
   const demoData = [
     {
-      title: "demo Mock exam",
+      title: 'demo Mock exam',
       marks: 100,
-      date: "15/01/24",
-      duration: "1 hour",
+      date: '15/01/24',
+      duration: '1 hour',
     },
     {
-      title: "demo Mock exam",
+      title: 'demo Mock exam',
       marks: 100,
-      date: "15/01/24",
-      duration: "1 hour",
+      date: '15/01/24',
+      duration: '1 hour',
     },
     {
-      title: "demo Mock exam",
+      title: 'demo Mock exam',
       marks: 100,
-      date: "15/01/24",
-      duration: "1 hour",
+      date: '15/01/24',
+      duration: '1 hour',
     },
     {
-      title: "demo Mock exam",
+      title: 'demo Mock exam',
       marks: 100,
-      date: "15/01/24",
-      duration: "1 hour",
+      date: '15/01/24',
+      duration: '1 hour',
     },
     {
-      title: "demo Mock exam",
+      title: 'demo Mock exam',
       marks: 100,
-      date: "15/01/24",
-      duration: "1 hour",
+      date: '15/01/24',
+      duration: '1 hour',
     },
     {
-      title: "demo Mock exam",
+      title: 'demo Mock exam',
       marks: 100,
-      date: "15/01/24",
-      duration: "1 hour",
+      date: '15/01/24',
+      duration: '1 hour',
     },
   ];
 
@@ -127,12 +144,14 @@ export default function AssessmentScreen() {
         <View style={styles.itemContainer}>
           {items?.length > 0 ? (
             items?.map((item, index) => (
-              <View key={item?.program?._id || index} style={styles.mockExamContainer}>
+              <View
+                key={item?.program?._id || index}
+                style={styles.mockExamContainer}>
                 <View style={styles.folderIconContainer}>
                   <View style={styles.imgContainer}>
                     <Image
                       source={{
-                        uri: "https://s3-alpha-sig.figma.com/img/3b92/423b/b4fd6098272937deaec17deb2514af8d?Expires=1716163200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=U-RtDfLhxjV5gendtZYdeVgMDIdWWW6mR2Gc1g6J3CmNVm7Dgl1sSWJeuGRdaBekjKW1ou6hq-y7rc1M875UMx7pvtnz5s2I0QFtoDIVPCpImVNaHNU8B70fYlDZThgXsyrXOvFN178yoWwgNzkm~pDLlKpRgPjj8zktgNQCdROjxAnauD5Su8SjzB6eAVcd5CFbDoasjGDVvIi4VEpmGDIZy6q8sDz0RNfEj-xz9bYOGCbHhtBRyNrrKlzydzKe88iAWoL68DbUoIoMkQn~YdlaUUtmMeG3s2JsSPUQxWu5zJxJQNkSgkQnUEdfPkd~kEMtkIjBIiC7ipL5ZeRWWw__",
+                        uri: 'https://s3-alpha-sig.figma.com/img/3b92/423b/b4fd6098272937deaec17deb2514af8d?Expires=1716163200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=U-RtDfLhxjV5gendtZYdeVgMDIdWWW6mR2Gc1g6J3CmNVm7Dgl1sSWJeuGRdaBekjKW1ou6hq-y7rc1M875UMx7pvtnz5s2I0QFtoDIVPCpImVNaHNU8B70fYlDZThgXsyrXOvFN178yoWwgNzkm~pDLlKpRgPjj8zktgNQCdROjxAnauD5Su8SjzB6eAVcd5CFbDoasjGDVvIi4VEpmGDIZy6q8sDz0RNfEj-xz9bYOGCbHhtBRyNrrKlzydzKe88iAWoL68DbUoIoMkQn~YdlaUUtmMeG3s2JsSPUQxWu5zJxJQNkSgkQnUEdfPkd~kEMtkIjBIiC7ipL5ZeRWWw__',
                       }}
                       style={styles.imgStyle}
                     />
@@ -146,34 +165,58 @@ export default function AssessmentScreen() {
                 </View>
                 <Text style={styles.mockExam}>{item?.program?.title}</Text>
                 <Text style={styles.marks}>
-                  Total Questions: <Text style={styles.number}>{item?.textQuestionQuantity}</Text>
+                  Total Questions:{' '}
+                  <Text style={styles.number}>
+                    {item?.textQuestionQuantity}
+                  </Text>
                 </Text>
                 <Text style={styles.marks}>
-                  Date:{" "}
-                  <Text style={styles.number}>{item?.answeredAt ? moment(item?.answeredAt).format("D MMM, YYYY") : "Not Answered"}</Text>
+                  Date:{' '}
+                  <Text style={styles.number}>
+                    {item?.answeredAt
+                      ? moment(item?.answeredAt).format('D MMM, YYYY')
+                      : 'Not Answered'}
+                  </Text>
                 </Text>
                 <Text style={styles.marks}>
-                  Duration: <Text style={styles.number}>{item?.totalTestTime} minutes</Text>
+                  Duration:{' '}
+                  <Text style={styles.number}>
+                    {item?.totalTestTime} minutes
+                  </Text>
                 </Text>
                 <View style={styles.line}></View>
                 <View style={styles.btnArea}>
                   <MyButton
-                    activeOpacity={!item?.status === "submitted" ? 0.5 : 1}
+                    activeOpacity={!item?.status === 'submitted' ? 0.5 : 1}
                     onPress={() => {
-                      item?.status === "submitted" ? null : toggleAssessmentRuleModal();
+                      item?.status === 'submitted'
+                        ? null
+                        : toggleAssessmentRuleModal();
                     }}
-                    title={"Test Now"}
-                    bg={item?.status === "submitted" ? Colors.LightGreen : Colors.Primary}
+                    title={'Test Now'}
+                    bg={
+                      item?.status === 'submitted'
+                        ? Colors.LightGreen
+                        : Colors.Primary
+                    }
                     colour={Colors.PureWhite}
                   />
                   <MyButton
-                    activeOpacity={item?.status === "submitted" ? 0.5 : 1}
+                    activeOpacity={item?.status === 'submitted' ? 0.5 : 1}
                     onPress={() => {
-                      item?.status === "submitted" && toggleResultModal();
+                      item?.status === 'submitted' && toggleResultModal();
                     }}
-                    title={"See Result"}
-                    bg={item?.status === "submitted" ? "rgba(84, 106, 126, 1)" : "rgba(84, 106, 126, 0.2)"}
-                    colour={item?.status === "submitted" ? Colors.PureWhite : "rgba(84, 106, 126, 1)"}
+                    title={'See Result'}
+                    bg={
+                      item?.status === 'submitted'
+                        ? 'rgba(84, 106, 126, 1)'
+                        : 'rgba(84, 106, 126, 0.2)'
+                    }
+                    colour={
+                      item?.status === 'submitted'
+                        ? Colors.PureWhite
+                        : 'rgba(84, 106, 126, 1)'
+                    }
                   />
                 </View>
                 {/** Modal start here **/}
@@ -198,19 +241,22 @@ export default function AssessmentScreen() {
           toggleCongratulationModal={toggleCongratulationModal}
           setCongratulationModalVisible={setCongratulationModalVisible}
         />
-        <ResultModal toggleResultModal={toggleResultModal} isResultModalVisible={isResultModalVisible} />
+        <ResultModal
+          toggleResultModal={toggleResultModal}
+          isResultModalVisible={isResultModalVisible}
+        />
       </ScrollView>
     </View>
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     line: {
       borderBottomWidth: 1,
       borderBottomColor: Colors.LineColor,
-      width: "100%",
-      alignSelf: "center",
+      width: '100%',
+      alignSelf: 'center',
     },
     container: {
       flex: 1,
@@ -221,7 +267,7 @@ const getStyles = (Colors) =>
     },
 
     topContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       width: responsiveScreenWidth(100),
       height: responsiveScreenHeight(10),
       backgroundColor: Colors.White,
@@ -237,7 +283,7 @@ const getStyles = (Colors) =>
       marginBottom: responsiveScreenHeight(1),
     },
     heading: {
-      textAlign: "center",
+      textAlign: 'center',
       fontSize: responsiveScreenFontSize(3),
       fontFamily: CustomFonts.REGULAR,
       color: Colors.Heading,
@@ -245,7 +291,7 @@ const getStyles = (Colors) =>
     },
     itemContainer: {
       width: responsiveScreenWidth(90),
-      alignSelf: "center",
+      alignSelf: 'center',
       marginTop: responsiveScreenHeight(1),
       backgroundColor: Colors.White,
       paddingHorizontal: responsiveScreenWidth(3),
@@ -260,14 +306,14 @@ const getStyles = (Colors) =>
       borderRadius: responsiveScreenWidth(3),
     },
     folderIconContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
     mockExam: {
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.1),
       color: Colors.Heading,
-      fontWeight: "600",
+      fontWeight: '600',
       paddingBottom: responsiveScreenHeight(1.8),
       paddingTop: responsiveScreenHeight(1),
     },
@@ -281,7 +327,7 @@ const getStyles = (Colors) =>
       color: Colors.BodyText,
     },
     btnArea: {
-      flexDirection: "row",
+      flexDirection: 'row',
       paddingHorizontal: responsiveScreenWidth(0.5),
       gap: responsiveScreenWidth(4),
       paddingVertical: responsiveScreenHeight(2),

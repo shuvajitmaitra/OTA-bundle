@@ -12,7 +12,7 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
-import {MaterialIcons} from '@expo/vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Popover, usePopover} from 'react-native-modal-popover';
 import Checkbox from 'expo-checkbox';
 

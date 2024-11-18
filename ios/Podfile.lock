@@ -1375,6 +1375,8 @@ PODS:
   - react-native-onesignal (5.2.6):
     - OneSignalXCFramework (= 5.2.7)
     - React (< 1.0.0, >= 0.13.0)
+  - react-native-render-html (6.3.4):
+    - React-Core
   - react-native-safe-area-context (4.14.0):
     - DoubleConversion
     - glog
@@ -2062,6 +2064,7 @@ DEPENDENCIES:
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
+  - react-native-render-html (from `../node_modules/react-native-render-html`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
@@ -2190,6 +2193,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-mmkv"
   react-native-onesignal:
     :path: "../node_modules/react-native-onesignal"
+  react-native-render-html:
+    :path: "../node_modules/react-native-render-html"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-webview:
@@ -2313,6 +2318,7 @@ SPEC CHECKSUMS:
   react-native-image-picker: ba5067f7d833b9081102c0a33dd0188eb21d92dc
   react-native-mmkv: bb0824bed68c01f7cc681eefa58059097bdaa796
   react-native-onesignal: 4e06640de88ebecc19509bf6eddc919cc1e160de
+  react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-safe-area-context: 2500e4fe998caad50ad3bc51ec23ef951308569e
   react-native-webview: 8039cbb0aa6ad2fd7918e23aebb5586f127d3e91
   React-nativeconfig: 72c10ff34863148ef90df9c9c8eacba99d2faaaa

@@ -12,7 +12,6 @@ import {logout} from '../store/reducer/authReducer';
 import {useTheme} from '../context/ThemeContext';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import CustomFonts from '../constants/CustomFonts';
-import {useGlobalAlert} from '../components/SharedComponent/GlobalAlertContext';
 import useUserStatusData from '../constants/UserStatusData';
 import {useNavigation} from '@react-navigation/native';
 import HomeIconTwo from '../assets/Icons/HomeIcon2';

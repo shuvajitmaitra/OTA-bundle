@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Button, TextInput} from 'react-native';
 import {DrawerLayout} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from '../../../context/ThemeContext';
-import {Ionicons} from '@expo/vector-icons'; // For expo vector icons
+import Ionicons from 'react-native-vector-icons/Ionicons'; // For expo vector icons
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,

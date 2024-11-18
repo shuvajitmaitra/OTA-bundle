@@ -6,8 +6,9 @@ import {
   ActivityIndicator,
   StyleSheet,
   Image,
+  Alert,
 } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker'; // For Expo
+import DocumentPicker from 'react-native-document-picker'; // Changed import
 import axiosInstance from '../../utility/axiosInstance';
 import {useGlobalAlert} from './GlobalAlertContext';
 import {useTheme} from '../../context/ThemeContext';
@@ -19,6 +20,7 @@ import {
 import CustomFonts from '../../constants/CustomFonts';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import {getFileTypeFromUri} from '../TechnicalTestCom/TestNow';
+
 const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
   const [isUploading, setIsUploading] = useState(false);
   const {showAlert} = useGlobalAlert();
@@ -27,105 +29,94 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
 
   const UploadAnyFile = async () => {
     try {
-      const selected = await DocumentPicker.getDocumentAsync({
+      // Use react-native-document-picker's API
+      const results = await DocumentPicker.pickMultiple({
         type: [
-          'image/*',
-          'application/pdf',
-          'application/msword',
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          DocumentPicker.types.images,
+          DocumentPicker.types.pdf,
+          DocumentPicker.types.doc,
+          DocumentPicker.types.docx,
         ],
-        multiple: true,
-        copyToCacheDirectory: true,
       });
 
-      if (!selected.assets) {
-        console.error('No assets found');
-        return;
-      }
-
-      if (selected?.assets?.length > 5) {
+      if (results.length > maxFiles) {
         return showAlert({
           title: 'Limit Exceeded',
           type: 'warning',
-          message: 'Maximum 5 files can be uploaded',
+          message: `Maximum ${maxFiles} files can be uploaded`,
         });
       }
 
-      console.log('selected', JSON.stringify(selected, null, 1));
+      console.log('Selected files:', JSON.stringify(results, null, 2));
 
       setIsUploading(true);
 
-      let results = await Promise.all(
-        selected?.assets?.map(async item => {
-          try {
-            console.log('item', JSON.stringify(item, null, 1));
-            const isImage =
-              item.type &&
-              typeof item.type === 'string' &&
-              item.type.startsWith('image');
-            const data = isImage
-              ? {
-                  uri: item.uri,
-                  name: 'uploaded_file.png',
-                  type: item.mimeType || 'image/png',
-                }
-              : {
-                  uri: item.uri,
-                  name: item.name || 'uploaded_file',
-                  type: item.mimeType || 'application/octet-stream',
-                };
-            console.log('data', JSON.stringify(data, null, 1));
-            let formData = new FormData();
-            formData.append('file', data);
+      // Process each selected file
+      const uploadPromises = results.map(async file => {
+        try {
+          console.log('Processing file:', JSON.stringify(file, null, 2));
 
-            const config = {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            };
+          const isImage = file.type && file.type.startsWith('image');
+          const data = {
+            uri: file.uri,
+            name:
+              file.name ||
+              `uploaded_file.${file.name?.split('.').pop() || 'bin'}`,
+            type: file.type || 'application/octet-stream',
+          };
 
-            let res = await axiosInstance.post(
-              '/document/userdocumentfile',
-              formData,
-              config,
-            );
+          console.log('Form Data:', JSON.stringify(data, null, 2));
 
-            if (res?.data?.fileUrl) {
-              return res.data.fileUrl;
-            } else {
-              console.error('No file URL returned from server');
-              return null;
-            }
-          } catch (error) {
-            if (error.response) {
-              console.error('Server error:', error.response.data);
-            } else if (error.request) {
-              console.error('Network error:', error.request);
-              console.log(
-                'Network error:',
-                JSON.stringify(error.request, null, 1),
-              );
-            } else {
-              console.error('Error:', error.message);
-            }
+          let formData = new FormData();
+          formData.append('file', data);
+
+          const config = {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          };
+
+          const res = await axiosInstance.post(
+            '/document/userdocumentfile',
+            formData,
+            config,
+          );
+
+          if (res?.data?.fileUrl) {
+            return res.data.fileUrl;
+          } else {
+            console.error('No file URL returned from server');
             return null;
           }
-        }),
-      );
+        } catch (error) {
+          if (error.response) {
+            console.error('Server error:', error.response.data);
+          } else if (error.request) {
+            console.error('Network error:', error.request);
+            console.log(
+              'Network error:',
+              JSON.stringify(error.request, null, 2),
+            );
+          } else {
+            console.error('Error:', error.message);
+          }
+          return null;
+        }
+      });
 
-      results = results?.filter(result => result !== null);
+      let uploadedFiles = await Promise.all(uploadPromises);
+      uploadedFiles = uploadedFiles.filter(file => file !== null);
 
-      setAttachments(prev => [...prev, ...results]);
-      setIsUploading(false);
-    } catch (error) {
-      if (error.response) {
-        console.error('Server error:', error.response.data);
-      } else if (error.request) {
-        console.error('Network error:', error.request);
-        console.log('Network error:', JSON.stringify(error.request, null, 1));
+      setAttachments(prev => [...prev, ...uploadedFiles]);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker, exit gracefully
+        console.log('User cancelled document picker');
       } else {
-        console.error('Error:', error.message);
+        console.error('Unknown error:', err);
+        Alert.alert('Error', 'An unexpected error occurred.');
       }
+    } finally {
       setIsUploading(false);
     }
   };
@@ -143,7 +134,7 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
           style={styles.attachment}
           disabled={isUploading}>
           <Text style={styles.uploadText}>Upload Attachment</Text>
-          {isUploading ? (
+          {isUploading && (
             <View
               style={{
                 position: 'absolute',
@@ -151,9 +142,9 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <ActivityIndicator color={Colors?.Primary} size={40} />
+              <ActivityIndicator color={Colors?.Primary} size="large" />
             </View>
-          ) : null}
+          )}
         </TouchableOpacity>
         <Text style={styles.attachmentText}>Upload JPEG/PNG/PDF/Docs file</Text>
       </View>
@@ -167,7 +158,7 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
         ]}>
         {attachments?.map(item => (
           <View key={item} style={{position: 'relative'}}>
-            {getFileTypeFromUri(item) == 'image' ? (
+            {getFileTypeFromUri(item) === 'image' ? (
               <Image style={{height: 100, width: 100}} source={{uri: item}} />
             ) : getFileTypeFromUri(item) === 'pdf' ? (
               <Image
@@ -225,17 +216,13 @@ const getStyles = Colors =>
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.6),
     },
-
     docPreview: {
       width: '100%',
-      // backgroundColor: "red",
       flexDirection: 'row',
       flexWrap: 'wrap',
-      flexBasis: 99,
       gap: 10,
     },
     CrossCircle: {
-      // backgroundColor: Colors.Primary,
       width: 20,
       justifyContent: 'center',
       alignItems: 'center',
@@ -244,6 +231,7 @@ const getStyles = Colors =>
       position: 'absolute',
       top: -10,
       right: -10,
+      backgroundColor: Colors.Background, // Optional: Add a background color for better visibility
     },
   });
 

@@ -1,23 +1,26 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
 
-import CustomFonts from "../../constants/CustomFonts";
-import { useTheme } from "../../context/ThemeContext";
-import Modal from "react-native-modal";
-import CloseIcon from "../../assets/Icons/CloseIcon";
-import { RadioButton } from "react-native-paper";
-import { AppState } from "react-native";
-import CountdownTimer from "./CountdownTimer";
-import GlobalRadioGroup from "../SharedComponent/GlobalRadioButton";
+import CustomFonts from '../../constants/CustomFonts';
+import {useTheme} from '../../context/ThemeContext';
+import Modal from 'react-native-modal';
+import CloseIcon from '../../assets/Icons/CloseIcon';
+import {AppState} from 'react-native';
+import CountdownTimer from './CountdownTimer';
+import GlobalRadioGroup from '../SharedComponent/GlobalRadioButton';
 
 function useAppState() {
   const [appState, setAppState] = useState(AppState.currentState);
 
   useEffect(() => {
-    const subscription = AppState.addEventListener("change", (nextAppState) => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
       // Here you can handle any specific logic when app state changes
-      console.log("App State changed to:", nextAppState);
+      console.log('App State changed to:', nextAppState);
     });
 
     return () => {
@@ -28,19 +31,25 @@ function useAppState() {
   return appState;
 }
 
-function StartTestModal({ isStartTestModalVisible, toggleStartTestModal, toggleCongratulationModal }) {
+function StartTestModal({
+  isStartTestModalVisible,
+  toggleStartTestModal,
+  toggleCongratulationModal,
+}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const [value, setValue] = useState("In publishing and graphic design1");
+  const [value, setValue] = useState('In publishing and graphic design1');
   const options = [
-    { label: "In publishing and graphic design 1", value: "option1" },
-    { label: "In publishing and graphic design 2", value: "option2" },
-    { label: "In publishing and graphic design 3", value: "option3" },
-    { label: "In publishing and graphic design 4", value: "option4" },
+    {label: 'In publishing and graphic design 1', value: 'option1'},
+    {label: 'In publishing and graphic design 2', value: 'option2'},
+    {label: 'In publishing and graphic design 3', value: 'option3'},
+    {label: 'In publishing and graphic design 4', value: 'option4'},
   ];
 
   return (
-    <Modal backdropColor={Colors.BackDropColor} isVisible={isStartTestModalVisible}>
+    <Modal
+      backdropColor={Colors.BackDropColor}
+      isVisible={isStartTestModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalTop}>
           <View style={styles.timerContainer}>
@@ -58,7 +67,9 @@ function StartTestModal({ isStartTestModalVisible, toggleStartTestModal, toggleC
         <View style={styles.modalBody}>
           <View>
             <Text style={styles.modalHeading}>Enrollment Test</Text>
-            <Text style={styles.modalSubHeading}>Please select one answer and click</Text>
+            <Text style={styles.modalSubHeading}>
+              Please select one answer and click
+            </Text>
             <Text style={styles.nextBtnText}>Next Button</Text>
           </View>
 
@@ -67,8 +78,15 @@ function StartTestModal({ isStartTestModalVisible, toggleStartTestModal, toggleC
   -------------------------- */}
 
           <View style={styles.QuestionContainer}>
-            <Text style={styles.question}>1. In publishing and graphic design, Lorem ipsum?</Text>
-            <GlobalRadioGroup options={options} value={value} onChange={setValue} style={styles.radioButtonContainer} />
+            <Text style={styles.question}>
+              1. In publishing and graphic design, Lorem ipsum?
+            </Text>
+            <GlobalRadioGroup
+              options={options}
+              value={value}
+              onChange={setValue}
+              style={styles.radioButtonContainer}
+            />
           </View>
 
           {/* ------------
@@ -89,16 +107,16 @@ function StartTestModal({ isStartTestModalVisible, toggleStartTestModal, toggleC
 }
 
 export default StartTestModal;
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       flex: 1,
     },
     modalTop: {
       paddingVertical: responsiveScreenHeight(2),
-      flexDirection: "row",
+      flexDirection: 'row',
       paddingHorizontal: responsiveScreenWidth(4),
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
 
     timerContainer: {
@@ -108,30 +126,30 @@ const getStyles = (Colors) =>
       paddingHorizontal: responsiveScreenWidth(3),
       paddingVertical: responsiveScreenHeight(1),
       backgroundColor: Colors.PrimaryOpacityColor,
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     timerText: {
       color: Colors.BodyText,
       fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
-      fontWeight: "500",
+      fontWeight: '500',
     },
     time: {
       color: Colors.Primary,
       fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2),
-      fontWeight: "600",
+      fontWeight: '600',
     },
     timerBg: {
-      backgroundColor: "native",
+      backgroundColor: 'native',
       marginHorizontal: -5,
     },
     line: {
       borderBottomWidth: 1,
-      borderBottomColor: "#d9d9d9",
+      borderBottomColor: '#d9d9d9',
       width: responsiveScreenWidth(80),
-      alignSelf: "center",
+      alignSelf: 'center',
     },
 
     modalContainer: {
@@ -141,7 +159,7 @@ const getStyles = (Colors) =>
       maxHeight: responsiveScreenHeight(80),
     },
     modalBody: {
-      alignSelf: "center",
+      alignSelf: 'center',
       width: responsiveScreenWidth(80),
       paddingVertical: responsiveScreenWidth(4.5),
     },
@@ -173,16 +191,16 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.8),
     },
     radioButton: {
-      flexDirection: "row-reverse",
-      alignItems: "center",
+      flexDirection: 'row-reverse',
+      alignItems: 'center',
       backgroundColor: Colors.White,
       marginBottom: responsiveScreenWidth(5),
       borderRadius: responsiveScreenWidth(2),
     },
     nextContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
     queNo: {
       color: Colors.BodyText,

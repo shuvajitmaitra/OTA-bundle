@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {AntDesign} from '@expo/vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import PresentationDetails from '../screens/Main/PresentationDetails';
 import PresentationDetailsView from '../screens/Documents/PresentationDetailsView';
 import Colors from '../constants/Colors';

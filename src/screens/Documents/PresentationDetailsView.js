@@ -18,7 +18,7 @@ import RenderHtml from 'react-native-render-html';
 import CustomFonts from '../../constants/CustomFonts';
 import axiosInstance from '../../utility/axiosInstance';
 import {useTheme} from '../../context/ThemeContext';
-import HTMLView from 'react-native-htmlview';
+// import HTMLView from 'react-native-htmlview';
 import CommentSection from '../../components/CommentCom/CommentSection';
 
 export default function PresentationDetailsView({route}) {
@@ -160,7 +160,7 @@ export default function PresentationDetailsView({route}) {
                 tagsStyles={tagsStyles}
                 renderers={renderers}
               /> */}
-              <HTMLView value={item.content} stylesheet={tagsStyles} />
+              {/* <HTMLView value={item.content} stylesheet={tagsStyles} /> */}
             </View>
           );
         })}

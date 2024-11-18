@@ -15,7 +15,7 @@ import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
 } from 'react-native-responsive-dimensions';
-import {AntDesign} from '@expo/vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 // import { Entypo } from "@expo/vector-icons";
 import {Popover, usePopover} from 'react-native-modal-popover';
 // import { RadioButton } from "react-native-paper";

@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
-import { ProgressBar } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {ProgressBar} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
 
-import CustomFonts from "../../../constants/CustomFonts";
-import axiosInstance from "../../../utility/axiosInstance";
-import { useTheme } from "../../../context/ThemeContext";
+import CustomFonts from '../../../constants/CustomFonts';
+import axiosInstance from '../../../utility/axiosInstance';
+import {useTheme} from '../../../context/ThemeContext';
 
 export default function ProgramTimeTracker() {
   // --------------------------
@@ -21,7 +25,7 @@ export default function ProgramTimeTracker() {
   React.useEffect(() => {
     (async () => {
       try {
-        let myprogress = await axiosInstance.get("/progress/myprogress");
+        let myprogress = await axiosInstance.get('/progress/myprogress');
         setMyProgressMetrics(myprogress.data?.metrics || []);
       } catch (error) {
         console.log(error);
@@ -32,18 +36,23 @@ export default function ProgramTimeTracker() {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => {
-        navigation.navigate("Prograss");
+        navigation.navigate('Prograss');
       }}
-      style={styles.container}
-    >
+      style={styles.container}>
       <Text style={styles.time}>Progress</Text>
-      <ProgressBar progress={myProgressMetrics?.overallPercentageAllItems || 0} style={styles.progress} color={Colors.BodyText} />
-      <Text style={styles.dueText}>Overall Precentage {myProgressMetrics?.overallPercentageAllItems}%</Text>
+      <ProgressBar
+        progress={myProgressMetrics?.overallPercentageAllItems || 0}
+        style={styles.progress}
+        color={Colors.BodyText}
+      />
+      <Text style={styles.dueText}>
+        Overall Precentage {myProgressMetrics?.overallPercentageAllItems}%
+      </Text>
     </TouchableOpacity>
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       width: responsiveScreenWidth(90),
@@ -51,7 +60,7 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenHeight(2),
       marginTop: responsiveScreenHeight(2),
       backgroundColor: Colors.White,
-      alignSelf: "center",
+      alignSelf: 'center',
       borderRadius: 10,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
@@ -62,7 +71,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.8),
     },
     progress: {
-      width: "100%",
+      width: '100%',
       height: 10,
       borderRadius: 10,
       marginTop: responsiveScreenHeight(1.5),

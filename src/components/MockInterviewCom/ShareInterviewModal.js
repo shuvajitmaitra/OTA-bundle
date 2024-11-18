@@ -1,32 +1,43 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput, Button } from "react-native";
-import React, { useEffect, useState } from "react";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+  Button,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
 
-import CustomFonts from "../../constants/CustomFonts";
-import { useTheme } from "../../context/ThemeContext";
-import Modal from "react-native-modal";
+import CustomFonts from '../../constants/CustomFonts';
+import {useTheme} from '../../context/ThemeContext';
+import Modal from 'react-native-modal';
 
-import ModalBackAndCrossButton from "../../components/ChatCom/Modal/ModalBackAndCrossButton";
-import MyButton from "../../components/AuthenticationCom/MyButton";
-import { Dialog, Provider, Caption, FAB } from "react-native-paper";
-import AIcon from "react-native-vector-icons/AntDesign";
-import axios from "../../utility/axiosInstance";
-import CustomDropDownTwo from "../../components/SharedComponent/CustomDropDownTwo";
-import CircleIcon from "../../assets/Icons/CircleIcon";
-import UserIconTwo from "../../assets/Icons/UserIconTwo";
-import PlusCircleIcon from "../../assets/Icons/PlusCircleIcon";
-import Loading from "../../components/SharedComponent/Loading";
-import SearchIcon from "../../assets/Icons/SearchIcon";
-import Divider from "../SharedComponent/Divider";
-import { Alert } from "react-native";
-import NoDataAvailable from "../SharedComponent/NoDataAvailable";
-import { useSelector } from "react-redux";
-import { showAlertModal } from "../../utility/commonFunction";
-import GlobalAlertModal from "../SharedComponent/GlobalAlertModal";
+import ModalBackAndCrossButton from '../../components/ChatCom/Modal/ModalBackAndCrossButton';
+import MyButton from '../../components/AuthenticationCom/MyButton';
+import axios from '../../utility/axiosInstance';
+import UserIconTwo from '../../assets/Icons/UserIconTwo';
+import Loading from '../../components/SharedComponent/Loading';
+import SearchIcon from '../../assets/Icons/SearchIcon';
+import Divider from '../SharedComponent/Divider';
+import NoDataAvailable from '../SharedComponent/NoDataAvailable';
+import {useSelector} from 'react-redux';
+import {showAlertModal} from '../../utility/commonFunction';
+import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
 
-export default function ShareInterviewModal({ toggleShareModal, isShareModalVisible, interview }) {
-  const [searchName, setSearchName] = useState("");
-  const { user } = useSelector((state) => state.auth);
+export default function ShareInterviewModal({
+  toggleShareModal,
+  isShareModalVisible,
+  interview,
+}) {
+  const [searchName, setSearchName] = useState('');
+  const {user} = useSelector(state => state.auth);
 
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -34,8 +45,8 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
   const [isSaving, setIsSaving] = useState(false);
   const [programs, setPrograms] = useState([]);
   const [sessions, setSessions] = useState([]);
-  const [selectedProgram, setSelectedProgram] = useState("");
-  const [selectedSession, setSelectedSession] = useState("");
+  const [selectedProgram, setSelectedProgram] = useState('');
+  const [selectedSession, setSelectedSession] = useState('');
   const [fetchedUsers, setFetchedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [addedUsers, setAddedUsers] = useState([]);
@@ -49,41 +60,43 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
 
   useEffect(() => {
     axios
-      .get("/user/enrollmentdata")
-      .then((res) => {
+      .get('/user/enrollmentdata')
+      .then(res => {
         setPrograms(res.data.programs || []);
         setSessions(res.data.sessions || []);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   }, []);
 
-  const handleAddUser = (user) => {
-    if (addedUsers?.filter((u) => u?._id === user?._id)?.length > 0) {
+  const handleAddUser = user => {
+    if (addedUsers?.filter(u => u?._id === user?._id)?.length > 0) {
       return;
     } else {
-      setAddedUsers((prev) => [...prev, { ...user, canDelete: true }]);
+      setAddedUsers(prev => [...prev, {...user, canDelete: true}]);
     }
   };
 
-  const isUserAdded = (user) => {
-    return addedUsers.some((addedUser) => addedUser._id === user._id);
+  const isUserAdded = user => {
+    return addedUsers.some(addedUser => addedUser._id === user._id);
   };
 
-  const handleRemove = (user) => {
-    setAddedUsers((prev) => prev?.filter((u) => u?._id !== user?._id));
+  const handleRemove = user => {
+    setAddedUsers(prev => prev?.filter(u => u?._id !== user?._id));
   };
 
-  const fetchUsers = (options) => {
+  const fetchUsers = options => {
     setIsUserFetching(true);
     axios
-      .post("/user/filter", options)
-      .then((res) => {
-        setFetchedUsers(res.data.users.filter((item) => item._id !== user._id) || []);
+      .post('/user/filter', options)
+      .then(res => {
+        setFetchedUsers(
+          res.data.users.filter(item => item._id !== user._id) || [],
+        );
         setIsUserFetching(false);
       })
-      .catch((err) => {
+      .catch(err => {
         setIsUserFetching(false);
         console.log(err);
       });
@@ -102,22 +115,22 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
   const handleShare = () => {
     setIsUserFetching(true);
     let data = {
-      users: addedUsers.map((u) => u?._id),
+      users: addedUsers.map(u => u?._id),
     };
     axios
       .patch(`/interview/share/${interview}`, data)
-      .then((res) => {
+      .then(res => {
         showAlertModal({
-          title: "Success",
-          type: "success",
-          message: "Shared successfully",
+          title: 'Success',
+          type: 'success',
+          message: 'Shared successfully',
         });
         if (res.data.success) {
           toggleShareModal();
         }
         setIsUserFetching(false);
       })
-      .catch((err) => {
+      .catch(err => {
         setIsUserFetching(false);
         console.log(err);
       });
@@ -133,12 +146,14 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
 
         <View style={styles.inputContainer}>
           <TextInput
-            keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+            keyboardAppearance={
+              Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+            }
             style={styles.input}
             placeholder="Name"
             placeholderTextColor={Colors.BodyText}
             value={searchName}
-            onChangeText={(text) => setSearchName(text)}
+            onChangeText={text => setSearchName(text)}
             autoCorrect={false}
           />
           <SearchIcon />
@@ -155,9 +170,12 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
                 fetchedUsers?.map((user, index) => (
                   <View style={styles.userContainer} key={index}>
                     <View style={styles.user}>
-                      <View style={{ position: "relative" }}>
+                      <View style={{position: 'relative'}}>
                         {user.profilePicture ? (
-                          <Image source={{ uri: user.profilePicture }} style={styles.img} />
+                          <Image
+                            source={{uri: user.profilePicture}}
+                            style={styles.img}
+                          />
                         ) : (
                           <UserIconTwo size={40} />
                         )}
@@ -168,11 +186,17 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
                       </View>
                     </View>
                     {isUserAdded(user) ? (
-                      <TouchableOpacity style={styles.addedBtn} activeOpacity={0.3} disabled={true}>
+                      <TouchableOpacity
+                        style={styles.addedBtn}
+                        activeOpacity={0.3}
+                        disabled={true}>
                         <Text style={styles.addedBtnText}>Added</Text>
                       </TouchableOpacity>
                     ) : (
-                      <TouchableOpacity style={styles.addBtn} activeOpacity={0.3} onPress={() => handleAddUser(user)}>
+                      <TouchableOpacity
+                        style={styles.addBtn}
+                        activeOpacity={0.3}
+                        onPress={() => handleAddUser(user)}>
                         <Text style={styles.addBtnText}>Add</Text>
                       </TouchableOpacity>
                     )}
@@ -182,10 +206,9 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
                 <View
                   style={{
                     flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
                   <NoDataAvailable height={20} />
                 </View>
               )}
@@ -224,7 +247,7 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
             onPress={() => {
               toggleShareModal();
             }}
-            title={"Cancel"}
+            title={'Cancel'}
             bg={Colors.PrimaryOpacityColor}
             colour={Colors.Primary}
             flex={0.5}
@@ -232,7 +255,7 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
           />
           <MyButton
             onPress={handleShare}
-            title={"Share"}
+            title={'Share'}
             bg={Colors.Primary}
             colour={Colors.PureWhite}
             flex={0.5}
@@ -245,12 +268,12 @@ export default function ShareInterviewModal({ toggleShareModal, isShareModalVisi
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     dCenterBet: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       marginBottom: 5,
       borderBottomColor: Colors.BorderColor,
       borderBottomWidth: 1,
@@ -261,8 +284,8 @@ const getStyles = (Colors) =>
     },
     modalTop: {
       paddingVertical: responsiveScreenHeight(2),
-      flexDirection: "row",
-      justifyContent: "flex-end",
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
     },
     modalContainer: {
       width: responsiveScreenWidth(90),
@@ -293,10 +316,10 @@ const getStyles = (Colors) =>
       marginTop: responsiveScreenHeight(2),
     },
     inputContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      backgroundColor: "red",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: 'red',
+      alignItems: 'center',
       backgroundColor: Colors.Background_color,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
@@ -328,16 +351,16 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.PureWhite,
-      textAlign: "center",
+      textAlign: 'center',
     },
     userContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       marginTop: responsiveScreenWidth(3),
       marginBottom: responsiveScreenWidth(3),
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
     user: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 8,
     },
     img: {
@@ -366,9 +389,9 @@ const getStyles = (Colors) =>
       // paddingVertical: responsiveScreenHeight(.5),
       borderRadius: responsiveScreenWidth(2),
       backgroundColor: Colors.Primary,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(1),
-      alignItems: "center",
+      alignItems: 'center',
       height: responsiveScreenHeight(4),
       // justifyContent: "center",
     },
@@ -382,17 +405,17 @@ const getStyles = (Colors) =>
       // paddingVertical: responsiveScreenHeight(.5),
       borderRadius: responsiveScreenWidth(2),
       backgroundColor: Colors.PrimaryOpacityColor,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(1),
-      alignItems: "center",
+      alignItems: 'center',
       height: responsiveScreenHeight(4),
       // justifyContent: "center",
     },
     btnContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       marginBottom: responsiveScreenHeight(2),
-      alignItems: "center",
+      alignItems: 'center',
       // borderTopWidth: 1.5,
       // borderColor: Colors.BorderColor,
       paddingTop: responsiveScreenHeight(1),
@@ -402,7 +425,7 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.BodyText,
-      textAlign: "center",
+      textAlign: 'center',
       marginVertical: responsiveScreenHeight(2),
     },
   });

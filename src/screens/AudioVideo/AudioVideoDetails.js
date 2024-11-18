@@ -1,5 +1,5 @@
 // AudioVideoDetails.js
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -23,12 +23,11 @@ import moment from 'moment';
 import Markdown from 'react-native-markdown-display';
 import Images from '../../constants/Images';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Audio} from 'expo-av';
+import Sound from 'react-native-sound';
 import {useSelector} from 'react-redux';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import VideoPlayer from '../../components/ProgramCom/VideoPlayer';
 import CommentSection from '../../components/CommentCom/CommentSection';
-import TrackPlayer from '../../components/MockInterviewCom/TrackPlayer';
 
 const AudioVideoDetails = () => {
   const navigation = useNavigation();
@@ -40,39 +39,60 @@ const AudioVideoDetails = () => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(initialMediaIndex);
   const [activeButton, setActiveButton] = useState('summary');
   const [content, setContent] = useState('');
-  const [sound, setSound] = useState();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const soundRef = useRef(null);
 
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {top} = useSafeAreaInsets();
 
+  // Load and play audio when currentMediaIndex changes
   useEffect(() => {
-    async function loadSound() {
-      const {sound} = await Audio.Sound.createAsync({
-        uri: medias[currentMediaIndex]?.url,
+    // Cleanup previous sound
+    if (soundRef.current) {
+      soundRef.current.stop(() => {
+        soundRef.current.release();
+        soundRef.current = null;
       });
-      setSound(sound);
-      await sound.playAsync();
     }
 
+    // If the current media is audio, load and play it
     if (medias[currentMediaIndex]?.mediaType === 'audio') {
-      loadSound();
+      const sound = new Sound(
+        medias[currentMediaIndex]?.url,
+        Sound.MAIN_BUNDLE,
+        error => {
+          if (error) {
+            console.log('Failed to load the sound', error);
+            return;
+          }
+          soundRef.current = sound;
+          sound.play(success => {
+            if (success) {
+              console.log('Successfully finished playing');
+              setIsPlaying(false);
+            } else {
+              console.log('Playback failed due to audio decoding errors');
+              setIsPlaying(false);
+            }
+          });
+          setIsPlaying(true);
+        },
+      );
     }
 
+    // If not audio, ensure any playing audio is stopped
     return () => {
-      if (sound) {
-        sound.unloadAsync();
+      if (soundRef.current) {
+        soundRef.current.stop(() => {
+          soundRef.current.release();
+          soundRef.current = null;
+        });
       }
     };
   }, [currentMediaIndex, medias]);
 
-  useEffect(() => {
-    if (sound) {
-      sound.pauseAsync().then(() => sound.unloadAsync());
-      setSound(null);
-    }
-  }, [currentMediaIndex]);
-
+  // Update content based on activeButton and currentMediaIndex
   useEffect(() => {
     if (medias[currentMediaIndex] && medias[currentMediaIndex].data) {
       setContent(medias[currentMediaIndex].data[activeButton] || 'No Summary');
@@ -81,10 +101,25 @@ const AudioVideoDetails = () => {
     }
   }, [activeButton, currentMediaIndex, medias]);
 
+  // Handle component unmount
+  useEffect(() => {
+    return () => {
+      if (soundRef.current) {
+        soundRef.current.stop(() => {
+          soundRef.current.release();
+          soundRef.current = null;
+        });
+      }
+    };
+  }, []);
+
   const handleGoBack = () => {
     // Stop any playing sound
-    if (sound) {
-      sound.pauseAsync().then(() => sound.unloadAsync());
+    if (soundRef.current) {
+      soundRef.current.stop(() => {
+        soundRef.current.release();
+        soundRef.current = null;
+      });
     }
     navigation.goBack();
   };
@@ -98,6 +133,27 @@ const AudioVideoDetails = () => {
   const handleNext = () => {
     if (currentMediaIndex < medias.length - 1) {
       setCurrentMediaIndex(currentMediaIndex + 1);
+    }
+  };
+
+  const togglePlayback = () => {
+    if (soundRef.current) {
+      if (isPlaying) {
+        soundRef.current.pause(() => {
+          setIsPlaying(false);
+        });
+      } else {
+        soundRef.current.play(success => {
+          if (success) {
+            console.log('Successfully finished playing');
+            setIsPlaying(false);
+          } else {
+            console.log('Playback failed due to audio decoding errors');
+            setIsPlaying(false);
+          }
+        });
+        setIsPlaying(true);
+      }
     }
   };
 
@@ -133,11 +189,22 @@ const AudioVideoDetails = () => {
               <VideoPlayer url={medias[currentMediaIndex]?.url} />
             )}
             {medias[currentMediaIndex]?.mediaType === 'audio' && (
-              <TrackPlayer
-                recordedURI={medias[currentMediaIndex]?.url}
-                _id={medias[currentMediaIndex]?._id}
-                isActive={true}
-              />
+              <View style={trackPlayerStyles.container}>
+                <Text style={trackPlayerStyles.title}>
+                  {medias[currentMediaIndex]?.title}
+                </Text>
+                <Text style={trackPlayerStyles.artist}>
+                  {medias[currentMediaIndex]?.createdBy?.fullName ||
+                    'Unknown Artist'}
+                </Text>
+                <TouchableOpacity
+                  onPress={togglePlayback}
+                  style={trackPlayerStyles.playButton}>
+                  <Text style={trackPlayerStyles.playButtonText}>
+                    {isPlaying ? 'Pause' : 'Play'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
 
@@ -220,6 +287,40 @@ const AudioVideoDetails = () => {
 
 export default AudioVideoDetails;
 
+// Separate styles for the TrackPlayerComponent
+const trackPlayerStyles = StyleSheet.create({
+  container: {
+    padding: responsiveScreenWidth(4),
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    alignItems: 'center',
+    marginVertical: responsiveScreenHeight(1),
+  },
+  title: {
+    fontSize: responsiveScreenFontSize(2),
+    fontFamily: CustomFonts.MEDIUM,
+    color: '#333',
+  },
+  artist: {
+    fontSize: responsiveScreenFontSize(1.6),
+    fontFamily: CustomFonts.REGULAR,
+    color: '#666',
+    marginVertical: responsiveScreenHeight(0.5),
+  },
+  playButton: {
+    paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(1),
+    backgroundColor: '#007AFF',
+    borderRadius: 20,
+    marginTop: responsiveScreenHeight(1),
+  },
+  playButtonText: {
+    color: '#fff',
+    fontFamily: CustomFonts.MEDIUM,
+    fontSize: responsiveScreenFontSize(1.6),
+  },
+});
+
 const getStyles = Colors =>
   StyleSheet.create({
     container: {
@@ -227,7 +328,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.White,
     },
     keyboardAvoidingView: {
-      //   flex: 1,
+      // flex: 1, // Optional: Uncomment if needed
     },
     scrollContainer: {
       flexGrow: 1,

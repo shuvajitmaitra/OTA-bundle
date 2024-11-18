@@ -13,7 +13,7 @@ import AudioMessage from './AudioMessage';
 import FileIcon from '../../assets/Icons/FileIcon';
 import CustomFonts from '../../constants/CustomFonts';
 import {RegularFonts} from '../../constants/Fonts';
-// import {MaterialIcons} from '@expo/vector-icons'; // Ensure you have this package installed
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Ensure you have this package installed
 
 const MessageFileContainer = ({files}) => {
   const [imageDimensions, setImageDimensions] = useState({});

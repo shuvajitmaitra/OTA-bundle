@@ -1,27 +1,34 @@
-import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator } from "react-native";
-import React, { useEffect, useState } from "react";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
-import { useNavigation } from "@react-navigation/native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import {useNavigation} from '@react-navigation/native';
 
-import { ProgressBar } from "react-native-paper";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import Hexagon from "../../components/LeaderboardCom/Hexagon";
-import axiosInstance from "../../utility/axiosInstance";
-import UserIcon from "../../assets/Icons/UserIcon";
-import UserIconTwo from "../../assets/Icons/UserIconTwo";
-import { useSelector } from "react-redux";
-import Loading from "../../components/SharedComponent/Loading";
-import StarBadgeIcon from "../../assets/Icons/StarBadgeIcon";
-import { TouchableOpacity } from "react-native";
-import ArrowRightWhite from "../../assets/Icons/ArrowRightWhite";
-import ArrowRight from "../../assets/Icons/ArrowRight";
-import ArrowRightWithoutTail from "../../assets/Icons/ArrowRightWithoutTail";
-import GoodBadgeIcon from "../../assets/Icons/GoodBadgeIcon";
-import AlertIcon from "../../assets/Icons/AlertIcon";
-import moment from "moment";
+import {ProgressBar} from 'react-native-paper';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import Hexagon from '../../components/LeaderboardCom/Hexagon';
+import axiosInstance from '../../utility/axiosInstance';
+import UserIconTwo from '../../assets/Icons/UserIconTwo';
+import {useSelector} from 'react-redux';
+import StarBadgeIcon from '../../assets/Icons/StarBadgeIcon';
+import {TouchableOpacity} from 'react-native';
+import ArrowRight from '../../assets/Icons/ArrowRight';
+import GoodBadgeIcon from '../../assets/Icons/GoodBadgeIcon';
+import AlertIcon from '../../assets/Icons/AlertIcon';
+import moment from 'moment';
 
-export default function LeaderBoardScreen({ route }) {
+export default function LeaderBoardScreen({route}) {
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
@@ -31,20 +38,20 @@ export default function LeaderBoardScreen({ route }) {
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [totalData, setTotalData] = useState([]);
-  const { user } = useSelector((state) => state.auth);
+  const {user} = useSelector(state => state.auth);
 
   useEffect(() => {
     setIsLoading(true);
     axiosInstance
-      .get("/progress/leaderboard")
-      .then((res) => {
+      .get('/progress/leaderboard')
+      .then(res => {
         // console.log(res.data)
         // console.log("res.data", JSON.stringify(res.data, null, 1))
         setResults(res.data.results || []);
         setTotalData(res.data || []);
         setIsLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         setIsLoading(false);
         console.log(err);
         setError(err?.response?.data);
@@ -55,59 +62,70 @@ export default function LeaderBoardScreen({ route }) {
       <View
         style={{
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: 'center',
+          alignItems: 'center',
           backgroundColor: Colors.White,
-        }}
-      >
+        }}>
         <ActivityIndicator size={50} color={Colors.Primary} />
       </View>
     );
   }
-  const renderBadge = (rank) => {
+  const renderBadge = rank => {
     if (rank >= 1 && rank <= 5) {
       return (
         <View style={styles.badgeContainer}>
           <StarBadgeIcon />
-          <Text style={[styles.badgeText, { color: Colors.Primary }]}>Outstanding Performance</Text>
+          <Text style={[styles.badgeText, {color: Colors.Primary}]}>
+            Outstanding Performance
+          </Text>
         </View>
       );
     } else if (rank >= 6 && rank <= 8) {
       return (
         <View style={styles.badgeContainer}>
           <GoodBadgeIcon />
-          <Text style={[styles.badgeText, { color: "#FF9900" }]}>Good Performance</Text>
+          <Text style={[styles.badgeText, {color: '#FF9900'}]}>
+            Good Performance
+          </Text>
         </View>
       );
     } else {
       return (
         <View style={styles.badgeContainer}>
           <AlertIcon />
-          <Text style={[styles.badgeText, { color: "#EE404C" }]}>Need Improvements</Text>
+          <Text style={[styles.badgeText, {color: '#EE404C'}]}>
+            Need Improvements
+          </Text>
         </View>
       );
     }
   };
-  const userBadge = (rank) => {
+  const userBadge = rank => {
     if (rank >= 1 && rank <= 5) {
       return (
         <View style={styles.badgeContainer}>
           <StarBadgeIcon color={Colors.PureWhite} />
-          <Text style={[styles.badgeText, { color: Colors.PureWhite }]}>Outstanding Performance</Text>
+          <Text style={[styles.badgeText, {color: Colors.PureWhite}]}>
+            Outstanding Performance
+          </Text>
         </View>
       );
     } else if (rank >= 6 && rank <= 8) {
       return (
         <View style={styles.badgeContainer}>
           <GoodBadgeIcon />
-          <Text style={[styles.badgeText, { color: "#FF9900" }]}>Good Performance</Text>
+          <Text style={[styles.badgeText, {color: '#FF9900'}]}>
+            Good Performance
+          </Text>
         </View>
       );
     } else {
       return (
         <View style={styles.badgeContainer}>
           <AlertIcon />
-          <Text style={[styles.badgeText, { color: "#EE404C" }]}>Need Improvements</Text>
+          <Text style={[styles.badgeText, {color: '#EE404C'}]}>
+            Need Improvements
+          </Text>
         </View>
       );
     }
@@ -160,35 +178,48 @@ export default function LeaderBoardScreen({ route }) {
                   style={[
                     styles.toperImg,
                     {
-                      justifyContent: "center",
-                      alignItems: "center",
+                      justifyContent: 'center',
+                      alignItems: 'center',
                     },
-                  ]}
-                >
+                  ]}>
                   <UserIconTwo size={50} />
                 </View>
               )}
               <View style={styles.infoContainer}>
-                <Text style={styles.progressTitle}>{totalData?.myData?.user?.fullName || user?.fullName}</Text>
+                <Text style={styles.progressTitle}>
+                  {totalData?.myData?.user?.fullName || user?.fullName}
+                </Text>
                 <Text style={styles.progressHeading}>
                   Program:
-                  <Text style={styles.progressText}> {totalData.program?.title}</Text>
+                  <Text style={styles.progressText}>
+                    {' '}
+                    {totalData.program?.title}
+                  </Text>
                 </Text>
                 <Text style={styles.progressHeading}>
                   Session:
-                  <Text style={styles.progressText}> {totalData?.session?.name}</Text>
+                  <Text style={styles.progressText}>
+                    {' '}
+                    {totalData?.session?.name}
+                  </Text>
                 </Text>
 
-                <Text style={styles.progressText}>{totalData?.myData?.metrics?.totalObtainedMark || 0} pts</Text>
+                <Text style={styles.progressText}>
+                  {totalData?.myData?.metrics?.totalObtainedMark || 0} pts
+                </Text>
               </View>
               <Hexagon text={totalData?.myData?.rank || 0} color="#68C562" />
             </View>
             <View style={styles.ShowProgress}>
               <Text style={styles.your}>Your Progress</Text>
-              <Text style={styles.progressHeading}>{totalData?.myData?.metrics?.overallPercentageAllItems || 0}%</Text>
+              <Text style={styles.progressHeading}>
+                {totalData?.myData?.metrics?.overallPercentageAllItems || 0}%
+              </Text>
             </View>
             <ProgressBar
-              progress={totalData?.myData?.metrics?.overallPercentageAllItems / 100 || 0}
+              progress={
+                totalData?.myData?.metrics?.overallPercentageAllItems / 100 || 0
+              }
               style={styles.progress1}
               color={Colors.White}
             />
@@ -197,16 +228,18 @@ export default function LeaderBoardScreen({ route }) {
 
             <Text style={styles.progressHeading}>
               Last Update:
-              <Text style={styles.progressText}> {moment(totalData?.lastUpdated).format("D MMM, YYYY, (h:mm a)")}</Text>
+              <Text style={styles.progressText}>
+                {' '}
+                {moment(totalData?.lastUpdated).format('D MMM, YYYY, (h:mm a)')}
+              </Text>
             </Text>
             <TouchableOpacity
               style={styles.btn1}
               onPress={() =>
-                navigation.navigate("ProgramStack", {
-                  screen: "Prograss",
+                navigation.navigate('ProgramStack', {
+                  screen: 'Prograss',
                 })
-              }
-            >
+              }>
               <View style={styles.btnContainer}>
                 <Text style={styles.btnText1}>View Progress</Text>
                 <ArrowRight />
@@ -226,7 +259,7 @@ export default function LeaderBoardScreen({ route }) {
           ----------------------- */}
 
           {results?.length > 0 &&
-            results?.map((item) => (
+            results?.map(item => (
               <View
                 key={item?._id}
                 style={[
@@ -241,8 +274,7 @@ export default function LeaderBoardScreen({ route }) {
                         ? Colors.CyanOpacity
                         : Colors.GrayOpacity,
                   },
-                ]}
-              >
+                ]}>
                 <View style={styles.toperInfo}>
                   <View style={styles.progressInfo}>
                     <View>
@@ -258,27 +290,34 @@ export default function LeaderBoardScreen({ route }) {
                           style={[
                             styles.toperImg,
                             {
-                              justifyContent: "center",
-                              alignItems: "center",
+                              justifyContent: 'center',
+                              alignItems: 'center',
                             },
-                          ]}
-                        >
+                          ]}>
                           <UserIconTwo size={50} />
                         </View>
                       )}
                     </View>
-                    <View style={{ width: responsiveScreenWidth(50) }}>
+                    <View style={{width: responsiveScreenWidth(50)}}>
                       <Text style={styles.name}>{item?.user?.fullName}</Text>
 
                       <Text style={styles.heading}>
                         Program:
-                        <Text style={styles.headingText}> {totalData.program?.title}</Text>
+                        <Text style={styles.headingText}>
+                          {' '}
+                          {totalData.program?.title}
+                        </Text>
                       </Text>
                       <Text style={styles.heading}>
                         Session:
-                        <Text style={styles.headingText}> {totalData?.session?.name}</Text>
+                        <Text style={styles.headingText}>
+                          {' '}
+                          {totalData?.session?.name}
+                        </Text>
                       </Text>
-                      <Text style={styles.pts}>{item?.metrics?.totalObtainedMark || 0} pts</Text>
+                      <Text style={styles.pts}>
+                        {item?.metrics?.totalObtainedMark || 0} pts
+                      </Text>
                     </View>
                   </View>
                   <Hexagon
@@ -297,7 +336,9 @@ export default function LeaderBoardScreen({ route }) {
 
                 <View style={styles.ShowProgress}>
                   <Text style={styles.topProgress}>Progress</Text>
-                  <Text style={styles.percentage}>{item.metrics?.overallPercentageAllItems || 0}%</Text>
+                  <Text style={styles.percentage}>
+                    {item.metrics?.overallPercentageAllItems || 0}%
+                  </Text>
                 </View>
                 <ProgressBar
                   progress={item.metrics?.overallPercentageAllItems / 100 || 0}
@@ -317,7 +358,12 @@ export default function LeaderBoardScreen({ route }) {
 
                 <Text style={styles.heading}>
                   Last Update:
-                  <Text style={styles.headingText}> {moment(totalData?.lastUpdated).format("D MMM, YYYY, (h:mm a)")}</Text>
+                  <Text style={styles.headingText}>
+                    {' '}
+                    {moment(totalData?.lastUpdated).format(
+                      'D MMM, YYYY, (h:mm a)',
+                    )}
+                  </Text>
                   {/* <Text style={styles.smallText2}> (10:30 AM)</Text> */}
                 </Text>
 
@@ -335,7 +381,7 @@ export default function LeaderBoardScreen({ route }) {
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       // padding: responsiveScreenWidth(5),
@@ -377,7 +423,7 @@ const getStyles = (Colors) =>
       marginTop: responsiveScreenHeight(2),
     },
     progressInfo: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 10,
       // justifyContent: "space-between"
       // alignItems: "center",
@@ -413,8 +459,8 @@ const getStyles = (Colors) =>
       color: Colors.PureWhite,
     },
     ShowProgress: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       marginTop: responsiveScreenWidth(2),
     },
     your: {
@@ -423,7 +469,7 @@ const getStyles = (Colors) =>
       color: Colors.PureWhite,
     },
     progress1: {
-      width: "100%",
+      width: '100%',
       height: 10,
       borderRadius: 10,
       marginTop: responsiveScreenHeight(1),
@@ -452,10 +498,10 @@ const getStyles = (Colors) =>
       marginTop: responsiveScreenHeight(2),
     },
     toperInfo: {
-      flexDirection: "row",
+      flexDirection: 'row',
       // gap: 2,
       marginBottom: responsiveScreenHeight(1),
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
     toperImg: {
       height: 50,
@@ -484,7 +530,7 @@ const getStyles = (Colors) =>
       color: Colors.BodyText,
     },
     progressAll: {
-      width: "100%",
+      width: '100%',
       height: 10,
       borderRadius: 10,
       marginTop: responsiveScreenHeight(1),
@@ -492,15 +538,15 @@ const getStyles = (Colors) =>
       marginBottom: responsiveScreenWidth(1.5),
     },
     infoContainer: {
-      flexDirection: "column",
+      flexDirection: 'column',
       gap: 5,
       width: responsiveScreenWidth(55),
     },
 
     badgeContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 10,
-      alignItems: "center",
+      alignItems: 'center',
     },
     badgeText: {
       fontFamily: CustomFonts.SEMI_BOLD,
@@ -512,8 +558,8 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenWidth(2.5),
       backgroundColor: Colors.PureWhite,
       borderRadius: responsiveScreenWidth(3),
-      flexDirection: "column",
-      alignItems: "center",
+      flexDirection: 'column',
+      alignItems: 'center',
     },
     btnText1: {
       color: Colors.Primary,
@@ -526,8 +572,8 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenWidth(2.5),
       backgroundColor: Colors.Primary,
       borderRadius: responsiveScreenWidth(3),
-      flexDirection: "column",
-      alignItems: "center",
+      flexDirection: 'column',
+      alignItems: 'center',
     },
     buttonText: {
       // textAlign: "center",
@@ -536,8 +582,8 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.SEMI_BOLD,
     },
     btnContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2),
-      alignItems: "center",
+      alignItems: 'center',
     },
   });

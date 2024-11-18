@@ -15,7 +15,6 @@ import {useRoute} from '@react-navigation/native';
 
 import CustomFonts from '../../constants/CustomFonts';
 import VideoPlayer from '../../components/ProgramCom/VideoPlayer';
-import CusSegmentedButtons from '../../components/ProgramCom/CusSegmentedButtons';
 import ProgramFiles from '../../components/ProgramCom/ProgramFiles';
 import axiosInstance from '../../utility/axiosInstance';
 import {seconds2time} from '../../utility';

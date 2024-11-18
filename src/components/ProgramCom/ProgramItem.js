@@ -1,33 +1,37 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import React from "react";
-import { AntDesign } from "@expo/vector-icons";
-import { ProgressBar } from "react-native-paper";
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import React from 'react';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {ProgressBar} from 'react-native-paper';
 
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
-import { useNavigation } from "@react-navigation/native";
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import {useNavigation} from '@react-navigation/native';
 
-import axiosInstance from "../../utility/axiosInstance";
-import CustomFonts from "../../constants/CustomFonts";
-import ProgressIcon from "../../assets/Icons/ProgressIcon";
-import { useTheme } from "../../context/ThemeContext";
-import { useSelector } from "react-redux";
-import Images from "../../constants/Images";
+import axiosInstance from '../../utility/axiosInstance';
+import CustomFonts from '../../constants/CustomFonts';
+import ProgressIcon from '../../assets/Icons/ProgressIcon';
+import {useTheme} from '../../context/ThemeContext';
+import {useSelector} from 'react-redux';
+import Images from '../../constants/Images';
 
-export default function ProgramItem({ myprogram, myProgressMetrics }) {
+export default function ProgramItem({myprogram, myProgressMetrics}) {
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const navigation = useNavigation();
-  const { user } = useSelector((state) => state.auth);
+  const {user} = useSelector(state => state.auth);
 
   const handleCourseDetails = () => {
-    navigation.navigate("ProgramDetails", { slug: myprogram?.program?.slug });
+    navigation.navigate('ProgramDetails', {slug: myprogram?.program?.slug});
   };
 
   const handlePrograss = () => {
-    navigation.navigate("Prograss");
+    navigation.navigate('Prograss');
   };
   return (
     <View style={styles.container}>
@@ -39,9 +43,11 @@ export default function ProgramItem({ myprogram, myProgressMetrics }) {
       <View>
         <View style={styles.sessionContainer}>
           <Text style={styles.sessionText}>Session:</Text>
-          <Text style={styles.sessionDate}>{myprogram?.enrollment?.session?.name}</Text>
-          <Text style={[styles.sessionText, { marginLeft: 20 }]}>ID:</Text>
-          <Text style={[styles.sessionDate, { marginLeft: 5 }]}>{user.id}</Text>
+          <Text style={styles.sessionDate}>
+            {myprogram?.enrollment?.session?.name}
+          </Text>
+          <Text style={[styles.sessionText, {marginLeft: 20}]}>ID:</Text>
+          <Text style={[styles.sessionDate, {marginLeft: 5}]}>{user.id}</Text>
         </View>
         <View style={styles.sessionContainer}>
           <View style={styles.profileImageContainer}>
@@ -56,8 +62,12 @@ export default function ProgramItem({ myprogram, myProgressMetrics }) {
               style={styles.image}
             />
           </View>
-          <Text style={[styles.sessionDate, styles.instructor]}>Instructor:</Text>
-          <Text style={styles.sessionText}>{myprogram?.program?.instructor?.name}</Text>
+          <Text style={[styles.sessionDate, styles.instructor]}>
+            Instructor:
+          </Text>
+          <Text style={styles.sessionText}>
+            {myprogram?.program?.instructor?.name}
+          </Text>
         </View>
 
         {/* -------------------------- */}
@@ -68,25 +78,33 @@ export default function ProgramItem({ myprogram, myProgressMetrics }) {
           <AntDesign name="star" style={styles.starIcon} />
           <Text style={styles.sessionDate}>(0)</Text>
         </View> */}
-        <Text style={[styles.sessionText, styles.overall]}>Overall Progress {myProgressMetrics?.overallPercentageAllItems}%</Text>
-        <ProgressBar progress={myProgressMetrics?.overallPercentageAllItems / 100 || 0} style={styles.progress} color={Colors.Primary} />
+        <Text style={[styles.sessionText, styles.overall]}>
+          Overall Progress {myProgressMetrics?.overallPercentageAllItems}%
+        </Text>
+        <ProgressBar
+          progress={myProgressMetrics?.overallPercentageAllItems / 100 || 0}
+          style={styles.progress}
+          color={Colors.Primary}
+        />
         <View style={styles.buttonContainer}>
           {/* -------------------------- */}
           {/* ----------- Progress Button ----------- */}
           {/* -------------------------- */}
-          <TouchableOpacity onPress={handlePrograss} activeOpacity={0.8} style={styles.myPrograssBtn}>
+          <TouchableOpacity
+            onPress={handlePrograss}
+            activeOpacity={0.8}
+            style={styles.myPrograssBtn}>
             <ProgressIcon />
             <Text style={styles.progressText}>Progress</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("ProgramStack", {
-                screen: "LeaderBoardScreen",
+              navigation.navigate('ProgramStack', {
+                screen: 'LeaderBoardScreen',
               })
             }
             activeOpacity={0.8}
-            style={styles.myPrograssBtn}
-          >
+            style={styles.myPrograssBtn}>
             <ProgressIcon />
             <Text style={styles.progressText}>Leaderboard</Text>
           </TouchableOpacity>
@@ -97,16 +115,17 @@ export default function ProgramItem({ myprogram, myProgressMetrics }) {
         <TouchableOpacity
           onPress={handleCourseDetails}
           activeOpacity={0.8}
-          style={[styles.myPrograssBtn, { backgroundColor: Colors.Primary }]}
-        >
-          <Text style={[styles.progressText, { color: Colors.PureWhite }]}>Go to Bootcamp</Text>
+          style={[styles.myPrograssBtn, {backgroundColor: Colors.Primary}]}>
+          <Text style={[styles.progressText, {color: Colors.PureWhite}]}>
+            Go to Bootcamp
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       backgroundColor: Colors.White,
@@ -119,8 +138,8 @@ const getStyles = (Colors) =>
       borderColor: Colors.BorderColor,
     },
     titleContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
     title: {
       fontFamily: CustomFonts.SEMI_BOLD,
@@ -133,9 +152,9 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
     },
     sessionContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       marginTop: responsiveScreenHeight(1),
-      alignItems: "center",
+      alignItems: 'center',
     },
     sessionText: {
       fontFamily: CustomFonts.SEMI_BOLD,
@@ -178,7 +197,7 @@ const getStyles = (Colors) =>
       marginTop: responsiveScreenHeight(2.5),
     },
     progress: {
-      width: "100%",
+      width: '100%',
       height: 10,
       borderRadius: 10,
       marginTop: responsiveScreenHeight(1),
@@ -191,7 +210,7 @@ const getStyles = (Colors) =>
       borderRadius: 8,
       width: responsiveScreenWidth(40),
       height: responsiveScreenHeight(6.5),
-      position: "absolute",
+      position: 'absolute',
       top: responsiveScreenHeight(-7),
     },
     popupArrow: {
@@ -202,12 +221,12 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.Heading,
-      textAlign: "center",
+      textAlign: 'center',
     },
     buttonContainer: {
-      flexDirection: "row",
-      minWidth: "100%",
-      justifyContent: "center",
+      flexDirection: 'row',
+      minWidth: '100%',
+      justifyContent: 'center',
       gap: responsiveScreenWidth(3),
       marginTop: responsiveScreenWidth(4),
       marginBottom: responsiveScreenHeight(1),
@@ -223,9 +242,9 @@ const getStyles = (Colors) =>
       borderRadius: 10,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
       gap: responsiveScreenWidth(1),
       paddingVertical: responsiveScreenHeight(1.5),
     },

@@ -1,24 +1,38 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
-import ImageView from "react-native-image-viewing";
-import CustomFonts from "../../../constants/CustomFonts";
-import { useTheme } from "../../../context/ThemeContext";
-import Modal from "react-native-modal";
-import ModalBackAndCrossButton from "../../../components/ChatCom/Modal/ModalBackAndCrossButton";
-import { Image } from "react-native";
-import { loadHolidays, loadWeekends } from "../../../actions/chat-noti";
-import { useSelector } from "react-redux";
-import moment from "moment";
-import Images from "../../../constants/Images";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import ImageView from 'react-native-image-viewing';
+import CustomFonts from '../../../constants/CustomFonts';
+import {useTheme} from '../../../context/ThemeContext';
+import Modal from 'react-native-modal';
+import ModalBackAndCrossButton from '../../../components/ChatCom/Modal/ModalBackAndCrossButton';
+import {Image} from 'react-native';
+import {loadHolidays, loadWeekends} from '../../../actions/chat-noti';
+import {useSelector} from 'react-redux';
+import moment from 'moment';
+import Images from '../../../constants/Images';
 
-export default function HolidayModal({ toggleHoliday, setIsHolidayVisible, isHolidayVisible }) {
+export default function HolidayModal({
+  toggleHoliday,
+  setIsHolidayVisible,
+  isHolidayVisible,
+}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { enrolled } = useSelector((state) => state.program);
+  const {enrolled} = useSelector(state => state.program);
   const [viewImage, setViewImage] = useState([]);
-  const { holidays, weekends } = useSelector((state) => state.calendar);
-  const [selected, setSelected] = useState("holidays");
+  const {holidays, weekends} = useSelector(state => state.calendar);
+  const [selected, setSelected] = useState('holidays');
   useEffect(() => {
     loadHolidays();
     loadWeekends();
@@ -26,17 +40,20 @@ export default function HolidayModal({ toggleHoliday, setIsHolidayVisible, isHol
 
   const renderDate = (start, end) =>
     start === end
-      ? moment(start).format("MMM DD")
-      : moment(start).isSame(moment(end), "month")
-      ? `${moment(start).format("MMM DD")}-${moment(end).format("DD")}`
-      : `${moment(start).format("MMM DD")}-${moment(end).format("MMM DD")}`;
+      ? moment(start).format('MMM DD')
+      : moment(start).isSame(moment(end), 'month')
+      ? `${moment(start).format('MMM DD')}-${moment(end).format('DD')}`
+      : `${moment(start).format('MMM DD')}-${moment(end).format('MMM DD')}`;
 
-  const renderDays = (dateCount) => `${dateCount} ${dateCount === 1 ? "day" : "days"}`;
+  const renderDays = dateCount =>
+    `${dateCount} ${dateCount === 1 ? 'day' : 'days'}`;
 
   const renderOffday = (start, end) =>
-    start === end ? moment(start).format("ddd") : `${moment(start).format("ddd")} - ${moment(end).format("ddd")}`;
+    start === end
+      ? moment(start).format('ddd')
+      : `${moment(start).format('ddd')} - ${moment(end).format('ddd')}`;
 
-  const items = selected === "holidays" ? holidays : weekends;
+  const items = selected === 'holidays' ? holidays : weekends;
 
   return (
     <Modal isVisible={isHolidayVisible}>
@@ -48,17 +65,33 @@ export default function HolidayModal({ toggleHoliday, setIsHolidayVisible, isHol
           <Text style={styles.modalHeading}>Holidays - 2024</Text>
           <View style={styles.toggleContainer}>
             <TouchableOpacity
-              onPress={() => setSelected("holidays")}
-              style={[styles.holidayButtonContainer, selected === "holidays" && styles.clickedStyle]}
-            >
-              <Text style={[styles.holidayButton, selected === "holidays" && { color: Colors.PureWhite }]}>Holidays</Text>
+              onPress={() => setSelected('holidays')}
+              style={[
+                styles.holidayButtonContainer,
+                selected === 'holidays' && styles.clickedStyle,
+              ]}>
+              <Text
+                style={[
+                  styles.holidayButton,
+                  selected === 'holidays' && {color: Colors.PureWhite},
+                ]}>
+                Holidays
+              </Text>
             </TouchableOpacity>
             {enrolled && (
               <TouchableOpacity
-                style={[styles.holidayButtonContainer, selected === "weekends" && styles.clickedStyle]}
-                onPress={() => setSelected("weekends")}
-              >
-                <Text style={[styles.holidayButton, selected === "weekends" && { color: Colors.PureWhite }]}>Weekends</Text>
+                style={[
+                  styles.holidayButtonContainer,
+                  selected === 'weekends' && styles.clickedStyle,
+                ]}
+                onPress={() => setSelected('weekends')}>
+                <Text
+                  style={[
+                    styles.holidayButton,
+                    selected === 'weekends' && {color: Colors.PureWhite},
+                  ]}>
+                  Weekends
+                </Text>
               </TouchableOpacity>
             )}
           </View>
@@ -76,10 +109,17 @@ export default function HolidayModal({ toggleHoliday, setIsHolidayVisible, isHol
           <ScrollView style={styles.dayContainer}>
             {items?.map((item, index) => (
               <View key={index} style={styles.day}>
-                <Text style={styles.date}>{renderDate(item.date.start, item.date.end)}</Text>
-                <Text style={styles.days}>{renderDays(item.dateCount) || null}</Text>
-                <Text style={[styles.offday]}>{renderOffday(item.date.start, item.date.end) || "N/A"}</Text>
-                <TouchableOpacity onPress={() => setViewImage([{ uri: item?.image }])}>
+                <Text style={styles.date}>
+                  {renderDate(item.date.start, item.date.end)}
+                </Text>
+                <Text style={styles.days}>
+                  {renderDays(item.dateCount) || null}
+                </Text>
+                <Text style={[styles.offday]}>
+                  {renderOffday(item.date.start, item.date.end) || 'N/A'}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setViewImage([{uri: item?.image}])}>
                   <Image
                     source={
                       item?.image
@@ -91,21 +131,26 @@ export default function HolidayModal({ toggleHoliday, setIsHolidayVisible, isHol
                     style={styles.img}
                   />
                 </TouchableOpacity>
-                <Text style={styles.holiday}>{item?.message || "N/A"}</Text>
+                <Text style={styles.holiday}>{item?.message || 'N/A'}</Text>
               </View>
             ))}
           </ScrollView>
-          <ImageView images={viewImage} imageIndex={0} visible={viewImage?.length !== 0} onRequestClose={() => setViewImage([])} />
+          <ImageView
+            images={viewImage}
+            imageIndex={0}
+            visible={viewImage?.length !== 0}
+            onRequestClose={() => setViewImage([])}
+          />
         </View>
       </View>
     </Modal>
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     holidayButtonContainer: {
-      alignItems: "center",
+      alignItems: 'center',
       borderRadius: 5,
     },
     clickedStyle: {
@@ -121,8 +166,8 @@ const getStyles = (Colors) =>
       borderRadius: 7,
     },
     toggleContainer: {
-      flexDirection: "row",
-      justifyContent: "flex-end",
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
       backgroundColor: Colors.Background_color,
       paddingVertical: responsiveScreenHeight(1),
       paddingHorizontal: responsiveScreenWidth(2),
@@ -135,7 +180,7 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.4),
       fontFamily: CustomFonts.MEDIUM,
-      textAlign: "left",
+      textAlign: 'left',
       paddingLeft: responsiveScreenWidth(1),
     },
     days: {
@@ -144,7 +189,7 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.4),
       fontFamily: CustomFonts.MEDIUM,
-      textAlign: "left",
+      textAlign: 'left',
       paddingLeft: responsiveScreenWidth(1),
     },
     offday: {
@@ -153,7 +198,7 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.4),
       fontFamily: CustomFonts.MEDIUM,
-      textAlign: "left",
+      textAlign: 'left',
       paddingLeft: responsiveScreenWidth(1),
     },
     holiday: {
@@ -162,7 +207,7 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.4),
       fontFamily: CustomFonts.MEDIUM,
-      textAlign: "left",
+      textAlign: 'left',
       paddingLeft: responsiveScreenWidth(1),
     },
     img: {
@@ -170,7 +215,7 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.4),
       fontFamily: CustomFonts.MEDIUM,
-      textAlign: "left",
+      textAlign: 'left',
       paddingLeft: responsiveScreenWidth(1),
       width: responsiveScreenWidth(10),
       height: responsiveScreenHeight(3),
@@ -180,8 +225,8 @@ const getStyles = (Colors) =>
 
     modalTop: {
       paddingVertical: responsiveScreenHeight(2),
-      flexDirection: "row",
-      justifyContent: "flex-end",
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
     },
     modalContainer: {
       width: responsiveScreenWidth(90),
@@ -205,14 +250,14 @@ const getStyles = (Colors) =>
       marginVertical: responsiveScreenHeight(2),
     },
     titleContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       marginVertical: responsiveScreenHeight(1),
       paddingHorizontal: responsiveScreenWidth(1),
     },
 
     dayContainer: {
-      flexDirection: "column",
+      flexDirection: 'column',
       gap: responsiveScreenHeight(1.5),
       maxHeight: responsiveScreenHeight(50),
     },
@@ -222,13 +267,13 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenWidth(2),
       borderRadius: responsiveScreenWidth(2),
       marginBottom: responsiveScreenHeight(1),
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
     headerContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     },
   });
