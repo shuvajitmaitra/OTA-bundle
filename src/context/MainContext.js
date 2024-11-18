@@ -2,7 +2,7 @@ import React, {createContext, useContext, useEffect, useState} from 'react';
 import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
 // import {logout} from '../store/reducer/authReducer';
 import store from '../store';
-import {logout, setUser} from '../store/reducer/authReducer';
+import {logout, setMyEnrollments, setUser} from '../store/reducer/authReducer';
 import {connectSocket} from '../utility/socketManager';
 import {userOrganizationInfo} from '../actions/apiCall';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,10 +38,11 @@ export const MainProvider = ({children}) => {
         .then(async res => {
           console.log(
             'res.data.enrollments main context',
-            JSON.stringify(res.data.enrollments, null, 1),
+            JSON.stringify(res.data.enrollments.length, null, 1),
           );
           if (res.data.success) {
             store.dispatch(setUser(res.data.user));
+            store.dispatch(setMyEnrollments(res.data.enrollments));
             await connectSocket();
             await userOrganizationInfo();
           }
@@ -59,6 +60,7 @@ export const MainProvider = ({children}) => {
     }
   };
   useEffect(() => {
+    console.log('rerender handleVerify');
     handleVerify();
   }, []);
 

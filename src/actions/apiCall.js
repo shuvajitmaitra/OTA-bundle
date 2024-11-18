@@ -33,10 +33,8 @@ export const userOrganizationInfo = async () => {
   await axiosInstance
     .get('/organization/user-organizations')
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data, null, 1));
       store.dispatch(selectOrganizations(res.data.organizations));
       if (res.data.organizations.length === 1) {
-        // AsyncStorage.setItem("organization", JSON.stringify(res.data.organizations[0]));
         setOrganization(res.data.organizations[0]);
         store.dispatch(setSelectedOrganization(res.data.organizations[0]));
       }

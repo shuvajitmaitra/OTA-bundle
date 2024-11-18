@@ -1,9 +1,10 @@
+// src/navigation/DrawerContent.js
+
 import React, {useState} from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
 import {Caption} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
@@ -13,7 +14,6 @@ import {useTheme} from '../context/ThemeContext';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import CustomFonts from '../constants/CustomFonts';
 import useUserStatusData from '../constants/UserStatusData';
-import {useNavigation} from '@react-navigation/native';
 import HomeIconTwo from '../assets/Icons/HomeIcon2';
 import ProfileGreenIcon from '../assets/Icons/ProfileGreenIcon';
 import MyProgramIcon from '../assets/Icons/MyProgramIcon';
@@ -22,7 +22,7 @@ import DocumentIcon from '../assets/Icons/DocumentIcon';
 import PasswordIcon from '../assets/Icons/PasswordIcon';
 import DisplaySettingsIcon from '../assets/Icons/DisplaySettingsIcon';
 
-// Icon render functions (moved outside the component)
+// Icon render functions
 const renderHomeIconTwo = ({color, size}) => (
   <HomeIconTwo color={color} size={size} />
 );
@@ -52,13 +52,13 @@ const renderExitToAppIcon = ({color, size}) => (
 );
 
 export function DrawerContent(props) {
+  const {navigation} = props; // Use navigation from props
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {user} = useSelector(state => state.auth);
   const {status} = useSelector(state => state.userStatus);
   const dispatch = useDispatch();
   const userStatusData = useUserStatusData(16);
-  const navigation = useNavigation();
   const [updateAvailable, setUpdateAvailable] = useState(false);
 
   const signOut = async () => {
@@ -151,7 +151,7 @@ export function DrawerContent(props) {
             />
 
             <DrawerItem
-              icon={() => renderBookIcon(Colors.Heading)}
+              icon={() => renderBookIcon({color: Colors.Heading, size: 24})}
               label="Technical Tests"
               labelStyle={{
                 fontFamily: CustomFonts.MEDIUM,

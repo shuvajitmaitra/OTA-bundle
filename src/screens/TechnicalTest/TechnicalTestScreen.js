@@ -9,27 +9,31 @@ import {
   TextInput,
   ActivityIndicator,
   SafeAreaView,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import CustomDropDownTwo from "../../components/SharedComponent/CustomDropDownTwo";
-import MyButton from "../../components/AuthenticationCom/MyButton";
-import CalenderIcon from "../../assets/Icons/CalenderIcon";
-import SearchWhiteIcon from "../../assets/Icons/SearchWhiteIcon";
-import EyeIcon from "../../assets/Icons/EyeIcon";
-import axiosInstance from "../../utility/axiosInstance";
-import NoDataAvailable from "../../components/SharedComponent/NoDataAvailable";
-import moment from "moment";
-import Images from "../../constants/Images";
-import { setTechnicalTest } from "../../store/reducer/TechnicalTestReducer";
-import CustomTimePicker from "../../components/SharedComponent/CustomTimePicker";
-import { formattingDate } from "../../utility/commonFunction";
-import Loading from "../../components/SharedComponent/Loading";
-import ReloadIcon from "../../assets/Icons/ReloadIcon";
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import CustomDropDownTwo from '../../components/SharedComponent/CustomDropDownTwo';
+import MyButton from '../../components/AuthenticationCom/MyButton';
+import CalenderIcon from '../../assets/Icons/CalenderIcon';
+import SearchWhiteIcon from '../../assets/Icons/SearchWhiteIcon';
+import EyeIcon from '../../assets/Icons/EyeIcon';
+import axiosInstance from '../../utility/axiosInstance';
+import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
+import moment from 'moment';
+import Images from '../../constants/Images';
+import {setTechnicalTest} from '../../store/reducer/TechnicalTestReducer';
+import CustomTimePicker from '../../components/SharedComponent/CustomTimePicker';
+import {formattingDate} from '../../utility/commonFunction';
+import Loading from '../../components/SharedComponent/Loading';
+import ReloadIcon from '../../assets/Icons/ReloadIcon';
 
 export default function TechnicalTestScreen() {
   // --------------------------
@@ -37,52 +41,56 @@ export default function TechnicalTestScreen() {
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { assignments } = useSelector((state) => state.technicalTest);
+  const {assignments} = useSelector(state => state.technicalTest);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isCalendarClicked, setIsCalendarClicked] = useState(false);
   const [date, setDate] = React.useState();
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedType, setSelectedType] = useState("");
-  const [searchId, setSearchId] = useState("");
-  const [status, setStatus] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+  const [searchId, setSearchId] = useState('');
+  const [status, setStatus] = useState('');
 
-  const fieldEmpty = selectedCategory || selectedType || searchId || date ? false : true;
-  const testNowPage = (questionNumber) => {
-    navigation.navigate("ProgramStack", {
-      screen: "TestNow",
-      params: { data: assignments, questionNumber },
+  const fieldEmpty =
+    selectedCategory || selectedType || searchId || date ? false : true;
+  const testNowPage = questionNumber => {
+    navigation.navigate('ProgramStack', {
+      screen: 'TestNow',
+      params: {data: assignments, questionNumber},
     });
   };
 
-  const getStatusStyle = (status) => {
+  const getStatusStyle = status => {
     switch (status) {
-      case "Not Answered":
-        return { color: "#097EF2" };
-      case "accepted":
-        return { color: "#27AC1F" };
-      case "pending":
-        return { color: "#FF9900" };
-      case "rejected":
-        return { color: "#F34141" };
+      case 'Not Answered':
+        return {color: '#097EF2'};
+      case 'accepted':
+        return {color: '#27AC1F'};
+      case 'pending':
+        return {color: '#FF9900'};
+      case 'rejected':
+        return {color: '#F34141'};
       default:
-        return { color: "black" };
+        return {color: 'black'};
     }
   };
 
   useEffect(() => {
     // setIsLoading(true);
     axiosInstance
-      .post("/assignment/myassignments")
-      .then((res) => {
+      .post('/assignment/myassignments')
+      .then(res => {
         if (res.data.success) {
           dispatch(setTechnicalTest(res.data.assignments));
         }
         // setIsLoading(false);
       })
-      .catch((error) => {
-        console.log("error you got", JSON.stringify(error, null, 1));
+      .catch(error => {
+        console.log(
+          'error you got assignment and myassingment',
+          JSON.stringify(error.response.data, null, 1),
+        );
         // setIsLoading(false);
       });
   }, []);
@@ -104,17 +112,27 @@ export default function TechnicalTestScreen() {
     setIsCalendarClicked(true);
   };
 
-  const statusOptions = ["Accepted", "Pending", "Rejected"];
-  const categoryOptions = ["Technical Task", "Technical Assignment", "Technical Questions"];
-  const typeOptions = ["Answered", "Not Answered"];
+  const statusOptions = ['Accepted', 'Pending', 'Rejected'];
+  const categoryOptions = [
+    'Technical Task',
+    'Technical Assignment',
+    'Technical Questions',
+  ];
+  const typeOptions = ['Answered', 'Not Answered'];
   const category =
-    (selectedCategory === "Technical Task" && "task") ||
-    (selectedCategory === "Technical Assignment" && "assignment") ||
-    (selectedCategory === "Technical Questions" && "question") ||
-    "";
+    (selectedCategory === 'Technical Task' && 'task') ||
+    (selectedCategory === 'Technical Assignment' && 'assignment') ||
+    (selectedCategory === 'Technical Questions' && 'question') ||
+    '';
   const selectedStatus =
-    (status === "Accepted" && "accepted") || (status === "Rejected" && "rejected") || (status === "Pending" && "pending") || "";
-  const type = (selectedType === "Answered" && "answered") || (selectedType === "Not Answered" && "notanswered") || "";
+    (status === 'Accepted' && 'accepted') ||
+    (status === 'Rejected' && 'rejected') ||
+    (status === 'Pending' && 'pending') ||
+    '';
+  const type =
+    (selectedType === 'Answered' && 'answered') ||
+    (selectedType === 'Not Answered' && 'notanswered') ||
+    '';
   const searchData = {
     category,
     limit: 50,
@@ -126,25 +144,28 @@ export default function TechnicalTestScreen() {
   };
 
   const handleSearch = () => {
-    console.log("searchId", JSON.stringify(searchData, null, 1));
+    console.log('searchId', JSON.stringify(searchData, null, 1));
     setIsLoading(true);
 
     axiosInstance
-      .post("/assignment/myassignments", searchData)
-      .then((res) => {
-        console.log("res.data", JSON.stringify(res.data, null, 1));
+      .post('/assignment/myassignments', searchData)
+      .then(res => {
+        console.log('res.data', JSON.stringify(res.data, null, 1));
         if (res.data.success) {
           dispatch(setTechnicalTest(res.data.assignments));
-          setDate("");
-          setSelectedCategory("");
-          setSelectedType("");
-          setStatus("");
-          setSearchId("");
+          setDate('');
+          setSelectedCategory('');
+          setSelectedType('');
+          setStatus('');
+          setSearchId('');
         }
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.log("error you got", JSON.stringify(error.response.data, null, 1));
+      .catch(error => {
+        console.log(
+          'error you got /assignment/myassignments',
+          JSON.stringify(error.response.data, null, 1),
+        );
         setIsLoading(false);
       });
   };
@@ -155,7 +176,11 @@ export default function TechnicalTestScreen() {
       <StatusBar
         translucent={true}
         backgroundColor={Colors.Background_color}
-        barStyle={Colors.Background_color === "#F5F5F5" ? "dark-content" : "light-content"}
+        barStyle={
+          Colors.Background_color === '#F5F5F5'
+            ? 'dark-content'
+            : 'light-content'
+        }
       />
 
       <ScrollView>
@@ -164,17 +189,18 @@ export default function TechnicalTestScreen() {
         {/* -------------------------- */}
         <View style={styles.headingContainer}>
           <Text style={styles.title}>Technical Test</Text>
-          <Text style={styles.text}>View all Technical Tests related to my program</Text>
+          <Text style={styles.text}>
+            View all Technical Tests related to my program
+          </Text>
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("ProgramStack", {
-                screen: "ViewStatus",
-                params: { assignments },
+              navigation.navigate('ProgramStack', {
+                screen: 'ViewStatus',
+                params: {assignments},
               });
             }}
-            style={styles.viewBtn}
-          >
+            style={styles.viewBtn}>
             <EyeIcon color={Colors.PureWhite} style={styles.viewBtnText} />
             <Text style={styles.viewBtnText}>View Status</Text>
           </TouchableOpacity>
@@ -188,26 +214,37 @@ export default function TechnicalTestScreen() {
           <View style={styles.searchContainer}>
             <View style={styles.inputContainer}>
               <TextInput
-                keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
                 style={styles.input}
                 placeholder="Search Id"
                 placeholderTextColor={Colors.BodyText}
                 value={searchId}
-                onChangeText={(text) => setSearchId(text)}
+                onChangeText={text => setSearchId(text)}
               />
               <CustomDropDownTwo
                 flex={0.87}
-                placeholder={"Category"}
+                placeholder={'Category'}
                 data={categoryOptions}
                 state={selectedCategory}
                 setState={setSelectedCategory}
               />
             </View>
             <View style={styles.inputContainer2}>
-              <View style={{ zIndex: 10, flex: 0.87 }}>
-                <CustomDropDownTwo flex={1} placeholder={"Type"} data={typeOptions} state={selectedType} setState={setSelectedType} />
+              <View style={{zIndex: 10, flex: 0.87}}>
+                <CustomDropDownTwo
+                  flex={1}
+                  placeholder={'Type'}
+                  data={typeOptions}
+                  state={selectedType}
+                  setState={setSelectedType}
+                />
               </View>
-              <TouchableOpacity onPress={() => showCalendar()} activeOpacity={0.5} style={[styles.input]}>
+              <TouchableOpacity
+                onPress={() => showCalendar()}
+                activeOpacity={0.5}
+                style={[styles.input]}>
                 {/* <TextInput
                   style={styles.input2}
                   placeholder="Workshop"
@@ -215,20 +252,21 @@ export default function TechnicalTestScreen() {
                   value={searchWorkshop}
                   onChangeText={setSearchWorkshop}
                 /> */}
-                <Text style={styles.input2}>{date ? moment(date).format("D MMM, YYYY") : "Workshop"}</Text>
+                <Text style={styles.input2}>
+                  {date ? moment(date).format('D MMM, YYYY') : 'Workshop'}
+                </Text>
                 <CalenderIcon size={18} color={Colors.BodyText} />
               </TouchableOpacity>
             </View>
-            {selectedType == "Answered" ? (
+            {selectedType == 'Answered' ? (
               <View
                 style={{
                   marginBottom: responsiveScreenHeight(1.5),
                   zIndex: 1,
-                }}
-              >
+                }}>
                 <CustomDropDownTwo
                   flex={1}
-                  placeholder={"All Status"}
+                  placeholder={'All Status'}
                   width={86}
                   data={statusOptions}
                   state={status}
@@ -236,7 +274,12 @@ export default function TechnicalTestScreen() {
                 />
               </View>
             ) : null}
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
               <TouchableOpacity
                 onPress={() => {
                   fieldEmpty ? null : handleSearch();
@@ -247,17 +290,17 @@ export default function TechnicalTestScreen() {
                     backgroundColor: Colors.DisablePrimaryBackgroundColor,
                   },
                 ]}
-                disabled={fieldEmpty}
-              >
-                <SearchWhiteIcon color={fieldEmpty && Colors.DisablePrimaryButtonTextColor} />
+                disabled={fieldEmpty}>
+                <SearchWhiteIcon
+                  color={fieldEmpty && Colors.DisablePrimaryButtonTextColor}
+                />
                 <Text
                   style={[
                     styles.viewBtnText,
                     fieldEmpty && {
                       color: Colors.DisablePrimaryButtonTextColor,
                     },
-                  ]}
-                >
+                  ]}>
                   Search
                 </Text>
               </TouchableOpacity>
@@ -271,17 +314,17 @@ export default function TechnicalTestScreen() {
                     backgroundColor: Colors.DisablePrimaryBackgroundColor,
                   },
                 ]}
-                disabled={!fieldEmpty}
-              >
-                <ReloadIcon color={!fieldEmpty && Colors.DisablePrimaryButtonTextColor} />
+                disabled={!fieldEmpty}>
+                <ReloadIcon
+                  color={!fieldEmpty && Colors.DisablePrimaryButtonTextColor}
+                />
                 <Text
                   style={[
                     styles.viewBtnText,
                     !fieldEmpty && {
                       color: Colors.DisablePrimaryButtonTextColor,
                     },
-                  ]}
-                >
+                  ]}>
                   Reload
                 </Text>
               </TouchableOpacity>
@@ -298,8 +341,10 @@ export default function TechnicalTestScreen() {
               /> */}
 
                 <CustomTimePicker
-                  mode={"date"}
-                  setDate={(date) => (date ? setDate(new Date(date).toISOString()) : new Date())}
+                  mode={'date'}
+                  setDate={date =>
+                    date ? setDate(new Date(date).toISOString()) : new Date()
+                  }
                   isPickerVisible={isCalendarClicked}
                   setIsPickerVisible={setIsCalendarClicked}
                   showPreviousDate={true}
@@ -316,13 +361,18 @@ export default function TechnicalTestScreen() {
                   <View key={index} style={styles.technicalTestContainer}>
                     <View>
                       <View>
-                        <Image source={Images.TECHNICAL_TEST} style={styles.imgStyle} />
+                        <Image
+                          source={Images.TECHNICAL_TEST}
+                          style={styles.imgStyle}
+                        />
                       </View>
 
                       <View>
                         <Text style={styles.technicalTest}>
                           {/* {item.question} */}
-                          {item.question?.length > 50 ? item.question.slice(0, 50) + "..." : item.question}
+                          {item.question?.length > 50
+                            ? item.question.slice(0, 50) + '...'
+                            : item.question}
                         </Text>
                       </View>
                     </View>
@@ -333,27 +383,49 @@ export default function TechnicalTestScreen() {
                         <Text style={styles.marks}>Workshop:</Text>
                         <Text style={styles.marks}>Deadline:</Text>
                         <Text style={styles.marks}>Total Marks:</Text>
-                        {item?.submission?.status && <Text style={styles.marks}>Status:</Text>}
-                        {typeof item?.submission?.mark !== "undefined" ? <Text style={styles.marks}>Obtained Mark:</Text> : null}
+                        {item?.submission?.status && (
+                          <Text style={styles.marks}>Status:</Text>
+                        )}
+                        {typeof item?.submission?.mark !== 'undefined' ? (
+                          <Text style={styles.marks}>Obtained Mark:</Text>
+                        ) : null}
                       </View>
                       <View style={styles.testDataHeadingText}>
-                        <Text style={styles.number}>#{item?.id || "N/A"}</Text>
+                        <Text style={styles.number}>#{item?.id || 'N/A'}</Text>
                         <Text style={styles.number}>
-                          {(item?.category === "task" && "Technical Task") ||
-                            (item?.category === "assignment" && "Technical Assignment") ||
-                            (item?.category === "question" && "Technical Questions") ||
+                          {(item?.category === 'task' && 'Technical Task') ||
+                            (item?.category === 'assignment' &&
+                              'Technical Assignment') ||
+                            (item?.category === 'question' &&
+                              'Technical Questions') ||
                             item?.category}
                         </Text>
                         <Text style={styles.number}>
                           {/* {moment(item.workshop).format("D MMM, YYYY")} */}
                           {formattingDate(item.workshop)}
                         </Text>
-                        <Text style={styles.number}>{item?.dueDate ? formattingDate(item?.dueDate) : "Not specified"}</Text>
+                        <Text style={styles.number}>
+                          {item?.dueDate
+                            ? formattingDate(item?.dueDate)
+                            : 'Not specified'}
+                        </Text>
                         <Text style={styles.number}>{item?.mark}</Text>
                         {item?.submission?.status && (
-                          <Text style={[styles.status, getStatusStyle(item?.submission?.status)]}>{item?.submission?.status}</Text>
+                          <Text
+                            style={[
+                              styles.status,
+                              getStatusStyle(item?.submission?.status),
+                            ]}>
+                            {item?.submission?.status}
+                          </Text>
                         )}
-                        {<Text style={[styles.number]}>{item?.submission?.mark == 0 ? "No Mark" : item?.submission?.mark}</Text>}
+                        {
+                          <Text style={[styles.number]}>
+                            {item?.submission?.mark == 0
+                              ? 'No Mark'
+                              : item?.submission?.mark}
+                          </Text>
+                        }
                       </View>
                     </View>
 
@@ -361,7 +433,7 @@ export default function TechnicalTestScreen() {
                       {item?.submission?.status ? (
                         <MyButton
                           onPress={() => testNowPage(index)}
-                          title={"Update Answer"}
+                          title={'Update Answer'}
                           bg={Colors.Primary}
                           colour={Colors.PureWhite}
                           flex={1}
@@ -369,7 +441,7 @@ export default function TechnicalTestScreen() {
                       ) : (
                         <MyButton
                           onPress={() => testNowPage(index)}
-                          title={"Answer"}
+                          title={'Answer'}
                           bg={Colors.Primary}
                           colour={Colors.PureWhite}
                           flex={1}
@@ -403,7 +475,7 @@ export default function TechnicalTestScreen() {
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     testDataHeadingText: {
       // backgroundColor: "black",
@@ -433,17 +505,17 @@ const getStyles = (Colors) =>
       paddingBottom: responsiveScreenHeight(1),
     },
     heading: {
-      textAlign: "center",
+      textAlign: 'center',
       fontSize: responsiveScreenFontSize(3),
-      fontFamily: "WorkSans_Regular",
+      fontFamily: 'WorkSans_Regular',
       color: Colors.Heading,
       marginBottom: responsiveScreenHeight(2),
     },
     itemContainer: {
       width: responsiveScreenWidth(100),
       flex: 1,
-      height: "100%",
-      alignSelf: "center",
+      height: '100%',
+      alignSelf: 'center',
       marginTop: responsiveScreenHeight(2),
       backgroundColor: Colors.White,
       paddingVertical: responsiveScreenHeight(2),
@@ -465,7 +537,7 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.1),
       color: Colors.Heading,
-      fontWeight: "600",
+      fontWeight: '600',
       paddingBottom: responsiveScreenHeight(1.8),
       paddingTop: responsiveScreenHeight(1),
     },
@@ -474,12 +546,12 @@ const getStyles = (Colors) =>
 
       padding: responsiveScreenWidth(3),
       borderRadius: responsiveScreenWidth(2),
-      flexDirection: "row",
+      flexDirection: 'row',
       // marginTop: responsiveScreenHeight(2)
     },
     dataContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
     },
 
     text: {
@@ -488,7 +560,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.6),
       // paddingTop: responsiveScreenHeight(1),
       paddingBottom: responsiveScreenHeight(2),
-      textAlign: "left",
+      textAlign: 'left',
     },
     marks: {
       color: Colors.Heading,
@@ -509,10 +581,10 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.6),
 
       paddingBottom: responsiveScreenHeight(1),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     btnArea: {
-      flexDirection: "row",
+      flexDirection: 'row',
       paddingHorizontal: responsiveScreenWidth(0.5),
       gap: responsiveScreenWidth(4),
       paddingVertical: responsiveScreenHeight(2),
@@ -528,10 +600,10 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenHeight(1),
       borderRadius: responsiveScreenWidth(2),
       backgroundColor: Colors.Primary,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2),
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     searchContainer: {
       backgroundColor: Colors.Background_color,
@@ -541,13 +613,13 @@ const getStyles = (Colors) =>
       // height: responsiveScreenHeight(30)
     },
     inputContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       zIndex: 3,
     },
     inputContainer2: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       marginVertical: responsiveScreenHeight(1.5),
       zIndex: 2,
     },
@@ -563,9 +635,9 @@ const getStyles = (Colors) =>
       borderColor: Colors.BorderColor,
       borderRadius: 5,
       fontFamily: CustomFonts.REGULAR,
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       fontSize: responsiveScreenFontSize(2),
     },
     input2: {
@@ -581,10 +653,10 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenHeight(1),
       borderRadius: responsiveScreenWidth(2),
       backgroundColor: Colors.Primary,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2),
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     imgStyle: {
       width: 60,

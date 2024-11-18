@@ -202,7 +202,10 @@ const AvailabilityModal = React.memo(function AvailabilityModal({
         setIsLoading(false);
       })
       ?.catch(error => {
-        console?.log('error you got', JSON?.stringify(error, null, 1));
+        console?.log(
+          'error you got from availability modal',
+          JSON?.stringify(error.response.data, null, 1),
+        );
         setIsLoading(false);
       });
   };

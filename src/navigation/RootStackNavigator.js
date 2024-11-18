@@ -17,13 +17,12 @@ const RootStackNavigator = () => {
         options={{headerShown: false}}
       />
 
-      {/* Screens that should NOT show the Bottom Tab Navigator */}
       <RootStack.Screen
         name="MessageScreen2"
         component={MessageScreen2}
         options={{
-          headerShown: false, // Show header
-          title: 'Messages', // Customize title
+          headerShown: false,
+          title: 'Messages',
         }}
       />
       <RootStack.Screen

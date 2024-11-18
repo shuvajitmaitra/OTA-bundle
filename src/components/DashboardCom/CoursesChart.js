@@ -1,31 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { StackedBarChart, YAxis } from "react-native-svg-charts";
-import { Text as SVGText, G, Line } from "react-native-svg";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import { useDispatch, useSelector } from "react-redux";
-import CustomDropDownTwo from "../SharedComponent/CustomDropDownTwo";
-import { ActivityIndicator } from "react-native";
-import axiosInstance from "../../utility/axiosInstance";
-import Divider from "../SharedComponent/Divider";
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Text} from 'react-native';
+import {StackedBarChart, YAxis} from 'react-native-svg-charts';
+import {Text as SVGText, G, Line} from 'react-native-svg';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {useDispatch, useSelector} from 'react-redux';
+import CustomDropDownTwo from '../SharedComponent/CustomDropDownTwo';
+import {ActivityIndicator} from 'react-native';
+import axiosInstance from '../../utility/axiosInstance';
+import Divider from '../SharedComponent/Divider';
 
-const colors = ["#5DB34C", "#FF5454"];
-const keys = ["completed", "incomplete"];
+const colors = ['#5DB34C', '#FF5454'];
+const keys = ['completed', 'incomplete'];
 const yAxisData = [0, 20, 40, 60, 80, 100];
 
-const CustomLegend = ({ colors }) => {
+const CustomLegend = ({colors}) => {
   const Colors = useTheme();
   const styles = getLegendStyles(Colors);
   return (
     <View style={styles.legendContainer}>
       <View style={styles.legendItem}>
-        <View style={[styles.legendColor, { backgroundColor: colors[0] }]} />
+        <View style={[styles.legendColor, {backgroundColor: colors[0]}]} />
         <Text style={styles.legendLabel}>Completed</Text>
       </View>
       <View style={styles.legendItem}>
-        <View style={[styles.legendColor, { backgroundColor: colors[1] }]} />
+        <View style={[styles.legendColor, {backgroundColor: colors[1]}]} />
         <Text style={styles.legendLabel}>Incomplete</Text>
       </View>
     </View>
@@ -36,27 +40,30 @@ const CoursesChart = () => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
-  const [selectCourse, setSelectCourse] = useState("");
+  const [selectCourse, setSelectCourse] = useState('');
   const [courses, setCourses] = useState([]);
-  const [courseId, setCourseId] = useState("");
+  const [courseId, setCourseId] = useState('');
   const [coursesData, setCoursesData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const loadCourseData = (courseId) => {
+  const loadCourseData = courseId => {
     setIsLoading(true);
     axiosInstance
-      .post("dashboard/portal", {
+      .post('dashboard/portal', {
         course: {
           courseId,
         },
       })
-      .then((res) => {
+      .then(res => {
         setCoursesData(res.data.data.course.results);
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.log("error you got", JSON.stringify(error, null, 1));
+      .catch(error => {
+        console.log(
+          'error you got to load course data ',
+          JSON.stringify(error.response.data, null, 1),
+        );
         setIsLoading(false);
       });
   };
@@ -64,17 +71,17 @@ const CoursesChart = () => {
   useEffect(() => {
     setIsLoading(true);
     axiosInstance
-      .get("/order/myorder/course")
-      .then((res) => {
+      .get('/order/myorder/course')
+      .then(res => {
         if (res?.data?.orders?.length !== 0) {
           const firstCourse = res?.data?.orders[0]?.course;
           setSelectCourse(firstCourse?.title);
-          setCourses(res?.data?.orders?.map((o) => o?.course));
+          setCourses(res?.data?.orders?.map(o => o?.course));
           setCourseId(firstCourse?._id);
         }
         setIsLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setIsLoading(false);
       });
@@ -87,7 +94,7 @@ const CoursesChart = () => {
   }, [courseId, selectCourse]);
 
   const transformedData = Array.isArray(coursesData)
-    ? coursesData.map((item) => ({
+    ? coursesData.map(item => ({
         category: item.category.name,
         completed: (item.completedItems / item.totalItems) * 100 || 0,
         incomplete: (item.incompletedItems / item.totalItems) * 100 || 0,
@@ -95,7 +102,7 @@ const CoursesChart = () => {
       }))
     : [];
 
-  const Labels = ({ x, y, bandwidth, data }) =>
+  const Labels = ({x, y, bandwidth, data}) =>
     data.map((item, index) => (
       <G key={index}>
         <SVGText
@@ -105,8 +112,7 @@ const CoursesChart = () => {
           fontSize={responsiveScreenFontSize(1.4)}
           fill={Colors.PureWhite}
           alignmentBaseline="middle"
-          textAnchor="middle"
-        >
+          textAnchor="middle">
           {`${item.completed.toFixed()}%`}
         </SVGText>
         <SVGText
@@ -116,13 +122,12 @@ const CoursesChart = () => {
           fontSize={responsiveScreenFontSize(1.4)}
           fill={Colors.PureWhite}
           alignmentBaseline="middle"
-          textAnchor="middle"
-        >
+          textAnchor="middle">
           {`${item.incomplete.toFixed()}%`}
         </SVGText>
       </G>
     ));
-  const TextLabels = ({ x, y, bandwidth, data }) =>
+  const TextLabels = ({x, y, bandwidth, data}) =>
     data.map((item, index) => (
       <G key={index}>
         <SVGText
@@ -132,15 +137,14 @@ const CoursesChart = () => {
           fontSize={responsiveScreenFontSize(1.4)}
           fill={Colors.PureWhite}
           alignmentBaseline="middle"
-          textAnchor="middle"
-        >
+          textAnchor="middle">
           {item?.label}
         </SVGText>
       </G>
     ));
-  const CustomGrid = ({ x, y, ticks }) => (
+  const CustomGrid = ({x, y, ticks}) => (
     <G>
-      {ticks.map((tick) => (
+      {ticks.map(tick => (
         <Line
           key={tick}
           x1="0%"
@@ -161,10 +165,9 @@ const CoursesChart = () => {
         <View
           style={{
             height: responsiveScreenHeight(40),
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
           <ActivityIndicator size="large" color={Colors.Primary} />
         </View>
       ) : (
@@ -173,11 +176,13 @@ const CoursesChart = () => {
             <Text style={styles.heading}>Courses</Text>
             <CustomDropDownTwo
               flex={0.6}
-              data={courses.map((course) => course.title)}
+              data={courses.map(course => course.title)}
               state={selectCourse}
-              setState={(selected) => {
+              setState={selected => {
                 setSelectCourse(selected);
-                const selectedCourse = courses.find((course) => course.title === selected);
+                const selectedCourse = courses.find(
+                  course => course.title === selected,
+                );
                 setCourseId(selectedCourse?._id);
               }}
             />
@@ -186,9 +191,8 @@ const CoursesChart = () => {
           <View
             style={{
               height: responsiveScreenFontSize(30),
-              flexDirection: "row",
-            }}
-          >
+              flexDirection: 'row',
+            }}>
             <YAxis
               data={yAxisData}
               contentInset={{
@@ -200,23 +204,22 @@ const CoursesChart = () => {
                 fontSize: responsiveScreenFontSize(1.6),
                 fontFamily: CustomFonts.WorkSans_Medium,
               }}
-              formatLabel={(value) => `${value}`}
+              formatLabel={value => `${value}`}
               numberOfTicks={yAxisData?.length}
               min={0}
               max={100}
             />
-            <View style={{ flex: 1, marginLeft: 10 }}>
+            <View style={{flex: 1, marginLeft: 10}}>
               <StackedBarChart
-                style={{ flex: 1 }}
+                style={{flex: 1}}
                 data={transformedData}
                 keys={keys}
                 colors={colors}
                 showGrid={false}
-                contentInset={{ top: 10, bottom: responsiveScreenHeight(6) }}
+                contentInset={{top: 10, bottom: responsiveScreenHeight(6)}}
                 horizontal={false}
                 spacingInner={0.4}
-                spacingOuter={0.2}
-              >
+                spacingOuter={0.2}>
                 <CustomGrid belowChart={true} ticks={yAxisData} />
                 <Labels />
                 <TextLabels />
@@ -230,15 +233,16 @@ const CoursesChart = () => {
           styles.dataContainer,
           {
             marginTop: responsiveScreenHeight(3),
-            flexBasis: "30%",
-            flexWrap: "wrap",
+            flexBasis: '30%',
+            flexWrap: 'wrap',
             gap: 10,
           },
-        ]}
-      >
+        ]}>
         {coursesData?.map((item, index) => (
           <View key={index} style={styles.box}>
-            <Text style={styles.title}>{item?.category?.name || "Untitled"}</Text>
+            <Text style={styles.title}>
+              {item?.category?.name || 'Untitled'}
+            </Text>
             <Divider marginBottom={1} marginTop={1} />
             <View style={styles.dataContainer}>
               <Text style={styles.text}>Total Item</Text>
@@ -263,27 +267,27 @@ const CoursesChart = () => {
   );
 };
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: Colors.White,
     },
     labelsContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(6),
       marginLeft: responsiveScreenWidth(10),
       marginTop: 10,
-      justifyContent: "center",
+      justifyContent: 'center',
       maxHeight: 20,
-      alignSelf: "baseline",
+      alignSelf: 'baseline',
     },
     barLabelContainer: {
-      alignItems: "center",
+      alignItems: 'center',
       gap: 10,
     },
     label: {
-      textAlign: "center",
+      textAlign: 'center',
       fontSize: responsiveScreenFontSize(1.4),
       color: Colors.BodyText,
       fontFamily: CustomFonts.MEDIUM,
@@ -292,9 +296,9 @@ const getStyles = (Colors) =>
       marginLeft: 3,
     },
     titleContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       paddingBottom: responsiveScreenHeight(2),
       borderBottomWidth: 1,
       borderBottomColor: Colors.BorderColor,
@@ -307,8 +311,8 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
     },
     dataContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
     box: {
       padding: responsiveScreenWidth(3),
@@ -321,7 +325,7 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(1.6),
       color: Colors.Heading,
-      textAlign: "center",
+      textAlign: 'center',
     },
     text: {
       fontFamily: CustomFonts.MEDIUM,
@@ -330,18 +334,18 @@ const getStyles = (Colors) =>
     },
   });
 
-const getLegendStyles = (Colors) =>
+const getLegendStyles = Colors =>
   StyleSheet.create({
     legendContainer: {
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
       marginTop: responsiveScreenHeight(1),
       marginBottom: responsiveScreenHeight(2),
     },
     legendItem: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       marginHorizontal: 10,
     },
     legendColor: {

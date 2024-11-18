@@ -85,7 +85,10 @@ export default function AssessmentScreen() {
         }
       })
       .catch(error => {
-        console.log('error you got', JSON.stringify(error, null, 1));
+        console.log(
+          'error you got /enrollment/enrollment-test/mytests ',
+          JSON.stringify(error.response.data, null, 1),
+        );
         setIsLoading(false);
       });
   }, []);

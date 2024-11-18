@@ -6,13 +6,12 @@ import RootStackNavigator from './RootStackNavigator';
 
 const Navigation = () => {
   const {isAuthenticated, user} = useSelector(state => state.auth);
-  console.log('isAuthenticated', JSON.stringify(user, null, 1));
   // if (loading) {
   //   return <SplashScreen />;
   // }
   return (
     <NavigationContainer>
-      {true ? <RootStackNavigator /> : <AuthStackScreen />}
+      {user._id ? <RootStackNavigator /> : <AuthStackScreen />}
     </NavigationContainer>
   );
 };
