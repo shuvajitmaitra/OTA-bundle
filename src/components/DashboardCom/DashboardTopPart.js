@@ -1,17 +1,16 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native";
-import React from "react";
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import React from 'react';
 import {
   responsiveScreenWidth,
   responsiveScreenHeight,
-} from "react-native-responsive-dimensions";
-import { useNavigation } from "@react-navigation/native";
+} from 'react-native-responsive-dimensions';
+import {useNavigation} from '@react-navigation/native';
 
-import DrawerIcon from "../../assets/Icons/DrawerIcon";
-import CustomeRightHeader from "../ProgramCom/CustomeRightHeader";
-import MessageNotificationContainer from "../MessageNotificationContainer";
-import { useTheme } from "../../context/ThemeContext";
-import SwapIcon from "../../assets/Icons/SwapIcon";
-import * as Animatable from "react-native-animatable";
+import DrawerIcon from '../../assets/Icons/DrawerIcon';
+import CustomeRightHeader from '../ProgramCom/CustomeRightHeader';
+import MessageNotificationContainer from '../MessageNotificationContainer';
+import {useTheme} from '../../context/ThemeContext';
+import SwapIcon from '../../assets/Icons/SwapIcon';
 
 export default function DashboardTopPart({
   statusSectionVisible,
@@ -23,19 +22,17 @@ export default function DashboardTopPart({
   const handleDrawer = () => {
     navigation.openDrawer();
     if (statusSectionVisible) {
-      setStatusSectionVisible((prev) => !prev);
+      setStatusSectionVisible(prev => !prev);
     }
   };
   return (
     <View
       // animation={"slideInLeft"}
       // duration={1000}
-      style={styles.container}
-    >
+      style={styles.container}>
       <TouchableOpacity
         style={styles.profileImageContainer}
-        onPress={handleDrawer}
-      >
+        onPress={handleDrawer}>
         <DrawerIcon />
       </TouchableOpacity>
       <View style={styles.messageNotificationContainer}>
@@ -52,11 +49,11 @@ export default function DashboardTopPart({
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       // backgroundColor: "green",
       // paddingVertical: responsiveScreenWidth(-10),
       marginTop: responsiveScreenHeight(0.5),
@@ -73,7 +70,7 @@ const getStyles = (Colors) =>
     },
 
     messageNotificationContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       marginRight: responsiveScreenWidth(3),
     },
     messageContainer: {
@@ -82,10 +79,10 @@ const getStyles = (Colors) =>
       borderRadius: responsiveScreenWidth(12),
       backgroundColor: Colors.White,
       marginRight: responsiveScreenWidth(4),
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       elevation: 5,
-      position: "relative",
+      position: 'relative',
     },
     messageIcon: {
       width: responsiveScreenWidth(7),

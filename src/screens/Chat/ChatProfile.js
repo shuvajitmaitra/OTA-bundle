@@ -31,7 +31,6 @@ import ModalNameStatus from '../../components/ChatCom/Modal/ModalNameStatus';
 import MembersIcon from '../../assets/Icons/MembersIcon';
 import PlusCircle from '../../assets/Icons/PlusCircle';
 import AddMembers from '../../components/ChatCom/Modal/AddMembers';
-import GroupModalTabView from '../../components/ChatCom/Modal/GroupModalTabView';
 import LeaveCrowdModal from '../../components/ChatCom/Modal/LeaveCrowdModal';
 import CustomFonts from '../../constants/CustomFonts';
 import Images from '../../constants/Images';
@@ -45,6 +44,7 @@ import BinIcon from '../../assets/Icons/BinIcon';
 import MemberManageSheet from '../../components/ChatCom/Sheet/MemberManageSheet';
 import {fetchMembers} from '../../actions/apiCall';
 import {launchImageLibrary} from 'react-native-image-picker';
+import GroupModalTabView from '../../components/ChatCom/Modal/GroupModalTabView';
 
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();

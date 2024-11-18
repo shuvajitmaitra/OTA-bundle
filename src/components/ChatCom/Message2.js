@@ -96,10 +96,12 @@ const Message2 = ({item, index, nextSender}) => {
           {item.replyCount > 0 && (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ThreadScreen', {chatMessage: item})
+                navigation.push('ThreadScreen', {
+                  chatMessage: item,
+                })
               }>
               <Text style={styles.replyCountText}>{`${item.replyCount} ${
-                item?.replyCount == 1 ? 'reply' : 'replies'
+                item?.replyCount === 1 ? 'reply' : 'replies'
               }`}</Text>
             </TouchableOpacity>
           )}

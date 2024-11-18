@@ -120,51 +120,51 @@ const App = () => {
   };
 
   // Verify user authentication
-  const handleVerify = async () => {
-    try {
-      await configureAxiosHeader();
-      axiosInstance
-        .post('/user/verify', {})
-        .then(async res => {
-          console.log('res.data', JSON.stringify(res.data, null, 1));
-          if (res.status === 200 && res.data.success) {
-            dispatch(setUser(res.data.user));
-            dispatch(setMyEnrollments(res.data.enrollments));
-            await userOrganizationInfo();
-            await connectSocket();
-            loadCalendarEvent();
-            loadNotifications();
-            loadProgramInfo();
-            await getActive();
-            setIsLoading(false);
-          } else {
-            throw new Error('Verification failed');
-          }
-        })
-        .catch(err => {
-          console.log(
-            'Error during verification:',
-            err.response?.data || err.message,
-          );
-          dispatch(logout());
-          setIsLoading(false);
-        });
-    } catch (error) {
-      console.log('Unexpected error during verification:', error);
-      dispatch(logout());
-      setIsLoading(false);
-    }
-  };
+  // const handleVerify = async () => {
+  //   try {
+  //     await configureAxiosHeader();
+  //     axiosInstance
+  //       .post('/user/verify', {})
+  //       .then(async res => {
+  //         console.log('res.data', JSON.stringify(res.data, null, 1));
+  //         if (res.status === 200 && res.data.success) {
+  //           dispatch(setUser(res.data.user));
+  //           dispatch(setMyEnrollments(res.data.enrollments));
+  //           await userOrganizationInfo();
+  //           await connectSocket();
+  //           loadCalendarEvent();
+  //           loadNotifications();
+  //           loadProgramInfo();
+  //           await getActive();
+  //           setIsLoading(false);
+  //         } else {
+  //           throw new Error('Verification failed');
+  //         }
+  //       })
+  //       .catch(err => {
+  //         console.log(
+  //           'Error during verification:',
+  //           err.response?.data || err.message,
+  //         );
+  //         dispatch(logout());
+  //         setIsLoading(false);
+  //       });
+  //   } catch (error) {
+  //     console.log('Unexpected error during verification:', error);
+  //     dispatch(logout());
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  // Initial verification on app launch
-  useEffect(() => {
-    handleVerify();
-    return () => {
-      disconnectSocket();
-    };
-  }, []);
+  // // Initial verification on app launch
+  // useEffect(() => {
+  //   handleVerify();
+  //   return () => {
+  //     disconnectSocket();
+  //   };
+  // }, []);
 
-  if (isLoading) {
+  if (!isLoading) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#007AFF" />
@@ -189,7 +189,6 @@ const App = () => {
   );
 };
 
-// Simple SplashScreen component for loading state
 const SplashScreen = () => (
   <View style={styles.loadingContainer}>
     <ActivityIndicator size="large" color="#007AFF" />

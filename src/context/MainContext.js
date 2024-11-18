@@ -4,6 +4,7 @@ import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
 import store from '../store';
 import {logout, setUser} from '../store/reducer/authReducer';
 import {connectSocket} from '../utility/socketManager';
+import {userOrganizationInfo} from '../actions/apiCall';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {connectSocket} from '../utility/socketManager';
 
@@ -42,6 +43,7 @@ export const MainProvider = ({children}) => {
           if (res.data.success) {
             store.dispatch(setUser(res.data.user));
             await connectSocket();
+            await userOrganizationInfo();
           }
         })
         .catch(err => {

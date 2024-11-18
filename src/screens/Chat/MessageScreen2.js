@@ -26,6 +26,7 @@ import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModa
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
+  console.log('rerender');
   const {top} = useSafeAreaInsets();
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -82,7 +83,6 @@ const MessageScreen2 = () => {
         [chat._id]: newMessages,
       });
       dispatch(setLocalMessages(newMessages));
-      console.log('Initial call done');
       if (newMessages.length < options.limit) {
         setHasMore(false);
       } else {
@@ -91,7 +91,7 @@ const MessageScreen2 = () => {
     } catch (error) {
       console.log(
         'Error loading initial messages:',
-        JSON.stringify(error, null, 1),
+        JSON.stringify(error.response.data, null, 1),
       );
     } finally {
       setIsLoading(false);
@@ -107,7 +107,7 @@ const MessageScreen2 = () => {
     };
   }, [chat._id]);
 
-  const handleLoadMore = useCallback(async () => {
+  const handleLoadMore = async () => {
     if (isLoading || !hasMore) {
       return;
     }
@@ -121,8 +121,6 @@ const MessageScreen2 = () => {
       const res = await axiosInstance.post('/chat/messages', options);
       const newMessages = res.data.messages.reverse();
       dispatch(setLocalMessages([...localMessages, ...newMessages]));
-      // setLocalMessages(prev => [...prev, ...newMessages]);
-      // Update MMKV storage
       setMessages(prevMessages => ({
         ...prevMessages,
         [chat._id]: [...(prevMessages[chat._id] || []), ...newMessages],
@@ -135,12 +133,12 @@ const MessageScreen2 = () => {
     } catch (error) {
       console.log(
         'Error loading more messages:',
-        JSON.stringify(error, null, 1),
+        JSON.stringify(error.response.data, null, 1),
       );
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, hasMore, page, chat._id]);
+  };
   const handlePin = id => {
     axiosInstance
       .patch(`/chat/pin/${id}`)
@@ -165,15 +163,6 @@ const MessageScreen2 = () => {
           }
           dispatch(updatePinnedMessage(res.data.message));
           dispatch(setMessageOptionData(null));
-          // handleUpdateMessage(res.data.message);
-
-          // if (res.data.message?.pinnedBy === null) {
-          //   showToast("Unpinned successfully...", Colors.Primary);
-          //   return;
-          // } else {
-          //   showToast("Pinned successfully...");
-          //   return;
-          // }
         }
       })
       .catch(err => {

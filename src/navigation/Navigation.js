@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import AuthStackScreen from './AuthStackScreen';
-import DrawerNavigator from './DrawerNavigator';
+import RootStackNavigator from './RootStackNavigator';
 
 const Navigation = () => {
   const {isAuthenticated, user} = useSelector(state => state.auth);
@@ -12,7 +12,7 @@ const Navigation = () => {
   // }
   return (
     <NavigationContainer>
-      {true ? <DrawerNavigator /> : <AuthStackScreen />}
+      {true ? <RootStackNavigator /> : <AuthStackScreen />}
     </NavigationContainer>
   );
 };

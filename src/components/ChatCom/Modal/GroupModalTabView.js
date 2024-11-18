@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -14,8 +14,7 @@ import {useSelector} from 'react-redux';
 import axiosInstance from '../../../utility/axiosInstance';
 import UserModalVoice from '../UserModalVoice';
 
-// eslint-disable-next-line no-undef
-export default GroupModalTabView = () => {
+const GroupModalTabView = () => {
   // const {chat, fetchMembers, members, filterMembers, setFilterMembers} =
   //   useChat();
   const {singleChat: chat} = useSelector(state => state.chat);
@@ -129,7 +128,7 @@ export default GroupModalTabView = () => {
     </View>
   );
 };
-
+export default React.memo(GroupModalTabView);
 const getStyles = Colors =>
   StyleSheet.create({
     tabViewcontainer: {

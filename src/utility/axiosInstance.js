@@ -29,6 +29,7 @@ export const configureAxiosHeader = async () => {
     }
   }
   const org = storage.getString('organization');
+  console.log('org', JSON.stringify(org, null, 1));
   if (org) {
     let orgId = JSON.parse(org)?._id;
     if (orgId) {

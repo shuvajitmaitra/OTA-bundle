@@ -41,7 +41,7 @@ const CustomeRightHeader = ({navigation, CustomButton, setModalOutside}) => {
     }
   }, [setModalOutside]);
 
-  const {handleVerify} = useMainContext();
+  const {} = useMainContext();
 
   const getActive = async () => {
     let activeE = await AsyncStorage.getItem('active_enrolment');
@@ -58,7 +58,7 @@ const CustomeRightHeader = ({navigation, CustomButton, setModalOutside}) => {
     dispatch(setEnrollment(enrollment));
     await AsyncStorage.setItem('active_enrolment', JSON.stringify(enrollment));
     getActive();
-    handleVerify();
+    ();
 
     // window.location.href = "/user/profile?tab=program";
     // Router.push("/user/profile?tab=program")

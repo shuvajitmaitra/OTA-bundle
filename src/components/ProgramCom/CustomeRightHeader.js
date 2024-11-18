@@ -17,25 +17,25 @@ const CustomeRightHeader = ({CustomButton, setModalOutside}) => {
   const Colors = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
   const {handleVerify} = useMainContext();
-  const {myEnrollments} = useSelector(state => state.auth);
-  const dispatch = useDispatch();
+  // const {myEnrollments} = useSelector(state => state.auth);
+  // const dispatch = useDispatch();
 
   const activeProgram = async () => {
-    if (
-      (myEnrollments?.length === 1 || myEnrollments?.length === 2) &&
-      myEnrollments[0]?.status === 'approved'
-    ) {
-      await AsyncStorage.setItem(
-        'active_enrolment',
-        JSON.stringify(myEnrollments[0]),
-      );
-      dispatch(setProgramActive(myEnrollments[0]));
-      handleVerify();
-      console.log('222222222222222222222222222');
-    } else {
-      console.log('3333333333333333333333333333');
-      setModalOpen(true);
-    }
+    // if (
+    //   (myEnrollments?.length === 1 || myEnrollments?.length === 2) &&
+    //   myEnrollments[0]?.status === 'approved'
+    // ) {
+    //   await AsyncStorage.setItem(
+    //     'active_enrolment',
+    //     JSON.stringify(myEnrollments[0]),
+    //   );
+    //   dispatch(setProgramActive(myEnrollments[0]));
+    //   handleVerify();
+    //   console.log('222222222222222222222222222');
+    // } else {
+    //   console.log('3333333333333333333333333333');
+    //   setModalOpen(true);
+    // }
   };
 
   useEffect(() => {

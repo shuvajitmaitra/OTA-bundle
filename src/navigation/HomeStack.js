@@ -70,6 +70,7 @@ const HomeStackScreen = () => {
           headerShown: false,
         })}
       />
+
       <HomeStack.Screen
         name="CreateNewUser"
         component={CreateNewUser}
