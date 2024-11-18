@@ -39,13 +39,6 @@ const CustomDrawerContent = props => {
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.container}>
-        {/* Render default drawer items */}
-        <DrawerItemList {...props} />
-
-        {/* Divider */}
-        <View style={styles.divider} />
-
-        {/* Custom Drawer Item */}
         <TouchableOpacity
           style={styles.button}
           onPress={navigateToDisplaySettings}>

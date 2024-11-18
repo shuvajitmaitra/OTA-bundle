@@ -6,13 +6,13 @@ import DrawerNavigator from './DrawerNavigator';
 
 const Navigation = () => {
   const {isAuthenticated, user} = useSelector(state => state.auth);
-  console.log('isAuthenticated', JSON.stringify(isAuthenticated, null, 1));
+  console.log('isAuthenticated', JSON.stringify(user, null, 1));
   // if (loading) {
   //   return <SplashScreen />;
   // }
   return (
     <NavigationContainer>
-      {isAuthenticated && user._id ? <DrawerNavigator /> : <AuthStackScreen />}
+      {true ? <DrawerNavigator /> : <AuthStackScreen />}
     </NavigationContainer>
   );
 };

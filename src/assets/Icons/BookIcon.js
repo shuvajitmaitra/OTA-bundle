@@ -1,13 +1,9 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
-import { useTheme } from "../../context/ThemeContext";
+import * as React from 'react';
+import Svg, {Path} from 'react-native-svg';
+import {useTheme} from '../../context/ThemeContext';
 
-function BookIcon({ color, size, ...props }) {
-  // --------------------------
-  // ----------- Import theme Colors -----------
-  // --------------------------
+function BookIcon({color, size, ...props}) {
   const Colors = useTheme();
-  // const styles = getStyles(Colors);
   const iconColor = color || Colors.Heading;
   const iconSize = size || 24;
   return (
@@ -17,8 +13,7 @@ function BookIcon({ color, size, ...props }) {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+      {...props}>
       <Path
         d="M3.5 18V7c0-4 1-5 5-5h7c4 0 5 1 5 5v10c0 .14 0 .28-.01.42"
         stroke={iconColor}

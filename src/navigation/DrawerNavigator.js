@@ -3,13 +3,14 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import BottomTabNavigator from './BottomTabNavigator';
 import CustomDrawerContent from './CustomDrawerContent'; // Import the custom drawer
+import {DrawerContent} from '../screens/DrawerContent';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
-      drawerContent={props => <CustomDrawerContent {...props} />} // Use custom drawer content
+      drawerContent={props => <DrawerContent {...props} />} // Use custom drawer content
       screenOptions={{
         headerShown: false,
         gestureEnabled: true, // Ensure gestures are enabled

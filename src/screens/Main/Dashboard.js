@@ -37,12 +37,9 @@ import {LoadCalenderInfo, LoadMockInterviewInfo} from '../../actions/apiCall';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ExploreMoreIcon from '../../assets/Icons/ExploreMoreIcon';
 import HomeUserDetails from '../../components/HomeCom/HomeUserDetails';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function Dashboard() {
-  const {user, isAuthenticated, myEnrollments} = useSelector(
-    state => state.auth,
-  );
+  const {myEnrollments} = useSelector(state => state.auth);
   const {programActive} = useSelector(state => state.program);
   const {events} = useSelector(state => state.calendar);
   const Colors = useTheme();
@@ -222,7 +219,6 @@ export default function Dashboard() {
       />
       <ScrollView>
         <Text style={styles.navigationText}>Navigations</Text>
-        <FontAwesome name="comments" size={30} color="#900" />
         <View style={styles.navigationAllItemContainer}>
           <NavigationItem
             title={'Bootcamps'}
