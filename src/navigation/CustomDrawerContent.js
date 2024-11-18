@@ -5,10 +5,12 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
+import {useDispatch} from 'react-redux';
+import {logout, logoutSuccess} from '../store/reducer/authReducer';
 
 const CustomDrawerContent = props => {
   const {navigation} = props;
-
+  const dispatch = useDispatch();
   const navigateToDisplaySettings = () => {
     navigation.navigate('BottomTabNavigator', {
       screen: 'HomeStack',
@@ -54,6 +56,11 @@ const CustomDrawerContent = props => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
           <Text style={styles.buttonText}>Change Password</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => dispatch(logoutSuccess())}>
+          <Text style={styles.buttonText}>Sign Out</Text>
         </TouchableOpacity>
       </View>
     </DrawerContentScrollView>

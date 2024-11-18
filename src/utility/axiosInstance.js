@@ -28,6 +28,13 @@ export const configureAxiosHeader = async () => {
       axiosInstance.defaults.headers.common.enrollment = enrollId;
     }
   }
+  const org = storage.getString('organization');
+  if (org) {
+    let orgId = JSON.parse(org)?._id;
+    if (orgId) {
+      axiosInstance.defaults.headers.common['organization'] = orgId;
+    }
+  }
 };
 
 // Create cancel token using axios

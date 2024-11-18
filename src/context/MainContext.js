@@ -35,33 +35,14 @@ export const MainProvider = ({children}) => {
       axiosInstance
         .post('/user/verify', {})
         .then(async res => {
-          // console.log(
-          //   'res.data...................',
-          //   JSON.stringify(res.data, null, 1),
-          // );
+          console.log(
+            'res.data.enrollments main context',
+            JSON.stringify(res.data.enrollments, null, 1),
+          );
           if (res.data.success) {
-            // await AsyncStorage.setItem('user_token', `Bearer ${token}`);
             store.dispatch(setUser(res.data.user));
             await connectSocket();
           }
-
-          // return  store.dispatch(logout())
-          // if (res.status === 200 && res.data.success) {
-          //   // console.log('res.data', JSON.stringify(res.data, null, 1));
-          //   // store.dispatch(setMyEnrollments(res.data.enrollments));
-          //   // // setEnrollments(res.data.enrollments);
-          //   // testAsyncStorage();
-
-          //   // loadChats();
-          //   // loadCalendarEvent();
-          //   // loadNotifications();
-          //   // getMyNavigations();
-          //   // loadProgramInfo();
-          //   //store.dispatch(getMyNavigations())
-          //   //do some change state
-          //   // getActive();
-          //   setIsLoading(false);
-          // }
         })
         .catch(err => {
           console.log('Error from app.js', err);

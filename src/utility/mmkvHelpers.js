@@ -26,3 +26,6 @@ export const addNewMessage = (chatId, message) => {
   };
   storage.set('allMessages', JSON.stringify(updatedAllMessages));
 };
+export const setOrganization = org => {
+  storage.set('organization', JSON.stringify(org));
+};

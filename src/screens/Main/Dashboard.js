@@ -37,7 +37,7 @@ import {LoadCalenderInfo, LoadMockInterviewInfo} from '../../actions/apiCall';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ExploreMoreIcon from '../../assets/Icons/ExploreMoreIcon';
 import HomeUserDetails from '../../components/HomeCom/HomeUserDetails';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function Dashboard() {
   const {user, isAuthenticated, myEnrollments} = useSelector(
@@ -222,7 +222,7 @@ export default function Dashboard() {
       />
       <ScrollView>
         <Text style={styles.navigationText}>Navigations</Text>
-        <Icon name="comments" size={30} color="#900" />
+        <FontAwesome name="comments" size={30} color="#900" />
         <View style={styles.navigationAllItemContainer}>
           <NavigationItem
             title={'Bootcamps'}

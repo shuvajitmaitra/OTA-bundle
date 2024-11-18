@@ -1,9 +1,9 @@
-import * as React from "react";
-import Svg, { G, Circle, Path, Defs } from "react-native-svg";
-import { useTheme } from "../../context/ThemeContext";
+import * as React from 'react';
+import Svg, {G, Circle, Path, Defs} from 'react-native-svg';
+import {useTheme} from '../../context/ThemeContext';
 /* SVGR has dropped some elements not supported by react-native-svg: filter */
 
-function CrossCircle({ color, size, ...props }) {
+function CrossCircle({color, size, ...props}) {
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
@@ -17,8 +17,7 @@ function CrossCircle({ color, size, ...props }) {
       viewBox="0 0 28 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+      {...props}>
       <G filter="url(#filter0_b_3125_7899)">
         <Circle
           cx={14}

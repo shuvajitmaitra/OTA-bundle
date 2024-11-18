@@ -1,19 +1,22 @@
-import React, {useEffect, useState, useRef, createContext} from 'react';
-import {StatusBar, LogBox, AppState, Text} from 'react-native';
-import {Provider} from 'react-redux';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-
-// import Route from './src/navigation/Route';
+// App.js
+import React, {useEffect, useRef, createContext} from 'react';
 import {
-  loadCalendarEvent,
-  loadNotifications,
-  loadProgramInfo,
-} from './src/actions/chat-noti';
+  StatusBar,
+  LogBox,
+  AppState,
+  Text,
+  View,
+  ActivityIndicator,
+  StyleSheet,
+} from 'react-native';
+import {Provider, useDispatch, useSelector} from 'react-redux';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {PersistGate} from 'redux-persist/integration/react';
-// import {getMyNavigations} from './src/actions/generalActions';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import 'react-native-gesture-handler';
-import axiosInstance, {configureAxiosHeader} from './src/utility/axiosInstance';
+import store, {persistor} from './src/store';
+import {configureAxiosHeader, axiosInstance} from './src/utility/axiosInstance';
 import {connectSocket, disconnectSocket} from './src/utility/socketManager';
 import {
   logout,
@@ -21,30 +24,60 @@ import {
   setUser,
 } from './src/store/reducer/authReducer';
 import {ThemeProvider, useTheme} from './src/context/ThemeContext';
-import SplashScreen from './src/screens/SplashScreen';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {AlertProvider} from './src/components/SharedComponent/GlobalAlertContext';
-import CustomeRightHeader from './src/components/ProgramCom/CustomeRightHeader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import store, {persistor} from './src/store';
 import {MainProvider} from './src/context/MainContext';
 import Navigation from './src/navigation/Navigation';
+import CustomeRightHeader from './src/components/ProgramCom/CustomeRightHeader';
+import {userOrganizationInfo} from './src/actions/apiCall';
 
+import 'react-native-gesture-handler';
+import {
+  loadCalendarEvent,
+  loadNotifications,
+  loadProgramInfo,
+} from './src/actions/chat-noti';
+
+// Suppress specific warning logs
 LogBox.ignoreLogs(['Setting a timer']);
 LogBox.ignoreLogs(['fontFamily']);
-const error = console.error;
+
+// Override console.error to ignore specific warnings
+const originalConsoleError = console.error;
 console.error = (...args) => {
   if (/defaultProps/.test(args[0])) return;
-  error(...args);
+  originalConsoleError(...args);
 };
+
 export const MainContext = createContext();
+
+const AppWrapper = () => {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={<SplashScreen />} persistor={persistor}>
+        <ThemeProvider>
+          <AlertProvider>
+            <GestureHandlerRootView style={{flex: 1}}>
+              <MainProvider>
+                <App />
+              </MainProvider>
+            </GestureHandlerRootView>
+          </AlertProvider>
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
+  );
+};
 
 const App = () => {
   const Colors = useTheme();
   const appState = useRef(AppState.currentState);
-  const [isLoading, setIsLoading] = useState(false);
-  const [handleShowSwitchModal, setHandleShowSwitchModal] = useState(false);
-  const [enrollments, setEnrollments] = useState([]);
+  const dispatch = useDispatch();
+  const {user} = useSelector(state => state.auth);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [handleShowSwitchModal, setHandleShowSwitchModal] =
+    React.useState(false);
+
+  // Handle AppState changes to manage socket connections
   useEffect(() => {
     const subscription = AppState.addEventListener(
       'change',
@@ -62,67 +95,68 @@ const App = () => {
       appState.current.match(/inactive|background/) &&
       nextAppState === 'active'
     ) {
-      if (store.getState().auth.user?._id) {
-        // handleVerify(false);
+      if (user?._id) {
         await connectSocket();
       } else {
-        console.log('not called');
+        console.log('User not authenticated');
       }
     }
 
     appState.current = nextAppState;
-    //setAppStateVisible(appState.current);
-    //console.log('AppState', appState.current);
   };
 
+  // Check for active enrollment
   const getActive = async () => {
-    let activeE = await AsyncStorage.getItem('active_enrolment');
+    try {
+      const activeE = await AsyncStorage.getItem('active_enrolment');
 
-    if (!activeE) {
-      console.log('Not active');
-      setHandleShowSwitchModal(true);
+      if (!activeE) {
+        console.log('No active enrollment found');
+        setHandleShowSwitchModal(true);
+      }
+    } catch (error) {
+      console.error('Error fetching active enrollment:', error);
     }
   };
 
-  const handleVerify = async shouldLoad => {
+  // Verify user authentication
+  const handleVerify = async () => {
     try {
       await configureAxiosHeader();
-      if (shouldLoad) {
-        setIsLoading(true);
-      }
       axiosInstance
         .post('/user/verify', {})
         .then(async res => {
-          // return  store.dispatch(logout())
+          console.log('res.data', JSON.stringify(res.data, null, 1));
           if (res.status === 200 && res.data.success) {
-            store.dispatch(setUser(res.data.user));
-            store.dispatch(setMyEnrollments(res.data.enrollments));
-            setEnrollments(res.data.enrollments);
+            dispatch(setUser(res.data.user));
+            dispatch(setMyEnrollments(res.data.enrollments));
+            await userOrganizationInfo();
             await connectSocket();
-            // loadChats();
             loadCalendarEvent();
             loadNotifications();
-            // getMyNavigations();
             loadProgramInfo();
-            //store.dispatch(getMyNavigations())
-            //do some change state
-            getActive();
+            await getActive();
             setIsLoading(false);
+          } else {
+            throw new Error('Verification failed');
           }
         })
         .catch(err => {
-          console.log('Error from app.js', err);
-          console.log(err);
+          console.log(
+            'Error during verification:',
+            err.response?.data || err.message,
+          );
+          dispatch(logout());
           setIsLoading(false);
-          store.dispatch(logout());
         });
     } catch (error) {
-      console.log('second');
-      console.log({error});
-      // Error retrieving data
+      console.log('Unexpected error during verification:', error);
+      dispatch(logout());
+      setIsLoading(false);
     }
   };
 
+  // Initial verification on app launch
   useEffect(() => {
     handleVerify();
     return () => {
@@ -132,39 +166,40 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <Provider store={store}>
-        <SplashScreen />
-      </Provider>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#007AFF" />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
     );
   }
 
   return (
-    <MainProvider>
-      <Provider store={store}>
-        <PersistGate loading={<Text>Loading</Text>} persistor={persistor}>
-          <ThemeProvider>
-            <AlertProvider>
-              <GestureHandlerRootView style={{flex: 1}}>
-                <BottomSheetModalProvider>
-                  <StatusBar
-                    translucent={true}
-                    backgroundColor={Colors.White}
-                    barStyle={'dark-content'}
-                  />
-                  {/* <Route /> */}
-                  <Navigation />
-                  <CustomeRightHeader
-                    setModalOutside={handleShowSwitchModal}
-                    CustomButton={() => <></>}
-                  />
-                </BottomSheetModalProvider>
-              </GestureHandlerRootView>
-            </AlertProvider>
-          </ThemeProvider>
-        </PersistGate>
-      </Provider>
-    </MainProvider>
+    <BottomSheetModalProvider>
+      <StatusBar
+        translucent={true}
+        backgroundColor={Colors.White}
+        barStyle={'dark-content'}
+      />
+      <Navigation />
+      <CustomeRightHeader
+        setModalOutside={handleShowSwitchModal}
+        CustomButton={() => <></>}
+      />
+    </BottomSheetModalProvider>
   );
 };
 
-export default App;
+// Simple SplashScreen component for loading state
+const SplashScreen = () => (
+  <View style={styles.loadingContainer}>
+    <ActivityIndicator size="large" color="#007AFF" />
+    <Text style={styles.loadingText}>Loading...</Text>
+  </View>
+);
+
+const styles = StyleSheet.create({
+  loadingContainer: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  loadingText: {marginTop: 10, fontSize: 16, color: '#555'},
+});
+
+export default AppWrapper;

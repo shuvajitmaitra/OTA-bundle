@@ -12,6 +12,8 @@ const initialState = {
   isAuthenticated: false,
   enrollment: null,
   myEnrollments: [],
+  organizations: [],
+  selectedOrganization: null,
 };
 
 const authSlice = createSlice({
@@ -35,10 +37,18 @@ const authSlice = createSlice({
       state.user = {};
       state.isAuthenticated = false;
     },
+    selectOrganizations: (state, {payload}) => {
+      state.organizations = payload;
+    },
+    setSelectedOrganization: (state, {payload}) => {
+      state.selectedOrganization = payload;
+    },
   },
 });
 
 export const {
+  setSelectedOrganization,
+  selectOrganizations,
   setUser,
   updateUser,
   setEnrollment,
