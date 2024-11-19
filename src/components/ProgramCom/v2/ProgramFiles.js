@@ -5,7 +5,6 @@ import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
 } from 'react-native-responsive-dimensions';
-import {useNavigation} from '@react-navigation/native';
 import CustomFonts from '../../../constants/CustomFonts';
 import axiosInstance from '../../../utility/axiosInstance';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -64,23 +63,30 @@ export default function ProgramFiles({item, course, category, isChildren}) {
     useState(false);
   const threeDotPopoverRef = useRef();
 
-  const [isFilterPopoverVisible, setIsFilterPopoverVisible] = useState(false);
-  const filterPopoverRef = useRef();
-
   const handleRadioChecked = typ => {
+    console.log('typ', JSON.stringify(typ, null, 1));
     axiosInstance
       .post(`course/chapterv2/track/${item?.myCourse?.course}`, {
         action: typ,
         chapterId: item?._id,
       })
       .then(res => {
+        console.log('res.data', JSON.stringify(res.data, null, 1));
+
         let obj = {};
-        if (typ === 'pin') obj = {isPinned: true};
-        else if (typ === 'unpin') obj = {isPinned: false};
-        else if (typ === 'focus') obj = {isFocused: true};
-        else if (typ === 'unfocus') obj = {isFocused: false};
-        else if (typ === 'complete') obj = {isCompleted: true};
-        else if (typ === 'incomplete') obj = {isCompleted: false};
+        if (typ === 'pin') {
+          obj = {isPinned: true};
+        } else if (typ === 'unpin') {
+          obj = {isPinned: false};
+        } else if (typ === 'focus') {
+          obj = {isFocused: true};
+        } else if (typ === 'unfocus') {
+          obj = {isFocused: false};
+        } else if (typ === 'complete') {
+          obj = {isCompleted: true};
+        } else if (typ === 'incomplete') {
+          obj = {isCompleted: false};
+        }
 
         if (isChildren) {
           let arr = [...treeData];

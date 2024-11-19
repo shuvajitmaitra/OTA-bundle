@@ -27,6 +27,7 @@ import Divider from '../SharedComponent/Divider';
 import {useNavigation} from '@react-navigation/native';
 import SearchWhiteIcon from '../../assets/Icons/SearchWhiteIcon';
 import MenuIcon from '../../assets/Icons/MenuIcon';
+import ArrowLeft from '../../assets/Icons/ArrowLeft';
 // import Ionicons from "react-native-vector-icons/Ionicons";
 
 const ChatSearchField = ({checked, handleRadioChecked, handleFilter}) => {
@@ -89,8 +90,10 @@ const ChatSearchField = ({checked, handleRadioChecked, handleFilter}) => {
         alignItems: 'center',
         justifyContent: 'space-between',
       }}>
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
-        <MenuIcon size={20} />
+      <TouchableOpacity
+        style={styles.backArrow}
+        onPress={() => navigation.goBack()}>
+        <ArrowLeft size={20} />
       </TouchableOpacity>
       <View style={[styles.topContainer, {width: '87%'}]}>
         <View style={[styles.inputField]}>
@@ -159,10 +162,17 @@ export default memo(ChatSearchField);
 
 const getStyles = Colors =>
   StyleSheet.create({
+    backArrow: {
+      backgroundColor: Colors.White,
+      padding: 10,
+      borderRadius: 1000,
+      borderWidth: 1,
+      borderColor: Colors.LineColor,
+    },
     topContainer: {
       alignItems: 'center',
       borderRadius: 10,
-      backgroundColor: 'blue',
+      // backgroundColor: 'blue',
       marginHorizontal: responsiveScreenWidth(2),
     },
     inputField: {

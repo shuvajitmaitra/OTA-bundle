@@ -1,15 +1,21 @@
 // src/navigation/BottomTabNavigator.js
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useSelector} from 'react-redux';
 import HomeStackScreen from './HomeStack';
 import CustomTabBar from './CustomTabBar';
 import ProgramStackScreen from './ProgramStack';
+import {useMainContext} from '../context/MainContext';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   const navigations = useSelector(state => state.navigations);
+  const {handleVerify} = useMainContext();
+  useEffect(() => {
+    handleVerify();
+    console.log('handle from dashboard..............');
+  }, []);
 
   return (
     <Tab.Navigator

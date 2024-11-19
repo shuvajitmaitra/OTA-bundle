@@ -21,8 +21,6 @@ import Divider from '../../SharedComponent/Divider';
 import {useTheme} from '../../../context/ThemeContext';
 import ProgramPriority from './ProgramPriority';
 import NoDataAvailable from '../../SharedComponent/NoDataAvailable';
-import CustomBottomSheet from '../../SharedComponent/CustomBottomSheet';
-import Popover from 'react-native-popover-view';
 
 export const ModuleContext = React.createContext(null);
 
@@ -40,7 +38,6 @@ function ContentList({category, course}) {
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
 
-  // console.log("treeData", JSON.stringify(treeData, null, 1));
   const itemList = [
     {label: 'All', value: 'all'},
     {label: 'Newly updated', value: 'newly updated'},
@@ -51,7 +48,9 @@ function ContentList({category, course}) {
   ];
 
   const handleFetchData = ({course, category, searchText, filterBy}) => {
-    if (!course?.slug) return;
+    if (!course?.slug) {
+      return;
+    }
 
     setIsLoading(true);
     axiosInstance
@@ -68,7 +67,7 @@ function ContentList({category, course}) {
           ...chapter,
         }));
         setTreeData(initialChapters);
-        setFilteredData(initialChapters); // Initialize filteredData
+        setFilteredData(initialChapters);
         setIsLoading(false);
       })
 
@@ -137,6 +136,7 @@ function ContentList({category, course}) {
       return item;
     });
     setTreeData(newTreeData);
+    setFilteredData(newTreeData);
   };
   return (
     <ModuleContext.Provider

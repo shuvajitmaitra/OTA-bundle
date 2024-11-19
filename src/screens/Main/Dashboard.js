@@ -32,13 +32,12 @@ import MockInterviewIcon from '../../assets/Icons/MockInterviewIcon';
 import moment from 'moment';
 import CommunityIcon from '../../assets/Icons/CommunityIcon';
 import MediaIcon from '../../assets/Icons/MediaIcon';
-import {setEnrolled} from '../../store/reducer/programReducer';
 import {LoadCalenderInfo, LoadMockInterviewInfo} from '../../actions/apiCall';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ExploreMoreIcon from '../../assets/Icons/ExploreMoreIcon';
 import HomeUserDetails from '../../components/HomeCom/HomeUserDetails';
 import ProgramSwitchModal from '../../components/SharedComponent/ProgramSwitchModal';
 import OrgSwitchModal from '../../components/OrgSwitchModal';
+import {useMainContext} from '../../context/MainContext';
 
 export default function Dashboard() {
   const {myEnrollments, enrollment, selectedOrganization} = useSelector(
@@ -55,19 +54,6 @@ export default function Dashboard() {
   const [selectProgramModalVisible, setSelectProgramModalVisible] =
     useState(false);
 
-  const [isEnrolled, setIsEnrolled] = useState(null);
-  const checkActive = useCallback(() => {
-    let activeE = AsyncStorage.getItem('active_enrolment');
-    if (activeE) {
-      setIsEnrolled(activeE);
-    }
-    const enrolled = myEnrollments?.find(
-      item => item?._id === programActive?._id,
-    );
-    dispatch(setEnrolled(enrolled?._id));
-
-    // }
-  }, []);
   const handleDefaultRoute = () => {
     navigation.navigate('DefaultRoute', {
       title: 'Enrollment is not available',
@@ -76,9 +62,6 @@ export default function Dashboard() {
     });
   };
 
-  useEffect(() => {
-    checkActive();
-  }, []);
   const NavigationItem = ({
     icon,
     title,
@@ -106,9 +89,7 @@ export default function Dashboard() {
   };
 
   const handleMyProgramNavigation = () => {
-    isEnrolled
-      ? navigation.navigate('ProgramStack', {screen: 'Program'})
-      : handleDefaultRoute();
+    navigation.navigate('ProgramStack', {screen: 'Program'});
   };
   const handleMyChatNavigation = () => {
     navigation.navigate('HomeStack', {screen: 'NewChatScreen'});
@@ -127,13 +108,13 @@ export default function Dashboard() {
 
   const handlePresentationNavigation = () => {
     // navigation.navigate('PresentationStack', { screen: 'Presentation' })
-    isEnrolled
+    true
       ? navigation.navigate('ProgramStack', {screen: 'Presentation'})
       : handleDefaultRoute();
   };
 
   const handleCalenderNavigation = () => {
-    isEnrolled
+    true
       ? navigation.navigate('MyCalenderStack', {screen: 'CalendarScreen'})
       : handleDefaultRoute();
   };
@@ -142,12 +123,12 @@ export default function Dashboard() {
     navigation.navigate('HomeStack', {screen: 'PurchasedScreen'});
   };
   const handleShowNTellNavigation = () => {
-    isEnrolled
+    true
       ? navigation.navigate('ProgramStack', {screen: 'ShowAndTellScreen'})
       : handleDefaultRoute();
   };
   const handleMockInterviewNavigation = () => {
-    isEnrolled
+    true
       ? navigation.navigate('ProgramStack', {screen: 'MockInterview'})
       : handleDefaultRoute();
   };
@@ -170,7 +151,7 @@ export default function Dashboard() {
   };
 
   const handleAudioVideoNavigation = () => {
-    isEnrolled
+    true
       ? navigation.navigate('ProgramStack', {
           screen: 'AudioVideoScreen',
         })
@@ -283,7 +264,7 @@ export default function Dashboard() {
           <NavigationItem
             title={'Day to Day Activities'}
             handlePress={() =>
-              isEnrolled
+              true
                 ? navigation.navigate('ProgramStack', {
                     screen: 'DayToDayActivities',
                   })
@@ -296,7 +277,7 @@ export default function Dashboard() {
           <NavigationItem
             title={'Technical Tests'}
             handlePress={() =>
-              isEnrolled
+              true
                 ? navigation.navigate('ProgramStack', {
                     screen: 'TechnicalTestScreen',
                   })
@@ -343,6 +324,7 @@ export default function Dashboard() {
           />
         </View>
       </ScrollView>
+      {!selectedOrganization && <OrgSwitchModal isVisible={true} />}
       {selectProgramModalVisible && (
         <ProgramSwitchModal
           onCancelPress={() => setSelectProgramModalVisible(false)}
@@ -355,7 +337,6 @@ export default function Dashboard() {
           modalOpen={true}
         />
       )}
-      {!selectedOrganization && <OrgSwitchModal isVisible={true} />}
     </View>
   );
 }

@@ -22,7 +22,7 @@ export const MainProvider = ({children}) => {
   const handleVerify = async shouldLoad => {
     const org = storage.getString('organization');
     const orgId = org ? {organization: JSON.parse(org)?._id} : {};
-
+    console.log('orgId', JSON.stringify(orgId, null, 1));
     try {
       await configureAxiosHeader();
       if (shouldLoad) {
@@ -32,6 +32,8 @@ export const MainProvider = ({children}) => {
         .post('/user/verify', orgId)
         .then(async res => {
           if (res.data.success) {
+            await userOrganizationInfo();
+            await connectSocket();
             store.dispatch(setUser(res.data.user));
             store.dispatch(setMyEnrollments(res.data.enrollments));
             if (res.data.enrollments.length === 1) {
@@ -42,9 +44,6 @@ export const MainProvider = ({children}) => {
               });
             }
             loadNotifications();
-
-            await connectSocket();
-            await userOrganizationInfo();
           }
         })
         .catch(err => {
