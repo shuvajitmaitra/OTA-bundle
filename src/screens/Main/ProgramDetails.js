@@ -1,14 +1,5 @@
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  ActivityIndicator,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import React, {useState} from 'react';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import {
   responsiveScreenFontSize,
@@ -17,20 +8,12 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import axiosInstance from '../../utility/axiosInstance';
-import ProgramDetailsCard from '../../components/ProgramCom/v2/ProgramDetailsCard';
 import CusSegmentedButtons from '../../components/ProgramCom/v2/CusSegmentedButtons';
-import ProgramTimeTracker from '../../components/ProgramCom/v2/ProgramTimeTracker';
-import ProgramFiles from '../../components/ProgramCom/v2/ProgramFiles';
-import {seconds2time} from '../../utility';
-import VideoPlayer from '../../components/ProgramCom/v2/VideoPlayer';
 import CustomFonts from '../../constants/CustomFonts';
 import Loading from '../../components/SharedComponent/Loading';
 import {useTheme} from '../../context/ThemeContext';
 
 export default function ProgramDetails({route, navigation}) {
-  // --------------------------
-  // ----------- Import theme Colors -----------
-  // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -59,11 +42,6 @@ export default function ProgramDetails({route, navigation}) {
     }
   }, [route]);
 
-  const handleCollapse = item => {
-    setExpanded(state =>
-      state.includes(item) ? state?.filter(i => i !== item) : [...state, item],
-    );
-  };
   if (isLoading) {
     return (
       <View style={{flex: 1, backgroundColor: Colors.Background_color}}>
@@ -77,9 +55,6 @@ export default function ProgramDetails({route, navigation}) {
       {category?.categories?.length > 0 && (
         <CusSegmentedButtons category={category} course={course} />
       )}
-
-      {/* <ProgramTimeTracker /> */}
-      {/* <CourseContent /> */}
     </View>
   );
 }
@@ -97,43 +72,5 @@ const getStyles = Colors =>
       paddingHorizontal: responsiveScreenWidth(4),
       paddingBottom: responsiveScreenHeight(1.5),
       color: Colors.Heading,
-    },
-    icon: {
-      color: Colors.BodyText,
-      marginTop: responsiveScreenHeight(0.5),
-    },
-    checkicon: {
-      color: Colors.Primary,
-      marginTop: responsiveScreenHeight(0.5),
-    },
-    videoTitle: {
-      fontFamily: CustomFonts.SEMI_BOLD,
-      fontSize: responsiveScreenFontSize(2),
-      color: Colors.Heading,
-      marginHorizontal: responsiveScreenWidth(4),
-      marginTop: responsiveScreenHeight(2),
-    },
-    videoTypeContainer: {
-      marginHorizontal: responsiveScreenWidth(4),
-      marginTop: responsiveScreenHeight(2),
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      flexWrap: 'wrap',
-      rowGap: responsiveScreenHeight(1.5),
-    },
-    videoType: {
-      backgroundColor: Colors.White,
-      width: responsiveScreenWidth(44),
-      height: responsiveScreenHeight(6),
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 6,
-      borderWidth: 1,
-      borderColor: Colors.BorderColor,
-    },
-    videoTypeTitle: {
-      fontFamily: CustomFonts.SEMI_BOLD,
-      fontSize: responsiveScreenFontSize(1.7),
-      color: Colors.Primary,
     },
   });

@@ -6373,6 +6373,14 @@ react-native-paper@^5.12.5:
     color "^3.1.2"
     use-latest-callback "^0.1.5"
 
+react-native-popover-view@^5.1.9:
+  version "5.1.9"
+  resolved "https://registry.yarnpkg.com/react-native-popover-view/-/react-native-popover-view-5.1.9.tgz#5106240e561ad133e6bbf83ca404ecdd2d721f42"
+  integrity sha512-jjcVfH6hUN2bnB8wwtiELyb5184K90L3qZ+h0u6dSfVdyxgDbbkPS336a9JmNoaUGIrQYwZpRUd5Cgai35Am2w==
+  dependencies:
+    deprecated-react-native-prop-types "^2.3.0"
+    prop-types "^15.8.1"
+
 react-native-progress-wheel@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-native-progress-wheel/-/react-native-progress-wheel-2.1.0.tgz#387d67da5071cabd790dc65fd27d6d68397454fc"

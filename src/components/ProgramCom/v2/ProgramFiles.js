@@ -1,14 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  ToastAndroid,
-} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
+import React, {useContext, useEffect, useState, useRef} from 'react';
+import {StyleSheet, Text, View, TouchableOpacity, Platform} from 'react-native';
 import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
@@ -16,7 +7,6 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
 import CustomFonts from '../../../constants/CustomFonts';
-import {seconds2time} from '../../../utility';
 import axiosInstance from '../../../utility/axiosInstance';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {ModuleContext} from './ContentList';
@@ -26,14 +16,9 @@ import {ArrowDownTwo} from '../../../assets/Icons/ArrowDownTwo';
 import {PlayButtonIcon} from '../../../assets/Icons/PlayButtonIcon';
 import {ReadIcon} from '../../../assets/Icons/ReadIcon';
 import {LockIcon} from '../../../assets/Icons/LockIconTwo';
-import NewIcon from '../../../assets/Icons/NewIcon';
 import PinIcon from '../../../assets/Icons/PinIcon';
 import ThreedotIcon from '../../../assets/Icons/ThreedotIcon';
-import {ScrollView} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
-import color from '../../../constants/color';
-import {Popover, usePopover} from 'react-native-modal-popover';
-import {RadioButton} from 'react-native-paper';
 import ProgramTextDetailsModal from './Modal/ProgramTextDetailsModal';
 import {useTheme} from '../../../context/ThemeContext';
 import {showToast} from '../../HelperFunction';
@@ -41,11 +26,11 @@ import Priority from './Priority';
 import BottomNavigationContainer from './BottomNavigationContainer';
 import GlobalRadioGroup from '../../SharedComponent/GlobalRadioButton';
 import {showAlertModal} from '../../../utility/commonFunction';
+import Popover from 'react-native-popover-view'; // New Import
 
 export default function ProgramFiles({item, course, category, isChildren}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const navigation = useNavigation();
   const {
     isPlayingLesson,
     setIsPlayingLesson,
@@ -55,7 +40,6 @@ export default function ProgramFiles({item, course, category, isChildren}) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [treeData, setTreeData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const [checked, setChecked] = React.useState();
   const [checked, setChecked] = useState(
     item?.isFocused
       ? 'focus'
@@ -75,30 +59,40 @@ export default function ProgramFiles({item, course, category, isChildren}) {
     'behavioral',
   ];
 
-  const handleRadioChecked = type => {
+  // Popover States and Refs
+  const [isThreeDotPopoverVisible, setIsThreeDotPopoverVisible] =
+    useState(false);
+  const threeDotPopoverRef = useRef();
+
+  const [isFilterPopoverVisible, setIsFilterPopoverVisible] = useState(false);
+  const filterPopoverRef = useRef();
+
+  const handleRadioChecked = typ => {
     axiosInstance
       .post(`course/chapterv2/track/${item?.myCourse?.course}`, {
-        action: type,
+        action: typ,
         chapterId: item?._id,
       })
       .then(res => {
         let obj = {};
-        if (type === 'pin') obj = {isPinned: true};
-        else if (type === 'unpin') obj = {isPinned: false};
-        else if (type === 'focus') obj = {isFocused: true};
-        else if (type === 'unfocus') obj = {isFocused: false};
-        else if (type === 'complete') obj = {isCompleted: true};
-        else if (type === 'incomplete') obj = {isCompleted: false};
+        if (typ === 'pin') obj = {isPinned: true};
+        else if (typ === 'unpin') obj = {isPinned: false};
+        else if (typ === 'focus') obj = {isFocused: true};
+        else if (typ === 'unfocus') obj = {isFocused: false};
+        else if (typ === 'complete') obj = {isCompleted: true};
+        else if (typ === 'incomplete') obj = {isCompleted: false};
 
         if (isChildren) {
           let arr = [...treeData];
           let index = arr.findIndex(x => x._id === item._id);
-          arr[index] = {...arr[index], ...obj};
-          setTreeData(arr); // Update state to trigger re-render
+          if (index !== -1) {
+            arr[index] = {...arr[index], ...obj};
+            setTreeData(arr); // Update state to trigger re-render
+          }
         } else {
           handleUpdateRootChapter(item._id, obj);
         }
-        showToast(`Added on ${type}`);
+        showToast(`Added on ${typ}`);
       })
       .catch(err => {
         showAlertModal({
@@ -109,7 +103,7 @@ export default function ProgramFiles({item, course, category, isChildren}) {
         console.log(err);
       });
 
-    setChecked(type);
+    setChecked(typ);
   };
 
   const radioOptions = [
@@ -129,7 +123,7 @@ export default function ProgramFiles({item, course, category, isChildren}) {
 
   const handleRadioSelect = selectedValue => {
     handleRadioChecked(selectedValue);
-    closePopover();
+    setIsThreeDotPopoverVisible(false); // Close the three-dot popover
   };
 
   const onLoadData = ({key}) => {
@@ -177,14 +171,16 @@ export default function ProgramFiles({item, course, category, isChildren}) {
       });
     }
   };
-  const injectedJavaScript = `
-  const iframe = document.querySelector('iframe');
-  const player = new Vimeo.Player(iframe);
 
-  player.on('play', function() {
-    iframe.requestFullscreen();
-  });
-`;
+  const injectedJavaScript = `
+    const iframe = document.querySelector('iframe');
+    const player = new Vimeo.Player(iframe);
+
+    player.on('play', function() {
+      iframe.requestFullscreen();
+    });
+  `;
+
   const VideoButtonContainer = ({item}) => {
     return (
       <View style={styles.videoTypeContainer}>
@@ -224,24 +220,12 @@ export default function ProgramFiles({item, course, category, isChildren}) {
     );
   };
 
-  const {
-    openPopover,
-    closePopover,
-    popoverVisible,
-    touchableRef,
-    popoverAnchorRect,
-  } = usePopover();
-
   return (
     <View
       style={[
-        item.type == 'chapter'
+        item.type === 'chapter'
           ? styles.chapterContainer
           : styles.lessonContainer,
-        // {
-        //   // width: isChildren ? "98%" : "100%",
-        //   marginHorizontal: isChildren ? "1%" : 0,
-        // },
         {
           borderColor:
             isChildren && item?.type === 'chapter'
@@ -250,13 +234,12 @@ export default function ProgramFiles({item, course, category, isChildren}) {
           backgroundColor:
             isChildren && item?.type === 'chapter'
               ? Colors.Background_color
-              : // : Colors.Yellow,
-                Colors.White,
+              : Colors.White,
           marginTop:
-            isChildren && item?.type === 'chapter' && responsiveScreenHeight(1),
+            isChildren && item?.type === 'chapter'
+              ? responsiveScreenHeight(1)
+              : 0,
           borderRadius: 10,
-          // marginTop: isChildren && item?.type === "lesson" && 10,
-          // paddingBottom: 10,
           marginBottom: responsiveScreenHeight(1),
         },
       ]}>
@@ -282,15 +265,10 @@ export default function ProgramFiles({item, course, category, isChildren}) {
                 ? styles.expandedTitleContainer
                 : styles.titleContainer,
               {
-                // backgroundColor: "pink",
-
                 flex: 0.8,
               },
             ]}>
-            <View
-              style={{
-                flex: 0.07,
-              }}>
+            <View style={{flex: 0.07}}>
               {item.type == 'lesson' && (
                 <View>
                   {item.isLocked ? (
@@ -331,13 +309,10 @@ export default function ProgramFiles({item, course, category, isChildren}) {
             </View>
             <View
               style={{
-                // backgroundColor: "red",
                 flexDirection: 'row',
                 flex: 0.93,
-                // justifyContent: "flex",
                 gap: responsiveScreenWidth(1),
                 alignItems: 'flex-start',
-                // width: "90%",
                 marginLeft: responsiveScreenWidth(1),
               }}>
               <Text
@@ -345,34 +320,42 @@ export default function ProgramFiles({item, course, category, isChildren}) {
                   item?.type === 'chapter'
                     ? styles.details
                     : styles.lessonDetails,
-                  // { width: "90%" },
                 ]}>
                 {item?.title}
               </Text>
               <Priority priority={item.priority} />
             </View>
           </TouchableOpacity>
+
+          {/* Right Icons Container */}
           <View style={styles.rightIconsContainer}>
-            <TouchableOpacity>
+            {/* Pin Icon */}
+            <TouchableOpacity
+              onPress={() => {
+                // Toggle pin/unpin
+                handleRadioChecked(item.isPinned ? 'unpin' : 'pin');
+              }}
+              activeOpacity={0.7}>
               {item.isPinned ? <PinIcon /> : null}
             </TouchableOpacity>
+
+            {/* Three-Dot Icon */}
             <TouchableOpacity
-              ref={touchableRef}
-              onPress={openPopover}
+              onPress={() => setIsThreeDotPopoverVisible(true)}
               activeOpacity={0.8}
               style={styles.threeDotIcon}>
               <ThreedotIcon />
             </TouchableOpacity>
 
+            {/* Three-Dot Popover */}
             <Popover
-              contentStyle={styles.popupContent}
-              arrowStyle={styles.popupArrow}
+              isVisible={isThreeDotPopoverVisible}
+              fromView={threeDotPopoverRef.current}
+              onRequestClose={() => setIsThreeDotPopoverVisible(false)}
+              placement="bottom"
               backgroundStyle={{backgroundColor: Colors.BackDropColor}}
-              visible={popoverVisible}
-              onClose={closePopover}
-              fromRect={popoverAnchorRect}
-              supportedOrientations={['portrait', 'landscape']}
-              placement="bottom">
+              popoverStyle={styles.popupContent}
+              supportedOrientations={['portrait', 'landscape']}>
               <GlobalRadioGroup
                 options={radioOptions}
                 onSelect={handleRadioSelect}
@@ -381,6 +364,8 @@ export default function ProgramFiles({item, course, category, isChildren}) {
             </Popover>
           </View>
         </View>
+
+        {/* WebView for Playing Lessons */}
         {isPlayingLesson && isPlayingLesson?._id === item?._id && (
           <>
             <View style={{aspectRatio: 16 / 9}}>
@@ -389,9 +374,7 @@ export default function ProgramFiles({item, course, category, isChildren}) {
                   html: `<iframe src=${
                     isPlayingLesson?.lesson?.url ||
                     'https://placehold.co/1920x1080.mp4?text=No+Video+Available'
-                  } width="100%" height="100%" frameborder="0" allowFullScreen   allow="accelerometer; autoplay; clipboard-write; 
-                  encrypted-media; gyroscope; 
-                  picture-in-picture; web-share" ></iframe>`,
+                  } width="100%" height="100%" frameborder="0" allowFullScreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>`,
                 }}
                 onError={() => null}
                 allowsFullscreenVideo={true}
@@ -404,6 +387,8 @@ export default function ProgramFiles({item, course, category, isChildren}) {
           </>
         )}
       </View>
+
+      {/* Loading Indicator */}
       {isLoading ? (
         <ActivityIndicator
           size="small"
@@ -413,6 +398,8 @@ export default function ProgramFiles({item, course, category, isChildren}) {
       ) : isExpanded ? (
         <></>
       ) : null}
+
+      {/* Render Child Chapters/Lessons */}
       {isExpanded &&
         treeData.map(child => (
           <ProgramFiles
@@ -423,6 +410,8 @@ export default function ProgramFiles({item, course, category, isChildren}) {
             isChildren={true}
           />
         ))}
+
+      {/* Bottom Navigation Container */}
       {isExpanded && item?.type == 'chapter' && <BottomNavigationContainer />}
     </View>
   );
@@ -430,22 +419,21 @@ export default function ProgramFiles({item, course, category, isChildren}) {
 
 const getStyles = Colors =>
   StyleSheet.create({
+    // Popover Styles
     popupContent: {
       padding: 16,
       backgroundColor: Colors.White,
       borderRadius: 8,
       width: responsiveScreenWidth(50),
       height: responsiveScreenHeight(15),
-      top: responsiveScreenHeight(-2.5),
     },
     popupArrow: {
-      borderTopColor: Colors.White,
-      marginTop: responsiveScreenHeight(-2.5),
+      // `react-native-popover-view` handles the arrow automatically
     },
+    // Radio Button Styles
     radioContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      // marginTop: responsiveScreenHeight(2)
     },
     radioText: {
       fontFamily: CustomFonts.REGULAR,
@@ -465,6 +453,7 @@ const getStyles = Colors =>
       color: Colors.White,
       paddingHorizontal: responsiveScreenWidth(5),
     },
+    // Container Styles
     lessonContainer: {
       width: '100%',
       justifyContent: 'center',
@@ -479,27 +468,20 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(2),
       marginBottom: responsiveScreenHeight(2),
       justifyContent: 'center',
-      // backgroundColor: Colors.Red
     },
     contentContainer: {
-      // padding: 5,
       paddingHorizontal: responsiveScreenWidth(1),
-      // paddingBottom: responsiveScreenHeight(1),
       borderRadius: 10,
-      // backgroundColor: Colors.Red
     },
     headerContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      // backgroundColor: Colors.Yellow
     },
     titleContainer: {
       flexDirection: 'row',
-      // justifyContent: "space-between",
       alignItems: 'center',
       width: '85%',
       paddingHorizontal: responsiveScreenWidth(1),
-      // backgroundColor: "blue",
       gap: responsiveScreenWidth(2),
     },
     expandedTitleContainer: {
@@ -515,7 +497,6 @@ const getStyles = Colors =>
       fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       textAlign: 'left',
-      // minHeight: responsiveScreenHeight(4),
     },
     lessonDetails: {
       color: Colors.Heading,
@@ -527,8 +508,6 @@ const getStyles = Colors =>
       justifyContent: 'flex-end',
       alignItems: 'center',
       gap: responsiveScreenWidth(1),
-      // paddingTop: responsiveScreenHeight(2.5),
-      // backgroundColor: "red",
       flex: 0.2,
     },
     threeDotIcon: {
@@ -537,6 +516,7 @@ const getStyles = Colors =>
     loader: {
       marginTop: responsiveScreenHeight(2),
     },
+    // Video Type Styles
     videoTypeContainer: {
       marginTop: responsiveScreenHeight(2),
       flexDirection: 'row',

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,35 +7,27 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import {Feather} from '@expo/vector-icons';
-import {Popover, usePopover} from 'react-native-modal-popover';
+import Feather from 'react-native-vector-icons/Feather';
+import Popover from 'react-native-popover-view'; // Import Popover
 import CrossIcon from '../../assets/Icons/CrossIcon';
 import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 import GlobalRadioGroup from '../../components/SharedComponent/GlobalRadioButton';
+import CustomBottomSheet from '../../components/SharedComponent/CustomBottomSheet';
 
 export default function SearchAndFilter({handleFilter}) {
-  const handleRadioChange = newValue => {
-    setValue(newValue);
-    Alert.alert('Selected filter: ' + newValue);
-  };
-  const {
-    openPopover,
-    closePopover,
-    popoverVisible,
-    touchableRef,
-    popoverAnchorRect,
-  } = usePopover();
   const Colors = useTheme();
   const SearchAndFilterStyles = getStyles(Colors);
 
   const [value, setValue] = React.useState('Focused');
+  const [isPopoverVisible, setIsPopoverVisible] = React.useState(false);
+  const filterButtonRef = React.useRef();
+
   const itemList = [
     {label: 'Focused', value: 'Focused'},
     {label: 'Pinned', value: 'Pinned'},
@@ -43,8 +36,24 @@ export default function SearchAndFilter({handleFilter}) {
     {label: 'Incomplete', value: 'Incomplete'},
   ];
 
+  const handleRadioChange = newValue => {
+    setValue(newValue);
+    Alert.alert('Selected filter: ' + newValue);
+    setIsPopoverVisible(false); // Optionally close popover after selection
+    handleFilter(newValue); // Pass the selected filter to parent if needed
+  };
+
+  const togglePopover = () => {
+    setIsPopoverVisible(true);
+  };
+
+  const closePopover = () => {
+    setIsPopoverVisible(false);
+  };
+
   return (
     <View style={SearchAndFilterStyles.topContainer}>
+      {/* Search Input Field */}
       <View style={SearchAndFilterStyles.inputField}>
         <TextInput
           keyboardAppearance={
@@ -58,130 +67,39 @@ export default function SearchAndFilter({handleFilter}) {
         <Feather style={SearchAndFilterStyles.inputFieldIcon} name="search" />
       </View>
 
-      <TouchableOpacity
-        ref={touchableRef}
-        onPress={openPopover}
-        activeOpacity={0.8}
-        style={SearchAndFilterStyles.filterButton}>
-        <Feather
-          name="filter"
-          size={24}
-          color={Colors.PureWhite}
-          style={SearchAndFilterStyles.filterButtonIcon}
-        />
-        <Text style={SearchAndFilterStyles.filterButtonText}>Filters</Text>
-      </TouchableOpacity>
-
       <Popover
-        contentStyle={SearchAndFilterStyles.popupContent}
-        arrowStyle={SearchAndFilterStyles.popupArrow}
-        backgroundStyle={{backgroundColor: Colors.BackDropColor}}
-        visible={popoverVisible}
-        onClose={closePopover}
-        fromRect={popoverAnchorRect}
-        placement="bottom"
-        supportedOrientations={['portrait', 'landscape']}>
+        isVisible={isPopoverVisible}
+        from={
+          <TouchableOpacity
+            ref={filterButtonRef}
+            onPress={togglePopover}
+            activeOpacity={0.8}
+            style={SearchAndFilterStyles.filterButton}>
+            <Feather
+              name="filter"
+              size={24}
+              color={Colors.PureWhite}
+              style={SearchAndFilterStyles.filterButtonIcon}
+            />
+            <Text style={SearchAndFilterStyles.filterButtonText}>Filters</Text>
+          </TouchableOpacity>
+        }
+        onRequestClose={closePopover}>
         <View style={SearchAndFilterStyles.container}>
-          {/* -------------------------- */}
-          {/* ----------- Heading Text ----------- */}
-          {/* -------------------------- */}
           <View style={SearchAndFilterStyles.headerContainer}>
-            <Text style={SearchAndFilterStyles.headerText}>Filters</Text>
+            <Text style={SearchAndFilterStyles.headerText}>Fsssilters</Text>
             <TouchableOpacity activeOpacity={0.8} onPress={closePopover}>
               <View style={SearchAndFilterStyles.cancelButton}>
                 <CrossIcon />
               </View>
             </TouchableOpacity>
           </View>
-          {/* -------------------------- */}
-          {/* ----------- Radio button ----------- */}
-          {/* -------------------------- */}
+
           <GlobalRadioGroup
             options={itemList}
             onSelect={handleRadioChange}
             selectedValue={value}
           />
-          {/* <RadioButton.Group
-            onValueChange={(newValue) => {
-              setValue(newValue);
-              Alert.alert("Working on it...");
-            }}
-            value={value}
-          >
-            {itemList.map((item, index) => (
-              <>
-                <View style={[SearchAndFilterStyles.radioButton]}>
-                  <RadioButton
-                    value={item?.topic}
-                    color="#27ac1f"
-                    uncheckedColor="rgba(0, 0, 0, 0.2)"
-                  />
-                  <Text
-                    style={[
-                      SearchAndFilterStyles.radioText,
-                      {
-                        color:
-                          value === `${item?.topic}`
-                            ? "black"
-                            : "rgba(0, 0, 0, 0.6)",
-                        fontFamily: CustomFonts.REGULAR,
-                      },
-                    ]}
-                  >
-                    {item?.topic}
-                  </Text>
-                  {index == itemList?.length - 1 ? null : (
-                    <View
-                      style={{
-                        marginVertical: responsiveScreenHeight(0.5),
-                        width: responsiveScreenWidth(58),
-                        height: 1,
-                        backgroundColor: "rgba(0, 0, 0, 0.10)",
-                        position: "absolute",
-                        top: responsiveScreenHeight(3.5),
-                        left: responsiveScreenWidth(-4),
-                      }}
-                    ></View>
-                  )}
-                </View>
-              </>
-            ))}
-          </RadioButton.Group> */}
-          {/* <GlobalRadioGroup value={value} onChange={handleRadioChange}>
-            {itemList.map((item, index) => (
-              <View key={index} style={SearchAndFilterStyles.radioButton}>
-                <RadioButton
-                  value={item.topic}
-                  color="#27ac1f"
-                  uncheckedColor="rgba(0, 0, 0, 0.2)"
-                />
-                <Text
-                  style={[
-                    SearchAndFilterStyles.radioText,
-                    {
-                      color: value === item.topic ? "black" : "rgba(0, 0, 0, 0.6)",
-                      fontFamily: CustomFonts.REGULAR,
-                    },
-                  ]}
-                >
-                  {item.topic}
-                </Text>
-                {index < itemList.length - 1 && (
-                  <View
-                    style={{
-                      marginVertical: responsiveScreenHeight(0.5),
-                      width: responsiveScreenWidth(58),
-                      height: 1,
-                      backgroundColor: "rgba(0, 0, 0, 0.10)",
-                      position: "absolute",
-                      top: responsiveScreenHeight(3.5),
-                      left: responsiveScreenWidth(-4),
-                    }}
-                  />
-                )}
-              </View>
-            ))}
-          </GlobalRadioGroup> */}
         </View>
       </Popover>
     </View>
@@ -299,15 +217,12 @@ const getStyles = Colors =>
       borderRadius: 8,
       minWidth: responsiveScreenWidth(50),
       minHeight: responsiveScreenHeight(19),
-      top: responsiveScreenHeight(-4),
     },
     popupArrow: {
       borderTopColor: Colors.White,
-      marginTop: responsiveScreenHeight(-4),
+      // react-native-popover-view handles the arrow automatically
     },
     container: {
-      // paddingVertical: responsiveScreenHeight(2),
-      // paddingHorizontal: responsiveScreenWidth(2),
       minWidth: responsiveScreenWidth(50),
     },
   });

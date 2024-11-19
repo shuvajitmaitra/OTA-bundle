@@ -20,15 +20,16 @@ export const MainProvider = ({children}) => {
   const [allMessages, setAllMessages] = useState([]);
 
   const handleVerify = async shouldLoad => {
+    const org = storage.getString('organization');
+    const orgId = org ? {organization: JSON.parse(org)?._id} : {};
+
     try {
       await configureAxiosHeader();
       if (shouldLoad) {
         setIsLoading(true);
       }
       axiosInstance
-        .post('/user/verify', {
-          organization: JSON.parse(storage.getString('organization'))?._id,
-        })
+        .post('/user/verify', orgId)
         .then(async res => {
           if (res.data.success) {
             store.dispatch(setUser(res.data.user));
@@ -53,9 +54,10 @@ export const MainProvider = ({children}) => {
           store.dispatch(logout());
         });
     } catch (error) {
-      console.log('second');
-      console.log({error});
-      // Error retrieving data
+      console.log(
+        'error.response.data',
+        JSON.stringify(error.response.data, null, 1),
+      );
     }
   };
   useEffect(() => {

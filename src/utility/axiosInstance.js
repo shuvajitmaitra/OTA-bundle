@@ -30,7 +30,7 @@ export const configureAxiosHeader = async () => {
   if (org) {
     let orgId = JSON.parse(org)?._id;
     if (orgId) {
-      axiosInstance.defaults.headers.common['organization'] = orgId;
+      axiosInstance.defaults.headers.common.organization = orgId;
     }
   }
 };
@@ -38,6 +38,6 @@ export const configureAxiosHeader = async () => {
 // Create cancel token using axios
 export const getCancelTokenSource = () => axios.CancelToken.source();
 
-export const isCancel = error => axios.isCancel(error); // Helper function
+export const isCancel = error => axios.isCancel(error);
 
 export default axiosInstance;
