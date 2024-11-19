@@ -15,7 +15,10 @@ import {useTheme} from '../context/ThemeContext';
 import {ArrowDownTwo} from '../assets/Icons/ArrowDownTwo';
 import Divider from '../components/SharedComponent/Divider';
 import {setOrganization} from '../utility/mmkvHelpers';
-import {setSelectedOrganization} from '../store/reducer/authReducer';
+import {
+  setEnrollment,
+  setSelectedOrganization,
+} from '../store/reducer/authReducer';
 import {useMainContext} from '../context/MainContext';
 import UpArrowIcon from '../assets/Icons/UpArrowIcon';
 
@@ -29,13 +32,11 @@ const OrganizationDetails = () => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
-  // Animated values
   const animatedHeight = useRef(new Animated.Value(0)).current;
   const animatedOpacity = useRef(new Animated.Value(0)).current;
 
   const toggleSelectVisible = () => {
     if (selectVisible) {
-      // Collapse
       Animated.parallel([
         Animated.timing(animatedHeight, {
           toValue: 0,
@@ -90,6 +91,7 @@ const OrganizationDetails = () => {
       setOrganization(org);
       dispatch(setSelectedOrganization(org));
       handleVerify();
+      dispatch(setEnrollment(null));
     });
   };
 

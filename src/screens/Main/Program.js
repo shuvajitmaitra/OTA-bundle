@@ -49,7 +49,7 @@ export default function Program() {
         console.log(error);
       }
     })();
-  }, [enrollment._id]);
+  }, [enrollment?._id]);
   const handleLeaderBoard = () => {
     navigation.navigate('Leaderboard');
   };

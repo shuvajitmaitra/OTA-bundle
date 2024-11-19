@@ -42,8 +42,14 @@ export const MainProvider = ({children}) => {
         setIsLoading(true);
       }
       axiosInstance
-        .post('/user/verify', {})
+        .post('/user/verify', {
+          organization: JSON.parse(storage.getString('organization'))?._id,
+        })
         .then(async res => {
+          console.log(
+            'res.data.enrollments',
+            JSON.stringify(res.data.enrollments, null, 1),
+          );
           if (res.data.success) {
             store.dispatch(setUser(res.data.user));
             store.dispatch(setMyEnrollments(res.data.enrollments));

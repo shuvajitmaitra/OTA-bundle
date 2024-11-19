@@ -1,12 +1,10 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import environment from '../constants/environment';
 import {storage} from './mmkvInstance';
 
 let apiUrl = environment.production
   ? 'https://api.bootcampshub.ai/api'
   : 'https://staging-api.bootcampshub.ai/api';
-// // let apiUrl =  'http://192.168.242.219:5000/api'
 
 const axiosInstance = axios.create({
   baseURL: apiUrl,
@@ -14,7 +12,6 @@ const axiosInstance = axios.create({
 
 export const configureAxiosHeader = async () => {
   const value = storage.getString('user_token');
-  // console.log('value', JSON.stringify(value, null, 1));
   if (value) {
     axiosInstance.defaults.headers.common = {
       Authorization: value,
@@ -29,9 +26,11 @@ export const configureAxiosHeader = async () => {
       axiosInstance.defaults.headers.common.enrollment = enrollId;
     }
   }
+
   const org = storage.getString('organization');
   if (org) {
     let orgId = JSON.parse(org)?._id;
+    console.log('orgId', JSON.stringify(orgId, null, 1));
     if (orgId) {
       axiosInstance.defaults.headers.common['organization'] = orgId;
     }
