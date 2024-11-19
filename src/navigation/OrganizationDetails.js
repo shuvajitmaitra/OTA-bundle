@@ -27,7 +27,7 @@ const OrganizationDetails = () => {
           style={styles.selectedOrganizationImage}
         />
         <Text style={styles.selectedOrganizationText}>
-          {selectedOrganization.name}
+          {selectedOrganization?.name || 'Unavailable'}
         </Text>
         <View style={{flexGrow: 1}} />
         <ArrowDownTwo />

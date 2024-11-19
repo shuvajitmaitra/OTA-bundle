@@ -14,7 +14,6 @@ export default function PopupProgramItem({enrollment, handleSwitch, active}) {
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-
   return (
     <View style={styles.container}>
       <View>
@@ -24,27 +23,13 @@ export default function PopupProgramItem({enrollment, handleSwitch, active}) {
         <View style={styles.sessionContainer}>
           <Text style={styles.sessionText}>Session:</Text>
           <Text style={styles.sessionDate}>{enrollment?.session?.name}</Text>
-          {/* <Text style={styles.rating}>5.0</Text> */}
-          {/* <AntDesign name="star" style={styles.starIcon} />
-                    <Text style={styles.sessionDate}>(30,765)</Text> */}
         </View>
         <View style={styles.sessionContainer}>
-          <Text style={styles.sessionText}>Branch:</Text>
-          <Text style={styles.sessionDate}>{enrollment?.branch?.name}</Text>
-          {/* <Text style={styles.rating}>5.0</Text> */}
-          {/* <AntDesign name="star" style={styles.starIcon} />
-                    <Text style={styles.sessionDate}>(30,765)</Text> */}
+          <Text style={styles.sessionText}>Company:</Text>
+          <Text style={styles.sessionDate}>
+            {enrollment?.organization?.name}
+          </Text>
         </View>
-        {/* <View style={styles.sessionContainer}>
-                    <View style={styles.profileImageContainer}>
-                        <Image
-                            source={require("../../assets/ApplicationImage/MainPage/Profile.png")}
-                            style={styles.image}
-                        />
-                    </View>
-                    <Text style={[styles.sessionDate, styles.instructor]}>Instructor:</Text>
-                    <Text style={styles.instructorText}>Shimul Ahmad</Text>
-                </View> */}
         <View style={styles.sessionContainer}>
           <Text style={styles.instructorText}>Status:</Text>
           <Text

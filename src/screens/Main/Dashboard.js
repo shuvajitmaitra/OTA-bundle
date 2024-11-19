@@ -38,9 +38,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ExploreMoreIcon from '../../assets/Icons/ExploreMoreIcon';
 import HomeUserDetails from '../../components/HomeCom/HomeUserDetails';
 import ProgramSwitchModal from '../../components/SharedComponent/ProgramSwitchModal';
+import OrgSwitchModal from '../../components/OrgSwitchModal';
 
 export default function Dashboard() {
-  const {myEnrollments, enrollment} = useSelector(state => state.auth);
+  const {myEnrollments, enrollment, selectedOrganization} = useSelector(
+    state => state.auth,
+  );
+
   const {programActive} = useSelector(state => state.program);
   const {events} = useSelector(state => state.calendar);
   const Colors = useTheme();
@@ -351,6 +355,7 @@ export default function Dashboard() {
           modalOpen={true}
         />
       )}
+      {!selectedOrganization && <OrgSwitchModal isVisible={true} />}
     </View>
   );
 }

@@ -19,6 +19,7 @@ import CustomFonts from '../../constants/CustomFonts';
 import Toppart from '../../components/DashboardCom/Toppart';
 import ProgramItem from '../../components/ProgramCom/ProgramItem';
 import {useTheme} from '../../context/ThemeContext';
+import {useSelector} from 'react-redux';
 
 export default function Program() {
   // --------------------------
@@ -27,6 +28,8 @@ export default function Program() {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const navigation = useNavigation();
+
+  const {enrollment} = useSelector(state => state.auth);
 
   const [isLoading, setIsLoading] = React.useState(true);
   const [myProgram, setMyProgram] = React.useState(null);
@@ -46,7 +49,7 @@ export default function Program() {
         console.log(error);
       }
     })();
-  }, []);
+  }, [enrollment._id]);
   const handleLeaderBoard = () => {
     navigation.navigate('Leaderboard');
   };
