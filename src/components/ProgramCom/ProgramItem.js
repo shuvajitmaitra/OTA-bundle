@@ -1,16 +1,12 @@
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ProgressBar} from 'react-native-paper';
-
 import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
   responsiveScreenHeight,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
-
-import axiosInstance from '../../utility/axiosInstance';
 import CustomFonts from '../../constants/CustomFonts';
 import ProgressIcon from '../../assets/Icons/ProgressIcon';
 import {useTheme} from '../../context/ThemeContext';
@@ -18,9 +14,6 @@ import {useSelector} from 'react-redux';
 import Images from '../../constants/Images';
 
 export default function ProgramItem({myprogram, myProgressMetrics}) {
-  // --------------------------
-  // ----------- Import theme Colors -----------
-  // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const navigation = useNavigation();

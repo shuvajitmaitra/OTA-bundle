@@ -1,18 +1,23 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import Divider from "../SharedComponent/Divider";
-import ArrowTopRight from "../../assets/Icons/ArrowTopRight";
-import CustomDropDownTwo from "../SharedComponent/CustomDropDownTwo";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import RainbowPieChart from "../SharedComponent/RainbowPieChart";
-import DecreaseIcon from "../../assets/Icons/DecreaseIcon";
-import { setGestureState } from "react-native-reanimated";
-import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import Divider from '../SharedComponent/Divider';
+import ArrowTopRight from '../../assets/Icons/ArrowTopRight';
+import CustomFonts from '../../constants/CustomFonts';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import RainbowPieChart from '../SharedComponent/RainbowPieChart';
+import DecreaseIcon from '../../assets/Icons/DecreaseIcon';
+import {useNavigation} from '@react-navigation/native';
 
-const DocumentsProgress = ({ myUploadedDocuments }) => {
+const DocumentsProgress = ({myUploadedDocuments}) => {
+  console.log(
+    'myUPloadedDocuments',
+    JSON.stringify(myUploadedDocuments, null, 1),
+  );
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
@@ -23,13 +28,16 @@ const DocumentsProgress = ({ myUploadedDocuments }) => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.HeadingText}>Documents</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Presentation")}>
+        <TouchableOpacity onPress={() => navigation.navigate('Presentation')}>
           <ArrowTopRight />
         </TouchableOpacity>
       </View>
 
       <Divider marginBottom={4} />
-      <RainbowPieChart total={myUploadedDocuments?.limit} count={myUploadedDocuments?.count} />
+      <RainbowPieChart
+        total={myUploadedDocuments?.limit || 0}
+        count={myUploadedDocuments?.count || 0}
+      />
       <View style={styles.cartContainer}>
         <View style={styles.cartContainerLeft}>
           <Text style={styles.cartHeadingText}>All Documents</Text>
@@ -50,7 +58,7 @@ const DocumentsProgress = ({ myUploadedDocuments }) => {
 
 export default DocumentsProgress;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     decreasePercentage: {
       color: Colors.PureWhite,
@@ -71,8 +79,8 @@ const getStyles = (Colors) =>
       marginBottom: responsiveScreenHeight(1),
     },
     commentsSubContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: 15,
     },
     cartContainerRight: {
@@ -85,7 +93,7 @@ const getStyles = (Colors) =>
       flex: 1,
     },
     progress: {
-      alignSelf: "center",
+      alignSelf: 'center',
       marginTop: responsiveScreenHeight(1),
     },
     details: {
@@ -93,7 +101,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.BodyText,
       marginTop: responsiveScreenHeight(1.5),
-      textAlign: "center",
+      textAlign: 'center',
     },
     progressLabel: {
       fontFamily: CustomFonts.SEMI_BOLD,
@@ -107,10 +115,10 @@ const getStyles = (Colors) =>
       padding: 20,
     },
     headerContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       // justifyContent: "space-between",
       gap: 10,
-      alignItems: "center",
+      alignItems: 'center',
     },
     HeadingText: {
       fontFamily: CustomFonts.SEMI_BOLD,
@@ -118,12 +126,12 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(2.5),
     },
     cartContainer: {
-      minWidth: "100%",
+      minWidth: '100%',
       marginTop: responsiveScreenHeight(-8),
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       // backgroundColor: Colors.PrimaryOpacityColor,
       // marginTop: responsiveScreenHeight(2),
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
   });

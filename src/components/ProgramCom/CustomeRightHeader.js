@@ -39,8 +39,7 @@ const CustomeRightHeader = ({CustomButton, setModalOutside}) => {
       // setModalOpen(true);
     }
   }, [setModalOutside]);
-  // const { myEnrollments } = useSelector((state) => state.auth);
-  // console.log("myEnrollments", JSON.stringify(myEnrollments, null, 1));
+
   return (
     <>
       {CustomButton ? (

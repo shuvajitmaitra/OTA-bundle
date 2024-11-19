@@ -1,6 +1,5 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
-// import {logout} from '../store/reducer/authReducer';
 import store from '../store';
 import {
   logout,
@@ -13,27 +12,12 @@ import {userOrganizationInfo} from '../actions/apiCall';
 import {loadNotifications} from '../actions/chat-noti';
 import {storage} from '../utility/mmkvInstance';
 import {activeProgram} from '../utility/mmkvHelpers';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {connectSocket} from '../utility/socketManager';
 
-// Create a Context
 const MainContext = createContext();
 
-// Create a Provider Component
 export const MainProvider = ({children}) => {
-  // const [user, setUser] = useState(null); // Example state
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [allMessages, setAllMessages] = useState([]);
-  // const testAsyncStorage = async () => {
-  //   try {
-  //     await AsyncStorage.setItem('test_key', 'test_value');
-  //     const value = await AsyncStorage.getItem('test_key');
-  //     console.log(value); // Should log 'test_value'
-  //   } catch (e) {
-  //     console.error('Error with AsyncStorage', e);
-  //   }
-  // };
 
   const handleVerify = async shouldLoad => {
     try {
@@ -46,10 +30,6 @@ export const MainProvider = ({children}) => {
           organization: JSON.parse(storage.getString('organization'))?._id,
         })
         .then(async res => {
-          console.log(
-            'res.data.enrollments',
-            JSON.stringify(res.data.enrollments, null, 1),
-          );
           if (res.data.success) {
             store.dispatch(setUser(res.data.user));
             store.dispatch(setMyEnrollments(res.data.enrollments));
@@ -81,6 +61,9 @@ export const MainProvider = ({children}) => {
   useEffect(() => {
     console.log('rerender handleVerify');
     handleVerify();
+    return () => {
+      store.dispatch(logout());
+    };
   }, []);
 
   const value = {

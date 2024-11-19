@@ -1,42 +1,50 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import Divider from "../SharedComponent/Divider";
-import ArrowTopRight from "../../assets/Icons/ArrowTopRight";
-import CustomDropDownTwo from "../SharedComponent/CustomDropDownTwo";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import AnimatedProgressWheel from "react-native-progress-wheel";
-import CustomPieChart from "../SharedComponent/CustomPieChart";
-import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import Divider from '../SharedComponent/Divider';
+import ArrowTopRight from '../../assets/Icons/ArrowTopRight';
+import CustomDropDownTwo from '../SharedComponent/CustomDropDownTwo';
+import CustomFonts from '../../constants/CustomFonts';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import AnimatedProgressWheel from 'react-native-progress-wheel';
+import CustomPieChart from '../SharedComponent/CustomPieChart';
+import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 function convertDataToPercentage(data) {
-  console.log("tecnical data", JSON.stringify(data, null, 2));
-  const total = data?.results?.totalItems + data?.results?.pendingItems + data?.results?.acceptedItems + data?.results?.rejectedItems;
+  console.log('tecnical data', JSON.stringify(data, null, 2));
+  const total =
+    data?.results?.totalItems +
+    data?.results?.pendingItems +
+    data?.results?.acceptedItems +
+    data?.results?.rejectedItems;
 
   if (total === 0) {
     return [];
   }
 
   const fields = [
-    { key: "totalItems", color: "#097EF2" },
-    { key: "rejectedItems", color: "#F34141" },
-    { key: "acceptedItems", color: "#2A9A13" },
-    { key: "pendingItems", color: "#F90" },
+    {key: 'totalItems', color: '#097EF2'},
+    {key: 'rejectedItems', color: '#F34141'},
+    {key: 'acceptedItems', color: '#2A9A13'},
+    {key: 'pendingItems', color: '#F90'},
   ];
 
   const percentageData = [];
   let keyCounter = 1;
 
-  fields.forEach((field) => {
+  fields.forEach(field => {
     const value = data?.results[field.key];
     if (value > 0) {
       const percentage = (value / total) * 100;
       percentageData.push({
         key: keyCounter++,
         value: percentage,
-        svg: { fill: field.color },
+        svg: {fill: field.color},
       });
     }
   });
@@ -65,7 +73,9 @@ const TechnicalTestProgress = ({}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   // const data = ["This Day", "This Month", "This Year"];
-  const assignment = useSelector((state) => state.dashboard?.dashboardData?.assignment);
+  const assignment = useSelector(
+    state => state.dashboard?.dashboardData?.assignment,
+  );
   const newAssignment = {
     success: assignment?.success,
     results: {
@@ -77,12 +87,9 @@ const TechnicalTestProgress = ({}) => {
       pendingItems: assignment?.results?.pendingItems,
       acceptedItems: assignment?.results?.acceptedItems,
       rejectedItems: assignment?.results?.rejectedItems,
-      rejectedItems: assignment?.results?.rejectedItems,
     },
   };
 
-  console.log("newAssignment", JSON.stringify(newAssignment, null, 1));
-  console.log("assignment", JSON.stringify(assignment, null, 1));
   const navigation = useNavigation();
   // const allData = useSelector((state) => state.dashboard?.dashboardData);
   // console.log("allData", JSON.stringify(allData, null, 1));
@@ -119,20 +126,18 @@ const TechnicalTestProgress = ({}) => {
       <View style={styles.headerContainer}>
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             gap: 10,
-            alignItems: "center",
+            alignItems: 'center',
             zIndex: -9,
-          }}
-        >
+          }}>
           <Text style={styles.HeadingText}>Technical Test</Text>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("ProgramStack", {
-                screen: "TechnicalTestScreen",
+              navigation.navigate('ProgramStack', {
+                screen: 'TechnicalTestScreen',
               })
-            }
-          >
+            }>
             <ArrowTopRight />
           </TouchableOpacity>
         </View>
@@ -182,82 +187,82 @@ const TechnicalTestProgress = ({}) => {
         <View style={styles.itemContainer}>
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
               gap: 7,
-            }}
-          >
+            }}>
             <View
               style={[
                 styles.colorBox,
                 {
                   backgroundColor: Colors.Primary,
                 },
-              ]}
-            ></View>
+              ]}></View>
             <Text style={styles.legendName}>Total Accepted</Text>
           </View>
-          <Text style={styles.legendValue}>{newAssignment?.results?.acceptedItems}</Text>
+          <Text style={styles.legendValue}>
+            {newAssignment?.results?.acceptedItems}
+          </Text>
         </View>
         <View style={styles.itemContainer}>
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
               gap: 7,
-            }}
-          >
+            }}>
             <View
               style={[
                 styles.colorBox,
                 {
-                  backgroundColor: "#F34141",
+                  backgroundColor: '#F34141',
                 },
-              ]}
-            ></View>
+              ]}></View>
             <Text style={styles.legendName}>Rejected</Text>
           </View>
-          <Text style={styles.legendValue}>{newAssignment?.results?.rejectedItems}</Text>
+          <Text style={styles.legendValue}>
+            {newAssignment?.results?.rejectedItems}
+          </Text>
         </View>
         <View style={styles.itemContainer}>
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
               gap: 7,
-            }}
-          >
+            }}>
             <View
               style={[
                 styles.colorBox,
                 {
-                  backgroundColor: "#F90",
+                  backgroundColor: '#F90',
                 },
-              ]}
-            ></View>
+              ]}></View>
             <Text style={styles.legendName}>Pending</Text>
           </View>
-          <Text style={styles.legendValue}>{newAssignment?.results?.pendingItems}</Text>
+          <Text style={styles.legendValue}>
+            {newAssignment?.results?.pendingItems}
+          </Text>
         </View>
         <View style={styles.itemContainer}>
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
               gap: 7,
-            }}
-          >
+            }}>
             <View
               style={[
                 styles.colorBox,
                 {
-                  backgroundColor: "#097EF2",
+                  backgroundColor: '#097EF2',
                 },
-              ]}
-            ></View>
+              ]}></View>
             <Text style={styles.legendName}>Unanswered</Text>
           </View>
-          <Text style={styles.legendValue}>{newAssignment?.results?.totalItems}</Text>
+          <Text style={styles.legendValue}>
+            {newAssignment?.results?.totalItems}
+          </Text>
         </View>
       </View>
     </View>
@@ -266,7 +271,7 @@ const TechnicalTestProgress = ({}) => {
 
 export default TechnicalTestProgress;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     legendValue: {
       fontFamily: CustomFonts.MEDIUM,
@@ -279,23 +284,23 @@ const getStyles = (Colors) =>
       // fontSize: responsiveScreenFontSize(1.8),
     },
     legendContainer: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
       marginTop: responsiveScreenHeight(3),
       // backgroundColor: "red",
       // flex: 0.5,
     },
     itemContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 5,
       marginBottom: responsiveScreenHeight(1),
       // flex: 1,
-      justifyContent: "space-between",
-      alignItems: "center",
+      justifyContent: 'space-between',
+      alignItems: 'center',
       // backgroundColor: "red",
       // flex: ,
-      width: "48%",
+      width: '48%',
     },
     colorBox: {
       width: 15,
@@ -305,7 +310,7 @@ const getStyles = (Colors) =>
       borderRadius: 4,
     },
     progress: {
-      alignSelf: "center",
+      alignSelf: 'center',
       marginTop: responsiveScreenHeight(1),
     },
     details: {
@@ -313,7 +318,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.BodyText,
       marginTop: responsiveScreenHeight(1.5),
-      textAlign: "center",
+      textAlign: 'center',
     },
     progressLabel: {
       fontFamily: CustomFonts.SEMI_BOLD,
@@ -325,12 +330,12 @@ const getStyles = (Colors) =>
       marginVertical: responsiveScreenHeight(2),
       borderRadius: 10,
       padding: 20,
-      zIndex: -10,
+      zIndex: 1,
     },
     headerContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
 
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
       zIndex: 10,
     },
     HeadingText: {

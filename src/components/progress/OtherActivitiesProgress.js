@@ -1,66 +1,74 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import Divider from "../SharedComponent/Divider";
-import ArrowTopRight from "../../assets/Icons/ArrowTopRight";
-import CustomDropDownTwo from "../SharedComponent/CustomDropDownTwo";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
-import ActivityProgressBar from "./ActivityProgressBar";
-import { useNavigation } from "@react-navigation/native";
-import { useGlobalAlert } from "../SharedComponent/GlobalAlertContext";
+import {Alert, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import Divider from '../SharedComponent/Divider';
+import ArrowTopRight from '../../assets/Icons/ArrowTopRight';
+import CustomDropDownTwo from '../SharedComponent/CustomDropDownTwo';
+import CustomFonts from '../../constants/CustomFonts';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import ActivityProgressBar from './ActivityProgressBar';
+import {useNavigation} from '@react-navigation/native';
+import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
 
-const OtherActivitiesProgress = ({ showNTell, community, mockInterview, myUploadedDocuments }) => {
-  const [value, setValue] = useState("This Year");
+const OtherActivitiesProgress = ({
+  showNTell,
+  community,
+  mockInterview,
+  myUploadedDocuments,
+}) => {
+  const [value, setValue] = useState('This Year');
 
   const navigation = useNavigation();
-  const { showAlert } = useGlobalAlert();
+  const {showAlert} = useGlobalAlert();
 
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const dropDownData = ["This Day", "This Month", "This Year"];
+  const dropDownData = ['This Day', 'This Month', 'This Year'];
   const data = [
     {
-      title: "Show N Tell",
+      title: 'Show N Tell',
       value: 50,
       count: showNTell?.count,
       limit: showNTell?.limit,
       func: () => {
-        navigation.navigate("ProgramStack", {
-          screen: "ShowAndTellScreen",
+        navigation.navigate('ProgramStack', {
+          screen: 'ShowAndTellScreen',
         });
       },
     },
     {
-      title: "Mock Interview",
+      title: 'Mock Interview',
       value: 50,
       count: mockInterview?.results?.submitted,
       limit: 10,
       func: () => {
-        navigation.navigate("ProgramStack", { screen: "MockInterview" });
+        navigation.navigate('ProgramStack', {screen: 'MockInterview'});
       },
     },
     {
-      title: "My Uploaded Documents",
+      title: 'My Uploaded Documents',
       value: 50,
       count: myUploadedDocuments?.count,
       limit: myUploadedDocuments?.limit,
       func: () => {
         showAlert({
-          title: "Coming Soon...",
-          type: "warning",
-          message: "This feature is coming soon.",
+          title: 'Coming Soon...',
+          type: 'warning',
+          message: 'This feature is coming soon.',
         });
       },
     },
     {
-      title: "Community",
+      title: 'Community',
       value: 50,
       count: community?.results?.totalCommintyPost,
       limit: 100,
       func: () => {
-        navigation.navigate("CommunityStack", {
-          screen: "CommunityScreen",
+        navigation.navigate('CommunityStack', {
+          screen: 'CommunityScreen',
         });
       },
     },
@@ -88,10 +96,10 @@ const OtherActivitiesProgress = ({ showNTell, community, mockInterview, myUpload
 
 export default OtherActivitiesProgress;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
-      zIndex: -1,
+      zIndex: 2,
       backgroundColor: Colors.White,
       marginVertical: responsiveScreenHeight(2),
       borderRadius: 10,
@@ -99,9 +107,9 @@ const getStyles = (Colors) =>
       paddingHorizontal: responsiveScreenHeight(2.5),
     },
     headerContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      zIndex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      zIndex: 2,
     },
     HeadingText: {
       fontFamily: CustomFonts.SEMI_BOLD,
@@ -109,8 +117,8 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(2.5),
     },
     cartContainer: {
-      minWidth: "100%",
-      alignItems: "center",
+      minWidth: '100%',
+      alignItems: 'center',
       // marginTop: responsiveScreenHeight(2),
     },
   });
