@@ -290,7 +290,8 @@ const getStyles = Colors =>
       marginRight: 3,
     },
     drawerSection: {
-      marginTop: 15,
+      // marginTop: 15,
+      // backgroundColor: 'yellow',
     },
     bottomDrawerSection: {
       marginBottom: 15,
