@@ -2,9 +2,17 @@ import React, {createContext, useContext, useEffect, useState} from 'react';
 import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
 // import {logout} from '../store/reducer/authReducer';
 import store from '../store';
-import {logout, setMyEnrollments, setUser} from '../store/reducer/authReducer';
+import {
+  logout,
+  setEnrollment,
+  setMyEnrollments,
+  setUser,
+} from '../store/reducer/authReducer';
 import {connectSocket} from '../utility/socketManager';
 import {userOrganizationInfo} from '../actions/apiCall';
+import {loadNotifications} from '../actions/chat-noti';
+import {storage} from '../utility/mmkvInstance';
+import {activeProgram} from '../utility/mmkvHelpers';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {connectSocket} from '../utility/socketManager';
 
@@ -36,13 +44,18 @@ export const MainProvider = ({children}) => {
       axiosInstance
         .post('/user/verify', {})
         .then(async res => {
-          console.log(
-            'res.data.enrollments main context',
-            JSON.stringify(res.data.enrollments.length, null, 1),
-          );
           if (res.data.success) {
             store.dispatch(setUser(res.data.user));
             store.dispatch(setMyEnrollments(res.data.enrollments));
+            if (res.data.enrollments.length > 0) {
+              store.dispatch(setEnrollment(res.data.enrollments[0]));
+              activeProgram({
+                _id: res.data.enrollments[0]._id,
+                programName: res.data.enrollments[0].program.title,
+              });
+            }
+            loadNotifications();
+
             await connectSocket();
             await userOrganizationInfo();
           }

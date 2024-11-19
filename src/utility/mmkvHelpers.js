@@ -3,7 +3,6 @@ import {storage} from './mmkvInstance';
 /**
  * allMessages ={}
  */
-
 export const getAllMessages = () => {
   const pre = storage.getString('allMessages');
   return pre ? JSON.parse(pre) : {};
@@ -28,4 +27,7 @@ export const addNewMessage = (chatId, message) => {
 };
 export const setOrganization = org => {
   storage.set('organization', JSON.stringify(org));
+};
+export const activeProgram = enroll => {
+  storage.set('active_enrolment', JSON.stringify(enroll));
 };

@@ -54,11 +54,11 @@ const CustomeRightHeader = ({navigation, CustomButton, setModalOutside}) => {
     getActive();
   }, [myEnrollments]);
 
-  const handleSwitch = async enrollment => {
-    dispatch(setEnrollment(enrollment));
-    await AsyncStorage.setItem('active_enrolment', JSON.stringify(enrollment));
-    getActive();
-    ();
+  // const handleSwitch = async enrollment => {
+  //   dispatch(setEnrollment(enrollment));
+  //   await AsyncStorage.setItem('active_enrolment', JSON.stringify(enrollment));
+  //   getActive();
+  //   ();
 
     // window.location.href = "/user/profile?tab=program";
     // Router.push("/user/profile?tab=program")

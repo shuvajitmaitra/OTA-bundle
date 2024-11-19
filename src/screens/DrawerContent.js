@@ -21,6 +21,8 @@ import BookIcon from '../assets/Icons/BookIcon';
 import DocumentIcon from '../assets/Icons/DocumentIcon';
 import PasswordIcon from '../assets/Icons/PasswordIcon';
 import DisplaySettingsIcon from '../assets/Icons/DisplaySettingsIcon';
+import {storage} from '../utility/mmkvInstance';
+import OrganizationDetails from '../navigation/OrganizationDetails';
 
 // Icon render functions
 const renderHomeIconTwo = ({color, size}) => (
@@ -63,7 +65,7 @@ export function DrawerContent(props) {
 
   const signOut = async () => {
     await AsyncStorage.removeItem('user_token');
-    await AsyncStorage.removeItem('active_enrolment');
+    storage.clearAll();
     dispatch(logout());
   };
 
@@ -117,7 +119,7 @@ export function DrawerContent(props) {
               </View>
             </View>
           </View>
-
+          <OrganizationDetails />
           <View style={styles.drawerSection}>
             <DrawerItem
               icon={renderHomeIconTwo}

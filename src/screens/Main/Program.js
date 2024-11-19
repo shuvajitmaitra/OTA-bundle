@@ -1,13 +1,24 @@
-import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator, SafeAreaView } from "react-native";
-import React from "react";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
-import { useNavigation } from "@react-navigation/native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  SafeAreaView,
+} from 'react-native';
+import React from 'react';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import {useNavigation} from '@react-navigation/native';
 
-import axiosInstance from "../../utility/axiosInstance";
-import CustomFonts from "../../constants/CustomFonts";
-import Toppart from "../../components/DashboardCom/Toppart";
-import ProgramItem from "../../components/ProgramCom/ProgramItem";
-import { useTheme } from "../../context/ThemeContext";
+import axiosInstance from '../../utility/axiosInstance';
+import CustomFonts from '../../constants/CustomFonts';
+import Toppart from '../../components/DashboardCom/Toppart';
+import ProgramItem from '../../components/ProgramCom/ProgramItem';
+import {useTheme} from '../../context/ThemeContext';
 
 export default function Program() {
   // --------------------------
@@ -18,15 +29,15 @@ export default function Program() {
   const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = React.useState(true);
-  const [myprogram, setMyProgram] = React.useState(null);
+  const [myProgram, setMyProgram] = React.useState(null);
   const [myProgressMetrics, setMyProgressMetrics] = React.useState(null);
 
   React.useEffect(() => {
     (async () => {
       try {
         setIsLoading(true);
-        let myprogram = await axiosInstance.get("/enrollment/myprogram");
-        let myprogress = await axiosInstance.get("/progress/myprogress");
+        let myprogram = await axiosInstance.get('/enrollment/myprogram');
+        let myprogress = await axiosInstance.get('/progress/myprogress');
         setMyProgressMetrics(myprogress.data?.metrics || []);
         setMyProgram(myprogram.data);
         setIsLoading(false);
@@ -36,8 +47,8 @@ export default function Program() {
       }
     })();
   }, []);
-  const handleLeaderboard = () => {
-    navigation.navigate("Leaderboard");
+  const handleLeaderBoard = () => {
+    navigation.navigate('Leaderboard');
   };
 
   if (isLoading) {
@@ -45,27 +56,30 @@ export default function Program() {
       <View
         style={{
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: 'center',
+          alignItems: 'center',
           backgroundColor: Colors.White,
-        }}
-      >
+        }}>
         <ActivityIndicator size={50} animating={true} color={Colors.Primary} />
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, padding: 16, backgroundColor: Colors.Background_color }}>
+    <View
+      style={{flex: 1, padding: 16, backgroundColor: Colors.Background_color}}>
       <SafeAreaView style={[styles.container]}>
         <Toppart />
-        <Text style={[styles.title, { color: Colors.Heading }]}>Bootcamps</Text>
+        <Text style={[styles.title, {color: Colors.Heading}]}>Bootcamps</Text>
         <Text style={styles.details}>Keep learning to make progress</Text>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <ProgramItem myprogram={myprogram} myProgressMetrics={myProgressMetrics} />
+          <ProgramItem
+            myprogram={myProgram}
+            myProgressMetrics={myProgressMetrics}
+          />
 
           {/* <TouchableOpacity
-          onPress={handleLeaderboard}
+          onPress={handleLeaderBoard}
           activeOpacity={0.8}
           style={styles.myPrograssBtn}
         >
@@ -82,7 +96,7 @@ export default function Program() {
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -111,9 +125,9 @@ const getStyles = (Colors) =>
       marginTop: responsiveScreenHeight(2),
       borderWidth: 1,
       borderColor: Colors.BorderColor,
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
       paddingVertical: responsiveScreenHeight(1.5),
     },
     progressText: {

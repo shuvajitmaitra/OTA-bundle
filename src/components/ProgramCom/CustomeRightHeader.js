@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '../../context/ThemeContext';
 import ProgramSwitchModal from '../SharedComponent/ProgramSwitchModal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {setProgramActive} from '../../store/reducer/programReducer';
 import {
   responsiveFontSize,
   responsiveScreenHeight,
@@ -17,8 +14,6 @@ const CustomeRightHeader = ({CustomButton, setModalOutside}) => {
   const Colors = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
   const {handleVerify} = useMainContext();
-  // const {myEnrollments} = useSelector(state => state.auth);
-  // const dispatch = useDispatch();
 
   const activeProgram = async () => {
     // if (

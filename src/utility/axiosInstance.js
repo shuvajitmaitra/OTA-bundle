@@ -21,7 +21,7 @@ export const configureAxiosHeader = async () => {
     };
   }
 
-  const enroll = await AsyncStorage.getItem('active_enrolment');
+  const enroll = storage.getString('active_enrolment');
   if (enroll) {
     let enrollId = JSON.parse(enroll)?._id;
     if (enrollId) {

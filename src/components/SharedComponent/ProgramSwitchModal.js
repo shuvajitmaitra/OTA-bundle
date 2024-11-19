@@ -33,24 +33,24 @@ const ProgramSwitchModal = memo(({modalOpen, setModalOpen, handleVerify}) => {
   //   JSON.stringify(myEnrollments.length, null, 1)
   // );
 
-  const getActive = async () => {
-    let activeE = await AsyncStorage.getItem('active_enrolment');
-    if (activeE) {
-      setActive(JSON.parse(activeE));
-      dispatch(setProgramActive(JSON.parse(activeE)));
-    }
-  };
+  // const getActive = async () => {
+  //   let activeE = await AsyncStorage.getItem('active_enrolment');
+  //   if (activeE) {
+  //     setActive(JSON.parse(activeE));
+  //     dispatch(setProgramActive(JSON.parse(activeE)));
+  //   }
+  // };
 
-  useEffect(() => {
-    getActive();
-  }, [myEnrollments]);
+  // useEffect(() => {
+  //   getActive();
+  // }, [myEnrollments]);
 
-  const handleSwitch = async enrollment => {
-    dispatch(setEnrollment(enrollment));
-    await AsyncStorage.setItem('active_enrolment', JSON.stringify(enrollment));
-    getActive();
-    handleVerify();
-  };
+  // const handleSwitch = async enrollment => {
+  //   dispatch(setEnrollment(enrollment));
+  //   await AsyncStorage.setItem('active_enrolment', JSON.stringify(enrollment));
+  //   getActive();
+  //   handleVerify();
+  // };
 
   return (
     <Modal
