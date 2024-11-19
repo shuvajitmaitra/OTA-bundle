@@ -16,26 +16,14 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import store, {persistor} from './src/store';
-import {configureAxiosHeader, axiosInstance} from './src/utility/axiosInstance';
 import {connectSocket, disconnectSocket} from './src/utility/socketManager';
-import {
-  logout,
-  setMyEnrollments,
-  setUser,
-} from './src/store/reducer/authReducer';
+
 import {ThemeProvider, useTheme} from './src/context/ThemeContext';
 import {AlertProvider} from './src/components/SharedComponent/GlobalAlertContext';
 import {MainProvider} from './src/context/MainContext';
 import Navigation from './src/navigation/Navigation';
-import CustomeRightHeader from './src/components/ProgramCom/CustomeRightHeader';
-import {userOrganizationInfo} from './src/actions/apiCall';
 
 import 'react-native-gesture-handler';
-import {
-  loadCalendarEvent,
-  loadNotifications,
-  loadProgramInfo,
-} from './src/actions/chat-noti';
 
 // Suppress specific warning logs
 LogBox.ignoreLogs(['Setting a timer']);
@@ -181,10 +169,6 @@ const App = () => {
         barStyle={'dark-content'}
       />
       <Navigation />
-      <CustomeRightHeader
-        setModalOutside={handleShowSwitchModal}
-        CustomButton={() => <></>}
-      />
     </BottomSheetModalProvider>
   );
 };

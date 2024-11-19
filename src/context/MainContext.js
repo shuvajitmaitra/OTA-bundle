@@ -47,7 +47,7 @@ export const MainProvider = ({children}) => {
           if (res.data.success) {
             store.dispatch(setUser(res.data.user));
             store.dispatch(setMyEnrollments(res.data.enrollments));
-            if (res.data.enrollments.length > 0) {
+            if (res.data.enrollments.length === 1) {
               store.dispatch(setEnrollment(res.data.enrollments[0]));
               activeProgram({
                 _id: res.data.enrollments[0]._id,

@@ -24,6 +24,7 @@ export const configureAxiosHeader = async () => {
   const enroll = storage.getString('active_enrolment');
   if (enroll) {
     let enrollId = JSON.parse(enroll)?._id;
+    console.log('enrollId', JSON.stringify(enrollId, null, 1));
     if (enrollId) {
       axiosInstance.defaults.headers.common.enrollment = enrollId;
     }

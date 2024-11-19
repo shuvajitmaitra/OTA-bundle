@@ -37,9 +37,10 @@ import {LoadCalenderInfo, LoadMockInterviewInfo} from '../../actions/apiCall';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ExploreMoreIcon from '../../assets/Icons/ExploreMoreIcon';
 import HomeUserDetails from '../../components/HomeCom/HomeUserDetails';
+import ProgramSwitchModal from '../../components/SharedComponent/ProgramSwitchModal';
 
 export default function Dashboard() {
-  const {myEnrollments} = useSelector(state => state.auth);
+  const {myEnrollments, enrollment} = useSelector(state => state.auth);
   const {programActive} = useSelector(state => state.program);
   const {events} = useSelector(state => state.calendar);
   const Colors = useTheme();
@@ -47,6 +48,8 @@ export default function Dashboard() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [statusSectionVisible, setStatusSectionVisible] = useState(false);
+  const [selectProgramModalVisible, setSelectProgramModalVisible] =
+    useState(false);
 
   const [isEnrolled, setIsEnrolled] = useState(null);
   const checkActive = useCallback(() => {
@@ -208,8 +211,10 @@ export default function Dashboard() {
         }
       />
       <DashboardTopPart
+        switchAvailable={myEnrollments.length > 1 ? true : false}
         statusSectionVisible={statusSectionVisible}
         setStatusSectionVisible={setStatusSectionVisible}
+        setSelectProgramModalVisible={setSelectProgramModalVisible}
       />
       {/* <PushNotiService /> */}
 
@@ -332,26 +337,20 @@ export default function Dashboard() {
             circleColor={'rgba(255, 255, 255, 0.17)'}
             icon={<DocumentsIcon />}
           />
-          {/* <CustomeRightHeader
-            CustomButton={() => (
-              <NavigationItemView
-                title={"Switch Bootcamps"}
-                backgroundColor={"#EF7817"}
-                circleColor={"rgba(255, 255, 255, 0.17)"}
-                icon={
-                  <Image
-                    style={{
-                      width: responsiveScreenWidth(10),
-                      height: responsiveScreenWidth(10),
-                    }}
-                    source={require("../../assets/ApplicationImage/MainPage/swap-white.png")}
-                  />
-                }
-              />
-            )}
-          /> */}
         </View>
       </ScrollView>
+      {selectProgramModalVisible && (
+        <ProgramSwitchModal
+          onCancelPress={() => setSelectProgramModalVisible(false)}
+          modalOpen={selectProgramModalVisible}
+        />
+      )}
+      {!enrollment && (
+        <ProgramSwitchModal
+          onCancelPress={() => setSelectProgramModalVisible(false)}
+          modalOpen={true}
+        />
+      )}
     </View>
   );
 }

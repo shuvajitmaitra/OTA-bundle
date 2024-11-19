@@ -104,11 +104,6 @@ const ProgramStackScreen = ({navigation}) => {
             backgroundColor: Colors.Background_color,
             elevation: 0,
           },
-          headerRight: () => (
-            <View style={{marginRight: 20}}>
-              <CustomeRightHeader navigation={navigation} />
-            </View>
-          ),
         })}
       />
       <ProgramStack.Screen

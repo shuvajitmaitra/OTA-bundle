@@ -63,7 +63,7 @@ const CustomeRightHeader = ({CustomButton, setModalOutside}) => {
               textAlign: 'center',
               fontSize: responsiveFontSize(1.6),
             }}>
-            Switch
+            Switcddddh
           </Text>
         </TouchableOpacity>
       )}

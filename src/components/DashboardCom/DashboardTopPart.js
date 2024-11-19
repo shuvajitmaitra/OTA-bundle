@@ -7,7 +7,6 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 import DrawerIcon from '../../assets/Icons/DrawerIcon';
-import CustomeRightHeader from '../ProgramCom/CustomeRightHeader';
 import MessageNotificationContainer from '../MessageNotificationContainer';
 import {useTheme} from '../../context/ThemeContext';
 import SwapIcon from '../../assets/Icons/SwapIcon';
@@ -15,6 +14,8 @@ import SwapIcon from '../../assets/Icons/SwapIcon';
 export default function DashboardTopPart({
   statusSectionVisible,
   setStatusSectionVisible,
+  setSelectProgramModalVisible,
+  switchAvailable,
 }) {
   const navigation = useNavigation();
   const Colors = useTheme();
@@ -36,13 +37,13 @@ export default function DashboardTopPart({
         <DrawerIcon />
       </TouchableOpacity>
       <View style={styles.messageNotificationContainer}>
-        <CustomeRightHeader
-          CustomButton={() => (
-            <View style={styles.messageContainer}>
-              <SwapIcon />
-            </View>
-          )}
-        />
+        {switchAvailable && (
+          <TouchableOpacity
+            onPress={() => setSelectProgramModalVisible(true)}
+            style={styles.messageContainer}>
+            <SwapIcon />
+          </TouchableOpacity>
+        )}
         <MessageNotificationContainer />
       </View>
     </View>
@@ -54,14 +55,12 @@ const getStyles = Colors =>
     container: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      // backgroundColor: "green",
-      // paddingVertical: responsiveScreenWidth(-10),
+
       marginTop: responsiveScreenHeight(0.5),
     },
     profileImageContainer: {
       paddingHorizontal: responsiveScreenWidth(4),
       paddingTop: responsiveScreenHeight(1.5),
-      // backgroundColor: "green",
     },
     image: {
       width: responsiveScreenWidth(12),

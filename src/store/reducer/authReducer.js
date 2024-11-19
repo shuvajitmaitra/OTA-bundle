@@ -5,6 +5,8 @@ export const logout = createAsyncThunk('auth/logout', async (_, {dispatch}) => {
   dispatch(logoutSuccess());
   dispatch(setEnrolled(''));
   dispatch(setUser({}));
+  dispatch(setEnrollment(null));
+  dispatch(setMyEnrollments([]));
 });
 
 const initialState = {

@@ -3,17 +3,12 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import Images from '../constants/Images';
 import {useTheme} from '../context/ThemeContext';
-import ArrowDown from '../assets/Icons/ArrowDown';
 import {ArrowDownTwo} from '../assets/Icons/ArrowDownTwo';
 import Divider from '../components/SharedComponent/Divider';
 
 const OrganizationDetails = () => {
   const {organizations, selectedOrganization} = useSelector(
     state => state.auth,
-  );
-  console.log(
-    'selectedOrganization',
-    JSON.stringify(selectedOrganization, null, 1),
   );
   const Colors = useTheme();
   const styles = getStyles(Colors);

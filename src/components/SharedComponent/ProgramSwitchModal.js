@@ -8,9 +8,6 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {setEnrollment} from '../../store/reducer/authReducer';
-import {setProgramActive} from '../../store/reducer/programReducer';
 import {useTheme} from '../../context/ThemeContext';
 import PopupProgramItem from '../ProgramCom/PopupProgramItem';
 import CustomFonts from '../../constants/CustomFonts';
@@ -21,36 +18,26 @@ import {
 } from 'react-native-responsive-dimensions';
 import CrossIcon from '../../assets/Icons/CrossIcon';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
+import {activeProgram} from '../../utility/mmkvHelpers';
+import {setEnrollment} from '../../store/reducer/authReducer';
+import {useMainContext} from '../../context/MainContext';
 
-const ProgramSwitchModal = memo(({modalOpen, setModalOpen, handleVerify}) => {
+const ProgramSwitchModal = memo(({modalOpen, onCancelPress}) => {
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const {myEnrollments} = useSelector(state => state.auth);
-  const [active, setActive] = useState(null);
-  // console.log(
-  //   "myEnrollments.length",
-  //   JSON.stringify(myEnrollments.length, null, 1)
-  // );
+  const {myEnrollments, enrollment} = useSelector(state => state.auth);
+  const {handleVerify} = useMainContext();
 
-  // const getActive = async () => {
-  //   let activeE = await AsyncStorage.getItem('active_enrolment');
-  //   if (activeE) {
-  //     setActive(JSON.parse(activeE));
-  //     dispatch(setProgramActive(JSON.parse(activeE)));
-  //   }
-  // };
+  const handleSwitch = async enroll => {
+    dispatch(setEnrollment(enroll));
+    activeProgram({
+      _id: enroll._id,
+      programName: enroll.program.title,
+    });
 
-  // useEffect(() => {
-  //   getActive();
-  // }, [myEnrollments]);
-
-  // const handleSwitch = async enrollment => {
-  //   dispatch(setEnrollment(enrollment));
-  //   await AsyncStorage.setItem('active_enrolment', JSON.stringify(enrollment));
-  //   getActive();
-  //   handleVerify();
-  // };
+    handleVerify();
+  };
 
   return (
     <Modal
@@ -59,12 +46,14 @@ const ProgramSwitchModal = memo(({modalOpen, setModalOpen, handleVerify}) => {
       isVisible={modalOpen}>
       <View style={styles.popupContainer}>
         <View style={styles.popupTopContainer}>
-          <View style={styles.popupArrowContainer}>
+          <TouchableOpacity
+            onPress={onCancelPress}
+            style={styles.popupArrowContainer}>
             <ArrowLeft />
             <Text style={styles.popupTitle}>Program</Text>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setModalOpen(false)}
+            onPress={onCancelPress}
             activeOpacity={0.9}
             style={styles.popupCrossContainer}>
             <CrossIcon />
@@ -75,7 +64,7 @@ const ProgramSwitchModal = memo(({modalOpen, setModalOpen, handleVerify}) => {
           {myEnrollments.length ? (
             myEnrollments.map((item, index) => (
               <PopupProgramItem
-                active={active}
+                active={enrollment}
                 key={index}
                 enrollment={item}
                 handleSwitch={handleSwitch}
