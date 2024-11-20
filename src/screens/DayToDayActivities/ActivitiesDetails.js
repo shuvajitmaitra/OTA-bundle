@@ -35,7 +35,10 @@ const ActivitiesDetails = ({route}) => {
   const data = activities[dataIndex];
   const [imageNumber, setImageNumber] = useState(0);
   const [viewImage, setViewImage] = useState([]);
-
+  console.log(
+    'data?.attachments[imageNumber]',
+    JSON.stringify(data?.attachments, null, 1),
+  );
   return (
     <View style={styles.container}>
       <StatusBar
@@ -152,7 +155,7 @@ const ActivitiesDetails = ({route}) => {
               //     source={{ uri: data?.attachments[imageNumber] }}
               //   />
               // </TouchableOpacity>
-              getFileTypeFromUri(data?.attachments[imageNumber]) == 'pdf' ? (
+              getFileTypeFromUri(data?.attachments[imageNumber]) === 'pdf' ? (
                 <>
                   <Image
                     style={styles.image}

@@ -1,57 +1,65 @@
-import { SafeAreaView, FlatList, StyleSheet, Text, View, StatusBar } from "react-native";
-import React, { useEffect, useState } from "react";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import { useTheme } from "../../context/ThemeContext";
-import { TouchableOpacity } from "react-native";
-import PlusCircle from "../../assets/Icons/PlusCircle";
-import axiosInstance from "../../utility/axiosInstance";
-import ActivitiesCard from "../../components/DayToDayActivitiesCom/ActivitiesCard";
-import CreateActivitiesModal from "../../components/DayToDayActivitiesCom/CreateActivitiesModal";
-import { useDispatch, useSelector } from "react-redux";
-import { initialActivities } from "../../store/reducer/activitiesReducer";
-import NoDataAvailable from "../../components/SharedComponent/NoDataAvailable";
-import ConfirmationModal from "../../components/SharedComponent/ConfirmationModal";
-import { showToast } from "../../components/HelperFunction";
-import { LoadDayToDayActivities } from "../../actions/apiCall";
-import LoadingSmall from "../../components/SharedComponent/LoadingSmall";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {FlatList, StyleSheet, Text, View, StatusBar} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import {useTheme} from '../../context/ThemeContext';
+import {TouchableOpacity} from 'react-native';
+import PlusCircle from '../../assets/Icons/PlusCircle';
+import axiosInstance from '../../utility/axiosInstance';
+import ActivitiesCard from '../../components/DayToDayActivitiesCom/ActivitiesCard';
+import CreateActivitiesModal from '../../components/DayToDayActivitiesCom/CreateActivitiesModal';
+import {useDispatch, useSelector} from 'react-redux';
+import {initialActivities} from '../../store/reducer/activitiesReducer';
+import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
+import ConfirmationModal from '../../components/SharedComponent/ConfirmationModal';
+import {showToast} from '../../components/HelperFunction';
+import {LoadDayToDayActivities} from '../../actions/apiCall';
+import LoadingSmall from '../../components/SharedComponent/LoadingSmall';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const DayToDayActivities = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { activities, activitiesCount } = useSelector((state) => state?.activities);
+  const {activities, activitiesCount} = useSelector(state => state?.activities);
   const [page, setPage] = useState(1);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState({
     state: false,
-    id: "",
+    id: '',
   });
 
-  const [isCreateActivitiesModalVisible, setIsCreateActivitiesModalVisible] = useState(false);
+  const [isCreateActivitiesModalVisible, setIsCreateActivitiesModalVisible] =
+    useState(false);
   const toggleCreateActivitiesModal = () => {
     setIsCreateActivitiesModalVisible(!isCreateActivitiesModalVisible);
   };
 
-  const handleDeleteActivities = (id) => {
+  const handleDeleteActivities = id => {
     axiosInstance
       .delete(`communication/delete/${id}`)
-      .then((res) => {
+      .then(res => {
         if (res.data.success) {
           dispatch(
             initialActivities({
-              data: activities?.filter((item) => item?._id !== id),
+              data: activities?.filter(item => item?._id !== id),
               page: 1,
-            })
+            }),
           );
-          setIsDeleteModalVisible({ state: false });
-          showToast("Activities deleted");
+          setIsDeleteModalVisible({state: false});
+          showToast('Activities deleted');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
-        console.log("error day to day activities screen", JSON.stringify(error, null, 1));
+        console.log(
+          'error day to day activities screen',
+          JSON.stringify(error, null, 1),
+        );
       });
   };
 
@@ -59,7 +67,7 @@ const DayToDayActivities = () => {
     LoadDayToDayActivities(page, setIsLoading);
   }, [page]);
 
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({item, index}) => (
     <ActivitiesCard
       handleDeleteActivities={() =>
         setIsDeleteModalVisible({
@@ -74,22 +82,30 @@ const DayToDayActivities = () => {
     />
   );
 
-  var { top } = useSafeAreaInsets();
+  var {top} = useSafeAreaInsets();
   return (
     <View style={[styles.container]}>
       <StatusBar
         translucent={true}
         backgroundColor={Colors.Background_color}
-        barStyle={Colors.Background_color === "#F5F5F5" ? "dark-content" : "light-content"}
+        barStyle={
+          Colors.Background_color === '#F5F5F5'
+            ? 'dark-content'
+            : 'light-content'
+        }
       />
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Day-to-Day Activities</Text>
-        <TouchableOpacity onPress={() => toggleCreateActivitiesModal()} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => toggleCreateActivitiesModal()}
+          style={styles.button}>
           <PlusCircle size={20} color={Colors.PureWhite} />
           <Text style={styles.buttonText}>Create Activities</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.subHeading}>Document Your Journey: Daily Learning & Activities</Text>
+      <Text style={styles.subHeading}>
+        Document Your Journey: Daily Learning & Activities
+      </Text>
 
       <FlatList
         data={activities}
@@ -97,7 +113,7 @@ const DayToDayActivities = () => {
         keyExtractor={(item, index) => `${item._id}-${index}`}
         contentContainerStyle={styles.cardContainer}
         onEndReached={() => {
-          setPage((pre) => pre + 1);
+          setPage(pre => pre + 1);
         }}
         onEndReachedThreshold={0.5}
         ListEmptyComponent={<NoDataAvailable />}
@@ -109,9 +125,8 @@ const DayToDayActivities = () => {
                   color: Colors.Heading,
                   fontFamily: CustomFonts.SEMI_BOLD,
                   fontSize: responsiveScreenFontSize(1.8),
-                  textAlign: "center",
-                }}
-              >
+                  textAlign: 'center',
+                }}>
                 No data available
               </Text>
             ) : activitiesCount == 0 ? null : (
@@ -132,10 +147,10 @@ const DayToDayActivities = () => {
 
       <ConfirmationModal
         isVisible={isDeleteModalVisible.state}
-        tittle={"Activities Delete!"}
-        description={"Do you want to delete the day to day Activities"}
+        tittle={'Activities Delete!'}
+        description={'Do you want to delete the day to day Activities'}
         okPress={() => handleDeleteActivities(isDeleteModalVisible.id)}
-        cancelPress={() => setIsDeleteModalVisible({ state: false })}
+        cancelPress={() => setIsDeleteModalVisible({state: false})}
       />
     </View>
   );
@@ -143,10 +158,10 @@ const DayToDayActivities = () => {
 
 export default DayToDayActivities;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     cardContainer: {
-      minWidth: "100%",
+      minWidth: '100%',
       // height: 10,
       backgroundColor: Colors.Background_color,
       // borderRadius: 10,
@@ -158,9 +173,9 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.8),
     },
     button: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: Colors.Primary,
       gap: 10,
       paddingVertical: 10,
@@ -174,9 +189,9 @@ const getStyles = (Colors) =>
       maxWidth: responsiveScreenWidth(50),
     },
     headerContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       // paddingHorizontal: responsiveScreenWidth(4.5),
       // paddingBottom: responsiveScreenHeight(1),
       paddingHorizontal: 15,

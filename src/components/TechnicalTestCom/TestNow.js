@@ -35,8 +35,8 @@ import {formattingDate} from '../../utility/commonFunction';
 import {getComments} from '../../actions/chat-noti';
 import DocumentPicker, {types} from 'react-native-document-picker';
 
-export const getFileTypeFromUri = uri => {
-  const extension = uri?.split('.')?.pop()?.toLowerCase();
+export const getFileTypeFromUri = (uri = '') => {
+  const extension = uri ? uri?.split('.')?.pop()?.toLowerCase() : '';
 
   const mimeTypes = {
     jpeg: 'image/jpeg',
@@ -314,19 +314,19 @@ export default function TestNow(routes) {
                     onPress={() => {
                       handleBackButton();
                     }}
-                    activeOpacity={questionNumber == 0 ? 1 : 0.5}
+                    activeOpacity={questionNumber === 0 ? 1 : 0.5}
                     style={[
                       styles.backBtn,
                       {
                         backgroundColor:
-                          questionNumber == 0
+                          questionNumber === 0
                             ? Colors.DisablePrimaryBackgroundColor
                             : Colors.Primary,
                       },
                     ]}>
                     <ArrowLeftWhite
                       color={
-                        questionNumber == 0
+                        questionNumber === 0
                           ? Colors.DisablePrimaryButtonTextColor
                           : Colors.PureWhite
                       }
@@ -334,7 +334,7 @@ export default function TestNow(routes) {
                     <Text
                       style={{
                         color:
-                          questionNumber == 0
+                          questionNumber === 0
                             ? Colors.DisablePrimaryButtonTextColor
                             : Colors.PureWhite,
                         fontFamily: CustomFonts.REGULAR,
@@ -346,7 +346,7 @@ export default function TestNow(routes) {
                     onPress={() => {
                       handleNextButton();
                     }}
-                    activeOpacity={questionNumber == lastQuestion ? 1 : 0.5}
+                    activeOpacity={questionNumber === lastQuestion ? 1 : 0.5}
                     style={[
                       styles.nextBtn,
                       {

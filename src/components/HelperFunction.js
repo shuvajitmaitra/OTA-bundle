@@ -2,34 +2,12 @@ import {Linking} from 'react-native';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import Toast from 'react-native-root-toast';
 
-export function extractFilename(url) {
-  if (!url) return;
-  if (url?.startsWith('https://')) {
-    const urlObj = new URL(url);
+export function extractFilename(uri) {
+  const extension = uri ? uri?.split('/')?.pop()?.toLowerCase() : '';
 
-    const pathname = urlObj.pathname;
-
-    const filename = pathname.split('/').pop();
-
-    const fileParts = filename.split('-');
-
-    const extractedFilename = fileParts.slice(1).join('-');
-
-    return extractedFilename;
-  } else {
-    const urlObj = new URL(`https://${url}`);
-
-    const pathname = urlObj.pathname;
-
-    const filename = pathname.split('/').pop();
-
-    const fileParts = filename.split('-');
-
-    const extractedFilename = fileParts.slice(1).join('-');
-
-    return extractedFilename;
-  }
+  return extension ? extension : 'Unavailable';
 }
+
 export const handleOpenLink = link => {
   if (link.startsWith('https://')) {
     Linking.openURL(link);
