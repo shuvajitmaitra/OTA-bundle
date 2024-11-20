@@ -15,6 +15,9 @@ import PurchasedScreen from '../screens/Main/PurchasedScreen';
 import LandingScreenMain from '../screens/LandingScreen/LandingScreenMain';
 import BootCampsDetails from '../screens/LandingScreen/BootCampsDetails';
 import UserDashboard from '../screens/Dashboard/UserDashboard';
+import CourseDetails from '../components/PurchasedCom/CourseDetails';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {View} from 'react-native';
 
 const HomeStack = createStackNavigator();
 
@@ -103,6 +106,29 @@ const HomeStackScreen = () => {
           headerTitle: '',
           header: () => {
             return <Header navigation={navigation} />;
+          },
+        })}
+      />
+      <HomeStack.Screen
+        name="CourseDetails"
+        component={CourseDetails}
+        options={({route, navigation}) => ({
+          headerShown: true,
+          title: '',
+          headerLeft: () => (
+            <AntDesign
+              name="arrowleft"
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}
+              size={24}
+              color={Colors.Heading}
+            />
+          ),
+          headerStyle: {
+            backgroundColor: Colors.Background_color,
+            elevation: 0,
           },
         })}
       />

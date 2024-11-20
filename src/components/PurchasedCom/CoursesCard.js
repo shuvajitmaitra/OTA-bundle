@@ -1,24 +1,27 @@
-import { Alert, ImageBackground, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import Divider from "../SharedComponent/Divider";
-import MyButton from "../AuthenticationCom/MyButton";
-import { useNavigation } from "@react-navigation/native";
-import Images from "../../constants/Images";
-import { useGlobalAlert } from "../SharedComponent/GlobalAlertContext";
+import {Alert, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import Divider from '../SharedComponent/Divider';
+import MyButton from '../AuthenticationCom/MyButton';
+import {useNavigation} from '@react-navigation/native';
+import Images from '../../constants/Images';
+import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
 
-const CoursesCard = ({ item }) => {
+const CoursesCard = ({item}) => {
   const navigation = useNavigation();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { showAlert } = useGlobalAlert();
+  const {showAlert} = useGlobalAlert();
 
-  console.log("item?.amount", JSON.stringify(item?.amount, null, 1));
   return (
     <View style={styles.cardContainer}>
-      <View style={{ borderRadius: 10, overflow: "hidden" }}>
+      <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <ImageBackground
           source={
             item?.course?.image
@@ -28,18 +31,16 @@ const CoursesCard = ({ item }) => {
               : Images.DEFAULT_IMAGE
           }
           resizeMode="contain"
-          style={styles.cardImage}
-        >
+          style={styles.cardImage}>
           <View
             style={{
-              height: "100%",
-              width: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.4)",
-              justifyContent: "center",
-              alignItems: "center",
+              height: '100%',
+              width: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.4)',
+              justifyContent: 'center',
+              alignItems: 'center',
               borderRadius: 10,
-            }}
-          >
+            }}>
             <Text style={styles.imageText}>{item?.course?.title}</Text>
           </View>
         </ImageBackground>
@@ -52,20 +53,19 @@ const CoursesCard = ({ item }) => {
             styles.statusText,
             {
               color:
-                item?.status === "pending"
-                  ? "#EF7817"
-                  : item?.status === "active"
+                item?.status === 'pending'
+                  ? '#EF7817'
+                  : item?.status === 'active'
                   ? Colors.Primary
-                  : item?.status === "reject"
+                  : item?.status === 'reject'
                   ? Colors.Red
                   : Colors.Red,
             },
-          ]}
-        >
+          ]}>
           {item?.status}
         </Text>
       </View>
-      <View style={[styles.statusContainer, { gap: 20 }]}>
+      <View style={[styles.statusContainer, {gap: 20}]}>
         <View style={styles.subContainer}>
           <Text style={styles.statusTitle}>Total Fee:</Text>
           <Text style={styles.normalText}>${item?.amount}</Text>
@@ -79,35 +79,43 @@ const CoursesCard = ({ item }) => {
       <View style={styles.btnArea}>
         <MyButton
           onPress={() =>
-            navigation.navigate("HomeStack", {
-              screen: "MyPaymentScreen",
-              params: { courseId: item?._id },
+            navigation.navigate('HomeStack', {
+              screen: 'MyPaymentScreen',
+              params: {courseId: item?._id},
             })
           }
-          title={"View Payment"}
-          bg={!item.paid || item?.amount <= 0 ? Colors.DisablePrimaryBackgroundColor : Colors.Primary}
-          colour={!item.paid || item?.amount <= 0 ? Colors.DisablePrimaryButtonTextColor : Colors.PureWhite}
+          title={'View Payment'}
+          bg={
+            !item.paid || item?.amount <= 0
+              ? Colors.DisablePrimaryBackgroundColor
+              : Colors.Primary
+          }
+          colour={
+            !item.paid || item?.amount <= 0
+              ? Colors.DisablePrimaryButtonTextColor
+              : Colors.PureWhite
+          }
           disable={!item.paid || item?.amount <= 0}
         />
         <MyButton
           onPress={() => {
-            if (item?.status === "pending") {
+            if (item?.status === 'pending') {
               showAlert({
-                title: "Access Denied",
-                type: "warning",
-                message: "You cannot access the course until it is active.",
+                title: 'Access Denied',
+                type: 'warning',
+                message: 'You cannot access the course until it is active.',
               });
             } else {
-              navigation.navigate("HomeStack", {
-                screen: "CourseDetails",
+              navigation.navigate('HomeStack', {
+                screen: 'CourseDetails',
                 params: {
                   slug: item?.course?.slug,
                 },
               });
             }
           }}
-          title={"Go to Course"}
-          bg={"rgba(84, 106, 126, 1)"}
+          title={'Go to Course'}
+          bg={'rgba(84, 106, 126, 1)'}
           colour={Colors.PureWhite}
         />
       </View>
@@ -120,7 +128,7 @@ export default CoursesCard;
 const getStyles = (Colors, item) =>
   StyleSheet.create({
     btnArea: {
-      flexDirection: "row",
+      flexDirection: 'row',
       //   paddingHorizontal: 100,
       //   backgroundColor: "red",
       //   paddingHorizontal: responsiveScreenWidth(0.5),
@@ -131,13 +139,13 @@ const getStyles = (Colors, item) =>
       fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(1.8),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     statusText: {
       fontFamily: CustomFonts.REGULAR,
 
       fontSize: responsiveScreenFontSize(1.8),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     statusTitle: {
       fontFamily: CustomFonts.MEDIUM,
@@ -146,14 +154,14 @@ const getStyles = (Colors, item) =>
     },
 
     subContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: 5,
       //   marginTop: responsiveScreenHeight(0.5),
     },
     statusContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: 5,
       marginTop: responsiveScreenHeight(0.5),
     },
@@ -167,12 +175,12 @@ const getStyles = (Colors, item) =>
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.PureWhite,
       fontSize: responsiveScreenFontSize(2),
-      width: "70%",
-      textAlign: "center",
+      width: '70%',
+      textAlign: 'center',
     },
 
     cardImage: {
-      width: "100%",
+      width: '100%',
       height: 200,
       borderRadius: 10,
     },
