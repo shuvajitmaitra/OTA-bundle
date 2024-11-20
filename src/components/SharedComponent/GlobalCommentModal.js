@@ -1,4 +1,14 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from 'react-native-reanimated';
+
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false, // Enables strict mode
+});
+
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -8,10 +18,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {BottomSheetModal, BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {useTheme} from '../../context/ThemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {setBottomSheetVisible} from '../../store/reducer/ModalReducer';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -26,6 +37,7 @@ import axiosInstance from '../../utility/axiosInstance';
 import Comment from '../CommunityCom/Comment';
 import Divider from './Divider';
 import SendIcon from '../../assets/Icons/SendIcon';
+import {BackHandler} from 'react-native';
 
 const GlobalCommentModal = () => {
   const dispatch = useDispatch();
@@ -38,6 +50,8 @@ const GlobalCommentModal = () => {
   const {comments, commentId} = useSelector(state => state.comment);
   const {bottomSheetVisible} = useSelector(state => state.modal);
   const [isCommenting, setCommenting] = useState(false);
+  const snapPoints = useMemo(() => ['100%'], []);
+  const [isLoading, setIsLoading] = useState(false);
   const handleCreateComment = () => {
     if (!commentText.trim()) {
       return showAlertModal({
@@ -49,7 +63,7 @@ const GlobalCommentModal = () => {
 
     setCommenting(true);
     axiosInstance
-      .post('/content/comment/create', {
+      .post(`/content/comment/create`, {
         comment: commentText,
         contentId: commentId,
       })
@@ -57,20 +71,21 @@ const GlobalCommentModal = () => {
         if (res.data.success) {
           getComments(commentId);
         }
-        setCommentText('');
-        setCommenting(false);
       })
       .catch(error => {
         console.log('error to create comment', JSON.stringify(error, null, 1));
+      })
+      .finally(() => {
+        setCommentText('');
         setCommenting(false);
       });
   };
   const handleSheetChanges = useCallback(index => {
+    console.log(index);
     if (index === -1) {
       dispatch(setBottomSheetVisible(false));
       textInputRef.current?.blur();
-    }
-    if (index === 0) {
+    } else if (index === 0) {
       textInputRef.current?.focus();
     }
   }, []);
@@ -78,20 +93,42 @@ const GlobalCommentModal = () => {
   useEffect(() => {
     if (bottomSheetRef.current) {
       if (bottomSheetVisible) {
-        bottomSheetRef.current.present();
+        bottomSheetRef.current?.expand();
       } else {
-        bottomSheetRef.current.close();
+        bottomSheetRef.current?.close();
       }
     }
   }, [bottomSheetVisible]);
 
-  const filteredComments = comments.filter(
-    comment => comment.contentId === commentId,
+  useEffect(() => {
+    const backAction = () => {
+      if (bottomSheetVisible) {
+        dispatch(setBottomSheetVisible(false)); // Close the modal
+        return true; // Prevent the default back action
+      }
+      return false; // Allow the default back action
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove(); // Cleanup the listener on unmount
+  }, [bottomSheetVisible]);
+
+  const filteredComments = useMemo(
+    () => comments.filter(comment => comment.contentId === commentId),
+    [comments, commentId],
   );
+
   return (
-    <BottomSheetModal
+    // <Text>Hello</Text>
+    <BottomSheet
       ref={bottomSheetRef}
-      snapPoints={['100%']}
+      index={-1}
+      snapPoints={snapPoints}
+      enablePanDownToClose={true}
       onChange={handleSheetChanges}
       style={styles.bottomSheet}
       backgroundStyle={styles.bottomSheetBackground}
@@ -108,7 +145,7 @@ const GlobalCommentModal = () => {
 
               return (
                 <React.Fragment key={comment._id}>
-                  {(index === 0 || !isSameDate) && (
+                  {(index == 0 || !isSameDate) && (
                     <View style={styles.commentDateContainer}>
                       <Text style={styles.commentDate}>
                         {/* {moment(comments[index].createdAt).format("MMM DD, YYYY")} */}
@@ -121,7 +158,33 @@ const GlobalCommentModal = () => {
               );
             })
           ) : (
-            <Text style={styles.noDataText}>No comments available</Text>
+            // <Text style={styles.noDataText}>No comments available</Text>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                // backgroundColor: "green",
+                minHeight: '80%',
+              }}>
+              <FontAwesome name="comments" size={111} color={Colors.BodyText} />
+              <Text
+                style={{
+                  color: Colors.BodyText,
+                  fontSize: responsiveScreenFontSize(2.5),
+                  fontFamily: CustomFonts.SEMI_BOLD,
+                  marginTop: responsiveScreenHeight(2.5),
+                }}>
+                No comments yet
+              </Text>
+              <Text
+                style={{
+                  color: Colors.BodyText,
+                  fontSize: responsiveScreenFontSize(1.6),
+                  fontFamily: CustomFonts.SEMI_BOLD,
+                }}>
+                Be the first to comment
+              </Text>
+            </View>
           )}
         </View>
       </BottomSheetScrollView>
@@ -150,9 +213,9 @@ const GlobalCommentModal = () => {
               styles.submitBtn,
               {
                 paddingBottom:
-                  Platform.OS === 'ios'
+                  Platform.OS == 'ios'
                     ? responsiveScreenHeight(0.5)
-                    : responsiveScreenHeight(1),
+                    : responsiveScreenHeight(0.5),
               },
             ]}
             onPress={() => {
@@ -163,14 +226,12 @@ const GlobalCommentModal = () => {
                 <LoadingSmall color={Colors.Primary} />
               </View>
             ) : (
-              // <Text style={styles.submitBtnText}>Submit</Text>
-              // <FontAwesome name="send" size={28} color={Colors.Primary} />
-              <SendIcon />
+              <SendIcon size={30} />
             )}
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    </BottomSheetModal>
+    </BottomSheet>
   );
 };
 
@@ -208,8 +269,8 @@ const getStyles = Colors =>
       color: Colors.BodyText,
       backgroundColor: Colors.BorderColor,
       paddingVertical: responsiveScreenHeight(1),
-      maxHeight: responsiveScreenWidth(30),
-      borderRadius: 50,
+      maxHeight: 400,
+      borderRadius: 30,
     },
     container: {
       flex: 1,
@@ -262,7 +323,7 @@ const getStyles = Colors =>
       marginBottom: responsiveScreenHeight(2),
       paddingRight: responsiveScreenWidth(4),
       paddingVertical: responsiveScreenHeight(1),
-      borderRadius: 50,
+      borderRadius: 30,
       paddingLeft: 10,
     },
   });

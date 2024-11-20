@@ -28,6 +28,7 @@ import {useSelector} from 'react-redux';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import VideoPlayer from '../../components/ProgramCom/VideoPlayer';
 import CommentSection from '../../components/CommentCom/CommentSection';
+import CommentField from '../../components/CommentCom/CommentField';
 
 const AudioVideoDetails = () => {
   const navigation = useNavigation();
@@ -159,128 +160,119 @@ const AudioVideoDetails = () => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardAvoidingView}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {medias.length > 1 && (
-            <View style={styles.btnContainer}>
-              {currentMediaIndex > 0 && (
-                <TouchableOpacity
-                  onPress={handlePrevious}
-                  style={styles.backBtn}>
-                  <ArrowLeftWhite />
-                  <Text style={styles.btnText}>Previous</Text>
-                </TouchableOpacity>
-              )}
-              {currentMediaIndex < medias.length - 1 && (
-                <TouchableOpacity onPress={handleNext} style={styles.nextBtn}>
-                  <Text style={styles.btnText}>Next</Text>
-                  <ArrowRightWhite />
-                </TouchableOpacity>
-              )}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {medias.length > 1 && (
+          <View style={styles.btnContainer}>
+            {currentMediaIndex > 0 && (
+              <TouchableOpacity onPress={handlePrevious} style={styles.backBtn}>
+                <ArrowLeftWhite />
+                <Text style={styles.btnText}>Previous</Text>
+              </TouchableOpacity>
+            )}
+            {currentMediaIndex < medias.length - 1 && (
+              <TouchableOpacity onPress={handleNext} style={styles.nextBtn}>
+                <Text style={styles.btnText}>Next</Text>
+                <ArrowRightWhite />
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
+
+        {/* Media Player */}
+        <View style={styles.mediaContainer}>
+          {medias[currentMediaIndex]?.mediaType === 'video' && (
+            <VideoPlayer url={medias[currentMediaIndex]?.url} />
+          )}
+          {medias[currentMediaIndex]?.mediaType === 'audio' && (
+            <View style={trackPlayerStyles.container}>
+              <Text style={trackPlayerStyles.title}>
+                {medias[currentMediaIndex]?.title}
+              </Text>
+              <Text style={trackPlayerStyles.artist}>
+                {medias[currentMediaIndex]?.createdBy?.fullName ||
+                  'Unknown Artist'}
+              </Text>
+              <TouchableOpacity
+                onPress={togglePlayback}
+                style={trackPlayerStyles.playButton}>
+                <Text style={trackPlayerStyles.playButtonText}>
+                  {isPlaying ? 'Pause' : 'Play'}
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
+        </View>
 
-          {/* Media Player */}
-          <View style={styles.mediaContainer}>
-            {medias[currentMediaIndex]?.mediaType === 'video' && (
-              <VideoPlayer url={medias[currentMediaIndex]?.url} />
-            )}
-            {medias[currentMediaIndex]?.mediaType === 'audio' && (
-              <View style={trackPlayerStyles.container}>
-                <Text style={trackPlayerStyles.title}>
-                  {medias[currentMediaIndex]?.title}
-                </Text>
-                <Text style={trackPlayerStyles.artist}>
-                  {medias[currentMediaIndex]?.createdBy?.fullName ||
-                    'Unknown Artist'}
-                </Text>
-                <TouchableOpacity
-                  onPress={togglePlayback}
-                  style={trackPlayerStyles.playButton}>
-                  <Text style={trackPlayerStyles.playButtonText}>
-                    {isPlaying ? 'Pause' : 'Play'}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
+        {/* Media Details */}
+        <Text style={styles.heading}>{medias[currentMediaIndex]?.title}</Text>
 
-          {/* Media Details */}
-          <Text style={styles.heading}>{medias[currentMediaIndex]?.title}</Text>
-
-          <View style={styles.userInfo}>
-            <Text style={styles.title}>Uploaded By:</Text>
-            <View style={styles.user}>
-              <Image
-                source={
-                  medias[currentMediaIndex]?.createdBy?.profilePicture
-                    ? {
-                        uri: medias[currentMediaIndex]?.createdBy
-                          ?.profilePicture,
-                      }
-                    : Images.DEFAULT_IMAGE
-                }
-                style={styles.img}
-              />
-              <Text style={styles.name}>
-                {medias[currentMediaIndex]?.createdBy?.fullName ||
-                  'Name unavailable'}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.dateContainer}>
-            <Text style={styles.dateTitle}>Uploaded Date: </Text>
-            <Text style={styles.date}>
-              {moment(medias[currentMediaIndex]?.createdAt).format(
-                'D MMM, YYYY',
-              )}
+        <View style={styles.userInfo}>
+          <Text style={styles.title}>Uploaded By:</Text>
+          <View style={styles.user}>
+            <Image
+              source={
+                medias[currentMediaIndex]?.createdBy?.profilePicture
+                  ? {
+                      uri: medias[currentMediaIndex]?.createdBy?.profilePicture,
+                    }
+                  : Images.DEFAULT_IMAGE
+              }
+              style={styles.img}
+            />
+            <Text style={styles.name}>
+              {medias[currentMediaIndex]?.createdBy?.fullName ||
+                'Name unavailable'}
             </Text>
           </View>
+        </View>
 
-          <Text style={styles.title}>Resources</Text>
+        <View style={styles.dateContainer}>
+          <Text style={styles.dateTitle}>Uploaded Date: </Text>
+          <Text style={styles.date}>
+            {moment(medias[currentMediaIndex]?.createdAt).format('D MMM, YYYY')}
+          </Text>
+        </View>
 
-          {/* Resource Buttons */}
-          {medias[currentMediaIndex]?.data && (
-            <ScrollView
-              horizontal
-              style={styles.resource}
-              contentContainerStyle={styles.buttonContainer}
-              showsHorizontalScrollIndicator={false}>
-              {['summary', 'implementation', 'interview', 'behavioral']
-                ?.filter(
-                  buttonLabel => medias[currentMediaIndex].data[buttonLabel],
-                )
-                .map(buttonLabel => (
-                  <TouchableOpacity
-                    key={buttonLabel}
+        <Text style={styles.title}>Resources</Text>
+
+        {/* Resource Buttons */}
+        {medias[currentMediaIndex]?.data && (
+          <ScrollView
+            horizontal
+            style={styles.resource}
+            contentContainerStyle={styles.buttonContainer}
+            showsHorizontalScrollIndicator={false}>
+            {['summary', 'implementation', 'interview', 'behavioral']
+              ?.filter(
+                buttonLabel => medias[currentMediaIndex].data[buttonLabel],
+              )
+              .map(buttonLabel => (
+                <TouchableOpacity
+                  key={buttonLabel}
+                  style={[
+                    styles.btn,
+                    activeButton === buttonLabel && styles.activeButton,
+                  ]}
+                  onPress={() => setActiveButton(buttonLabel)}>
+                  <Text
                     style={[
-                      styles.btn,
-                      activeButton === buttonLabel && styles.activeButton,
-                    ]}
-                    onPress={() => setActiveButton(buttonLabel)}>
-                    <Text
-                      style={[
-                        styles.resourceBtn,
-                        activeButton === buttonLabel && styles.activeBtnText,
-                      ]}>
-                      {buttonLabel}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-            </ScrollView>
-          )}
+                      styles.resourceBtn,
+                      activeButton === buttonLabel && styles.activeBtnText,
+                    ]}>
+                    {buttonLabel}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+          </ScrollView>
+        )}
 
-          {/* Content */}
-          <Markdown style={styles.markdownStyle}>{content}</Markdown>
+        {/* Content */}
+        <Markdown style={styles.markdownStyle}>{content}</Markdown>
 
-          {/* Comment Section */}
-          <CommentSection postId={medias[currentMediaIndex]?._id} />
-        </ScrollView>
-      </KeyboardAvoidingView>
+        {/* Comment Section */}
+        {/* <CommentSection   /> */}
+        <CommentField postId={medias[currentMediaIndex]?._id} />
+      </ScrollView>
     </View>
   );
 };
@@ -328,7 +320,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.White,
     },
     keyboardAvoidingView: {
-      // flex: 1, // Optional: Uncomment if needed
+      flex: 1, // Optional: Uncomment if needed
     },
     scrollContainer: {
       flexGrow: 1,

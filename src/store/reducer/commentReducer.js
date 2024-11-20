@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   comments: [],
   selectedComment: '',
+  commentId: '',
 };
 
 const commentSlice = createSlice({
@@ -15,10 +16,14 @@ const commentSlice = createSlice({
     setSelectedComment: (state, {payload}) => {
       state.selectedComment = payload;
     },
+    setCommentId: (state, {payload}) => {
+      state.commentId = payload;
+    },
   },
 });
 
-export const {setComments, setSelectedComment} = commentSlice.actions;
+export const {setComments, setSelectedComment, setCommentId} =
+  commentSlice.actions;
 
 // Export the reducer
 export default commentSlice.reducer;
