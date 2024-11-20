@@ -2,12 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {
   Image,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   View,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   Keyboard,
   Pressable,
 } from 'react-native';

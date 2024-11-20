@@ -1,3 +1,5 @@
+// src/components/FileUploader.js
+
 import React, {useState} from 'react';
 import {
   View,
@@ -8,8 +10,7 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import DocumentPicker from 'react-native-document-picker'; // Changed import
-import axiosInstance from '../../utility/axiosInstance';
+import DocumentPicker from 'react-native-document-picker';
 import {useGlobalAlert} from './GlobalAlertContext';
 import {useTheme} from '../../context/ThemeContext';
 import {
@@ -19,7 +20,8 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../constants/CustomFonts';
 import CrossCircle from '../../assets/Icons/CrossCircle';
-import {getFileTypeFromUri} from '../TechnicalTestCom/TestNow';
+import {getFileTypeFromUri} from '../TechnicalTestCom/TestNow'; // Adjusted import path
+import axiosInstance from '../../utility/axiosInstance';
 
 const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
   const [isUploading, setIsUploading] = useState(false);
@@ -29,17 +31,17 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
 
   const UploadAnyFile = async () => {
     try {
-      // Use react-native-document-picker's API
-      const results = await DocumentPicker.pickMultiple({
+      const results = await DocumentPicker.pick({
         type: [
           DocumentPicker.types.images,
           DocumentPicker.types.pdf,
           DocumentPicker.types.doc,
           DocumentPicker.types.docx,
         ],
+        allowMultiSelection: true, // Multi-selection support
       });
 
-      if (results.length > maxFiles) {
+      if (results.length + (attachments?.length || 0) > maxFiles) {
         return showAlert({
           title: 'Limit Exceeded',
           type: 'warning',
@@ -51,12 +53,10 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
 
       setIsUploading(true);
 
-      // Process each selected file
       const uploadPromises = results.map(async file => {
         try {
           console.log('Processing file:', JSON.stringify(file, null, 2));
 
-          const isImage = file.type && file.type.startsWith('image');
           const data = {
             uri: file.uri,
             name:
@@ -67,7 +67,7 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
 
           console.log('Form Data:', JSON.stringify(data, null, 2));
 
-          let formData = new FormData();
+          const formData = new FormData();
           formData.append('file', data);
 
           const config = {
@@ -93,10 +93,6 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
             console.error('Server error:', error.response.data);
           } else if (error.request) {
             console.error('Network error:', error.request);
-            console.log(
-              'Network error:',
-              JSON.stringify(error.request, null, 2),
-            );
           } else {
             console.error('Error:', error.message);
           }
@@ -110,7 +106,6 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
       setAttachments(prev => [...prev, ...uploadedFiles]);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker, exit gracefully
         console.log('User cancelled document picker');
       } else {
         console.error('Unknown error:', err);
@@ -135,14 +130,8 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
           disabled={isUploading}>
           <Text style={styles.uploadText}>Upload Attachment</Text>
           {isUploading && (
-            <View
-              style={{
-                position: 'absolute',
-                zIndex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <ActivityIndicator color={Colors?.Primary} size="large" />
+            <View style={styles.activityIndicator}>
+              <ActivityIndicator color={Colors.Primary} size="large" />
             </View>
           )}
         </TouchableOpacity>
@@ -159,21 +148,27 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
         {attachments?.map(item => (
           <View key={item} style={{position: 'relative'}}>
             {getFileTypeFromUri(item) === 'image' ? (
-              <Image style={{height: 100, width: 100}} source={{uri: item}} />
+              <Image
+                style={styles.previewImage}
+                source={{uri: item}}
+                resizeMode="cover"
+              />
             ) : getFileTypeFromUri(item) === 'pdf' ? (
               <Image
-                style={{height: 100, width: 100}}
+                style={styles.previewImage}
                 source={require('../../assets/Images/pdf.png')}
+                resizeMode="cover"
               />
             ) : (
               <Image
-                style={{height: 100, width: 100}}
+                style={styles.previewImage}
                 source={require('../../assets/Images/doc.png')}
+                resizeMode="cover"
               />
             )}
             <TouchableOpacity
               onPress={() => removeDocument(item)}
-              style={styles.CrossCircle}>
+              style={styles.crossCircle}>
               <CrossCircle color={Colors.Red} />
             </TouchableOpacity>
           </View>
@@ -202,7 +197,6 @@ const getStyles = Colors =>
       borderStyle: 'dashed',
       borderColor: Colors.Primary,
       borderWidth: 1.5,
-      display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -222,16 +216,27 @@ const getStyles = Colors =>
       flexWrap: 'wrap',
       gap: 10,
     },
-    CrossCircle: {
+    crossCircle: {
       width: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
       height: 20,
-      borderRadius: 100,
+      borderRadius: 10,
+      backgroundColor: Colors.Background,
       position: 'absolute',
       top: -10,
       right: -10,
-      backgroundColor: Colors.Background, // Optional: Add a background color for better visibility
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    activityIndicator: {
+      position: 'absolute',
+      zIndex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    previewImage: {
+      height: 100,
+      width: 100,
+      borderRadius: 8,
     },
   });
 
