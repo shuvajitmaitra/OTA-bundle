@@ -14,6 +14,7 @@ import Header from '../components/SharedComponent/Header';
 import PurchasedScreen from '../screens/Main/PurchasedScreen';
 import LandingScreenMain from '../screens/LandingScreen/LandingScreenMain';
 import BootCampsDetails from '../screens/LandingScreen/BootCampsDetails';
+import UserDashboard from '../screens/Dashboard/UserDashboard';
 
 const HomeStack = createStackNavigator();
 
@@ -37,6 +38,13 @@ const HomeStackScreen = () => {
         component={Dashboard}
         options={{
           headerShown: false, // Hide header for Dashboard2
+        }}
+      />
+      <HomeStack.Screen
+        name="UserDashboard"
+        component={UserDashboard}
+        options={{
+          headerShown: false,
         }}
       />
       <HomeStack.Screen
