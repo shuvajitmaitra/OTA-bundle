@@ -3,6 +3,7 @@ import {Alert, Share} from 'react-native';
 import {showToast} from '../components/HelperFunction';
 import store from '../store';
 import Clipboard from '@react-native-clipboard/clipboard';
+import {setAlert} from '../store/reducer/ModalReducer';
 
 export const eventTypes = type => {
   return type == 'showNTell'
@@ -99,6 +100,13 @@ export function getHashtagTexts(text) {
     /^[a-zA-Z0-9_]+$/.test(tag),
   );
 }
+export function formattingDate(date) {
+  const dateObject = new Date(date);
+  const options = {year: 'numeric', month: 'short', day: 'numeric'};
+  const formattedDate = dateObject.toLocaleDateString('en-US', options);
+  return formattedDate;
+}
+
 export function generateRandomNumbers(max) {
   // Define the count based on the max value. Adjust the formula as needed.
   const count = Math.floor(max / 3);
@@ -141,4 +149,7 @@ export const nameTrim = fullName => {
   const n = fullName || 'New User';
   let name = n.split(' ').slice(0, 3).join(' ');
   return name;
+};
+export const showAlertModal = data => {
+  store.dispatch(setAlert({visible: true, data}));
 };

@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Pressable} from 'react-native';
 import Sound from 'react-native-sound';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import AudioWaveform from './AudioWaveform';

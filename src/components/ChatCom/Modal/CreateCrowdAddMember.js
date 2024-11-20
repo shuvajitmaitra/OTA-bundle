@@ -129,7 +129,7 @@ const CreateCrowdAddMember = ({
         }
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.response.data);
         // if (err.response && err.response.data) {
         //   // showAlert({
         //   //   title: 'Error',

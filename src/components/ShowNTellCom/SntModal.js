@@ -1,87 +1,102 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
-import Modal from "react-native-modal";
-import { TextInput } from "react-native";
-import ModalBackAndCrossButton from "../ChatCom/Modal/ModalBackAndCrossButton";
-import { useTheme } from "../../context/ThemeContext";
-import SearchIcon from "../../assets/Icons/SearchIcon";
-import MyButton from "../AuthenticationCom/MyButton";
-import CustomFonts from "../../constants/CustomFonts";
-import PlusCircleIcon from "../../assets/Icons/PlusCircleIcon";
-import CalenderIcon from "../../assets/Icons/CalenderIcon";
-import moment from "moment";
-import axiosInstance from "../../utility/axiosInstance";
-import UserIconTwo from "../../assets/Icons/UserIconTwo";
-import { useDispatch, useSelector } from "react-redux";
-import FileUploader from "../SharedComponent/FileUploder";
-import CrossCircle from "../../assets/Icons/CrossCircle";
-import CustomTimePicker from "../SharedComponent/CustomTimePicker";
-import UpdateEventNotificationContainer from "../Calendar/UpdateEventNotificationContainer";
-import { showToast } from "../HelperFunction";
-import { setAddShowNTell } from "../../store/reducer/showNTellReducer";
-import LoadingSmall from "../SharedComponent/LoadingSmall";
-import Images from "../../constants/Images";
-import { showAlertModal } from "../../utility/commonFunction";
-import RedCrossIcon from "../../assets/Icons/RedCrossIcon";
-import RequireFieldStar from "../../constants/RequireFieldStar";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import Modal from 'react-native-modal';
+import {TextInput} from 'react-native';
+import ModalBackAndCrossButton from '../ChatCom/Modal/ModalBackAndCrossButton';
+import {useTheme} from '../../context/ThemeContext';
+import SearchIcon from '../../assets/Icons/SearchIcon';
+import MyButton from '../AuthenticationCom/MyButton';
+import CustomFonts from '../../constants/CustomFonts';
+import PlusCircleIcon from '../../assets/Icons/PlusCircleIcon';
+import CalenderIcon from '../../assets/Icons/CalenderIcon';
+import moment from 'moment';
+import axiosInstance from '../../utility/axiosInstance';
+import UserIconTwo from '../../assets/Icons/UserIconTwo';
+import {useDispatch, useSelector} from 'react-redux';
+import FileUploader from '../SharedComponent/FileUploder';
+import CrossCircle from '../../assets/Icons/CrossCircle';
+import CustomTimePicker from '../SharedComponent/CustomTimePicker';
+import UpdateEventNotificationContainer from '../Calendar/UpdateEventNotificationContainer';
+import {showToast} from '../HelperFunction';
+import {setAddShowNTell} from '../../store/reducer/showNTellReducer';
+import LoadingSmall from '../SharedComponent/LoadingSmall';
+import Images from '../../constants/Images';
+import {showAlertModal} from '../../utility/commonFunction';
+import RedCrossIcon from '../../assets/Icons/RedCrossIcon';
+import RequireFieldStar from '../../constants/RequireFieldStar';
 
-export default function SntModal({ setIsSntModalVisible, isSntModalVisible, toggleSntModal }) {
+export default function SntModal({
+  setIsSntModalVisible,
+  isSntModalVisible,
+  toggleSntModal,
+}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { user } = useSelector((state) => state?.auth);
-  const { eventNotification } = useSelector((state) => state.calendar);
+  const {user} = useSelector(state => state?.auth);
+  const {eventNotification} = useSelector(state => state.calendar);
   const notifications = !eventNotification?.length
     ? [
         {
           timeBefore: 5,
-          methods: ["push"],
+          methods: ['push'],
           chatGroups: [],
         },
       ]
     : eventNotification;
   const [allUser, setAllUser] = useState([]);
   const [users, setUsers] = useState([]);
-  const [title, setTitle] = useState("");
-  const [agenda, setAgenda] = useState("");
+  const [title, setTitle] = useState('');
+  const [agenda, setAgenda] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(""); // Store the selected date
-  const [selectedCustomTime, setSelectedCustomTime] = useState(""); // Store the selected time
+  const [selectedDate, setSelectedDate] = useState(''); // Store the selected date
+  const [selectedCustomTime, setSelectedCustomTime] = useState(''); // Store the selected time
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const clearState = () => {
-    setTitle("");
+    setTitle('');
     setSelectedUsers([]);
-    setAgenda("");
+    setAgenda('');
     setAttachments([]);
-    setSelectedDate("");
-    setSelectedCustomTime("");
+    setSelectedDate('');
+    setSelectedCustomTime('');
   };
 
-  data = {
-    agenda: "dddd",
-    attachments: [],
-    title: "dllldld",
-    date: "Sat Sep 21 2024 13:52:03 GMT+0600",
-    notifications: [
-      {
-        timeBefore: "15",
-        methods: ["inbox"],
-        chatGroups: [],
-      },
-    ],
-    users: ["662882ef82d3120019fade53", "662776ef82d3120019fa94ec"],
-  };
+  // data = {
+  //   agenda: 'dddd',
+  //   attachments: [],
+  //   title: 'dllldld',
+  //   date: 'Sat Sep 21 2024 13:52:03 GMT+0600',
+  //   notifications: [
+  //     {
+  //       timeBefore: '15',
+  //       methods: ['inbox'],
+  //       chatGroups: [],
+  //     },
+  //   ],
+  //   users: ['662882ef82d3120019fade53', '662776ef82d3120019fa94ec'],
+  // };
   function formatDate(dateStr, timeStr) {
-    let [time, modifier] = timeStr.split(" ");
-    let [hours, minutes] = time.split(":");
+    let [time, modifier] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':');
 
-    if (modifier === "PM" && hours !== "12") {
+    if (modifier === 'PM' && hours !== '12') {
       hours = parseInt(hours, 10) + 12;
-    } else if (modifier === "AM" && hours === "12") {
-      hours = "00";
+    } else if (modifier === 'AM' && hours === '12') {
+      hours = '00';
     }
 
     let date = new Date(dateStr);
@@ -94,25 +109,25 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
   const handleSubmit = () => {
     if (!title) {
       return showAlertModal({
-        title: "Empty Title",
-        type: "warning",
-        message: "Title field is required",
+        title: 'Empty Title',
+        type: 'warning',
+        message: 'Title field is required',
       });
     }
 
     if (!agenda) {
       return showAlertModal({
-        title: "Empty Agenda",
-        type: "warning",
-        message: "Agenda field is required",
+        title: 'Empty Agenda',
+        type: 'warning',
+        message: 'Agenda field is required',
       });
     }
 
     if (!selectedDate || !selectedCustomTime) {
       return showAlertModal({
-        title: "Empty Date/Time",
-        type: "warning",
-        message: "Date and time are required",
+        title: 'Empty Date/Time',
+        type: 'warning',
+        message: 'Date and time are required',
       });
     }
     const date = formatDate(selectedDate, selectedCustomTime);
@@ -122,48 +137,48 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
       agenda,
       date,
       attachments,
-      users: selectedUsers.map((user) => user._id),
+      users: selectedUsers.map(user => user._id),
       creator: user._id,
-      reviewDetails: { mark: 0, answer: "" },
+      reviewDetails: {mark: 0, answer: ''},
       notifications,
     };
     axiosInstance
-      .post("/show-tell/add", data)
-      .then((res) => {
+      .post('/show-tell/add', data)
+      .then(res => {
         setIsSntModalVisible(false);
         if (res.data.success) {
           dispatch(setAddShowNTell(res.data.item || {}));
           // console.log("resp", JSON.stringify(res?.data, null, 1));
-          showToast("Show n Tell created successfully!");
+          showToast('Show n Tell created successfully!');
           clearState();
         }
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.error("Error submitting Show n Tell", error);
+      .catch(error => {
+        console.error('Error submitting Show n Tell', error);
         setIsLoading(false);
         showAlertModal({
-          title: "Failed",
-          type: "warning",
-          message: "Failed to create Show n Tell. Please try again.",
+          title: 'Failed',
+          type: 'warning',
+          message: 'Failed to create Show n Tell. Please try again.',
         });
       });
   };
 
   useEffect(() => {
     axiosInstance
-      .post("user/filter", { query: "" })
-      .then((res) => {
+      .post('user/filter', {query: ''})
+      .then(res => {
         setUsers(res.data.users);
         setAllUser(res.data.users);
       })
-      .catch((error) => {
-        console.log("error snt modal", JSON.stringify(error, null, 1));
+      .catch(error => {
+        console.log('error snt modal', JSON.stringify(error, null, 1));
       });
   }, []);
 
-  const handleUserSearch = (text) => {
-    setUsers(allUser?.filter((item) => item?.fullName?.includes(text)));
+  const handleUserSearch = text => {
+    setUsers(allUser?.filter(item => item?.fullName?.includes(text)));
   };
 
   return (
@@ -177,7 +192,9 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
           </View>
           <ScrollView>
             <Text style={styles.modalHeading}>Create Show N Tell</Text>
-            <Text style={styles.modalSubHeading}>Complete the form to add ShowNTell.</Text>
+            <Text style={styles.modalSubHeading}>
+              Complete the form to add ShowNTell.
+            </Text>
 
             <View>
               <Text style={styles.title}>
@@ -185,7 +202,9 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
                 <RequireFieldStar />
               </Text>
               <TextInput
-                keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
                 style={styles.input}
                 placeholderTextColor={Colors.BodyText}
                 multiline={true}
@@ -200,7 +219,9 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
                 <RequireFieldStar />
               </Text>
               <TextInput
-                keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
                 style={styles.agendaInput}
                 placeholderTextColor={Colors.BodyText}
                 multiline={true}
@@ -220,12 +241,11 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
                 style={[
                   styles.input,
                   {
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                   },
-                ]}
-              >
+                ]}>
                 {/* <Text
               style={{
                 paddingVertical: responsiveScreenHeight(0.5),
@@ -245,56 +265,61 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
                     paddingVertical: responsiveScreenHeight(0.5),
                     fontFamily: CustomFonts.REGULAR,
                     color: Colors.BodyText,
-                  }}
-                >
+                  }}>
                   {selectedDate && selectedCustomTime
-                    ? `${moment(selectedDate).format("D MMM, YYYY")} ${selectedCustomTime}`
-                    : "Pick a date"}
+                    ? `${moment(selectedDate).format(
+                        'D MMM, YYYY',
+                      )} ${selectedCustomTime}`
+                    : 'Pick a date'}
                 </Text>
                 <View>
                   <CalenderIcon size={18} color={Colors.BodyText} />
                 </View>
               </TouchableOpacity>
             </View>
-            <FileUploader setAttachments={setAttachments} attachments={attachments} />
+            <FileUploader
+              setAttachments={setAttachments}
+              attachments={attachments}
+            />
 
             <View style={styles.searchContainer}>
               <View style={styles.search}>
                 <SearchIcon></SearchIcon>
                 <TextInput
-                  keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                  keyboardAppearance={
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                  }
                   numberOfLines={1}
-                  style={[styles.modalSubHeading, { width: "90%" }]}
+                  style={[styles.modalSubHeading, {width: '90%'}]}
                   placeholderTextColor={Colors.BodyText}
                   placeholder="Search for users to share"
-                  onChangeText={(text) => handleUserSearch(text)}
+                  onChangeText={text => handleUserSearch(text)}
                 />
               </View>
               <View>
                 {selectedUsers?.length > 0 && (
                   <>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={false}>
                       <View
                         // style={{
                         //   flexDirection: "row",
                         //   gap: 10,
                         //   marginTop: responsiveScreenHeight(1),
                         // }}
-                        style={styles.addedContainer}
-                      >
+                        style={styles.addedContainer}>
                         {selectedUsers?.map((item, index) => (
                           <View
                             key={index}
                             style={{
-                              alignItems: "center",
-                            }}
-                          >
+                              alignItems: 'center',
+                            }}>
                             <View
                               style={{
-                                alignItems: "center",
-                                position: "relative",
-                              }}
-                            >
+                                alignItems: 'center',
+                                position: 'relative',
+                              }}>
                               {/* <Image
                               source={
                                 item?.profilePicture
@@ -308,27 +333,38 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
                             /> */}
                               <View>
                                 {item.profilePicture ? (
-                                  <Image source={{ uri: item.profilePicture }} style={styles.checkedImage} />
+                                  <Image
+                                    source={{uri: item.profilePicture}}
+                                    style={styles.checkedImage}
+                                  />
                                 ) : (
-                                  <UserIconTwo style={styles.checkedImage} size={50} />
+                                  <UserIconTwo
+                                    style={styles.checkedImage}
+                                    size={50}
+                                  />
                                 )}
                               </View>
                               <TouchableOpacity
                                 onPress={() => {
-                                  setSelectedUsers(selectedUsers?.filter((i) => i._id !== item._id));
+                                  setSelectedUsers(
+                                    selectedUsers?.filter(
+                                      i => i._id !== item._id,
+                                    ),
+                                  );
                                 }}
                                 activeOpacity={0.5}
                                 style={{
-                                  position: "absolute",
+                                  position: 'absolute',
                                   bottom: responsiveScreenHeight(1),
                                   right: responsiveScreenWidth(0),
-                                }}
-                              >
+                                }}>
                                 <RedCrossIcon />
                               </TouchableOpacity>
                             </View>
                             <Text style={styles.checkedText}>
-                              {item?.fullName?.split(" ")?.length > 2 ? `${item?.fullName.split(" ")[0]}` : `${item?.fullName}`}
+                              {item?.fullName?.split(' ')?.length > 2
+                                ? `${item?.fullName.split(' ')[0]}`
+                                : `${item?.fullName}`}
                             </Text>
                           </View>
                         ))}
@@ -344,12 +380,15 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
                       <View style={styles.user}>
                         <View>
                           {item.profilePicture ? (
-                            <Image source={{ uri: item.profilePicture }} style={styles.img} />
+                            <Image
+                              source={{uri: item.profilePicture}}
+                              style={styles.img}
+                            />
                           ) : (
                             <UserIconTwo size={50} />
                           )}
                         </View>
-                        <View style={{ flexBasis: "50%" }}>
+                        <View style={{flexBasis: '50%'}}>
                           <Text numberOfLines={1} style={styles.name}>
                             {item?.fullName}
                           </Text>
@@ -357,28 +396,36 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
                         </View>
                       </View>
                       <View>
-                        {selectedUsers.find((_) => _.id == item.id) ? (
+                        {selectedUsers.find(_ => _.id == item.id) ? (
                           <TouchableOpacity
                             onPress={() => {
-                              setSelectedUsers(selectedUsers?.filter((i) => i._id !== item._id));
+                              setSelectedUsers(
+                                selectedUsers?.filter(i => i._id !== item._id),
+                              );
                             }}
-                            style={[styles.addBtn, { backgroundColor: Colors.LightRed }]}
-                          >
+                            style={[
+                              styles.addBtn,
+                              {backgroundColor: Colors.LightRed},
+                            ]}>
                             <CrossCircle size={15} color={Colors.Red} />
-                            <Text style={[styles.addBtnText, { color: Colors.Red }]}>Remove</Text>
+                            <Text
+                              style={[styles.addBtnText, {color: Colors.Red}]}>
+                              Remove
+                            </Text>
                           </TouchableOpacity>
                         ) : (
                           <TouchableOpacity
                             onPress={() => {
-                              setSelectedUsers((pre) => [...pre, item]);
+                              setSelectedUsers(pre => [...pre, item]);
                             }}
                             style={[
                               styles.addBtn,
                               {
-                                backgroundColor: item?.added ? Colors.DisablePrimaryBackgroundColor : Colors.Primary,
+                                backgroundColor: item?.added
+                                  ? Colors.DisablePrimaryBackgroundColor
+                                  : Colors.Primary,
                               },
-                            ]}
-                          >
+                            ]}>
                             <PlusCircleIcon />
                             <Text style={styles.addBtnText}>Add</Text>
                           </TouchableOpacity>
@@ -391,11 +438,10 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
                     style={[
                       styles.id,
                       {
-                        textAlign: "center",
+                        textAlign: 'center',
                         marginTop: responsiveScreenHeight(1),
                       },
-                    ]}
-                  >
+                    ]}>
                     Searched user not found.
                   </Text>
                 )}
@@ -422,11 +468,16 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
             <View style={styles.btnArea}>
               <MyButton
                 onPress={() => setIsSntModalVisible(false)}
-                title={"Cancel"}
-                bg={"rgba(39, 172, 31, 0.10)"}
+                title={'Cancel'}
+                bg={'rgba(39, 172, 31, 0.10)'}
                 colour={Colors.Primary}
               />
-              <MyButton onPress={handleSubmit} title={"Add"} bg={Colors.Primary} colour={Colors.PureWhite} />
+              <MyButton
+                onPress={handleSubmit}
+                title={'Add'}
+                bg={Colors.Primary}
+                colour={Colors.PureWhite}
+              />
             </View>
           </ScrollView>
         </View>
@@ -438,23 +489,23 @@ export default function SntModal({ setIsSntModalVisible, isSntModalVisible, togg
           setIsPickerVisible={setIsPickerVisible}
           setDate={setSelectedDate}
           setTime={setSelectedCustomTime}
-          time={moment().format("hh:mm A")}
-          mode={"dateTime"}
+          time={moment().format('hh:mm A')}
+          mode={'dateTime'}
         />
       )}
     </Modal>
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       flex: 1,
     },
     modalTop: {
       paddingVertical: responsiveScreenHeight(2),
-      flexDirection: "row",
-      justifyContent: "flex-end",
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
     },
 
     modalContainer: {
@@ -467,7 +518,7 @@ const getStyles = (Colors) =>
       maxHeight: responsiveScreenHeight(80),
     },
     modalBody: {
-      alignSelf: "center",
+      alignSelf: 'center',
       width: responsiveScreenWidth(80),
     },
     modalHeading: {
@@ -479,8 +530,8 @@ const getStyles = (Colors) =>
       color: Colors.BodyText,
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.8),
-      width: "100%",
-      overflow: "scroll",
+      width: '100%',
+      overflow: 'scroll',
       marginRight: responsiveScreenHeight(2),
     },
     title: {
@@ -500,7 +551,7 @@ const getStyles = (Colors) =>
       height: responsiveScreenHeight(15),
       padding: responsiveScreenWidth(3),
       marginTop: responsiveScreenHeight(1),
-      textAlignVertical: "top",
+      textAlignVertical: 'top',
     },
     input: {
       color: Colors.Heading,
@@ -518,12 +569,12 @@ const getStyles = (Colors) =>
       backgroundColor: Colors.PrimaryOpacityColor,
       borderRadius: responsiveScreenWidth(3),
       marginVertical: responsiveScreenHeight(1),
-      borderStyle: "dashed",
+      borderStyle: 'dashed',
       borderColor: Colors.Primary,
       borderWidth: 1.5,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     uploadText: {
       color: Colors.Primary,
@@ -536,21 +587,21 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.6),
     },
     docPreview: {
-      width: "100%",
+      width: '100%',
       // backgroundColor: "red",
-      flexDirection: "row",
-      flexWrap: "wrap",
+      flexDirection: 'row',
+      flexWrap: 'wrap',
       flexBasis: 99,
       gap: 10,
     },
     CrossCircle: {
       backgroundColor: Colors.Primary,
       width: 20,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       height: 20,
       borderRadius: 100,
-      position: "absolute",
+      position: 'absolute',
       top: -10,
       right: -10,
     },
@@ -566,18 +617,18 @@ const getStyles = (Colors) =>
       // height: responsiveScreenHeight(40)
     },
     search: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 10,
-      alignItems: "center",
+      alignItems: 'center',
       paddingBottom: responsiveScreenWidth(3),
       borderBottomWidth: 1,
       borderColor: Colors.LineColor,
     },
     addedContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       // justifyContent: "space-between",
       gap: responsiveScreenWidth(2.2),
-      alignItems: "center",
+      alignItems: 'center',
       // backgroundColor: Colors.White,
       marginVertical: responsiveScreenHeight(1),
     },
@@ -594,8 +645,8 @@ const getStyles = (Colors) =>
     },
 
     userContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       marginTop: responsiveScreenWidth(3),
       marginBottom: responsiveScreenWidth(3),
       // maxHeight: responsiveScreenHeight(40)
@@ -603,7 +654,7 @@ const getStyles = (Colors) =>
       // marginHorizontal: 5,
     },
     user: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 10,
     },
     img: {
@@ -615,7 +666,7 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.8),
       fontFamily: CustomFonts.MEDIUM,
-      flexBasis: "30%",
+      flexBasis: '30%',
     },
     id: {
       color: Colors.BodyText,
@@ -632,10 +683,10 @@ const getStyles = (Colors) =>
       paddingVertical: 5,
       borderRadius: 4,
       backgroundColor: Colors.Primary,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(1),
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     notification: {
       backgroundColor: Colors.ModalBoxColor,
@@ -645,14 +696,13 @@ const getStyles = (Colors) =>
       padding: responsiveScreenWidth(3),
       marginTop: responsiveScreenHeight(2),
       marginBottom: responsiveScreenWidth(1),
-      flexDirection: "column",
+      flexDirection: 'column',
       gap: 10,
-      marginBottom: responsiveScreenHeight(2),
       zIndex: 3,
     },
     btnArea: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       marginBottom: responsiveScreenHeight(2),
       gap: 20,
     },

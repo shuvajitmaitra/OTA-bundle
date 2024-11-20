@@ -530,7 +530,7 @@ const getStyles = Colors =>
       marginVertical: responsiveScreenHeight(1),
       borderRadius: responsiveScreenWidth(3),
       marginTop: responsiveScreenHeight(2),
-      zIndex: -10,
+      zIndex: 1,
     },
 
     technicalTest: {

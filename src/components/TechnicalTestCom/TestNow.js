@@ -33,6 +33,8 @@ import CommentSection from '../CommentCom/CommentSection';
 import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
 import {formattingDate} from '../../utility/commonFunction';
 import {getComments} from '../../actions/chat-noti';
+import DocumentPicker, {types} from 'react-native-document-picker';
+
 export const getFileTypeFromUri = uri => {
   const extension = uri?.split('.')?.pop()?.toLowerCase();
 
@@ -81,6 +83,7 @@ export default function TestNow(routes) {
   const [attachment, setAttachment] = useState(
     assignments[questionNumber]?.submission?.attachments,
   );
+
   useEffect(() => {
     getComments(question._id);
     console.log('called');
@@ -99,6 +102,7 @@ export default function TestNow(routes) {
 
     return true;
   }
+
   const [answer, setAnswer] = useState(question?.submission?.answer || '');
   useEffect(() => {
     setAnswer(assignments[questionNumber]?.submission?.answer || '');
@@ -141,6 +145,7 @@ export default function TestNow(routes) {
         type: 'warning',
         message: 'Please write answer!',
       });
+      return;
     }
     setIsLoading(true);
     axiosInstance
@@ -160,89 +165,109 @@ export default function TestNow(routes) {
       .catch(error => {
         console.log('error test now modal', JSON.stringify(error, null, 1));
         setIsLoading(false);
+        showAlert({
+          title: 'Submission Failed',
+          type: 'error',
+          message: 'Failed to submit the answer. Please try again.',
+        });
       });
   };
 
   const UploadAnyFile = async () => {
-    // try {
-    //   const selected = await DocumentPicker.getDocumentAsync({
-    //     type: [
-    //       'image/*',
-    //       'application/pdf',
-    //       'application/msword',
-    //       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    //     ],
-    //     multiple: true,
-    //     copyToCacheDirectory: true,
-    //   });
-    //   console.log('selected', JSON.stringify(selected, null, 1));
-    //   if (!selected.assets) {
-    //     console.error('No assets found');
-    //     return;
-    //   }
-    //   if (selected.assets?.length > 5) {
-    //     return showAlert({
-    //       title: 'Limit Exceeded',
-    //       type: 'warning',
-    //       message: 'Maximum 5 files can be uploaded',
-    //     });
-    //   }
-    //   setIsUploading(true);
-    //   let results = await Promise.all(
-    //     selected?.assets?.map(async item => {
-    //       try {
-    //         let formData = new FormData();
-    //         formData.append('file', {
-    //           uri: item.uri,
-    //           name: item.name || 'uploaded_file',
-    //           type: item.mimeType || 'application/octet-stream',
-    //         });
-    //         const config = {
-    //           headers: {
-    //             'Content-Type': 'multipart/form-data',
-    //           },
-    //         };
-    //         let res = await axiosInstance.post(
-    //           '/document/userdocumentfile',
-    //           formData,
-    //           config,
-    //         );
-    //         if (res?.data?.fileUrl) {
-    //           return res.data.fileUrl;
-    //         } else {
-    //           console.error('No file URL returned from server');
-    //           return null;
-    //         }
-    //       } catch (error) {
-    //         if (error.response) {
-    //           console.error('Server error:', error.response.data);
-    //         } else if (error.request) {
-    //           console.error('Network error:', error.request);
-    //           console.log(
-    //             'Network error:',
-    //             JSON.stringify(error.request, null, 1),
-    //           );
-    //         } else {
-    //           console.error('Error:', error.message);
-    //         }
-    //         return null;
-    //       }
-    //     }),
-    //   );
-    //   results = results?.filter(result => result !== null);
-    //   setAttachment(prev => [...(prev || []), ...results]);
-    //   setIsUploading(false);
-    // } catch (error) {
-    //   if (error.response) {
-    //     console.error('Server error:', error.response.data);
-    //   } else if (error.request) {
-    //     console.error('Network error:', error.request);
-    //     console.log('Network error:', JSON.stringify(error.request, null, 1));
-    //   } else {
-    //     console.error('Error:', error.message);
-    //   }
-    //   setIsUploading(false);
-    // }
+    try {
+      // Allow users to pick multiple files with specified types
+      const results = await DocumentPicker.pick({
+        type: [types.images, types.pdf, types.doc, types.docx],
+        allowMultiSelection: true, // Enable multiple selection
+      });
+
+      // `results` is an array of selected files
+      // Check if selecting these files exceeds the maximum allowed attachments
+      if (results.length + (attachment?.length || 0) > 5) {
+        showAlert({
+          title: 'Limit Exceeded',
+          type: 'warning',
+          message: 'You can upload a maximum of 5 files.',
+        });
+        return;
+      }
+
+      setIsUploading(true);
+
+      // Upload each selected file
+      const uploadedFiles = await Promise.all(
+        results.map(async file => {
+          const formData = new FormData();
+          formData.append('file', {
+            uri: file.uri,
+            name: file.name,
+            type: file.type,
+          });
+
+          try {
+            const response = await axiosInstance.post(
+              '/document/userdocumentfile',
+              formData,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              },
+            );
+
+            if (response.data.fileUrl) {
+              return response.data.fileUrl;
+            } else {
+              console.error(
+                'No file URL returned from server for file:',
+                file.name,
+              );
+              return null;
+            }
+          } catch (error) {
+            if (error.response) {
+              console.error('Server error:', error.response.data);
+            } else if (error.request) {
+              console.error('Network error:', error.request);
+            } else {
+              console.error('Error:', error.message);
+            }
+            return null;
+          }
+        }),
+      );
+
+      // Filter out any failed uploads
+      const validUploadedFiles = uploadedFiles.filter(url => url !== null);
+
+      // Update the attachment state
+      setAttachment(prev => [...(prev || []), ...validUploadedFiles]);
+
+      if (validUploadedFiles.length > 0) {
+        showToast('Files uploaded successfully');
+      } else {
+        showAlert({
+          title: 'Upload Failed',
+          type: 'error',
+          message: 'No files were uploaded. Please try again.',
+        });
+      }
+
+      setIsUploading(false);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User canceled the picker, no action needed
+        console.log('User canceled file picker');
+      } else {
+        console.error('Unknown error:', err);
+        showAlert({
+          title: 'Error',
+          type: 'error',
+          message: 'An unexpected error occurred while selecting files.',
+        });
+      }
+      setIsUploading(false);
+    }
   };
 
   const removeDocument = uri => {
@@ -263,6 +288,7 @@ export default function TestNow(routes) {
       </View>
     );
   }
+
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
@@ -306,16 +332,13 @@ export default function TestNow(routes) {
                       }
                     />
                     <Text
-                      style={
-                        ([styles.btnText],
-                        {
-                          color:
-                            questionNumber == 0
-                              ? Colors.DisablePrimaryButtonTextColor
-                              : Colors.PureWhite,
-                          fontFamily: CustomFonts.REGULAR,
-                        })
-                      }>
+                      style={{
+                        color:
+                          questionNumber == 0
+                            ? Colors.DisablePrimaryButtonTextColor
+                            : Colors.PureWhite,
+                        fontFamily: CustomFonts.REGULAR,
+                      }}>
                       Back
                     </Text>
                   </TouchableOpacity>
@@ -328,27 +351,26 @@ export default function TestNow(routes) {
                       styles.nextBtn,
                       {
                         backgroundColor:
-                          questionNumber == lastQuestion
+                          questionNumber === lastQuestion
                             ? Colors.DisableSecondaryBackgroundColor
                             : Colors.SecondaryButtonBackgroundColor,
                       },
                     ]}>
                     <Text
                       style={[
-                        (styles.btnText,
                         {
                           color:
-                            questionNumber == lastQuestion
+                            questionNumber === lastQuestion
                               ? Colors.DisableSecondaryButtonTextColor
                               : Colors.SecondaryButtonTextColor,
                           fontFamily: CustomFonts.REGULAR,
-                        }),
+                        },
                       ]}>
                       Next
                     </Text>
                     <ArrowRightWhite
                       color={
-                        questionNumber == lastQuestion
+                        questionNumber === lastQuestion
                           ? Colors.DisableSecondaryButtonTextColor
                           : Colors.SecondaryButtonTextColor
                       }
@@ -399,21 +421,15 @@ export default function TestNow(routes) {
                 <View style={styles.dataContainer}>
                   <Text style={styles.dataTitle}>Creation Date:</Text>
                   <Text style={styles.dataText}>
-                    {formattingDate(question?.createdAt) == 'Invalid Date'
+                    {formattingDate(question?.createdAt) === 'Invalid Date'
                       ? 'Not Specified'
                       : formattingDate(question?.createdAt)}
-                    {/* {moment(question?.workshop).format("DD MMM, YYYY") ||
-                    "Not Specified"} */}
                   </Text>
                 </View>
                 <View style={styles.dataContainer}>
                   <Text style={styles.dataTitle}>Last Update:</Text>
                   <Text style={styles.dataText}>
-                    {/* {moment(question?.submission?.updatedAt).format(
-                    "DD MMM, YYYY"
-                  ) || "Not Specified"} */}
-
-                    {formattingDate(question?.updatedAt) == 'Invalid Date'
+                    {formattingDate(question?.updatedAt) === 'Invalid Date'
                       ? 'Not Specified'
                       : formattingDate(question?.updatedAt) || 'Not Specified'}
                   </Text>
@@ -422,13 +438,10 @@ export default function TestNow(routes) {
                   <Text style={styles.dataTitle}>Deadline:</Text>
                   <Text style={styles.dataText}>
                     {question?.dueDate
-                      ? formattingDate(question?.dueDate) == 'Invalid Date'
+                      ? formattingDate(question?.dueDate) === 'Invalid Date'
                         ? 'Not Specified'
                         : formattingDate(question?.dueDate)
                       : 'Not Specified'}
-                    {/* {question?.dueDate
-                    ? moment(question?.dueDate).format("DD MMM, YYYY")
-                    : "Not Specified"} */}
                   </Text>
                 </View>
                 <View style={styles.dataContainer}>
@@ -453,9 +466,6 @@ export default function TestNow(routes) {
                 )}
               </View>
 
-              {/* -------------
-                        -----------Answer section--------
-                        ------------------------------------ */}
               <View>
                 <Text style={styles.idStyle}>Answer*</Text>
                 <TextInput
@@ -473,9 +483,6 @@ export default function TestNow(routes) {
                 />
               </View>
 
-              {/* -------------
-                        -----------Attachment section--------
-                        ------------------------------------ */}
               <View>
                 <Text style={styles.idStyle}>Upload Attachment (Optional)</Text>
                 <TouchableOpacity
@@ -495,24 +502,34 @@ export default function TestNow(routes) {
                   },
                 ]}>
                 {attachment?.map(item => (
-                  <View key={item}>
-                    {/* <Text>{getFileTypeFromUri(item)}</Text> */}
-
-                    {getFileTypeFromUri(item) == 'image' ? (
+                  <View key={item} style={{position: 'relative'}}>
+                    {getFileTypeFromUri(item) === 'image' ? (
                       <Image
-                        style={{height: 100, width: 100}}
+                        style={{height: 100, width: 100, borderRadius: 8}}
                         source={{uri: item}}
                       />
                     ) : getFileTypeFromUri(item) === 'pdf' ? (
                       <Image
-                        style={{height: 100, width: 100}}
+                        style={{height: 100, width: 100, borderRadius: 8}}
                         source={require('../../assets/Images/pdf.png')}
                       />
-                    ) : (
+                    ) : getFileTypeFromUri(item) === 'document' ? (
                       <Image
-                        style={{height: 100, width: 100}}
+                        style={{height: 100, width: 100, borderRadius: 8}}
                         source={require('../../assets/Images/doc.png')}
                       />
+                    ) : (
+                      <View
+                        style={{
+                          height: 100,
+                          width: 100,
+                          borderRadius: 8,
+                          backgroundColor: Colors.PrimaryOpacityColor,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{color: Colors.Heading}}>Unsupported</Text>
+                      </View>
                     )}
                     <TouchableOpacity
                       onPress={() => removeDocument(item)}
@@ -573,33 +590,6 @@ export default function TestNow(routes) {
               )}
 
               <CommentSection postId={question?._id} />
-              {/* <View style={styles.line}></View>
-
-            <View>
-              <Text style={styles.reportTitle}>Report an Issue</Text>
-              <View style={styles.reportContainer}>
-                <Image
-                  source={{
-                    uri: "https://shorturl.at/qAKW6",
-                  }}
-                  style={styles.imgStyle}
-                />
-                <TextInput
-                  keyboardAppearance={
-                    Colors.Background_color === "#F5F5F5" ? "light" : "dark"
-                  }
-                  style={styles.report}
-                  placeholderTextColor={Colors.Heading}
-                  multiline={true}
-                  placeholder="Typo, grammatical issue, etc..."
-                />
-              </View>
-              <View style={styles.reportSubmit}>
-                <TouchableOpacity onPress={() => {}} style={styles.reportBtn}>
-                  <Text style={styles.reportBtnText}>Submit</Text>
-                </TouchableOpacity>
-              </View>
-            </View> */}
             </View>
           </ScrollView>
         </View>
@@ -607,6 +597,7 @@ export default function TestNow(routes) {
     </KeyboardAvoidingView>
   );
 }
+
 const getStyles = Colors =>
   StyleSheet.create({
     CrossCircle: {
@@ -614,13 +605,14 @@ const getStyles = Colors =>
       top: -12,
       right: -12,
       zIndex: 1,
+      backgroundColor: Colors.White,
+      borderRadius: 12,
+      padding: 2,
     },
     docPreview: {
       width: '100%',
-      // backgroundColor: "red",
       flexDirection: 'row',
       flexWrap: 'wrap',
-      flexBasis: 99,
       gap: 10,
       marginTop: 20,
     },
@@ -645,20 +637,16 @@ const getStyles = Colors =>
     },
     btnContainer: {
       flexDirection: 'row',
-      // justifyContent: "space-between",
       gap: responsiveScreenWidth(2),
       height: responsiveScreenHeight(3.5),
-      // alignItems: "center"
     },
     btnText: {
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.6),
-      // color: Colors.PureWhite,
       textAlign: 'center',
     },
     backBtn: {
       paddingHorizontal: responsiveScreenWidth(2),
-      // paddingVertical: responsiveScreenHeight(1),
       borderRadius: responsiveScreenWidth(2),
       backgroundColor: Colors.Primary,
       flexDirection: 'row',
@@ -667,7 +655,6 @@ const getStyles = Colors =>
     },
     nextBtn: {
       paddingHorizontal: responsiveScreenWidth(2),
-      // paddingVertical: responsiveScreenHeight(1),
       borderRadius: responsiveScreenWidth(2),
       backgroundColor: Colors.BodyText,
       flexDirection: 'row',
@@ -737,12 +724,10 @@ const getStyles = Colors =>
     dataContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      //   backgroundColor: "red",
       marginBottom: responsiveScreenHeight(1),
     },
     dataTitle: {
       color: Colors.Heading,
-      //   paddingBottom: responsiveScreenHeight(1),
       fontSize: responsiveScreenFontSize(1.4),
       fontFamily: CustomFonts.SEMI_BOLD,
       width: responsiveScreenWidth(35),
@@ -751,10 +736,6 @@ const getStyles = Colors =>
       color: Colors.BodyText,
       fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.4),
-      //   backgroundColor: "red",
-      //   width: 150,
-
-      //   paddingBottom: responsiveScreenHeight(1),
       flex: 1,
       flexWrap: 'wrap',
     },
@@ -765,9 +746,6 @@ const getStyles = Colors =>
       justifyContent: 'center',
       alignItems: 'center',
       gap: responsiveScreenWidth(2),
-      //   backgroundColor: "red",
-      //   height: 25,
-      //   width: ,
     },
     dataImgStyle: {
       height: 16,
@@ -775,7 +753,6 @@ const getStyles = Colors =>
       borderRadius: responsiveScreenWidth(50),
       borderWidth: responsiveScreenWidth(0.4),
       borderColor: Colors.BodyText,
-      //   backgroundColor: "green",
     },
     answer: {
       color: Colors.Heading,
@@ -818,7 +795,6 @@ const getStyles = Colors =>
       paddingHorizontal: responsiveScreenWidth(0.5),
       gap: responsiveScreenWidth(4),
       paddingBottom: responsiveScreenHeight(2),
-      // marginVertical: responsiveScreenHeight(1),
     },
     line: {
       marginBottom: responsiveScreenHeight(2),
@@ -847,7 +823,6 @@ const getStyles = Colors =>
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
       textAlignVertical: 'top',
-
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(3),
       fontFamily: CustomFonts.REGULAR,
@@ -880,5 +855,6 @@ const getStyles = Colors =>
       borderColor: Colors.Primary,
       marginBottom: responsiveScreenHeight(2),
       padding: responsiveScreenWidth(2),
+      color: Colors.Primary,
     },
   });
