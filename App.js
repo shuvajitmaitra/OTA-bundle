@@ -13,10 +13,10 @@ import {Provider, useDispatch, useSelector} from 'react-redux';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {PersistGate} from 'redux-persist/integration/react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import store, {persistor} from './src/store';
 import {connectSocket, disconnectSocket} from './src/utility/socketManager';
+import SplashScreen from 'react-native-splash-screen';
 
 import {ThemeProvider, useTheme} from './src/context/ThemeContext';
 import {AlertProvider} from './src/components/SharedComponent/GlobalAlertContext';
@@ -41,7 +41,7 @@ export const MainContext = createContext();
 const AppWrapper = () => {
   return (
     <Provider store={store}>
-      <PersistGate loading={<SplashScreen />} persistor={persistor}>
+      <PersistGate loading={<ReduxLoading />} persistor={persistor}>
         <ThemeProvider>
           <AlertProvider>
             <GestureHandlerRootView style={{flex: 1}}>
@@ -67,6 +67,7 @@ const App = () => {
 
   // Handle AppState changes to manage socket connections
   useEffect(() => {
+    SplashScreen.hide();
     const subscription = AppState.addEventListener(
       'change',
       _handleAppStateChange,
@@ -91,20 +92,6 @@ const App = () => {
     }
 
     appState.current = nextAppState;
-  };
-
-  // Check for active enrollment
-  const getActive = async () => {
-    try {
-      const activeE = await AsyncStorage.getItem('active_enrolment');
-
-      if (!activeE) {
-        console.log('No active enrollment found');
-        setHandleShowSwitchModal(true);
-      }
-    } catch (error) {
-      console.error('Error fetching active enrollment:', error);
-    }
   };
 
   // Verify user authentication
@@ -173,7 +160,7 @@ const App = () => {
   );
 };
 
-const SplashScreen = () => (
+const ReduxLoading = () => (
   <View style={styles.loadingContainer}>
     <ActivityIndicator size="large" color="#007AFF" />
     <Text style={styles.loadingText}>Loading...</Text>
