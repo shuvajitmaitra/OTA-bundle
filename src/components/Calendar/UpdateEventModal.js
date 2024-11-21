@@ -1,49 +1,79 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert, Platform } from "react-native";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import ReactNativeModal from "react-native-modal";
-import ModalBackAndCrossButton from "../ChatCom/Modal/ModalBackAndCrossButton";
-import CustomDropDown from "../SharedComponent/CustomDropDown";
-import CalendarIconSmall from "../../assets/Icons/CalendarIconSmall";
-import CheckIcon from "../../assets/Icons/CheckIcon";
-import UnCheckIcon from "../../assets/Icons/UnCheckIcon";
-import Divider from "../SharedComponent/Divider";
-import CustomDropDownTwo from "../SharedComponent/CustomDropDownTwo";
-import CustomSmallButton from "../CustomSmallButton";
-import BinIcon from "../../assets/Icons/BinIcon";
-import InviteMemberModal from "./Modal/InviteMemberModal";
-import moment from "moment";
-import axiosInstance from "../../utility/axiosInstance";
-import { getEventDetails, getNotificationData, handleError, loadCalendarEvent } from "../../actions/chat-noti";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteEvent, setEventNotification, setSingleEvent } from "../../store/reducer/calendarReducer";
-import { removeMarkdown } from "../HelperFunction";
-import Loading from "../SharedComponent/Loading";
-import AddNewEventModal from "./AddNewEventModal";
-import ConfirmationModal from "../SharedComponent/ConfirmationModal";
-import CustomTimePicker from "../SharedComponent/CustomTimePicker";
-import UpdateEventNotificationContainer from "./UpdateEventNotificationContainer";
-import EventHistory from "./EventHistory";
-import { combineDateAndTime, eventTypes, replaceTimeInDatetime, showAlertModal } from "../../utility/commonFunction";
-import { eventTypeOptions } from "../../constants/CustomeData";
-import DateTimeSection from "./DateTimeSection";
-import EventRepeatSection from "./Modal/EventRepeatSection";
-import Images from "../../constants/Images";
-import Markdown from "react-native-markdown-display";
-import { useGlobalAlert } from "../SharedComponent/GlobalAlertContext";
-import GlobalAlertModal from "../SharedComponent/GlobalAlertModal";
-import CrossCircle from "../../assets/Icons/CrossCircle";
+import React, {useCallback, useEffect, useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Image,
+  Alert,
+  Platform,
+} from 'react-native';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import ReactNativeModal from 'react-native-modal';
+import ModalBackAndCrossButton from '../ChatCom/Modal/ModalBackAndCrossButton';
+import CustomDropDown from '../SharedComponent/CustomDropDown';
+import CalendarIconSmall from '../../assets/Icons/CalendarIconSmall';
+import CheckIcon from '../../assets/Icons/CheckIcon';
+import UnCheckIcon from '../../assets/Icons/UnCheckIcon';
+import Divider from '../SharedComponent/Divider';
+import CustomDropDownTwo from '../SharedComponent/CustomDropDownTwo';
+import CustomSmallButton from '../CustomSmallButton';
+import BinIcon from '../../assets/Icons/BinIcon';
+import InviteMemberModal from './Modal/InviteMemberModal';
+import moment from 'moment';
+import axiosInstance from '../../utility/axiosInstance';
+import {
+  getEventDetails,
+  getNotificationData,
+  handleError,
+  loadCalendarEvent,
+} from '../../actions/chat-noti';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  deleteEvent,
+  setEventNotification,
+  setSingleEvent,
+} from '../../store/reducer/calendarReducer';
+import {removeMarkdown} from '../HelperFunction';
+import Loading from '../SharedComponent/Loading';
+import AddNewEventModal from './AddNewEventModal';
+import ConfirmationModal from '../SharedComponent/ConfirmationModal';
+import CustomTimePicker from '../SharedComponent/CustomTimePicker';
+import UpdateEventNotificationContainer from './UpdateEventNotificationContainer';
+import EventHistory from './EventHistory';
+import {
+  combineDateAndTime,
+  eventTypes,
+  replaceTimeInDatetime,
+  showAlertModal,
+} from '../../utility/commonFunction';
+import {eventTypeOptions} from '../../constants/CustomeData';
+import DateTimeSection from './DateTimeSection';
+import EventRepeatSection from './Modal/EventRepeatSection';
+import Images from '../../constants/Images';
+import Markdown from 'react-native-markdown-display';
+import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
+import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
+import CrossCircle from '../../assets/Icons/CrossCircle';
 
-const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
+const UpdateEventModal = ({modalVisible, setModalVisible, eventId}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getEventDetails(eventId);
   }, [eventId]);
 
-  const { event: eventData, eventNotification } = useSelector((state) => state.calendar);
+  const {event: eventData, eventNotification} = useSelector(
+    state => state.calendar,
+  );
   const [event, setEvent] = useState({});
 
   useEffect(() => {
@@ -51,19 +81,19 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
     if (eventData?._id) {
       setIsLoading(false);
     }
-    setEvent({ ...eventData });
+    setEvent({...eventData});
   }, [eventData]);
   const notifications = !eventNotification?.length
     ? [
         {
           timeBefore: 5,
-          methods: ["push"],
+          methods: ['push'],
           chatGroups: [],
         },
       ]
     : eventNotification;
   useEffect(() => {
-    setEvent((pre) => ({ ...pre, notifications }));
+    setEvent(pre => ({...pre, notifications}));
   }, [eventNotification]);
   const currentDate = new Date().toISOString();
   const eventStart = event?.start;
@@ -73,48 +103,65 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
   const styles = getStyles(Colors);
 
   const [isRepeatClicked, setIsRepeatClicked] = useState(false);
-  const [isInviteMemberModalVisible, setIsInviteMemberModalVisible] = useState(false);
+  const [isInviteMemberModalVisible, setIsInviteMemberModalVisible] =
+    useState(false);
 
-  const [invitations, setInvitations] = useState(eventData?.participants?.map((item) => item.user));
+  const [invitations, setInvitations] = useState(
+    eventData?.participants?.map(item => item.user),
+  );
   useEffect(() => {
-    setInvitations(eventData?.participants?.map((item) => item.user));
+    setInvitations(eventData?.participants?.map(item => item.user));
   }, [eventData?.participants]);
 
   const [weekDays, setWeekDays] = useState([
-    { day: "Su" },
-    { day: "Mo" },
-    { day: "Tu" },
-    { day: "We" },
-    { day: "Th" },
-    { day: "Fr" },
-    { day: "Sa" },
+    {day: 'Su'},
+    {day: 'Mo'},
+    {day: 'Tu'},
+    {day: 'We'},
+    {day: 'Th'},
+    {day: 'Fr'},
+    {day: 'Sa'},
   ]);
 
   const [isPickerVisible, setIsPickerVisible] = useState(false);
-  const [pickerState, setPickerState] = useState("date");
-  const [timeMode, setTimeMode] = useState("");
+  const [pickerState, setPickerState] = useState('date');
+  const [timeMode, setTimeMode] = useState('');
 
   const toggleInviteMemberModal = useCallback(() => {
-    setIsInviteMemberModalVisible((prev) => !prev);
+    setIsInviteMemberModalVisible(prev => !prev);
   }, []);
 
   useEffect(() => {
     if (event?._id && event?.timeRange?.repeatDays) {
-      setWeekDays(weekDays.map((item, idx) => (event?.timeRange?.repeatDays?.includes(idx) ? { ...item, checked: !item.checked } : item)));
+      setWeekDays(
+        weekDays.map((item, idx) =>
+          event?.timeRange?.repeatDays?.includes(idx)
+            ? {...item, checked: !item.checked}
+            : item,
+        ),
+      );
     }
   }, []);
 
   const handleResetButton = () => {
-    setEvent((pre) => ({
+    setEvent(pre => ({
       ...pre,
       timeRange: {
         ...pre.timeRange,
         repeatDays: [],
         turnOn: false,
-        repeatPeriod: "week",
+        repeatPeriod: 'week',
       },
     }));
-    setWeekDays([{ day: "Su" }, { day: "Mo" }, { day: "Tu" }, { day: "We" }, { day: "Th" }, { day: "Fr" }, { day: "Sa" }]);
+    setWeekDays([
+      {day: 'Su'},
+      {day: 'Mo'},
+      {day: 'Tu'},
+      {day: 'We'},
+      {day: 'Th'},
+      {day: 'Fr'},
+      {day: 'Sa'},
+    ]);
   };
 
   const handleCancelButton = () => {
@@ -128,15 +175,18 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
 
   const handleUncheck = (user, action) => {
     axiosInstance
-      .patch(`/calendar/event/invitation/${event?._id}`, { action, user })
-      .then((res) => {
-        console.log("res.data", JSON.stringify(res.data, null, 1));
+      .patch(`/calendar/event/invitation/${event?._id}`, {action, user})
+      .then(res => {
+        console.log('res.data', JSON.stringify(res.data, null, 1));
         if (res.data.success) {
-          setInvitations(res.data.event.participants.map((item) => item.user));
+          setInvitations(res.data.event.participants.map(item => item.user));
         }
       })
-      .catch((error) => {
-        console.log("error from calender event invitation", JSON.stringify(error, null, 1));
+      .catch(error => {
+        console.log(
+          'error from calender event invitation',
+          JSON.stringify(error, null, 1),
+        );
       });
   };
 
@@ -144,49 +194,49 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
   const handleUpdateEvent = () => {
     if (!event.title)
       return showAlertModal({
-        title: "Event title missing...",
-        type: "warning",
-        message: "Title cannot be empty.",
+        title: 'Event title missing...',
+        type: 'warning',
+        message: 'Title cannot be empty.',
       });
     if (!event.eventType)
       return showAlertModal({
-        title: "Event type missing...",
-        type: "warning",
-        message: "Event type cannot be empty.",
+        title: 'Event type missing...',
+        type: 'warning',
+        message: 'Event type cannot be empty.',
       });
 
     if (!event.agenda)
       return showAlertModal({
-        title: "Event agenda missing...",
-        type: "warning",
-        message: "Agenda cannot be empty.",
+        title: 'Event agenda missing...',
+        type: 'warning',
+        message: 'Agenda cannot be empty.',
       });
 
     // const start = combineDateAndTime(selectedStartDate, selectedStartTime);
     // const end = combineDateAndTime(selectedEndDate, selectedEndTime);
     // const firstDate = new Date(start);
     // const secondDate = new Date(end);
-    setEvent((pre) => ({ ...pre, notifications }));
+    setEvent(pre => ({...pre, notifications}));
     const now = moment();
     if (event.start > event.end)
       return showAlertModal({
-        title: "Invalid Date Order",
-        type: "warning",
-        message: "Please select future date then start date.",
+        title: 'Invalid Date Order',
+        type: 'warning',
+        message: 'Please select future date then start date.',
       });
 
     if (event.start < now)
       return showAlertModal({
-        title: "Invalid Time Selection",
-        type: "warning",
-        message: "Please select 5 minutes or newer time.",
+        title: 'Invalid Time Selection',
+        type: 'warning',
+        message: 'Please select 5 minutes or newer time.',
       });
 
     if (event?.end < now)
       return showAlertModal({
-        title: "Invalid Date Selection",
-        type: "warning",
-        message: "Please provide select present date or future date.",
+        title: 'Invalid Date Selection',
+        type: 'warning',
+        message: 'Please provide select present date or future date.',
       });
 
     // const data = {
@@ -215,13 +265,13 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
     setIsLoading(true);
     axiosInstance
       .patch(`/calendar/event/update/${event._id}`, event)
-      .then((res) => {
+      .then(res => {
         if (res.data.success) {
           loadCalendarEvent();
           // clearState();
           setModalVisible(false);
           showAlertModal({
-            title: "Event updated",
+            title: 'Event updated',
           });
           dispatch(setSingleEvent(event));
           dispatch(setEventNotification([]));
@@ -229,36 +279,37 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
         // console.log("res.data", JSON.stringify(res.data, null, 1));
         setIsLoading(false);
       })
-      .catch((error) => {
+      .catch(error => {
         setIsLoading(false);
-        console.log("error while event update", JSON.stringify(error, null, 1));
+        console.log('error while event update', JSON.stringify(error, null, 1));
       });
   };
   const dispatch = useDispatch();
-  const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
+  const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
+    useState(false);
   const handleDeleteEvent = () => {
     axiosInstance
       .delete(`calendar/event/delete/${event._id}`)
-      .then((res) => {
+      .then(res => {
         if (res.data.success) {
           dispatch(
             deleteEvent({
               eventId: event._id,
-              time: moment(event?.start).format("YYYY-M-D"),
-            })
+              time: moment(event?.start).format('YYYY-M-D'),
+            }),
           );
           loadCalendarEvent();
           setIsConfirmationModalVisible(false);
           setModalVisible(false);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         handleError(error);
         setIsConfirmationModalVisible(false);
         setModalVisible(false);
         showAlertModal({
-          title: "Something wrong",
-          type: "error",
+          title: 'Something wrong',
+          type: 'error',
         });
       });
   };
@@ -269,8 +320,7 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
       onBackdropPress={() => {
         setModalVisible(false);
         dispatch(setSingleEvent(null));
-      }}
-    >
+      }}>
       {isLoading ? (
         <Loading />
       ) : (
@@ -292,9 +342,15 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
           /> */}
           <View style={styles.headerContainer}>
             <View>
-              <Text style={styles.headerText}>{notPastDate || event.isAllDay ? "Update Event" : "Event Details"}</Text>
+              <Text style={styles.headerText}>
+                {notPastDate || event.isAllDay
+                  ? 'Update Event'
+                  : 'Event Details'}
+              </Text>
               <Text style={styles.headerDescriptionText}>
-                {notPastDate || event.isAllDay ? "Kindly complete the form to initiate the update event." : "View your event details"}
+                {notPastDate || event.isAllDay
+                  ? 'Kindly complete the form to initiate the update event.'
+                  : 'View your event details'}
               </Text>
             </View>
 
@@ -305,14 +361,13 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                   setEventNotification([
                     {
                       timeBefore: 5,
-                      methods: ["push"],
+                      methods: ['push'],
                       chatGroups: [],
                     },
-                  ])
+                  ]),
                 );
                 setModalVisible(false);
-              }}
-            >
+              }}>
               <CrossCircle size={30} />
             </TouchableOpacity>
           </View>
@@ -335,12 +390,16 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
               <View style={styles.fieldContainer}>
                 <Text style={styles.Text}>Event Title*</Text>
                 <TextInput
-                  keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                  keyboardAppearance={
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                  }
                   placeholderTextColor={Colors.BodyText}
                   value={event.title}
                   style={styles.inputField}
-                  placeholder={"Enter event name"}
-                  onChangeText={(text) => setEvent((pre) => ({ ...pre, title: text }))}
+                  placeholder={'Enter event name'}
+                  onChangeText={text =>
+                    setEvent(pre => ({...pre, title: text}))
+                  }
                   multiline
                 />
               </View>
@@ -350,8 +409,8 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                 <CustomDropDown
                   options={eventTypeOptions}
                   type={eventTypes(event.eventType)}
-                  setState={(data) => {
-                    setEvent((pre) => ({ ...pre, eventType: data }));
+                  setState={data => {
+                    setEvent(pre => ({...pre, eventType: data}));
                   }}
                 />
               </View>
@@ -364,7 +423,9 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                 setIsPickerVisible={setIsPickerVisible}
               />
 
-              <TouchableOpacity style={styles.repeatButtonContainer} onPress={() => setIsRepeatClicked(!isRepeatClicked)}>
+              <TouchableOpacity
+                style={styles.repeatButtonContainer}
+                onPress={() => setIsRepeatClicked(!isRepeatClicked)}>
                 <Text style={styles.repeatButtonText}>Repeat</Text>
               </TouchableOpacity>
               {isRepeatClicked && (
@@ -378,14 +439,20 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                 />
               )}
 
-              <TouchableOpacity onPress={toggleInviteMemberModal} style={styles.invitationsButtonContainer}>
-                <Text style={styles.invitationsButtonText}>Add Invitations</Text>
+              <TouchableOpacity
+                onPress={toggleInviteMemberModal}
+                style={styles.invitationsButtonContainer}>
+                <Text style={styles.invitationsButtonText}>
+                  Add Invitations
+                </Text>
               </TouchableOpacity>
               {invitations?.length > 0 && (
                 <View style={styles.invitedContainer}>
-                  {invitations?.map((item) => {
+                  {invitations?.map(item => {
                     return (
-                      <View style={styles.invitedMemberContainer} key={item._id}>
+                      <View
+                        style={styles.invitedMemberContainer}
+                        key={item._id}>
                         <View style={styles.nameProfile}>
                           <Image
                             source={
@@ -397,11 +464,14 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                             }
                             style={styles.checkedImage}
                           />
-                          <Text numberOfLines={1} style={styles.profileNameText}>
+                          <Text
+                            numberOfLines={1}
+                            style={styles.profileNameText}>
                             {item?.fullName}
                           </Text>
                         </View>
-                        <TouchableOpacity onPress={() => handleUncheck(item?._id, "remove")}>
+                        <TouchableOpacity
+                          onPress={() => handleUncheck(item?._id, 'remove')}>
                           <BinIcon color={Colors.Red} />
                         </TouchableOpacity>
                       </View>
@@ -413,11 +483,15 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
               <View style={styles.fieldContainer}>
                 <Text style={styles.Text}>Meeting Agenda*</Text>
                 <TextInput
-                  keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                  keyboardAppearance={
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                  }
                   placeholderTextColor={Colors.BodyText}
-                  style={[styles.inputField, { height: 80 }]}
+                  style={[styles.inputField, {height: 80}]}
                   placeholder="Add Meeting Agenda"
-                  onChangeText={(text) => setEvent((pre) => ({ ...pre, agenda: text }))}
+                  onChangeText={text =>
+                    setEvent(pre => ({...pre, agenda: text}))
+                  }
                   multiline
                   value={event.agenda || event.description}
                 />
@@ -426,12 +500,16 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
               <View style={styles.fieldContainer}>
                 <Text style={styles.Text}>Follow Up Message</Text>
                 <TextInput
-                  keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                  keyboardAppearance={
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                  }
                   placeholderTextColor={Colors.BodyText}
-                  style={[styles.inputField, { height: 80 }]}
+                  style={[styles.inputField, {height: 80}]}
                   placeholder="Add follow up message"
                   multiline
-                  onChangeText={(text) => setEvent((pre) => ({ ...pre, followUp: text }))}
+                  onChangeText={text =>
+                    setEvent(pre => ({...pre, followUp: text}))
+                  }
                   value={event.followUp}
                 />
               </View>
@@ -439,12 +517,16 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
               <View style={styles.fieldContainer}>
                 <Text style={styles.Text}>Action Item</Text>
                 <TextInput
-                  keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                  keyboardAppearance={
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                  }
                   placeholderTextColor={Colors.BodyText}
-                  style={[styles.inputField, { height: 80 }]}
+                  style={[styles.inputField, {height: 80}]}
                   value={event.actionItems}
                   placeholder="Add action item"
-                  onChangeText={(text) => setEvent((pre) => ({ ...pre, actionItems: text }))}
+                  onChangeText={text =>
+                    setEvent(pre => ({...pre, actionItems: text}))
+                  }
                   multiline
                 />
               </View>
@@ -452,17 +534,19 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
               <View style={styles.fieldContainer}>
                 <Text style={styles.Text}>Add Meeting Link</Text>
                 <TextInput
-                  keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                  keyboardAppearance={
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                  }
                   placeholderTextColor={Colors.BodyText}
                   style={styles.inputField}
                   placeholder="Meeting link"
-                  onChangeText={(text) =>
-                    setEvent((pre) => ({
+                  onChangeText={text =>
+                    setEvent(pre => ({
                       ...pre,
                       meetingLink: `[${text}](${text})`,
                     }))
                   }
-                  value={removeMarkdown(event.meetingLink)?.split("]")[0]}
+                  value={removeMarkdown(event.meetingLink)?.split(']')[0]}
                   multiline
                 />
               </View>
@@ -471,8 +555,7 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                 style={{
                   color: Colors.Primary,
                   fontFamily: CustomFonts.MEDIUM,
-                }}
-              >
+                }}>
                 Add Notification (Optional)
               </Text>
               <UpdateEventNotificationContainer />
@@ -486,26 +569,39 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                     onPress={() => {
                       handleUpdateEvent();
                     }}
-                    style={[styles.buttonContainer, { backgroundColor: Colors.Primary }]}
-                  >
-                    <Text style={[styles.buttonText, { color: Colors.PureWhite }]}>Update</Text>
+                    style={[
+                      styles.buttonContainer,
+                      {backgroundColor: Colors.Primary},
+                    ]}>
+                    <Text
+                      style={[styles.buttonText, {color: Colors.PureWhite}]}>
+                      Update
+                    </Text>
                   </TouchableOpacity>
                 )}
                 <TouchableOpacity
                   onPress={() => {
                     setAddNewEventModalVisible(true);
                   }}
-                  style={[styles.buttonContainer, { backgroundColor: Colors.PrimaryOpacityColor }]}
-                >
-                  <Text style={[styles.buttonText, { color: Colors.Primary }]}>Copy</Text>
+                  style={[
+                    styles.buttonContainer,
+                    {backgroundColor: Colors.PrimaryOpacityColor},
+                  ]}>
+                  <Text style={[styles.buttonText, {color: Colors.Primary}]}>
+                    Copy
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
                     setIsConfirmationModalVisible(true);
                   }}
-                  style={[styles.buttonContainer, { backgroundColor: Colors.LightRed }]}
-                >
-                  <Text style={[styles.buttonText, { color: Colors.Red }]}>Delete</Text>
+                  style={[
+                    styles.buttonContainer,
+                    {backgroundColor: Colors.LightRed},
+                  ]}>
+                  <Text style={[styles.buttonText, {color: Colors.Red}]}>
+                    Delete
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -513,11 +609,19 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
           {isPickerVisible && (
             <CustomTimePicker
               mode={pickerState}
-              time={timeMode == "startTime" ? moment(event?.start) : moment(event?.end)}
-              date={timeMode == "startDate" ? event?.start || moment() : event?.end || moment()}
-              setDate={(date) => {
-                timeMode === "startDate"
-                  ? setEvent((pre) => ({
+              time={
+                timeMode == 'startTime'
+                  ? moment(event?.start)
+                  : moment(event?.end)
+              }
+              date={
+                timeMode == 'startDate'
+                  ? event?.start || moment()
+                  : event?.end || moment()
+              }
+              setDate={date => {
+                timeMode === 'startDate'
+                  ? setEvent(pre => ({
                       ...pre,
                       start: combineDateAndTime({
                         fullDate: event?.start,
@@ -528,7 +632,7 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                         date,
                       }),
                     }))
-                  : setEvent((pre) => ({
+                  : setEvent(pre => ({
                       ...pre,
                       end: combineDateAndTime({
                         fullDate: event?.end,
@@ -536,9 +640,9 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                       }),
                     }));
               }}
-              setTime={(time) => {
-                timeMode === "startTime"
-                  ? setEvent((pre) => ({
+              setTime={time => {
+                timeMode === 'startTime'
+                  ? setEvent(pre => ({
                       ...pre,
                       start: combineDateAndTime({
                         fullDate: event?.start,
@@ -546,10 +650,10 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
                       }),
                       end: combineDateAndTime({
                         fullDate: event?.start,
-                        time: moment(time, "hh:mm A").add(30, "minutes"),
+                        time: moment(time, 'hh:mm A').add(30, 'minutes'),
                       }),
                     }))
-                  : setEvent((pre) => ({
+                  : setEvent(pre => ({
                       ...pre,
                       end: combineDateAndTime({
                         fullDate: event?.end,
@@ -585,8 +689,8 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
       )}
       <ConfirmationModal
         isVisible={isConfirmationModalVisible}
-        tittle={"Delete"}
-        description={"Do you want to delete it?"}
+        tittle={'Delete'}
+        description={'Do you want to delete it?'}
         okPress={() => handleDeleteEvent()}
         cancelPress={() => setIsConfirmationModalVisible(false)}
       />
@@ -597,7 +701,7 @@ const UpdateEventModal = ({ modalVisible, setModalVisible, eventId }) => {
 
 export default UpdateEventModal;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     buttonText: {
       color: Colors.PureWhite,
@@ -609,13 +713,13 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenHeight(1),
       marginTop: responsiveScreenHeight(2),
       flex: 1,
-      alignItems: "center",
+      alignItems: 'center',
     },
     buttonParenCom: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(2),
-      justifyContent: "center",
+      justifyContent: 'center',
     },
     container: {
       paddingHorizontal: responsiveScreenWidth(5),
@@ -626,8 +730,8 @@ const getStyles = (Colors) =>
       paddingBottom: responsiveScreenHeight(2),
     },
     headerContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       marginVertical: responsiveScreenHeight(1.5),
       gap: 5,
       paddingBottom: 10,
@@ -663,8 +767,9 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.REGULAR,
       paddingTop: 15,
       color: Colors.BodyText,
-      height: 50,
-      textAlignVertical: "top",
+      minHeight: 50,
+      textAlignVertical: 'top',
+      paddingBottom: 15,
     },
     repeatButtonContainer: {
       backgroundColor: Colors.ModalBoxColor,
@@ -703,14 +808,14 @@ const getStyles = (Colors) =>
       marginBottom: responsiveScreenHeight(2),
     },
     invitedMemberContainer: {
-      justifyContent: "space-between",
-      alignItems: "center",
-      flexDirection: "row",
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexDirection: 'row',
     },
     nameProfile: {
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
       gap: responsiveScreenWidth(3),
     },
     checkedImage: {
@@ -723,6 +828,6 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.BodyText,
-      flexBasis: "75%",
+      flexBasis: '75%',
     },
   });

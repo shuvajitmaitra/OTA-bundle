@@ -1,38 +1,51 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import ReactNativeModal from "react-native-modal";
-import ModalBackAndCrossButton from "../../ChatCom/Modal/ModalBackAndCrossButton";
-import { useTheme } from "../../../context/ThemeContext";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import NotifyBell from "../../../assets/Icons/NotifyBell";
-import UsersIcon from "../../../assets/Icons/UsersIcon";
-import CustomFonts from "../../../constants/CustomFonts";
-import ShareIcon from "../../../assets/Icons/ShareIcon";
-import TextArea from "./TextArea";
-import UsersIconsTwo from "../../../assets/Icons/UsersIconTwo";
-import UserIconTwo from "../../../assets/Icons/UserIconTwo";
-import { handleOpenLink } from "../../HelperFunction";
-import Markdown from "react-native-markdown-display";
-import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
-import { setEventNotification, setSingleEvent } from "../../../store/reducer/calendarReducer";
-import { eventTypes, onShare } from "../../../utility/commonFunction";
-import Images from "../../../constants/Images";
-import { getEventDetails, getNotificationData } from "../../../actions/chat-noti";
-import LoadingSmall from "../../SharedComponent/LoadingSmall";
-import EventHistory from "../EventHistory";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import ReactNativeModal from 'react-native-modal';
+import ModalBackAndCrossButton from '../../ChatCom/Modal/ModalBackAndCrossButton';
+import {useTheme} from '../../../context/ThemeContext';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import NotifyBell from '../../../assets/Icons/NotifyBell';
+import CustomFonts from '../../../constants/CustomFonts';
+import ShareIcon from '../../../assets/Icons/ShareIcon';
+import UsersIconsTwo from '../../../assets/Icons/UsersIconTwo';
+import UserIconTwo from '../../../assets/Icons/UserIconTwo';
+import {handleOpenLink} from '../../HelperFunction';
+import Markdown from 'react-native-markdown-display';
+import moment from 'moment';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  setEventNotification,
+  setNotificationClicked,
+  setSingleEvent,
+} from '../../../store/reducer/calendarReducer';
+import {eventTypes, onShare} from '../../../utility/commonFunction';
+import Images from '../../../constants/Images';
+import {getNotificationData} from '../../../actions/chat-noti';
+import LoadingSmall from '../../SharedComponent/LoadingSmall';
+import EventHistory from '../EventHistory';
 
 export function EventDetailsFormatDate(dateString) {
   const options = {
-    month: "short",
-    day: "2-digit",
-    year: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
+    month: 'short',
+    day: '2-digit',
+    year: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
     hour12: true,
   };
   const date = new Date(dateString);
-  return new Intl.DateTimeFormat("en-US", options).format(date);
+  return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
 function removeMarkdown(markdownText) {
@@ -44,17 +57,17 @@ function removeMarkdown(markdownText) {
   // Loop until all markdown links are replaced
   let match;
   while ((match = markdownLinkRegex.exec(markdownText)) !== null) {
-    markdownText = markdownText.replace(markdownLinkRegex, "$2");
+    markdownText = markdownText.replace(markdownLinkRegex, '$2');
   }
 
-  return markdownText.split("](")[0];
+  return markdownText.split('](')[0];
 }
 
-const NotificationEventDetails = ({ eventId }) => {
+const NotificationEventDetails = ({eventId}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [isLoading, setIsLoading] = useState(false);
-  const { event: item, eventNotification } = useSelector((state) => state.calendar);
+  const {event: item, eventNotification} = useSelector(state => state.calendar);
   useEffect(() => {
     // getEventDetails(eventId, setIsLoading);
     getNotificationData(item?._id);
@@ -65,31 +78,32 @@ const NotificationEventDetails = ({ eventId }) => {
       backdropColor={Colors.BackDropColor}
       isVisible={Boolean(item)}
       onBackdropPress={() => {
+        dispatch(setNotificationClicked(null));
         dispatch(setSingleEvent(null));
         dispatch(
           setEventNotification([
             {
               timeBefore: 5,
-              methods: ["push"],
+              methods: ['push'],
               chatGroups: [],
             },
-          ])
+          ]),
         );
-      }}
-    >
+      }}>
       <View style={styles.modalContainer}>
         <View style={styles.modalStyle}>
           <ModalBackAndCrossButton
             toggleModal={() => {
+              dispatch(setNotificationClicked(null));
               dispatch(setSingleEvent(null));
               dispatch(
                 setEventNotification([
                   {
                     timeBefore: 5,
-                    methods: ["push"],
+                    methods: ['push'],
                     chatGroups: [],
                   },
-                ])
+                ]),
               );
             }}
           />
@@ -98,38 +112,50 @@ const NotificationEventDetails = ({ eventId }) => {
             <View
               style={{
                 flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               <LoadingSmall />
             </View>
           ) : (
             <ScrollView>
-              <Text style={styles.EventDetailsHeadingTitle}>Event Details</Text>
+              <Text style={styles.EventDetailsHeadingTitle}>
+                Event Derrrtails
+              </Text>
               <Text style={styles.EventHeading}>{item?.title}</Text>
-              <Text style={styles.eventType}>Event Type: {eventTypes(item?.eventType)}</Text>
-              <Text style={styles.time}>Start Time: {moment(item?.start).format("MMM DD, YYYY h:mm A")}</Text>
-              <Text style={styles.time}>End Time: {moment(item?.end).format("MMM DD, YYYY h:mm A")}</Text>
+              <Text style={styles.eventType}>
+                Event Type: {eventTypes(item?.eventType)}
+              </Text>
+              <Text style={styles.time}>
+                Start Time: {moment(item?.start).format('MMM DD, YYYY h:mm A')}
+              </Text>
+              <Text style={styles.time}>
+                End Time: {moment(item?.end).format('MMM DD, YYYY h:mm A')}
+              </Text>
               <Text style={styles.joinLinkHeading}>Meeting Join Link</Text>
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                   flex: 1,
                   // backgroundColor: "red",
-                  width: "100%",
-                }}
-              >
+                  width: '100%',
+                }}>
                 {item?.meetingLink ? (
                   <>
-                    <TouchableOpacity onPress={() => handleOpenLink(removeMarkdown(item?.meetingLink))}>
-                      <Text style={styles.meetingLinkText}>{removeMarkdown(item?.meetingLink)}</Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        handleOpenLink(removeMarkdown(item?.meetingLink))
+                      }>
+                      <Text style={styles.meetingLinkText}>
+                        {removeMarkdown(item?.meetingLink)}
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={{ marginRight: responsiveScreenWidth(3) }}
-                      onPress={() => onShare(removeMarkdown(item?.meetingLink))}
-                    >
+                      style={{marginRight: responsiveScreenWidth(3)}}
+                      onPress={() =>
+                        onShare(removeMarkdown(item?.meetingLink))
+                      }>
                       <ShareIcon />
                     </TouchableOpacity>
                   </>
@@ -137,7 +163,11 @@ const NotificationEventDetails = ({ eventId }) => {
                   <Text style={styles.time}>No Meeting link available</Text>
                 )}
               </View>
-              <View style={[styles.smallContainer, { marginVertical: responsiveScreenHeight(2) }]}>
+              <View
+                style={[
+                  styles.smallContainer,
+                  {marginVertical: responsiveScreenHeight(2)},
+                ]}>
                 <NotifyBell color={Colors.Heading} />
                 <Text style={styles.NoReaminder}>
                   {eventNotification[0]?.timeBefore
@@ -145,12 +175,23 @@ const NotificationEventDetails = ({ eventId }) => {
                     : `Remainder before 5 minutes`}
                 </Text>
               </View>
-              <View style={[styles.smallContainer, { marginBottom: responsiveScreenHeight(1.5) }]}>
+              <View
+                style={[
+                  styles.smallContainer,
+                  {marginBottom: responsiveScreenHeight(1.5)},
+                ]}>
                 <UsersIconsTwo color={Colors.Heading} />
-                <Text style={styles.NoReaminder}>{item?.participants?.length} Invited Guest</Text>
+                <Text style={styles.NoReaminder}>
+                  {item?.participants?.length} Invited Guest
+                </Text>
               </View>
               {item?.participants?.map((singleItem, index) => (
-                <View key={index} style={[styles.smallContainer, { marginBottom: responsiveScreenHeight(1) }]}>
+                <View
+                  key={index}
+                  style={[
+                    styles.smallContainer,
+                    {marginBottom: responsiveScreenHeight(1)},
+                  ]}>
                   {(
                     <Image
                       source={
@@ -165,7 +206,9 @@ const NotificationEventDetails = ({ eventId }) => {
                       style={styles.images}
                     />
                   ) || <UserIconTwo />}
-                  <Text style={styles.meetingLinkText}>{singleItem?.user?.fullName}</Text>
+                  <Text style={styles.meetingLinkText}>
+                    {singleItem?.user?.fullName}
+                  </Text>
                 </View>
               ))}
 
@@ -177,8 +220,7 @@ const NotificationEventDetails = ({ eventId }) => {
                     marginBottom: responsiveScreenHeight(1),
                     marginTop: responsiveScreenHeight(1),
                   },
-                ]}
-              >
+                ]}>
                 <Image
                   source={
                     item?.createdBy?.profilePicture
@@ -191,10 +233,14 @@ const NotificationEventDetails = ({ eventId }) => {
                   // width={25}
                   style={styles.images}
                 />
-                <Text style={styles.meetingLinkText}>{item?.createdBy?.fullName}</Text>
+                <Text style={styles.meetingLinkText}>
+                  {item?.createdBy?.fullName}
+                </Text>
               </View>
               <Text style={styles.textAreaHeading}>My Response</Text>
-              <Text style={styles.meetingLinkText}>{item?.myParticipantData?.status}</Text>
+              <Text style={styles.meetingLinkText}>
+                {item?.myParticipantData?.status}
+              </Text>
 
               <Text style={[styles.textAreaHeading]}>Meeting Agenda</Text>
               {/* <TextArea
@@ -203,11 +249,15 @@ const NotificationEventDetails = ({ eventId }) => {
                 setState={setMeetingAgenda}
               /> */}
               <View style={[styles.inputContainer]}>
-                <Markdown style={styles.markdownStyle}>{item?.agenda || "Meeting Agenda"}</Markdown>
+                <Markdown style={styles.markdownStyle}>
+                  {item?.agenda || 'Meeting Agenda'}
+                </Markdown>
               </View>
               <Text style={[styles.textAreaHeading]}>Follow Up Message</Text>
               <View style={styles.inputContainer}>
-                <Markdown style={styles.markdownStyle}>{item?.followUp || "Follow Up Message"}</Markdown>
+                <Markdown style={styles.markdownStyle}>
+                  {item?.followUp || 'Follow Up Message'}
+                </Markdown>
               </View>
               {/* <TextArea
                 readOnly={true}
@@ -216,7 +266,9 @@ const NotificationEventDetails = ({ eventId }) => {
               /> */}
               <Text style={[styles.textAreaHeading]}>Action Item</Text>
               <View style={styles.inputContainer}>
-                <Markdown style={styles.markdownStyle}>{item?.actionItems || "Action Item"}</Markdown>
+                <Markdown style={styles.markdownStyle}>
+                  {item?.actionItems || 'Action Item'}
+                </Markdown>
               </View>
               {/* <TextArea
                 readOnly={true}
@@ -234,7 +286,7 @@ const NotificationEventDetails = ({ eventId }) => {
 };
 
 export default NotificationEventDetails;
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     Text: {
       fontFamily: CustomFonts.MEDIUM,
@@ -244,14 +296,14 @@ const getStyles = (Colors) =>
     },
     inputContainer: {
       flex: 1,
-      width: "100%",
+      width: '100%',
       // height: responsiveScreenHeight(6),
       backgroundColor: Colors.Background_color,
       borderRadius: 10,
       borderWidth: 1,
       marginTop: responsiveScreenHeight(1),
       // flexDirection: "row",
-      alignItems: "flex-start",
+      alignItems: 'flex-start',
       paddingLeft: responsiveScreenWidth(3),
       borderColor: Colors.BorderColor,
       minHeight: responsiveScreenHeight(10),
@@ -272,7 +324,7 @@ const getStyles = (Colors) =>
         color: Colors.BodyText,
         fontFamily: CustomFonts.REGULAR,
         lineHeight: 24,
-        textAlign: "justify",
+        textAlign: 'justify',
         marginBottom: responsiveScreenHeight(1.5),
         // backgroundColor: "yellow",
       },
@@ -302,7 +354,7 @@ const getStyles = (Colors) =>
         width: responsiveScreenWidth(75),
         marginTop: 10,
         marginBottom: 10,
-        textAlign: "justify",
+        textAlign: 'justify',
       },
       link: {
         flex: 1,
@@ -316,7 +368,7 @@ const getStyles = (Colors) =>
         backgroundColor: Colors.White,
         borderRadius: 4,
         padding: 8,
-        fontFamily: "monospace",
+        fontFamily: 'monospace',
       },
       code_block: {
         flex: 1,
@@ -324,7 +376,7 @@ const getStyles = (Colors) =>
         backgroundColor: Colors.White,
         borderRadius: 4,
         padding: 8,
-        fontFamily: "monospace",
+        fontFamily: 'monospace',
       },
       code_inline: {
         flex: 1,
@@ -332,7 +384,7 @@ const getStyles = (Colors) =>
         backgroundColor: Colors.White,
         borderRadius: 4,
         padding: 4,
-        fontFamily: "monospace",
+        fontFamily: 'monospace',
       },
     },
     textAreaHeading: {
@@ -370,18 +422,18 @@ const getStyles = (Colors) =>
       width: responsiveScreenWidth(7),
     },
     smallContainer: {
-      flexDirection: "row",
-      justifyContent: "flex-start",
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
       gap: 5,
-      alignItems: "center",
+      alignItems: 'center',
     },
     meetingLinkText: {
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.BodyText,
-      maxWidth: "90%",
+      maxWidth: '90%',
       // backgroundColor: "red",
       //   fontSize: responsiveScreenFontSize(2),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
 
     joinLinkHeading: {

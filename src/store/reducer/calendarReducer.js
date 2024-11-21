@@ -6,7 +6,7 @@ const initialState = {
   calendarEvent: [],
   events: [],
   invitations: [],
-  event: {},
+  event: null,
   holidays: [],
   weekends: [],
   availabilities: [],
@@ -17,12 +17,17 @@ const initialState = {
   filterState: '',
   eventNotification: [],
   monthViewData: [],
+  notificationClicked: null,
 };
 
 const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
+    setNotificationClicked: (state, action) => {
+      console.log('action.payload', JSON.stringify(action.payload, null, 1));
+      state.notificationClicked = action.payload;
+    },
     setMonthViewData: (state, action) => {
       state.monthViewData = action.payload;
     },
@@ -281,6 +286,7 @@ export const {
   updateBulkInterval,
   updatePickedDate,
   setDayViewPickedDate,
+  setNotificationClicked,
 } = calendarSlice.actions;
 
 // Export the reducer

@@ -21,7 +21,6 @@ export const configureAxiosHeader = async () => {
   const enroll = storage.getString('active_enrolment');
   if (enroll) {
     let enrollId = JSON.parse(enroll)?._id;
-    console.log('enrollId', JSON.stringify(enrollId, null, 1));
     if (enrollId) {
       axiosInstance.defaults.headers.common.enrollment = enrollId;
     }
@@ -30,7 +29,6 @@ export const configureAxiosHeader = async () => {
   const org = storage.getString('organization');
   if (org) {
     let orgId = JSON.parse(org)?._id;
-    console.log('orgId', JSON.stringify(orgId, null, 1));
     if (orgId) {
       axiosInstance.defaults.headers.common.organization = orgId;
     }

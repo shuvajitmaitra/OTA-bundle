@@ -33,7 +33,6 @@ export const userOrganizationInfo = async () => {
   await axiosInstance
     .get('/organization/user-organizations')
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data, null, 1));
       store.dispatch(selectOrganizations(res.data.organizations));
       if (res.data.organizations.length === 1) {
         setOrganization(res.data.organizations[0]);
@@ -98,7 +97,6 @@ export const handleUpdateMember = actionData => {
   axiosInstance
     .post('/chat/member/update', actionData)
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data, null, 1));
       if (res.data?.success) {
         showToast('action successfully...');
         fetchMembers(actionData.chat);
@@ -156,7 +154,6 @@ export const handleDelete = id => {
   axiosInstance
     .delete(`/chat/delete/message/${id}`)
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data, null, 1));
       if (res.data.success) {
         if (!res.data.message.parentMessage) {
           store.dispatch(updateDeletedMessage(res.data.message));

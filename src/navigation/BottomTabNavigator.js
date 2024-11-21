@@ -6,6 +6,9 @@ import HomeStackScreen from './HomeStack';
 import CustomTabBar from './CustomTabBar';
 import ProgramStackScreen from './ProgramStack';
 import {useMainContext} from '../context/MainContext';
+import MyCalenderStackScreen from './MyCalenderStack';
+import {connectSocket} from '../utility/socketManager';
+import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,6 +17,9 @@ const BottomTabNavigator = () => {
   const {handleVerify} = useMainContext();
   useEffect(() => {
     handleVerify();
+    connectSocket();
+    loadNotifications();
+    loadCalendarEvent();
     console.log('handle from dashboard..............');
   }, []);
 
@@ -31,6 +37,11 @@ const BottomTabNavigator = () => {
       <Tab.Screen
         name="ProgramStack"
         component={ProgramStackScreen}
+        options={{tabBarLabel: 'Program'}}
+      />
+      <Tab.Screen
+        name="MyCalenderStack"
+        component={MyCalenderStackScreen}
         options={{tabBarLabel: 'Program'}}
       />
     </Tab.Navigator>

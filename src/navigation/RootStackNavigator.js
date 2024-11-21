@@ -6,10 +6,17 @@ import ThreadScreen from '../screens/Chat/ThreadScreen';
 import DrawerNavigator from './DrawerNavigator';
 import ChatProfile from '../screens/Chat/ChatProfile';
 import GlobalCommentModal from '../components/SharedComponent/GlobalCommentModal';
+import {useSelector} from 'react-redux';
+import NotificationEventDetails from '../components/Calendar/Modal/NotificationEventDetails';
 
 const RootStack = createStackNavigator();
 
 const RootStackNavigator = () => {
+  const {notificationClicked} = useSelector(state => state.calendar);
+  console.log(
+    'notificationClicked',
+    JSON.stringify(notificationClicked, null, 1),
+  );
   return (
     <>
       <RootStack.Navigator>
@@ -45,6 +52,7 @@ const RootStackNavigator = () => {
         />
       </RootStack.Navigator>
       <GlobalCommentModal />
+      {notificationClicked && <NotificationEventDetails />}
     </>
   );
 };

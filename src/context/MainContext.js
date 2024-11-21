@@ -7,9 +7,7 @@ import {
   setMyEnrollments,
   setUser,
 } from '../store/reducer/authReducer';
-import {connectSocket} from '../utility/socketManager';
 import {userOrganizationInfo} from '../actions/apiCall';
-import {loadNotifications} from '../actions/chat-noti';
 import {storage} from '../utility/mmkvInstance';
 import {activeProgram} from '../utility/mmkvHelpers';
 
@@ -22,7 +20,6 @@ export const MainProvider = ({children}) => {
   const handleVerify = async shouldLoad => {
     const org = storage.getString('organization');
     const orgId = org ? {organization: JSON.parse(org)?._id} : {};
-    console.log('orgId', JSON.stringify(orgId, null, 1));
     try {
       await configureAxiosHeader();
       if (shouldLoad) {
@@ -33,7 +30,6 @@ export const MainProvider = ({children}) => {
         .then(async res => {
           if (res.data.success) {
             await userOrganizationInfo();
-            await connectSocket();
             store.dispatch(setUser(res.data.user));
             store.dispatch(setMyEnrollments(res.data.enrollments));
             if (res.data.enrollments.length === 1) {
@@ -43,7 +39,6 @@ export const MainProvider = ({children}) => {
                 programName: res.data.enrollments[0].program.title,
               });
             }
-            loadNotifications();
           }
         })
         .catch(err => {
