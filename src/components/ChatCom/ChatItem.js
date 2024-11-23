@@ -106,6 +106,7 @@ const ChatItem = ({chat, onlineUsers}) => {
       onPress={() => {
         dispatch(setSingleChat(chat));
         navigation.navigate('MessageScreen2', {animationEnabled: false});
+        dispatch(markRead({chatId: chat?._id}));
       }}>
       {/* <View style={styles.subContainer}> */}
       <View style={styles.profileImageContainer}>
