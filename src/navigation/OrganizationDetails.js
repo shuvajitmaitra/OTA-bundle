@@ -99,7 +99,7 @@ const OrganizationDetails = () => {
     <>
       <TouchableOpacity
         onPress={toggleSelectVisible}
-        disabled={organizations.length <= 1}
+        disabled={organizations?.length <= 1}
         style={[styles.selectedOrganizationContainer, styles.topContainer]}>
         <Image
           source={
@@ -116,7 +116,7 @@ const OrganizationDetails = () => {
           {selectedOrganization?.name || 'Unavailable'}
         </Text>
         <View style={{flexGrow: 1}} />
-        {organizations.length > 1 && (
+        {organizations?.length > 1 && (
           <>{selectVisible ? <UpArrowIcon /> : <ArrowDownTwo />}</>
         )}
       </TouchableOpacity>
@@ -131,7 +131,7 @@ const OrganizationDetails = () => {
               opacity: animatedOpacity,
             },
           ]}>
-          {organizations.map(item => (
+          {organizations?.map(item => (
             <TouchableOpacity
               key={item._id}
               style={[styles.selectedOrganizationContainer]}

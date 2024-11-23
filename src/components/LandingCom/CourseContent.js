@@ -1,26 +1,31 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import axiosInstance from "../../utility/axiosInstance";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
-import ContentTab from "./ContentTab";
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import axiosInstance from '../../utility/axiosInstance';
+import CustomFonts from '../../constants/CustomFonts';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import ContentTab from './ContentTab';
 
-const CourseContent = ({ courseId }) => {
+const CourseContent = ({courseId}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [contentData, setContentData] = useState({});
 
   const getContentData = async () => {
     try {
-      const res = await axiosInstance.post("/course/chapterv2/preview", {
+      const res = await axiosInstance.post('/course/chapterv2/preview', {
         courseId: courseId,
-        fields: ["chapters", "categories", "totalDuration", "totalChapter", "totalLesson"],
+        fields: [
+          'chapters',
+          'categories',
+          'totalDuration',
+          'totalChapter',
+          'totalLesson',
+        ],
       });
-      // console.log("res.data", JSON.stringify(res.data, null, 1));
       setContentData(res?.data?.results);
     } catch (error) {
-      console.error("Error fetching course data:", error);
+      console.error('Error fetching course data:', error);
     }
   };
 
@@ -32,8 +37,8 @@ const CourseContent = ({ courseId }) => {
     <View style={styles.container}>
       <Text style={styles.titleText}>Bootcamps Content</Text>
       <Text style={styles.courseInfo}>
-        {contentData?.totalChapter} chapters • {contentData?.totalLesson} lectures • {Math.floor(contentData?.totalDuration / 3600)}h total
-        length
+        {contentData?.totalChapter} chapters • {contentData?.totalLesson}{' '}
+        lectures • {Math.floor(contentData?.totalDuration / 3600)}h total length
       </Text>
       <ContentTab courseId={courseId} categories={contentData?.categories} />
     </View>
@@ -42,7 +47,7 @@ const CourseContent = ({ courseId }) => {
 
 export default CourseContent;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       paddingVertical: 25,
@@ -58,7 +63,7 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveFontSize(1.8),
       color: Colors.BodyText,
-      textAlign: "left",
+      textAlign: 'left',
       marginTop: 20,
     },
   });

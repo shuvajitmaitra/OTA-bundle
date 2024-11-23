@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-// import Feather from 'react-native-vector-icons/Feather';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -26,9 +25,7 @@ import CrossCircle from '../../assets/Icons/CrossCircle';
 import Divider from '../SharedComponent/Divider';
 import {useNavigation} from '@react-navigation/native';
 import SearchWhiteIcon from '../../assets/Icons/SearchWhiteIcon';
-import MenuIcon from '../../assets/Icons/MenuIcon';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
-// import Ionicons from "react-native-vector-icons/Ionicons";
 
 const ChatSearchField = ({checked, handleRadioChecked, handleFilter}) => {
   const [inputFocused, setInputFocused] = useState(false);
@@ -167,7 +164,7 @@ const getStyles = Colors =>
       padding: 10,
       borderRadius: 1000,
       borderWidth: 1,
-      borderColor: Colors.LineColor,
+      borderColor: Colors.BorderColor,
     },
     topContainer: {
       alignItems: 'center',

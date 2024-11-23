@@ -9,6 +9,7 @@ import {
   setSelectedOrganization,
 } from '../store/reducer/authReducer';
 import {
+  setOnlineUsers,
   updateLatestMessage,
   updateMyData,
   updateSingleChat,
@@ -262,5 +263,15 @@ export const LoadDayToDayActivities = (page, setIsLoading) => {
     .catch(error => {
       handleError(error);
       setIsLoading(false);
+    });
+};
+export const getOnlineUsers = () => {
+  axiosInstance
+    .get('user/online')
+    .then(({data}) => {
+      store.dispatch(setOnlineUsers(data.users));
+    })
+    .catch(error => {
+      console.log('error to get online user', JSON.stringify(error, null, 1));
     });
 };

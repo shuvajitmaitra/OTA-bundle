@@ -18,31 +18,36 @@ import {useNavigation} from '@react-navigation/native';
 import GoToChatIcon from '../../assets/Icons/GoToChatIcon';
 import UserIconTwo from '../../assets/Icons/UserIconTwo';
 import axiosInstance from '../../utility/axiosInstance';
-import {useDispatch, useSelector} from 'react-redux';
-import {setSingleChat, updateChats} from '../../store/reducer/chatReducer';
+import {useDispatch} from 'react-redux';
+import {setSingleChat} from '../../store/reducer/chatReducer';
 
 const OnlineUsersItem = ({item}) => {
   const [creating, setCreating] = useState(false);
   const [Loading, setLoading] = useState(false);
-  const {chats} = useSelector(state => state.chat);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleCreateChat = async id => {
-    if (creating) return;
+    if (creating) {
+      return;
+    }
     setCreating(true);
     try {
       setLoading(true);
       const res = await axiosInstance.post(`/chat/findorcreate/${id}`);
-      // console.log('res.data', JSON.stringify(res.data, null, 1));
       if (res.data.success) {
-        navigation.push('MessageScreen2', {
-          chatId: res.data.chat._id,
-          name: item?.fullName,
-          image: item?.profilePicture,
-        });
+        navigation.push('MessageScreen2');
       }
 
-      dispatch(setSingleChat(res.data.chat));
+      dispatch(
+        setSingleChat({
+          ...res.data.chat,
+          otherUser: {
+            profilePicture: item?.profilePicture,
+            _id: item._id,
+            fullName: item?.fullName,
+          },
+        }),
+      );
     } catch (err) {
       setLoading(false);
       console.error('Error creating chat:', err?.response?.data);
@@ -87,7 +92,8 @@ const OnlineUsersItem = ({item}) => {
                 {
                   backgroundColor: Colors.Primary,
                 },
-              ]}></View>
+              ]}
+            />
           </View>
 
           <View>

@@ -56,7 +56,7 @@ export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
                   ? chat?.avatar
                     ? {uri: chat?.avatar}
                     : Images.DEFAULT_IMAGE
-                  : chat.otherUser.profilePicture
+                  : chat?.otherUser?.profilePicture
                   ? {uri: chat.otherUser.profilePicture}
                   : Images.DEFAULT_IMAGE
               }

@@ -1,24 +1,12 @@
-import {
-  configureReanimatedLogger,
-  ReanimatedLogLevel,
-} from 'react-native-reanimated';
-
-configureReanimatedLogger({
-  level: ReanimatedLogLevel.warn,
-  strict: false, // Enables strict mode
-});
-
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {
   Text,
   StyleSheet,
   TextInput,
-  KeyboardAvoidingView,
-  Platform,
   TouchableOpacity,
   View,
+  ScrollView,
 } from 'react-native';
-import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {useTheme} from '../../context/ThemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {setBottomSheetVisible} from '../../store/reducer/ModalReducer';
@@ -37,21 +25,18 @@ import axiosInstance from '../../utility/axiosInstance';
 import Comment from '../CommunityCom/Comment';
 import Divider from './Divider';
 import SendIcon from '../../assets/Icons/SendIcon';
-import {BackHandler} from 'react-native';
+import ReactNativeModal from 'react-native-modal';
 
 const GlobalCommentModal = () => {
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const bottomSheetRef = useRef(null);
   const [commentText, setCommentText] = useState('');
   const {user} = useSelector(state => state.auth);
-  const textInputRef = useRef(null);
   const {comments, commentId} = useSelector(state => state.comment);
   const {bottomSheetVisible} = useSelector(state => state.modal);
   const [isCommenting, setCommenting] = useState(false);
-  const snapPoints = useMemo(() => ['100%'], []);
-  const [isLoading, setIsLoading] = useState(false);
+
   const handleCreateComment = () => {
     if (!commentText.trim()) {
       return showAlertModal({
@@ -80,42 +65,6 @@ const GlobalCommentModal = () => {
         setCommenting(false);
       });
   };
-  const handleSheetChanges = useCallback(index => {
-    console.log(index);
-    if (index === -1) {
-      dispatch(setBottomSheetVisible(false));
-      textInputRef.current?.blur();
-    } else if (index === 0) {
-      textInputRef.current?.focus();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (bottomSheetRef.current) {
-      if (bottomSheetVisible) {
-        bottomSheetRef.current?.expand();
-      } else {
-        bottomSheetRef.current?.close();
-      }
-    }
-  }, [bottomSheetVisible]);
-
-  useEffect(() => {
-    const backAction = () => {
-      if (bottomSheetVisible) {
-        dispatch(setBottomSheetVisible(false)); // Close the modal
-        return true; // Prevent the default back action
-      }
-      return false; // Allow the default back action
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove(); // Cleanup the listener on unmount
-  }, [bottomSheetVisible]);
 
   const filteredComments = useMemo(
     () => comments.filter(comment => comment.contentId === commentId),
@@ -123,78 +72,89 @@ const GlobalCommentModal = () => {
   );
 
   return (
-    // <Text>Hello</Text>
-    <BottomSheet
-      ref={bottomSheetRef}
-      index={-1}
-      snapPoints={snapPoints}
-      enablePanDownToClose={true}
-      onChange={handleSheetChanges}
-      style={styles.bottomSheet}
-      backgroundStyle={styles.bottomSheetBackground}
-      handleStyle={styles.handle}
-      handleIndicatorStyle={styles.handleIndicator}>
-      <BottomSheetScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.comments}>Comments</Text>
-        <View>
-          {filteredComments && filteredComments.length > 0 ? (
-            filteredComments?.map((comment, index) => {
-              const isSameDate =
-                new Date(filteredComments[index]?.createdAt).toDateString() ===
-                new Date(filteredComments[index - 1]?.createdAt).toDateString();
-
-              return (
-                <React.Fragment key={comment._id}>
-                  {(index === 0 || !isSameDate) && (
-                    <View style={styles.commentDateContainer}>
-                      <Text style={styles.commentDate}>
-                        {/* {moment(comments[index].createdAt).format("MMM DD, YYYY")} */}
-                        {formatDynamicDate(filteredComments[index].createdAt)}
-                      </Text>
-                    </View>
-                  )}
-                  <Comment comment={comment} />
-                </React.Fragment>
-              );
-            })
-          ) : (
-            <View style={styles.noCommentContainer}>
-              <FontAwesome name="comments" size={111} color={Colors.BodyText} />
-              <Text
-                style={{
-                  color: Colors.BodyText,
-                  fontSize: responsiveScreenFontSize(2.5),
-                  fontFamily: CustomFonts.SEMI_BOLD,
-                  marginTop: responsiveScreenHeight(2.5),
-                }}>
-                No comments yet
-              </Text>
-              <Text
-                style={{
-                  color: Colors.BodyText,
-                  fontSize: responsiveScreenFontSize(1.6),
-                  fontFamily: CustomFonts.SEMI_BOLD,
-                }}>
-                Be the first to comment
-              </Text>
-            </View>
-          )}
+    <ReactNativeModal
+      isVisible={bottomSheetVisible}
+      onBackdropPress={() => dispatch(setBottomSheetVisible(false))}
+      onSwipeComplete={() => dispatch(setBottomSheetVisible(false))}
+      swipeDirection={['down']}
+      style={styles.modal}
+      avoidKeyboard={true}
+      propagateSwipe={true}
+      animationIn="slideInUp"
+      animationOut="slideOutDown" // Added keyboard blur behavior
+      // Optional: Add additional props if needed
+      backdropOpacity={0}>
+      <View style={styles.modalContent}>
+        {/* Draggable Handle */}
+        <View style={styles.handleContainer}>
+          <View style={styles.handleIndicator} />
         </View>
-      </BottomSheetScrollView>
 
-      <Divider marginBottom={1} />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 30 : 0}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Text style={styles.comments}>Comments</Text>
+          <View>
+            {filteredComments && filteredComments.length > 0 ? (
+              filteredComments.map((comment, index) => {
+                const isSameDate =
+                  index > 0 &&
+                  new Date(
+                    filteredComments[index]?.createdAt,
+                  ).toDateString() ===
+                    new Date(
+                      filteredComments[index - 1]?.createdAt,
+                    ).toDateString();
+
+                return (
+                  <React.Fragment key={comment._id}>
+                    {(!isSameDate || index === 0) && (
+                      <View style={styles.commentDateContainer}>
+                        <Text style={styles.commentDate}>
+                          {formatDynamicDate(filteredComments[index].createdAt)}
+                        </Text>
+                      </View>
+                    )}
+                    <Comment comment={comment} />
+                  </React.Fragment>
+                );
+              })
+            ) : (
+              <View style={styles.noCommentContainer}>
+                <FontAwesome
+                  name="comments"
+                  size={111}
+                  color={Colors.BodyText}
+                />
+                <Text
+                  style={{
+                    color: Colors.BodyText,
+                    fontSize: responsiveScreenFontSize(2.5),
+                    fontFamily: CustomFonts.SEMI_BOLD,
+                    marginTop: responsiveScreenHeight(2.5),
+                  }}>
+                  No comments yet
+                </Text>
+                <Text
+                  style={{
+                    color: Colors.BodyText,
+                    fontSize: responsiveScreenFontSize(1.6),
+                    fontFamily: CustomFonts.SEMI_BOLD,
+                  }}>
+                  Be the first to comment
+                </Text>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+
+        <Divider marginBottom={1} />
         <View style={styles.inputContainer}>
           <TextInput
-            ref={textInputRef}
             keyboardAppearance={
               Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
             }
             style={styles.inputText}
             value={commentText}
-            onChangeText={e => setCommentText(e)}
+            onChangeText={setCommentText}
             placeholder={
               user?.fullName ? `Comment as ${user?.fullName}` : 'Comment...'
             }
@@ -202,17 +162,11 @@ const GlobalCommentModal = () => {
             multiline
           />
           <TouchableOpacity
-            style={[
-              styles.submitBtn,
-              {
-                paddingBottom:
-                  Platform.OS === 'ios'
-                    ? responsiveScreenHeight(0.5)
-                    : responsiveScreenHeight(0.5),
-              },
-            ]}
+            style={[styles.submitBtn]}
             onPress={() => {
-              isCommenting ? null : handleCreateComment();
+              if (!isCommenting) {
+                handleCreateComment();
+              }
             }}>
             {isCommenting ? (
               <View style={{paddingBottom: responsiveScreenHeight(1)}}>
@@ -223,8 +177,8 @@ const GlobalCommentModal = () => {
             )}
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
-    </BottomSheet>
+      </View>
+    </ReactNativeModal>
   );
 };
 
@@ -232,6 +186,26 @@ export default GlobalCommentModal;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    modal: {
+      justifyContent: 'flex-end',
+      margin: 0, // Ensures the modal takes up the full width
+    },
+    modalContent: {
+      backgroundColor: Colors.White,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      minHeight: '97%', // Adjust as needed
+    },
+    handleContainer: {
+      alignItems: 'center',
+      paddingVertical: responsiveScreenHeight(1),
+    },
+    handleIndicator: {
+      width: 40,
+      height: 5,
+      borderRadius: 2.5,
+      backgroundColor: Colors.BorderColor,
+    },
     noCommentContainer: {
       alignItems: 'center',
       justifyContent: 'center',
@@ -280,14 +254,15 @@ const getStyles = Colors =>
       alignItems: 'center',
     },
     submitBtn: {
-      //   paddingTop: 10,
       alignSelf: 'flex-end',
+      paddingBottom: responsiveScreenHeight(0.5),
     },
     comments: {
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.4),
       color: Colors.Heading,
       paddingTop: responsiveScreenHeight(1.5),
+      textAlign: 'center',
     },
     scrollContainer: {
       flexGrow: 1,
@@ -306,18 +281,12 @@ const getStyles = Colors =>
       height: 40,
       borderRadius: 0,
     },
-    handleIndicator: {
-      backgroundColor: Colors.White,
-      width: 40,
-      height: 4,
-      borderRadius: 2,
-    },
     inputContainer: {
       flexDirection: 'row',
+      alignItems: 'center', // Ensure items are centered vertically
       justifyContent: 'space-between',
       backgroundColor: Colors.BorderColor,
       marginHorizontal: responsiveScreenWidth(4),
-      // marginVertical: responsiveScreenHeight(2),
       marginBottom: responsiveScreenHeight(2),
       paddingRight: responsiveScreenWidth(4),
       paddingVertical: responsiveScreenHeight(1),

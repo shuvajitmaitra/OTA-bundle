@@ -1,20 +1,13 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {
-  responsiveScreenWidth,
-  responsiveScreenHeight,
-} from 'react-native-responsive-dimensions';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import MessageImg from '../assets/ApplicationImage/MainPage/message.png';
-import NotificationImg from '../assets/ApplicationImage/MainPage/notification.png';
 import {useTheme} from '../context/ThemeContext';
-import MessageIcon from '../assets/Icons/MessageIcon';
 import MessageIconLive from '../assets/Icons/MessageIconLive';
 import NotificationIconLive from '../assets/Icons/NotificationIconLive';
 import {setNotifications} from '../store/reducer/notificationReducer';
-import * as Animatable from 'react-native-animatable';
 
 export default function MessageNotificationContainer() {
   const navigation = useNavigation();

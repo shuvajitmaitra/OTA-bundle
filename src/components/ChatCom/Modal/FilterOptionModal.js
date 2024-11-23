@@ -1,10 +1,10 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  TouchableWithoutFeedback,
   TouchableOpacity,
+  ScrollView,
+  Dimensions,
 } from 'react-native';
 import {BottomSheetModal, BottomSheetView} from '@gorhom/bottom-sheet';
 import {useTheme} from '../../../context/ThemeContext';
@@ -12,23 +12,24 @@ import CommentsIcon from '../../../assets/Icons/CommentsIcon';
 import CrowdIcon from '../../../assets/Icons/CrowedIcon';
 import BinIcon from '../../../assets/Icons/BinIcon';
 import NewPinIcon from '../../../assets/Icons/NewPinIcon';
-import {FlatList} from 'react-native';
 import Divider from '../../SharedComponent/Divider';
 import CustomFonts from '../../../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import CreateCrowdModal from './CreateCrowdModal';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 
+const {height: screenHeight} = Dimensions.get('window');
 const FilterOptionModal = ({
   bottomSheetRef,
-  openBottomSheet,
   handleRadioChecked,
   toggleCreateCrowdModal,
 }) => {
+  // Get screen height to adjust modal height dynamically
+
   // Define snap points for the bottom sheet modal
-  const snapPoints = useMemo(() => ['35%', '35%', '35%'], []);
+
   const navigation = useNavigation();
+
   // Function to handle closing the modal
   const closeBottomSheet = useCallback(() => {
     bottomSheetRef.current?.dismiss();
@@ -36,6 +37,7 @@ const FilterOptionModal = ({
 
   const Colors = useTheme();
   const styles = getStyles(Colors);
+
   const data = [
     {
       label: 'New chat',
@@ -60,12 +62,11 @@ const FilterOptionModal = ({
         closeBottomSheet();
       },
       icon: (
-        <BinIcon />
-        // // <MaterialIcons
-        //   name="online-prediction"
-        //   size={24}
-        //   color={Colors.BodyText}
-        // />
+        <MaterialIcons
+          name="online-prediction"
+          size={24}
+          color={Colors.BodyText}
+        />
       ),
     },
     {
@@ -85,49 +86,42 @@ const FilterOptionModal = ({
       icon: <BinIcon size={23} />,
     },
   ];
+  const snapPoints = [Math.min(data.length * 70, screenHeight * 0.5)];
 
-  const threeDotRenderItem = ({item}) => {
-    return (
-      <TouchableOpacity onPress={item.onPress} style={styles.itemContainer}>
-        <Text style={styles.popupContryText}>{item.label}</Text>
-        {item.icon}
-      </TouchableOpacity>
-    );
-  };
   return (
-    <>
-      <BottomSheetModal
-        ref={bottomSheetRef}
-        index={1} // default snap point index
-        snapPoints={snapPoints}
-        enablePanDownToClose={true}
-        backgroundStyle={{backgroundColor: Colors.White}}
-        handleIndicatorStyle={{backgroundColor: Colors.Primary}}
-        // backdropComponent={() => (
-        //   <TouchableWithoutFeedback onPress={closeBottomSheet}>
-        //     <View style={styles.backdrop} />
-        //   </TouchableWithoutFeedback>
-        // )}
-        animateOnMount={true}
-        onDismiss={closeBottomSheet}>
-        {/* Modal Content */}
-        <BottomSheetView style={styles.contentContainer}>
-          <Text style={styles.title}>Filter Options</Text>
-          <FlatList
-            data={data}
-            renderItem={threeDotRenderItem}
-            keyExtractor={(item, index) => index.toString()}
-            ItemSeparatorComponent={() => (
-              <Divider
-                style={{borderTopColor: Colors.Gray}}
-                marginTop={0.8}
-                marginBottom={0.8}
-              />
-            )}
-          />
-        </BottomSheetView>
-      </BottomSheetModal>
-    </>
+    <BottomSheetModal
+      ref={bottomSheetRef}
+      index={0} // Default snap point index
+      snapPoints={snapPoints}
+      enablePanDownToClose={true}
+      backgroundStyle={{backgroundColor: Colors.White}}
+      handleIndicatorStyle={{backgroundColor: Colors.Primary}}
+      animateOnMount={true}
+      onDismiss={closeBottomSheet}>
+      {/* Modal Content */}
+      <BottomSheetView style={styles.contentContainer}>
+        <Text style={styles.title}>Filter Options</Text>
+        <ScrollView>
+          {data.map((item, index) => (
+            <React.Fragment key={index}>
+              <TouchableOpacity
+                onPress={item.onPress}
+                style={styles.itemContainer}>
+                <Text style={styles.popupContryText}>{item.label}</Text>
+                {item.icon}
+              </TouchableOpacity>
+              {index < data.length - 1 && (
+                <Divider
+                  style={{borderTopColor: Colors.Gray}}
+                  marginTop={0.8}
+                  marginBottom={0.8}
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </ScrollView>
+      </BottomSheetView>
+    </BottomSheetModal>
   );
 };
 
@@ -152,18 +146,14 @@ const getStyles = Colors =>
       backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent backdrop
     },
     contentContainer: {
-      flex: 1,
+      maxHeight: screenHeight * 0.5, // Limit height to half of the screen
       paddingHorizontal: 20,
-      //   backgroundColor: Colors.Background_color,
+      paddingBottom: 10,
     },
     title: {
       fontSize: 20,
       fontWeight: 'bold',
       color: Colors.Heading,
       marginBottom: 10,
-    },
-    subtitle: {
-      fontSize: 16,
-      marginVertical: 10,
     },
   });

@@ -8,8 +8,12 @@ import ProgramStackScreen from './ProgramStack';
 import {useMainContext} from '../context/MainContext';
 import MyCalenderStackScreen from './MyCalenderStack';
 import {connectSocket} from '../utility/socketManager';
-import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
+import {
+  loadCalendarEvent,
+  loadInitialNotifications,
+} from '../actions/chat-noti';
 import CommunityStackScreen from './CommunityStack';
+import {getOnlineUsers} from '../actions/apiCall';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,9 +22,10 @@ const BottomTabNavigator = () => {
   const {handleVerify} = useMainContext();
   useEffect(() => {
     handleVerify();
+    loadInitialNotifications();
     connectSocket();
-    loadNotifications();
     loadCalendarEvent();
+    getOnlineUsers();
     console.log('handle from dashboard..............');
   }, []);
 

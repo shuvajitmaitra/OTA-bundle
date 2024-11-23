@@ -1,19 +1,28 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import ReactNativeModal from "react-native-modal";
-import CustomFonts from "../../../constants/CustomFonts";
-import axiosInstance from "../../../utility/axiosInstance";
-import { useTheme } from "../../../context/ThemeContext";
-import { showToast } from "../../HelperFunction";
-import ModalBackAndCrossButton from "../../ChatCom/Modal/ModalBackAndCrossButton";
-import { handleError, loadCommunityPosts } from "../../../actions/chat-noti";
-import { getHashtagTexts, showAlertModal } from "../../../utility/commonFunction";
-import { TextInput } from "react-native";
-import EditPostBottomContainer from "../EditPostBottomContainer";
-import GlobalAlertModal from "../../SharedComponent/GlobalAlertModal";
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import ReactNativeModal from 'react-native-modal';
+import CustomFonts from '../../../constants/CustomFonts';
+import axiosInstance from '../../../utility/axiosInstance';
+import {useTheme} from '../../../context/ThemeContext';
+import {showToast} from '../../HelperFunction';
+import ModalBackAndCrossButton from '../../ChatCom/Modal/ModalBackAndCrossButton';
+import {handleError, loadCommunityPosts} from '../../../actions/chat-noti';
+import {getHashtagTexts, showAlertModal} from '../../../utility/commonFunction';
+import {TextInput} from 'react-native';
+import EditPostBottomContainer from '../EditPostBottomContainer';
+import GlobalAlertModal from '../../SharedComponent/GlobalAlertModal';
 
-export default function PostEditModal({ setIsModalVisible, isModalVisible, post: postData, closePopover }) {
+export default function PostEditModal({
+  setIsModalVisible,
+  isModalVisible,
+  post: postData,
+  closePopover,
+}) {
   const [post, setPost] = useState(postData);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -25,23 +34,23 @@ export default function PostEditModal({ setIsModalVisible, isModalVisible, post:
   const handleEditPost = () => {
     if (!post.title.trim()) {
       showAlertModal({
-        title: "Empty Title",
-        type: "warning",
-        message: "Title cannot be empty.",
+        title: 'Empty Title',
+        type: 'warning',
+        message: 'Title cannot be empty.',
       });
       return;
     }
 
     if (!post.description.trim()) {
       showAlertModal({
-        title: "Empty Post",
-        type: "warning",
-        message: "Post cannot be empty.",
+        title: 'Empty Post',
+        type: 'warning',
+        message: 'Post cannot be empty.',
       });
       return;
     }
 
-    setPost((pre) => ({ ...pre, tags: getHashtagTexts(pre.description) }));
+    setPost(pre => ({...pre, tags: getHashtagTexts(pre.description)}));
     axiosInstance
       .patch(`/content/community/post/edit/${post._id}`, {
         title: post?.title,
@@ -49,27 +58,28 @@ export default function PostEditModal({ setIsModalVisible, isModalVisible, post:
         tags: post.tags,
         attachments: post?.attachments,
       })
-      .then((res) => {
-        console.log("res.data", JSON.stringify(res.data, null, 1));
+      .then(res => {
         closePopover();
         setIsModalVisible(false);
-        showToast("Edited...");
+        showToast('Edited...');
         loadCommunityPosts({
           page: 1,
           limit: 10,
-          query: "",
+          query: '',
           tags: [],
-          user: "",
-          filterBy: "",
+          user: '',
+          filterBy: '',
         });
       })
-      .catch((error) => {
+      .catch(error => {
         handleError(error);
       });
   };
 
   return (
-    <ReactNativeModal backdropColor={Colors.BackDropColor} isVisible={isModalVisible}>
+    <ReactNativeModal
+      backdropColor={Colors.BackDropColor}
+      isVisible={isModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalChild}>
           <ModalBackAndCrossButton toggleModal={setIsModalVisible} />
@@ -79,20 +89,24 @@ export default function PostEditModal({ setIsModalVisible, isModalVisible, post:
               <View style={styles.fieldContainer}>
                 <Text style={styles.fieldLabel}>Title*</Text>
                 <TextInput
-                  keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                  keyboardAppearance={
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                  }
                   placeholder="Edit post title..."
                   multiline
                   textAlignVertical="top"
                   placeholderTextColor={Colors.BodyText}
-                  style={[styles.input, { fontFamily: CustomFonts.REGULAR }]}
-                  onChangeText={(text) => setPost((pre) => ({ ...pre, title: text }))}
-                  value={post.title || ""}
+                  style={[styles.input, {fontFamily: CustomFonts.REGULAR}]}
+                  onChangeText={text => setPost(pre => ({...pre, title: text}))}
+                  value={post.title || ''}
                 />
               </View>
               <View style={styles.fieldContainer}>
                 <Text style={styles.fieldLabel}>Write Post*</Text>
                 <TextInput
-                  keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+                  keyboardAppearance={
+                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                  }
                   placeholder="Edit post..."
                   placeholderTextColor={Colors.BodyText}
                   textAlignVertical="top"
@@ -104,11 +118,17 @@ export default function PostEditModal({ setIsModalVisible, isModalVisible, post:
                       fontFamily: CustomFonts.REGULAR,
                     },
                   ]}
-                  onChangeText={(text) => setPost((pre) => ({ ...pre, description: text }))}
-                  value={post.description || ""}
+                  onChangeText={text =>
+                    setPost(pre => ({...pre, description: text}))
+                  }
+                  value={post.description || ''}
                 />
               </View>
-              <EditPostBottomContainer handleEditPost={handleEditPost} post={post} setPost={setPost} />
+              <EditPostBottomContainer
+                handleEditPost={handleEditPost}
+                post={post}
+                setPost={setPost}
+              />
             </View>
           </ScrollView>
         </View>
@@ -118,13 +138,13 @@ export default function PostEditModal({ setIsModalVisible, isModalVisible, post:
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     modalContainer: {
       height: responsiveScreenHeight(100),
       flex: 1,
       width: responsiveScreenWidth(90),
-      justifyContent: "center",
+      justifyContent: 'center',
     },
 
     modalChild: {

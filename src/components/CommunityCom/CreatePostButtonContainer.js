@@ -58,7 +58,6 @@ const CreatePostButtonContainer = ({post, setPost}) => {
       })
       .then(res => {
         if (res.data.success) {
-          console.log('res.data', JSON.stringify(res.data, null, 1));
           loadCommunityPosts({page: 1, limit: 10});
           setPost({attachments: [], title: '', description: '', tags: []});
           showToast('Posted...');

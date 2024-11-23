@@ -49,7 +49,6 @@ import GroupModalTabView from '../../components/ChatCom/Modal/GroupModalTabView'
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
-  // console.log('chat', JSON.stringify(chat, null, 1));
 
   const {selectedMember} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
@@ -59,17 +58,12 @@ const ChatProfile = () => {
   const [isImageViewerVisible, setIsImageViewerVisible] = useState(false);
   const [blockConfirm, setBlockConfirm] = useState(false);
   const [removeConfirm, setRemoveConfirm] = useState(false);
-  // --------------------------
-  // ----------- Leave Crowd Modal Function -----------
-  // --------------------------
+
   const [isLeaveCrowdModalVisible, setLeaveCrowdModalVisible] = useState(false);
   const toggleLeaveCrowdModal = () => {
     setLeaveCrowdModalVisible(!isLeaveCrowdModalVisible);
   };
 
-  // --------------------------
-  // ----------- Add Member Modal Function -----------
-  // --------------------------
   const [isAddMembersModalVisible, setAddMembersModalVisible] = useState(false);
   const toggleAddMembersModal = () => {
     setAddMembersModalVisible(!isAddMembersModalVisible);
@@ -274,7 +268,7 @@ const ChatProfile = () => {
                   ? chat?.avatar
                     ? {uri: chat?.avatar}
                     : Images.DEFAULT_IMAGE
-                  : chat.otherUser.profilePicture
+                  : chat?.otherUser?.profilePicture
                   ? {uri: chat.otherUser.profilePicture}
                   : Images.DEFAULT_IMAGE
               }

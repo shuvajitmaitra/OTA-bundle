@@ -18,10 +18,8 @@ import Checkbox from 'expo-checkbox';
 
 import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
-import {useSelector} from 'react-redux';
 
 export default function CustomPhoneFieldProfile({title, setText, errorText}) {
-  const {user} = useSelector(state => state.auth);
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
