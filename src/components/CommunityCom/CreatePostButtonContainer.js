@@ -1,83 +1,85 @@
-import { Alert, StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import GallaryIcon from "../../assets/Icons/GallaryIcon";
-import SendIconTwo from "../../assets/Icons/SendIconTwo";
-import CrossCircle from "../../assets/Icons/CrossCircle"; // Assuming you have a CrossCircle icon
-import axiosInstance from "../../utility/axiosInstance";
-import { getHashtagTexts } from "../../utility/commonFunction";
-import useUploadImage from "../../hook/useUploadImage";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import LoadingSmall from "../SharedComponent/LoadingSmall";
-import { showToast } from "../HelperFunction";
-import { handleGalleryPress, loadCommunityPosts } from "../../actions/chat-noti";
-import * as ImagePicker from "expo-image-picker";
-import { useGlobalAlert } from "../SharedComponent/GlobalAlertContext";
-import CustomeBtn from "../AuthenticationCom/CustomeBtn";
-import CustomIconButton from "../SharedComponent/CustomIconButton";
-import AiIcon from "../../assets/Icons/AiIcon";
-import { useNavigation } from "@react-navigation/native";
-import AiModal from "../SharedComponent/AiModal/AiModal";
-import AiIcon2 from "../../assets/Icons/AiIcon2";
+import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import GallaryIcon from '../../assets/Icons/GallaryIcon';
+import SendIconTwo from '../../assets/Icons/SendIconTwo';
+import CrossCircle from '../../assets/Icons/CrossCircle'; // Assuming you have a CrossCircle icon
+import axiosInstance from '../../utility/axiosInstance';
+import {getHashtagTexts} from '../../utility/commonFunction';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import {showToast} from '../HelperFunction';
+import {handleGalleryPress, loadCommunityPosts} from '../../actions/chat-noti';
+import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
+import CustomIconButton from '../SharedComponent/CustomIconButton';
+import AiModal from '../SharedComponent/AiModal/AiModal';
+import AiIcon2 from '../../assets/Icons/AiIcon2';
 
-const CreatePostButtonContainer = ({ post, setPost }) => {
+const CreatePostButtonContainer = ({post, setPost}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [creating, setCreating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { showAlert } = useGlobalAlert();
-  const navigation = useNavigation();
+  const {showAlert} = useGlobalAlert();
   const [aiModalVisible, setAiModalVisible] = useState(false);
   const extractTags = () => {
-    setPost((pre) => ({ ...pre, tags: getHashtagTexts(pre.description) }));
+    setPost(pre => ({...pre, tags: getHashtagTexts(pre.description)}));
   };
 
   const handlePost = () => {
-    const title = post.title?.trim() || "";
-    const description = post.description?.trim() || "";
+    const title = post.title?.trim() || '';
+    const description = post.description?.trim() || '';
 
     if (!title)
       return showAlert({
-        title: "Empty Title",
-        type: "warning",
-        message: "Title cannot be empty.",
+        title: 'Empty Title',
+        type: 'warning',
+        message: 'Title cannot be empty.',
       });
     if (!description)
       return showAlert({
-        title: "Empty Post",
-        type: "warning",
-        message: "Post cannot be empty.",
+        title: 'Empty Post',
+        type: 'warning',
+        message: 'Post cannot be empty.',
       });
 
     setCreating(true);
 
     axiosInstance
-      .post("/content/community/post/create", {
+      .post('/content/community/post/create', {
         ...post,
         title,
         description,
         attachments: post.attachments || [],
       })
-      .then((res) => {
+      .then(res => {
         if (res.data.success) {
-          console.log("res.data", JSON.stringify(res.data, null, 1));
-          loadCommunityPosts({ page: 1, limit: 10 });
-          setPost({ attachments: [], title: "", description: "", tags: [] });
-          showToast("Posted...");
+          console.log('res.data', JSON.stringify(res.data, null, 1));
+          loadCommunityPosts({page: 1, limit: 10});
+          setPost({attachments: [], title: '', description: '', tags: []});
+          showToast('Posted...');
           setCreating(false);
         }
       })
-      .catch((error) => {
-        console.log("error from content community post create", JSON.stringify(error.response?.data || error.message, null, 1));
+      .catch(error => {
+        console.log(
+          'error from content community post create',
+          JSON.stringify(error.response?.data || error.message, null, 1),
+        );
         setCreating(false);
       });
   };
 
-  const removeImage = (uri) => {
-    setPost((prevPost) => ({
+  const removeImage = uri => {
+    setPost(prevPost => ({
       ...prevPost,
-      attachments: prevPost.attachments?.filter((attachment) => attachment.url !== uri),
+      attachments: prevPost.attachments?.filter(
+        attachment => attachment.url !== uri,
+      ),
     }));
   };
 
@@ -86,10 +88,14 @@ const CreatePostButtonContainer = ({ post, setPost }) => {
       {post?.attachments?.length > 0 && (
         <View style={styles.selectedImagesContainer}>
           {post?.attachments?.map((item, index) => (
-            <View key={`${item}_${index}`} style={styles.selectedImageContainer}>
-              <Image style={styles.selectedImage} source={{ uri: item?.url }} />
-              <TouchableOpacity onPress={() => removeImage(item.url)} style={styles.CrossCircle}>
-                <CrossCircle color={"red"} />
+            <View
+              key={`${item}_${index}`}
+              style={styles.selectedImageContainer}>
+              <Image style={styles.selectedImage} source={{uri: item?.url}} />
+              <TouchableOpacity
+                onPress={() => removeImage(item.url)}
+                style={styles.CrossCircle}>
+                <CrossCircle color={'red'} />
               </TouchableOpacity>
             </View>
           ))}
@@ -98,7 +104,7 @@ const CreatePostButtonContainer = ({ post, setPost }) => {
 
       <View style={styles.buttonContainer}>
         <CustomIconButton
-          handlePress={() => handleGalleryPress({ setPost, setIsLoading })}
+          handlePress={() => handleGalleryPress({setPost, setIsLoading})}
           title="Gallery"
           customContainerStyle={{
             flex: 0.3,
@@ -110,7 +116,7 @@ const CreatePostButtonContainer = ({ post, setPost }) => {
           isLoading={isLoading}
           disable={false}
           icon={<GallaryIcon color={Colors.Primary} />} // Expecting an icon component passed as prop
-          iconPosition={"left"}
+          iconPosition={'left'}
           background={Colors.PrimaryOpacityColor}
           color={Colors.Primary}
         />
@@ -128,12 +134,16 @@ const CreatePostButtonContainer = ({ post, setPost }) => {
           }}
           isLoading={creating}
           disable={creating || isLoading}
-          icon={<SendIconTwo color={creating || isLoading ? Colors.Primary : Colors.PureWhite} />} // Expecting an icon component passed as prop
-          iconPosition={"left"} // Option to place icon on left or right
+          icon={
+            <SendIconTwo
+              color={creating || isLoading ? Colors.Primary : Colors.PureWhite}
+            />
+          } // Expecting an icon component passed as prop
+          iconPosition={'left'} // Option to place icon on left or right
         />
         <CustomIconButton
           handlePress={() => {
-            setAiModalVisible((pre) => !pre);
+            setAiModalVisible(pre => !pre);
           }}
           title="AI"
           customContainerStyle={{
@@ -144,12 +154,12 @@ const CreatePostButtonContainer = ({ post, setPost }) => {
           }}
           isLoading={false}
           disable={false}
-          icon={<AiIcon2 color={"white"} />} // Expecting an icon component passed as prop
-          iconPosition={"left"} // Option to place icon on left or right
+          icon={<AiIcon2 color={'white'} />} // Expecting an icon component passed as prop
+          iconPosition={'left'} // Option to place icon on left or right
         />
       </View>
       <AiModal
-        setState={(text) => setPost((pre) => ({ ...pre, description: text }))}
+        setState={text => setPost(pre => ({...pre, description: text}))}
         post={post}
         isVisible={aiModalVisible}
         onCancelPress={() => setAiModalVisible(!aiModalVisible)}
@@ -160,12 +170,12 @@ const CreatePostButtonContainer = ({ post, setPost }) => {
 
 export default CreatePostButtonContainer;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     buttonContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
       gap: responsiveScreenFontSize(2),
       marginVertical: responsiveScreenHeight(1.5),
     },
@@ -173,9 +183,9 @@ const getStyles = (Colors) =>
       width: responsiveScreenWidth(30),
       height: responsiveScreenHeight(5),
       backgroundColor: Colors.SecondaryButtonBackgroundColor,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
       paddingHorizontal: responsiveScreenWidth(4),
       gap: 8,
       borderRadius: responsiveScreenWidth(2),
@@ -192,12 +202,12 @@ const getStyles = (Colors) =>
       color: Colors.Primary,
     },
     selectedImagesContainer: {
-      flexDirection: "row",
-      flexWrap: "wrap",
+      flexDirection: 'row',
+      flexWrap: 'wrap',
       marginTop: responsiveScreenHeight(2),
     },
     selectedImageContainer: {
-      position: "relative",
+      position: 'relative',
       marginRight: responsiveScreenWidth(3),
       marginBottom: responsiveScreenHeight(2),
       // backgroundColor: "red",
@@ -208,7 +218,7 @@ const getStyles = (Colors) =>
       borderRadius: responsiveScreenWidth(2),
     },
     CrossCircle: {
-      position: "absolute",
+      position: 'absolute',
       top: -12,
       right: -12,
       zIndex: 1,

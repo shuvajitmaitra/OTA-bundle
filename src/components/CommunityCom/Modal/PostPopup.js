@@ -1,47 +1,57 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
-import Popover from "react-native-modal-popover";
-import { TouchableOpacity } from "react-native";
-import { handleOpenLink, showToast } from "../../HelperFunction";
-import axiosInstance from "../../../utility/axiosInstance";
-import { handleError, loadCommunityPosts } from "../../../actions/chat-noti";
-import { responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../../constants/CustomFonts";
-import { useTheme } from "../../../context/ThemeContext";
-import ReportModal from "./ReportModal";
-import { useDispatch, useSelector } from "react-redux";
-import PostEditModal from "./PostEditModal";
-import ConfirmationModal from "../../SharedComponent/ConfirmationModal";
-import * as Clipboard from "expo-clipboard"; // Import Clipboard API
-import { setSavePost } from "../../../store/reducer/communityReducer";
-import { showAlertModal } from "../../../utility/commonFunction";
-import GlobalAlertModal from "../../SharedComponent/GlobalAlertModal";
+import {StyleSheet, Text} from 'react-native';
+import React, {useState} from 'react';
+import Popover from 'react-native-modal-popover';
+import {TouchableOpacity} from 'react-native';
+import {showToast} from '../../HelperFunction';
+import axiosInstance from '../../../utility/axiosInstance';
+import {handleError, loadCommunityPosts} from '../../../actions/chat-noti';
+import {
+  responsiveFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../../constants/CustomFonts';
+import {useTheme} from '../../../context/ThemeContext';
+import ReportModal from './ReportModal';
+import {useDispatch, useSelector} from 'react-redux';
+import PostEditModal from './PostEditModal';
+import ConfirmationModal from '../../SharedComponent/ConfirmationModal';
+import {setSavePost} from '../../../store/reducer/communityReducer';
+import {showAlertModal} from '../../../utility/commonFunction';
+import GlobalAlertModal from '../../SharedComponent/GlobalAlertModal';
+import Clipboard from '@react-native-clipboard/clipboard';
 
-const PostPopup = ({ setIsReportModalVisible, popoverVisible, closePopover, popoverAnchorRect, post }) => {
-  const { user } = useSelector((state) => state.auth);
+const PostPopup = ({
+  setIsReportModalVisible,
+  popoverVisible,
+  closePopover,
+  popoverAnchorRect,
+  post,
+}) => {
+  const {user} = useSelector(state => state.auth);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const dispatch = useDispatch();
 
-  const handleCopyLink = async (text, toast) => {
+  const handleCopyLink = (text, toast) => {
     try {
-      await Clipboard.setStringAsync(text);
+      Clipboard.setString(text);
       showToast(toast); // Show a toast message after copying the link
     } catch (error) {
-      console.error("Failed to copy text: ", error);
+      console.error('Failed to copy text: ', error);
     }
   };
 
   const handleSavePost = () => {
     axiosInstance
-      .post("/content/community/post/option/save", {
+      .post('/content/community/post/option/save', {
         post: post._id,
-        action: "save",
+        action: 'save',
       })
-      .then((res) => {
+      .then(res => {
         if (res.data.success) {
           dispatch(setSavePost(post));
-          showToast(post.isSaved ? "Post unsaved" : "Post saved");
+          showToast(post.isSaved ? 'Post unsaved' : 'Post saved');
           closePopover();
         }
       })
@@ -56,19 +66,19 @@ const PostPopup = ({ setIsReportModalVisible, popoverVisible, closePopover, popo
   const handleDeletePost = () => {
     axiosInstance
       .delete(`/content/community/post/delete/${post._id}`)
-      .then((res) => {
+      .then(res => {
         if (res.data.success) {
           loadCommunityPosts({
             page: 1,
             limit: 10,
-            query: "",
+            query: '',
             tags: [],
-            user: "",
-            filterBy: "",
+            user: '',
+            filterBy: '',
           });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         handleError(error);
       });
   };
@@ -80,35 +90,33 @@ const PostPopup = ({ setIsReportModalVisible, popoverVisible, closePopover, popo
       visible={popoverVisible}
       onClose={closePopover}
       fromRect={popoverAnchorRect}
-      supportedOrients={["portrait", "landscape"]}
-    >
+      supportedOrients={['portrait', 'landscape']}>
       {!isModalVisible && !isEditModalVisible && !isConfirmModalVisible && (
         <>
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => {
-              handleCopyLink(link, "Link copied");
+              handleCopyLink(link, 'Link copied');
               closePopover();
-            }}
-          >
+            }}>
             <Text style={styles.item}>Copy post link</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => {
-              handleCopyLink(post?.description, "Text copied");
+              handleCopyLink(post?.description, 'Text copied');
               closePopover(); // Close the popover after copying the link
-            }}
-          >
+            }}>
             <Text style={styles.item}>Copy Post Text</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => {
               handleSavePost();
-            }}
-          >
-            <Text style={styles.item}>{post.isSaved ? "Saved" : "Save the post"}</Text>
+            }}>
+            <Text style={styles.item}>
+              {post.isSaved ? 'Saved' : 'Save the post'}
+            </Text>
           </TouchableOpacity>
           {user?._id !== post?.createdBy?._id && (
             <TouchableOpacity
@@ -116,14 +124,13 @@ const PostPopup = ({ setIsReportModalVisible, popoverVisible, closePopover, popo
               onPress={() => {
                 if (post?.isReported) {
                   showAlertModal({
-                    title: "You have reported this post",
-                    type: "success",
+                    title: 'You have reported this post',
+                    type: 'success',
                   });
                 } else {
-                  setIsModalVisible((pre) => !pre);
+                  setIsModalVisible(pre => !pre);
                 }
-              }}
-            >
+              }}>
               <Text style={styles.item}>Report the post</Text>
             </TouchableOpacity>
           )}
@@ -131,9 +138,8 @@ const PostPopup = ({ setIsReportModalVisible, popoverVisible, closePopover, popo
             <TouchableOpacity
               style={styles.itemContainer}
               onPress={() => {
-                setIsEditModalVisible((pre) => !pre);
-              }}
-            >
+                setIsEditModalVisible(pre => !pre);
+              }}>
               <Text style={styles.item}>Edit this post</Text>
             </TouchableOpacity>
           )}
@@ -142,8 +148,7 @@ const PostPopup = ({ setIsReportModalVisible, popoverVisible, closePopover, popo
               style={styles.itemContainer}
               onPress={() => {
                 setIsConfirmModalVisible(!isConfirmModalVisible);
-              }}
-            >
+              }}>
               <Text style={styles.item}>Delete the post</Text>
             </TouchableOpacity>
           )}
@@ -153,7 +158,7 @@ const PostPopup = ({ setIsReportModalVisible, popoverVisible, closePopover, popo
         <ReportModal
           closePopover={closePopover}
           post={post}
-          setIsModalVisible={() => setIsModalVisible((pre) => !pre)}
+          setIsModalVisible={() => setIsModalVisible(pre => !pre)}
           isModalVisible={isModalVisible}
         />
       )}
@@ -161,7 +166,7 @@ const PostPopup = ({ setIsReportModalVisible, popoverVisible, closePopover, popo
         <PostEditModal
           closePopover={closePopover}
           post={post}
-          setIsModalVisible={() => setIsEditModalVisible((pre) => !pre)}
+          setIsModalVisible={() => setIsEditModalVisible(pre => !pre)}
           isModalVisible={isEditModalVisible}
         />
       )}
@@ -181,7 +186,7 @@ const PostPopup = ({ setIsReportModalVisible, popoverVisible, closePopover, popo
 
 export default PostPopup;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     arrow: {
       borderTopColor: Colors.White,

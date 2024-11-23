@@ -2,10 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import MessageNotificationContainer from '../MessageNotificationContainer';
 import {useTheme} from '../../context/ThemeContext';
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from 'react-native-responsive-dimensions';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';

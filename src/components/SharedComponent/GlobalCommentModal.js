@@ -63,7 +63,7 @@ const GlobalCommentModal = () => {
 
     setCommenting(true);
     axiosInstance
-      .post(`/content/comment/create`, {
+      .post('/content/comment/create', {
         comment: commentText,
         contentId: commentId,
       })
@@ -145,7 +145,7 @@ const GlobalCommentModal = () => {
 
               return (
                 <React.Fragment key={comment._id}>
-                  {(index == 0 || !isSameDate) && (
+                  {(index === 0 || !isSameDate) && (
                     <View style={styles.commentDateContainer}>
                       <Text style={styles.commentDate}>
                         {/* {moment(comments[index].createdAt).format("MMM DD, YYYY")} */}
@@ -158,14 +158,7 @@ const GlobalCommentModal = () => {
               );
             })
           ) : (
-            // <Text style={styles.noDataText}>No comments available</Text>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                // backgroundColor: "green",
-                minHeight: '80%',
-              }}>
+            <View style={styles.noCommentContainer}>
               <FontAwesome name="comments" size={111} color={Colors.BodyText} />
               <Text
                 style={{
@@ -213,7 +206,7 @@ const GlobalCommentModal = () => {
               styles.submitBtn,
               {
                 paddingBottom:
-                  Platform.OS == 'ios'
+                  Platform.OS === 'ios'
                     ? responsiveScreenHeight(0.5)
                     : responsiveScreenHeight(0.5),
               },
@@ -239,6 +232,11 @@ export default GlobalCommentModal;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    noCommentContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '80%',
+    },
     commentDateContainer: {
       paddingVertical: 3,
       paddingHorizontal: 5,

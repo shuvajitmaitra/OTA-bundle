@@ -198,7 +198,6 @@ const CalendarScreen = props => {
       });
     }
   };
-
   return (
     <View
       style={{
@@ -277,7 +276,7 @@ const CalendarScreen = props => {
                   flex: 0.5,
                   backgroundColor:
                     selected === 'invitation' ? Colors.Primary : Colors.White,
-                  borderRadius: selected == 'invitation' ? 7 : 0,
+                  borderRadius: selected === 'invitation' ? 7 : 0,
                   paddingVertical: responsiveScreenHeight(0.5),
                 }}
                 onPress={() => {
@@ -297,7 +296,7 @@ const CalendarScreen = props => {
                   flex: 0.5,
                   backgroundColor:
                     selected === 'event' ? Colors.Primary : Colors.White,
-                  borderRadius: selected == 'event' ? 7 : 0,
+                  borderRadius: selected === 'event' ? 7 : 0,
                   paddingVertical: responsiveScreenHeight(0.5),
                 }}
                 onPress={() => setSelected('event')}>
@@ -313,13 +312,13 @@ const CalendarScreen = props => {
 
             {/* <View style={styles.line}></View> */}
             {/* <View style={styles.line}></View> */}
-            {selected == 'event' ? (
+            {selected === 'event' ? (
               <CalendarData
                 monthData={monthData}
                 data={compareData(monthData, calendarEvent)}
                 toggleUpdateModal={toggleUpdateModal}
               />
-            ) : invitations?.length == 0 ? (
+            ) : invitations?.length === 0 ? (
               <NoDataAvailable />
             ) : (
               <View style={styles.invitationsContainer}>
@@ -361,11 +360,13 @@ const CalendarScreen = props => {
                             height={15}
                             width={15}
                             borderRadius={50}
-                            // style={styles.invitationImage}
+                            style={styles.invitationImage}
                           />
 
                           <Text style={styles.inviteTitle} numberOfLines={1}>
-                            {item?.createdBy?.firstName.split(' ')[0]}
+                            {item?.createdBy?.firstName
+                              ? item?.createdBy?.firstName.split(' ')[0]
+                              : 'N/A'}
                           </Text>
                         </View>
                         {/* <Text

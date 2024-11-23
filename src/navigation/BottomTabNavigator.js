@@ -9,6 +9,7 @@ import {useMainContext} from '../context/MainContext';
 import MyCalenderStackScreen from './MyCalenderStack';
 import {connectSocket} from '../utility/socketManager';
 import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
+import CommunityStackScreen from './CommunityStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -42,6 +43,11 @@ const BottomTabNavigator = () => {
       <Tab.Screen
         name="MyCalenderStack"
         component={MyCalenderStackScreen}
+        options={{tabBarLabel: 'Program'}}
+      />
+      <Tab.Screen
+        name="CommunityStack"
+        component={CommunityStackScreen}
         options={{tabBarLabel: 'Program'}}
       />
     </Tab.Navigator>

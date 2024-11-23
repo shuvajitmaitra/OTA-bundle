@@ -15,7 +15,7 @@ import CommentsIcon from '../../assets/Icons/CommentsIcon';
 import Divider from '../SharedComponent/Divider';
 import ReactionContainer from './ReactionContainer';
 import {usePopover} from 'react-native-modal-popover';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {getComments, giveReaction} from '../../actions/chat-noti';
 import {useDispatch, useSelector} from 'react-redux';
 import ForwardIcon from '../../assets/Icons/ForwardIcon';
@@ -78,7 +78,7 @@ const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
             style={styles.commentsContainer}>
             <Text style={styles.text}>
               {post.commentsCount}{' '}
-              {post.commentsCount == 1 ? 'comment' : 'comments'}
+              {post.commentsCount === 1 ? 'comment' : 'comments'}
             </Text>
           </TouchableOpacity>
         )}

@@ -13,10 +13,6 @@ const RootStack = createStackNavigator();
 
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
-  console.log(
-    'notificationClicked',
-    JSON.stringify(notificationClicked, null, 1),
-  );
   return (
     <>
       <RootStack.Navigator>

@@ -1,6 +1,6 @@
 {
   "name": "Bootcampshub_Chat",
-  "displayName": "Bootcampshub Chat",
+  "displayName": "Bootcamps Hub",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,7 +11,8 @@
     "test": "jest",
     "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install && cd ..",
     "preview-build": "cd android && ./gradlew assembleRelease && cd ..",
-    "pod": " cd ios && pod install && cd .."
+    "pod": " cd ios && pod install && cd ..",
+    "xcode": "cd ios && open Bootcampshub_Chat.xcworkspace"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.0.5",

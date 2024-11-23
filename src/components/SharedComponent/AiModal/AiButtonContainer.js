@@ -1,17 +1,18 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import CustomeBtn from '../../AuthenticationCom/CustomeBtn';
-import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import CustomFonts from '../../../constants/CustomFonts';
 import {RegularFonts} from '../../../constants/Fonts';
 import {useTheme} from '../../../context/ThemeContext';
 
-const AiButtonContainer = ({onCancelPress, generatePrompt}) => {
+const AiButtonContainer = ({
+  generatePrompt,
+  onApplyPress,
+  handleCancelButton,
+}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
-    <View style={{flexDirection: 'row', gap: 10}}>
+    <View style={{flexDirection: 'row', gap: 10, width: '95%'}}>
       <TouchableOpacity
         onPress={() => {
           generatePrompt();
@@ -26,20 +27,21 @@ const AiButtonContainer = ({onCancelPress, generatePrompt}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          onCancelPress();
+          // onCancelPress();
+          handleCancelButton();
         }}
         style={[styles.buttonContainer, {backgroundColor: Colors.Red}]}>
         <Text style={[styles.buttonText, {color: Colors.PureWhite}]}>
           Cancel
         </Text>
       </TouchableOpacity>
+      {/* <TouchableOpacity onPress={() => {}} style={[styles.buttonContainer, { backgroundColor: Colors.LightRed }]}>
+        <Text style={[styles.buttonText, { color: Colors.Red }]}>Undo</Text>
+      </TouchableOpacity> */}
       <TouchableOpacity
-        onPress={() => {}}
-        style={[styles.buttonContainer, {backgroundColor: Colors.LightRed}]}>
-        <Text style={[styles.buttonText, {color: Colors.Red}]}>Undo</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => {
+          onApplyPress();
+        }}
         style={[styles.buttonContainer, {backgroundColor: Colors.Primary}]}>
         <Text style={[styles.buttonText, {color: Colors.PureWhite}]}>
           Apply
@@ -55,10 +57,10 @@ const getStyles = Colors =>
   StyleSheet.create({
     buttonContainer: {
       flex: 1,
-      height: 30,
+      height: 40,
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: 4,
+      borderRadius: 7,
       backgroundColor: Colors.Primary,
     },
     buttonText: {
