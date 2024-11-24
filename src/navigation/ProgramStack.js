@@ -96,8 +96,18 @@ const ProgramStackScreen = ({navigation}) => {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
+                marginLeft: 5,
+                gap: 10,
               }}>
               <ArrowLeft />
+              <Text
+                style={{
+                  fontFamily: CustomFonts.MEDIUM,
+                  fontSize: responsiveScreenFontSize(2),
+                  color: Colors.BodyText,
+                }}>
+                Back
+              </Text>
             </TouchableOpacity>
           ),
           headerStyle: {

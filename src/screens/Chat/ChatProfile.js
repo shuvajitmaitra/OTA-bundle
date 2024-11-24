@@ -356,62 +356,64 @@ const ChatProfile = () => {
         <GroupModalTabView />
 
         {/* Action Buttons */}
-        <View style={styles.actionButtonsContainer}>
-          {/* Report Button */}
-          <TouchableOpacity
-            onPress={toggleReportMembersModal}
-            style={styles.blockContainer}>
-            {/* <Feather
+        {chat.isChannel && (
+          <View style={styles.actionButtonsContainer}>
+            {/* Report Button */}
+            <TouchableOpacity
+              onPress={toggleReportMembersModal}
+              style={styles.blockContainer}>
+              {/* <Feather
               name="alert-triangle"
               size={responsiveScreenFontSize(2.5)}
               color={Colors.BodyText}
             /> */}
-            <Text style={styles.containerText}>Report</Text>
-          </TouchableOpacity>
-          {/* <ReportModal
+              <Text style={styles.containerText}>Report</Text>
+            </TouchableOpacity>
+            {/* <ReportModal
             toggleReportMembersModal={toggleReportMembersModal}
             isReportMembersModalVisible={isReportMembersModalVisible}
           /> */}
 
-          {/* Archive Chat Button */}
-          <TouchableOpacity
-            onPress={() => {
-              //   showAlert({
-              //     title: 'Coming Soon...',
-              //     type: 'warning',
-              //     message: 'This feature is coming soon.',
-              //   });
-            }}
-            style={styles.blockContainer}>
-            {/* <Feather
+            {/* Archive Chat Button */}
+            <TouchableOpacity
+              onPress={() => {
+                //   showAlert({
+                //     title: 'Coming Soon...',
+                //     type: 'warning',
+                //     message: 'This feature is coming soon.',
+                //   });
+              }}
+              style={styles.blockContainer}>
+              {/* <Feather
               name="archive"
               size={responsiveScreenFontSize(2.5)}
               color={Colors.BodyText}
             /> */}
-            <Text style={styles.containerText}>Archive Chat</Text>
-          </TouchableOpacity>
+              <Text style={styles.containerText}>Archive Chat</Text>
+            </TouchableOpacity>
 
-          {/* Leave Chat Button */}
-          <TouchableOpacity
-            onPress={toggleLeaveCrowdModal}
-            style={styles.blockContainer}>
-            {/* <AntDesign
+            {/* Leave Chat Button */}
+            <TouchableOpacity
+              onPress={toggleLeaveCrowdModal}
+              style={styles.blockContainer}>
+              {/* <AntDesign
               name="delete"
               size={responsiveScreenFontSize(2)}
               color="rgba(244, 42, 65, 1)"
             /> */}
-            <Text
-              style={[styles.containerText, {color: 'rgba(244, 42, 65, 1)'}]}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              Leave Crowds
-            </Text>
-          </TouchableOpacity>
-          <LeaveCrowdModal
-            toggleLeaveCrowdModal={toggleLeaveCrowdModal}
-            isLeaveCrowdModalVisible={isLeaveCrowdModalVisible}
-          />
-        </View>
+              <Text
+                style={[styles.containerText, {color: 'rgba(244, 42, 65, 1)'}]}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                Leave Crowds
+              </Text>
+            </TouchableOpacity>
+            <LeaveCrowdModal
+              toggleLeaveCrowdModal={toggleLeaveCrowdModal}
+              isLeaveCrowdModalVisible={isLeaveCrowdModalVisible}
+            />
+          </View>
+        )}
       </ScrollView>
 
       {/* Image Viewer */}

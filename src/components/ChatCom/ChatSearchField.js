@@ -81,76 +81,69 @@ const ChatSearchField = ({checked, handleRadioChecked, handleFilter}) => {
     handleFilter(text);
   };
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
+    <View style={styles.mainContainer}>
       <TouchableOpacity
         style={styles.backArrow}
         onPress={() => navigation.goBack()}>
         <ArrowLeft size={20} />
       </TouchableOpacity>
-      <View style={[styles.topContainer, {width: '87%'}]}>
-        <View style={[styles.inputField]}>
-          <TextInput
-            autoCorrect={false}
-            autoCapitalize={'none'}
-            keyboardAppearance={
-              Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-            }
-            style={[
-              styles.textInput,
-              {
-                paddingVertical:
-                  Platform.OS == 'ios'
-                    ? responsiveScreenHeight(1.3)
-                    : responsiveScreenHeight(1),
-              },
-            ]}
-            placeholder={
-              checked === 'search'
-                ? 'Search new user...'
-                : checked === 'chats'
-                ? 'Search chat...'
-                : checked === 'onlines'
-                ? 'Search online users...'
-                : checked === 'crowds'
-                ? 'Search crowds...'
-                : 'Search...'
-            }
-            placeholderTextColor={Colors.BodyText}
-            onFocus={handleInputFocus}
-            onChangeText={handleInputChange}
-          />
-          {!isTyping && inputFocused ? (
-            <TouchableOpacity
-              onPress={() => {
-                setInputFocused(false);
-                setIsTyping(true);
-                Keyboard.dismiss();
-              }}>
-              <CrossCircle />
-            </TouchableOpacity>
-          ) : (
-            <SearchWhiteIcon /> // <Feather style={styles.inputFieldIcon} name="search" />
-          )}
-        </View>
-
-        {!isTyping && inputFocused && (
-          <View style={styles.bottomContainer}>
-            <FlatList
-              data={radioOptions}
-              renderItem={renderItem}
-              keyExtractor={item => item.value}
-              ItemSeparatorComponent={() => (
-                <Divider marginTop={1.5} marginBottom={1.5} />
-              )}
-            />
-          </View>
+      <View style={[styles.inputField]}>
+        <TextInput
+          autoCorrect={false}
+          autoCapitalize={'none'}
+          keyboardAppearance={
+            Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+          }
+          style={[
+            styles.textInput,
+            {
+              paddingVertical:
+                Platform.OS === 'ios'
+                  ? responsiveScreenHeight(1.3)
+                  : responsiveScreenHeight(1),
+            },
+          ]}
+          placeholder={
+            checked === 'search'
+              ? 'Search new user...'
+              : checked === 'chats'
+              ? 'Search chat...'
+              : checked === 'onlines'
+              ? 'Search online users...'
+              : checked === 'crowds'
+              ? 'Search crowds...'
+              : 'Search...'
+          }
+          placeholderTextColor={Colors.BodyText}
+          onFocus={handleInputFocus}
+          onChangeText={handleInputChange}
+        />
+        {!isTyping && inputFocused ? (
+          <TouchableOpacity
+            onPress={() => {
+              setInputFocused(false);
+              setIsTyping(true);
+              Keyboard.dismiss();
+            }}>
+            <CrossCircle />
+          </TouchableOpacity>
+        ) : (
+          <SearchWhiteIcon /> // <Feather style={styles.inputFieldIcon} name="search" />
         )}
       </View>
+
+      {!isTyping && inputFocused && (
+        <View style={styles.bottomContainer}>
+          <FlatList
+            data={radioOptions}
+            renderItem={renderItem}
+            keyExtractor={item => item.value}
+            ItemSeparatorComponent={
+              <Divider marginTop={1.5} marginBottom={1.5} />
+            }
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -159,6 +152,13 @@ export default memo(ChatSearchField);
 
 const getStyles = Colors =>
   StyleSheet.create({
+    mainContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      // backgroundColor: 'red',
+      gap: 10,
+    },
     backArrow: {
       backgroundColor: Colors.White,
       padding: 10,
@@ -181,7 +181,7 @@ const getStyles = Colors =>
       borderWidth: 1,
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(2),
-      width: '100%',
+      flex: 1,
     },
     textInput: {
       fontSize: responsiveScreenFontSize(1.6),
