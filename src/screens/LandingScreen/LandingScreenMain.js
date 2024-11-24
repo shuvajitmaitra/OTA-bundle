@@ -21,8 +21,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from '../../context/ThemeContext';
 import BootCampsList from '../../components/LandingCom/BootCampsList';
 import environment from '../../constants/environment';
-import LinkIcon from '../../assets/Icons/LinkIcon';
-import Twitter from '../../assets/Icons/Twitter';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FacebookIcon from '../../assets/Icons/FacebookIcon';
 
 const LandingScreenMain = () => {
@@ -140,8 +140,7 @@ const LandingScreenMain = () => {
                   <TouchableOpacity
                     style={styles.socialIcon}
                     onPress={() => openWebsite(companyUrl)}>
-                    {/* <Feather name="link-2" size={24} color={Colors.Primary} /> */}
-                    <LinkIcon />
+                    <Feather name="link-2" size={24} color={Colors.Primary} />
                   </TouchableOpacity>
                 )}
 
@@ -149,21 +148,29 @@ const LandingScreenMain = () => {
                   <TouchableOpacity
                     style={styles.socialIcon}
                     onPress={() => openWebsite(twitterUrl)}>
-                    <Twitter />
+                    <FontAwesome
+                      name="twitter"
+                      size={24}
+                      color={Colors.Primary}
+                    />
                   </TouchableOpacity>
                 )}
                 {facebookUrl && (
                   <TouchableOpacity
                     style={styles.socialIcon}
                     onPress={() => openWebsite(facebookUrl)}>
-                    <FacebookIcon />
+                    <FontAwesome
+                      name="facebook-f"
+                      size={24}
+                      color={Colors.Primary}
+                    />
                   </TouchableOpacity>
                 )}
                 {youtubeUrl && (
                   <TouchableOpacity
                     style={styles.socialIcon}
                     onPress={() => openWebsite(youtubeUrl)}>
-                    <FacebookIcon />
+                    <Feather name="youtube" size={24} color={Colors.Primary} />
                   </TouchableOpacity>
                 )}
               </View>

@@ -5,7 +5,6 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
-import Feather from 'react-native-vector-icons/Feather';
 
 import CustomFonts from '../../constants/CustomFonts';
 import EmailIcon from '../../assets/Icons/EmailIcon';
