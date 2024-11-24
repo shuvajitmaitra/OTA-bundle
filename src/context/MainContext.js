@@ -3,6 +3,7 @@ import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
 import store from '../store';
 import {
   logout,
+  setAppLoading,
   setEnrollment,
   setMyEnrollments,
   setUser,
@@ -10,6 +11,7 @@ import {
 import {userOrganizationInfo} from '../actions/apiCall';
 import {storage} from '../utility/mmkvInstance';
 import {activeProgram} from '../utility/mmkvHelpers';
+import {disconnectSocket} from '../utility/socketManager';
 
 const MainContext = createContext();
 
@@ -23,6 +25,7 @@ export const MainProvider = ({children}) => {
     try {
       await configureAxiosHeader();
       if (shouldLoad) {
+        store.dispatch(setAppLoading(true));
         setIsLoading(true);
       }
       axiosInstance
@@ -40,24 +43,29 @@ export const MainProvider = ({children}) => {
               });
             }
           }
+          store.dispatch(setAppLoading(false));
         })
         .catch(err => {
           console.log('Error from app.js', err);
           // console.log(err);
           setIsLoading(false);
           store.dispatch(logout());
+          store.dispatch(setAppLoading(false));
         });
     } catch (error) {
       console.log(
         'error.response.data',
         JSON.stringify(error.response.data, null, 1),
       );
+      store.dispatch(setAppLoading(false));
     }
   };
   useEffect(() => {
     console.log('rerender handleVerify');
-    handleVerify();
+    handleVerify(true);
     return () => {
+      disconnectSocket();
+
       store.dispatch(logout());
     };
   }, []);

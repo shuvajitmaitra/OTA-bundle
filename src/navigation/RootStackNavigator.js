@@ -1,5 +1,5 @@
 // src/navigation/RootStackNavigator.js
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import MessageScreen2 from '../screens/Chat/MessageScreen2';
 import ThreadScreen from '../screens/Chat/ThreadScreen';
@@ -8,11 +8,30 @@ import ChatProfile from '../screens/Chat/ChatProfile';
 import GlobalCommentModal from '../components/SharedComponent/GlobalCommentModal';
 import {useSelector} from 'react-redux';
 import NotificationEventDetails from '../components/Calendar/Modal/NotificationEventDetails';
-
+import {useMainContext} from '../context/MainContext';
+import store from '../store';
+import {setAppLoading} from '../store/reducer/authReducer';
+import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
+import {connectSocket, disconnectSocket} from '../utility/socketManager';
+import {getOnlineUsers} from '../actions/apiCall';
 const RootStack = createStackNavigator();
 
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
+  const {handleVerify} = useMainContext();
+  useEffect(() => {
+    store.dispatch(setAppLoading(true));
+    handleVerify();
+    loadNotifications();
+    connectSocket();
+    loadCalendarEvent();
+    getOnlineUsers();
+    console.log('handle from dashboard..............');
+    store.dispatch(setAppLoading(false));
+    return () => {
+      disconnectSocket();
+    };
+  }, []);
   return (
     <>
       <RootStack.Navigator>

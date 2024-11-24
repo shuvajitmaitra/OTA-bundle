@@ -18,6 +18,7 @@ const initialState = {
   myEnrollments: [],
   organizations: [],
   selectedOrganization: null,
+  appLoading: false,
 };
 
 const authSlice = createSlice({
@@ -30,6 +31,9 @@ const authSlice = createSlice({
     },
     updateUser: (state, action) => {
       state.user = {...state.user, ...action.payload};
+    },
+    setAppLoading: (state, action) => {
+      state.appLoading = action.payload;
     },
     setEnrollment: (state, action) => {
       state.enrollment = action.payload;
@@ -51,6 +55,7 @@ const authSlice = createSlice({
 });
 
 export const {
+  setAppLoading,
   setSelectedOrganization,
   selectOrganizations,
   setUser,

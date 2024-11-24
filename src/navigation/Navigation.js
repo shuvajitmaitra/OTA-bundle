@@ -3,12 +3,14 @@ import {NavigationContainer} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import AuthStackScreen from './AuthStackScreen';
 import RootStackNavigator from './RootStackNavigator';
+import SplashScreen from '../screens/SplashScreen';
 
 const Navigation = () => {
-  const {isAuthenticated, user} = useSelector(state => state.auth);
-  // if (loading) {
-  //   return <SplashScreen />;
-  // }
+  const {user, appLoading} = useSelector(state => state.auth);
+
+  if (appLoading) {
+    return <SplashScreen />;
+  }
   return (
     <NavigationContainer>
       {user._id ? <RootStackNavigator /> : <AuthStackScreen />}

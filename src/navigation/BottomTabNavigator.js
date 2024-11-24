@@ -1,34 +1,16 @@
 // src/navigation/BottomTabNavigator.js
-import React, {useEffect} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {useSelector} from 'react-redux';
 import HomeStackScreen from './HomeStack';
 import CustomTabBar from './CustomTabBar';
 import ProgramStackScreen from './ProgramStack';
-import {useMainContext} from '../context/MainContext';
 import MyCalenderStackScreen from './MyCalenderStack';
-import {connectSocket} from '../utility/socketManager';
-import {
-  loadCalendarEvent,
-  loadInitialNotifications,
-} from '../actions/chat-noti';
+
 import CommunityStackScreen from './CommunityStack';
-import {getOnlineUsers} from '../actions/apiCall';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
-  const navigations = useSelector(state => state.navigations);
-  const {handleVerify} = useMainContext();
-  useEffect(() => {
-    handleVerify();
-    loadInitialNotifications();
-    connectSocket();
-    loadCalendarEvent();
-    getOnlineUsers();
-    console.log('handle from dashboard..............');
-  }, []);
-
   return (
     <Tab.Navigator
       tabBar={props => <CustomTabBar {...props} />}

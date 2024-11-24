@@ -1,5 +1,5 @@
 // App.js
-import React, {useEffect, useRef, createContext} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   StatusBar,
   LogBox,
@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
-import {Provider, useDispatch, useSelector} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {PersistGate} from 'redux-persist/integration/react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -17,26 +17,23 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import store, {persistor} from './src/store';
 import {connectSocket, disconnectSocket} from './src/utility/socketManager';
 import SplashScreen from 'react-native-splash-screen';
-
+import CustomSplashScreen from '../Bootcampshub_Chat/src/screens/SplashScreen.js';
 import {ThemeProvider, useTheme} from './src/context/ThemeContext';
 import {AlertProvider} from './src/components/SharedComponent/GlobalAlertContext';
 import {MainProvider} from './src/context/MainContext';
 import Navigation from './src/navigation/Navigation';
 
 import 'react-native-gesture-handler';
+import {setAppLoading} from './src/store/reducer/authReducer';
 
-// Suppress specific warning logs
 LogBox.ignoreLogs(['Setting a timer']);
 LogBox.ignoreLogs(['fontFamily']);
 
-// Override console.error to ignore specific warnings
 const originalConsoleError = console.error;
 console.error = (...args) => {
   if (/defaultProps/.test(args[0])) return;
   originalConsoleError(...args);
 };
-
-export const MainContext = createContext();
 
 const AppWrapper = () => {
   return (
@@ -59,11 +56,8 @@ const AppWrapper = () => {
 const App = () => {
   const Colors = useTheme();
   const appState = useRef(AppState.currentState);
-  const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [handleShowSwitchModal, setHandleShowSwitchModal] =
-    React.useState(false);
 
   // Handle AppState changes to manage socket connections
   useEffect(() => {
@@ -72,7 +66,8 @@ const App = () => {
       'change',
       _handleAppStateChange,
     );
-
+    store.dispatch(setAppLoading(true));
+    setIsLoading(true);
     return () => {
       disconnectSocket();
       subscription.remove();
@@ -94,58 +89,8 @@ const App = () => {
     appState.current = nextAppState;
   };
 
-  // Verify user authentication
-  // const handleVerify = async () => {
-  //   try {
-  //     await configureAxiosHeader();
-  //     axiosInstance
-  //       .post('/user/verify', {})
-  //       .then(async res => {
-  //         console.log('res.data', JSON.stringify(res.data, null, 1));
-  //         if (res.status === 200 && res.data.success) {
-  //           dispatch(setUser(res.data.user));
-  //           dispatch(setMyEnrollments(res.data.enrollments));
-  //           await userOrganizationInfo();
-  //           await connectSocket();
-  //           loadCalendarEvent();
-  //           loadNotifications();
-  //           loadProgramInfo();
-  //           await getActive();
-  //           setIsLoading(false);
-  //         } else {
-  //           throw new Error('Verification failed');
-  //         }
-  //       })
-  //       .catch(err => {
-  //         console.log(
-  //           'Error during verification:',
-  //           err.response?.data || err.message,
-  //         );
-  //         dispatch(logout());
-  //         setIsLoading(false);
-  //       });
-  //   } catch (error) {
-  //     console.log('Unexpected error during verification:', error);
-  //     dispatch(logout());
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // // Initial verification on app launch
-  // useEffect(() => {
-  //   handleVerify();
-  //   return () => {
-  //     disconnectSocket();
-  //   };
-  // }, []);
-
   if (!isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={styles.loadingText}>Loading...</Text>
-      </View>
-    );
+    return <CustomSplashScreen />;
   }
 
   return (
@@ -155,7 +100,9 @@ const App = () => {
         backgroundColor={Colors.White}
         barStyle={'dark-content'}
       />
-      <Navigation />
+      <View style={{backgroundColor: 'red', flex: 1}}>
+        <Navigation />
+      </View>
     </BottomSheetModalProvider>
   );
 };
@@ -168,8 +115,18 @@ const ReduxLoading = () => (
 );
 
 const styles = StyleSheet.create({
-  loadingContainer: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-  loadingText: {marginTop: 10, fontSize: 16, color: '#555'},
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    backgroundColor: 'red',
+    marginTop: 10,
+    fontSize: 16,
+    color: '#555',
+  },
 });
 
 export default AppWrapper;
