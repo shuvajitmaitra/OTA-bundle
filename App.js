@@ -25,6 +25,7 @@ import Navigation from './src/navigation/Navigation';
 
 import 'react-native-gesture-handler';
 import {setAppLoading} from './src/store/reducer/authReducer';
+import {PopoverProvider} from './src/context/PopoverContext.js';
 
 LogBox.ignoreLogs(['Setting a timer']);
 LogBox.ignoreLogs(['fontFamily']);
@@ -40,13 +41,15 @@ const AppWrapper = () => {
     <Provider store={store}>
       <PersistGate loading={<ReduxLoading />} persistor={persistor}>
         <ThemeProvider>
-          <AlertProvider>
-            <GestureHandlerRootView style={{flex: 1}}>
-              <MainProvider>
-                <App />
-              </MainProvider>
-            </GestureHandlerRootView>
-          </AlertProvider>
+          <PopoverProvider>
+            <AlertProvider>
+              <GestureHandlerRootView style={{flex: 1}}>
+                <MainProvider>
+                  <App />
+                </MainProvider>
+              </GestureHandlerRootView>
+            </AlertProvider>
+          </PopoverProvider>
         </ThemeProvider>
       </PersistGate>
     </Provider>

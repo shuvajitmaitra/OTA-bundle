@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useContext, useEffect, useRef, useState} from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -28,6 +28,7 @@ import CrossCircle from '../../assets/Icons/CrossCircle';
 import {useComment} from '../../hook/useComment';
 import Images from '../../constants/Images';
 import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
+import {PopoverContext} from '../../context/PopoverContext';
 
 const Comment = memo(({comment: commentData, isLast}) => {
   const [comment, setComment] = useState(commentData);
@@ -49,14 +50,26 @@ const Comment = memo(({comment: commentData, isLast}) => {
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
     useState(false);
 
-  const {
-    openPopover,
-    closePopover,
-    popoverVisible,
-    touchableRef,
-    popoverAnchorRect,
-  } = usePopover();
-
+  const buttonRef = useRef();
+  const {showPopover, hidePopover} = useContext(PopoverContext);
+  const handleShowPopover = () => {
+    showPopover(
+      <ThreeDotItems
+        hidePopover={hidePopover}
+        // popoverVisible={popoverVisible}
+        // popoverAnchorRect={popoverAnchorRect}
+        data={
+          comment.parentId ? data.filter(item => item.label !== 'Reply') : data
+        }
+        isConfirmationModalVisible={isConfirmationModalVisible}
+        setIsConfirmationModalVisible={setIsConfirmationModalVisible}
+        handleDeleteEvent={handleDeleteEvent}
+        commentId={comment._id}
+        contentId={comment?.contentId}
+      />,
+      buttonRef,
+    );
+  };
   useEffect(() => {
     axiosInstance
       .get(`/content/comment/get/${comment?.contentId}?parentId=${comment._id}`)
@@ -75,7 +88,7 @@ const Comment = memo(({comment: commentData, isLast}) => {
     {
       label: 'Reply',
       func: () => {
-        closePopover();
+        hidePopover();
         setComment(pre => ({
           ...pre,
           isReplyOpen: !comment?.isReplyOpen,
@@ -86,7 +99,7 @@ const Comment = memo(({comment: commentData, isLast}) => {
     {
       label: 'Update',
       func: () => {
-        closePopover();
+        hidePopover();
         setComment(pre => ({
           ...pre,
           isUpdateOpen: !comment?.isUpdateOpen,
@@ -106,13 +119,13 @@ const Comment = memo(({comment: commentData, isLast}) => {
       ? initialData
       : initialData.filter(item => item.label == 'Reply');
   const handleDeleteEvent = () => {
-    closePopover();
+    hidePopover();
     deleteComment();
     setIsConfirmationModalVisible(false);
   };
 
   const handleCommentUpdate = () => {
-    closePopover();
+    hidePopover();
     if (!commentText.trim()) {
       return showAlertModal({
         title: 'Empty Comment',
@@ -232,26 +245,11 @@ const Comment = memo(({comment: commentData, isLast}) => {
         {
           <>
             <TouchableOpacity
-              ref={touchableRef}
-              onPress={openPopover}
+              ref={buttonRef}
+              onPress={handleShowPopover}
               style={styles.threeDotContainer}>
               <ThreeDotGrayIcon />
             </TouchableOpacity>
-            <ThreeDotItems
-              closePopover={closePopover}
-              popoverVisible={popoverVisible}
-              popoverAnchorRect={popoverAnchorRect}
-              data={
-                comment.parentId
-                  ? data.filter(item => item.label !== 'Reply')
-                  : data
-              }
-              isConfirmationModalVisible={isConfirmationModalVisible}
-              setIsConfirmationModalVisible={setIsConfirmationModalVisible}
-              handleDeleteEvent={handleDeleteEvent}
-              commentId={comment._id}
-              contentId={comment?.contentId}
-            />
           </>
         }
       </View>

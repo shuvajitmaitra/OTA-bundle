@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, useColorScheme, StatusBar} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  useColorScheme,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -12,6 +19,7 @@ import CustomFonts from '../../constants/CustomFonts';
 import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import GlobalRadioGroup from '../../components/SharedComponent/GlobalRadioButton';
+import TestPopover from '../../components/TestPopover';
 
 const DisplaySettingsScreen = () => {
   const Colors = useTheme();
@@ -44,11 +52,7 @@ const DisplaySettingsScreen = () => {
   };
   const {top} = useSafeAreaInsets();
   return (
-    <View
-      style={[
-        styles.container,
-        {backgroundColor: Colors.White, paddingTop: top},
-      ]}>
+    <SafeAreaView style={{flex: 1}}>
       <StatusBar
         translucent={true}
         backgroundColor={Colors.White}
@@ -71,7 +75,8 @@ const DisplaySettingsScreen = () => {
       </View>
 
       {/* <Button title="Restart" onPress={() => Restart()} /> */}
-    </View>
+      <TestPopover />
+    </SafeAreaView>
   );
 };
 

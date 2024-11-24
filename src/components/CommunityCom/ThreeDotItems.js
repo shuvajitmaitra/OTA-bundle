@@ -1,16 +1,19 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import Popover from "react-native-modal-popover";
-import { TouchableOpacity } from "react-native";
-import { handleOpenLink, showToast } from "../HelperFunction";
-import { handleCopyLink } from "../../utility/commonFunction";
-import axiosInstance from "../../utility/axiosInstance";
-import { handleError } from "../../actions/chat-noti";
-import { responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import ConfirmationModal from "../SharedComponent/ConfirmationModal";
+import {Alert, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import Popover from 'react-native-modal-popover';
+import {TouchableOpacity} from 'react-native';
+import {handleOpenLink, showToast} from '../HelperFunction';
+import {handleCopyLink} from '../../utility/commonFunction';
+import axiosInstance from '../../utility/axiosInstance';
+import {handleError} from '../../actions/chat-noti';
+import {
+  responsiveFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import ConfirmationModal from '../SharedComponent/ConfirmationModal';
 
 const ThreeDotItems = ({
   popoverVisible,
@@ -28,33 +31,22 @@ const ThreeDotItems = ({
   const styles = getStyles(Colors, me);
 
   return (
-    <Popover
-      contentStyle={styles.content}
-      arrowStyle={styles.arrow}
-      backgroundStyle={styles.background}
-      visible={popoverVisible}
-      onClose={closePopover}
-      fromRect={popoverAnchorRect}
-      placement="end"
-      supportedOrientations={["portrait", "landscape"]}
-    >
+    <View style={styles.content}>
       {!isConfirmationModalVisible &&
         data?.map((item, index) => (
           <TouchableOpacity
             style={styles.itemContainer}
             key={index}
             onPress={() => {
-              item.func({ commentId, contentId }) || null;
-            }}
-          >
+              item.func({commentId, contentId}) || null;
+            }}>
             <Text
               style={[
                 styles.item,
                 {
-                  color: item.label === "Delete" ? Colors.Red : Colors.BodyText,
+                  color: item.label === 'Delete' ? Colors.Red : Colors.BodyText,
                 },
-              ]}
-            >
+              ]}>
               {item?.label}
             </Text>
           </TouchableOpacity>
@@ -63,15 +55,15 @@ const ThreeDotItems = ({
       {/* Confirmation Modal for Deleting Comment */}
       <ConfirmationModal
         isVisible={isConfirmationModalVisible}
-        title={"Delete"}
-        description={"Do you want to delete the comment?"}
+        title={'Delete'}
+        description={'Do you want to delete the comment?'}
         okPress={handleDeleteEvent}
         cancelPress={() => {
           closePopover();
           setIsConfirmationModalVisible(!isConfirmationModalVisible);
         }}
       />
-    </Popover>
+    </View>
   );
 };
 
@@ -86,7 +78,8 @@ const getStyles = (Colors, me) =>
     content: {
       borderRadius: 5,
       gap: responsiveScreenHeight(1),
-      backgroundColor: Colors.White,
+      backgroundColor: Colors.Background_color,
+      padding: 5,
     },
     itemContainer: {
       paddingVertical: responsiveScreenHeight(0.5),
