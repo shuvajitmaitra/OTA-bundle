@@ -14,11 +14,16 @@ import {setAppLoading} from '../store/reducer/authReducer';
 import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
 import {connectSocket, disconnectSocket} from '../utility/socketManager';
 import {getOnlineUsers} from '../actions/apiCall';
+import usePushNotifications from '../hook/usePushNotifications';
+
 const RootStack = createStackNavigator();
 
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
   const {handleVerify} = useMainContext();
+  const {error} = usePushNotifications();
+  // const [functionCalled, setfunctionCalled] = useState(second)
+
   useEffect(() => {
     store.dispatch(setAppLoading(true));
     handleVerify();
@@ -32,6 +37,7 @@ const RootStackNavigator = () => {
       disconnectSocket();
     };
   }, []);
+
   return (
     <>
       <RootStack.Navigator>

@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "325477367628",
-    "project_id": "bootcampshub-chat",
-    "storage_bucket": "bootcampshub-chat.firebasestorage.app"
+    "project_number": "528385173754",
+    "project_id": "bootcampshub",
+    "storage_bucket": "bootcampshub.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:325477367628:android:3344c31cf89b244e7d59e9",
+        "mobilesdk_app_id": "1:528385173754:android:748b184794816c44260143",
+        "android_client_info": {
+          "package_name": "com.bootcampshub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVkRg2YWImPFTvdpZMDBsxmO2gpncIBdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528385173754:android:22b5d74ed64b5d4d260143",
         "android_client_info": {
           "package_name": "com.bootcampshub_chat"
         }
@@ -15,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCvRabSOcsa3qiNSnyJbkrdym1f5uj4P40"
+          "current_key": "AIzaSyAVkRg2YWImPFTvdpZMDBsxmO2gpncIBdA"
         }
       ],
       "services": {
