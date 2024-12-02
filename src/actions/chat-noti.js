@@ -1,7 +1,5 @@
 import store from '../store';
 import axiosInstance from '../utility/axiosInstance';
-// import * as DocumentPicker from 'expo-document-picker';
-import {Alert} from 'react-native';
 import {setNotificationCount} from '../store/reducer/notificationReducer';
 import moment from 'moment';
 import {
@@ -63,7 +61,7 @@ export const loadCalendarEvent = () => {
     .get('/calendar/event/myevents')
     .then(res => {
       // console.log("Calendar event called");
-      // console.log("res.data.events", JSON.stringify(res.data, null, 1));
+      console.log('res.data.events', JSON.stringify(res.data.success, null, 1));
       store.dispatch(setEvents(res.data.events || []));
       store.dispatch(setFilterState(''));
 

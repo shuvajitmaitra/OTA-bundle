@@ -10,6 +10,7 @@ import {
   pushMessage,
   removeOnlineUser,
   setChats,
+  setGroupNameId,
   setTyping,
   syncMessage,
   updateChatMessages,
@@ -109,6 +110,7 @@ const setupSocketListeners = socket => {
     // console.log(data);
 
     // console.log("mychats");
+    store.dispatch(setGroupNameId(chats));
 
     store.dispatch(setChats(chats));
     let totalUnread = chats?.filter(

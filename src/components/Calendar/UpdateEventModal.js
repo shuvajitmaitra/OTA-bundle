@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   View,
   Image,
-  Alert,
-  Platform,
 } from 'react-native';
 import {
   responsiveScreenFontSize,
@@ -18,21 +16,13 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../constants/CustomFonts';
 import ReactNativeModal from 'react-native-modal';
-import ModalBackAndCrossButton from '../ChatCom/Modal/ModalBackAndCrossButton';
 import CustomDropDown from '../SharedComponent/CustomDropDown';
-import CalendarIconSmall from '../../assets/Icons/CalendarIconSmall';
-import CheckIcon from '../../assets/Icons/CheckIcon';
-import UnCheckIcon from '../../assets/Icons/UnCheckIcon';
-import Divider from '../SharedComponent/Divider';
-import CustomDropDownTwo from '../SharedComponent/CustomDropDownTwo';
-import CustomSmallButton from '../CustomSmallButton';
 import BinIcon from '../../assets/Icons/BinIcon';
 import InviteMemberModal from './Modal/InviteMemberModal';
 import moment from 'moment';
 import axiosInstance from '../../utility/axiosInstance';
 import {
   getEventDetails,
-  getNotificationData,
   handleError,
   loadCalendarEvent,
 } from '../../actions/chat-noti';
@@ -52,15 +42,12 @@ import EventHistory from './EventHistory';
 import {
   combineDateAndTime,
   eventTypes,
-  replaceTimeInDatetime,
   showAlertModal,
 } from '../../utility/commonFunction';
 import {eventTypeOptions} from '../../constants/CustomeData';
 import DateTimeSection from './DateTimeSection';
 import EventRepeatSection from './Modal/EventRepeatSection';
 import Images from '../../constants/Images';
-import Markdown from 'react-native-markdown-display';
-import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
 import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 

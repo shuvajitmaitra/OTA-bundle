@@ -119,9 +119,7 @@ const NotificationEventDetails = ({eventId}) => {
             </View>
           ) : (
             <ScrollView>
-              <Text style={styles.EventDetailsHeadingTitle}>
-                Event Derrrtails
-              </Text>
+              <Text style={styles.EventDetailsHeadingTitle}>Event Details</Text>
               <Text style={styles.EventHeading}>{item?.title}</Text>
               <Text style={styles.eventType}>
                 Event Type: {eventTypes(item?.eventType)}

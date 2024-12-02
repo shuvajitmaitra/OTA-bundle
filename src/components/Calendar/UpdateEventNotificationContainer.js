@@ -1,42 +1,45 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setEventNotification } from "../../store/reducer/calendarReducer";
-import CustomMultiSelectDropDown from "../SharedComponent/CustomMultiSelectDropdown";
-import CustomDropDown from "../SharedComponent/CustomDropDown";
-import CrossCircle from "../../assets/Icons/CrossCircle";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import { getNotificationData } from "../../actions/chat-noti";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {setEventNotification} from '../../store/reducer/calendarReducer';
+import CustomMultiSelectDropDown from '../SharedComponent/CustomMultiSelectDropdown';
+import CustomDropDown from '../SharedComponent/CustomDropDown';
+import CrossCircle from '../../assets/Icons/CrossCircle';
+import {useTheme} from '../../context/ThemeContext';
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
 
 const UpdateEventNotificationContainer = () => {
   const dispatch = useDispatch();
-  const { eventNotification } = useSelector((state) => state.calendar);
+  const {eventNotification} = useSelector(state => state.calendar);
 
   const notifications = !eventNotification?.length
     ? [
         {
           timeBefore: 5,
-          methods: ["push"],
+          methods: ['push'],
           chatGroups: [],
         },
       ]
     : eventNotification;
-  const { groupNameId } = useSelector((state) => state.chat);
-  const defaultMethod = [{ data: "push", type: "Notification" }];
+  const {groupNameId} = useSelector(state => state.chat);
+  console.log('groupNameId', JSON.stringify(groupNameId, null, 1));
+  const defaultMethod = [{data: 'push', type: 'Notification'}];
 
   const onChangeValue = (key, value, index) => {
     // console.log("key", JSON.stringify(key, null, 1));
     // console.log("value", JSON.stringify(value, null, 1));
     let array = [...notifications];
-    if (key === "chatGroups") {
+    if (key === 'chatGroups') {
       array[index] = {
         ...array[index],
         [key]: [...value],
       };
-    } else if (key === "methods") {
-      if (!value.includes("groups")) {
+    } else if (key === 'methods') {
+      if (!value.includes('groups')) {
         array[index] = {
           ...array[index],
           chatGroups: [],
@@ -48,14 +51,14 @@ const UpdateEventNotificationContainer = () => {
           [key]: value,
         };
       }
-    } else if (key === "crossButton") {
+    } else if (key === 'crossButton') {
       array = array?.filter((_, i) => i !== index);
-    } else if (key === "addNotification") {
+    } else if (key === 'addNotification') {
       array = [
         ...array,
         {
           timeBefore: 5,
-          methods: ["push"],
+          methods: ['push'],
           chatGroups: [],
         },
       ];
@@ -75,90 +78,90 @@ const UpdateEventNotificationContainer = () => {
   return (
     <View style={styles.notification}>
       {notifications?.map((item, index) => {
-        const method = item?.methods?.map((i) => ({
+        const method = item?.methods?.map(i => ({
           data: i,
           type:
-            i === "push"
-              ? "Notification"
-              : i === "inbox"
-              ? "Chat DM"
-              : i === "groups"
-              ? "Chat Crowds"
-              : i === "email"
-              ? "Email"
-              : i === "text"
-              ? "Text Message"
-              : "",
+            i === 'push'
+              ? 'Notification'
+              : i === 'inbox'
+              ? 'Chat DM'
+              : i === 'groups'
+              ? 'Chat Crowds'
+              : i === 'email'
+              ? 'Email'
+              : i === 'text'
+              ? 'Text Message'
+              : '',
         }));
         const group = groupNameId
-          ?.filter((grp) => item?.chatGroups?.includes(grp.data))
-          .map((item) => ({
-            data: item.data,
-            type: item.type,
+          ?.filter(grp => item?.chatGroups?.includes(grp.data))
+          .map(a => ({
+            data: a.data,
+            type: a.type,
           }));
         return (
           <View key={index} style={styles.notificationRow}>
             <View style={styles.dropdownContainer}>
               <CustomDropDown
                 options={[
-                  { data: "5", type: "5 minutes before" },
-                  { data: "10", type: "10 minutes before" },
-                  { data: "15", type: "15 minutes before" },
-                  { data: "20", type: "20 minutes before" },
-                  { data: "30", type: "30 minutes before" },
-                  { data: "45", type: "45 minutes before" },
-                  { data: "60", type: "1 hour before" },
-                  { data: "120", type: "2 hour before" },
+                  {data: '5', type: '5 minutes before'},
+                  {data: '10', type: '10 minutes before'},
+                  {data: '15', type: '15 minutes before'},
+                  {data: '20', type: '20 minutes before'},
+                  {data: '30', type: '30 minutes before'},
+                  {data: '45', type: '45 minutes before'},
+                  {data: '60', type: '1 hour before'},
+                  {data: '120', type: '2 hour before'},
                 ]}
                 type={
-                  item.timeBefore == 5
-                    ? "5 minutes before"
-                    : item.timeBefore == 10
-                    ? "10 minutes before"
-                    : item.timeBefore == 15
-                    ? "15 minutes before"
-                    : item.timeBefore == 20
-                    ? "20 minutes before"
-                    : item.timeBefore == 30
-                    ? "30 minutes before"
-                    : item.timeBefore == 40
-                    ? "45 minutes before"
-                    : item.timeBefore == "60"
-                    ? "1 hour before"
-                    : item.timeBefore == "120"
-                    ? "2 hour before"
+                  item.timeBefore === 5
+                    ? '5 minutes before'
+                    : item.timeBefore === 10
+                    ? '10 minutes before'
+                    : item.timeBefore === 15
+                    ? '15 minutes before'
+                    : item.timeBefore === 20
+                    ? '20 minutes before'
+                    : item.timeBefore === 30
+                    ? '30 minutes before'
+                    : item.timeBefore === 40
+                    ? '45 minutes before'
+                    : item.timeBefore === '60'
+                    ? '1 hour before'
+                    : item.timeBefore === '120'
+                    ? '2 hour before'
                     : item.timeBefore
                 }
-                setState={(time) => {
-                  onChangeValue("timeBefore", time, index);
+                setState={time => {
+                  onChangeValue('timeBefore', time, index);
                 }}
               />
               <CustomMultiSelectDropDown
                 options={[
-                  { data: "inbox", type: "Chat DM" },
-                  { data: "groups", type: "Chat Crowds" },
-                  { data: "push", type: "Notification" },
-                  { data: "text", type: "Text Message" },
-                  { data: "email", type: "Email" },
+                  {data: 'inbox', type: 'Chat DM'},
+                  {data: 'groups', type: 'Chat Crowds'},
+                  {data: 'push', type: 'Notification'},
+                  {data: 'text', type: 'Text Message'},
+                  {data: 'email', type: 'Email'},
                 ]}
                 initialSelections={method || defaultMethod}
-                setState={(mtd) => {
+                setState={mtd => {
                   onChangeValue(
-                    "methods",
-                    mtd.map((item) => item.data),
-                    index
+                    'methods',
+                    mtd.map(i => i.data),
+                    index,
                   );
                 }}
               />
-              {item?.methods?.includes("groups") && (
+              {item?.methods?.includes('groups') && (
                 <CustomMultiSelectDropDown
                   options={groupNameId}
-                  initialSelections={group || firstSelectedGroup}
-                  setState={(groups) => {
+                  initialSelections={group}
+                  setState={groups => {
                     onChangeValue(
-                      "chatGroups",
-                      groups.map((item) => item.data),
-                      index
+                      'chatGroups',
+                      groups.map(x => x.data),
+                      index,
                     );
                   }}
                 />
@@ -166,7 +169,8 @@ const UpdateEventNotificationContainer = () => {
             </View>
 
             {eventNotification?.length > 1 && (
-              <TouchableOpacity onPress={() => onChangeValue("crossButton", "", index)}>
+              <TouchableOpacity
+                onPress={() => onChangeValue('crossButton', '', index)}>
                 <CrossCircle />
               </TouchableOpacity>
             )}
@@ -177,10 +181,9 @@ const UpdateEventNotificationContainer = () => {
       {eventNotification?.length <= 1 && (
         <TouchableOpacity
           onPress={() => {
-            onChangeValue("addNotification");
+            onChangeValue('addNotification');
           }}
-          style={styles.addNotificationContainer}
-        >
+          style={styles.addNotificationContainer}>
           <Text style={styles.addNotificationText}>Add Notification</Text>
         </TouchableOpacity>
       )}
@@ -190,7 +193,7 @@ const UpdateEventNotificationContainer = () => {
 
 export default UpdateEventNotificationContainer;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     dropdownContainer: {
       flex: 1,
@@ -204,20 +207,20 @@ const getStyles = (Colors) =>
       borderRadius: responsiveScreenWidth(3),
       padding: responsiveScreenWidth(3),
       marginTop: responsiveScreenHeight(1),
-      flexDirection: "column",
+      flexDirection: 'column',
       gap: 10,
       marginBottom: responsiveScreenHeight(2),
       zIndex: 3,
     },
     notificationRow: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 10,
     },
     addNotificationContainer: {
       backgroundColor: Colors.Primary,
       borderRadius: 5,
       width: responsiveScreenWidth(33),
-      alignItems: "center",
+      alignItems: 'center',
       paddingVertical: responsiveScreenHeight(0.5),
       // paddingHorizontal: responsiveScreenWidth(.5)
     },

@@ -1,18 +1,35 @@
-import React, { useMemo, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
-import { updatePickedDate } from "../../store/reducer/calendarReducer";
-import { getEventDetails, getNotificationData } from "../../actions/chat-noti";
-import ReactNativeModal from "react-native-modal";
-import ArrowRight from "../../assets/Icons/ArrowRight";
+import React, {useMemo, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import moment from 'moment';
+import {useDispatch, useSelector} from 'react-redux';
+import {updatePickedDate} from '../../store/reducer/calendarReducer';
+import {getEventDetails, getNotificationData} from '../../actions/chat-noti';
+import ReactNativeModal from 'react-native-modal';
+import ArrowRight from '../../assets/Icons/ArrowRight';
 
-export const hours = Array.from({ length: 24 }, (_, i) => {
-  const time = i === 0 ? "12 AM" : i < 12 ? `${i} AM` : i === 12 ? "12 PM" : `${i - 12} PM`;
-  return { label: time, hour: i };
+export const hours = Array.from({length: 24}, (_, i) => {
+  const time =
+    i === 0
+      ? '12 AM'
+      : i < 12
+      ? `${i} AM`
+      : i === 12
+      ? '12 PM'
+      : `${i - 12} PM`;
+  return {label: time, hour: i};
 });
 
 const WeekView = ({
@@ -28,28 +45,34 @@ const WeekView = ({
 }) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const { user } = useSelector((state) => state.auth);
+  const {user} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [events, setEvents] = useState([]);
-  const startOfWeek = useMemo(() => moment().add(weekOffset, "weeks").startOf("week"), [weekOffset]);
-  const endOfWeek = useMemo(() => moment().add(weekOffset, "weeks").endOf("week"), [weekOffset]);
+  const startOfWeek = useMemo(
+    () => moment().add(weekOffset, 'weeks').startOf('week'),
+    [weekOffset],
+  );
+  const endOfWeek = useMemo(
+    () => moment().add(weekOffset, 'weeks').endOf('week'),
+    [weekOffset],
+  );
 
   const days = useMemo(() => {
     const daysArray = [];
     let day = startOfWeek;
     while (day <= endOfWeek) {
       daysArray.push(day.toDate());
-      day = day.clone().add(1, "d");
+      day = day.clone().add(1, 'd');
     }
     return daysArray;
   }, [startOfWeek, endOfWeek]);
 
   const eventsByDayAndHour = useMemo(() => {
     const eventsMap = {};
-    markedDates.forEach((dayEvent) => {
-      const date = moment(dayEvent.title).format("YYYY-MM-DD");
-      dayEvent.data.forEach((event) => {
+    markedDates.forEach(dayEvent => {
+      const date = moment(dayEvent.title).format('YYYY-MM-DD');
+      dayEvent.data.forEach(event => {
         const hour = moment(event.start).hour();
         if (!eventsMap[date]) {
           eventsMap[date] = {};
@@ -64,13 +87,15 @@ const WeekView = ({
   }, [markedDates]);
 
   const getEventsForDayAndHour = (day, hour) => {
-    const dateString = moment(day).format("YYYY-MM-DD");
+    const dateString = moment(day).format('YYYY-MM-DD');
     return eventsByDayAndHour[dateString]?.[hour] || [];
   };
   const newHours = seeMoreClicked ? hours : hours.slice(0, 7);
   return (
     <ScrollView>
-      <Text style={styles.monthHeader}>{`${moment(startOfWeek).format("MMMM DD")} - ${moment(endOfWeek).format("MMMM DD")}`}</Text>
+      <Text style={styles.monthHeader}>{`${moment(startOfWeek).format(
+        'MMMM DD',
+      )} - ${moment(endOfWeek).format('MMMM DD')}`}</Text>
       <View style={styles.container}>
         <View style={styles.leftColumn}>
           <Text style={[styles.hourText, styles.timeText]}>Time</Text>
@@ -91,22 +116,23 @@ const WeekView = ({
                   borderTopColor: Colors.BorderColor,
                   borderRightWidth: 1,
                   borderRightColor: Colors.BorderColor,
-                }}
-              >
-                <Text style={[styles.weekday]}>{moment(day).format("DD")}</Text>
-                <Text style={[styles.weekday, { marginBottom: 8 }]}>{moment(day).format("ddd")}</Text>
+                }}>
+                <Text style={[styles.weekday]}>{moment(day).format('DD')}</Text>
+                <Text style={[styles.weekday, {marginBottom: 8}]}>
+                  {moment(day).format('ddd')}
+                </Text>
                 {newHours?.map((hour, hourIndex) => {
                   const events = getEventsForDayAndHour(day, hour.hour);
-                  const newEvents = events?.length > 2 ? events.slice(0, 2) : events;
+                  const newEvents =
+                    events?.length > 2 ? events.slice(0, 2) : events;
                   return (
                     <TouchableOpacity
                       onPress={() => {
-                        dispatch(updatePickedDate({ day, hour: hour.hour }));
+                        dispatch(updatePickedDate({day, hour: hour.hour}));
                         toggleModal();
                       }}
                       key={hourIndex}
-                      style={styles.hourRow}
-                    >
+                      style={styles.hourRow}>
                       {events?.length > 0 ? (
                         <>
                           {newEvents.map((item, itemIndex) => (
@@ -114,19 +140,22 @@ const WeekView = ({
                               onPress={() => {
                                 getEventDetails(item?._id);
                                 getNotificationData(item?._id);
-                                user._id === item?.createdBy?._id ? toggleUpdateModal(item) : toggleEventDetailsModal(item);
+                                user._id === item?.createdBy
+                                  ? toggleUpdateModal(item)
+                                  : toggleEventDetailsModal(item);
                               }}
                               key={itemIndex}
-                              style={[styles.eventTypeContainer, { backgroundColor: eventType(item.eventType) }]}
-                            >
+                              style={[
+                                styles.eventTypeContainer,
+                                {backgroundColor: eventType(item.eventType)},
+                              ]}>
                               <View
                                 style={[
                                   styles.circle,
                                   {
                                     backgroundColor: eventStatus(item.status),
                                   },
-                                ]}
-                              ></View>
+                                ]}></View>
                             </TouchableOpacity>
                           ))}
                           {events?.length > 2 && (
@@ -134,9 +163,10 @@ const WeekView = ({
                               onPress={() => {
                                 setEvents(events);
                                 setIsPopupVisible(true);
-                              }}
-                            >
-                              <Text style={styles.seeMoreText}>{events?.length - 2} More</Text>
+                              }}>
+                              <Text style={styles.seeMoreText}>
+                                {events?.length - 2} More
+                              </Text>
                             </TouchableOpacity>
                           )}
                         </>
@@ -152,14 +182,18 @@ const WeekView = ({
         </ScrollView>
       </View>
       {isPopupVisible && (
-        <ReactNativeModal onBackdropPress={() => setIsPopupVisible(false)} isVisible={isPopupVisible}>
+        <ReactNativeModal
+          onBackdropPress={() => setIsPopupVisible(false)}
+          isVisible={isPopupVisible}>
           <View style={styles.popupContainer}>
-            <Text style={styles.eventDateDay}>{moment(events[0]?.start).format("dddd D")}</Text>
+            <Text style={styles.eventDateDay}>
+              {moment(events[0]?.start).format('dddd D')}
+            </Text>
             {events?.map((item, itemIndex) => (
               <TouchableOpacity
                 onPress={() => {
                   setIsPopupVisible(false);
-                  user?._id === item?.createdBy?._id
+                  user?._id === item?.createdBy
                     ? (getEventDetails(item?._id), toggleUpdateModal(item))
                     : toggleEventDetailsModal(item);
                 }}
@@ -168,26 +202,24 @@ const WeekView = ({
                   // styles?.eventTypeContainer,
                   {
                     backgroundColor: eventType(item?.eventType),
-                    width: "100%",
-                    flexDirection: "row",
+                    width: '100%',
+                    flexDirection: 'row',
                     borderRadius: 100,
                     marginBottom: 5,
-                    alignItems: "center",
+                    alignItems: 'center',
                     paddingHorizontal: responsiveScreenWidth(4),
                   },
-                ]}
-              >
+                ]}>
                 <View
                   style={{
-                    width: "95%",
+                    width: '95%',
                     paddingVertical: responsiveScreenHeight(0.2),
-                  }}
-                >
+                  }}>
                   <Text numberOfLines={1} style={styles.itemText}>
                     {item?.title.slice(0, 20)}
                   </Text>
                 </View>
-                <View style={{ flexGrow: 1 }}></View>
+                <View style={{flexGrow: 1}}></View>
 
                 <View
                   style={[
@@ -197,8 +229,7 @@ const WeekView = ({
                       // width: 10,
                       // height: 10,
                     },
-                  ]}
-                ></View>
+                  ]}></View>
               </TouchableOpacity>
             ))}
           </View>
@@ -213,25 +244,29 @@ const WeekView = ({
                           )} */}
         </ReactNativeModal>
       )}
-      <TouchableOpacity onPress={() => handleSeeMore()} style={styles.moreButtonContainer}>
-        <Text style={styles.moreButtonText}>{seeMoreClicked ? "Less" : "More"}</Text>
+      <TouchableOpacity
+        onPress={() => handleSeeMore()}
+        style={styles.moreButtonContainer}>
+        <Text style={styles.moreButtonText}>
+          {seeMoreClicked ? 'Less' : 'More'}
+        </Text>
         <ArrowRight />
       </TouchableOpacity>
     </ScrollView>
   );
 };
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     moreButtonText: {
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.Primary,
     },
     moreButtonContainer: {
-      alignSelf: "flex-end",
+      alignSelf: 'flex-end',
       // backgroundColor: Colors.Primary,
       padding: 5,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 5,
     },
     popupContent: {
@@ -244,7 +279,7 @@ const getStyles = (Colors) =>
       zIndex: 1,
     },
     popupArrow: {
-      borderTopColor: "transparent",
+      borderTopColor: 'transparent',
       // marginTop: responsiveScreenHeight(-15),
       // marginLeft: responsiveScreenHeight(-5),
     },
@@ -252,7 +287,7 @@ const getStyles = (Colors) =>
       // paddingVertical: responsiveScreenHeight(2),
       // paddingHorizontal: responsiveScreenWidth(2),
       //   minWidth: responsiveScreenWidth(50),
-      alignItems: "center",
+      alignItems: 'center',
       backgroundColor: Colors.White,
       padding: 20,
       borderRadius: 10,
@@ -263,32 +298,32 @@ const getStyles = (Colors) =>
     },
     seeMoreText: {
       color: Colors.BodyText,
-      textAlign: "center",
+      textAlign: 'center',
       fontSize: responsiveScreenFontSize(1.2),
       fontFamily: CustomFonts.REGULAR,
     },
     eventTypeContainer: {
-      width: "60%",
+      width: '60%',
       borderRadius: 100,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       marginBottom: 3,
       minHeight: responsiveScreenHeight(1),
     },
     circle: {
       marginVertical: 2,
-      backgroundColor: "white",
+      backgroundColor: 'white',
       borderRadius: 100,
     },
     monthHeader: {
       fontSize: responsiveScreenFontSize(2.2),
-      textAlign: "center",
+      textAlign: 'center',
       marginBottom: responsiveScreenHeight(1),
       color: Colors.Heading,
       fontFamily: CustomFonts.SEMI_BOLD,
     },
     container: {
-      flexDirection: "row",
+      flexDirection: 'row',
       backgroundColor: Colors.White,
     },
     leftColumn: {
@@ -300,8 +335,8 @@ const getStyles = (Colors) =>
     },
     hourRow: {
       height: 50,
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
       borderWidth: 0.5,
       borderColor: Colors.BorderColor,
       // backgroundColor: "red",
@@ -310,27 +345,27 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.5),
       color: Colors.BodyText,
       fontFamily: CustomFonts.MEDIUM,
-      textAlign: "center",
+      textAlign: 'center',
     },
     timeText: {
       paddingVertical: 5,
       paddingTop: responsiveScreenHeight(1.5),
       height: 49,
-      color: "green",
+      color: 'green',
       borderWidth: 1,
       borderColor: Colors.BorderColor,
     },
     rightColumn: {
-      flexDirection: "column",
+      flexDirection: 'column',
     },
     weekHeader: {
-      flexDirection: "row",
+      flexDirection: 'row',
     },
     weekday: {
-      textAlign: "center",
+      textAlign: 'center',
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.Heading,
-      textTransform: "uppercase",
+      textTransform: 'uppercase',
       height: 20,
     },
     marker: {
@@ -342,7 +377,7 @@ const getStyles = (Colors) =>
     noMarker: {
       width: 10,
       height: 10,
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
     },
   });
 

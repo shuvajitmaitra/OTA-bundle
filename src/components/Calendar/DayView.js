@@ -1,14 +1,24 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useRef, useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import { hours } from "./WeekView";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
-import { updatePickedDate } from "../../store/reducer/calendarReducer";
-import { getEventDetails, getNotificationData } from "../../actions/chat-noti";
-import ArrowRight from "../../assets/Icons/ArrowRight";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import {hours} from './WeekView';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import moment from 'moment';
+import {useDispatch, useSelector} from 'react-redux';
+import {updatePickedDate} from '../../store/reducer/calendarReducer';
+import {getEventDetails, getNotificationData} from '../../actions/chat-noti';
+import ArrowRight from '../../assets/Icons/ArrowRight';
 
 const DayView = ({
   markedDates,
@@ -21,16 +31,20 @@ const DayView = ({
   seeMoreClicked,
   handleSeeMore,
 }) => {
-  const { user } = useSelector((state) => state.auth);
+  const {user} = useSelector(state => state.auth);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const getEventsForDayAndHour = (day, hour) => {
-    const dateString = moment(day).format("YYYY-MM-DD");
-    const dayEvents = markedDates.find((item) => moment(item.title).format("YYYY-MM-DD") === dateString);
-    return dayEvents ? dayEvents.data?.filter((event) => moment(event.start).hour() === hour) : [];
+    const dateString = moment(day).format('YYYY-MM-DD');
+    const dayEvents = markedDates.find(
+      item => moment(item.title).format('YYYY-MM-DD') === dateString,
+    );
+    return dayEvents
+      ? dayEvents.data?.filter(event => moment(event.start).hour() === hour)
+      : [];
   };
   const dispatch = useDispatch();
-  var startOfDay = moment().add(DayOffset, "days").startOf("day");
+  var startOfDay = moment().add(DayOffset, 'days').startOf('day');
   const newHours = seeMoreClicked ? hours : hours.slice(0, 7);
 
   return (
@@ -40,15 +54,16 @@ const DayView = ({
           styles.container,
           {
             // backgroundColor: "red",
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
             borderWidth: 1,
             borderColor: Colors.BorderColor,
           },
-        ]}
-      >
+        ]}>
         <Text style={styles.headerText}>Time</Text>
-        <Text style={styles.monthHeader}>{`${moment(startOfDay).format("MMMM DD, YYYY (dddd)")}`}</Text>
+        <Text style={styles.monthHeader}>{`${moment(startOfDay).format(
+          'MMMM DD, YYYY (dddd)',
+        )}`}</Text>
       </View>
       <View style={styles.container}>
         <View style={styles.leftColumn}>
@@ -61,7 +76,10 @@ const DayView = ({
         <ScrollView>
           <View style={styles.weekHeader}>
             {newHours.map((hour, hourIndex) => {
-              const events = getEventsForDayAndHour(moment(startOfDay).format("YYYY-M-D"), hour.hour);
+              const events = getEventsForDayAndHour(
+                moment(startOfDay).format('YYYY-M-D'),
+                hour.hour,
+              );
               return (
                 <TouchableOpacity
                   key={hourIndex}
@@ -69,15 +87,18 @@ const DayView = ({
                     dispatch(
                       updatePickedDate({
                         hour: hour.hour,
-                        day: moment().add(DayOffset, "days").startOf("day"),
-                        from: "day",
-                      })
+                        day: moment().add(DayOffset, 'days').startOf('day'),
+                        from: 'day',
+                      }),
                     );
 
                     toggleModal();
-                  }}
-                >
-                  <ScrollView horizontal key={hourIndex} contentContainerStyle={styles.scrollViewRow} style={[styles.hourRow]}>
+                  }}>
+                  <ScrollView
+                    horizontal
+                    key={hourIndex}
+                    contentContainerStyle={styles.scrollViewRow}
+                    style={[styles.hourRow]}>
                     {events?.length > 0 ? (
                       <>
                         {events?.map((item, itemIndex) => (
@@ -85,7 +106,9 @@ const DayView = ({
                             onPress={() => {
                               getEventDetails(item?._id);
                               getNotificationData(item._id);
-                              user._id === item?.createdBy?._id ? toggleUpdateModal(item) : toggleEventDetailsModal(item);
+                              user._id === item?.createdBy
+                                ? toggleUpdateModal(item)
+                                : toggleEventDetailsModal(item);
                             }}
                             key={itemIndex}
                             style={[
@@ -93,21 +116,19 @@ const DayView = ({
                               {
                                 backgroundColor: eventType(item?.eventType),
                                 // width: "70%",
-                                flexDirection: "row",
+                                flexDirection: 'row',
                                 borderRadius: 100,
-                                alignItems: "center",
+                                alignItems: 'center',
                                 paddingHorizontal: responsiveScreenWidth(2),
                                 marginRight: 10,
                               },
-                            ]}
-                          >
+                            ]}>
                             <View
                               style={{
                                 // width: "95%",
                                 paddingVertical: responsiveScreenHeight(0.2),
                                 marginRight: 5,
-                              }}
-                            >
+                              }}>
                               <Text numberOfLines={1} style={styles.itemText}>
                                 {item?.title.slice(0, 10)}
                               </Text>
@@ -120,8 +141,7 @@ const DayView = ({
                                 {
                                   backgroundColor: eventStatus(item?.status),
                                 },
-                              ]}
-                            ></View>
+                              ]}></View>
                           </TouchableOpacity>
                         ))}
                       </>
@@ -135,8 +155,12 @@ const DayView = ({
           </View>
         </ScrollView>
       </View>
-      <TouchableOpacity onPress={() => handleSeeMore()} style={styles.moreButtonContainer}>
-        <Text style={styles.moreButtonText}>{seeMoreClicked ? "Less" : "More"}</Text>
+      <TouchableOpacity
+        onPress={() => handleSeeMore()}
+        style={styles.moreButtonContainer}>
+        <Text style={styles.moreButtonText}>
+          {seeMoreClicked ? 'Less' : 'More'}
+        </Text>
         <ArrowRight />
       </TouchableOpacity>
     </View>
@@ -145,17 +169,17 @@ const DayView = ({
 
 export default DayView;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     moreButtonText: {
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.Primary,
     },
     moreButtonContainer: {
-      alignSelf: "flex-end",
+      alignSelf: 'flex-end',
       // backgroundColor: Colors.Primary,
       padding: 5,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 5,
     },
     itemText: {
@@ -163,48 +187,48 @@ const getStyles = (Colors) =>
       color: Colors.PureWhite,
     },
     scrollViewRow: {
-      alignItems: "center",
-      justifyContent: "flex-start",
+      alignItems: 'center',
+      justifyContent: 'flex-start',
       // backgroundColor: "red",
       // width: "100%",
-      flexDirection: "row",
+      flexDirection: 'row',
       paddingLeft: 10,
     },
     eventTypeContainer: {
-      width: "60%",
+      width: '60%',
       borderRadius: 100,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       marginBottom: 3,
     },
     circle: {
       marginVertical: 2,
-      backgroundColor: "white",
+      backgroundColor: 'white',
       borderRadius: 100,
     },
     headerText: {
       paddingVertical: 5,
       height: 40,
       width: responsiveScreenWidth(15),
-      color: "green",
+      color: 'green',
       paddingTop: responsiveScreenHeight(1),
       // paddingHorizontal: responsiveScreenWidth(3.5),
       borderColor: Colors.BorderColor,
       fontFamily: CustomFonts.REGULAR,
 
       borderWidth: 1,
-      textAlign: "center",
+      textAlign: 'center',
     },
     monthHeader: {
       fontSize: responsiveScreenFontSize(2.2),
-      textAlign: "center",
+      textAlign: 'center',
       //   marginBottom: responsiveScreenHeight(1),
       color: Colors.Heading,
       fontFamily: CustomFonts.SEMI_BOLD,
       flex: 1,
     },
     container: {
-      flexDirection: "row",
+      flexDirection: 'row',
       backgroundColor: Colors.White,
     },
     leftColumn: {
@@ -225,7 +249,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.5),
       color: Colors.BodyText,
       fontFamily: CustomFonts.MEDIUM,
-      textAlign: "center",
+      textAlign: 'center',
     },
 
     weekHeader: {
@@ -235,6 +259,6 @@ const getStyles = (Colors) =>
     noMarker: {
       width: 10,
       height: 10,
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
     },
   });

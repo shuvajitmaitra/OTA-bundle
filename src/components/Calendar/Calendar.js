@@ -433,7 +433,8 @@ const Calendar = ({
                             onPress={() => {
                               getEventDetails(item._id);
                               getNotificationData(item._id);
-                              user._id === item?.createdBy?._id
+
+                              user._id === item?.createdBy
                                 ? toggleUpdateModal(item)
                                 : toggleEventDetailsModal(item);
                             }}
@@ -467,7 +468,12 @@ const Calendar = ({
                           onPress={() => {
                             getNotificationData(item._id);
                             getEventDetails(item._id);
-                            user._id === item?.createdBy?._id
+                            console.log(user._id);
+                            console.log(
+                              'item.createBy',
+                              JSON.stringify(item, null, 1),
+                            );
+                            user._id === item?.createdBy
                               ? toggleUpdateModal(item)
                               : toggleEventDetailsModal(item);
                           }}
@@ -515,7 +521,7 @@ const Calendar = ({
                   // if (Platform.OS == "ios") {
                   //   return Alert.alert("Coming soon...");
                   // }
-                  user?._id === item?.createdBy?._id
+                  user?._id === item?.createdBy
                     ? (getEventDetails(item?._id), toggleUpdateModal(item))
                     : toggleEventDetailsModal(item);
                 }}

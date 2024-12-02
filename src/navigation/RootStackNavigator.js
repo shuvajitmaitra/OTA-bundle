@@ -1,4 +1,3 @@
-// src/navigation/RootStackNavigator.js
 import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import MessageScreen2 from '../screens/Chat/MessageScreen2';
