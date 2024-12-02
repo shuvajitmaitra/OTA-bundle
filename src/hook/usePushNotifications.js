@@ -15,41 +15,30 @@ const usePushNotifications = () => {
   useEffect(() => {
     const setupNotifications = async () => {
       try {
-        // Request notification permission
         await requestNotificationPermission();
 
-        // Register the app with FCM and APNS (for iOS)
         await registerAppWithFCM();
 
-        // Get APNS token (iOS only)
         if (Platform.OS === 'ios') {
           const apnsToken = await messaging().getAPNSToken();
-          console.log('APNS Token:', apnsToken);
           if (apnsToken) {
-            // Set APNS token in Firebase for iOS
             messaging().apnsToken = apnsToken;
           }
         }
 
-        // Get FCM token (both iOS and Android)
         const token = await messaging().getToken();
         console.log('Device FCM token:', token);
         Alert.alert(token);
 
-        // Send the token to the backend if not sent already
         if (token && !isTokenSent) {
           sendTokenToBackend(token);
           setIsTokenSent(true);
         }
-
-        // Set up notification channel for Android
         await createNotificationChannel();
 
-        // Notification handlers
         messaging().onMessage(handleNotification);
         messaging().onNotificationOpenedApp(handleNotification);
 
-        // Handle initial notification if app is opened via a notification
         const initialNotification = await messaging().getInitialNotification();
         if (initialNotification) {
           handleNotification(initialNotification);
@@ -57,7 +46,6 @@ const usePushNotifications = () => {
           console.log('No initial notification found');
         }
 
-        // Handle token refresh (if token is updated, e.g., on app reinstall)
         messaging().onTokenRefresh(newToken => {
           console.log('FCM Token refreshed:', newToken);
           if (newToken) {
@@ -77,7 +65,6 @@ const usePushNotifications = () => {
     };
   }, []);
 
-  // Register app for remote notifications (iOS and Android)
   async function registerAppWithFCM() {
     console.log(
       'registerAppWithFCM status',
@@ -95,7 +82,6 @@ const usePushNotifications = () => {
     }
   }
 
-  // Request notification permissions based on platform
   const requestNotificationPermission = async () => {
     console.log('Requesting notification permission...');
     if (Platform.OS === 'android') {
@@ -120,7 +106,6 @@ const usePushNotifications = () => {
     }
   };
 
-  // Create notification channel for Android
   const createNotificationChannel = async () => {
     if (Platform.OS === 'android') {
       const channelId = 'default';
@@ -136,7 +121,6 @@ const usePushNotifications = () => {
     }
   };
 
-  // Handle displaying notifications when received
   const handleNotification = async remoteMessage => {
     try {
       if (remoteMessage.notification) {
@@ -160,7 +144,6 @@ const usePushNotifications = () => {
     }
   };
 
-  // Send FCM token to backend
   const sendTokenToBackend = async token => {
     try {
       const response = await axiosInstance.post('/user/save-device-token/v2', {

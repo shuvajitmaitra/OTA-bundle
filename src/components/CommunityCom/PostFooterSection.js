@@ -55,7 +55,6 @@ const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
     }
     setShowPopover(true);
   };
-  console.log('popoverReact', JSON.stringify(popoverRect, null, 1));
 
   return (
     <>
