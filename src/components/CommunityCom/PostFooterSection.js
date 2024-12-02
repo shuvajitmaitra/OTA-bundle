@@ -1,60 +1,67 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {onShare} from '../../utility/commonFunction';
-import ShareIcon from '../../assets/Icons/ShareIcon';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../constants/CustomFonts';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useTheme} from '../../context/ThemeContext';
-import LikeIcon from '../../assets/Icons/LikeIcon';
 import CommentsIcon from '../../assets/Icons/CommentsIcon';
 import Divider from '../SharedComponent/Divider';
-import ReactionContainer from './ReactionContainer';
-import {usePopover} from 'react-native-modal-popover';
+import Popover from 'react-native-popover-view'; // Change to react-native-popover-view
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {getComments, giveReaction} from '../../actions/chat-noti';
+import {getComments} from '../../actions/chat-noti';
 import {useDispatch, useSelector} from 'react-redux';
 import ForwardIcon from '../../assets/Icons/ForwardIcon';
-import {useNavigation} from '@react-navigation/native';
-import {
-  setBottomSheetVisible,
-  setCommentModalIndex,
-} from '../../store/reducer/ModalReducer';
+import {setBottomSheetVisible} from '../../store/reducer/ModalReducer';
 import {setCommentId} from '../../store/reducer/commentReducer';
+import ReactionContainer from './ReactionContainer';
 
 const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const {
-    openPopover,
-    closePopover,
-    popoverVisible,
-    touchableRef,
-    popoverAnchorRect,
-  } = usePopover();
-
+  const [showPopover, setShowPopover] = useState(false);
+  const [popoverRect, setPopoverRect] = useState(null);
+  const buttonRef = useRef(null);
+  const [touchPosition, setTouchPosition] = useState({x: 0, y: 0});
   const customArray = Object.entries(post.reactions).map(([key, value]) => ({
     key,
     value,
   }));
   const {bottomSheetVisible} = useSelector(state => state.modal);
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   const openComment = () => {
     dispatch(setBottomSheetVisible(!bottomSheetVisible));
     dispatch(setCommentId(post?._id));
     getComments(post?._id);
   };
+  const handlePressIn = event => {
+    // Get the position of the touch relative to the screen
+    const {pageX, pageY} = event.nativeEvent;
+    setTouchPosition({x: pageX, y: pageY});
+  };
+  const showPopoverWithPosition = () => {
+    if (buttonRef.current) {
+      buttonRef.current.measure((x, y, width, height, pageX, pageY) => {
+        setPopoverRect({
+          x: pageX,
+          y: pageY,
+          width: width,
+          height: height,
+        });
+      });
+    }
+    setShowPopover(true);
+  };
+  console.log('popoverReact', JSON.stringify(popoverRect, null, 1));
 
   return (
     <>
       <View style={styles.firstContainer}>
         <View style={styles.reactContainer}>
-          {customArray.length > +0 &&
+          {customArray.length > 0 &&
             customArray.map((item, index) => (
               <View key={index} style={styles.likesContainer}>
                 <Text style={styles.text}>{item.value || 0}</Text>
@@ -63,17 +70,10 @@ const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
                 </Text>
               </View>
             ))}
-          {/* (
-            <View style={styles.likesContainer}>
-              <Text style={styles.text}>0</Text>
-              <LikeIcon />
-            </View>
-          ) */}
         </View>
 
         {post?.commentsCount > 0 && (
           <TouchableOpacity
-            // onPress={() => toggleCommentSection()}
             onPress={openComment}
             style={styles.commentsContainer}>
             <Text style={styles.text}>
@@ -87,10 +87,9 @@ const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
       <Divider marginBottom={0.5} marginTop={0.5} />
       <View style={styles.postFooterContainer}>
         <TouchableOpacity
-          ref={touchableRef}
-          // onPress={() => giveReaction(post?._id, { symbol: post.myReaction || "👍" })}
-          // onLongPress={openPopover}
-          onPress={openPopover}
+          ref={buttonRef}
+          onPressIn={handlePressIn}
+          onPress={showPopoverWithPosition}
           style={styles.shareButtonContainer}>
           {post.myReaction ? (
             <View
@@ -129,7 +128,6 @@ const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
           )}
         </TouchableOpacity>
         <TouchableOpacity
-          // onPress={() => toggleCommentSection()}
           onPress={openComment}
           style={styles.shareButtonContainer}>
           <CommentsIcon color={showComments && Colors.Primary} size={18} />
@@ -148,13 +146,17 @@ const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
           <Text style={styles.text}>Share</Text>
         </TouchableOpacity>
       </View>
-      <ReactionContainer
-        closePopover={closePopover}
-        popoverVisible={popoverVisible}
-        popoverAnchorRect={popoverAnchorRect}
-        postId={post?._id}
-        myReaction={post.myReaction}
-      />
+
+      {popoverRect && (
+        <ReactionContainer
+          touchPosition={touchPosition}
+          popoverRect={popoverRect}
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+          postId={post?._id}
+          myReaction={post.myReaction}
+        />
+      )}
     </>
   );
 };
@@ -168,11 +170,9 @@ const getStyles = Colors =>
       alignItems: 'center',
       gap: responsiveScreenWidth(1),
       flexWrap: 'wrap',
-      // backgroundColor: "red",
       justifyContent: 'space-between',
     },
     likesContainer: {
-      // backgroundColor: "red",
       borderRadius: responsiveScreenFontSize(100),
       paddingHorizontal: responsiveScreenWidth(2),
       borderWidth: 1,
@@ -186,33 +186,17 @@ const getStyles = Colors =>
       flexDirection: 'row',
       gap: responsiveScreenWidth(1),
       flexWrap: 'wrap',
-      // backgroundColor: "red"
     },
     commentsContainer: {
-      // backgroundColor: "red",
       paddingHorizontal: responsiveScreenWidth(2),
       flexDirection: 'row',
       alignItems: 'center',
       gap: responsiveScreenWidth(1),
     },
-    footerTop: {
-      //   backgroundColor: "red",
-      //   backgroundColor: Colors.Background_color,
-      //   borderWidth: 1,
-      //   borderColor: Colors.BorderColor,
-      //   borderRadius: responsiveScreenFontSize(1),
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: responsiveScreenWidth(2),
-      flexWrap: 'wrap',
-    },
     text: {
       fontFamily: CustomFonts.MEDIUM,
       fontSize: responsiveScreenFontSize(2.2),
       color: Colors.BodyText,
-      alignItems: 'center',
-      flexDirection: 'row',
-      // gap: responsiveScreenWidth(2),
     },
     postFooterContainer: {
       flexDirection: 'row',

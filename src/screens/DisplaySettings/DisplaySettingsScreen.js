@@ -52,7 +52,7 @@ const DisplaySettingsScreen = () => {
   };
   const {top} = useSafeAreaInsets();
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <View style={[styles.container, {paddingTop: top}]}>
       <StatusBar
         translucent={true}
         backgroundColor={Colors.White}
@@ -75,8 +75,8 @@ const DisplaySettingsScreen = () => {
       </View>
 
       {/* <Button title="Restart" onPress={() => Restart()} /> */}
-      <TestPopover />
-    </SafeAreaView>
+      {/* <TestPopover /> */}
+    </View>
   );
 };
 
@@ -128,7 +128,7 @@ const getStyles = Colors =>
       // alignItems: "center",
       paddingVertical: responsiveScreenHeight(2),
       paddingHorizontal: responsiveScreenWidth(3),
-
+      backgroundColor: Colors.White,
       minHeight: responsiveScreenHeight(10),
     },
   });

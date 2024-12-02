@@ -14,6 +14,7 @@ import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
 import {connectSocket, disconnectSocket} from '../utility/socketManager';
 import {getOnlineUsers} from '../actions/apiCall';
 import usePushNotifications from '../hook/usePushNotifications';
+import {TouchableOpacity, View} from 'react-native';
 
 const RootStack = createStackNavigator();
 

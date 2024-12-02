@@ -1,48 +1,65 @@
-// TestPopover.js
-import React, {useRef, useContext} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {PopoverContext} from '../context/PopoverContext';
+import React, {useState, useRef} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import Popover from 'react-native-popover-view';
 
-const TestPopover = () => {
-  const buttonRef = useRef();
-  const {showPopover, hidePopover} = useContext(PopoverContext);
+function TestPopover() {
+  const [showPopover, setShowPopover] = useState(false);
+  const [popoverRect, setPopoverRect] = useState(null);
+  const buttonRef = useRef(null); // Create a ref to the button
 
-  const handleShowPopover = () => {
-    showPopover(
-      <View>
-        <Text>This is a global popojhdgjkl; \'ver!</Text>
-      </View>,
-      buttonRef,
-    );
+  // Function to handle the button's layout and calculate its position
+  const showPopoverWithPosition = () => {
+    if (buttonRef.current) {
+      // Use the measure method to get the button's position and size
+      buttonRef.current.measure((x, y, width, height, pageX, pageY) => {
+        // Calculate the position relative to the screen
+        setPopoverRect({
+          x: pageX,
+          y: pageY + height, // Position popover just below the button
+          width: width,
+          height: height,
+        });
+      });
+    }
+    setShowPopover(true); // Show the popover after positioning
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        ref={buttonRef}
-        style={styles.button}
-        onPress={handleShowPopover}>
-        <Text style={styles.buttonText}>Show Global Popover</Text>
+    <View>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <Text>Hello</Text>
+      <TouchableOpacity ref={buttonRef} onPress={showPopoverWithPosition}>
+        <Text>Press here to open popover!</Text>
       </TouchableOpacity>
+
+      {popoverRect && (
+        <Popover
+          from={{
+            x: popoverRect.x,
+            y: popoverRect.y,
+            width: popoverRect.width,
+            height: popoverRect.height,
+          }}
+          isVisible={showPopover}
+          onRequestClose={() => setShowPopover(false)}>
+          <Text>This is the contents of the popover</Text>
+        </Popover>
+      )}
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    padding: 10,
-    backgroundColor: '#FF9500',
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-});
+}
 
 export default TestPopover;
