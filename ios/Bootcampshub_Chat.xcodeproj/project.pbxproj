@@ -23,7 +23,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8AFD4EE0D59743E6AE23A71D /* WorkSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC2552772C49428A96408182 /* WorkSans-LightItalic.ttf */; };
 		8B1C34B826E23D2AB5A02DF4 /* Pods_Bootcampshub_chat_Bootcampshub_chatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0CB6166F291B9BF4E7BB90 /* Pods_Bootcampshub_chat_Bootcampshub_chatTests.framework */; };
-		A014B0562CF82B79007833BD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A014B0552CF82B79007833BD /* GoogleService-Info.plist */; };
+		A0C3EFBB2CF8D7E6000A7271 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0C3EFBA2CF8D7E6000A7271 /* GoogleService-Info.plist */; };
 		ABB01FE88C284250AE198547 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 797D3AF456D3434D85E7E1D9 /* WorkSans-Regular.ttf */; };
 		AE51BA50332149098E0342BC /* WorkSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5435BBC465014CEDAE531F17 /* WorkSans-BoldItalic.ttf */; };
 		B85E7578B2C3410BAE78AB52 /* WorkSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5964F9B3A8DF4E87A02DEB16 /* WorkSans-Medium.ttf */; };
@@ -75,8 +75,8 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-Bootcampshub_chat-Bootcampshub_chatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bootcampshub_chat-Bootcampshub_chatTests.release.xcconfig"; path = "Target Support Files/Pods-Bootcampshub_chat-Bootcampshub_chatTests/Pods-Bootcampshub_chat-Bootcampshub_chatTests.release.xcconfig"; sourceTree = "<group>"; };
 		8E15F7EAE7204A34BE818BB8 /* WorkSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-ExtraBoldItalic.ttf"; path = "../src/assets/Work_Sans/static/WorkSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		9D3CBE05EEAC1658F0496770 /* Pods_Bootcampshub_chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bootcampshub_chat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A014B0552CF82B79007833BD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A014B0572CF82BEF007833BD /* Bootcampshub_chat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Bootcampshub_chat.entitlements; path = Bootcampshub_chat/Bootcampshub_chat.entitlements; sourceTree = "<group>"; };
+		A0C3EFBA2CF8D7E6000A7271 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A28010F14BEB47A0A75136BF /* WorkSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-SemiBold.ttf"; path = "../src/assets/Work_Sans/static/WorkSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		BCD95FA2888248E2ABE7EF15 /* WorkSans-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-ThinItalic.ttf"; path = "../src/assets/Work_Sans/static/WorkSans-ThinItalic.ttf"; sourceTree = "<group>"; };
 		CC0CB6166F291B9BF4E7BB90 /* Pods_Bootcampshub_chat_Bootcampshub_chatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bootcampshub_chat_Bootcampshub_chatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,8 +127,8 @@
 		13B07FAE1A68108700A75B9A /* Bootcampshub_chat */ = {
 			isa = PBXGroup;
 			children = (
+				A0C3EFBA2CF8D7E6000A7271 /* GoogleService-Info.plist */,
 				A014B0572CF82BEF007833BD /* Bootcampshub_chat.entitlements */,
-				A014B0552CF82B79007833BD /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -332,7 +332,7 @@
 				ABB01FE88C284250AE198547 /* WorkSans-Regular.ttf in Resources */,
 				568BEDB32A8D4F27AFEEC8BA /* WorkSans-SemiBold.ttf in Resources */,
 				FFAC9AE273524928B498A157 /* WorkSans-SemiBoldItalic.ttf in Resources */,
-				A014B0562CF82B79007833BD /* GoogleService-Info.plist in Resources */,
+				A0C3EFBB2CF8D7E6000A7271 /* GoogleService-Info.plist in Resources */,
 				EF6121319C384292AE4D9DCF /* WorkSans-Thin.ttf in Resources */,
 				5C1072FB32974977A8CF8658 /* WorkSans-ThinItalic.ttf in Resources */,
 			);

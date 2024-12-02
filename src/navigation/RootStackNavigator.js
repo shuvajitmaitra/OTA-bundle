@@ -22,7 +22,6 @@ const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
   const {handleVerify} = useMainContext();
   const {error} = usePushNotifications();
-  // const [functionCalled, setfunctionCalled] = useState(second)
 
   useEffect(() => {
     store.dispatch(setAppLoading(true));

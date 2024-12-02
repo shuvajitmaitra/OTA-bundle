@@ -103,7 +103,7 @@ const App = () => {
         backgroundColor={Colors.White}
         barStyle={'dark-content'}
       />
-      <View style={{backgroundColor: 'red', flex: 1}}>
+      <View style={{backgroundColor: Colors.White, flex: 1}}>
         <Navigation />
       </View>
     </BottomSheetModalProvider>

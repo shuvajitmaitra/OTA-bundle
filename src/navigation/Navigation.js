@@ -8,9 +8,9 @@ import SplashScreen from '../screens/SplashScreen';
 const Navigation = () => {
   const {user, appLoading} = useSelector(state => state.auth);
 
-  if (appLoading) {
-    return <SplashScreen />;
-  }
+  // if (appLoading) {
+  //   return <SplashScreen />;
+  // }
   return (
     <NavigationContainer>
       {user._id ? <RootStackNavigator /> : <AuthStackScreen />}

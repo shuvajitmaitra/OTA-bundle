@@ -1,13 +1,11 @@
 import {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance} from '@notifee/react-native';
-import axios from 'axios';
-import {Platform} from 'react-native';
+import {Alert, Platform} from 'react-native';
+import axiosInstance from '../utility/axiosInstance';
 import {
-  request,
-  PERMISSIONS,
-  checkNotifications,
   requestNotifications,
+  checkNotifications,
 } from 'react-native-permissions';
 
 const usePushNotifications = () => {
@@ -17,36 +15,55 @@ const usePushNotifications = () => {
   useEffect(() => {
     const setupNotifications = async () => {
       try {
+        // Request notification permission
         await requestNotificationPermission();
+
+        // Register the app with FCM and APNS (for iOS)
+        await registerAppWithFCM();
+
+        // Get APNS token (iOS only)
+        if (Platform.OS === 'ios') {
+          const apnsToken = await messaging().getAPNSToken();
+          console.log('APNS Token:', apnsToken);
+          if (apnsToken) {
+            // Set APNS token in Firebase for iOS
+            messaging().apnsToken = apnsToken;
+          }
+        }
+
+        // Get FCM token (both iOS and Android)
         const token = await messaging().getToken();
+        console.log('Device FCM token:', token);
+        Alert.alert(token);
 
-        console.log('Device token:', token);
-
-        if (!isTokenSent) {
+        // Send the token to the backend if not sent already
+        if (token && !isTokenSent) {
           sendTokenToBackend(token);
           setIsTokenSent(true);
         }
 
-        // Create notification channel (only Android)
+        // Set up notification channel for Android
         await createNotificationChannel();
 
-        // Foreground notification listener
+        // Notification handlers
         messaging().onMessage(handleNotification);
-
-        // App opened from background notification
         messaging().onNotificationOpenedApp(handleNotification);
 
-        // App opened from a killed state (initial notification)
+        // Handle initial notification if app is opened via a notification
         const initialNotification = await messaging().getInitialNotification();
         if (initialNotification) {
-          console.log(
-            'App opened with initial notification:',
-            initialNotification,
-          );
           handleNotification(initialNotification);
         } else {
           console.log('No initial notification found');
         }
+
+        // Handle token refresh (if token is updated, e.g., on app reinstall)
+        messaging().onTokenRefresh(newToken => {
+          console.log('FCM Token refreshed:', newToken);
+          if (newToken) {
+            sendTokenToBackend(newToken);
+          }
+        });
       } catch (err) {
         setError(err.message);
         console.error('Error during setup:', err.message);
@@ -60,34 +77,50 @@ const usePushNotifications = () => {
     };
   }, []);
 
+  // Register app for remote notifications (iOS and Android)
+  async function registerAppWithFCM() {
+    console.log(
+      'registerAppWithFCM status',
+      messaging().isDeviceRegisteredForRemoteMessages,
+    );
+    if (!messaging().isDeviceRegisteredForRemoteMessages) {
+      await messaging()
+        .registerDeviceForRemoteMessages()
+        .then(status => {
+          console.log('registerDeviceForRemoteMessages status', status);
+        })
+        .catch(error => {
+          console.log('registerDeviceForRemoteMessages error ', error);
+        });
+    }
+  }
+
+  // Request notification permissions based on platform
   const requestNotificationPermission = async () => {
     console.log('Requesting notification permission...');
     if (Platform.OS === 'android') {
-      await checkNotifications().then(({status}) => {
-        console.log('Notification status on Android:', status);
-        if (status !== 'granted') {
-          requestNotifications(['alert', 'sound']).then(() => {
-            console.log('Notification permissions requested for Android');
-            askForPermission(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
-          });
+      const {status} = await checkNotifications();
+      if (status !== 'granted') {
+        const permissionResult = await requestNotifications(['alert', 'sound']);
+        if (permissionResult.status !== 'granted') {
+          setError('Notification permission denied on Android');
+          console.log('Android permission denied');
         }
-      });
-    }
-    if (Platform.OS === 'ios') {
+      }
+    } else if (Platform.OS === 'ios') {
       const authStatus = await messaging().requestPermission();
       const enabled =
         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-      if (enabled) {
-        console.log('iOS Notification permission granted:', authStatus);
-      } else {
-        console.log('iOS Notification permission denied');
-        setError('Notification permission denied for iOS');
+      if (!enabled) {
+        setError('Notification permission denied on iOS');
+        console.log('iOS permission denied');
       }
     }
   };
 
+  // Create notification channel for Android
   const createNotificationChannel = async () => {
     if (Platform.OS === 'android') {
       const channelId = 'default';
@@ -99,12 +132,11 @@ const usePushNotifications = () => {
           name: 'Default Channel',
           importance: AndroidImportance.HIGH,
         });
-      } else {
-        console.log('Notification channel already exists on Android');
       }
     }
   };
 
+  // Handle displaying notifications when received
   const handleNotification = async remoteMessage => {
     try {
       if (remoteMessage.notification) {
@@ -112,7 +144,7 @@ const usePushNotifications = () => {
           title: remoteMessage.notification.title || 'Default Title',
           body: remoteMessage.notification.body || 'Default Body',
           android: {
-            channelId: 'default', // Android-specific
+            channelId: 'default',
           },
           ios: {
             sound: 'default',
@@ -128,26 +160,17 @@ const usePushNotifications = () => {
     }
   };
 
-  // Send device token to backend
+  // Send FCM token to backend
   const sendTokenToBackend = async token => {
     try {
-      const response = await axios.post(
-        'https://backend-teal-one-64.vercel.app//v2/save-device-token',
-        {
-          token,
-        },
-      );
-      console.log('Device token sent to backend successfully:', response);
+      const response = await axiosInstance.post('/user/save-device-token/v2', {
+        token,
+      });
+      console.log('Device token sent to backend successfully:', response.data);
     } catch (err) {
       console.error('Error sending token to backend:', err);
       setError('Network error while sending token');
     }
-  };
-
-  const askForPermission = permission => {
-    request(permission).then(result => {
-      console.log('Permission result:', JSON.stringify(result, null, 1));
-    });
   };
 
   return {error, isTokenSent};

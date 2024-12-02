@@ -1,27 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, StatusBar, Image, TouchableOpacity, Alert } from "react-native";
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveFontSize,
-} from "react-native-responsive-dimensions";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import ShareIcon from "../../assets/Icons/ShareIcon";
-import MyButton from "../../components/AuthenticationCom/MyButton";
+} from 'react-native-responsive-dimensions';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import ShareIcon from '../../assets/Icons/ShareIcon';
+import MyButton from '../../components/AuthenticationCom/MyButton';
 
-import axios from "../../utility/axiosInstance";
-import StartInterviewModal from "../../components/MockInterviewCom/StartInterviewModal";
-import ShareInterviewModal from "../../components/MockInterviewCom/ShareInterviewModal";
-import CommentModal from "../../components/MockInterviewCom/CommentModal";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Loading from "../../components/SharedComponent/Loading";
-import { useDispatch, useSelector } from "react-redux";
-import { setInterviews } from "../../store/reducer/InterviewReducer";
-import NoDataAvailable from "../../components/SharedComponent/NoDataAvailable";
+import axios from '../../utility/axiosInstance';
+import StartInterviewModal from '../../components/MockInterviewCom/StartInterviewModal';
+import ShareInterviewModal from '../../components/MockInterviewCom/ShareInterviewModal';
+import CommentModal from '../../components/MockInterviewCom/CommentModal';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Loading from '../../components/SharedComponent/Loading';
+import {useDispatch, useSelector} from 'react-redux';
+import {setInterviews} from '../../store/reducer/InterviewReducer';
+import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 
-export default function MockInterview({ route }) {
+export default function MockInterview({route}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,16 +38,16 @@ export default function MockInterview({ route }) {
   const [commentModalInterview, setCommentModalInterview] = useState(null);
   const [interviewIndex, setInterviewIndex] = useState(0);
   const dispatch = useDispatch();
-  const { interviews } = useSelector((state) => state.interview);
+  const {interviews} = useSelector(state => state.interview);
 
-  const toggleStartModal = (interview) => {
-    setStartModalInterview((prev) => (prev === interview ? null : interview));
+  const toggleStartModal = interview => {
+    setStartModalInterview(prev => (prev === interview ? null : interview));
   };
-  const toggleShareModal = (interview) => {
-    setShareModalInterview((prev) => (prev === interview ? null : interview));
+  const toggleShareModal = interview => {
+    setShareModalInterview(prev => (prev === interview ? null : interview));
   };
-  const toggleCommentModal = (interview) => {
-    setCommentModalInterview((prev) => (prev === interview ? null : interview));
+  const toggleCommentModal = interview => {
+    setCommentModalInterview(prev => (prev === interview ? null : interview));
   };
 
   useEffect(() => {
@@ -49,12 +57,12 @@ export default function MockInterview({ route }) {
   const fetchData = () => {
     setIsLoading(true);
     axios
-      .get(`/interview/myinterviews`)
-      .then((res) => {
+      .get('/interview/myinterviews')
+      .then(res => {
         dispatch(setInterviews(res.data.interviews));
         setIsLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         setIsLoading(false);
         console.log(err);
       });
@@ -70,17 +78,22 @@ export default function MockInterview({ route }) {
         backgroundColor: Colors.Background_color,
         paddingHorizontal: responsiveScreenWidth(4),
         flex: 1,
-      }}
-    >
+      }}>
       <StatusBar
         translucent={true}
         backgroundColor={Colors.Background_color}
-        barStyle={Colors.Background_color === "#F5F5F5" ? "dark-content" : "light-content"}
+        barStyle={
+          Colors.Background_color === '#F5F5F5'
+            ? 'dark-content'
+            : 'light-content'
+        }
       />
       <Text style={styles.heading}>Mock Interviews</Text>
-      <Text style={styles.description}>Your Practice Ground for Real-Time Answers</Text>
+      <Text style={styles.description}>
+        Your Practice Ground for Real-Time Answers
+      </Text>
       {isLoading ? (
-        <Loading backgroundColor={"transparent"} />
+        <Loading backgroundColor={'transparent'} />
       ) : (
         <ScrollView>
           {interviews?.length ? (
@@ -88,63 +101,88 @@ export default function MockInterview({ route }) {
               <View key={i} style={styles.interviewContainer}>
                 <Image
                   source={{
-                    uri: interview?.thumbnail || "https://www.bootcampshub.ai/placeholder2.jpg",
+                    uri:
+                      interview?.thumbnail ||
+                      'https://www.bootcampshub.ai/placeholder2.jpg',
                   }}
                   style={styles.img}
                 />
                 <View>
                   <View
                     style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
                       width: responsiveScreenWidth(64.5),
-                    }}
-                  >
+                    }}>
                     <Text style={styles.title}>{interview?.name}</Text>
                     <TouchableOpacity
                       disabled={!interview?.submission[0]?._id}
-                      onPress={() => toggleShareModal(interview?.submission[0]?._id)}
+                      onPress={() =>
+                        toggleShareModal(interview?.submission[0]?._id)
+                      }
                       style={{
-                        flexDirection: "row",
+                        flexDirection: 'row',
                         marginTop: responsiveScreenWidth(1.5),
-                      }}
-                    >
-                      <ShareIcon color={interview?.submission[0]?._id ? Colors.Primary : Colors.DisablePrimaryBackgroundColor} />
+                      }}>
+                      <ShareIcon
+                        color={
+                          interview?.submission[0]?._id
+                            ? Colors.Primary
+                            : Colors.DisablePrimaryBackgroundColor
+                        }
+                      />
                     </TouchableOpacity>
                   </View>
-                  <Text style={[styles.title2, { paddingVertical: responsiveScreenWidth(1) }]}>
-                    Expiry Date:{" "}
-                    <Text style={styles.text2}>{interview.dueDate ? new Date(interview.dueDate).toLocaleDateString() : "N/A"}</Text>
+                  <Text
+                    style={[
+                      styles.title2,
+                      {paddingVertical: responsiveScreenWidth(1)},
+                    ]}>
+                    Expiry Date:{' '}
+                    <Text style={styles.text2}>
+                      {interview.dueDate
+                        ? new Date(interview.dueDate).toLocaleDateString()
+                        : 'N/A'}
+                    </Text>
                   </Text>
                   <View
                     style={{
-                      flexDirection: "row",
+                      flexDirection: 'row',
                       gap: 7,
-                      alignItems: "center",
-                    }}
-                  >
+                      alignItems: 'center',
+                    }}>
                     <Text style={styles.title2}>
-                      Status:{" "}
-                      <Text style={[styles.text2, interview.submission?.length > 0 ? styles.doneStatus : styles.pendingStatus]}>
-                        {interview.submission?.length > 0 ? "Done" : "Pending"}
+                      Status:{' '}
+                      <Text
+                        style={[
+                          styles.text2,
+                          interview.submission?.length > 0
+                            ? styles.doneStatus
+                            : styles.pendingStatus,
+                        ]}>
+                        {interview.submission?.length > 0 ? 'Done' : 'Pending'}
                       </Text>
                     </Text>
                     <Text style={styles.title2}>
-                      Mark: <Text style={styles.text2}>{interview.submission?.length > 0 ? interview.submission[0].mark : "N/A"}</Text>
+                      Mark:{' '}
+                      <Text style={styles.text2}>
+                        {interview.submission?.length > 0
+                          ? interview.submission[0].mark
+                          : 'N/A'}
+                      </Text>
                     </Text>
                   </View>
                   <View
                     style={{
-                      flexDirection: "row",
+                      flexDirection: 'row',
                       gap: 10,
-                      alignItems: "center",
+                      alignItems: 'center',
                       marginTop: responsiveScreenHeight(1.5),
-                    }}
-                  >
+                    }}>
                     {interview.submission?.length > 0 ? (
                       <MyButton
                         onPress={() => {}}
-                        title={"View Result"}
+                        title={'View Result'}
                         bg={Colors.PrimaryOpacityColor}
                         colour={Colors.Primary}
                         width={responsiveScreenWidth(35)}
@@ -154,7 +192,7 @@ export default function MockInterview({ route }) {
                     ) : (
                       <MyButton
                         onPress={() => toggleStartModal(interview)}
-                        title={"Start Interview"}
+                        title={'Start Interview'}
                         bg={Colors.Primary}
                         colour={Colors.PureWhite}
                         width={responsiveScreenWidth(35)}
@@ -167,9 +205,17 @@ export default function MockInterview({ route }) {
                         setInterviewIndex(i);
                         toggleCommentModal(interview);
                       }}
-                      title={"Comments"}
-                      bg={interview?.submission[0]?._id ? Colors.SecondaryButtonBackgroundColor : Colors.DisableSecondaryBackgroundColor}
-                      colour={interview?.submission[0]?._id ? Colors.SecondaryButtonTextColor : Colors.DisableSecondaryButtonTextColor}
+                      title={'Comments'}
+                      bg={
+                        interview?.submission[0]?._id
+                          ? Colors.SecondaryButtonBackgroundColor
+                          : Colors.DisableSecondaryBackgroundColor
+                      }
+                      colour={
+                        interview?.submission[0]?._id
+                          ? Colors.SecondaryButtonTextColor
+                          : Colors.DisableSecondaryButtonTextColor
+                      }
                       width={responsiveScreenWidth(25)}
                       height={responsiveScreenHeight(4)}
                       fontSize={responsiveScreenFontSize(1.6)}
@@ -204,7 +250,9 @@ export default function MockInterview({ route }) {
             <CommentModal
               interview={commentModalInterview}
               setIsCommentModalVisible={setCommentModalInterview}
-              toggleCommentModal={() => toggleCommentModal(commentModalInterview)}
+              toggleCommentModal={() =>
+                toggleCommentModal(commentModalInterview)
+              }
               isCommentModalVisible={!!commentModalInterview}
               interviewIndex={interviewIndex}
             />
@@ -215,13 +263,13 @@ export default function MockInterview({ route }) {
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     noDataContainer: {
       flex: 1,
       height: responsiveScreenHeight(77),
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: Colors.White,
       borderRadius: 10,
     },
@@ -245,7 +293,7 @@ const getStyles = (Colors) =>
       padding: responsiveScreenWidth(4),
       borderRadius: responsiveScreenWidth(3),
       marginBottom: responsiveScreenHeight(2),
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(3),
     },
     img: {
@@ -274,12 +322,12 @@ const getStyles = (Colors) =>
       color: Colors.BodyText,
     },
     doneStatus: {
-      color: "green",
+      color: 'green',
     },
     pendingStatus: {
-      color: "orange",
+      color: 'orange',
     },
     rejectedStatus: {
-      color: "red",
+      color: 'red',
     },
   });
