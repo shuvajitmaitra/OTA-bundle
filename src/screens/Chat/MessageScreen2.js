@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  BackHandler,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import axiosInstance from '../../utility/axiosInstance';
@@ -192,6 +193,26 @@ const MessageScreen2 = () => {
 
     return <Message2 item={item} index={index} nextSender={nextSender} />;
   };
+
+  useEffect(() => {
+    // Define the behavior when the back button is pressed
+    const backAction = () => {
+      // You can handle custom logic here, e.g., show a confirmation dialog
+      console.log('Back button pressed!');
+
+      // Return true to prevent the default behavior (going back)
+      // Return false to allow default back button behavior (going back)
+      return true;
+    };
+
+    // Add the back button listener
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    // Cleanup the listener when the component unmounts
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+    };
+  }, []);
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

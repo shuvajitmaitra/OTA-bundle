@@ -13,7 +13,6 @@ import {useTheme} from '../../context/ThemeContext';
 import OnlineUsersItem from '../../components/ChatCom/OnlineUsersItem';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import {SafeAreaView} from 'react-native';
-import {loadChats} from '../../actions/chat-noti';
 import ChatHeaderFilter from '../../components/ChatCom/ChatHeaderFilter';
 import {RegularFonts} from '../../constants/Fonts';
 import Divider from '../../components/SharedComponent/Divider';
@@ -72,21 +71,30 @@ export default function NewChatScreen({navigation: {goBack}}) {
   const bottomSheetRef = useRef(null);
 
   useEffect(() => {
-    const filteredChats = chats?.filter(x => !x?.isArchived) || [];
+    const filteredChats =
+      chats?.filter(x =>
+        !x?.isArchived && checked === 'crowd'
+          ? x.isChannel
+          : checked === 'unreadMessage'
+          ? x.unreadCount
+          : x,
+      ) || [];
     setRecords(filteredChats);
     setResults(filteredChats);
-  }, [chats]);
+  }, [chats, checked]);
+  console.log(checked);
 
   const handleRadioChecked = useCallback(
     item => {
+      console.log(item);
       let filteredChats = [];
       switch (item) {
         case 'mention':
           filteredChats = [];
           break;
         case 'chats':
-          loadChats();
-          console.log('called');
+          // loadChats();
+          // console.log('called');
           filteredChats = chats?.filter(x => !x?.isArchived) || [];
           break;
         case 'crowds':
@@ -125,7 +133,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
 
   const handleFilter = useCallback(
     val => {
-      console.log('val', JSON.stringify(val, null, 1));
       if (checked === 'onlines') {
         if (val) {
           const filteredUsers = onlineUsers?.filter(c =>
@@ -179,7 +186,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
               : 'light-content'
           }
         />
-        {/* <ChatTopPart handleRadioChecked={handleRadioChecked} /> */}
         <View style={styles.searchContainer}>
           <ChatSearchField
             handleFilter={handleFilter}
