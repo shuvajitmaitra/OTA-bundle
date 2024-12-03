@@ -21,17 +21,12 @@ const RootStack = createStackNavigator();
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
   const {handleVerify} = useMainContext();
-  const {error} = usePushNotifications();
+  // const {error} = usePushNotifications();
 
   useEffect(() => {
-    store.dispatch(setAppLoading(true));
     handleVerify();
-    loadNotifications();
-    connectSocket();
-    loadCalendarEvent();
-    getOnlineUsers();
+
     console.log('handle from dashboard..............');
-    store.dispatch(setAppLoading(false));
     return () => {
       disconnectSocket();
     };

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,18 +15,17 @@ import {
 } from 'react-native-responsive-dimensions';
 import validator from 'validator';
 import {useTheme} from '../../context/ThemeContext';
-// import CustomFonts from '../../constants/CustomFonts';
 import TopLogo from '../../components/AuthenticationCom/TopLogo';
 import axiosInstance from '../../utility/axiosInstance';
 import {useMainContext} from '../../context/MainContext';
 import {storage} from '../../utility/mmkvInstance';
 import EyeIcon from '../../assets/Icons/EyeIcon';
 import EyeClose from '../../assets/Icons/EyeClose';
+import {useGlobalAlert} from '../../components/SharedComponent/GlobalAlertContext';
 
 export default function SignInScreen({navigation}) {
   const {handleVerify} = useMainContext();
-  // const dispatch = useDispatch();
-
+  const {showAlert} = useGlobalAlert();
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -57,39 +56,28 @@ export default function SignInScreen({navigation}) {
 
   const handleSignin = async () => {
     if (!data.isValidUser || !data.isValidPassword) {
-      // Optionally, you can alert the user here
       return;
     }
-
     setIsLoading(true);
-
-    console.log('data', JSON.stringify(data, null, 1));
     try {
-      const response = await axiosInstance.post('/user/login', {
+      const {data: responseData} = await axiosInstance.post('/user/login', {
         email: data.email,
         password: data.password,
       });
 
-      const {success, token} = response.data;
-      // console.log('Login Success:', success);
-      // console.log('Received Token:', token);
+      const {success, token} = responseData;
 
-      if (success) {
-        if (token) {
-          storage.set('user_token', `Bearer ${token}`);
-          handleVerify(true);
-        } else {
-          console.log('Token is undefined');
-          // Optionally, handle the case where token is missing
-        }
-      } else {
-        console.log('Login unsuccessful');
+      if (success && token) {
+        storage.set('user_token', `Bearer ${token}`);
+        handleVerify(true);
       }
     } catch (error) {
-      console.log(
-        'error.response.data',
-        JSON.stringify(error.response?.data, null, 1),
-      );
+      console.error('Login error:', error.response?.data || error.message);
+      showAlert({
+        title: error.response?.data.error,
+        type: 'warning',
+        message: 'Please check your email or password',
+      });
     } finally {
       setIsLoading(false);
     }

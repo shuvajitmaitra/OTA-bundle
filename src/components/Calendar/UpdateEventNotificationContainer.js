@@ -26,10 +26,9 @@ const UpdateEventNotificationContainer = () => {
       ]
     : eventNotification;
   const {groupNameId} = useSelector(state => state.chat);
-  console.log('groupNameId', JSON.stringify(groupNameId, null, 1));
   const defaultMethod = [{data: 'push', type: 'Notification'}];
 
-  const onChangeValue = (key, value, index) => {
+  const onChangeValue =        (key, value, index) => {
     // console.log("key", JSON.stringify(key, null, 1));
     // console.log("value", JSON.stringify(value, null, 1));
     let array = [...notifications];

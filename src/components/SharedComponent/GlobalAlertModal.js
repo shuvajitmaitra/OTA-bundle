@@ -20,7 +20,7 @@ const GlobalAlertModal = () => {
   const styles = getStyles(Colors);
   const dispatch = useDispatch();
 
-  const showAlert = () => {
+         const showAlert = () => {
     dispatch(setAlert({visible: false, data: {}}));
   };
 

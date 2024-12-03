@@ -1,19 +1,14 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
 import AuthStackScreen from './AuthStackScreen';
 import RootStackNavigator from './RootStackNavigator';
-import SplashScreen from '../screens/SplashScreen';
+import {storage} from '../utility/mmkvInstance';
 
 const Navigation = () => {
-  const {user, appLoading} = useSelector(state => state.auth);
-
-  // if (appLoading) {
-  //   return <SplashScreen />;
-  // }
+  const value = storage.getString('user_token');
   return (
     <NavigationContainer>
-      {user._id ? <RootStackNavigator /> : <AuthStackScreen />}
+      {value ? <RootStackNavigator /> : <AuthStackScreen />}
     </NavigationContainer>
   );
 };

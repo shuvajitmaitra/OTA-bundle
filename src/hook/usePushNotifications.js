@@ -63,7 +63,7 @@ const usePushNotifications = () => {
     return () => {
       console.log('Cleanup for notifications');
     };
-  }, []);
+  }, [isTokenSent]);
 
   async function registerAppWithFCM() {
     console.log(
@@ -76,8 +76,8 @@ const usePushNotifications = () => {
         .then(status => {
           console.log('registerDeviceForRemoteMessages status', status);
         })
-        .catch(error => {
-          console.log('registerDeviceForRemoteMessages error ', error);
+        .catch(err => {
+          console.log('registerDeviceForRemoteMessages error ', err);
         });
     }
   }

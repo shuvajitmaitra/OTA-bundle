@@ -18,6 +18,7 @@ import UserDashboard from '../screens/Dashboard/UserDashboard';
 import CourseDetails from '../components/PurchasedCom/CourseDetails';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {View} from 'react-native';
+import NotificationScreenHeader from '../components/NotificationScreenHeader';
 
 const HomeStack = createStackNavigator();
 
@@ -95,7 +96,7 @@ const HomeStackScreen = () => {
         options={({route, navigation}) => ({
           headerTitle: '',
           header: () => {
-            return <Header navigation={navigation} />;
+            return <NotificationScreenHeader navigation={navigation} />;
           },
         })}
       />
