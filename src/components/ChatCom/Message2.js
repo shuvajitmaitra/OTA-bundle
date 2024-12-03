@@ -1,10 +1,11 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Markdown from 'react-native-markdown-display';
 import {
   autoLinkify,
   generateActivityText,
   removeHtmlTags,
+  sliceText,
   transFormDate,
 } from './MessageHelper';
 import {useTheme} from '../../context/ThemeContext';
@@ -26,6 +27,7 @@ import {setSingleChat} from '../../store/reducer/chatReducer';
 const Message2 = ({item, index, nextSender}) => {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
+  const [readMoreClicked, setreadMoreClicked] = useState(false);
   const Colors = useTheme();
   const my = item.sender?._id === user?._id;
   const styles = getStyles(Colors, my);
@@ -83,12 +85,20 @@ const Message2 = ({item, index, nextSender}) => {
         </TouchableOpacity>
         {item.files.length > 0 && <MessageFileContainer files={item.files} />}
         <Markdown style={styles.markdownStyle}>
-          {autoLinkify(
-            transFormDate(
-              removeHtmlTags(item?.text?.trim() || item?.text || ''),
+          {sliceText(
+            autoLinkify(
+              transFormDate(
+                removeHtmlTags(item?.text?.trim() || item?.text || ''),
+              ),
             ),
+            readMoreClicked,
           )}
         </Markdown>
+        {!readMoreClicked && item.text.length > 300 && (
+          <TouchableOpacity onPress={() => setreadMoreClicked(true)}>
+            <Text style={styles.readMoreText}>Read more</Text>
+          </TouchableOpacity>
+        )}
         {!item?.parentMessage && (
           <EmojiContainer my={my} reacts={item.emoji} messageId={item._id} />
         )}
@@ -138,6 +148,14 @@ export default Message2;
 
 const getStyles = (Colors, my) =>
   StyleSheet.create({
+    readMoreText: {
+      color: Colors.ThemeAnotherButtonColor,
+      fontSize: responsiveScreenFontSize(2),
+      fontWeight: '600',
+      height: 20,
+      // backgroundColor: 'green',
+      width: 100,
+    },
     threeDotContainer: {
       position: 'absolute',
       right: 0,
@@ -261,18 +279,25 @@ const getStyles = (Colors, my) =>
       strong: {fontFamily: CustomFonts.SEMI_BOLD},
       code_inline: {
         color: Colors.BodyText,
-        backgroundColor: Colors.LightGreen,
+        backgroundColor: my ? Colors.Primary : Colors.Background_color,
       },
       hr: {
         backgroundColor: Colors.BodyText,
       },
-      fence: {color: Colors.BodyText},
-      code_block: {
-        color: Colors.BodyText,
-        backgroundColor: Colors.LightGreen,
-        borderWidth: 0,
+      fence: {
+        color: my ? Colors.PureWhite : Colors.BodyText,
+        backgroundColor: my ? Colors.Primary : Colors.Background_color,
+        marginBottom: 10,
       },
-      blockquote: {color: Colors.BodyText},
+      code_block: {
+        color: my ? Colors.PureWhite : Colors.BodyText,
+        borderWidth: 0,
+        backgroundColor: my ? Colors.Primary : Colors.Background_color,
+      },
+      blockquote: {
+        color: my ? Colors.PureWhite : Colors.BodyText,
+        backgroundColor: my ? Colors.Primary : Colors.Background_color,
+      },
       table: {
         borderColor: Colors.BorderColor,
       },

@@ -66,7 +66,13 @@ export default function ThreadMessageItem({message, replyCount = 0}) {
         {/* Render Markdown text if available */}
         {message.text ? (
           <Markdown style={styles.markdownStyle}>
-            {transFormDate(removeHtmlTags(message.text))}
+            {transFormDate(
+              removeHtmlTags(
+                message.text && message.text.length > 200
+                  ? message.text.slice(0, 200)
+                  : message.text,
+              ),
+            )}
           </Markdown>
         ) : null}
 
@@ -228,9 +234,15 @@ const getStyles = Colors =>
       hr: {
         backgroundColor: Colors.BodyText,
       },
-      fence: {color: Colors.BodyText},
-      code_block: {color: Colors.BodyText},
-      blockquote: {color: Colors.BodyText},
+      fence: {backgroundColor: Colors.Background_color, color: Colors.BodyText},
+      code_block: {
+        backgroundColor: Colors.Background_color,
+        color: Colors.BodyText,
+      },
+      blockquote: {
+        backgroundColor: Colors.Background_color,
+        color: Colors.BodyText,
+      },
       table: {
         borderColor: Colors.BorderColor,
       },

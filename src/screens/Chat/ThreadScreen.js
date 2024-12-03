@@ -41,6 +41,7 @@ import {
   FlatList,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -80,6 +81,9 @@ const ThreadScreen = ({route}) => {
       chat: chatMessage.chat,
       page,
     });
+    return () => {
+      dispatch(setThreadMessages([]));
+    };
   }, []);
 
   const getReplies = ({parentMessage, chat, page}) => {
@@ -92,7 +96,6 @@ const ThreadScreen = ({route}) => {
     axiosInstance
       .post('/chat/messages', options)
       .then(res => {
-        console.log('res.data', JSON.stringify(res.data, null, 1));
         dispatch(setThreadMessages(res.data.messages.reverse()));
         // setLocalMessages(pre => [...pre, ...res.data.messages.reverse()]);
         // if(threadMessages.length  )
@@ -109,18 +112,14 @@ const ThreadScreen = ({route}) => {
   const ListFooterComponent = () => {
     if (!isLoading) return null;
     return (
-      <View style={[styles.footer, page === 1 && styles.initialFooter]}>
+      <View style={[styles.footer]}>
         <ActivityIndicator size="small" color={Colors.Primary} />
       </View>
     );
   };
 
   const renderItem = ({item, index}) => {
-    return (
-      <>
-        <Message2 item={item} index={index} nextSender={true} />
-      </>
-    );
+    return <></>;
   };
   return (
     <View
@@ -146,7 +145,7 @@ const ThreadScreen = ({route}) => {
           />
         )}
         <ScreenHeader />
-        {
+        <ScrollView style={styles.flatListContainer}>
           <ThreadMessageItem
             message={chatMessage}
             replyCount={
@@ -155,9 +154,10 @@ const ThreadScreen = ({route}) => {
                 : chatMessage.replyCount
             }
           />
-        }
-        <View style={styles.flatListContainer}>
-          <FlatList
+          {threadMessages.map((item, index) => (
+            <Message2 item={item} index={index} nextSender={true} />
+          ))}
+          {/* <FlatList
             data={threadMessages}
             renderItem={renderItem}
             keyExtractor={item => item._id.toString()}
@@ -169,11 +169,13 @@ const ThreadScreen = ({route}) => {
             //   })
             // }
             onEndReachedThreshold={0.5}
-            //   ListFooterComponent={ListFooterComponent}
-            inverted
-            // ListEmptyComponent={() => <NoDataAvailable />}
-          />
-        </View>
+            ListFooterComponent={isLoading && ListFooterComponent}
+            inverted={threadMessages.length === 0 ? false : true}
+            ListEmptyComponent={
+              threadMessages.length === 0 && !isLoading && <NoDataAvailable />
+            }
+          /> */}
+        </ScrollView>
         <ChatFooter2
           parentId={chatMessage._id}
           chatId={chatMessage.chat}
@@ -193,5 +195,10 @@ const getStyles = Colors =>
     flatListContainer: {
       backgroundColor: Colors.White,
       flex: 1,
+    },
+    footer: {
+      height: 300,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   });

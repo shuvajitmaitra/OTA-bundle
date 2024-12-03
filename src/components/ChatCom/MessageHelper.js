@@ -69,6 +69,15 @@ export function removeHtmlTags(inputString) {
   return inputString?.replace(/<[^>]*>/g, '');
 }
 
+export function sliceText(orgText, readMore) {
+  if (readMore) {
+    return orgText;
+  }
+  return orgText.length > 0 && orgText.length > 300
+    ? orgText.slice(0, 300)
+    : orgText;
+}
+
 export function autoLinkify(text) {
   // Regular expression to match valid URLs with common domain extensions
   const urlRegex =
