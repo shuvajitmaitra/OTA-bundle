@@ -54,7 +54,7 @@ const EmojiContainer = ({reacts = [], messageId, my}) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {Object.keys(groupBy('symbil', reacts)).map((key, index) => (
         <TouchableOpacity
           onPress={() => onEmojiClick(key, messageId)}
@@ -106,6 +106,11 @@ export default EmojiContainer;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+    },
     emojiContainer: {
       backgroundColor: Colors.WhiteOpacityColor,
       paddingHorizontal: 5,

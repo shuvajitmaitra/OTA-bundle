@@ -292,7 +292,7 @@ const getStyles = (Colors, my) =>
         borderColor: Colors.BorderColor,
       },
       link: {
-        color: Colors.ThemeSecondaryColor,
+        color: '#0D22EA',
         fontFamily: CustomFonts.SEMI_BOLD,
         fontWeight: '700',
       },

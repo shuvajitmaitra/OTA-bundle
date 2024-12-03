@@ -88,8 +88,7 @@ const Calendar = ({
   handleSeeMore,
 }) => {
   const [month, setMonth] = useState(new Date().getMonth());
-  const {holidays, events, filterState, monthViewData, notificationClicked} =
-    useSelector(state => state.calendar);
+  const {holidays, monthViewData} = useSelector(state => state.calendar);
   const {user} = useSelector(state => state.auth);
   const [year, setYear] = useState(new Date().getFullYear());
   const [selected, setSelected] = useState('day');
@@ -334,7 +333,7 @@ const Calendar = ({
             {daysOfWeek.map((day, index) => (
               <Text
                 key={index}
-                style={[styles.weekday, day == 'Fri' && {color: Colors.Red}]}>
+                style={[styles.weekday, day === 'Fri' && {color: Colors.Red}]}>
                 {day}
               </Text>
             ))}
@@ -468,11 +467,6 @@ const Calendar = ({
                           onPress={() => {
                             getNotificationData(item._id);
                             getEventDetails(item._id);
-                            console.log(user._id);
-                            console.log(
-                              'item.createBy',
-                              JSON.stringify(item, null, 1),
-                            );
                             user._id === item?.createdBy
                               ? toggleUpdateModal(item)
                               : toggleEventDetailsModal(item);
