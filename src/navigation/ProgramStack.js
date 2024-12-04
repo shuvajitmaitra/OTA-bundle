@@ -5,8 +5,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Program from '../screens/Main/Program';
 import ProgramDetails from '../screens/Main/ProgramDetails';
-import ProgramVideo from '../screens/Main/ProgramVideo';
-import CustomeRightHeader from '../components/ProgramCom/CustomeRightHeader';
 import Prograss from '../screens/Main/Prograss';
 import CustomFonts from '../constants/CustomFonts';
 import ProgramTextDetails from '../components/ProgramCom/ProgramTextDetails';
@@ -19,12 +17,10 @@ import DayToDayActivities from '../screens/DayToDayActivities/DayToDayActivities
 import ActivitiesDetails from '../screens/DayToDayActivities/ActivitiesDetails';
 import ShowAndTellScreen from '../screens/ShowNTell/ShowAndTellScreen';
 import ShowNTellDetails from '../screens/ShowNTell/ShowNTellDetails';
-import {View} from 'react-native';
 import AudioVideoScreen from '../screens/AudioVideo/AudioVideoScreen';
 import MockInterview from '../screens/MockInterview/MockInterview';
 import Header from '../components/SharedComponent/Header';
 import Presentation from '../screens/Documents/Presentation';
-import PresentationDetails from '../screens/Main/PresentationDetails';
 import PresentationDetailsView from '../screens/Documents/PresentationDetailsView';
 import AudioVideoDetails from '../screens/AudioVideo/AudioVideoDetails';
 import ArrowLeft from '../assets/Icons/ArrowLeft';
@@ -221,19 +217,6 @@ const ProgramStackScreen = ({navigation}) => {
               </TouchableOpacity>
             );
           },
-        })}
-      />
-      <ProgramStack.Screen
-        name="ProgramVideo"
-        component={ProgramVideo}
-        options={({route, navigation}) => ({
-          headerShown: true,
-          headerLeft: () => <ArrowLeft />,
-          headerRight: () => (
-            <View style={{marginRight: 20}}>
-              <CustomeRightHeader navigation={navigation} />
-            </View>
-          ),
         })}
       />
       <ProgramStack.Screen

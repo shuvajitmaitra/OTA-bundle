@@ -42,9 +42,7 @@ const HomeUserDetails = ({statusSectionVisible, setStatusSectionVisible}) => {
   const [statusText, setStatusText] = useState('');
   const userStatusData = useUserStatusData();
   const profileStatus = useUserStatusData(16);
-  // const {useStatus}=useSelector((state)=>state.userStatus)
   const dispatch = useDispatch();
-  // Enable LayoutAnimation on Android
 
   useEffect(() => {
     if (

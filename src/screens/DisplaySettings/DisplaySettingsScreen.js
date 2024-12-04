@@ -19,7 +19,6 @@ import CustomFonts from '../../constants/CustomFonts';
 import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import GlobalRadioGroup from '../../components/SharedComponent/GlobalRadioButton';
-import TestPopover from '../../components/TestPopover';
 
 const DisplaySettingsScreen = () => {
   const Colors = useTheme();
@@ -73,9 +72,6 @@ const DisplaySettingsScreen = () => {
           customStyle={styles.customStyle}
         />
       </View>
-
-      {/* <Button title="Restart" onPress={() => Restart()} /> */}
-      {/* <TestPopover /> */}
     </View>
   );
 };

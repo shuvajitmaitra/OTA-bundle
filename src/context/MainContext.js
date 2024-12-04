@@ -32,6 +32,10 @@ export const MainProvider = ({children}) => {
         .post('/user/verify', orgId)
         .then(async res => {
           if (res.data.success) {
+            console.log(
+              'res.data.user',
+              JSON.stringify(res.data.user, null, 1),
+            );
             await userOrganizationInfo();
             store.dispatch(setUser(res.data.user));
             store.dispatch(setMyEnrollments(res.data.enrollments));
