@@ -25,6 +25,7 @@ import {
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
+import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -222,6 +223,7 @@ const MessageScreen2 = () => {
       BackHandler.removeEventListener('hardwareBackPress', backAction);
     };
   }, []);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -262,7 +264,8 @@ const MessageScreen2 = () => {
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5} // Adjust as needed
             ListFooterComponent={ListFooterComponent}
-            inverted
+            inverted={localMessages.length ? true : false}
+            ListEmptyComponent={<EmptyMessageContainer chat={chat} />}
           />
         </View>
         <ChatFooter2

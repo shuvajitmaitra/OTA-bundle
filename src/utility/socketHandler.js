@@ -1,7 +1,6 @@
 // socketHandler.js
 
 import axios from '../utility/axiosInstance';
-import {useState} from 'react';
 import {loadChats} from '../actions/chat-noti';
 import store from '../store';
 import {
@@ -12,7 +11,6 @@ import {
   setChats,
   setGroupNameId,
   setTyping,
-  syncMessage,
   updateChatMessages,
   updateChats,
   updateLatestMessage,
@@ -73,17 +71,17 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('updatemessage', data => {
-    console.log('updatemessage', JSON.stringify(data, null, 1));
+    // console.log('updatemessage', JSON.stringify(data, null, 1));
 
     store.dispatch(updateMessage(data.message));
   });
   socket.on('updatechat', data => {
-    console.log('updatechat', JSON.stringify(data, null, 1));
+    // console.log('updatechat', JSON.stringify(data, null, 1));
     store.dispatch(updateChats(data?.chat));
   });
 
   socket.on('syncMyMessages', data => {
-    console.log('syncMyMessages', JSON.stringify(data, null, 1));
+    // console.log('syncMyMessages', JSON.stringify(data, null, 1));
     // console.log('syncMyMessages');
     // console.log(data?.messages?.length);
     if (data?.messages?.length) {
@@ -125,7 +123,7 @@ const setupSocketListeners = socket => {
   socket.on('getmessage', data => {
     // console.log(data);
     let {chat, messages} = data;
-    console.log('getmessage', JSON.stringify(data, null, 1));
+    // console.log('getmessage', JSON.stringify(data, null, 1));
     store.dispatch(
       updateChatMessages({
         chat: chat?._id,
@@ -136,7 +134,7 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('pushmessage', data => {
-    console.log('pushmessage', JSON.stringify(data, null, 1));
+    // console.log('pushmessage', JSON.stringify(data, null, 1));
     store.dispatch(pushMessage({chat: data.chat, message: data.message}));
   });
 
