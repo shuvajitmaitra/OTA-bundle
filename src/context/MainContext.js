@@ -8,11 +8,10 @@ import {
   setMyEnrollments,
   setUser,
 } from '../store/reducer/authReducer';
-import {getOnlineUsers, userOrganizationInfo} from '../actions/apiCall';
+import {userOrganizationInfo} from '../actions/apiCall';
 import {storage} from '../utility/mmkvInstance';
 import {activeProgram} from '../utility/mmkvHelpers';
-import {connectSocket, disconnectSocket} from '../utility/socketManager';
-import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
+import {disconnectSocket} from '../utility/socketManager';
 
 const MainContext = createContext();
 
@@ -48,6 +47,7 @@ export const MainProvider = ({children}) => {
         })
         .catch(err => {
           console.log('Error from app.js', err);
+          // console.log(err);
           setIsLoading(false);
           store.dispatch(logout());
           store.dispatch(setAppLoading(false));
@@ -63,10 +63,6 @@ export const MainProvider = ({children}) => {
   useEffect(() => {
     console.log('rerender handleVerify');
     handleVerify(true);
-    loadNotifications();
-    connectSocket();
-    loadCalendarEvent();
-    getOnlineUsers();
     return () => {
       disconnectSocket();
 

@@ -19,8 +19,6 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import ImageViewing from 'react-native-image-viewing';
 
-// If you're using React Navigation, import the necessary hooks
-import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../context/ThemeContext';
 import axiosInstance from '../../utility/axiosInstance';
 import {
@@ -80,61 +78,14 @@ const ChatProfile = () => {
   console.log('rerendering');
   useEffect(() => {
     if (!chat.isChannel) {
-      dispatch(setCrowdMembers([]));
       return;
     }
     fetchMembers(chat?._id);
+    return () => {
+      dispatch(setCrowdMembers([]));
+    };
   }, [chat?._id, chat.isChannel, dispatch]);
 
-  // --------------------------
-  // ----------- Invitation Link copy Function -----------
-  // --------------------------
-  const handleClipBoard = async () => {
-    // try {
-    //   await Clipboard.setStringAsync(
-    //     `https://portal.schoolshub.ai/chat/${chat?._id}`,
-    //   );
-    //   showToast('Link copied...');
-    // } catch (error) {
-    //   console.error('Error while copying to clipboard:', error);
-    // }
-  };
-
-  //   const uploadImage = async () => {
-  //     const result = await DocumentPicker.getDocumentAsync({
-  //       type: 'image/*',
-  //       copyToCacheDirectory: true,
-  //     });
-  //     if (result.type === 'cancel') {
-  //       console.log('User canceled the document picker');
-  //       return;
-  //     }
-  //     setIsLoading(true);
-  //     const {uri, name, size} = result;
-  //     const formData = new FormData();
-  //     formData.append('file', {
-  //       uri,
-  //       name,
-  //       type: 'image/jpeg',
-  //     });
-
-  //     const url = '/document/userdocumentfile';
-
-  //     try {
-  //       const res = await axiosInstance.post(url, formData, {
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data',
-  //         },
-  //       });
-  //       if (res?.data?.success) {
-  //         updateChannelImage(res?.data?.fileUrl);
-  //       }
-  //     } catch (error) {
-  //       console.log('Error, image not uploaded:', JSON.stringify(error, null, 1));
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
   const selectImage = () => {
     const options = {
       mediaType: 'photo',

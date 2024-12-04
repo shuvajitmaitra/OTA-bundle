@@ -18,6 +18,7 @@ function sortByLatestMessage(data = []) {
 
 const initialState = {
   chats: [],
+  chatsObj: {},
   onlineUsers: [],
   chatMessages: {},
   bots: [],
@@ -78,8 +79,14 @@ const chatSlice = createSlice({
       state.displayMode = action.payload;
     },
     setGroupNameId: (state, action) => {
+      const result = action.payload.reduce((acc, obj) => {
+        acc[obj._id] = obj;
+        return acc;
+      }, {});
+      state.chatsObj = result;
       const filteredChats =
         action.payload?.filter(c => c.isChannel === true && c.name) || [];
+
       const groupNameId = filteredChats.map(item => {
         return {
           data: item._id,

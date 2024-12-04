@@ -54,7 +54,7 @@ function sortByLatestMessage(data = []) {
 
 export default function NewChatScreen({navigation: {goBack}}) {
   const Colors = useTheme();
-  const {chats, onlineUsers} = useSelector(state => state.chat);
+  const {chats, onlineUsers, chatsObj} = useSelector(state => state.chat);
   const {user} = useSelector(state => state.auth);
   const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
@@ -71,21 +71,15 @@ export default function NewChatScreen({navigation: {goBack}}) {
   const bottomSheetRef = useRef(null);
 
   useEffect(() => {
-    const filteredChats =
-      chats?.filter(x =>
-        !x?.isArchived && checked === 'crowd'
-          ? x.isChannel
-          : checked === 'unreadMessage'
-          ? x.unreadCount
-          : x,
-      ) || [];
+    const filteredChats = chats?.filter(x => !x?.isArchived) || [];
     setRecords(filteredChats);
     setResults(filteredChats);
-  }, [chats, checked]);
+  }, [chats]);
   console.log(checked);
 
   const handleRadioChecked = useCallback(
     item => {
+      console.log('Handle Radio cliced');
       console.log(item);
       let filteredChats = [];
       switch (item) {
@@ -133,6 +127,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
 
   const handleFilter = useCallback(
     val => {
+      console.log('HandleFIlter CLicked');
       if (checked === 'onlines') {
         if (val) {
           const filteredUsers = onlineUsers?.filter(c =>
@@ -164,7 +159,9 @@ export default function NewChatScreen({navigation: {goBack}}) {
   );
 
   const renderChatItem = useCallback(
-    ({item}) => <ChatItem onlineUsers={onlineUsers} chat={item} />,
+    ({item}) => (
+      <ChatItem onlineUsers={onlineUsers} chat={item} chatsObj={chatsObj} />
+    ),
     [onlineUsers],
   );
 

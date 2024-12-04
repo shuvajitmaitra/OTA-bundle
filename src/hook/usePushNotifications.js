@@ -1,16 +1,20 @@
 import {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
-import notifee, {AndroidImportance} from '@notifee/react-native';
+import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
 import {Alert, Platform} from 'react-native';
 import axiosInstance from '../utility/axiosInstance';
 import {
   requestNotifications,
   checkNotifications,
 } from 'react-native-permissions';
+import {useNavigation} from '@react-navigation/native';
+import store from '../store';
+import {setSingleChat} from '../store/reducer/chatReducer';
 
 const usePushNotifications = () => {
   const [error, setError] = useState('');
   const [isTokenSent, setIsTokenSent] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const setupNotifications = async () => {
@@ -27,8 +31,8 @@ const usePushNotifications = () => {
         }
 
         const token = await messaging().getToken();
-        console.log('Device FCM token:', token);
-        Alert.alert(token);
+        // console.log('Device FCM token:', token);
+        // Alert.alert(token);
 
         if (token && !isTokenSent) {
           sendTokenToBackend(token);
@@ -66,10 +70,6 @@ const usePushNotifications = () => {
   }, [isTokenSent]);
 
   async function registerAppWithFCM() {
-    console.log(
-      'registerAppWithFCM status',
-      messaging().isDeviceRegisteredForRemoteMessages,
-    );
     if (!messaging().isDeviceRegisteredForRemoteMessages) {
       await messaging()
         .registerDeviceForRemoteMessages()
@@ -83,7 +83,6 @@ const usePushNotifications = () => {
   }
 
   const requestNotificationPermission = async () => {
-    console.log('Requesting notification permission...');
     if (Platform.OS === 'android') {
       const {status} = await checkNotifications();
       if (status !== 'granted') {
@@ -122,6 +121,7 @@ const usePushNotifications = () => {
   };
 
   const handleNotification = async remoteMessage => {
+    console.log('remoteMessage', JSON.stringify(remoteMessage, null, 1));
     try {
       if (remoteMessage.notification) {
         await notifee.displayNotification({
@@ -134,6 +134,23 @@ const usePushNotifications = () => {
             sound: 'default',
             badge: 1,
           },
+        });
+
+        notifee.onForegroundEvent(({type, detail}) => {
+          switch (type) {
+            case EventType.DISMISSED:
+              console.log('User dismissed notification');
+              console.log(
+                'detail.notification',
+                JSON.stringify(detail.notification, null, 1),
+              );
+              break;
+            case EventType.PRESS:
+              console.log('User pressed notification');
+              navigation.navigate('MessageScreen2');
+              // store.dispatch(setSingleChat(chatsObj[detail.notification.chatId]))
+              break;
+          }
         });
       } else {
         console.log('No notification content found in the remote message');

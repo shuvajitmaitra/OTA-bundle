@@ -14,19 +14,23 @@ import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
 import {connectSocket, disconnectSocket} from '../utility/socketManager';
 import {getOnlineUsers} from '../actions/apiCall';
 import usePushNotifications from '../hook/usePushNotifications';
-import {TouchableOpacity, View} from 'react-native';
 
 const RootStack = createStackNavigator();
 
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
   const {handleVerify} = useMainContext();
-  // const {error} = usePushNotifications();
+  const {error} = usePushNotifications();
 
   useEffect(() => {
+    store.dispatch(setAppLoading(true));
     handleVerify();
-
+    loadNotifications();
+    connectSocket();
+    loadCalendarEvent();
+    getOnlineUsers();
     console.log('handle from dashboard..............');
+    store.dispatch(setAppLoading(false));
     return () => {
       disconnectSocket();
     };

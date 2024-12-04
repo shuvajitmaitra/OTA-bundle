@@ -11,11 +11,9 @@ import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
 import AudioMessage from './AudioMessage';
 import FileIcon from '../../assets/Icons/FileIcon';
-import CustomFonts from '../../constants/CustomFonts';
 import {RegularFonts} from '../../constants/Fonts';
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Ensure you have this package installed
 
-const MessageFileContainer = ({files}) => {
+const MessageFileContainer = ({files, setViewImage}) => {
   const [imageDimensions, setImageDimensions] = useState({});
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -32,20 +30,22 @@ const MessageFileContainer = ({files}) => {
     const {aspectRatio} = imageDimensions[item.url] || {};
 
     return (
-      <Image
-        source={{uri: item.url}}
-        style={[
-          styles.image,
-          aspectRatio ? {aspectRatio} : {height: responsiveScreenHeight(20)},
-        ]}
-        onLoad={({nativeEvent}) =>
-          handleImageLayout(
-            item.url,
-            nativeEvent.source.width,
-            nativeEvent.source.height,
-          )
-        }
-      />
+      <TouchableOpacity onPress={() => setViewImage([{uri: item?.url}])}>
+        <Image
+          source={{uri: item.url}}
+          style={[
+            styles.image,
+            aspectRatio ? {aspectRatio} : {height: responsiveScreenHeight(20)},
+          ]}
+          onLoad={({nativeEvent}) =>
+            handleImageLayout(
+              item.url,
+              nativeEvent.source.width,
+              nativeEvent.source.height,
+            )
+          }
+        />
+      </TouchableOpacity>
     );
   };
 

@@ -11,10 +11,8 @@ import {
 import {useTheme} from '../../context/ThemeContext';
 import CustomFonts from '../../constants/CustomFonts';
 import {useDispatch, useSelector} from 'react-redux';
-import moment from 'moment';
 import UserNameImageSection from './UserNameImageSection';
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
-import {RegularFonts} from '../../constants/Fonts';
 import {useNavigation} from '@react-navigation/native';
 import DeleteMessageContainer from './DeleteMessageContainer';
 import MessageFileContainer from './MessageFileContainer';
@@ -23,8 +21,9 @@ import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ThreedotIcon from '../../assets/Icons/ThreedotIcon';
 import axiosInstance from '../../utility/axiosInstance';
 import {setSingleChat} from '../../store/reducer/chatReducer';
+import MessageBottomContainer from './MessageBottomContainer';
 
-const Message2 = ({item, index, nextSender}) => {
+const Message2 = ({item, index, nextSender, setViewImage}) => {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
   const [readMoreClicked, setreadMoreClicked] = useState(false);
@@ -83,7 +82,12 @@ const Message2 = ({item, index, nextSender}) => {
           style={styles.threeDotContainer}>
           <ThreedotIcon color={my ? Colors.PureWhite : Colors.BodyText} />
         </TouchableOpacity>
-        {item.files.length > 0 && <MessageFileContainer files={item.files} />}
+        {item?.files?.length > 0 && (
+          <MessageFileContainer
+            files={item.files}
+            setViewImage={setViewImage}
+          />
+        )}
         <Markdown style={styles.markdownStyle}>
           {sliceText(
             autoLinkify(
@@ -94,7 +98,7 @@ const Message2 = ({item, index, nextSender}) => {
             readMoreClicked,
           )}
         </Markdown>
-        {!readMoreClicked && item.text.length > 300 && (
+        {!readMoreClicked && item?.text?.length > 300 && (
           <TouchableOpacity onPress={() => setreadMoreClicked(true)}>
             <Text style={styles.readMoreText}>Read more</Text>
           </TouchableOpacity>
@@ -102,43 +106,7 @@ const Message2 = ({item, index, nextSender}) => {
         {!item?.parentMessage && (
           <EmojiContainer my={my} reacts={item.emoji} messageId={item._id} />
         )}
-        <View style={styles.messageBottomContainer}>
-          {item.replyCount > 0 && (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.push('ThreadScreen', {
-                  chatMessage: item,
-                })
-              }>
-              <Text style={styles.replyCountText}>{`${item.replyCount} ${
-                item?.replyCount === 1 ? 'reply' : 'replies'
-              }`}</Text>
-            </TouchableOpacity>
-          )}
-          <View style={{flexGrow: 1}}></View>
-          {/* 
-          <TouchableOpacity
-            onPress={() => {
-              item.text && handleCopyText(item.text);
-            }}
-            style={styles.copyContainer}>
-            <LinkIcon2 color={my ? Colors.PureWhite : Colors.BodyText} />
-            <Text style={styles.copyText}>Copy</Text>
-          </TouchableOpacity> */}
-
-          <View>
-            <Text style={styles.timeText}>
-              {moment(item.editedAt ? item.editedAt : item?.createdAt).format(
-                'MMM DD, 2024',
-              )}
-              {' at '}
-              {moment(item.editedAt ? item.editedAt : item?.createdAt).format(
-                'h:mm A',
-              )}
-            </Text>
-            {item.editedAt && <Text style={styles.editedText}>(Edited)</Text>}
-          </View>
-        </View>
+        <MessageBottomContainer item={item} navigation={navigation} my={my} />
       </TouchableOpacity>
     </View>
   );
@@ -178,10 +146,7 @@ const getStyles = (Colors, my) =>
       // gap: ,
       paddingRight: 10,
     },
-    editedText: {
-      color: Colors.Red,
-      textAlign: 'right',
-    },
+
     activityText: {
       backgroundColor: Colors.White,
       color: Colors.BodyText,
@@ -195,26 +160,7 @@ const getStyles = (Colors, my) =>
       flexDirection: 'row',
       marginVertical: 5,
     },
-    replyCountText: {
-      fontWeight: '600',
-      fontSize: RegularFonts.HS,
-      color: Colors.Red,
-    },
-    messageBottomContainer: {
-      // backgroundColor: 'red',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    timeText: {
-      color: my ? Colors.PureWhite : Colors.BodyText,
-      alignSelf: 'flex-end',
-      //   position: 'absolute',
-      //   bottom: 0,
-      //   right: 0,
-      //   height: 10
-      //   marginTop: -5,
-    },
+
     mainContainer: {
       // backgroundColor: 'red',
       flex: 1,

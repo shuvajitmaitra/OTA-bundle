@@ -8,6 +8,7 @@ import {
   Platform,
   BackHandler,
 } from 'react-native';
+import ImageView from 'react-native-image-viewing';
 import {useDispatch, useSelector} from 'react-redux';
 import axiosInstance from '../../utility/axiosInstance';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -35,6 +36,7 @@ const MessageScreen2 = () => {
   const {singleChat: chat} = useSelector(state => state.chat);
   const {messageOptionData} = useSelector(state => state.modal);
   const {localMessages} = useSelector(state => state.chatSlice);
+  const [viewImage, setViewImage] = useState([]);
   // console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -77,7 +79,6 @@ const MessageScreen2 = () => {
         ...pinnedCount,
         [chat._id]: res.data.pinnedCount,
       });
-      // console.log('res.data', JSON.stringify(res.data, null, 1));
       const newMessages = res.data.messages.reverse();
       setMessages({
         ...messages,
@@ -95,6 +96,7 @@ const MessageScreen2 = () => {
         JSON.stringify(error.response.data, null, 1),
       );
     } finally {
+      console.log('initial Message Calling completed');
       setIsLoading(false);
     }
   }, [chat._id, messages, dispatch]);
@@ -191,7 +193,14 @@ const MessageScreen2 = () => {
       ? item?.sender?._id !== nextMessage?.sender?._id
       : false;
 
-    return <Message2 item={item} index={index} nextSender={nextSender} />;
+    return (
+      <Message2
+        item={item}
+        index={index}
+        nextSender={nextSender}
+        setViewImage={setViewImage}
+      />
+    );
   };
 
   useEffect(() => {
@@ -249,7 +258,7 @@ const MessageScreen2 = () => {
           <FlatList
             data={localMessages?.length ? localMessages : messages[chat._id]}
             renderItem={renderItem}
-            keyExtractor={item => item._id.toString()} // Use a stable key
+            keyExtractor={(item, index) => item?._id?.toString() || index} // Use a stable key
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5} // Adjust as needed
             ListFooterComponent={ListFooterComponent}
@@ -264,6 +273,12 @@ const MessageScreen2 = () => {
           messageOptionData={messageOptionData}
         />
         {/* {openGallery && <ImageGallery />} */}
+        <ImageView
+          images={viewImage}
+          imageIndex={0}
+          visible={viewImage?.length !== 0}
+          onRequestClose={() => setViewImage([])}
+        />
       </View>
     </KeyboardAvoidingView>
   );

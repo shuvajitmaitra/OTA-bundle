@@ -10,8 +10,6 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  TouchableWithoutFeedbackComponent,
   UIManager,
   View,
 } from 'react-native';
@@ -46,7 +44,6 @@ import {
 import {updateLatestMessage} from '../../store/reducer/chatReducer';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 
-// Utility functions and constants
 const URL_REGEX =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 const WWW_REGEX = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
@@ -88,7 +85,6 @@ const ChatFooter2 = ({
   const [editedText, setEditedText] = useState(messageEditVisible.text || '');
   const [messageClicked, setMessageClicked] = useState(false);
   const [startRecording, setStartRecording] = useState(false);
-  // Enable LayoutAnimation on Android
   useEffect(() => {
     if (
       Platform.OS === 'android' &&
@@ -177,6 +173,7 @@ const ChatFooter2 = ({
             _id: user?._id,
             fullName: `${user?.firstName} ${user?.lastName}`,
             profilePicture: user.profilePicture,
+            type: user.type,
           },
           createdAt: Date.now(),
           status: 'sending',
@@ -185,6 +182,11 @@ const ChatFooter2 = ({
         },
       };
 
+      setMessages(prev => ({
+        ...prev,
+        [chatId]: [messageData.message, ...(prev[chatId] || [])],
+      }));
+      dispatch(setLocalMessages([messageData.message, ...localMessages]));
       setText('');
 
       try {

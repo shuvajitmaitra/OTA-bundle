@@ -60,8 +60,6 @@ export const loadCalendarEvent = () => {
   axiosInstance
     .get('/calendar/event/myevents')
     .then(res => {
-      // console.log("Calendar event called");
-      console.log('res.data.events', JSON.stringify(res.data.success, null, 1));
       store.dispatch(setEvents(res.data.events || []));
       store.dispatch(setFilterState(''));
 
