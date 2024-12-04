@@ -16,9 +16,8 @@ import {
   updateChatMessages,
   updateChats,
   updateLatestMessage,
-  updateMessage,
 } from '../store/reducer/chatReducer';
-import {appendLocalMessage} from '../store/reducer/chatSlice';
+import {appendLocalMessage, updateMessage} from '../store/reducer/chatSlice';
 import {addNewMessage} from './mmkvHelpers';
 // import * as Notifications from "expo-notifications";
 
@@ -45,10 +44,11 @@ const setupSocketListeners = socket => {
   socket.on('newmessage', data => {
     if (data.message?.sender?._id !== user?._id) {
       updateStatus(data?.message?._id, 'delivered');
+
       // store.dispatch(
       //   pushMessage({chat: data.chat?._id, message: data.message}),
       // );
-      console.log('data.message', JSON.stringify(data.message, null, 1));
+      // console.log('data.message', JSON.stringify(data.message, null, 1));
       addNewMessage(data.chat?._id, data.message);
       // store.dispatch(
       //   addNewMessage({chatId: data.chat?._id, message: data.message}),
@@ -73,16 +73,17 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('updatemessage', data => {
-    // console.log('updatemessage', JSON.stringify(data, null, 1));
-    store.dispatch(updateMessage({chat: data?.chat, message: data.message}));
+    console.log('updatemessage', JSON.stringify(data, null, 1));
+
+    store.dispatch(updateMessage(data.message));
   });
   socket.on('updatechat', data => {
-    // console.log('updatechat', JSON.stringify(data, null, 1));
+    console.log('updatechat', JSON.stringify(data, null, 1));
     store.dispatch(updateChats(data?.chat));
   });
 
   socket.on('syncMyMessages', data => {
-    // console.log('syncMyMessages', JSON.stringify(data, null, 1));
+    console.log('syncMyMessages', JSON.stringify(data, null, 1));
     // console.log('syncMyMessages');
     // console.log(data?.messages?.length);
     if (data?.messages?.length) {
@@ -107,7 +108,7 @@ const setupSocketListeners = socket => {
 
   socket.on('mychats', data => {
     let chats = data?.chats;
-    // console.log(data);
+    console.log(data);
 
     // console.log("mychats");
     store.dispatch(setGroupNameId(chats));
@@ -124,7 +125,7 @@ const setupSocketListeners = socket => {
   socket.on('getmessage', data => {
     // console.log(data);
     let {chat, messages} = data;
-    // console.log('getmessage', JSON.stringify(data, null, 1));
+    console.log('getmessage', JSON.stringify(data, null, 1));
     store.dispatch(
       updateChatMessages({
         chat: chat?._id,
@@ -135,7 +136,7 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('pushmessage', data => {
-    // console.log('pushmessage', JSON.stringify(data, null, 1));
+    console.log('pushmessage', JSON.stringify(data, null, 1));
     store.dispatch(pushMessage({chat: data.chat, message: data.message}));
   });
 

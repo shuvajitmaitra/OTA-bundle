@@ -58,6 +58,7 @@ const chatSlice = createSlice({
       }
     },
     updateMessage: ({localMessages}, {payload}) => {
+      console.log('payload', JSON.stringify(payload, null, 1));
       const messageIndex = localMessages.findIndex(
         item => item._id === payload._id,
       );

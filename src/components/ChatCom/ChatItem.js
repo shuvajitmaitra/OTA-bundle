@@ -98,7 +98,7 @@ const ChatItem = ({chat, onlineUsers, chatsObj}) => {
     <TouchableOpacity
       style={[styles.container]}
       onPress={() => {
-        dispatch(setSingleChat(chatsObj[chat._id]));
+        dispatch(setSingleChat(chatsObj[chat?._id]));
         navigation.navigate('MessageScreen2', {animationEnabled: false});
         dispatch(markRead({chatId: chat?._id}));
       }}>

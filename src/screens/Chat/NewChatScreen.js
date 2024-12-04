@@ -75,7 +75,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
     setRecords(filteredChats);
     setResults(filteredChats);
   }, [chats]);
-  console.log(checked);
 
   const handleRadioChecked = useCallback(
     item => {

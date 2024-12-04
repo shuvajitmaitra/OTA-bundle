@@ -125,7 +125,7 @@ const HomeUserDetails = ({statusSectionVisible, setStatusSectionVisible}) => {
         dispatch(setUser(res.data.user));
       })
       .catch(err => {
-        console.log('updateStatus', err);
+        console.log('update Status', err);
       });
   };
   // console.log("user", JSON.stringify(user, null, 1));

@@ -49,7 +49,6 @@ const CreateCrowdAddMember = ({
   //   const { chat = [], fetchMembers } = useChat();
   const [users, setUsers] = useState([]);
   const [checked, setChecked] = useState([]);
-  //   console.log(JSON.stringify(checked, null, 1));
   const [inputText, setInputText] = useState('');
   const dispatch = useDispatch();
   // console.log("Chat Id", userDetails);
