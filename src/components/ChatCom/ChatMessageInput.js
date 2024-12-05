@@ -9,12 +9,9 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import React, {useState, useEffect, useRef} from 'react';
-// import {ActivityIndicator, Avatar} from 'react-native-paper';
 import _ from 'lodash';
 
-import color from '../../constants/color';
 import axios from '../../utility/axiosInstance';
-import userIcon from '../../assets/Images/user.png';
 import {useTheme} from '../../context/ThemeContext';
 import {ScrollView} from 'react-native';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
@@ -77,9 +74,6 @@ const ChatMessageInput = ({
       return null;
     }
 
-    //setLoading(true)
-
-    //prevSearchTermRef = keyword?.toLowerCase();
     handleSearch(
       {
         query: keyword?.toLowerCase(),
@@ -89,7 +83,6 @@ const ChatMessageInput = ({
       setUsers,
       setLoading,
     );
-    //prevSearchTermRef = keyword?.toLowerCase();
 
     return (
       <Animated.View
@@ -110,7 +103,7 @@ const ChatMessageInput = ({
           {isLoading ? (
             <ActivityIndicator
               size="small"
-              color={color.primary}
+              color={Colors.Primary}
               style={{margin: 10}}
             />
           ) : (
@@ -254,7 +247,7 @@ const getStyles = Colors =>
       elevation: 4,
     },
     contentContainer: {
-      backgroundColor: color.primary,
+      backgroundColor: Colors.Primary,
       color: Colors.White,
       paddingVertical: 10,
     },

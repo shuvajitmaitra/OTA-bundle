@@ -338,7 +338,7 @@ const chatSlice = createSlice({
       state.singleChat = action.payload;
     },
     updateSingleChatMemberCount: (state, {payload}) => {
-      console.log('payload', JSON.stringify(payload, null, 1));
+      // console.log('payload', JSON.stringify(payload, null, 1));
       if (payload === 'remove') {
         state.singleChat = {
           ...state.singleChat,

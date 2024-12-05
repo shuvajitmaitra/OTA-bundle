@@ -1,7 +1,7 @@
 import {Platform} from 'react-native';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {messaging} from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 import {
   checkNotifications,
   requestNotifications,

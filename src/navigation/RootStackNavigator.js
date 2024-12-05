@@ -14,6 +14,7 @@ import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
 import {connectSocket, disconnectSocket} from '../utility/socketManager';
 import {getOnlineUsers} from '../actions/apiCall';
 import PushNotiService from '../utility/PushNotiService';
+import {setSinglePost} from '../store/reducer/communityReducer';
 
 const RootStack = createStackNavigator();
 
@@ -32,6 +33,10 @@ const RootStackNavigator = () => {
     store.dispatch(setAppLoading(false));
     return () => {
       disconnectSocket();
+      store.dispatch(setSinglePost(null));
+      console.log(
+        '.........................................................................................................',
+      );
     };
   }, []);
 

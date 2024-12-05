@@ -1,34 +1,34 @@
-import {StyleSheet, Text} from 'react-native';
 import React, {useState} from 'react';
-import Popover from 'react-native-modal-popover';
-import {TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import ReactNativeModal from 'react-native-modal';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {useDispatch, useSelector} from 'react-redux';
+import {useTheme} from '../../../context/ThemeContext';
+import PostEditModal from './PostEditModal';
+import ReportModal from './ReportModal';
+import ConfirmationModal from '../../SharedComponent/ConfirmationModal';
+import GlobalAlertModal from '../../SharedComponent/GlobalAlertModal';
 import {showToast} from '../../HelperFunction';
+import {
+  setSinglePost,
+  setSavePost,
+} from '../../../store/reducer/communityReducer';
 import axiosInstance from '../../../utility/axiosInstance';
 import {handleError, loadCommunityPosts} from '../../../actions/chat-noti';
+import {showAlertModal} from '../../../utility/commonFunction';
 import {
   responsiveFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../../constants/CustomFonts';
-import {useTheme} from '../../../context/ThemeContext';
-import ReportModal from './ReportModal';
-import {useDispatch, useSelector} from 'react-redux';
-import PostEditModal from './PostEditModal';
-import ConfirmationModal from '../../SharedComponent/ConfirmationModal';
-import {setSavePost} from '../../../store/reducer/communityReducer';
-import {showAlertModal} from '../../../utility/commonFunction';
-import GlobalAlertModal from '../../SharedComponent/GlobalAlertModal';
-import Clipboard from '@react-native-clipboard/clipboard';
+import Popover, {Rect} from 'react-native-popover-view';
 
-const PostPopup = ({
-  setIsReportModalVisible,
-  popoverVisible,
-  closePopover,
-  popoverAnchorRect,
-  post,
-}) => {
+const PostPopup = () => {
   const {user} = useSelector(state => state.auth);
+  const {singlePost: post} = useSelector(state => state.community);
+  console.log('singlePost', JSON.stringify(post, null, 1));
+
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const dispatch = useDispatch();
@@ -36,7 +36,8 @@ const PostPopup = ({
   const handleCopyLink = (text, toast) => {
     try {
       Clipboard.setString(text);
-      showToast(toast); // Show a toast message after copying the link
+      showToast(toast);
+      dispatch(setSinglePost(null));
     } catch (error) {
       console.error('Failed to copy text: ', error);
     }
@@ -52,7 +53,6 @@ const PostPopup = ({
         if (res.data.success) {
           dispatch(setSavePost(post));
           showToast(post.isSaved ? 'Post unsaved' : 'Post saved');
-          closePopover();
         }
       })
       .catch(handleError);
@@ -78,108 +78,118 @@ const PostPopup = ({
           });
         }
       })
-      .catch(error => {
-        handleError(error);
-      });
+      .catch(handleError);
   };
+
   return (
+    // <ReactNativeModal
+    //   style={{
+    //     position: 'absolute',
+    //     top: post.x - 20,
+    //     left: post.y - 100,
+    //     margin: 0,
+    //     backgroundColor: Colors.Background_color,
+    //     padding: 10,
+    //     borderRadius: 5,
+    //   }}
+    //   isVisible={Boolean(post)}
+    //   onBackdropPress={() => dispatch(setSinglePost(null))}
+    //   animationIn="slideInUp"
+    //   animationOut="slideOutDown"
+    //   useNativeDriver={true}>
+
+    // </ReactNativeModal>
     <Popover
-      contentStyle={styles.content}
-      arrowStyle={styles.arrow}
-      backgroundStyle={styles.background}
-      visible={popoverVisible}
-      onClose={closePopover}
-      fromRect={popoverAnchorRect}
-      supportedOrients={['portrait', 'landscape']}>
-      {!isModalVisible && !isEditModalVisible && !isConfirmModalVisible && (
-        <>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => {
-              handleCopyLink(link, 'Link copied');
-              closePopover();
-            }}>
-            <Text style={styles.item}>Copy post link</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => {
-              handleCopyLink(post?.description, 'Text copied');
-              closePopover(); // Close the popover after copying the link
-            }}>
-            <Text style={styles.item}>Copy Post Text</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => {
-              handleSavePost();
-            }}>
-            <Text style={styles.item}>
-              {post.isSaved ? 'Saved' : 'Save the post'}
-            </Text>
-          </TouchableOpacity>
-          {user?._id !== post?.createdBy?._id && (
+      from={new Rect(post.x, post.y, 0, 0)}
+      isVisible={Boolean(post)}
+      onRequestClose={() => dispatch(setSinglePost(null))}>
+      <>
+        {!isModalVisible && !isEditModalVisible && !isConfirmModalVisible && (
+          <>
             <TouchableOpacity
               style={styles.itemContainer}
               onPress={() => {
-                if (post?.isReported) {
-                  showAlertModal({
-                    title: 'You have reported this post',
-                    type: 'success',
-                  });
-                } else {
-                  setIsModalVisible(pre => !pre);
-                }
+                handleCopyLink(link, 'Link copied');
               }}>
-              <Text style={styles.item}>Report the post</Text>
+              <Text style={styles.item}>Copy post link</Text>
             </TouchableOpacity>
-          )}
-          {user?._id == post?.createdBy?._id && (
             <TouchableOpacity
               style={styles.itemContainer}
               onPress={() => {
-                setIsEditModalVisible(pre => !pre);
+                handleCopyLink(post?.description, 'Text copied');
               }}>
-              <Text style={styles.item}>Edit this post</Text>
+              <Text style={styles.item}>Copy Post Text</Text>
             </TouchableOpacity>
-          )}
-          {user?._id == post?.createdBy?._id && (
             <TouchableOpacity
               style={styles.itemContainer}
               onPress={() => {
-                setIsConfirmModalVisible(!isConfirmModalVisible);
+                handleSavePost();
               }}>
-              <Text style={styles.item}>Delete the post</Text>
+              <Text style={styles.item}>
+                {post?.isSaved ? 'Saved' : 'Save the post'}
+              </Text>
             </TouchableOpacity>
-          )}
-        </>
-      )}
-      {isModalVisible && (
-        <ReportModal
-          closePopover={closePopover}
-          post={post}
-          setIsModalVisible={() => setIsModalVisible(pre => !pre)}
-          isModalVisible={isModalVisible}
-        />
-      )}
-      {isEditModalVisible && (
-        <PostEditModal
-          closePopover={closePopover}
-          post={post}
-          setIsModalVisible={() => setIsEditModalVisible(pre => !pre)}
-          isModalVisible={isEditModalVisible}
-        />
-      )}
-      {isConfirmModalVisible && (
-        <ConfirmationModal
-          isVisible={isConfirmModalVisible}
-          tittle="Delete"
-          description="Do you want to delete this post?"
-          okPress={() => handleDeletePost()}
-          cancelPress={() => setIsConfirmModalVisible(!isConfirmModalVisible)}
-        />
-      )}
-      <GlobalAlertModal />
+            {user?._id !== post?.createdBy?._id && (
+              <TouchableOpacity
+                style={styles.itemContainer}
+                onPress={() => {
+                  if (post?.isReported) {
+                    showAlertModal({
+                      title: 'You have reported this post',
+                      type: 'success',
+                    });
+                  } else {
+                    setIsModalVisible(pre => !pre);
+                  }
+                }}>
+                <Text style={styles.item}>Report the post</Text>
+              </TouchableOpacity>
+            )}
+            {user?._id === post?.createdBy?._id && (
+              <TouchableOpacity
+                style={styles.itemContainer}
+                onPress={() => {
+                  setIsEditModalVisible(pre => !pre);
+                }}>
+                <Text style={styles.item}>Edit this post</Text>
+              </TouchableOpacity>
+            )}
+            {user?._id === post?.createdBy?._id && (
+              <TouchableOpacity
+                style={styles.itemContainer}
+                onPress={() => {
+                  setIsConfirmModalVisible(!isConfirmModalVisible);
+                }}>
+                <Text style={styles.item}>Delete the post</Text>
+              </TouchableOpacity>
+            )}
+          </>
+        )}
+        {isModalVisible && (
+          <ReportModal
+            post={post}
+            setIsModalVisible={() => setIsModalVisible(pre => !pre)}
+            isModalVisible={isModalVisible}
+          />
+        )}
+        {isEditModalVisible && (
+          <PostEditModal
+            post={post}
+            setIsModalVisible={() => setIsEditModalVisible(pre => !pre)}
+            isModalVisible={isEditModalVisible}
+          />
+        )}
+        {isConfirmModalVisible && (
+          <ConfirmationModal
+            isVisible={isConfirmModalVisible}
+            tittle="Delete"
+            description="Do you want to delete this post?"
+            okPress={() => handleDeletePost()}
+            cancelPress={() => setIsConfirmModalVisible(!isConfirmModalVisible)}
+          />
+        )}
+        <GlobalAlertModal />
+      </>
     </Popover>
   );
 };
@@ -188,15 +198,6 @@ export default PostPopup;
 
 const getStyles = Colors =>
   StyleSheet.create({
-    arrow: {
-      borderTopColor: Colors.White,
-      marginTop: responsiveScreenHeight(2),
-    },
-    content: {
-      borderRadius: 5,
-      gap: responsiveScreenHeight(1),
-      backgroundColor: Colors.White,
-    },
     itemContainer: {
       paddingVertical: responsiveScreenHeight(0.5),
       backgroundColor: Colors.Background_color,

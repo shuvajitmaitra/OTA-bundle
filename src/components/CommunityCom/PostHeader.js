@@ -1,27 +1,24 @@
-import React, { useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import { useTheme } from "../../context/ThemeContext";
-import moment from "moment";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import ThreeDotGrayIcon from "../../assets/Icons/ThreeDotGrayIcon";
-import CustomFonts from "../../constants/CustomFonts";
-import { usePopover } from "react-native-modal-popover";
-// import ThreeDotItems from "./ThreeDotItems";
-// import axiosInstance from "../../utility/axiosInstance";
-// import { handleError } from "../../actions/chat-noti";
-// import { showToast } from "../HelperFunction";
-// import ReportModal from "./Modal/ReportModal";
-import PostPopup from "./Modal/PostPopup";
-import Images from "../../constants/Images";
+import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
+import {useTheme} from '../../context/ThemeContext';
+import moment from 'moment';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import ThreeDotGrayIcon from '../../assets/Icons/ThreeDotGrayIcon';
+import CustomFonts from '../../constants/CustomFonts';
+import Images from '../../constants/Images';
+import {setSinglePost} from '../../store/reducer/communityReducer';
+import store from '../../store';
 
-const PostHeader = ({ post, setIsReportModalVisible }) => {
+const PostHeader = ({post}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
-  const n = post?.createdBy?.fullName || "New User";
-  let name = n.split(" ").slice(0, 2).join(" ");
-
-  const { openPopover, closePopover, popoverVisible, touchableRef, popoverAnchorRect } = usePopover();
+  const n = post?.createdBy?.fullName || 'New User';
+  let name = n.split(' ').slice(0, 2).join(' ');
 
   return (
     <>
@@ -41,21 +38,28 @@ const PostHeader = ({ post, setIsReportModalVisible }) => {
           <View>
             <View style={styles.userNameContainer}>
               <Text style={styles.userName}>{name}</Text>
-              <Text style={styles.fromTime}>{moment(post?.createdAt).fromNow()}</Text>
+              <Text style={styles.fromTime}>
+                {moment(post?.createdAt).fromNow()}
+              </Text>
             </View>
-            <Text style={styles.time}>{moment(post?.createdAt).format("llll")}</Text>
+            <Text style={styles.time}>
+              {moment(post?.createdAt).format('llll')}
+            </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.threeDot} ref={touchableRef} onPress={openPopover}>
+        <TouchableOpacity
+          style={styles.threeDot}
+          onPress={event =>
+            store.dispatch(
+              setSinglePost({
+                ...post,
+                x: event.nativeEvent.pageX,
+                y: event.nativeEvent.pageY,
+              }),
+            )
+          }>
           <ThreeDotGrayIcon />
         </TouchableOpacity>
-        <PostPopup
-          post={post}
-          closePopover={closePopover}
-          popoverVisible={popoverVisible}
-          popoverAnchorRect={popoverAnchorRect}
-          setIsReportModalVisible={setIsReportModalVisible}
-        />
       </View>
     </>
   );
@@ -63,23 +67,23 @@ const PostHeader = ({ post, setIsReportModalVisible }) => {
 
 export default PostHeader;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     postHeaderContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       // backgroundColor: "green",
     },
     rightContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(2),
     },
     userNameContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2),
-      alignItems: "center",
+      alignItems: 'center',
       marginBottom: responsiveScreenHeight(0.5),
     },
     userImg: {
@@ -89,7 +93,7 @@ const getStyles = (Colors) =>
       backgroundColor: Colors.LightGreen,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
-      resizeMode: "cover",
+      resizeMode: 'cover',
     },
     userName: {
       fontFamily: CustomFonts.SEMI_BOLD,

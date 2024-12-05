@@ -22,12 +22,14 @@ import ScrollToTop from '../../assets/Icons/ScrollToTop';
 import SearchAndFilter from '../../components/SharedComponent/SearchAndFilter';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import CrossCircle from '../../assets/Icons/CrossCircle';
+import PostPopup from '../../components/CommunityCom/Modal/PostPopup';
 
 const CommunityScreen = () => {
   const {
     posts,
     totalPost,
     isLoading: loadingData,
+    singlePost,
   } = useSelector(state => state.community);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -118,20 +120,6 @@ const CommunityScreen = () => {
     flatListRef.current.scrollToOffset({animated: true, offset: 0});
   };
 
-  // const handleFilter = (id) => {
-  //   const value = filterData[id - 1].value;
-  //   loadCommunityPosts(
-  //     {
-  //       page: 1,
-  //       limit: 10,
-  //       query: "",
-  //       tags: [],
-  //       user: "",
-  //       filterBy: value,
-  //     },
-  //     setIsLoading
-  //   );
-  // };
   const handleFilter = value => {
     setFilterValue(value);
     const filterOption = filterData.find(option => option.value === value);
@@ -198,13 +186,6 @@ const CommunityScreen = () => {
     }
   };
 
-  // console.log("Filter data:", filterData, "Selected id:", id);
-
-  // useEffect(() => {
-  //   if (posts.length !== totalPost) {
-  //     loadCommunityPosts(data);
-  //   }
-  // }, [data.page]);
   useEffect(() => {
     loadCommunityPosts({
       page: 1,
@@ -319,6 +300,8 @@ const CommunityScreen = () => {
         }
         ListEmptyComponent={!loadingData && <NoDataAvailable />}
       />
+
+      {singlePost && <PostPopup />}
     </View>
   );
 };

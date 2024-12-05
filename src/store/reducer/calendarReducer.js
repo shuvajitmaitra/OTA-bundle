@@ -25,7 +25,6 @@ const calendarSlice = createSlice({
   initialState,
   reducers: {
     setNotificationClicked: (state, action) => {
-      console.log('action.payload', JSON.stringify(action.payload, null, 1));
       state.notificationClicked = action.payload;
     },
     setMonthViewData: (state, action) => {

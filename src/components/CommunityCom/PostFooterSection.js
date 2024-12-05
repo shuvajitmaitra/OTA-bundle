@@ -38,7 +38,6 @@ const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
     getComments(post?._id);
   };
   const handlePressIn = event => {
-    // Get the position of the touch relative to the screen
     const {pageX, pageY} = event.nativeEvent;
     setTouchPosition({x: pageX, y: pageY});
   };

@@ -1,15 +1,17 @@
-import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { responsiveScreenWidth, responsiveScreenFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
 
-import CustomFonts from "../../constants/CustomFonts";
-import { useTheme } from "../../context/ThemeContext";
-import Modal from "react-native-modal";
-import CloseIcon from "../../assets/Icons/CloseIcon";
-import ModalBackAndCrossButton from "../ChatCom/Modal/ModalBackAndCrossButton";
-import color from "../../constants/color";
+import CustomFonts from '../../constants/CustomFonts';
+import {useTheme} from '../../context/ThemeContext';
+import Modal from 'react-native-modal';
+import ModalBackAndCrossButton from '../ChatCom/Modal/ModalBackAndCrossButton';
 
-export default function ResultModal({ isResultModalVisible, toggleResultModal }) {
+export default function ResultModal({isResultModalVisible, toggleResultModal}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
@@ -23,15 +25,15 @@ export default function ResultModal({ isResultModalVisible, toggleResultModal })
           <Text style={styles.modalHeading}>Enrollment Test Result</Text>
         </View>
         <View style={styles.totalContainer}>
-          <View style={[styles.dataBox, { backgroundColor: "#4B56C0" }]}>
+          <View style={[styles.dataBox, {backgroundColor: '#4B56C0'}]}>
             <Text style={styles.boxText}>Total Questions</Text>
             <Text style={styles.number}>5</Text>
           </View>
-          <View style={[styles.dataBox, { backgroundColor: "#00C177" }]}>
+          <View style={[styles.dataBox, {backgroundColor: '#00C177'}]}>
             <Text style={styles.boxText}>Total Answered</Text>
             <Text style={styles.number}>5</Text>
           </View>
-          <View style={[styles.dataBox, { backgroundColor: "#EF7817" }]}>
+          <View style={[styles.dataBox, {backgroundColor: '#EF7817'}]}>
             <Text style={styles.boxText}>Correct Answered</Text>
             <Text style={styles.number}>4</Text>
           </View>
@@ -56,15 +58,15 @@ export default function ResultModal({ isResultModalVisible, toggleResultModal })
   );
 }
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
       flex: 1,
     },
     modalTop: {
       paddingVertical: responsiveScreenHeight(1.5),
-      flexDirection: "row",
-      justifyContent: "flex-end",
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
     },
 
     modalContainer: {
@@ -76,26 +78,26 @@ const getStyles = (Colors) =>
       maxHeight: responsiveScreenHeight(80),
     },
     modalBody: {
-      alignSelf: "center",
+      alignSelf: 'center',
       width: responsiveScreenWidth(80),
     },
     modalHeading: {
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(2.2),
       fontFamily: CustomFonts.SEMI_BOLD,
-      fontWeight: "600",
+      fontWeight: '600',
     },
     modalSubHeading: {
       color: Colors.BodyText,
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.9),
-      textAlign: "center",
+      textAlign: 'center',
       marginTop: responsiveScreenHeight(2),
     },
     totalContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       marginVertical: responsiveScreenHeight(2),
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
     dataBox: {
       paddingHorizontal: responsiveScreenWidth(2),
@@ -118,15 +120,15 @@ const getStyles = (Colors) =>
     dataContainer: {
       backgroundColor: Colors.Background_color,
       padding: responsiveScreenWidth(3),
-      flexDirection: "column",
+      flexDirection: 'column',
       gap: responsiveScreenHeight(1.5),
       marginTop: responsiveScreenHeight(1),
     },
     data: {
       backgroundColor: Colors.White,
       padding: responsiveScreenWidth(2),
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       borderRadius: responsiveScreenWidth(2),
     },
     dataText: {

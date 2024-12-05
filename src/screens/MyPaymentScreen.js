@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from 'react-native';
 import {Provider} from 'react-native-paper';
-import color from '../constants/color';
 import moment from 'moment';
 import {useTheme} from '../context/ThemeContext';
 import {
@@ -505,7 +504,7 @@ const getStyles = Colors =>
       margin: 16,
       right: 0,
       bottom: 0,
-      backgroundColor: color.primary,
+      backgroundColor: Colors.Primary,
       zIndex: 10,
     },
     amountWrapper: {
@@ -520,7 +519,7 @@ const getStyles = Colors =>
       paddingVertical: 5,
     },
     picker: {
-      borderColor: color.primary,
+      borderColor: Colors.Primary,
       borderWidth: 1,
       width: '100%',
       borderRadius: 15,

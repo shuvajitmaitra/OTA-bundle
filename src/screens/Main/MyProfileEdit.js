@@ -25,7 +25,6 @@ import CustomFonts from '../../constants/CustomFonts';
 import {useDispatch, useSelector} from 'react-redux';
 import {formatDate} from '../../utility/formatDate';
 import MyButton from '../../components/AuthenticationCom/MyButton';
-import color from '../../constants/color';
 import {useTheme} from '../../context/ThemeContext';
 import axiosInstance from '../../utility/axiosInstance';
 import LineUp from '../../assets/Icons/LineUp';
@@ -272,16 +271,6 @@ export default function MyProfileEdit() {
     // }
   };
 
-  const handleKeyPress = ({nativeEvent}) => {
-    if (nativeEvent.key === 'Enter') {
-      const lines = statusText.split('\n');
-      // Prevent adding a new line if the field is empty or already at 4 lines
-      if (statusText.trim() === '' || lines.length >= 4) {
-        return; // Do nothing, stopping Enter from adding a line
-      }
-    }
-  };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // For iOS and Android
@@ -315,7 +304,7 @@ export default function MyProfileEdit() {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <ActivityIndicator color={color.primary} size={40} />
+                  <ActivityIndicator color={Colors.Primary} size={40} />
                 </View>
               ) : null}
               <Image source={{uri: profilePicture}} style={styles.profileImg} />
@@ -620,7 +609,6 @@ export default function MyProfileEdit() {
                     value={about}
                     editable={true}
                     maxLength={200}
-                    onKeyPress={handleKeyPress}
                   />
                 </View>
               </View>

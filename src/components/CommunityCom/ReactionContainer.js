@@ -54,19 +54,6 @@ const ReactionContainer = ({
         ))}
       </View>
     </Popover>
-
-    // <Popover
-    //   // mode="tooltip"
-    //   offset={10} // Adjust this value if needed
-    //   isVisible={popoverVisible} // Update from `visible` to `isVisible`
-    //   onRequestClose={closePopover} // Update from `onClose` to `onRequestClose`
-    //   arrowStyle={styles.arrow}
-    //
-    //   placement={PopoverPlacement.BOTTOM} // Ensure the popover places itself at the bottom of the button
-    //   backgroundStyle={styles.background}
-    //   from={buttonRef.current} // Ensure popover is anchored to the button
-    // >
-    // </Popover>
   );
 };
 

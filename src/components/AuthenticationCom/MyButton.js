@@ -1,9 +1,8 @@
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
-import color from '../../constants/color';
 import CustomFonts from '../../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
-// import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+import {useTheme} from '../../context/ThemeContext';
 
 const MyButton = ({
   bg,
@@ -20,6 +19,8 @@ const MyButton = ({
 }) => {
   const buttonWidth = width || '48%';
   const buttonActiveOpacity = activeOpacity || 0.5;
+  const Colors = useTheme();
+  const styles = getStyles(Colors);
   return (
     <TouchableOpacity
       style={[
@@ -48,20 +49,21 @@ const MyButton = ({
   );
 };
 
-const styles = StyleSheet.create({
-  buttonText: {
-    fontFamily: CustomFonts.MEDIUM,
-  },
-  buttonOulined: {
-    width: '50%',
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    color: color.primary,
-    borderColor: color.primary,
-    borderWidth: 1,
-    marginTop: 15,
-  },
-});
+const getStyles = Colors =>
+  StyleSheet.create({
+    buttonText: {
+      fontFamily: CustomFonts.MEDIUM,
+    },
+    buttonOulined: {
+      width: '50%',
+      height: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 10,
+      color: Colors.Primary,
+      borderColor: Colors.Primary,
+      borderWidth: 1,
+      marginTop: 15,
+    },
+  });
 export default MyButton;

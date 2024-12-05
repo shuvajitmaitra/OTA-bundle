@@ -58,7 +58,7 @@ const chatSlice = createSlice({
       }
     },
     updateMessage: ({localMessages}, {payload}) => {
-      console.log('payload', JSON.stringify(payload, null, 1));
+      // console.log('payload', JSON.stringify(payload, null, 1));
       const messageIndex = localMessages.findIndex(
         item => item._id === payload._id,
       );
@@ -105,11 +105,11 @@ const chatSlice = createSlice({
       const messageIndex = localMessages.findIndex(
         item => item._id === payload.data._id,
       );
-      console.log('payload', JSON.stringify(payload, null, 1));
-      console.log(
-        'localMessages[messageIndex]',
-        JSON.stringify(localMessages[messageIndex], null, 1),
-      );
+      // console.log('payload', JSON.stringify(payload, null, 1));
+      // console.log(
+      //   'localMessages[messageIndex]',
+      //   JSON.stringify(localMessages[messageIndex], null, 1),
+      // );
       // if (messageIndex !== 1) {
       //   localMessages[messageIndex] = {
       //     ...localMessages[messageIndex],

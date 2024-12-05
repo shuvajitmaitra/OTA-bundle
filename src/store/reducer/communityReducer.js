@@ -5,6 +5,7 @@ const initialState = {
   emptyPosts: false,
   isLoading: false,
   totalPost: null,
+  singlePost: null,
 };
 
 const communitySlice = createSlice({
@@ -41,7 +42,7 @@ const communitySlice = createSlice({
     setQueryPosts: (state, {payload}) => {
       state.posts = payload;
     },
-    setReported: ({posts, payload}) => {
+    setReported: ({posts}, {payload}) => {
       const postIndex = posts.findIndex(post => post._id === payload.post);
       if (postIndex !== -1) {
         posts[postIndex].isReported = false;
@@ -61,10 +62,14 @@ const communitySlice = createSlice({
         posts[postIndex].isSaved = !posts[postIndex].isSaved;
       }
     },
+    setSinglePost: (state, {payload}) => {
+      state.singlePost = payload;
+    },
   },
 });
 
 export const {
+  setSinglePost,
   setSavePost,
   setCommentCount,
   setCommunityPosts,
