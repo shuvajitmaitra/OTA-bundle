@@ -54,6 +54,7 @@ const ChatProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [isImageViewerVisible, setIsImageViewerVisible] = useState(false);
+  const [ImageView, setImageView] = useState(null);
   const [blockConfirm, setBlockConfirm] = useState(false);
   const [removeConfirm, setRemoveConfirm] = useState(false);
 
@@ -210,7 +211,17 @@ const ChatProfile = () => {
         contentContainerStyle={styles.scrollContent}>
         {/* Profile Image Section */}
         <View style={styles.profileImageContainer}>
-          <TouchableOpacity onPress={() => setIsImageViewerVisible(true)}>
+          <TouchableOpacity
+            onPress={() =>
+              setImageView([
+                {
+                  uri:
+                    chat.avatar ||
+                    chat?.otherUser?.profilePicture ||
+                    Images.DEFAULT_IMAGE,
+                },
+              ])
+            }>
             <Image
               style={styles.profileImage}
               // source={chat?.avatar ? {uri: chat?.avatar} : Images.DEFAULT_IMAGE}
@@ -369,10 +380,10 @@ const ChatProfile = () => {
 
       {/* Image Viewer */}
       <ImageViewing
-        images={[{uri: chat?.avatar}]} // Array of images
+        images={ImageView} // Array of images
         imageIndex={0} // Initial image index
-        visible={isImageViewerVisible} // Visibility state
-        onRequestClose={() => setIsImageViewerVisible(false)} // Close handler
+        visible={Boolean(ImageView)} // Visibility state
+        onRequestClose={() => setImageView(null)} // Close handler
       />
     </View>
   );

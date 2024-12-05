@@ -233,13 +233,14 @@ const ChatFooter2 = ({
     Keyboard.dismiss();
     const options = {
       mediaType: 'photo',
-      maxWidth: 300,
-      maxHeight: 300,
+      maxWidth: 30000,
+      maxHeight: 30000,
       quality: 1,
       selectionLimit: 5,
     };
 
     launchImageLibrary(options, response => {
+      console.log('response', JSON.stringify(response, null, 1));
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.errorCode) {
@@ -453,6 +454,7 @@ const ChatFooter2 = ({
           toggleBottom();
           setSelectedImages([]);
         }}
+        uploading={uploading}
         onSend={uploadImagesAndSend}
       />
     );

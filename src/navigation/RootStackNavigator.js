@@ -10,7 +10,11 @@ import NotificationEventDetails from '../components/Calendar/Modal/NotificationE
 import {useMainContext} from '../context/MainContext';
 import store from '../store';
 import {setAppLoading} from '../store/reducer/authReducer';
-import {loadCalendarEvent, loadNotifications} from '../actions/chat-noti';
+import {
+  loadCalendarEvent,
+  loadChats,
+  loadNotifications,
+} from '../actions/chat-noti';
 import {connectSocket, disconnectSocket} from '../utility/socketManager';
 import {getOnlineUsers} from '../actions/apiCall';
 import PushNotiService from '../utility/PushNotiService';
@@ -28,6 +32,7 @@ const RootStackNavigator = () => {
     loadNotifications();
     connectSocket();
     loadCalendarEvent();
+    loadChats();
     getOnlineUsers();
     console.log('handle from dashboard..............');
     store.dispatch(setAppLoading(false));
