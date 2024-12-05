@@ -126,7 +126,11 @@ const AudioMessage = ({audioUrl, background}) => {
         />
       ) : (
         <TouchableOpacity onPress={handlePlayPause} style={styles.playButton}>
-          {isPlaying ? <PauseIcon /> : <PlayIcon />}
+          {isPlaying ? (
+            <PauseIcon color={Colors.Primary} />
+          ) : (
+            <PlayIcon color={Colors.Primary} />
+          )}
         </TouchableOpacity>
       )}
 
@@ -145,7 +149,7 @@ const getStyles = ({Colors}) =>
     },
     audioTimer: {
       marginLeft: responsiveScreenWidth(2),
-      color: Colors.PureWhite,
+      color: Colors.BodyText,
     },
     container: {
       flexDirection: 'row',

@@ -188,7 +188,7 @@ const AudioRecorder = ({
       {recording && (
         <View style={styles.containerTwo}>
           <Pressable onPress={cancelRecording}>
-            <CrossCircle />
+            <CrossCircle color={Colors.Red} size={30} />
           </Pressable>
           <AudioWaveform />
           <Pressable onPress={stopRecording}>
@@ -231,9 +231,11 @@ const getStyles = Colors =>
       // backgroundColor: 'red',
       justifyContent: 'space-between',
       width: '100%',
-      padding: 5,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
       borderWidth: 1,
       borderColor: Colors.BodyTextOpacity,
+      borderRadius: 40,
     },
     container: {
       // flex: 1,

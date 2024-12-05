@@ -64,14 +64,14 @@ export const MainProvider = ({children}) => {
       store.dispatch(setAppLoading(false));
     }
   };
-  // useEffect(() => {
-  //   console.log('rerender handleVerify');
-  //   handleVerify(true);
-  //   return () => {
-  //     disconnectSocket();
-  //     store.dispatch(logout());
-  //   };
-  // }, []);
+  useEffect(() => {
+    console.log('rerender handleVerify');
+    handleVerify(true);
+    return () => {
+      disconnectSocket();
+      store.dispatch(logout());
+    };
+  }, []);
 
   const value = {
     handleVerify,

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {View, Animated, StyleSheet} from 'react-native';
+import {useTheme} from '../../../context/ThemeContext';
 
 const NUM_BARS = 30;
 const BAR_WIDTH = 5;
@@ -8,6 +9,8 @@ const BAR_MARGIN = 3;
 const ANIMATION_DURATION = 500;
 
 const AudioWaveform = () => {
+  const Colors = useTheme();
+  const styles = getStyles(Colors);
   const animatedValues = useRef(
     Array.from({length: NUM_BARS}, () => new Animated.Value(1)),
   ).current;
@@ -56,21 +59,22 @@ const AudioWaveform = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center', // Center vertically for symmetrical animation
-    height: BAR_MAX_HEIGHT,
-    justifyContent: 'space-between',
-    width: NUM_BARS * (BAR_WIDTH + BAR_MARGIN),
-  },
-  bar: {
-    width: BAR_WIDTH,
-    backgroundColor: 'rgba(153,0,0,0.8)',
-    marginHorizontal: BAR_MARGIN / 2,
-    borderRadius: BAR_WIDTH / 2,
-    height: BAR_MAX_HEIGHT / 2, // Set initial height for scaleY to expand both up and down
-  },
-});
+const getStyles = Colors =>
+  StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center', // Center vertically for symmetrical animation
+      height: BAR_MAX_HEIGHT,
+      justifyContent: 'space-between',
+      width: NUM_BARS * (BAR_WIDTH + BAR_MARGIN),
+    },
+    bar: {
+      width: BAR_WIDTH,
+      backgroundColor: 'rgba(153,0,0,0.8)',
+      marginHorizontal: BAR_MARGIN / 2,
+      borderRadius: BAR_WIDTH / 2,
+      height: BAR_MAX_HEIGHT / 2, // Set initial height for scaleY to expand both up and down
+    },
+  });
 
 export default AudioWaveform;

@@ -62,7 +62,7 @@ const getStyles = Colors =>
     waveformBar: {
       height: 20,
       width: 1,
-      backgroundColor: Colors.PureWhite,
+      backgroundColor: Colors.BodyText,
       marginHorizontal: 1,
     },
     completedBar: {

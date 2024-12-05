@@ -265,7 +265,9 @@ const MessageScreen2 = () => {
             onEndReachedThreshold={0.5} // Adjust as needed
             ListFooterComponent={ListFooterComponent}
             inverted={localMessages.length ? true : false}
-            ListEmptyComponent={<EmptyMessageContainer chat={chat} />}
+            ListEmptyComponent={
+              !isLoading && <EmptyMessageContainer chat={chat} />
+            }
           />
         </View>
         <ChatFooter2
