@@ -37,7 +37,7 @@ const UserModalImageGallery = ({media, isLoading}) => {
         <Loading />
       ) : (
         <>
-          <View style={styles.galleryContainer(Colors)}>
+          <View style={styles.galleryContainer}>
             {displayedPhotos.length > 0 ? (
               displayedPhotos.map((item, index) => (
                 <TouchableOpacity
@@ -78,7 +78,7 @@ const UserModalImageGallery = ({media, isLoading}) => {
 
 const getStyles = Colors =>
   StyleSheet.create({
-    galleryContainer: Colors => ({
+    galleryContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
       paddingTop: responsiveScreenHeight(2),
@@ -86,13 +86,13 @@ const getStyles = Colors =>
       borderTopWidth: 1,
       justifyContent: 'space-between',
       gap: 10,
-    }),
+    },
     imageWrapper: {
       marginBottom: responsiveScreenHeight(2),
     },
     image: {
       height: 120,
-      width: responsiveScreenWidth(29),
+      width: responsiveScreenWidth(28),
       resizeMode: 'cover',
       borderRadius: 8,
       backgroundColor: Colors.LightGreen,
