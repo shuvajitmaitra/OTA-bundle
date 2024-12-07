@@ -6,7 +6,7 @@ import {
   View,
   StatusBar,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
@@ -19,7 +19,7 @@ import ProgramIconBig from '../../assets/Icons/ProgramIconBig';
 import CalenderIconBig from '../../assets/Icons/CalenderIconBig';
 import ChatIconBig from '../../assets/Icons/ChatIconBig';
 import NotificationIconBig from '../../assets/Icons/NotificationIconBig';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useTheme} from '../../context/ThemeContext';
 import PurchasedIcon from '../../assets/Icons/PurchasedIcon';
 import DocumentsIcon from '../../assets/Icons/DocumentsIcon';
@@ -29,30 +29,19 @@ import ShowNTellIcon from '../../assets/Icons/ShowNTellIcon';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import DashboardIcon from '../../assets/Icons/DashboardIcon';
 import MockInterviewIcon from '../../assets/Icons/MockInterviewIcon';
-import moment from 'moment';
 import CommunityIcon from '../../assets/Icons/CommunityIcon';
 import MediaIcon from '../../assets/Icons/MediaIcon';
 import {LoadCalenderInfo, LoadMockInterviewInfo} from '../../actions/apiCall';
 import ExploreMoreIcon from '../../assets/Icons/ExploreMoreIcon';
 import HomeUserDetails from '../../components/HomeCom/HomeUserDetails';
-import ProgramSwitchModal from '../../components/SharedComponent/ProgramSwitchModal';
-import OrgSwitchModal from '../../components/OrgSwitchModal';
-import {useMainContext} from '../../context/MainContext';
 
 export default function Dashboard() {
-  const {myEnrollments, enrollment, selectedOrganization} = useSelector(
-    state => state.auth,
-  );
+  const {myEnrollments} = useSelector(state => state.auth);
 
-  const {programActive} = useSelector(state => state.program);
-  const {events} = useSelector(state => state.calendar);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const [statusSectionVisible, setStatusSectionVisible] = useState(false);
-  const [selectProgramModalVisible, setSelectProgramModalVisible] =
-    useState(false);
 
   const handleDefaultRoute = () => {
     navigation.navigate('DefaultRoute', {
@@ -157,24 +146,6 @@ export default function Dashboard() {
         })
       : handleDefaultRoute();
   };
-  const [isEventNear, setIsEventNear] = useState(false);
-  const temp = () => {
-    const time = events.find(event => {
-      const diff = moment(event.start).diff(moment(), 'minutes');
-      if (diff <= 15 && diff > 0) {
-        if (!isEventNear) {
-          // console.log("Function called is event near");
-        }
-        setIsEventNear(true);
-        return diff;
-      } else {
-        setIsEventNear(false);
-      }
-    });
-  };
-  setInterval(() => {
-    temp();
-  }, 10000);
 
   const {top} = useSafeAreaInsets();
   return (
@@ -199,7 +170,6 @@ export default function Dashboard() {
         switchAvailable={myEnrollments.length > 1 ? true : false}
         statusSectionVisible={statusSectionVisible}
         setStatusSectionVisible={setStatusSectionVisible}
-        setSelectProgramModalVisible={setSelectProgramModalVisible}
       />
       {/* <PushNotiService /> */}
 
@@ -324,19 +294,6 @@ export default function Dashboard() {
           />
         </View>
       </ScrollView>
-      {!selectedOrganization && <OrgSwitchModal isVisible={true} />}
-      {selectProgramModalVisible && (
-        <ProgramSwitchModal
-          onCancelPress={() => setSelectProgramModalVisible(false)}
-          modalOpen={selectProgramModalVisible}
-        />
-      )}
-      {!enrollment && (
-        <ProgramSwitchModal
-          onCancelPress={() => setSelectProgramModalVisible(false)}
-          modalOpen={true}
-        />
-      )}
     </View>
   );
 }

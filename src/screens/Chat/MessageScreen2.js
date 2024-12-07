@@ -25,7 +25,6 @@ import {
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
-import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -204,24 +203,25 @@ const MessageScreen2 = () => {
     );
   };
 
-  // useEffect(() => {
-  //   // Define the behavior when the back button is pressed
-  //   const backAction = () => {
-  //     // You can handle custom logic here, e.g., show a confirmation dialog
-  //     console.log('Back button pressed!');
+  useEffect(() => {
+    // Define the behavior when the back button is pressed
+    const backAction = () => {
+      // You can handle custom logic here, e.g., show a confirmation dialog
+      console.log('Back button pressed!');
 
-  //     return true;
-  //   };
+      // Return true to prevent the default behavior (going back)
+      // Return false to allow default back button behavior (going back)
+      return true;
+    };
 
-  //   // Add the back button listener
-  //   BackHandler.addEventListener('hardwareBackPress', backAction);
+    // Add the back button listener
+    BackHandler.addEventListener('hardwareBackPress', backAction);
 
-  //   // Cleanup the listener when the component unmounts
-  //   return () => {
-  //     BackHandler.removeEventListener('hardwareBackPress', backAction);
-  //   };
-  // }, []);
-
+    // Cleanup the listener when the component unmounts
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+    };
+  }, []);
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -262,10 +262,7 @@ const MessageScreen2 = () => {
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5} // Adjust as needed
             ListFooterComponent={ListFooterComponent}
-            inverted={localMessages.length ? true : false}
-            ListEmptyComponent={
-              !isLoading && <EmptyMessageContainer chat={chat} />
-            }
+            inverted
           />
         </View>
         <ChatFooter2

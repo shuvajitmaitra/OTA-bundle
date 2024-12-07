@@ -66,10 +66,11 @@ export default function SignInScreen({navigation}) {
       });
 
       const {success, token} = responseData;
+      console.log('success', JSON.stringify(token, null, 1));
 
       if (success && token) {
         storage.set('user_token', `Bearer ${token}`);
-        handleVerify(true);
+        handleVerify();
       }
     } catch (error) {
       console.error('Login error:', error.response?.data || error.message);

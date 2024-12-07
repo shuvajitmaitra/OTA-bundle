@@ -14,7 +14,6 @@ import SwapIcon from '../../assets/Icons/SwapIcon';
 export default function DashboardTopPart({
   statusSectionVisible,
   setStatusSectionVisible,
-  setSelectProgramModalVisible,
   switchAvailable,
 }) {
   const navigation = useNavigation();
@@ -39,7 +38,7 @@ export default function DashboardTopPart({
       <View style={styles.messageNotificationContainer}>
         {switchAvailable && (
           <TouchableOpacity
-            onPress={() => setSelectProgramModalVisible(true)}
+            // onPress={() => setSelectProgramModalVisible(true)}
             style={styles.messageContainer}>
             <SwapIcon />
           </TouchableOpacity>

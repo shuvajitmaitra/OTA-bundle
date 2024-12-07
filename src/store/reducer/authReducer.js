@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {setEnrolled} from './programReducer';
+import {storage} from '../../utility/mmkvInstance';
 
 export const logout = createAsyncThunk('auth/logout', async (_, {dispatch}) => {
   dispatch(logoutSuccess());
@@ -9,6 +10,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, {dispatch}) => {
   dispatch(setMyEnrollments([]));
   dispatch(selectOrganizations([]));
   dispatch(setSelectedOrganization(null));
+  storage.clearAll();
 });
 
 const initialState = {

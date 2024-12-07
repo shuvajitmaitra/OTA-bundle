@@ -27,7 +27,7 @@ import {
   setNotifications,
 } from '../store/reducer/notificationReducer';
 import axiosInstance from '../utility/axiosInstance';
-import {setOrganization} from '../utility/mmkvHelpers';
+// import {setOrganization} from '../utility/mmkvHelpers';
 import {handleError} from './chat-noti';
 
 export const userOrganizationInfo = async () => {
@@ -35,10 +35,10 @@ export const userOrganizationInfo = async () => {
     .get('/organization/user-organizations')
     .then(res => {
       store.dispatch(selectOrganizations(res.data.organizations));
-      if (res.data.organizations.length === 1) {
-        setOrganization(res.data.organizations[0]);
-        store.dispatch(setSelectedOrganization(res.data.organizations[0]));
-      }
+      // if (res.data.organizations.length === 1) {
+      //   // setOrganization(res.data.organizations[0]);
+      //   // store.dispatch(setSelectedOrganization(res.data.organizations[0]));
+      // }
     })
     .catch(error => {
       console.log(
@@ -265,8 +265,8 @@ export const LoadDayToDayActivities = (page, setIsLoading) => {
       setIsLoading(false);
     });
 };
-export const getOnlineUsers = () => {
-  axiosInstance
+export const getOnlineUsers = async () => {
+  await axiosInstance
     .get('user/online')
     .then(({data}) => {
       store.dispatch(setOnlineUsers(data.users));

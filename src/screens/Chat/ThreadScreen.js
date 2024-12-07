@@ -66,6 +66,7 @@ import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModa
 
 const ThreadScreen = ({route}) => {
   const {chatMessage} = route.params;
+  console.log('chatMessage', JSON.stringify(chatMessage, null, 1));
   const dispatch = useDispatch();
   const {threadMessages} = useSelector(state => state.chatSlice);
   const {messageOptionData} = useSelector(state => state.modal);

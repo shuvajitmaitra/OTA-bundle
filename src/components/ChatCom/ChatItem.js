@@ -61,10 +61,15 @@ function replaceMentionToName(str) {
   return str.replace(/@\[([^\]]+)\]\([^)]+\)/g, '@$1');
 }
 
-const ChatItem = ({chat, onlineUsers, chatsObj}) => {
+const ChatItem = ({chat, onlineUsers, setChecked}) => {
   const dispatch = useDispatch();
+  // console.log(JSON.stringify(chat?.latestMessage?.files, null, 1));
   const {user} = useSelector(state => state.auth);
+  // console.log("🚀 ~ user:", user);
+  // console.log(JSON.stringify(user, null, 1));
   const navigation = useNavigation();
+  // const item = chat?.filter((item) => item._id);
+
   const senderName =
     chat?.latestMessage?.sender?.profilePicture === user?.profilePicture
       ? 'You'
@@ -77,6 +82,7 @@ const ChatItem = ({chat, onlineUsers, chatsObj}) => {
       return '';
     }
 
+    // Regular expressions for matching common Markdown syntax
     return (
       text
         .replace(/(\*\*|__)(.*?)\1/g, '$2') // Bold (e.g., **text** or __text__)
@@ -98,7 +104,8 @@ const ChatItem = ({chat, onlineUsers, chatsObj}) => {
     <TouchableOpacity
       style={[styles.container]}
       onPress={() => {
-        dispatch(setSingleChat(chatsObj[chat?._id]));
+        setChecked('chats');
+        dispatch(setSingleChat(chat));
         navigation.navigate('MessageScreen2', {animationEnabled: false});
         dispatch(markRead({chatId: chat?._id}));
       }}>

@@ -15,7 +15,11 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import store, {persistor} from './src/store';
-import {connectSocket, disconnectSocket} from './src/utility/socketManager';
+import {
+  connectSocket,
+  disconnectSocket,
+  socket,
+} from './src/utility/socketManager';
 import SplashScreen from 'react-native-splash-screen';
 import CustomSplashScreen from '../Bootcampshub_Chat/src/screens/SplashScreen.js';
 import {ThemeProvider, useTheme} from './src/context/ThemeContext';
@@ -65,36 +69,36 @@ const App = () => {
   // Handle AppState changes to manage socket connections
   useEffect(() => {
     SplashScreen.hide();
-    const subscription = AppState.addEventListener(
-      'change',
-      _handleAppStateChange,
-    );
-    store.dispatch(setAppLoading(true));
-    setIsLoading(true);
+    // const subscription = AppState.addEventListener(
+    //   'change',
+    //   _handleAppStateChange,
+    // );
+    // store.dispatch(setAppLoading(true));
+    // setIsLoading(true);
     return () => {
       disconnectSocket();
-      subscription.remove();
+      // subscription.remove();
     };
   }, []);
 
-  const _handleAppStateChange = async nextAppState => {
-    if (
-      appState.current.match(/inactive|background/) &&
-      nextAppState === 'active'
-    ) {
-      if (user?._id) {
-        await connectSocket();
-      } else {
-        console.log('User not authenticated');
-      }
-    }
+  // const _handleAppStateChange = async nextAppState => {
+  //   if (
+  //     appState.current.match(/inactive|background/) &&
+  //     nextAppState === 'active'
+  //   ) {
+  //     if (user?._id && !socket?.connected) {
+  //       await connectSocket();
+  //     } else {
+  //       console.log('User not authenticated');
+  //     }
+  //   }
 
-    appState.current = nextAppState;
-  };
+  //   appState.current = nextAppState;
+  // };
 
-  if (!isLoading) {
-    return <CustomSplashScreen />;
-  }
+  // if (!isLoading) {
+  //   return <CustomSplashScreen />;
+  // }
 
   return (
     <BottomSheetModalProvider>

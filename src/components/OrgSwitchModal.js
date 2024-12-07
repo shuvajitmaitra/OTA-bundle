@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactNativeModal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '../context/ThemeContext';
@@ -21,20 +21,23 @@ const OrgSwitchModal = ({isVisible, onCancelPress}) => {
   const {organizations, selectedOrganization} = useSelector(
     state => state.auth,
   );
-  const {handleVerify} = useMainContext();
+  const {handleVerify2} = useMainContext();
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-
-  console.log(
-    'selectedOrganization',
-    JSON.stringify(selectedOrganization, null, 1),
-  );
+  useEffect(() => {
+    const handleSelectOrganization = () => {
+      setOrganization(organizations[0]);
+      dispatch(setSelectedOrganization(organizations[0]));
+      handleVerify2();
+    };
+    if (organizations.length === 1) handleSelectOrganization();
+  }, [dispatch, handleVerify2, organizations]);
 
   const handleSelectOrganization = org => {
     setOrganization(org);
     dispatch(setSelectedOrganization(org));
-    handleVerify();
+    handleVerify2();
   };
 
   const renderItem = ({item}) => {
@@ -55,8 +58,7 @@ const OrgSwitchModal = ({isVisible, onCancelPress}) => {
         <View style={{flexGrow: 1}} />
         <TouchableOpacity
           onPress={() => handleSelectOrganization(item)}
-          style={styles.selectBtnContainer}
-        >
+          style={styles.selectBtnContainer}>
           <Text>
             {item._id === selectedOrganization?._id ? 'Selected' : 'Select'}
           </Text>

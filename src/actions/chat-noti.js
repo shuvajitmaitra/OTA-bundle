@@ -25,10 +25,10 @@ import {
 import {setComments} from '../store/reducer/commentReducer';
 import {setPrograms} from '../store/reducer/programReducer';
 
-export const loadChats = () => {
+export const loadChats = async () => {
   // console.log('loadChats called');
 
-  axiosInstance.get('/chat/mychats', {
+  await axiosInstance.get('/chat/mychats', {
     headers: {
       'Cache-Control': 'no-store, no-cache, must-revalidate',
       Pragma: 'no-cache',
@@ -56,8 +56,8 @@ export const loadChats = () => {
   // });
 };
 
-export const loadCalendarEvent = () => {
-  axiosInstance
+export const loadCalendarEvent = async () => {
+  await axiosInstance
     .get('/calendar/event/myevents')
     .then(res => {
       store.dispatch(setEvents(res.data.events || []));
@@ -126,8 +126,8 @@ export const loadWeekends = () => {
       console.log(err);
     });
 };
-export const loadNotifications = () => {
-  axiosInstance
+export const loadNotifications = async () => {
+  await axiosInstance
     .get(`/notification/mynotifications?limit=1&page=1`)
     .then(res => {
       store.dispatch(

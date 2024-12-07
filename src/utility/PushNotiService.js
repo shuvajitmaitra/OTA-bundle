@@ -8,9 +8,13 @@ import {
 } from 'react-native-permissions';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
 import axiosInstance from './axiosInstance';
+import store from '../store';
+import {setSingleChat} from '../store/reducer/chatReducer';
+import {useSelector} from 'react-redux';
 
 const PushNotiService = () => {
   const [isTokenSent, setIsTokenSent] = useState(false);
+  const {chatsObj} = useSelector(state => state.chat);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -141,8 +145,37 @@ const PushNotiService = () => {
               break;
             case EventType.PRESS:
               console.log('User pressed notification');
-              navigation.navigate('MessageScreen2');
-              // store.dispatch(setSingleChat(chatsObj[detail.notification.chatId]))
+              if (remoteMessage.data.path === 'message') {
+                navigation.navigate('MessageScreen2');
+                store.dispatch(
+                  setSingleChat(chatsObj[remoteMessage.data.chatId]),
+                );
+              }
+              if (remoteMessage.data.path === 'thread') {
+                navigation.push('ThreadScreen', {
+                  chatMessage: {
+                    _id: remoteMessage.data.chatId,
+                    type: 'message',
+                    status: 'seen',
+                    sender: {
+                      profilePicture: remoteMessage.data.image,
+                      fullName: remoteMessage.data.name,
+                    },
+                    text: 'Eeee',
+                    chat: remoteMessage.data.image,
+                    files: [],
+                    organization: '64fcb2e60d2f877aaccb3b26',
+                    emoji: [],
+                    createdAt: '2024-12-05T10:29:31.366Z',
+                    updatedAt: '2024-12-05T10:47:00.424Z',
+                    __v: 0,
+                    replyCount: 3,
+                    reactionsCount: 0,
+                    myReaction: null,
+                    reactions: {},
+                  },
+                });
+              }
               break;
           }
         });

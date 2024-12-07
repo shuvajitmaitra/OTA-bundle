@@ -7,7 +7,6 @@ import ChatProfile from '../screens/Chat/ChatProfile';
 import GlobalCommentModal from '../components/SharedComponent/GlobalCommentModal';
 import {useSelector} from 'react-redux';
 import NotificationEventDetails from '../components/Calendar/Modal/NotificationEventDetails';
-import {useMainContext} from '../context/MainContext';
 import store from '../store';
 import {setAppLoading} from '../store/reducer/authReducer';
 import {
@@ -15,27 +14,55 @@ import {
   loadChats,
   loadNotifications,
 } from '../actions/chat-noti';
-import {connectSocket, disconnectSocket} from '../utility/socketManager';
+import {
+  connectSocket,
+  disconnectSocket,
+  socket,
+} from '../utility/socketManager';
 import {getOnlineUsers} from '../actions/apiCall';
-import PushNotiService from '../utility/PushNotiService';
 import {setSinglePost} from '../store/reducer/communityReducer';
+import axiosInstance from '../utility/axiosInstance';
+import OrgSwitchModal from '../components/OrgSwitchModal';
+import {storage} from '../utility/mmkvInstance';
+import ProgramSwitchModal from '../components/SharedComponent/ProgramSwitchModal';
 
 const RootStack = createStackNavigator();
 
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
-  const {handleVerify} = useMainContext();
-
+  const orgJSON = storage.getString('organization');
+  const proJSON = storage.getString('active_enrolment');
+  const keys = storage.getAllKeys();
+  console.log('keys', JSON.stringify(keys, null, 1));
   useEffect(() => {
-    store.dispatch(setAppLoading(true));
-    handleVerify();
-    loadNotifications();
-    connectSocket();
-    loadCalendarEvent();
-    loadChats();
-    getOnlineUsers();
-    console.log('handle from dashboard..............');
-    store.dispatch(setAppLoading(false));
+    const initialCalls = async () => {
+      try {
+        store.dispatch(setAppLoading(true));
+        const res = await axiosInstance.post('/user/verify', {});
+
+        if (res.status === 200) {
+          await Promise.all([
+            loadNotifications(),
+            loadCalendarEvent(),
+            loadChats(),
+            getOnlineUsers(),
+          ]);
+
+          if (!socket?.connected) {
+            connectSocket();
+          }
+
+          console.log('handle from dashboard..............');
+        }
+      } catch (err) {
+        console.error('Error during the verification process:', err);
+      } finally {
+        store.dispatch(setAppLoading(false));
+      }
+    };
+
+    initialCalls();
+
     return () => {
       disconnectSocket();
       store.dispatch(setSinglePost(null));
@@ -47,7 +74,6 @@ const RootStackNavigator = () => {
 
   return (
     <>
-      <PushNotiService />
       <RootStack.Navigator>
         <RootStack.Screen
           name="Drawer"
@@ -82,6 +108,16 @@ const RootStackNavigator = () => {
       </RootStack.Navigator>
       <GlobalCommentModal />
       {notificationClicked && <NotificationEventDetails />}
+      {!orgJSON && <OrgSwitchModal isVisible={!orgJSON} />}
+      {/* {selectProgramModalVisible && (
+        <ProgramSwitchModal
+          onCancelPress={() => setSelectProgramModalVisible(false)}
+          modalOpen={selectProgramModalVisible}
+        />
+      )} */}
+      {!proJSON && (
+        <ProgramSwitchModal onCancelPress={() => {}} modalOpen={true} />
+      )}
     </>
   );
 };

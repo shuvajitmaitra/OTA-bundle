@@ -13,6 +13,7 @@ import {useTheme} from '../../context/ThemeContext';
 import OnlineUsersItem from '../../components/ChatCom/OnlineUsersItem';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import {SafeAreaView} from 'react-native';
+import {loadChats} from '../../actions/chat-noti';
 import ChatHeaderFilter from '../../components/ChatCom/ChatHeaderFilter';
 import {RegularFonts} from '../../constants/Fonts';
 import Divider from '../../components/SharedComponent/Divider';
@@ -54,7 +55,7 @@ function sortByLatestMessage(data = []) {
 
 export default function NewChatScreen({navigation: {goBack}}) {
   const Colors = useTheme();
-  const {chats, onlineUsers, chatsObj} = useSelector(state => state.chat);
+  const {chats, onlineUsers} = useSelector(state => state.chat);
   const {user} = useSelector(state => state.auth);
   const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
@@ -78,16 +79,14 @@ export default function NewChatScreen({navigation: {goBack}}) {
 
   const handleRadioChecked = useCallback(
     item => {
-      console.log('Handle Radio cliced');
-      console.log(item);
       let filteredChats = [];
       switch (item) {
         case 'mention':
           filteredChats = [];
           break;
         case 'chats':
-          // loadChats();
-          // console.log('called');
+          loadChats();
+          console.log('called');
           filteredChats = chats?.filter(x => !x?.isArchived) || [];
           break;
         case 'crowds':
@@ -126,7 +125,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
 
   const handleFilter = useCallback(
     val => {
-      console.log('HandleFIlter CLicked');
+      console.log('val', JSON.stringify(val, null, 1));
       if (checked === 'onlines') {
         if (val) {
           const filteredUsers = onlineUsers?.filter(c =>
@@ -159,7 +158,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
 
   const renderChatItem = useCallback(
     ({item}) => (
-      <ChatItem onlineUsers={onlineUsers} chat={item} chatsObj={chatsObj} />
+      <ChatItem onlineUsers={onlineUsers} chat={item} setChecked={setChecked} />
     ),
     [onlineUsers],
   );
@@ -182,6 +181,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
               : 'light-content'
           }
         />
+        {/* <ChatTopPart handleRadioChecked={handleRadioChecked} /> */}
         <View style={styles.searchContainer}>
           <ChatSearchField
             handleFilter={handleFilter}

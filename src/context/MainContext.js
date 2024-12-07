@@ -1,17 +1,13 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useState} from 'react';
 import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
 import store from '../store';
 import {
   logout,
   setAppLoading,
-  setEnrollment,
   setMyEnrollments,
   setUser,
 } from '../store/reducer/authReducer';
 import {userOrganizationInfo} from '../actions/apiCall';
-import {storage} from '../utility/mmkvInstance';
-import {activeProgram} from '../utility/mmkvHelpers';
-import {disconnectSocket} from '../utility/socketManager';
 
 const MainContext = createContext();
 
@@ -20,8 +16,6 @@ export const MainProvider = ({children}) => {
   const [allMessages, setAllMessages] = useState([]);
 
   const handleVerify = async shouldLoad => {
-    const org = storage.getString('organization');
-    const orgId = org ? {organization: JSON.parse(org)?._id} : {};
     try {
       await configureAxiosHeader();
       if (shouldLoad) {
@@ -29,23 +23,12 @@ export const MainProvider = ({children}) => {
         setIsLoading(true);
       }
       axiosInstance
-        .post('/user/verify', orgId)
+        .post('/user/verify', {})
         .then(async res => {
           if (res.data.success) {
-            console.log(
-              'res.data.user',
-              JSON.stringify(res.data.user, null, 1),
-            );
-            await userOrganizationInfo();
             store.dispatch(setUser(res.data.user));
             store.dispatch(setMyEnrollments(res.data.enrollments));
-            if (res.data.enrollments.length === 1) {
-              store.dispatch(setEnrollment(res.data.enrollments[0]));
-              activeProgram({
-                _id: res.data.enrollments[0]._id,
-                programName: res.data.enrollments[0].program.title,
-              });
-            }
+            await userOrganizationInfo();
           }
           store.dispatch(setAppLoading(false));
         })
@@ -64,16 +47,30 @@ export const MainProvider = ({children}) => {
       store.dispatch(setAppLoading(false));
     }
   };
-  useEffect(() => {
-    console.log('rerender handleVerify');
-    handleVerify(true);
-    return () => {
-      disconnectSocket();
-      store.dispatch(logout());
-    };
-  }, []);
+
+  const handleVerify2 = async () => {
+    try {
+      await configureAxiosHeader();
+      await axiosInstance
+        .post('/user/verify', {})
+        .then(async res => {
+          if (res.data.success) {
+          }
+        })
+        .catch(err => {
+          console.log('Error from app.js', err);
+          store.dispatch(logout());
+        });
+    } catch (error) {
+      console.log(
+        'error.response.data',
+        JSON.stringify(error.response.data, null, 1),
+      );
+    }
+  };
 
   const value = {
+    handleVerify2,
     handleVerify,
     isLoading,
     allMessages,
