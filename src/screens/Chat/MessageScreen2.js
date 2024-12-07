@@ -70,7 +70,7 @@ const MessageScreen2 = () => {
     setIsLoading(true);
     const options = {
       page: 1,
-      chat: chat._id,
+      chat: chat?._id,
       limit: LIMIT,
     };
     try {
@@ -99,7 +99,7 @@ const MessageScreen2 = () => {
       console.log('initial Message Calling completed');
       setIsLoading(false);
     }
-  }, [chat._id]);
+  }, [chat?._id]);
 
   useEffect(() => {
     if (chat._id) {
@@ -108,7 +108,7 @@ const MessageScreen2 = () => {
     return () => {
       dispatch(setLocalMessages([]));
     };
-  }, [chat._id]);
+  }, [chat?._id]);
 
   const handleLoadMore = async () => {
     if (isLoading || !hasMore) {
@@ -256,7 +256,7 @@ const MessageScreen2 = () => {
         />
         <View style={styles.flatListContainer}>
           <FlatList
-            data={localMessages?.length ? localMessages : messages[chat._id]}
+            data={localMessages?.length ? localMessages : messages[chat?._id]}
             renderItem={renderItem}
             keyExtractor={(item, index) => item?._id?.toString() || index} // Use a stable key
             onEndReached={handleLoadMore}

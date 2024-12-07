@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "528385173754",
-    "project_id": "bootcampshub",
-    "storage_bucket": "bootcampshub.firebasestorage.app"
+    "project_number": "13545947772",
+    "project_id": "schoolshub-c5908",
+    "storage_bucket": "schoolshub-c5908.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:528385173754:android:748b184794816c44260143",
+        "mobilesdk_app_id": "1:13545947772:android:c3312ba44aee4edde8bff9",
         "android_client_info": {
-          "package_name": "com.bootcampshub"
+          "package_name": "ai.schoolshub.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAVkRg2YWImPFTvdpZMDBsxmO2gpncIBdA"
+          "current_key": "AIzaSyA_jsvLw4MmYsqurer1pJPIXDJoSvbIUV0"
         }
       ],
       "services": {
@@ -26,7 +26,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:528385173754:android:22b5d74ed64b5d4d260143",
+        "mobilesdk_app_id": "1:13545947772:android:a400ac156c846141e8bff9",
         "android_client_info": {
           "package_name": "com.bootcampshub_chat"
         }
@@ -34,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAVkRg2YWImPFTvdpZMDBsxmO2gpncIBdA"
+          "current_key": "AIzaSyA_jsvLw4MmYsqurer1pJPIXDJoSvbIUV0"
         }
       ],
       "services": {

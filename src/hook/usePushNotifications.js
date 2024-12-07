@@ -8,9 +8,9 @@ import {
   checkNotifications,
 } from 'react-native-permissions';
 import store from '../store';
-import {useNavigation} from '@react-navigation/native';
 import {setSingleChat} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 const usePushNotifications = () => {
   const [error, setError] = useState('');
@@ -153,37 +153,37 @@ const usePushNotifications = () => {
               break;
             case EventType.PRESS:
               console.log('User pressed notification');
-              if (remoteMessage.data.path === 'message') {
+              if (remoteMessage.data.path) {
                 navigation.navigate('MessageScreen2');
                 store.dispatch(
                   setSingleChat(chatsObj[remoteMessage.data.chatId]),
                 );
               }
-              if (remoteMessage.data.path === 'thread') {
-                navigation.push('ThreadScreen', {
-                  chatMessage: {
-                    _id: remoteMessage.data.chatId,
-                    type: 'message',
-                    status: 'seen',
-                    sender: {
-                      profilePicture: remoteMessage.data.image,
-                      fullName: remoteMessage.data.name,
-                    },
-                    text: 'Eeee',
-                    chat: remoteMessage.data.image,
-                    files: [],
-                    organization: '64fcb2e60d2f877aaccb3b26',
-                    emoji: [],
-                    createdAt: '2024-12-05T10:29:31.366Z',
-                    updatedAt: '2024-12-05T10:47:00.424Z',
-                    __v: 0,
-                    replyCount: 3,
-                    reactionsCount: 0,
-                    myReaction: null,
-                    reactions: {},
-                  },
-                });
-              }
+              //   if (remoteMessage.data.path === 'thread') {
+              //     navigation.navigate('ThreadScreen', {
+              //       chatMessage: {
+              //         _id: remoteMessage.data.chatId,
+              //         type: 'message',
+              //         status: 'seen',
+              //         sender: {
+              //           profilePicture: remoteMessage.data.image,
+              //           fullName: remoteMessage.data.name,
+              //         },
+              //         text: 'Eeee',
+              //         chat: remoteMessage.data.image,
+              //         files: [],
+              //         organization: '64fcb2e60d2f877aaccb3b26',
+              //         emoji: [],
+              //         createdAt: '2024-12-05T10:29:31.366Z',
+              //         updatedAt: '2024-12-05T10:47:00.424Z',
+              //         __v: 0,
+              //         replyCount: 3,
+              //         reactionsCount: 0,
+              //         myReaction: null,
+              //         reactions: {},
+              //       },
+              //     });
+              //   }
               break;
           }
         });
