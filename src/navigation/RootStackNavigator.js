@@ -21,10 +21,11 @@ import {
 } from '../utility/socketManager';
 import {getOnlineUsers} from '../actions/apiCall';
 import {setSinglePost} from '../store/reducer/communityReducer';
-import axiosInstance from '../utility/axiosInstance';
+import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
 import OrgSwitchModal from '../components/OrgSwitchModal';
 import {storage} from '../utility/mmkvInstance';
 import ProgramSwitchModal from '../components/SharedComponent/ProgramSwitchModal';
+import usePushNotifications from '../hook/usePushNotifications';
 
 const RootStack = createStackNavigator();
 
@@ -32,11 +33,13 @@ const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
   const orgJSON = storage.getString('organization');
   const proJSON = storage.getString('active_enrolment');
-  const keys = storage.getAllKeys();
-  console.log('keys', JSON.stringify(keys, null, 1));
+  // const keys = storage.getAllKeys();
+  // console.log('keys', JSON.stringify(keys, null, 1));
+  const {error} = usePushNotifications();
   useEffect(() => {
     const initialCalls = async () => {
       try {
+        await configureAxiosHeader();
         store.dispatch(setAppLoading(true));
         const res = await axiosInstance.post('/user/verify', {});
 

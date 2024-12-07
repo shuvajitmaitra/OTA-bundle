@@ -1,22 +1,23 @@
-import {Platform} from 'react-native';
 import {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
-import {
-  checkNotifications,
-  requestNotifications,
-} from 'react-native-permissions';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
-import axiosInstance from './axiosInstance';
+import {Alert, Platform} from 'react-native';
+import axiosInstance from '../utility/axiosInstance';
+import {
+  requestNotifications,
+  checkNotifications,
+} from 'react-native-permissions';
 import store from '../store';
+import {useNavigation} from '@react-navigation/native';
 import {setSingleChat} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
 
-const PushNotiService = () => {
+const usePushNotifications = () => {
+  const [error, setError] = useState('');
   const [isTokenSent, setIsTokenSent] = useState(false);
   const {chatsObj} = useSelector(state => state.chat);
-  const navigation = useNavigation();
 
+  const navigation = useNavigation();
   useEffect(() => {
     const setupNotifications = async () => {
       try {
@@ -58,6 +59,7 @@ const PushNotiService = () => {
           }
         });
       } catch (err) {
+        setError(err.message);
         console.error('Error during setup:', err.message);
       }
     };
@@ -70,6 +72,10 @@ const PushNotiService = () => {
   }, []);
 
   async function registerAppWithFCM() {
+    console.log(
+      'registerAppWithFCM status',
+      messaging().isDeviceRegisteredForRemoteMessages,
+    );
     if (!messaging().isDeviceRegisteredForRemoteMessages) {
       await messaging()
         .registerDeviceForRemoteMessages()
@@ -83,11 +89,13 @@ const PushNotiService = () => {
   }
 
   const requestNotificationPermission = async () => {
+    console.log('Requesting notification permission...');
     if (Platform.OS === 'android') {
       const {status} = await checkNotifications();
       if (status !== 'granted') {
         const permissionResult = await requestNotifications(['alert', 'sound']);
         if (permissionResult.status !== 'granted') {
+          setError('Notification permission denied on Android');
           console.log('Android permission denied');
         }
       }
@@ -98,6 +106,7 @@ const PushNotiService = () => {
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
       if (!enabled) {
+        setError('Notification permission denied on iOS');
         console.log('iOS permission denied');
       }
     }
@@ -133,7 +142,6 @@ const PushNotiService = () => {
             badge: 1,
           },
         });
-
         notifee.onForegroundEvent(({type, detail}) => {
           switch (type) {
             case EventType.DISMISSED:
@@ -184,6 +192,7 @@ const PushNotiService = () => {
       }
     } catch (err) {
       console.error('Error displaying notification:', err);
+      setError('Error displaying notification');
     }
   };
 
@@ -192,13 +201,17 @@ const PushNotiService = () => {
       const response = await axiosInstance.post('/user/save-device-token/v2', {
         token,
       });
-      console.log('Device token sent to backend successfully:', response.data);
+      console.log(
+        'Device token sent to backend successfully! success:',
+        response.data.success,
+      );
     } catch (err) {
       console.error('Error sending token to backend:', err);
-      ('Network error while sending token');
+      setError('Network error while sending token');
     }
   };
-  return null;
+
+  return {error, isTokenSent};
 };
 
-export default PushNotiService;
+export default usePushNotifications;

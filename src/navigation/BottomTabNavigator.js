@@ -7,14 +7,14 @@ import ProgramStackScreen from './ProgramStack';
 import MyCalenderStackScreen from './MyCalenderStack';
 
 import CommunityStackScreen from './CommunityStack';
-import PushNotiService from '../utility/PushNotiService';
+// import PushNotiService from '../utility/PushNotiService';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   return (
     <>
-      <PushNotiService />
+      {/* <PushNotiService /> */}
       <Tab.Navigator
         tabBar={props => <CustomTabBar {...props} />}
         screenOptions={{
