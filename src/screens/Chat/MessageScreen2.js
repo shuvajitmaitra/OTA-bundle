@@ -99,7 +99,7 @@ const MessageScreen2 = () => {
       console.log('initial Message Calling completed');
       setIsLoading(false);
     }
-  }, [chat._id, messages, dispatch]);
+  }, [chat._id]);
 
   useEffect(() => {
     if (chat._id) {
