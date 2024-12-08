@@ -108,7 +108,7 @@ const MessageScreen2 = () => {
     return () => {
       dispatch(setLocalMessages([]));
     };
-  }, [chat?._id]);
+  }, [chat._id, dispatch, initialGetMessage]);
 
   const handleLoadMore = async () => {
     if (isLoading || !hasMore) {

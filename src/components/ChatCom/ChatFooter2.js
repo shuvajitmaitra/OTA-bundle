@@ -182,11 +182,16 @@ const ChatFooter2 = ({
         },
       };
 
-      setMessages(prev => ({
-        ...prev,
-        [chatId]: [messageData.message, ...(prev[chatId] || [])],
-      }));
-      dispatch(setLocalMessages([messageData.message, ...localMessages]));
+      if (!parentId) {
+        setMessages(prev => ({
+          ...prev,
+          [chatId]: [messageData.message, ...(prev[chatId] || [])],
+        }));
+        dispatch(setLocalMessages([messageData.message, ...localMessages]));
+      } else {
+        dispatch(setThreadMessages([messageData, ...threadMessages]));
+        dispatch(updateRepliesCount(parentId));
+      }
       setText('');
 
       try {
