@@ -70,11 +70,11 @@ const setupSocketListeners = socket => {
     }
   });
 
-  socket.on('updatemessage', data => {
-    // console.log('updatemessage', JSON.stringify(data, null, 1));
+  // socket.on('updatemessage', data => {
+  //   // console.log('updatemessage', JSON.stringify(data, null, 1));
 
-    store.dispatch(updateMessage(data.message));
-  });
+  //   store.dispatch(updateMessage(data.message));
+  // });
   socket.on('updatechat', data => {
     // console.log('updatechat', JSON.stringify(data, null, 1));
     store.dispatch(updateChats(data?.chat));
