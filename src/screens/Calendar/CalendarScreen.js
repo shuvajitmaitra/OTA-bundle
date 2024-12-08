@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useCallback, useMemo, useRef} from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StatusBar,
@@ -64,9 +65,8 @@ export function numberToMonth(monthNumber) {
 }
 
 const CalendarScreen = props => {
-  const {calendarEvent, invitations, holidays, weekends} = useSelector(
-    state => state.calendar,
-  );
+  const {calendarEvent, invitations, holidays, weekends, availabilities} =
+    useSelector(state => state.calendar);
 
   // console.log("holidays", JSON.stringify(holidays, null, 1));
   // console.log(
@@ -120,15 +120,11 @@ const CalendarScreen = props => {
 
   const [isAvailabilityVisible, setIsAvailabilityVisible] = useState(false);
   const toggleAvailability = useCallback(() => {
-    // if (!availabilities?.length) {
-    //   return navigation.navigate("HomeStack", {
-    //     screen: "DefaultRoute",
-    //     params: {
-    //       title: "No data found",
-    //       description: "Your no schedule created yet please go to your school's website and create your own schedule",
-    //     },
-    //   });
-    // }
+    if (availabilities?.length !== 0) {
+      return Alert.alert(
+        'Please at first create your availability schedule from website. \n This feature will available soon on app...',
+      );
+    }
     setIsAvailabilityVisible(prevState => !prevState);
   }, []);
   const [
