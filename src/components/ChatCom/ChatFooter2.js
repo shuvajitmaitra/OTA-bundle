@@ -183,15 +183,16 @@ const ChatFooter2 = ({
       };
 
       if (!parentId) {
-        setMessages(prev => ({
-          ...prev,
-          [chatId]: [messageData.message, ...(prev[chatId] || [])],
-        }));
+        // setMessages(prev => ({
+        //   ...prev,
+        //   [chatId]: [messageData.message, ...(prev[chatId] || [])],
+        // }));
         dispatch(setLocalMessages([messageData.message, ...localMessages]));
-      } else {
-        dispatch(setThreadMessages([messageData, ...threadMessages]));
-        dispatch(updateRepliesCount(parentId));
       }
+      // else {
+      //   dispatch(setThreadMessages([messageData, ...threadMessages]));
+      //   dispatch(updateRepliesCount(parentId));
+      // }
       setText('');
 
       try {
@@ -201,7 +202,7 @@ const ChatFooter2 = ({
         );
 
         if (parentId) {
-          dispatch(setThreadMessages([res.data.message, ...threadMessages]));
+          dispatch(setThreadMessages([...threadMessages, res.data.message]));
           dispatch(updateRepliesCount(parentId));
         } else {
           setMessages(prev => ({

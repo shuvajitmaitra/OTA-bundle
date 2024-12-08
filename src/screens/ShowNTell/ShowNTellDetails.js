@@ -38,11 +38,9 @@ const ShowNTellDetails = ({route}) => {
   const data = showNTell[dataIndex];
   const attachments = data?.attachments || [];
   const currentAttachment = attachments[imageNumber] || null;
-  console.log('data', JSON.stringify(data, null, 1));
 
   const renderAttachment = () => {
     const fileType = getFileTypeFromUri(currentAttachment);
-    console.log('fileType', JSON.stringify(fileType, null, 1));
 
     if (fileType === 'unknown') {
       return <Image style={styles.image} source={Images.SNT_DEFAULT} />;

@@ -1,89 +1,51 @@
-// useEffect(() => {
-//     if (messageId) {
-//       setIsLoading(true);
-//       setCurrentPage(1);
-//       setCount(0);
-//       let options = {
-//         page: currentPage,
-//         parentMessage: messageId,
-//         chat: chatId,
-//       };
-//       axios
-//         .post(`/chat/messages`, options)
-//         .then(res => {
-//           setIsLoading(false);
-//           // setChat(res.data.chat)
-//           setCount(res.data.count);
-//           // fetchPinned(res.data.chat?._id)
-
-//           // setReplies(res.data.messages)
-
-//           dispatch(
-//             updateMessage({
-//               message: {
-//                 _id: message?._id,
-//                 chat: chat?._id,
-//                 replies: res.data.messages,
-//               },
-//             }),
-//           );
-//         })
-//         .catch(err => {
-//           setIsLoading(false);
-//           err && err.response && setError(err.response?.data);
-//           console.log(err);
-//         });
-//     }
-//   }, [message]);
-
+import React, {useEffect, useRef, useState} from 'react';
 import {
-  ActivityIndicator,
-  FlatList,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import CustomFonts from '../../constants/CustomFonts';
-import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
-import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import axiosInstance from '../../utility/axiosInstance';
+import {useDispatch, useSelector} from 'react-redux';
+import {setThreadMessages} from '../../store/reducer/chatSlice';
 import Message2 from '../../components/ChatCom/Message2';
 import ChatFooter2 from '../../components/ChatCom/ChatFooter2';
 import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
 import ThreadMessageItem from '../../components/ChatCom/ThreadMessageItem';
-import {useDispatch, useSelector} from 'react-redux';
-import {setThreadMessages} from '../../store/reducer/chatSlice';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
+import Loading from '../../components/SharedComponent/Loading';
+import axiosInstance from '../../utility/axiosInstance';
 
 const ThreadScreen = ({route}) => {
   const {chatMessage} = route.params;
-  console.log('chatMessage', JSON.stringify(chatMessage, null, 1));
   const dispatch = useDispatch();
   const {threadMessages} = useSelector(state => state.chatSlice);
   const {messageOptionData} = useSelector(state => state.modal);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {top} = useSafeAreaInsets();
+  const scrollViewRef = useRef(null);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [messageEditVisible, setMessageEditVisible] = useState(false);
+
   useEffect(() => {
     getReplies({
       parentMessage: chatMessage._id,
       chat: chatMessage.chat,
       page,
     });
+
     return () => {
       dispatch(setThreadMessages([]));
     };
   }, []);
+
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({animated: true});
+  }, [threadMessages]);
 
   const getReplies = ({parentMessage, chat, page}) => {
     setIsLoading(true);
@@ -95,10 +57,7 @@ const ThreadScreen = ({route}) => {
     axiosInstance
       .post('/chat/messages', options)
       .then(res => {
-        dispatch(setThreadMessages(res.data.messages.reverse()));
-        // setLocalMessages(pre => [...pre, ...res.data.messages.reverse()]);
-        // if(threadMessages.length  )
-        // setPage(pre => pre + 1);
+        dispatch(setThreadMessages(res.data.messages));
       })
       .catch(error => {
         console.log('error getting replies', JSON.stringify(error, null, 1));
@@ -108,18 +67,6 @@ const ThreadScreen = ({route}) => {
       });
   };
 
-  const ListFooterComponent = () => {
-    if (!isLoading) return null;
-    return (
-      <View style={[styles.footer]}>
-        <ActivityIndicator size="small" color={Colors.Primary} />
-      </View>
-    );
-  };
-
-  const renderItem = ({item, index}) => {
-    return <></>;
-  };
   return (
     <View
       style={{
@@ -129,10 +76,7 @@ const ThreadScreen = ({route}) => {
         paddingBottom: 20,
       }}>
       <KeyboardAvoidingView
-        style={{
-          flex: 1,
-          backgroundColor: Colors.White,
-        }}
+        style={{flex: 1, backgroundColor: Colors.White}}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}>
         {messageOptionData?._id && (
@@ -144,36 +88,34 @@ const ThreadScreen = ({route}) => {
           />
         )}
         <ScreenHeader />
-        <ScrollView style={styles.flatListContainer}>
-          <ThreadMessageItem
-            message={chatMessage}
-            replyCount={
-              threadMessages.length
-                ? threadMessages.length
-                : chatMessage.replyCount
-            }
-          />
-          {threadMessages.map((item, index) => (
-            <Message2 item={item} index={index} nextSender={true} />
-          ))}
-          {/* <FlatList
-            data={threadMessages}
-            renderItem={renderItem}
-            keyExtractor={item => item._id.toString()}
-            // onEndReached={() =>
-            //   getReplies({
-            //     parentMessage: chatMessage._id,
-            //     chat: chatMessage.chat,
-            //     page,
-            //   })
-            // }
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={isLoading && ListFooterComponent}
-            inverted={threadMessages.length === 0 ? false : true}
-            ListEmptyComponent={
-              threadMessages.length === 0 && !isLoading && <NoDataAvailable />
-            }
-          /> */}
+        <ThreadMessageItem
+          message={chatMessage}
+          replyCount={
+            threadMessages.length
+              ? threadMessages.length
+              : chatMessage.replyCount
+          }
+        />
+        <ScrollView
+          ref={scrollViewRef}
+          style={styles.flatListContainer}
+          onContentSizeChange={() =>
+            scrollViewRef.current?.scrollToEnd({animated: true})
+          }>
+          {isLoading ? (
+            <View style={{height: 500}}>
+              <Loading backgroundColor={'transparent'} />
+            </View>
+          ) : (
+            threadMessages.map((item, index) => (
+              <Message2
+                key={index}
+                item={item}
+                index={index}
+                nextSender={true}
+              />
+            ))
+          )}
         </ScrollView>
         <ChatFooter2
           parentId={chatMessage._id}
@@ -194,10 +136,5 @@ const getStyles = Colors =>
     flatListContainer: {
       backgroundColor: Colors.White,
       flex: 1,
-    },
-    footer: {
-      height: 300,
-      alignItems: 'center',
-      justifyContent: 'center',
     },
   });
