@@ -39,14 +39,11 @@ const ReactionContainer = ({
           <TouchableOpacity
             onPress={() => {
               giveReaction(postId, {symbol: emoji}, {popup: true});
+              setShowPopover(false);
             }}
             style={[
               styles.emojiContainer,
-              emoji === myReaction && {
-                backgroundColor: Colors.CyanOpacity,
-                paddingHorizontal: 10,
-                borderRadius: 100,
-              },
+              emoji === myReaction && styles.myReactionStyle,
             ]}
             key={index}>
             <Text style={styles.emoji}>{emoji}</Text>
@@ -61,8 +58,10 @@ export default ReactionContainer;
 
 const getStyles = Colors =>
   StyleSheet.create({
-    background: {
-      // backgroundColor: 'yellow',
+    myReactionStyle: {
+      backgroundColor: Colors.CyanOpacity,
+      paddingHorizontal: 10,
+      borderRadius: 100,
     },
     container: {
       backgroundColor: Colors.White,

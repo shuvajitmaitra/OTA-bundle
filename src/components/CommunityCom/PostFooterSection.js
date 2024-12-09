@@ -10,7 +10,6 @@ import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 import CommentsIcon from '../../assets/Icons/CommentsIcon';
 import Divider from '../SharedComponent/Divider';
-import Popover from 'react-native-popover-view'; // Change to react-native-popover-view
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {getComments} from '../../actions/chat-noti';
 import {useDispatch, useSelector} from 'react-redux';
