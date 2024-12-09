@@ -1,28 +1,26 @@
-import React from "react";
+import React from 'react';
 
-import { createStackNavigator } from "@react-navigation/stack";
-import CalendarScreen from "../screens/Calendar/CalendarScreen";
-import Header from "../components/SharedComponent/Header";
+import {createStackNavigator} from '@react-navigation/stack';
+import CalendarScreen from '../screens/Calendar/CalendarScreen';
 
 const MyCalenderStack = createStackNavigator();
 
-const MyCalenderStackScreen = ({ navigation }) => (
+const MyCalenderStackScreen = ({navigation}) => (
   <MyCalenderStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: "white",
+        backgroundColor: 'white',
       },
-      headerTintColor: "#fff",
+      headerTintColor: '#fff',
       headerTitleStyle: {
-        fontWeight: "bold",
+        fontWeight: 'bold',
       },
-    }}
-  >
+    }}>
     <MyCalenderStack.Screen
       name="CalendarScreen"
       component={CalendarScreen}
-      options={({ route, navigation }) => ({
-        headerTitle: "",
+      options={({route, navigation}) => ({
+        headerTitle: '',
         headerShown: false,
         // header: () => <Header navigation={navigation} />,
       })}

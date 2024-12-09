@@ -76,6 +76,13 @@ export default function NewChatScreen({navigation: {goBack}}) {
     setRecords(filteredChats);
     setResults(filteredChats);
   }, [chats]);
+  useEffect(() => {
+    setOnlineUsers(onlineUsers);
+
+    return () => {
+      setOnlineUsers([]);
+    };
+  }, [onlineUsers]);
 
   const handleRadioChecked = useCallback(
     item => {

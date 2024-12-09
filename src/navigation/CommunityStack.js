@@ -1,27 +1,26 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import CommunityScreen from "../screens/Community/CommunityScreen";
-import Header from "../components/SharedComponent/Header";
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import CommunityScreen from '../screens/Community/CommunityScreen';
+import Header from '../components/SharedComponent/Header';
 
 const CommunityStack = createStackNavigator();
 
-const CommunityStackScreen = ({ navigation }) => (
+const CommunityStackScreen = ({navigation}) => (
   <CommunityStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: "white",
+        backgroundColor: 'white',
       },
-      headerTintColor: "#fff",
+      headerTintColor: '#fff',
       headerTitleStyle: {
-        fontWeight: "bold",
+        fontWeight: 'bold',
       },
-    }}
-  >
+    }}>
     <CommunityStack.Screen
       name="CommunityScreen"
       component={CommunityScreen}
-      options={({ route, navigation }) => ({
-        headerTitle: "",
+      options={({route, navigation}) => ({
+        headerTitle: '',
         header: () => <Header navigation={navigation} />,
       })}
     />

@@ -40,6 +40,7 @@ export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
           onPress={() => {
             dispatch(setLocalMessages([]));
             navigation.goBack();
+            // navigation.navigate('NewChatScreen');
           }}
           style={styles.backButtonContainer}>
           <ArrowLeft />
@@ -90,7 +91,7 @@ export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
         </Pressable>
       </View>
       <View style={styles.rightSection}>
-        {pinnedCount[chat._id] > 0 && (
+        {pinnedCount[chat?._id] > 0 && (
           <TouchableOpacity
             onPress={() => {
               fetchPinned(chat._id);
@@ -107,7 +108,7 @@ export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
                 chat: chat?._id,
               })
             }>
-            <StarIcon color={chat.myData.isFavourite ? 'gold' : 'gray'} />
+            <StarIcon color={chat?.myData?.isFavourite ? 'gold' : 'gray'} />
           </TouchableOpacity>
         )}
       </View>

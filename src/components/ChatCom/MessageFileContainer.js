@@ -35,6 +35,10 @@ const MessageFileContainer = ({files, setViewImage}) => {
           source={{uri: item.url}}
           style={[
             styles.image,
+            // {
+            //   maxHeight: responsiveScreenHeight(30),
+            //   maxWidth: responsiveScreenWidth(40),
+            // },
             aspectRatio ? {aspectRatio} : {height: responsiveScreenHeight(20)},
           ]}
           onLoad={({nativeEvent}) =>

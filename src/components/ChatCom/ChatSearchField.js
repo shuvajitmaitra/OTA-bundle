@@ -165,6 +165,7 @@ const getStyles = Colors =>
       borderRadius: 1000,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
+      overflow: 'hidden',
     },
     topContainer: {
       alignItems: 'center',
@@ -182,6 +183,7 @@ const getStyles = Colors =>
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(2),
       flex: 1,
+      overflow: 'hidden',
     },
     textInput: {
       fontSize: responsiveScreenFontSize(1.6),

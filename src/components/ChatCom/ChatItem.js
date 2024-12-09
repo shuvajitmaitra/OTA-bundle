@@ -276,6 +276,7 @@ const getStyles = Colors =>
       right: -2,
       borderWidth: 1,
       borderColor: Colors.White,
+      overflow: 'hidden',
     },
     profileName: {
       fontSize: responsiveScreenFontSize(2),

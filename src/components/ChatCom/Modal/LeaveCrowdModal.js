@@ -11,11 +11,11 @@ import CrossIcon from '../../../assets/Icons/CrossIcon';
 import ModalCustomButton from './ModalCustomButton';
 import CustomFonts from '../../../constants/CustomFonts';
 import axiosInstance from '../../../utility/axiosInstance';
-import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../../context/ThemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {removeChat} from '../../../store/reducer/chatReducer';
 import {showToast} from '../../HelperFunction';
+import {useNavigation} from '@react-navigation/native';
 
 const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
   const {singleChat: chat} = useSelector(state => state.chat);
@@ -27,18 +27,18 @@ const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
 
   const handleLeaveCrowed = async () => {
     toggleLeaveCrowdModal();
-    try {
-      const res = await axiosInstance.patch(`/chat/channel/leave/${chat?._id}`);
-
-      if (res.data?.success) {
-        dispatch(removeChat(chat?._id));
-        navigation.navigate('NewChatScreen');
-        showToast('Leave successfully...');
-      }
-    } catch (error) {
-      console.error('Error leaving crowd:', error);
-      // Handle any errors that occurred during the request here
-    }
+    navigation.navigate('RootStack', {screen: 'NewChatScreen'});
+    // try {
+    //   const res = await axiosInstance.patch(`/chat/channel/leave/${chat?._id}`);
+    //   console.log('res.data', JSON.stringify(res.data, null, 1));
+    //   if (res.data?.success) {
+    //     dispatch(removeChat(chat?._id));
+    //     showToast('Leave successfully...');
+    //   }
+    // } catch (error) {
+    //   console.error('Error leaving crowd:', error);
+    //   // Handle any errors that occurred during the request here
+    // }
   };
 
   return (

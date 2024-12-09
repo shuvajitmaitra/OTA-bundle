@@ -177,6 +177,7 @@ const getStyles = Colors =>
       width: responsiveScreenWidth(52),
       fontFamily: CustomFonts.REGULAR,
       color: Colors.Heading,
+      overflow: 'hidden',
     },
     inputFieldIcon: {
       fontSize: responsiveScreenFontSize(2.5),

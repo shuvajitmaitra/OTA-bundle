@@ -23,5 +23,6 @@ const getStyles = (Colors, dividerMarginTop, dividerMarginBottom) =>
       borderTopColor: Colors.LineColor,
       marginTop: responsiveScreenHeight(dividerMarginTop),
       marginBottom: responsiveScreenHeight(dividerMarginBottom),
+      overflow: 'hidden',
     },
   });

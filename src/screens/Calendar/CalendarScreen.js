@@ -120,7 +120,7 @@ const CalendarScreen = props => {
 
   const [isAvailabilityVisible, setIsAvailabilityVisible] = useState(false);
   const toggleAvailability = useCallback(() => {
-    if (availabilities?.length !== 0) {
+    if (!availabilities) {
       return Alert.alert(
         'Please at first create your availability schedule from website. \n This feature will available soon on app...',
       );

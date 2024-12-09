@@ -156,10 +156,13 @@ const chatSlice = createSlice({
       state.onlineUsers = addToArray(state.onlineUsers, action.payload);
     },
     removeOnlineUser: (state, action) => {
-      state.onlineUsers = removeFromArray(
-        state.onlineUsers,
-        action.payload,
-        '_id',
+      // state.onlineUsers = removeFromArray(
+      //   state.onlineUsers,
+      //   action.payload,
+      //   '_id',
+      // );
+      state.onlineUsers = state.onlineUsers.filter(
+        user => user._id !== action.payload._id,
       );
     },
     updateChatMessages: (state, action) => {

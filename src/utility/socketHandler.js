@@ -17,9 +17,6 @@ import {
 } from '../store/reducer/chatReducer';
 import {appendLocalMessage, updateMessage} from '../store/reducer/chatSlice';
 import {addNewMessage} from './mmkvHelpers';
-// import * as Notifications from "expo-notifications";
-
-// import store from "../store";
 
 const updateStatus = (messageId, status) => {
   axios
@@ -140,10 +137,12 @@ const setupSocketListeners = socket => {
 
   socket.on('addOnlineUser', data => {
     // console.log(data);
+    console.log('addOnlineUser', JSON.stringify(data.user, null, 1));
 
     store.dispatch(addOnlineUser(data.user));
   });
   socket.on('removeOnlineUser', data => {
+    console.log('removeOnlineUser', JSON.stringify(data.user, null, 1));
     store.dispatch(removeOnlineUser(data.user));
   });
 
