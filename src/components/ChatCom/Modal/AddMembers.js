@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Alert,
   Image,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -18,24 +16,16 @@ import {
 } from 'react-native-responsive-dimensions';
 import ReactNativeModal from 'react-native-modal';
 import SearchIcon from '../../../assets/Icons/SearchIcon';
-import CheckIcon from '../../../assets/Icons/CheckIcon';
-import UnCheckIcon from '../../../assets/Icons/UnCheckIcon';
 import CircleIcon from '../../../assets/Icons/CircleIcon';
 import ModalBackAndCrossButton from './ModalBackAndCrossButton';
 import CustomFonts from '../../../constants/CustomFonts';
-import BlackCrossIcon from '../../../assets/Icons/BlackCrossIcon';
 import axiosInstance from '../../../utility/axiosInstance';
-import useChat from '../../../hook/useChat';
 import {useTheme} from '../../../context/ThemeContext';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  updateChats,
-  updateMemberList,
-  updateMembersCount,
-  updateSingleChatMemberCount,
-} from '../../../store/reducer/chatReducer';
+import {updateSingleChatMemberCount} from '../../../store/reducer/chatReducer';
 import Loading from '../../SharedComponent/Loading';
 import Images from '../../../constants/Images';
+import {updateCrowdMembers} from '../../../store/reducer/chatSlice';
 const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
   // --------------------------
   // ----------- Import theme Colors -----------
@@ -43,13 +33,10 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {singleChat: chat} = useSelector(state => state.chat);
-  // const {fetchMembers:()=>{}} = useChat();
   const [users, setUsers] = useState([]);
-  // const [checked, setChecked] = useState([]);
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState('');
   const dispatch = useDispatch();
-  const {memberList} = useSelector(state => state.chat);
 
   useEffect(() => {
     axiosInstance
@@ -61,37 +48,36 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
         console.log(err);
       });
   }, [inputText]);
-  // console.log("memberList", JSON.stringify(memberList, null, 1));
 
-  // --------------------------
-  // ----------- Add User function -----------
-  // --------------------------
-  const handleAddUser = id => {
+  const handleAddUser = user => {
     setLoading(true);
     axiosInstance
       .patch(`/chat/channel/adduser/${chat?._id}`, {
-        user: id,
+        user: user._id,
       })
       .then(res => {
         if (res.data.success) {
           dispatch(updateSingleChatMemberCount('add'));
-          // fetchMembers();
-          setUsers(prev => prev?.filter(item => item._id !== id));
+          dispatch(
+            updateCrowdMembers({
+              _id: Math.random().toString(),
+              mute: {
+                isMuted: false,
+              },
+              isBlocked: false,
+              isFavourite: false,
+              role: 'member',
+              chat: chat?._id,
+              user: user,
+              __v: 0,
+            }),
+          );
+          setUsers(prev => prev?.filter(item => item._id !== user._id));
           setLoading(false);
-
-          // showAlert({
-          //   title: "User added successfully",
-          //   type: "success",
-
-          // })
         }
       })
       .catch(err => {
         setLoading(false);
-        // showAlert({
-        //   title: 'User already exist',
-        //   type: 'warning',
-        // });
         console.log('err', err);
       });
     // setLoading(false)
@@ -171,7 +157,7 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
                   </TouchableOpacity> */}
                     <TouchableOpacity
                       activeOpacity={0.3}
-                      onPress={() => handleAddUser(user?._id)}>
+                      onPress={() => handleAddUser(user)}>
                       <Text style={styles.addButtonText}>Add</Text>
                     </TouchableOpacity>
                   </View>

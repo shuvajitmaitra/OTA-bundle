@@ -21,7 +21,7 @@ export default function GroupMemberInfo({item, index}) {
   const styles = getStyles(Colors);
 
   const name =
-    item.user.fullName.split(' ')?.length > 3
+    item.user.fullName && item.user.fullName.split(' ')?.length > 3
       ? `${item.user.fullName.split(' ')[0]}  ${
           item.user.fullName.split(' ')[1]
         }`

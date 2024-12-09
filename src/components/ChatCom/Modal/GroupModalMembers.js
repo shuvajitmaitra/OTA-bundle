@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
   responsiveScreenFontSize,
@@ -15,7 +8,6 @@ import {
 
 import GroupMemberInfo from './GroupMemberInfo';
 import CustomFonts from '../../../constants/CustomFonts';
-import SearchAndFilter from './SearchAndFilter';
 import ArrowRight from '../../../assets/Icons/ArrowRight';
 import NoDataAvailable from '../../SharedComponent/NoDataAvailable';
 import Loading from '../../SharedComponent/Loading';
