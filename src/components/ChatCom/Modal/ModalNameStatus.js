@@ -15,11 +15,7 @@ import {useSelector} from 'react-redux';
 export default function ModalNameStatus() {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const {
-    singleChat: chat,
-    onlineUsers,
-    pinned,
-  } = useSelector(state => state.chat);
+  const {singleChat: chat} = useSelector(state => state.chat);
   const [isUpdateCrowdModalVisible, setUpdateCrowdModalVisible] =
     useState(false);
 
@@ -31,7 +27,9 @@ export default function ModalNameStatus() {
     <View style={styles.modalProfileNameContainer}>
       <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.profileName}>
-          {chat.isChannel ? chat?.name : chat?.otherUser.fullName}
+          {chat.isChannel
+            ? chat?.name || 'Unavailable'
+            : chat?.otherUser?.fullName || 'Unavailable'}
         </Text>
         {chat.isChannel &&
         (chat?.myData?.role === 'owner' || chat?.myData?.role === 'admin') ? (

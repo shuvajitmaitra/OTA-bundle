@@ -15,6 +15,9 @@ import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../context/ThemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {markRead, setSingleChat} from '../../store/reducer/chatReducer';
+import CrowdIcon from '../../assets/Icons/CrowedIcon';
+import AiBotIcon from '../../assets/Icons/AiBotIcon';
+import UserIcon from '../../assets/Icons/UserIcon';
 
 function formatTime(dateString) {
   const today = moment().startOf('day');
@@ -111,22 +114,35 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
       }}>
       {/* <View style={styles.subContainer}> */}
       <View style={styles.profileImageContainer}>
-        <Image
-          resizeMode="contain"
-          style={styles.profileImage}
-          source={
-            chat?.isChannel
-              ? chat?.avatar
-                ? {uri: chat?.avatar}
-                : groupIcon
-              : chat?.otherUser?.type === 'bot'
-              ? botIcon
-              : chat?.otherUser?.profilePicture
-              ? {uri: chat.otherUser.profilePicture}
-              : require('../../assets/Images/user.png')
-          }
-        />
-
+        {chat?.isChannel && chat?.avatar ? (
+          <Image
+            style={styles.profileImage}
+            size={35}
+            source={{uri: chat.avatar}}
+          />
+        ) : chat?.isChannel && !chat?.avatar ? (
+          <View style={styles.profileImage}>
+            <CrowdIcon color={Colors.BodyTextOpacity} size={30} />
+          </View>
+        ) : chat?.otherUser?.type === 'bot' ? (
+          <View style={styles.profileImage}>
+            <AiBotIcon color={Colors.BodyTextOpacity} />
+          </View>
+        ) : !chat.isChannel && chat?.otherUser?.profilePicture ? (
+          <Image
+            style={styles.profileImage}
+            size={35}
+            source={
+              chat?.otherUser?.profilePicture
+                ? {uri: chat.otherUser.profilePicture}
+                : require('../../assets/Images/user.png')
+            }
+          />
+        ) : (
+          <View style={styles.profileImage}>
+            <UserIcon color={Colors.BodyTextOpacity} size={30} />
+          </View>
+        )}
         <View
           style={[
             styles.activeDot,
@@ -266,6 +282,8 @@ const getStyles = Colors =>
       resizeMode: 'cover',
       position: 'relative',
       backgroundColor: Colors.LightGreen,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     activeDot: {
       width: responsiveScreenWidth(2.8),

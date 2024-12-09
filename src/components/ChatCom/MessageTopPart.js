@@ -26,6 +26,12 @@ import {useTheme} from '../../context/ThemeContext';
 import moment from 'moment';
 import {useMMKVObject} from 'react-native-mmkv';
 
+import botIcon from '../../assets/Images/bot.png';
+import CrowdIcon from '../../assets/Icons/CrowedIcon';
+import AiBotIcon from '../../assets/Icons/AiBotIcon';
+import MembersIcon from '../../assets/Icons/MembersIcon';
+import UserIcon from '../../assets/Icons/UserIcon';
+
 export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -49,19 +55,35 @@ export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
           onPress={() => navigation.navigate('ChatProfile')}
           style={styles.profileDetailsContainer}>
           <View style={styles.avaterContainer}>
-            <Image
-              style={styles.profileImage}
-              size={35}
-              source={
-                chat?.isChannel
-                  ? chat?.avatar
-                    ? {uri: chat?.avatar}
-                    : Images.DEFAULT_IMAGE
-                  : chat?.otherUser?.profilePicture
-                  ? {uri: chat.otherUser.profilePicture}
-                  : Images.DEFAULT_IMAGE
-              }
-            />
+            {chat?.isChannel && chat?.avatar ? (
+              <Image
+                style={styles.profileImage}
+                size={35}
+                source={{uri: chat.avatar}}
+              />
+            ) : chat?.isChannel && !chat?.avatar ? (
+              <View style={styles.profileImage}>
+                <CrowdIcon color={Colors.BodyTextOpacity} size={30} />
+              </View>
+            ) : chat?.otherUser?.type === 'bot' ? (
+              <View style={styles.profileImage}>
+                <AiBotIcon color={Colors.BodyTextOpacity} />
+              </View>
+            ) : !chat.isChannel && chat?.otherUser?.profilePicture ? (
+              <Image
+                style={styles.profileImage}
+                size={35}
+                source={
+                  chat?.otherUser?.profilePicture
+                    ? {uri: chat.otherUser.profilePicture}
+                    : require('../../assets/Images/user.png')
+                }
+              />
+            ) : (
+              <View style={styles.profileImage}>
+                <UserIcon color={Colors.BodyTextOpacity} size={30} />
+              </View>
+            )}
           </View>
           <View style={styles.profileNameContainer}>
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
@@ -122,6 +144,9 @@ const getStyles = Colors =>
       width: 50,
       height: 50,
       borderRadius: 100,
+      backgroundColor: Colors.PrimaryOpacityColor,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     container: {
       flexDirection: 'row',

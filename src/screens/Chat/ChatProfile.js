@@ -43,6 +43,9 @@ import MemberManageSheet from '../../components/ChatCom/Sheet/MemberManageSheet'
 import {fetchMembers} from '../../actions/apiCall';
 import {launchImageLibrary} from 'react-native-image-picker';
 import GroupModalTabView from '../../components/ChatCom/Modal/GroupModalTabView';
+import CrowdIcon from '../../assets/Icons/CrowedIcon';
+import AiBotIcon from '../../assets/Icons/AiBotIcon';
+import UserIcon from '../../assets/Icons/UserIcon';
 
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
@@ -212,6 +215,7 @@ const ChatProfile = () => {
         {/* Profile Image Section */}
         <View style={styles.profileImageContainer}>
           <TouchableOpacity
+            style={{alignItems: 'center', justifyContent: 'center'}}
             onPress={() =>
               setImageView([
                 {
@@ -222,19 +226,35 @@ const ChatProfile = () => {
                 },
               ])
             }>
-            <Image
-              style={styles.profileImage}
-              // source={chat?.avatar ? {uri: chat?.avatar} : Images.DEFAULT_IMAGE}
-              source={
-                chat?.isChannel
-                  ? chat?.avatar
-                    ? {uri: chat?.avatar}
-                    : Images.DEFAULT_IMAGE
-                  : chat?.otherUser?.profilePicture
-                  ? {uri: chat.otherUser.profilePicture}
-                  : Images.DEFAULT_IMAGE
-              }
-            />
+            {chat?.isChannel && chat?.avatar ? (
+              <Image
+                style={styles.profileImage}
+                size={35}
+                source={{uri: chat.avatar}}
+              />
+            ) : chat?.isChannel && !chat?.avatar ? (
+              <View style={styles.iconContainer}>
+                <CrowdIcon color={Colors.BodyTextOpacity} size={200} />
+              </View>
+            ) : chat?.otherUser?.type === 'bot' ? (
+              <View style={styles.iconContainer}>
+                <AiBotIcon color={Colors.BodyTextOpacity} size={200} />
+              </View>
+            ) : !chat.isChannel && chat?.otherUser?.profilePicture ? (
+              <Image
+                style={styles.profileImage}
+                size={35}
+                source={
+                  chat?.otherUser?.profilePicture
+                    ? {uri: chat.otherUser.profilePicture}
+                    : require('../../assets/Images/user.png')
+                }
+              />
+            ) : (
+              <View style={styles.iconContainer}>
+                <UserIcon color={Colors.BodyTextOpacity} size={200} />
+              </View>
+            )}
           </TouchableOpacity>
           {chat.isChannel &&
             (chat?.myData?.role === 'owner' ||
@@ -436,6 +456,15 @@ const getStyles = Colors =>
       alignItems: 'center',
       marginTop: responsiveScreenHeight(2),
       marginBottom: responsiveScreenHeight(2),
+      backgroundColor: Colors.PrimaryOpacityColor,
+      borderRadius: 10,
+    },
+    iconContainer: {
+      // backgroundColor: 'red',
+      height: 250,
+      width: 100,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     profileImage: {
       height: responsiveScreenHeight(30),
