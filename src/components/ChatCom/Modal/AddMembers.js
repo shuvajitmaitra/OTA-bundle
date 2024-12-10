@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   Image,
   ScrollView,
@@ -26,10 +26,11 @@ import {updateSingleChatMemberCount} from '../../../store/reducer/chatReducer';
 import Loading from '../../SharedComponent/Loading';
 import Images from '../../../constants/Images';
 import {updateCrowdMembers} from '../../../store/reducer/chatSlice';
+import GlobalAlertModal from '../../SharedComponent/GlobalAlertModal';
+import {showAlertModal} from '../../../utility/commonFunction';
+import debounce from 'lodash.debounce'; // Import lodash.debounce
+
 const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
-  // --------------------------
-  // ----------- Import theme Colors -----------
-  // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {singleChat: chat} = useSelector(state => state.chat);
@@ -38,16 +39,35 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
   const [inputText, setInputText] = useState('');
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  // API Call for searching users
+  const searchUsers = useCallback((text) => {
     axiosInstance
-      .get(`/chat/searchuser?query=${inputText}`)
+      .get(`/chat/searchuser?query=${text}`)
       .then(res => {
-        setUsers(res?.data?.users);
+        setUsers(res?.data?.users || []);
       })
-      .then(err => {
-        console.log(err);
+      .catch(err => {
+        console.error(err);
       });
-  }, [inputText]);
+  }, []);
+useEffect(() => {
+  searchUsers('')
+
+}, [])
+
+  // Debounced version of the searchUsers function
+  const debouncedSearchUsers = useCallback(
+    debounce((text) => {
+      searchUsers(text);
+    }, 500), // Adjust debounce time (in ms) as needed
+    [searchUsers]
+  );
+
+  // Handle input change and trigger debounced search
+  const handleInputChange = (text) => {
+    setInputText(text);
+    debouncedSearchUsers(text);
+  };
 
   const handleAddUser = user => {
     setLoading(true);
@@ -57,6 +77,11 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
       })
       .then(res => {
         if (res.data.success) {
+          showAlertModal({
+            title: 'Success!',
+            type: 'success',
+            message: 'User successfully added...',
+          });
           dispatch(updateSingleChatMemberCount('add'));
           dispatch(
             updateCrowdMembers({
@@ -73,46 +98,45 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
             }),
           );
           setUsers(prev => prev?.filter(item => item._id !== user._id));
-          setLoading(false);
         }
+        setLoading(false);
       })
       .catch(err => {
         setLoading(false);
-        console.log('err', err);
+        console.log('err', err.response?.data);
+        showAlertModal({
+          title: 'Error!',
+          type: 'warning',
+          message: err.response?.data?.error || 'Something went wrong.',
+        });
       });
-    // setLoading(false)
   };
+
   return (
     <ReactNativeModal
       backdropColor={Colors.BackDropColor}
       isVisible={isAddMembersModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalStyle}>
-          {/* -------------------------- */}
-          {/* ----------- Back and Cross Button ----------- */}
-          {/* -------------------------- */}
           <ModalBackAndCrossButton toggleModal={toggleAddMembersModal} />
           <Text style={styles.checkedHeading}>Add Members</Text>
-
           <Text style={styles.addMemberDescription}>
             If you wish to add a member, kindly search and click add button.
           </Text>
           <View style={styles.topContainer}>
-            <>
-              <View style={styles.inputField}>
-                <TextInput
-                  keyboardAppearance={
-                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                  }
-                  style={styles.textInput}
-                  placeholder="Search"
-                  placeholderTextColor={Colors.BodyText}
-                  onChangeText={text => setInputText(text)}
-                  value={inputText}
-                />
-                <SearchIcon />
-              </View>
-            </>
+            <View style={styles.inputField}>
+              <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
+                style={styles.textInput}
+                placeholder="Search"
+                placeholderTextColor={Colors.BodyText}
+                onChangeText={handleInputChange} // Handle input changes here
+                value={inputText}
+              />
+              <SearchIcon />
+            </View>
           </View>
           <View>
             <Text style={styles.allContact}>All Contact</Text>
@@ -122,7 +146,6 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
           ) : (
             <ScrollView showsVerticalScrollIndicator={false}>
               <View>
-                {/* Show User List*/}
                 {users?.map((user, index) => (
                   <View style={styles.imageContainer} key={index}>
                     <View style={styles.profileContainer}>
@@ -143,18 +166,12 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
                       </View>
                       <Text style={styles.userName}>
                         {user?.fullName.split(' ')?.length > 3
-                          ? `${user?.fullName.split(' ')[0]}  ${
+                          ? `${user?.fullName.split(' ')[0]} ${
                               user?.fullName.split(' ')[1]
                             }`
                           : `${user?.fullName}`}
                       </Text>
                     </View>
-                    {/* Show Check box icon by help of svg */}
-                    {/* <TouchableOpacity
-                    onPress={() => handleCheckboxToggle(user?._id)}
-                  >
-                    {user.checked ? <CheckIcon /> : <UnCheckIcon />}
-                  </TouchableOpacity> */}
                     <TouchableOpacity
                       activeOpacity={0.3}
                       onPress={() => handleAddUser(user)}>
@@ -167,9 +184,12 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
           )}
         </View>
       </View>
+      <GlobalAlertModal />
     </ReactNativeModal>
   );
 };
+
+export default AddMembers;
 
 export default AddMembers;
 

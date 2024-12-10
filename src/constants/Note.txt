@@ -34,7 +34,9 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Initial message displayed when there is no messages in chat message screen.
 - Changed the audio message recording button position.
 - added debounced function (Optimized function search API call) call for searching new user to create new chat.
-
+- Shown toast message while add user in crowd.
+- Optimized function call to search user to add members in crowd.
+- 
 BootcampsHub Mobile Testing update:
 •⁠  ⁠Listed 14 Functional & Technical issues.
 •⁠  ⁠Listed 8 UI issues.
