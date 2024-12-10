@@ -54,97 +54,99 @@ const CreateCrowdModal = ({
         {/* -------------------------- */}
         {/* ----------- Main View Start form here ----------- */}
         {/* -------------------------- */}
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.subContainer}>
-            {/* -------------------------- */}
-            {/* ----------- Header container ----------- */}
-            {/* -------------------------- */}
-            <View style={styles.headerContainer}>
-              <CrowdIcon />
-              <Text style={styles.headerText}>Create Crowd</Text>
-            </View>
-            {/* -------------------------- */}
-            {/* ----------- Crowd Name Container ----------- */}
-            {/* -------------------------- */}
-            <View style={styles.fieldContainer}>
-              <Text style={styles.Text}>Crowd Name*</Text>
-              <TextInput
-                keyboardAppearance={
-                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                }
-                placeholderTextColor={Colors.BodyText}
-                style={styles.inputField}
-                placeholder={chat?.name ? chat?.name : 'Write crowd name'}
-                onChangeText={setChatName}
-              />
-            </View>
-            <View style={styles.fieldContainer}>
-              <Text style={styles.Text}>Crowd Description</Text>
-              <View style={[styles.inputContainer, {height: 'auto'}]}>
+        {!isAddMembersModalVisible && (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.subContainer}>
+              {/* -------------------------- */}
+              {/* ----------- Header container ----------- */}
+              {/* -------------------------- */}
+              <View style={styles.headerContainer}>
+                <CrowdIcon />
+                <Text style={styles.headerText}>Create Crowd</Text>
+              </View>
+              {/* -------------------------- */}
+              {/* ----------- Crowd Name Container ----------- */}
+              {/* -------------------------- */}
+              <View style={styles.fieldContainer}>
+                <Text style={styles.Text}>Crowd Name*</Text>
                 <TextInput
                   keyboardAppearance={
                     Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
                   }
-                  style={[styles.textAreaInput]}
-                  multiline={true}
-                  onChangeText={setChatDescription}
                   placeholderTextColor={Colors.BodyText}
-                  placeholder={
-                    chat?.description
-                      ? chat?.description
-                      : 'Write crowd description'
-                  }
+                  style={styles.inputField}
+                  placeholder={chat?.name ? chat?.name : 'Write crowd name'}
+                  onChangeText={setChatName}
+                />
+              </View>
+              <View style={styles.fieldContainer}>
+                <Text style={styles.Text}>Crowd Description</Text>
+                <View style={[styles.inputContainer, {height: 'auto'}]}>
+                  <TextInput
+                    keyboardAppearance={
+                      Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                    }
+                    style={[styles.textAreaInput]}
+                    multiline={true}
+                    onChangeText={setChatDescription}
+                    placeholderTextColor={Colors.BodyText}
+                    placeholder={
+                      chat?.description
+                        ? chat?.description
+                        : 'Write crowd description'
+                    }
+                  />
+                </View>
+              </View>
+              {/* -------------------------- */}
+              {/* ----------- Custom dropdown menu ----------- */}
+              {/* -------------------------- */}
+              <View style={styles.fieldContainer}>
+                <Text style={styles.Text}>Crowd Type</Text>
+                <CustomDropDown
+                  options={options}
+                  type={'Private'}
+                  setState={setIsPublic}
+                />
+              </View>
+              <View style={styles.fieldContainer}>
+                <Text style={styles.Text}>Read Only</Text>
+                <CustomDropDown
+                  options={modeOption}
+                  type={'No'}
+                  setState={setIsReadOnly}
+                />
+              </View>
+
+              {/* -------------------------- */}
+              {/* ----------- Border and button  ----------- */}
+              {/* -------------------------- */}
+              <View
+                style={{
+                  borderBottomWidth: 1,
+                  marginBottom: responsiveScreenHeight(2),
+                  borderBottomColor: Colors.BorderColor,
+                }}></View>
+              <View style={styles.buttonContainer}>
+                <ModalCustomButton
+                  toggleModal={toggleCreateCrowdModal}
+                  textColor={Colors.Primary}
+                  backgroundColor={Colors.PrimaryOpacityColor}
+                  buttonText="Cancel"
+                />
+                <ModalCustomButton
+                  toggleModal={() => {
+                    toggleAddMembersModal();
+                    // toggleCreateCrowdModal();
+                  }}
+                  textColor={Colors.PureWhite}
+                  backgroundColor={Colors.Primary}
+                  buttonText="Next"
                 />
               </View>
             </View>
-            {/* -------------------------- */}
-            {/* ----------- Custom dropdown menu ----------- */}
-            {/* -------------------------- */}
-            <View style={styles.fieldContainer}>
-              <Text style={styles.Text}>Crowd Type</Text>
-              <CustomDropDown
-                options={options}
-                type={'Private'}
-                setState={setIsPublic}
-              />
-            </View>
-            <View style={styles.fieldContainer}>
-              <Text style={styles.Text}>Read Only</Text>
-              <CustomDropDown
-                options={modeOption}
-                type={'No'}
-                setState={setIsReadOnly}
-              />
-            </View>
-
-            {/* -------------------------- */}
-            {/* ----------- Border and button  ----------- */}
-            {/* -------------------------- */}
-            <View
-              style={{
-                borderBottomWidth: 1,
-                marginBottom: responsiveScreenHeight(2),
-                borderBottomColor: Colors.BorderColor,
-              }}></View>
-            <View style={styles.buttonContainer}>
-              <ModalCustomButton
-                toggleModal={toggleCreateCrowdModal}
-                textColor={Colors.Primary}
-                backgroundColor={Colors.PrimaryOpacityColor}
-                buttonText="Cancel"
-              />
-              <ModalCustomButton
-                toggleModal={() => {
-                  toggleAddMembersModal();
-                  // toggleCreateCrowdModal();
-                }}
-                textColor={Colors.PureWhite}
-                backgroundColor={Colors.Primary}
-                buttonText="Next"
-              />
-            </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        )}
         <CreateCrowdAddMember
           chatName={chatName}
           setIsCreateCrowdModalVisible={setIsCreateCrowdModalVisible}

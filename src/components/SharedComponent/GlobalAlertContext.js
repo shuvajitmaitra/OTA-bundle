@@ -78,21 +78,21 @@ export const AlertProvider = ({children}) => {
 
               elevation: 3,
             }}>
-            {data.type == 'error' ? (
+            {data?.type == 'error' ? (
               <ErrorIcon />
-            ) : data.type == 'warning' ? (
+            ) : data?.type == 'warning' ? (
               <AlertIcon2 />
             ) : (
               <SuccessIcon />
             )}
           </View>
-          <Text style={styles.heading}>{data.title || 'Success'}</Text>
+          <Text style={styles.heading}>{data?.title || 'Success'}</Text>
           <Text style={styles.alertText}>
-            {data.message || 'Task is successful!'}
+            {data?.message || 'Task is successful!'}
           </Text>
-          {data.link && (
+          {data?.link && (
             <Text style={styles.linkText}>
-              {data.link || 'portal.bootcampshub.ai'}
+              {data?.link || 'portal.bootcampshub.ai'}
             </Text>
           )}
         </View>

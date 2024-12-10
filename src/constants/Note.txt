@@ -1,0 +1,37 @@
+*Work Stream - December 10, 2024*
+*Bootcampshub CLI*
+- Need to replace old comment field to new comment field.
+- Calendar event type indicator have to be dynamic.
+- Don't need delivery status indicator in the reply in thread message
+- User online but can not visible in the online screen.
+- When a message is deleted it have to be display the deleted time not sending time.
+- For some test crowd name not showing in the message screen.
+- When click crowd create button, app are crashed fixing this issues.
+- User image and name have to be align center in the mention user modal.
+- Mention user profile picture have to be rounded.
+- Pin should be changed with Favorite chat
+- Loading state is static, not moving
+- Deleted time is not correct in reply in thread screen
+
+Anonno's Work stream
+•⁠  ⁠Test mobile apps Android & IOS.
+•⁠  ⁠List Functional & Technical issues.
+•⁠  ⁠List UI issues.
+•⁠  ⁠Automation all APIs using cypress.
+
+Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
+
+*Overall status*
+- Total listed issues 42
+- Total fixed 14
+- Today listed 22
+- Today fixed 8
+
+*Work update - December 9, 2024*  
+*BootcampsHub CLI* 
+
+
+BootcampsHub Mobile Testing update:
+•⁠  ⁠Listed 14 Functional & Technical issues.
+•⁠  ⁠Listed 8 UI issues.
+•⁠  ⁠Automation all APIs using cypress.

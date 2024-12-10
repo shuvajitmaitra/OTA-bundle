@@ -187,8 +187,6 @@ const getStyles = Colors =>
       color: Colors.Heading,
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2),
-      borderBottomWidth: 1.5,
-      borderColor: Colors.BorderColor2,
     },
     bgImgContainer: {
       position: 'relative',
