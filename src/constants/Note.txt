@@ -42,6 +42,10 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Archived chat icon issues fixed.
 - Modal height issues fixed in thread screen message option modal.
 - Comment section are replaced with new comment section in document  details screen.
+- video displayed in audio video screen
+- Crowd member fetching issues fixed after adding member on crowd.
+- When click next button more than 2 or multiple time, the app is crushed in audio video screen.
+- See more see less arrow icon direction issues fixed in the chat profile screen.
 - 
 BootcampsHub Mobile Testing update:
 •⁠  ⁠Listed 14 Functional & Technical issues.

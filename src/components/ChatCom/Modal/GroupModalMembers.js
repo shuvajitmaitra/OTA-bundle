@@ -12,6 +12,8 @@ import ArrowRight from '../../../assets/Icons/ArrowRight';
 import NoDataAvailable from '../../SharedComponent/NoDataAvailable';
 import Loading from '../../SharedComponent/Loading';
 import {useSelector} from 'react-redux';
+import ArrowLeft from '../../../assets/Icons/ArrowLeft';
+import {useTheme} from '../../../context/ThemeContext';
 
 export default function GroupModalMembers() {
   const [seeMoreClicked, setSeeMoreClicked] = useState(false);
@@ -62,6 +64,7 @@ export default function GroupModalMembers() {
     setSeeMoreClicked(!seeMoreClicked);
   };
   const allMembers = seeMoreClicked ? filterMembers : limitedMembers;
+  const Colors = useTheme();
   return (
     <View
       style={{
@@ -104,13 +107,17 @@ export default function GroupModalMembers() {
             }}>
             <Text
               style={{
-                color: 'rgba(39, 172, 31, 1)',
+                color: Colors.Primary,
                 fontFamily: CustomFonts.SEMI_BOLD,
                 fontSize: responsiveScreenFontSize(1.8),
               }}>
               {seeMoreClicked ? 'See Less' : 'See More'}
             </Text>
-            <ArrowRight />
+            {seeMoreClicked ? (
+              <ArrowLeft color={Colors.Primary} size={20} />
+            ) : (
+              <ArrowRight />
+            )}
           </TouchableOpacity>
         ))}
     </View>
