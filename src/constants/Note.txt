@@ -36,6 +36,9 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - added debounced function (Optimized function search API call) call for searching new user to create new chat.
 - Shown toast message while add user in crowd.
 - Optimized function call to search user to add members in crowd.
+- Chat icon color issues fixed in chat filter modal.
+- Fixed padding issues in create new chat screen.
+- Fixed create crowd require filed indicator.
 - 
 BootcampsHub Mobile Testing update:
 •⁠  ⁠Listed 14 Functional & Technical issues.

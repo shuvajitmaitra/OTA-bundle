@@ -16,6 +16,7 @@ import {useTheme} from '../../../context/ThemeContext';
 import CustomFonts from '../../../constants/CustomFonts';
 import {useDispatch} from 'react-redux';
 import CreateCrowdAddMember from './CreateCrowdAddMember';
+import RequireFieldStar from '../../../constants/RequireFieldStar';
 
 const CreateCrowdModal = ({
   isCreateCrowdModalVisible,
@@ -68,7 +69,9 @@ const CreateCrowdModal = ({
               {/* ----------- Crowd Name Container ----------- */}
               {/* -------------------------- */}
               <View style={styles.fieldContainer}>
-                <Text style={styles.Text}>Crowd Name*</Text>
+                <Text style={styles.Text}>
+                  Crowd Name <RequireFieldStar />
+                </Text>
                 <TextInput
                   keyboardAppearance={
                     Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'

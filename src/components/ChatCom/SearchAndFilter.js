@@ -28,6 +28,7 @@ import {RegularFonts} from '../../constants/Fonts';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import Divider from '../SharedComponent/Divider';
 import SearchIcon from '../../assets/Icons/SearchIcon';
+import ArchiveIcon from '../../assets/Icons/ArchiveIcon';
 
 const SearchAndFilter = ({checked, handleRadioChecked, handleFilter}) => {
   const [inputFocused, setInputFocused] = useState(false);
@@ -45,7 +46,7 @@ const SearchAndFilter = ({checked, handleRadioChecked, handleFilter}) => {
     {
       label: 'Archived Chat',
       value: 'archived',
-      icon: <DeleteIcon color={Colors.Heading} />,
+      icon: <ArchiveIcon color={Colors.Heading} />,
     },
     {
       label: 'Pin',

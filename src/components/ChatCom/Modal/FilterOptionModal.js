@@ -17,6 +17,7 @@ import CustomFonts from '../../../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import ArchiveIcon from '../../../assets/Icons/ArchiveIcon';
 
 const {height: screenHeight} = Dimensions.get('window');
 const FilterOptionModal = ({
@@ -83,7 +84,7 @@ const FilterOptionModal = ({
         handleRadioChecked('archived');
         closeBottomSheet();
       },
-      icon: <BinIcon size={23} />,
+      icon: <ArchiveIcon size={23} />,
     },
   ];
   const snapPoints = [Math.min(data.length * 70, screenHeight * 0.5)];
