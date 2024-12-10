@@ -264,7 +264,7 @@ const CalendarScreen = props => {
               handleSeeMore={handleSeeMore}
             />
 
-            <DotComponent />
+            {selected === 'event' && <DotComponent />}
             <View style={styles.toggleContainer}>
               <TouchableOpacity
                 style={{
