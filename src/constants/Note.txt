@@ -2,7 +2,6 @@
 *Bootcampshub CLI*
 - Need to replace old comment field to new comment field.
 
-- When a message is deleted it have to be display the deleted time not sending time.
 - For some test crowd name not showing in the message screen.
 - When click crowd create button, app are crashed fixing this issues.
 - User image and name have to be align center in the mention user modal.
@@ -30,6 +29,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Calendar event type indicator have to be dynamic.
 - Don't need delivery status indicator in the reply in thread message
 - User online but can not visible in the online screen.
+- When a message is deleted it have to be display the deleted time not sending time.
 
 BootcampsHub Mobile Testing update:
 •⁠  ⁠Listed 14 Functional & Technical issues.
