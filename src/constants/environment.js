@@ -18,6 +18,21 @@ mitul.das@ts4u.us
 Mituldas@24
 
 
+clone the github repository
+
+cd to project
+
+yarn install or npm install
+
+cd iso && pod install && cd .. 
+
+yarn start
+
+press i for ios
+
+press a for android
+
+
 eas build -p android --profile preview
 
 

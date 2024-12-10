@@ -1,79 +1,119 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Project Name
 
-# Getting Started
+## Bootcampshub
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Getting Started
 
-## Step 1: Start the Metro Server
+Follow these steps to set up and run the project locally.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+### Prerequisites
 
-To start Metro, run the following command from the _root_ of your React Native project:
+Ensure you have the following installed:
 
-```bash
-# using npm
-npm start
+- [Node.js](https://nodejs.org/) (v14 or later)
+- [Yarn](https://yarnpkg.com/) or `npm`
+- [CocoaPods](https://cocoapods.org/) (for iOS development)
+- [EAS CLI](https://expo.dev/eas) (for building the app)
+- [Android Studio](https://developer.android.com/studio) (for Android development)
+- [Xcode](https://developer.apple.com/xcode/) (for iOS development)
 
-# OR using Yarn
-yarn start
-```
+### Installation and Setup
 
-## Step 2: Start your Application
+1. Clone the repository:
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+   ```bash
+   git clone <repository-url>
+   cd <project-name>
+   ```
 
-### For Android
+2. Install dependencies:
 
-```bash
-# using npm
-npm run android
+   ```bash
+   yarn install
+   # or
+   npm install
+   ```
 
-# OR using Yarn
-yarn android
-```
+3. Install iOS dependencies:
 
-### For iOS
+   ```bash
+   cd ios
+   pod install
+   cd ..
+   ```
 
-```bash
-# using npm
-npm run ios
+4. Start the development server:
 
-# OR using Yarn
-yarn ios
-```
+   ```bash
+   yarn start
+   ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+5. Run the app:
+   - For iOS:
+     - Press `i` in the terminal to run on the iOS simulator.
+   - For Android:
+     - Press `a` in the terminal to run on an Android emulator.
+   - For android real device
+     - Open mobile developer mode
+     - Under the developer more enable USB debugging mode
+     - Connect mobile to your device
+     - Press `a` to run in the device
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+---
 
-## Step 3: Modifying your App
+## Build Instructions
 
-Now that you have successfully run the app, let's modify it.
+### Build with EAS
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+1. Build for Android:
+   ```bash
+   eas build -p android --profile preview
+   ```
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+---
 
-## Congratulations! :tada:
+### Manual Builds
 
-You've successfully run and modified your React Native App. :partying_face:
+#### Android
 
-### Now what?
+1. Create an `.aab` file:
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+   ```bash
+   npx react-native build-android --mode=release
+   ```
 
-# Troubleshooting
+   or
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+   ```bash
+   cd android
+   ./gradlew bundleRelease
+   ```
 
-# Learn More
+2. Create an `.apk` file:
+   ```bash
+   cd android
+   ./gradlew assembleRelease
+   cd ..
+   ```
+   or
+   ```bash
+   yarn android --mode release
+   ```
 
-To learn more about React Native, take a look at the following resources:
+#### iOS
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+1. Open the project in Xcode:
+   ```bash
+   xed -b ios
+   ```
+
+---
+
+### Notes
+
+- Make sure to configure your environment for React Native following the [official setup guide](https://reactnative.dev/docs/environment-setup).
+- Use the appropriate profiles and signing configurations for production builds.
+
+---
+
+Replace `<repository-url>` and `<project-name>` with the actual values for your project.
