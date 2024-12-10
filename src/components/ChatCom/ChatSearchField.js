@@ -46,7 +46,7 @@ const ChatSearchField = ({checked, handleRadioChecked, handleFilter}) => {
       icon: <DeleteIcon color={Colors.Heading} />,
     },
     {
-      label: 'Pin',
+      label: 'Favorite Chat',
       value: 'favorites',
       icon: <NewPinIcon color={Colors.Heading} />,
     },

@@ -70,7 +70,7 @@ const ChatMessageInput = ({
 
   const renderSuggestions = ({keyword, onSuggestionPress}) => {
     console.log('keyword', JSON.stringify(keyword, null, 1));
-    if (keyword == null) {
+    if (keyword === null || keyword === undefined) {
       return null;
     }
 
@@ -125,13 +125,17 @@ const ChatMessageInput = ({
                   borderBottomWidth: 1,
                   borderBottomColor: Colors.BorderColor,
                   flexDirection: 'row',
+                  alignItems: 'center',
                   gap: 10,
+                  overflow: 'hidden',
+                  borderRadius: 100,
                 }}>
                 {one?.profilePicture ? (
                   <Image
                     source={{uri: one?.profilePicture}}
                     height={50}
                     width={50}
+                    style={{borderRadius: 100}}
                   />
                 ) : (
                   <UserIconTwo size={40} />
