@@ -4,6 +4,8 @@ import moment from 'moment';
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
 import MCicons from 'react-native-vector-icons/MaterialCommunityIcons';
+import LoadingSmall from '../SharedComponent/LoadingSmall';
+import CircleLoader from '../SharedComponent/CircleLoader';
 
 const MessageBottomContainer = ({item, navigation, my}) => {
   const Colors = useTheme();
@@ -69,13 +71,15 @@ const MessageBottomContainer = ({item, navigation, my}) => {
               name="check-all"
             />
           ) : item?.status === 'sending' ? (
-            <MCicons
-              style={styles.iconStyle}
-              size={20}
-              color={Colors.PureWhite}
-              name="checkbox-blank-circle-outline"
-            />
-          ) : null}
+            // <MCicons
+            //   style={styles.iconStyle}
+            //   size={20}
+            //   color={Colors.PureWhite}
+            //   name="checkbox-blank-circle-outline"
+            // />
+            <CircleLoader />
+          ) : // <LoadingSmall />
+          null}
         </>
       )}
     </View>
