@@ -241,7 +241,7 @@ export default function MyProfile() {
                 navigation.goBack();
               }}
               style={[styles.topArrowContainer]}>
-              <ArrowLeft />
+              <ArrowLeft color={Colors.PureWhite} />
               <Text style={styles.topText}>Back</Text>
             </TouchableOpacity>
             <Text style={styles.myProfile}>My Profile</Text>

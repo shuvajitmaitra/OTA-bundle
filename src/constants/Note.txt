@@ -46,6 +46,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Crowd member fetching issues fixed after adding member on crowd.
 - When click next button more than 2 or multiple time, the app is crushed in audio video screen.
 - See more see less arrow icon direction issues fixed in the chat profile screen.
+- Icon color changed in the back button in my profile screen.
 - 
 BootcampsHub Mobile Testing update:
 •⁠  ⁠Listed 14 Functional & Technical issues.
