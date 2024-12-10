@@ -116,15 +116,15 @@ const CreateCrowdAddMember = ({
     axiosInstance
       .post('/chat/channel/create', data)
       .then(res => {
-        // console.log(JSON.stringify(res.data, null, 1));
+        console.log(JSON.stringify(res.data, null, 1));
         if (res.data.success) {
           dispatch(updateChats(res?.data?.chat));
           dispatch(setSingleChat(res?.data?.chat));
-          //   toggleAddMembersModal();
-          //   toggleCreateCrowdModal();
-          setIsAddMembersModalVisible(false);
-          setIsCreateCrowdModalVisible(false);
-          navigation.push('MessageScreen2');
+          // navigation.navigate('MessageScreen2');
+          toggleAddMembersModal();
+          toggleCreateCrowdModal();
+          // setIsAddMembersModalVisible(false);
+          // setIsCreateCrowdModalVisible(false);
         }
       })
       .catch(err => {
@@ -236,8 +236,18 @@ const CreateCrowdAddMember = ({
                 </ScrollView>
                 <TouchableOpacity
                   activeOpacity={0.3}
+                  disabled={checked.length <= 2}
                   onPress={() => handleCreateCrowd()}>
-                  <Text style={styles.addButtonText}>Create</Text>
+                  <Text
+                    style={[
+                      styles.addButtonText,
+                      checked.length <= 2 && {
+                        backgroundColor: Colors.DisablePrimaryBackgroundColor,
+                        color: Colors.DisablePrimaryButtonTextColor,
+                      },
+                    ]}>
+                    Create
+                  </Text>
                 </TouchableOpacity>
               </>
             )}

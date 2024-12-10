@@ -87,7 +87,9 @@ export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
           </View>
           <View style={styles.profileNameContainer}>
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
-              {chat?.isChannel ? chat?.name : chat?.otherUser?.fullName}
+              {chat?.isChannel
+                ? chat?.name || 'Bootcampshub User'
+                : chat?.otherUser?.fullName || 'Bootcampshub User'}
             </Text>
             <View>
               {chat?.typingData?.isTyping ? (
