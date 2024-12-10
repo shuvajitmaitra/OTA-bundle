@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   BackHandler,
+  Text,
 } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 import {useDispatch, useSelector} from 'react-redux';
@@ -25,6 +26,7 @@ import {
 import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
+import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -47,6 +49,7 @@ const MessageScreen2 = () => {
   const [pinnedCount = {}, setPinnedCount] = useMMKVObject('pinCount');
   const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);
   const [messageEditVisible, setMessageEditVisible] = useState('');
+  const [viewInitialMessage, setViewInitialMessage] = useState(false);
   const LIMIT = 20;
 
   const fetchPinned = chatId => {
@@ -84,6 +87,9 @@ const MessageScreen2 = () => {
         ...messages,
         [chat._id]: newMessages,
       });
+      if (res.data.messages.length <= 1) {
+        setViewInitialMessage(true);
+      }
       dispatch(setLocalMessages(newMessages));
       if (newMessages.length < options.limit) {
         setHasMore(false);
@@ -255,6 +261,8 @@ const MessageScreen2 = () => {
           setPinnedScreenVisible={setPinnedScreenVisible}
         />
         <View style={styles.flatListContainer}>
+          {viewInitialMessage && <EmptyMessageContainer chat={chat} />}
+
           <FlatList
             data={localMessages?.length ? localMessages : messages[chat?._id]}
             renderItem={renderItem}

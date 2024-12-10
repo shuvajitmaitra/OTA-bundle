@@ -31,7 +31,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Pin should be changed with Favorite chat
 - Animated loader added while sending message in chat.
 - Deleted time is not correct in reply in thread screen
-
+- Initial message displayed when there is no messages in chat message screen.
 
 BootcampsHub Mobile Testing update:
 •⁠  ⁠Listed 14 Functional & Technical issues.

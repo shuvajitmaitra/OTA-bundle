@@ -58,7 +58,7 @@ const getStyles = Colors =>
       paddingTop: 10,
     },
     ListEmptyComponent: {
-      height: responsiveScreenHeight(80),
+      height: responsiveScreenHeight(60),
       alignItems: 'center',
       justifyContent: 'center',
       // backgroundColor: 'red',
