@@ -1,7 +1,6 @@
 import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {TextInput} from 'react-native';
-import CustomeBtn from '../AuthenticationCom/CustomeBtn';
 import {useTheme} from '../../context/ThemeContext';
 import {
   responsiveScreenHeight,
@@ -16,15 +15,16 @@ import NoDataAvailable from '../SharedComponent/NoDataAvailable';
 import {useNavigation} from '@react-navigation/native';
 import {RegularFonts} from '../../constants/Fonts';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
+import debounce from 'lodash.debounce'; // Install lodash.debounce
 
 const CreateNewUser = () => {
-  const [searchText, setSearchText] = useState('');
   const {top} = useSafeAreaInsets();
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [AllUsers, setAllUsers] = useState([]);
   const navigation = useNavigation();
 
+  // API Call for searching users
   const searchAllUser = useCallback(searchText => {
     axiosInstance
       .get(`/chat/searchuser?query=${searchText}`)
@@ -36,50 +36,37 @@ const CreateNewUser = () => {
       });
   }, []);
 
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    debounce(text => {
+      searchAllUser(text);
+    }, 500),
+    [searchAllUser],
+  );
+
+  // Handle search text change
+  const handleSearchChange = text => {
+    debouncedSearch(text); // Trigger debounced search
+  };
+
   useEffect(() => {
     searchAllUser('');
-  }, []);
+  }, [searchAllUser]);
 
   return (
     <View style={[styles.container, {paddingTop: top}]}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 10,
-          justifyContent: 'center',
-        }}>
+      <View style={styles.topContainer}>
         <TouchableOpacity
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: Colors.White,
-            padding: 10,
-            borderRadius: 100,
-          }}
+          style={styles.arrowContainer}
           onPress={() => navigation.goBack()}>
-          {/* <Ionicons name="chevron-back" size={25} color={Colors.BodyText} /> */}
           <ArrowLeft />
         </TouchableOpacity>
         <View style={styles.searchFieldContainer}>
           <TextInput
-            onChangeText={text => setSearchText(text)}
+            onChangeText={handleSearchChange} // Attach the handler here
             placeholder="Search new user..."
             placeholderTextColor={Colors.BodyText}
             style={styles.searchUserField}
-          />
-          <CustomeBtn
-            handlePress={() => {
-              searchAllUser(searchText);
-            }}
-            title="Search"
-            customeContainerStyle={{
-              flex: 0.3,
-              height: 30,
-              borderRadius: 4,
-              marginTop: 0,
-            }}
-            disable={!searchText}
           />
         </View>
       </View>
@@ -90,19 +77,14 @@ const CreateNewUser = () => {
         keyExtractor={item => item?._id || Math.random().toString()}
         showsVerticalScrollIndicator={false}
         initialNumToRender={8}
-        ItemSeparatorComponent={() => (
+        ItemSeparatorComponent={
           <Divider marginTop={0.000001} marginBottom={0.00001} />
-        )}
-        ListEmptyComponent={() => (
-          <View
-            style={{
-              height: responsiveScreenHeight(80),
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+        }
+        ListEmptyComponent={
+          <View style={styles.noDataContainer}>
             <NoDataAvailable />
           </View>
-        )}
+        }
       />
     </View>
   );
@@ -112,12 +94,30 @@ export default CreateNewUser;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    topContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      justifyContent: 'center',
+    },
+    noDataContainer: {
+      height: responsiveScreenHeight(80),
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    arrowContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: Colors.White,
+      padding: 10,
+      borderRadius: 100,
+    },
     container: {
       flex: 1,
       backgroundColor: Colors.Background_color,
     },
     searchFieldContainer: {
-      width: responsiveScreenWidth(85),
+      width: responsiveScreenWidth(80),
       height: 50,
       flexDirection: 'row',
       alignItems: 'center',
@@ -129,11 +129,9 @@ const getStyles = Colors =>
       alignSelf: 'center',
     },
     searchUserField: {
-      // backgroundColor: "red",
       flex: 1,
       height: 40,
       color: Colors.BodyText,
-
       fontSize: RegularFonts.HS,
     },
   });

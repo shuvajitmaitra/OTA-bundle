@@ -32,6 +32,8 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Animated loader added while sending message in chat.
 - Deleted time is not correct in reply in thread screen
 - Initial message displayed when there is no messages in chat message screen.
+- Changed the audio message recording button position.
+- added debounced function (Optimized function search API call) call for searching new user to create new chat.
 
 BootcampsHub Mobile Testing update:
 •⁠  ⁠Listed 14 Functional & Technical issues.
