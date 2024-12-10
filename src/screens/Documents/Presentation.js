@@ -16,9 +16,6 @@ import {
   responsiveScreenHeight,
 } from 'react-native-responsive-dimensions';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-// import { Entypo } from "@expo/vector-icons";
-import {Popover, usePopover} from 'react-native-modal-popover';
-// import { RadioButton } from "react-native-paper";
 import {useNavigation} from '@react-navigation/native';
 
 import CustomFonts from '../../constants/CustomFonts';
@@ -35,30 +32,15 @@ export default function Presentation() {
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  // const {
-  //   openPopover,
-  //   closePopover,
-  //   popoverVisible,
-  //   touchableRef,
-  //   popoverAnchorRect,
-  // } = usePopover();
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [contents, setContents] = React.useState([]);
   const [records, setRecords] = React.useState([]);
-  const [checked, setChecked] = React.useState('recently');
   const [search, setSearch] = React.useState(null);
-  // console.log("contents", JSON.stringify(contents, null, 1));
 
   const navigation = useNavigation();
 
-  // const handleRadioChecked = (item) => {
-  //   setChecked(item);
-  //   closePopover();
-  // };
-
   const handleNavigation = contentId => {
-    // navigation.navigate("PresentationDetails")
     navigation.navigate('PresentationDetailsView', {contentId: contentId});
   };
   const handleProgramNavigation = () => {
@@ -185,87 +167,6 @@ export default function Presentation() {
             handleProgramNavigation();
           }}
           style={styles.searchFilter}>
-          {/* <Entypo name="sound-mix" size={24} color={Colors.PureWhite} /> */}
-          {/* <Popover
-            contentStyle={styles.popupContent}
-            arrowStyle={styles.popupArrow}
-            backgroundStyle={{ backgroundColor: Colors.BackDropColor }}
-            visible={popoverVisible}
-            onClose={closePopover}
-            fromRect={popoverAnchorRect}
-            supportedOrientations={["portrait", "landscape"]}
-            placement="bottom"
-          >
-            <Text style={styles.popupContryText}>Filters Docs</Text>
-            <View style={styles.radioContainer}>
-              <RadioButton
-                value="recently"
-                status={checked === "recently" ? "checked" : "unchecked"}
-                onPress={() => handleRadioChecked("recently")}
-                color={Colors.Primary}
-              />
-              <Text
-                style={[
-                  checked === "recently"
-                    ? styles.radioText
-                    : { color: Colors.BodyText },
-                ]}
-              >
-                Recently
-              </Text>
-            </View>
-            <View style={styles.radioContainer}>
-              <RadioButton
-                value="one"
-                status={checked === "one" ? "checked" : "unchecked"}
-                onPress={() => handleRadioChecked("one")}
-                color={Colors.Primary}
-              />
-              <Text
-                style={[
-                  checked === "one"
-                    ? styles.radioText
-                    : { color: Colors.BodyText },
-                ]}
-              >
-                1 Month Ago
-              </Text>
-            </View>
-            <View style={styles.radioContainer}>
-              <RadioButton
-                value="six"
-                status={checked === "six" ? "checked" : "unchecked"}
-                onPress={() => handleRadioChecked("six")}
-                color={Colors.Primary}
-              />
-              <Text
-                style={[
-                  checked === "six"
-                    ? styles.radioText
-                    : { color: Colors.BodyText },
-                ]}
-              >
-                6 Month Ago
-              </Text>
-            </View>
-            <View style={styles.radioContainer}>
-              <RadioButton
-                value="year"
-                status={checked === "year" ? "checked" : "unchecked"}
-                onPress={() => handleRadioChecked("year")}
-                color={Colors.Primary}
-              />
-              <Text
-                style={[
-                  checked === "year"
-                    ? styles.radioText
-                    : { color: Colors.BodyText },
-                ]}
-              >
-                1 Year Ago
-              </Text>
-            </View>
-          </Popover> */}
           <Text style={styles.buttonText}>Go to Bootcamp</Text>
         </TouchableOpacity>
       </View>

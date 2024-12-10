@@ -3,9 +3,7 @@ import {
   ScrollView,
   View,
   ActivityIndicator,
-  StatusBar,
   Image,
-  SafeAreaView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -18,8 +16,8 @@ import RenderHtml from 'react-native-render-html';
 import CustomFonts from '../../constants/CustomFonts';
 import axiosInstance from '../../utility/axiosInstance';
 import {useTheme} from '../../context/ThemeContext';
-// import HTMLView from 'react-native-htmlview';
 import CommentSection from '../../components/CommentCom/CommentSection';
+import CommentField from '../../components/CommentCom/CommentField';
 
 export default function PresentationDetailsView({route}) {
   const Colors = useTheme();
@@ -33,15 +31,18 @@ export default function PresentationDetailsView({route}) {
     (async () => {
       try {
         setIsLoading(true);
-        let content = await axiosInstance.get(
+        let cnt = await axiosInstance.get(
           `/content/getcontent/${params?.contentId}`,
         );
-        setContent(content.data.content?.description);
-        setSlides(content.data?.content?.slide?.slides);
+        setContent(cnt.data.content?.description);
+        setSlides(cnt.data?.content?.slide?.slides);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        console.log(error);
+        console.log(
+          'error to get document',
+          JSON.stringify(error.response.data, null, 1),
+        );
       }
     })();
   }, []);
@@ -100,20 +101,20 @@ export default function PresentationDetailsView({route}) {
     },
   };
 
-  // const renderers = {
-  //   img: (htmlAttribs) => {
-  //     const { src, alt } = htmlAttribs;
-  //     return (
-  //       <Image
-  //         source={{
-  //           uri: src,
-  //         }}
-  //         style={{ width: "100%", height: 200, resizeMode: "contain" }}
-  //         accessibilityLabel={alt}
-  //       />
-  //     );
-  //   },
-  // };
+  const renderers = {
+    img: htmlAttribs => {
+      const {src, alt} = htmlAttribs;
+      return (
+        <Image
+          source={{
+            uri: src,
+          }}
+          style={{width: '100%', height: 200, resizeMode: 'contain'}}
+          accessibilityLabel={alt}
+        />
+      );
+    },
+  };
   // console.log("slides", JSON.stringify(slides, null, 1));
   console.log('content', JSON.stringify(content, null, 1));
   return (
@@ -154,18 +155,18 @@ export default function PresentationDetailsView({route}) {
         {slides?.map(item => {
           return (
             <View key={item._id}>
-              {/* <RenderHtml
+              <RenderHtml
                 contentWidth={responsiveScreenHeight(100)}
-                source={{ html: item.content }}
+                source={{html: item.content}}
                 tagsStyles={tagsStyles}
                 renderers={renderers}
-              /> */}
+              />
               {/* <HTMLView value={item.content} stylesheet={tagsStyles} /> */}
             </View>
           );
         })}
 
-        {slides && <CommentSection postId={params?.contentId} />}
+        {slides && <CommentField postId={params?.contentId} />}
       </ScrollView>
     </View>
   );

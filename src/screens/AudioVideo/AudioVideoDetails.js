@@ -2,13 +2,11 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {
   Image,
-  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Platform,
 } from 'react-native';
 import {
   responsiveScreenWidth,
@@ -27,7 +25,6 @@ import Sound from 'react-native-sound';
 import {useSelector} from 'react-redux';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import VideoPlayer from '../../components/ProgramCom/VideoPlayer';
-import CommentSection from '../../components/CommentCom/CommentSection';
 import CommentField from '../../components/CommentCom/CommentField';
 
 const AudioVideoDetails = () => {

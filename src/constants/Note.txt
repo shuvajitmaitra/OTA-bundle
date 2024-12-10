@@ -41,6 +41,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Fixed create crowd require filed indicator.
 - Archived chat icon issues fixed.
 - Modal height issues fixed in thread screen message option modal.
+- Comment section are replaced with new comment section in document  details screen.
 - 
 BootcampsHub Mobile Testing update:
 •⁠  ⁠Listed 14 Functional & Technical issues.
