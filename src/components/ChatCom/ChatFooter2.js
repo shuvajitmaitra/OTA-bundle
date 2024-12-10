@@ -488,20 +488,30 @@ const ChatFooter2 = ({
                 )}
               </>
             ) : (
-              <TouchableOpacity
-                onPress={() => {
-                  toggleMessageClicked();
-                  setShowBottom(false);
-                }}
-                style={styles.initialContainer}>
-                <Text style={styles.messageText}>
-                  {text.trim() ? text : 'Message...'}
-                </Text>
-              </TouchableOpacity>
+              <>
+                <TouchableOpacity
+                  onPress={() => {
+                    toggleMessageClicked();
+                    setShowBottom(false);
+                  }}
+                  style={styles.initialContainer}>
+                  <Text style={styles.messageText}>
+                    {text.trim() ? text : 'Message...'}
+                  </Text>
+                </TouchableOpacity>
+              </>
             )}
           </View>
         </View>
       )}
+
+      <AudioRecorder
+        sendMessage={sendMessage}
+        setStartRecording={setStartRecording}
+        handleKey={handleKey}
+        chat={singleChat?._id}
+        isChannel={singleChat?.isChannel}
+      />
 
       {showBottom && (
         <View
@@ -513,14 +523,6 @@ const ChatFooter2 = ({
               {uploading ? <LoadingSmall /> : <AttachmentIcon />}
             </TouchableOpacity>
           )}
-
-          <AudioRecorder
-            sendMessage={sendMessage}
-            setStartRecording={setStartRecording}
-            handleKey={handleKey}
-            chat={singleChat?._id}
-            isChannel={singleChat?.isChannel}
-          />
 
           {!startRecording && (
             <TouchableOpacity

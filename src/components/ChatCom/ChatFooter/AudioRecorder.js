@@ -143,11 +143,14 @@ const AudioRecorder = ({
       style={[
         !recording && !recordedAudioPath
           ? {
-              backgroundColor: Colors.CyanOpacity,
+              position: 'absolute',
+              right: '8%',
+              top: '30%',
+              // backgroundColor: Colors.CyanOpacity,
               alignItems: 'center',
               justifyContent: 'center',
-              padding: 20,
-              borderRadius: 100,
+              // padding: 20,
+              // borderRadius: 100,
             }
           : styles.container,
       ]}>
