@@ -3,8 +3,6 @@
 - Need to replace old comment field to new comment field.
 
 
-- Loading state is static, not moving
-- Deleted time is not correct in reply in thread screen
 
 Anonno's Work stream
 •⁠  ⁠Test mobile apps Android & IOS.
@@ -31,6 +29,8 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - User image and name have to be align center in the mention user modal.
 - Mention user profile picture have to be rounded.
 - Pin should be changed with Favorite chat
+- Animated loader added while sending message in chat.
+- Deleted time is not correct in reply in thread screen
 
 
 BootcampsHub Mobile Testing update:

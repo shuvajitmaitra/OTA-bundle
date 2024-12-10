@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {View, StyleSheet, Animated, Easing} from 'react-native';
+import {StyleSheet, Animated, Easing} from 'react-native';
 import {useTheme} from '../../context/ThemeContext';
 
 const CircleLoader = () => {
@@ -9,9 +9,9 @@ const CircleLoader = () => {
     const spinAnimation = Animated.loop(
       Animated.timing(rotateAnim, {
         toValue: 1,
-        duration: 1000, // 1 second for a full rotation
+        duration: 1000,
         useNativeDriver: true,
-        easing: Easing.linear, // Use Easing.linear
+        easing: Easing.linear,
       }),
     );
     spinAnimation.start();
