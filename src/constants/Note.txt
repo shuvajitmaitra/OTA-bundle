@@ -13,42 +13,47 @@ Anonno's Work stream
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 *Overall status*
-- Total listed issues 42
-- Total fixed 14
-- Today listed 22
-- Today fixed 8
+- Today listed 24
+- Today fixed 28
+- Total remaining 40 
 
-*Work update - December 9, 2024*  
+*Work update - December 10, 2024*  
 *BootcampsHub CLI* 
-- Calendar event type indicator have to be dynamic.
-- Don't need delivery status indicator in the reply in thread message
-- User online but can not visible in the online screen.
-- When a message is deleted it have to be display the deleted time not sending time.
-- For some test crowd name not showing in the message screen.
-- When click crowd create button, app are crashed fixing this issues.
-- User image and name have to be align center in the mention user modal.
-- Mention user profile picture have to be rounded.
-- Pin should be changed with Favorite chat
-- Animated loader added while sending message in chat.
-- Deleted time is not correct in reply in thread screen
-- Initial message displayed when there is no messages in chat message screen.
-- Changed the audio message recording button position.
-- added debounced function (Optimized function search API call) call for searching new user to create new chat.
-- Shown toast message while add user in crowd.
-- Optimized function call to search user to add members in crowd.
-- Chat icon color issues fixed in chat filter modal.
-- Fixed padding issues in create new chat screen.
-- Fixed create crowd require filed indicator.
-- Archived chat icon issues fixed.
-- Modal height issues fixed in thread screen message option modal.
-- Comment section are replaced with new comment section in document  details screen.
-- video displayed in audio video screen
-- Crowd member fetching issues fixed after adding member on crowd.
-- When click next button more than 2 or multiple time, the app is crushed in audio video screen.
-- See more see less arrow icon direction issues fixed in the chat profile screen.
-- Icon color changed in the back button in my profile screen.
-- 
+- The calendar event type indicator has been made dynamic.  
+- The delivery status indicator has been removed from the reply-in-thread message.  
+- The issue of users being online but not visible on the online screen has been resolved.  
+- Deleted messages now display the deleted time instead of the sending time.  
+- The issue of crowd names not appearing on the message screen during some tests has been fixed.  
+- The crash when clicking the "Create Crowd" button has been resolved.  
+- User images and names are now center-aligned in the mention user modal.  
+- Mention user profile pictures have been made rounded.  
+- The "Pin" feature has been replaced with "Favorite Chat."  
+- An animated loader has been added while sending messages in the chat.  
+- The incorrect deleted time in the reply-in-thread screen has been corrected.  
+- An initial message is displayed when there are no messages in the chat message screen.  
+- The audio message recording button position has been changed.  
+- A debounced function (optimized function for API calls) has been added for searching new users to create chats.  
+- A toast message is shown when a user is added to a crowd.  
+- Function calls for searching users to add to a crowd have been optimized.  
+- Chat icon color issues in the chat filter modal have been fixed.  
+- Padding issues in the "Create New Chat" screen have been resolved.  
+- Required field indicators in the "Create Crowd" screen have been fixed.  
+- Archived chat icon issues have been fixed.  
+- Modal height issues in the thread screen message option modal have been resolved.  
+- The comment section in the document details screen has been replaced with the new comment section.  
+- Videos are now displayed correctly in the audio/video screen.  
+- Crowd member fetching issues after adding a member to a crowd have been fixed.  
+- The crash when clicking the "Next" button multiple times in the audio/video screen has been resolved.  
+- The "See More" and "See Less" arrow icon direction issue in the chat profile screen has been fixed.  
+- The back button icon color in the "My Profile" screen has been updated.  
+
 BootcampsHub Mobile Testing update:
-•⁠  ⁠Listed 14 Functional & Technical issues.
-•⁠  ⁠Listed 8 UI issues.
-•⁠  ⁠Automation all APIs using cypress.
+API Automation results:
+API Tested: 126
+Success: 118
+Skipped: 8
+Error: 0
+
+•⁠  ⁠Testing mobile apps Android & IOS.
+•⁠  ⁠Listed 15 Functional & Technical issues.
+•⁠  ⁠Listed 9 UI issues.

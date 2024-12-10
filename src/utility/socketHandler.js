@@ -137,12 +137,12 @@ const setupSocketListeners = socket => {
 
   socket.on('addOnlineUser', data => {
     // console.log(data);
-    console.log('addOnlineUser', JSON.stringify(data.user, null, 1));
+    // console.log('addOnlineUser', JSON.stringify(data.user, null, 1));
 
     store.dispatch(addOnlineUser(data.user));
   });
   socket.on('removeOnlineUser', data => {
-    console.log('removeOnlineUser', JSON.stringify(data.user, null, 1));
+    // console.log('removeOnlineUser', JSON.stringify(data.user, null, 1));
     store.dispatch(removeOnlineUser(data.user));
   });
 
