@@ -146,7 +146,7 @@ const MessageOptionModal = ({
       customStyles={{
         padding: 20,
         maxHeight: 100 * filteredOption.length,
-        minHeight: 150,
+        minHeight: isThread && !messageOptionData?.my ? 30 : 150,
         width: '90%',
         paddingTop: 20,
       }}

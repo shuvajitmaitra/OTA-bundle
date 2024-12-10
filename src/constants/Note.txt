@@ -39,6 +39,8 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Chat icon color issues fixed in chat filter modal.
 - Fixed padding issues in create new chat screen.
 - Fixed create crowd require filed indicator.
+- Archived chat icon issues fixed.
+- Modal height issues fixed in thread screen message option modal.
 - 
 BootcampsHub Mobile Testing update:
 •⁠  ⁠Listed 14 Functional & Technical issues.
