@@ -45,7 +45,7 @@ const MessageBottomContainer = ({item, navigation, my}) => {
         </Text>
         {item.editedAt && <Text style={styles.editedText}>(Edited)</Text>}
       </View>
-      {my && (
+      {my && !item.parentMessage && (
         <>
           {item?.status === 'seen' ? (
             <MCicons
