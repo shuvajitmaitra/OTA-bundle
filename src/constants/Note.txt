@@ -1,9 +1,5 @@
 *Work Stream - December 12, 2024*
 *Bootcampshub CLI*
-- Report option and Archive option is not working
-- When select This Month from filters, Recent post not showing in the communication screen
-- When click create post field from community screen, keyboard will be open automaticly
-- Comment screen is behind of the status bar and not scrolling
 - Unable to create any event on the calendar screen
 - Keyboard not closing when i press any white space in the login screen
 - Unable to showing Weekends in calendar screen
@@ -34,6 +30,9 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Member mute and unmute functionalities added.
 - Chat screen profile, Message screen profile image, chat profile image not similar issues fixed.
 - Archive chat and retrieve functionalities added
+- When click create post field from community screen, keyboard will be open automatically
+- Comment screen is behind of the status bar and not scrolling fixed this issues.
+- 
 
 BootcampsHub Mobile Testing update:
 API Automation results:

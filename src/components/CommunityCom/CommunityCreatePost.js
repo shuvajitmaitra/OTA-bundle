@@ -1,3 +1,4 @@
+import React, {useEffect, useState, useRef} from 'react';
 import {
   LayoutAnimation,
   Platform,
@@ -9,7 +10,6 @@ import {
   UIManager,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
 import {useTheme} from '../../context/ThemeContext';
 import {
   responsiveScreenFontSize,
@@ -18,15 +18,17 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../constants/CustomFonts';
 import CreatePostButtonContainer from './CreatePostButtonContainer';
-import ArrowTopIcon from '../../assets/Icons/ArrowTopIcon';
-import {RegularFonts} from '../../constants/Fonts';
 import Feather from 'react-native-vector-icons/Feather';
+import {RegularFonts} from '../../constants/Fonts';
 
 const CommunityCreatePost = () => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [post, setPost] = useState({});
   const [fullView, setFullView] = useState(false);
+
+  const titleInputRef = useRef(null);
+
   useEffect(() => {
     if (
       Platform.OS === 'android' &&
@@ -37,22 +39,27 @@ const CommunityCreatePost = () => {
   }, []);
 
   const toggleStatusSection = () => {
-    // Configure the next layout animation
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setFullView(!fullView);
+
+    if (!fullView) {
+      setTimeout(() => {
+        titleInputRef.current?.focus();
+      }, 300);
+    }
   };
+
   return (
     <View style={styles.createPostContainer}>
       {fullView ? (
         <>
           <Pressable onPress={toggleStatusSection} style={styles.toggleSection}>
             <Text style={styles.title}>Create Post</Text>
-            {/* <ArrowTopIcon /> */}
             <Feather name="minimize-2" size={24} color={Colors.Primary} />
           </Pressable>
           <View style={styles.fieldContainer}>
-            {/* <Text style={styles.fieldLabel}>Title*</Text> */}
             <TextInput
+              ref={titleInputRef} // Attach ref to the title input
               keyboardAppearance={
                 Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
               }
@@ -66,7 +73,6 @@ const CommunityCreatePost = () => {
             />
           </View>
           <View style={styles.fieldContainer}>
-            {/* <Text style={styles.fieldLabel}>Post*</Text> */}
             <TextInput
               keyboardAppearance={
                 Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -97,23 +103,6 @@ const CommunityCreatePost = () => {
           <Text style={styles.sloganText}>What's on your mind?</Text>
         </TouchableOpacity>
       )}
-      {/* {attachments?.map((item) => (
-                <View key={item}>
-                  
-
-                  {getFileTypeFromUri(item) == "image" ? (
-                    <Image
-                      style={{ height: 100, width: 100 }}
-                      source={{ uri: item }}
-                    />
-                  <TouchableOpacity
-                    onPress={() => removeDocument(item)}
-                    style={styles.CrossCircle}
-                  >
-                    <CrossCircle />
-                  </TouchableOpacity>
-                </View>
-              ))} */}
     </View>
   );
 };
@@ -130,7 +119,6 @@ const getStyles = Colors =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      // backgroundColor: "red",
       marginTop: responsiveScreenHeight(1),
     },
     dummyInput: {
@@ -153,11 +141,6 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1),
       color: Colors.BodyText,
     },
-    fieldLabel: {
-      fontSize: responsiveScreenFontSize(1.8),
-      color: Colors.Heading,
-      fontFamily: CustomFonts.MEDIUM,
-    },
     createPostContainer: {
       backgroundColor: Colors.White,
       minHeight: 50,
@@ -172,8 +155,6 @@ const getStyles = Colors =>
       fontFamily: CustomFonts.MEDIUM,
     },
     fieldContainer: {
-      // backgroundColor: "pink",
-      //   minHeight: responsiveScreenHeight(10),
       marginTop: responsiveScreenHeight(1),
       gap: responsiveScreenHeight(1),
     },

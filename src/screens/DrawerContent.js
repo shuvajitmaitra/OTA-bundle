@@ -1,7 +1,7 @@
 // src/navigation/DrawerContent.js
 
 import React, {useState} from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {View, StyleSheet, Image, Text, Platform} from 'react-native';
 import {Caption} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,6 +23,7 @@ import PasswordIcon from '../assets/Icons/PasswordIcon';
 import DisplaySettingsIcon from '../assets/Icons/DisplaySettingsIcon';
 import {storage} from '../utility/mmkvInstance';
 import OrganizationDetails from '../navigation/OrganizationDetails';
+import {handleOpenLink} from '../components/HelperFunction';
 
 // Icon render functions
 const renderHomeIconTwo = ({color, size}) => (
@@ -223,7 +224,11 @@ export function DrawerContent(props) {
                   color: Colors.Heading,
                 }}
                 onPress={() => {
-                  onFetchUpdateAsync();
+                  Platform.OS === 'ios'
+                    ? handleOpenLink(
+                        'https://apps.apple.com/us/app/bootcamps-hub/id6476014062',
+                      )
+                    : onFetchUpdateAsync();
                 }}
               />
             )}
@@ -248,7 +253,7 @@ export function DrawerContent(props) {
           color: Colors.Heading,
           fontFamily: CustomFonts.MEDIUM,
         }}>
-        Version: 3.0.4 {!environment.production && '(staging)'}
+        Version: 3.6.2 {!environment.production && '(staging)'}
       </Caption>
     </View>
   );
