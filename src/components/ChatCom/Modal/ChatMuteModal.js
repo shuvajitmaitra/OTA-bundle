@@ -9,8 +9,9 @@ import ModalCustomButton from './ModalCustomButton';
 import CustomFonts from '../../../constants/CustomFonts';
 import {useTheme} from '../../../context/ThemeContext';
 import GlobalRadioGroup from '../../SharedComponent/GlobalRadioButton';
+import moment from 'moment';
 
-export default function ChatMuteModal({fullName, onSave, onCancel}) {
+export default function ChatMuteModal({fullName, onSave, onCancel, mute}) {
   // const [value, setValue] = React.useState(1);
   const [muteMessage, setMuteMessage] = useState('');
   // --------------------------
@@ -45,76 +46,105 @@ export default function ChatMuteModal({fullName, onSave, onCancel}) {
   //       }
   //     });
   // };
+  console.log('value', JSON.stringify(value, null, 1));
   return (
-    <View style={styles.modalChild}>
-      <View style={styles.modalHeading}>
-        <Text style={styles.modalHeadingText}>Mute Options for {fullName}</Text>
-      </View>
+    <>
+      {mute.isMuted ? (
+        <View style={styles.modalHeading}>
+          <Text style={styles.modalHeadingText}>
+            <Text style={{color: Colors.Red}}>{fullName} </Text>
+            {mute.date
+              ? `will unmuted ${moment(mute.date).fromNow()}`
+              : 'muted for until you turn it back'}
+          </Text>
+          <ModalCustomButton
+            toggleModal={() =>
+              onSave({
+                actionType: 'unmute',
+                date: null,
+                note: muteMessage,
+                selectedOption: value,
+              })
+            }
+            textColor={Colors.PureWhite}
+            backgroundColor="#27ac1f"
+            buttonText="Unmute"
+          />
+        </View>
+      ) : (
+        <View style={styles.modalChild}>
+          <View style={styles.modalHeading}>
+            <Text style={styles.modalHeadingText}>
+              Mute Options for {fullName}
+            </Text>
+          </View>
 
-      {/* --------------------- */}
-      {/* Modal Descriptions */}
-      {/* --------------------- */}
+          {/* --------------------- */}
+          {/* Modal Descriptions */}
+          {/* --------------------- */}
 
-      <View style={styles.modalDescription}>
-        <Text style={styles.modalDescriptionText}>
-          Muted members can&apos;t send message in this channel but he/she can
-          read message
-        </Text>
-      </View>
+          <View style={styles.modalDescription}>
+            <Text style={styles.modalDescriptionText}>
+              Muted members can&apos;t send message in this channel but he/she
+              can read message
+            </Text>
+          </View>
 
-      {/* --------------------- */}
-      {/* Modal radio button */}
-      {/* --------------------- */}
+          {/* --------------------- */}
+          {/* Modal radio button */}
+          {/* --------------------- */}
 
-      <View style={styles.buttonGroup}>
-        <GlobalRadioGroup
-          options={radioOptions}
-          selectedValue={value}
-          onSelect={setValue}
-        />
-      </View>
+          <View style={styles.buttonGroup}>
+            <GlobalRadioGroup
+              options={radioOptions}
+              selectedValue={value}
+              onSelect={setValue}
+            />
+          </View>
 
-      {/* -------------------------- */}
-      {/* ------- Add note Box ------- */}
-      {/* --------------------------- */}
-      <View style={styles.noteContainer}>
-        <Text style={styles.noteTitle}>Add a note (optional)</Text>
-        <TextInput
-          keyboardAppearance={
-            Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-          }
-          onChangeText={text => setMuteMessage(text)}
-          placeholder="Describe the reason"
-          placeholderTextColor={Colors.BodyText}
-          style={styles.noteTextArea}
-        />
-      </View>
-      {/* --------------------- */}
-      {/* Modal Button Container */}
-      {/* --------------------- */}
+          {/* -------------------------- */}
+          {/* ------- Add note Box ------- */}
+          {/* --------------------------- */}
+          <View style={styles.noteContainer}>
+            <Text style={styles.noteTitle}>Add a note (optional)</Text>
+            <TextInput
+              keyboardAppearance={
+                Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+              }
+              onChangeText={text => setMuteMessage(text)}
+              placeholder="Describe the reason"
+              placeholderTextColor={Colors.BodyText}
+              style={styles.noteTextArea}
+            />
+          </View>
+          {/* --------------------- */}
+          {/* Modal Button Container */}
+          {/* --------------------- */}
 
-      <View style={styles.buttonContainer}>
-        <ModalCustomButton
-          toggleModal={onCancel}
-          textColor="#27ac1f"
-          backgroundColor="rgba(39, 172, 31, 0.1)"
-          buttonText="Cancel"
-        />
-        <ModalCustomButton
-          toggleModal={() =>
-            onSave({
-              actionType: 'mute',
-              date: new Date(),
-              note: muteMessage,
-              selectedOption: value,
-            })
-          }
-          textColor={Colors.PureWhite}
-          backgroundColor="#27ac1f"
-          buttonText="Save"
-        />
-      </View>
-    </View>
+          <View style={styles.buttonContainer}>
+            <ModalCustomButton
+              toggleModal={onCancel}
+              textColor="#27ac1f"
+              backgroundColor="rgba(39, 172, 31, 0.1)"
+              buttonText="Cancel"
+            />
+            <ModalCustomButton
+              toggleModal={() =>
+                onSave({
+                  actionType: 'mute',
+                  date: null,
+                  note: muteMessage,
+                  selectedOption: value,
+                })
+              }
+              textColor={Colors.PureWhite}
+              backgroundColor="#27ac1f"
+              buttonText="Save"
+            />
+          </View>
+        </View>
+      )}
+    </>
   );
 }
 
@@ -140,6 +170,7 @@ const getStyles = Colors =>
       fontSize: responsiveScreenFontSize(2),
       fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
+      marginBottom: 20,
     },
     //  -------------------------------------------------------------
     // Modal description

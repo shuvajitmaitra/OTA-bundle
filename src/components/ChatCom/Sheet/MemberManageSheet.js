@@ -14,14 +14,14 @@ import ChatMuteModal from '../Modal/ChatMuteModal';
 const MemberManageSheet = ({
   option,
   blockConfirm = false,
-  setBlockConfirm = () => {},
   removeConfirm = false,
-  setRemoveConfirm = () => {},
   roleClicked = false,
-  setRoleClicked = () => {},
   role,
   muteClicked = false,
+  setRemoveConfirm = () => {},
+  setBlockConfirm = () => {},
   setMuteClicked = () => {},
+  setRoleClicked = () => {},
 }) => {
   const dispatch = useDispatch();
   const {selectedMember} = useSelector(state => state.chatSlice);
@@ -36,7 +36,13 @@ const MemberManageSheet = ({
     <>
       {selectedMember._id && (
         <CustomBottomSheet
-          onBackdropPress={() => dispatch(setSelectedMembers({}))}>
+          onBackdropPress={() => {
+            dispatch(setSelectedMembers({}));
+            setRemoveConfirm(false);
+            setBlockConfirm(false);
+            setMuteClicked(false);
+            setRoleClicked(false);
+          }}>
           {!muteClicked && !roleClicked && !blockConfirm && !removeConfirm && (
             <FlatList
               data={option}
@@ -64,6 +70,7 @@ const MemberManageSheet = ({
                 dispatch(setSelectedMembers({}));
                 setMuteClicked(false);
               }}
+              mute={selectedMember.mute}
             />
           )}
           {roleClicked && (

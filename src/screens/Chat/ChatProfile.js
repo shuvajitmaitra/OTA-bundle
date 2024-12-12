@@ -179,7 +179,7 @@ const ChatProfile = () => {
       function: () => setRoleClicked(true),
     },
     {
-      label: 'Mute user',
+      label: selectedMember?.mute?.isMuted ? 'Unmute user' : 'Mute user',
       icon: <VolumeMute />,
       function: () => setMuteClicked(true),
       // handleUpdateMember({
