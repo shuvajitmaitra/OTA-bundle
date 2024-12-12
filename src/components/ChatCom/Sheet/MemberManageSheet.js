@@ -8,6 +8,7 @@ import CustomFonts from '../../../constants/CustomFonts';
 import {useTheme} from '../../../context/ThemeContext';
 import CustomeBtn from '../../AuthenticationCom/CustomeBtn';
 import {handleRemoveUser, handleUpdateMember} from '../../../actions/apiCall';
+import GlobalRadioGroup from '../../SharedComponent/GlobalRadioButton';
 
 const MemberManageSheet = ({
   option,
@@ -15,17 +16,25 @@ const MemberManageSheet = ({
   setBlockConfirm = () => {},
   removeConfirm = false,
   setRemoveConfirm = () => {},
+  roleClicked = false,
+  setRoleClicked = () => {},
+  role,
 }) => {
   const dispatch = useDispatch();
   const {selectedMember} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  const options = [
+    {label: 'Admin', value: 'admin'},
+    {label: 'Moderator', value: 'moderator'},
+    {label: 'Member', value: 'member'},
+  ];
   return (
     <>
       {selectedMember._id && (
         <CustomBottomSheet
           onBackdropPress={() => dispatch(setSelectedMembers({}))}>
-          {!blockConfirm && !removeConfirm && (
+          {!roleClicked && !blockConfirm && !removeConfirm && (
             <FlatList
               data={option}
               renderItem={({item}) => (
@@ -35,6 +44,21 @@ const MemberManageSheet = ({
                 </TouchableOpacity>
               )}
               ItemSeparatorComponent={() => <Divider />}
+            />
+          )}
+          {roleClicked && (
+            <GlobalRadioGroup
+              options={options}
+              onSelect={value => {
+                handleUpdateMember({
+                  actionType: 'role',
+                  member: selectedMember?._id,
+                  chat: selectedMember?.chat,
+                  role: value,
+                });
+                setRoleClicked(false);
+              }}
+              selectedValue={role}
             />
           )}
           {blockConfirm && (
@@ -130,6 +154,6 @@ const getStyles = Colors =>
     list: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 5,
+      gap: 10,
     },
   });

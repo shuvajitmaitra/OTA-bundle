@@ -46,12 +46,15 @@ import GroupModalTabView from '../../components/ChatCom/Modal/GroupModalTabView'
 import CrowdIcon from '../../assets/Icons/CrowedIcon';
 import AiBotIcon from '../../assets/Icons/AiBotIcon';
 import UserIcon from '../../assets/Icons/UserIcon';
+import UserIconTwo from '../../assets/Icons/UserIconTwo';
+import AddUsers from '../../assets/Icons/AddUser';
 
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
 
   const {selectedMember} = useSelector(state => state.chatSlice);
+  console.log('selectedMember', JSON.stringify(selectedMember, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +63,7 @@ const ChatProfile = () => {
   const [ImageView, setImageView] = useState(null);
   const [blockConfirm, setBlockConfirm] = useState(false);
   const [removeConfirm, setRemoveConfirm] = useState(false);
+  const [roleClicked, setRoleClicked] = useState(false);
 
   const [isLeaveCrowdModalVisible, setLeaveCrowdModalVisible] = useState(false);
   const toggleLeaveCrowdModal = () => {
@@ -168,6 +172,11 @@ const ChatProfile = () => {
 
   const option = [
     {
+      label: 'Role',
+      icon: <AddUsers size={23} />,
+      function: () => setRoleClicked(true),
+    },
+    {
       label: selectedMember.isBlocked ? 'Unblock user' : 'Block user',
       icon: <BlockIcon />,
       function: () => setBlockConfirm(true),
@@ -208,6 +217,9 @@ const ChatProfile = () => {
         setBlockConfirm={setBlockConfirm}
         setRemoveConfirm={setRemoveConfirm}
         removeConfirm={removeConfirm}
+        roleClicked={roleClicked}
+        setRoleClicked={setRoleClicked}
+        role={selectedMember.role}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}

@@ -71,7 +71,7 @@ const NotificationScreen = () => {
       });
   };
   const handleNavigation = notification => {
-    // console.log("notification", JSON.stringify(notification, null, 1));
+    console.log('notification', JSON.stringify(notification, null, 1));
     switch (notification.notificationType) {
       case 'submitMockInterview': //not
       case 'certificateGenerate': //not
@@ -170,7 +170,13 @@ const NotificationScreen = () => {
         //   [{ text: "OK", onPress: () => console.log("OK Pressed") }],
         //   { cancelable: false }
         // );
-        showAlert();
+        showAlert({
+          title: 'Unavailable',
+          type: 'warning',
+          message:
+            'Feature not available in the app. Please visit our website for full access.',
+          link: 'portal.bootcampshub.ai',
+        });
         break;
     }
   };

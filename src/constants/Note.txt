@@ -1,8 +1,20 @@
-*Work Stream - December 10, 2024*
+*Work Stream - December 12, 2024*
 *Bootcampshub CLI*
-- Need to replace old comment field to new comment field.
-
-
+- Crowd profile image are not similar with main chat screen crowd profile picture
+- Selected section is not clickable
+- Report option and Archive option is not working
+- When select This Month from filters, Recent post not showing in the communication screen
+- When click create post field from community screen, keyboard will be open automaticly
+- Comment screen is behind of the status bar and not scrolling
+- Unable to create any event on the calendar screen
+- Keyboard not closing when i press any white space in the login screen
+- Unable to showing Weekends in calendar screen
+- Availability function not available in app 
+- Don't showing the event type name in invited event details screen
+- Meeting Join link not available in the invited event details screen
+- Need to added My response status option in event details screen
+- Adding event status of invited user in the event details screen
+- Having moving effect bullet point of event type
 
 Anonno's Work stream
 •⁠  ⁠Test mobile apps Android & IOS.
@@ -19,33 +31,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 
 *Work update - December 10, 2024*  
 *BootcampsHub CLI* 
-- The calendar event type indicator has been made dynamic.  
-- The delivery status indicator has been removed from the reply-in-thread message.  
-- The issue of users being online but not visible on the online screen has been resolved.  
-- Deleted messages now display the deleted time instead of the sending time.  
-- The issue of crowd names not appearing on the message screen during some tests has been fixed.  
-- The crash when clicking the "Create Crowd" button has been resolved.  
-- User images and names are now center-aligned in the mention user modal.  
-- Mention user profile pictures have been made rounded.  
-- The "Pin" feature has been replaced with "Favorite Chat."  
-- An animated loader has been added while sending messages in the chat.  
-- The incorrect deleted time in the reply-in-thread screen has been corrected.  
-- An initial message is displayed when there are no messages in the chat message screen.  
-- The audio message recording button position has been changed.  
-- A debounced function (optimized function for API calls) has been added for searching new users to create chats.  
-- A toast message is shown when a user is added to a crowd.  
-- Function calls for searching users to add to a crowd have been optimized.  
-- Chat icon color issues in the chat filter modal have been fixed.  
-- Padding issues in the "Create New Chat" screen have been resolved.  
-- Required field indicators in the "Create Crowd" screen have been fixed.  
-- Archived chat icon issues have been fixed.  
-- Modal height issues in the thread screen message option modal have been resolved.  
-- The comment section in the document details screen has been replaced with the new comment section.  
-- Videos are now displayed correctly in the audio/video screen.  
-- Crowd member fetching issues after adding a member to a crowd have been fixed.  
-- The crash when clicking the "Next" button multiple times in the audio/video screen has been resolved.  
-- The "See More" and "See Less" arrow icon direction issue in the chat profile screen has been fixed.  
-- The back button icon color in the "My Profile" screen has been updated.  
+
 
 BootcampsHub Mobile Testing update:
 API Automation results:

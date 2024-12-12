@@ -1,18 +1,17 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
-import { useTheme } from "../../context/ThemeContext";
+import * as React from 'react';
+import Svg, {Path} from 'react-native-svg';
+import {useTheme} from '../../context/ThemeContext';
 
-function AddUsers(props) {
+function AddUsers({size, ...props}) {
   const Colors = useTheme();
   return (
     <Svg
-      width={20}
-      height={20}
+      width={size || 20}
+      height={size || 20}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+      {...props}>
       <Path
         d="M10 10a4.167 4.167 0 100-8.333A4.167 4.167 0 0010 10zM2.842 18.333C2.842 15.108 6.05 12.5 10 12.5c.8 0 1.575.108 2.3.308"
         stroke={Colors.BodyText}

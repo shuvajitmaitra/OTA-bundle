@@ -13,6 +13,7 @@ import {
   loadCalendarEvent,
   loadChats,
   loadNotifications,
+  loadProgramInfo,
 } from '../actions/chat-noti';
 import {
   connectSocket,
@@ -47,6 +48,7 @@ const RootStackNavigator = () => {
           await Promise.all([
             loadNotifications(),
             loadCalendarEvent(),
+            loadProgramInfo(),
             loadChats(),
             getOnlineUsers(),
           ]);
