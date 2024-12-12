@@ -92,6 +92,7 @@ const getStyles = Colors =>
       borderWidth: 1,
       borderColor: Colors.BorderColor,
       paddingBottom: 10,
+      overflow: 'hidden',
     },
     dotCon: {
       flexDirection: 'row',
