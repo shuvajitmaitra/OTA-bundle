@@ -18,7 +18,8 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useDispatch, useSelector} from 'react-redux';
 import ImageViewing from 'react-native-image-viewing';
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 import {useTheme} from '../../context/ThemeContext';
 import axiosInstance from '../../utility/axiosInstance';
 import {
@@ -349,16 +350,16 @@ const ChatProfile = () => {
         {chat.isChannel && (
           <View style={styles.actionButtonsContainer}>
             {/* Report Button */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={toggleReportMembersModal}
               style={styles.blockContainer}>
-              {/* <Feather
+              <Feather
               name="alert-triangle"
               size={responsiveScreenFontSize(2.5)}
               color={Colors.BodyText}
-            /> */}
+            />
               <Text style={styles.containerText}>Report</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {/* <ReportModal
             toggleReportMembersModal={toggleReportMembersModal}
             isReportMembersModalVisible={isReportMembersModalVisible}
@@ -370,11 +371,11 @@ const ChatProfile = () => {
                 handleArchive({chatId: chat._id, archived: !chat.isArchived});
               }}
               style={styles.blockContainer}>
-              {/* <Feather
-              name="archive"
-              size={responsiveScreenFontSize(2.5)}
-              color={Colors.BodyText}
-            /> */}
+              <Feather
+                name="archive"
+                size={responsiveScreenFontSize(2.5)}
+                color={Colors.BodyText}
+              />
               <Text style={styles.containerText}>
                 {chat.isArchived ? 'Retrieve Chat' : 'Archive Chat'}
               </Text>
@@ -384,11 +385,7 @@ const ChatProfile = () => {
             <TouchableOpacity
               onPress={toggleLeaveCrowdModal}
               style={styles.blockContainer}>
-              {/* <AntDesign
-              name="delete"
-              size={responsiveScreenFontSize(2)}
-              color="rgba(244, 42, 65, 1)"
-            /> */}
+              <AntDesign name="delete" size={25} color="rgba(244, 42, 65, 1)" />
               <Text
                 style={[styles.containerText, {color: 'rgba(244, 42, 65, 1)'}]}
                 numberOfLines={1}

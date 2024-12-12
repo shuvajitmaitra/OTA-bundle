@@ -505,13 +505,15 @@ const ChatFooter2 = ({
         </View>
       )}
 
-      <AudioRecorder
-        sendMessage={sendMessage}
-        setStartRecording={setStartRecording}
-        handleKey={handleKey}
-        chat={singleChat?._id}
-        isChannel={singleChat?.isChannel}
-      />
+      {!text.length && (
+        <AudioRecorder
+          sendMessage={sendMessage}
+          setStartRecording={setStartRecording}
+          handleKey={handleKey}
+          chat={singleChat?._id}
+          isChannel={singleChat?.isChannel}
+        />
+      )}
 
       {showBottom && (
         <View

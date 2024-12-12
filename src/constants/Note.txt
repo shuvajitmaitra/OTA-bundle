@@ -33,7 +33,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Member role adding functionalities added.
 - Member mute and unmute functionalities added.
 - Chat screen profile, Message screen profile image, chat profile image not similar issues fixed.
-- 
+- Archive chat and retrieve functionalities added
 
 BootcampsHub Mobile Testing update:
 API Automation results:

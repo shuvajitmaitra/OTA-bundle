@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
