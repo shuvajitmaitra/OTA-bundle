@@ -4,11 +4,10 @@ import {
   View,
   Image,
   TouchableOpacity,
-  SafeAreaView,
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
@@ -18,7 +17,6 @@ import {StatusBar} from 'react-native';
 import SntModal from '../../components/ShowNTellCom/SntModal';
 import {useTheme} from '../../context/ThemeContext';
 import CustomFonts from '../../constants/CustomFonts';
-import Divider from '../../components/SharedComponent/Divider';
 import axiosInstance from '../../utility/axiosInstance';
 import {useDispatch, useSelector} from 'react-redux';
 import {setShowNTell} from '../../store/reducer/showNTellReducer';
@@ -31,10 +29,8 @@ import {getFileTypeFromUri} from '../../components/TechnicalTestCom/TestNow';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import ConfirmationModal from '../../components/SharedComponent/ConfirmationModal';
 import {showToast} from '../../components/HelperFunction';
-import {Alert} from 'react-native';
 import ImageView from 'react-native-image-viewing';
 import PlusCircleIcon from '../../assets/Icons/PlusCircleIcon';
-import {useGlobalAlert} from '../../components/SharedComponent/GlobalAlertContext';
 import UpdateSntModal from '../../components/ShowNTellCom/UpdateSntModal';
 
 export default function ShowAndTellScreen() {
@@ -42,11 +38,11 @@ export default function ShowAndTellScreen() {
   const navigation = useNavigation();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const {showAlert} = useGlobalAlert();
   const [cardData, setCardData] = useState({});
-  console.log('cardData', JSON.stringify(cardData, null, 1));
+  // console.log('cardData', JSON.stringify(cardData, null, 1));
   const [isLoading, setIsLoading] = useState(false);
   const {showNTell} = useSelector(state => state.showNTell);
+  // console.log('showNTell', JSON.stringify(showNTell, null, 1));
   const [isSntModalVisible, setIsSntModalVisible] = useState(false);
   const [isUpdateSntModalVisible, setIsUpdateSntModalVisible] = useState(false);
   const [isImageViewVisible, setIsImageViewVisible] = useState(false);
@@ -97,10 +93,14 @@ export default function ShowAndTellScreen() {
     setSelectedImage(image);
     setIsImageViewVisible(true);
   };
-
   const renderItem = ({item, index}) => (
     <View style={styles.sntContainer}>
-      <TouchableOpacity onPress={() => toggleImageView(item?.attachments[0])}>
+      <TouchableOpacity
+        disabled={getFileTypeFromUri(item?.attachments[0]) !== 'image'}
+        onPress={() =>
+          getFileTypeFromUri(item?.attachments[0]) === 'image' &&
+          toggleImageView(item?.attachments[0])
+        }>
         <Image
           source={
             item?.attachments?.length > 0 &&
@@ -213,9 +213,6 @@ export default function ShowAndTellScreen() {
       </View>
     </View>
   );
-  const ItemSeparator = useCallback(() => {
-    return <View style={{marginBottom: responsiveScreenHeight(2)}} />;
-  });
 
   if (isLoading) {
     return (
