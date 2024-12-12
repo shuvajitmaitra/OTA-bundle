@@ -1,8 +1,6 @@
 *Work Stream - December 12, 2024*
 *Bootcampshub CLI*
 
-- Need to added My response status option in event details screen
-- Adding event status of invited user in the event details screen
 - Having moving effect bullet point of event type
 
 Anonno's Work stream
@@ -31,7 +29,8 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Keyboard hiding issues fixed in sign in screen.
 - Weekends displaying issues fixed in calendar screen
 - Availability showing issues fixed in the calendar screen.
-- Don't showing the event type name in invited event details screen
+- Don't showing the event type name in invited event invite details modal
+- Needed My response status option in event invite details modal
 
 
 

@@ -20,13 +20,12 @@ import CustomFonts from '../../../constants/CustomFonts';
 import Markdown from 'react-native-markdown-display';
 import moment from 'moment';
 import axiosInstance from '../../../utility/axiosInstance';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
   setNewEvent,
   updateInvitations,
 } from '../../../store/reducer/calendarReducer';
 import InvitationDeniedModal from './InvitationDeniedModal';
-import CustomTimePicker from '../../SharedComponent/CustomTimePicker';
 import ProposeNewTimeModal from './ProposeNewTimeModal';
 import Images from '../../../constants/Images';
 import {showToast} from '../../HelperFunction';
@@ -53,7 +52,6 @@ const InvitationsDetailsModal = ({
   isInvitationsDetailsModalVisible,
   toggleInvitationsDetailsModal,
 }) => {
-  const {user} = useSelector(state => state.auth);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const dispatch = useDispatch();
@@ -145,6 +143,21 @@ const InvitationsDetailsModal = ({
                 {item?.createdBy?.fullName || 'N/A'}
               </Text>
             </View>
+            <Text style={styles.textAreaHeading}>My Response</Text>
+            <Text
+              style={[
+                styles.meetingLinkText,
+                {
+                  color:
+                    item?.myParticipantData?.status === 'accepted'
+                      ? Colors.Primary
+                      : item?.myParticipantData?.status === 'pending'
+                      ? Colors.ThemeSecondaryColor
+                      : Colors.Red,
+                },
+              ]}>
+              {item?.myParticipantData?.status}
+            </Text>
 
             <Text style={[styles.textAreaHeading]}>Meeting Agenda</Text>
             <View style={styles.inputContainer}>
