@@ -26,27 +26,6 @@ export default function ChatMuteModal({fullName, onSave, onCancel, mute}) {
     {value: 3, label: 'Mute until I turn back on'},
   ];
 
-  // const handleMuteModal = () => {
-
-  //   axiosInstance
-  //     .post(`/chat/member/update`, {
-  //       actionType: 'mute',
-  //       chat: item?.chat,
-  //       date: new Date(),
-  //       member: item?._id,
-  //       note: muteMessage,
-  //       selectedOption: value,
-  //     })
-  //     .then(res => {
-  //       console.log('🚀 ~ handleUnBlockMember ~ res:', res.data);
-  //       if (res.data?.success) {
-  //         showToast('Successfully Muted...');
-  //         fetchMembers();
-  //         //   console.log("item", item);
-  //       }
-  //     });
-  // };
-  console.log('value', JSON.stringify(value, null, 1));
   return (
     <>
       {mute.isMuted ? (
