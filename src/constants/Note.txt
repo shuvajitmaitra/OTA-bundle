@@ -1,7 +1,5 @@
 *Work Stream - December 12, 2024*
 *Bootcampshub CLI*
-- Crowd profile image are not similar with main chat screen crowd profile picture
-- Selected section is not clickable
 - Report option and Archive option is not working
 - When select This Month from filters, Recent post not showing in the communication screen
 - When click create post field from community screen, keyboard will be open automaticly
@@ -33,7 +31,8 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 *BootcampsHub CLI* 
 - After tap Notification blank screen showing issues fixed.
 - Member role adding functionalities added.
-- Member mute functionalities added.
+- Member mute and unmute functionalities added.
+- Chat screen profile, Message screen profile image, chat profile image not similar issues fixed.
 - 
 
 BootcampsHub Mobile Testing update:

@@ -6,7 +6,6 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import ReactNativeModal from 'react-native-modal';
-import {RadioButton} from 'react-native-paper';
 
 import ModalCustomButton from './ModalCustomButton';
 import CustomFonts from '../../../constants/CustomFonts';

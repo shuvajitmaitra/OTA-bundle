@@ -6,8 +6,6 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
-  BackHandler,
-  Text,
 } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 import {useDispatch, useSelector} from 'react-redux';
@@ -267,7 +265,7 @@ const MessageScreen2 = () => {
             data={localMessages?.length ? localMessages : messages[chat?._id]}
             renderItem={renderItem}
             keyExtractor={(item, index) => item?._id?.toString() || index} // Use a stable key
-            onEndReached={handleLoadMore}
+            onEndReached={!chat.isArchived && handleLoadMore}
             onEndReachedThreshold={0.5} // Adjust as needed
             ListFooterComponent={ListFooterComponent}
             inverted

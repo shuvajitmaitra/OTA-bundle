@@ -40,7 +40,7 @@ import {setCrowdMembers} from '../../store/reducer/chatSlice';
 import BlockIcon from '../../assets/Icons/BlockIcon';
 import BinIcon from '../../assets/Icons/BinIcon';
 import MemberManageSheet from '../../components/ChatCom/Sheet/MemberManageSheet';
-import {fetchMembers} from '../../actions/apiCall';
+import {fetchMembers, handleArchive} from '../../actions/apiCall';
 import {launchImageLibrary} from 'react-native-image-picker';
 import GroupModalTabView from '../../components/ChatCom/Modal/GroupModalTabView';
 import CrowdIcon from '../../assets/Icons/CrowedIcon';
@@ -367,11 +367,7 @@ const ChatProfile = () => {
             {/* Archive Chat Button */}
             <TouchableOpacity
               onPress={() => {
-                //   showAlert({
-                //     title: 'Coming Soon...',
-                //     type: 'warning',
-                //     message: 'This feature is coming soon.',
-                //   });
+                handleArchive({chatId: chat._id, archived: !chat.isArchived});
               }}
               style={styles.blockContainer}>
               {/* <Feather
@@ -379,7 +375,9 @@ const ChatProfile = () => {
               size={responsiveScreenFontSize(2.5)}
               color={Colors.BodyText}
             /> */}
-              <Text style={styles.containerText}>Archive Chat</Text>
+              <Text style={styles.containerText}>
+                {chat.isArchived ? 'Retrieve Chat' : 'Archive Chat'}
+              </Text>
             </TouchableOpacity>
 
             {/* Leave Chat Button */}

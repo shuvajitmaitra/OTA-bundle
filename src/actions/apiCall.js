@@ -4,15 +4,14 @@ import {
   initialActivities,
   setActivitiesCount,
 } from '../store/reducer/activitiesReducer';
-import {
-  selectOrganizations,
-  setSelectedOrganization,
-} from '../store/reducer/authReducer';
+import {selectOrganizations} from '../store/reducer/authReducer';
 import {
   setOnlineUsers,
+  updateChatsArchive,
+  updateFavoriteSingleChat,
   updateLatestMessage,
   updateMyData,
-  updateSingleChat,
+  updateSingleChatArchive,
   updateSingleChatMemberCount,
 } from '../store/reducer/chatReducer';
 import {
@@ -60,7 +59,7 @@ export const handleChatFavorite = data => {
           }),
         ),
           store.dispatch(
-            updateSingleChat({
+            updateFavoriteSingleChat({
               isFavourite: res.data.member.isFavourite,
             }),
           );
@@ -109,6 +108,30 @@ export const handleUpdateMember = actionData => {
       console.log('error', JSON.stringify(error.response.data, null, 1));
     });
 };
+
+export const handleArchive = data => {
+  console.log('Data passed to handleArchive:', JSON.stringify(data, null, 1));
+  axiosInstance
+    .patch(`/chat/channel/archive/${data.chatId}`, {
+      isArchived: data.archived,
+    })
+    .then(res => {
+      if (res.data.success) {
+        store.dispatch(
+          updateChatsArchive({
+            _id: data.chatId,
+            field: 'isArchived',
+            value: data.archived,
+          }),
+        );
+        store.dispatch(updateSingleChatArchive({isArchived: data.archived}));
+      }
+    })
+    .catch(error => {
+      console.log('Error archiving chat:', JSON.stringify(error, null, 1));
+    });
+};
+
 export const handleRemoveUser = (chatId, memberId) => {
   axiosInstance
     .patch(`/chat/channel/remove-user/${chatId}`, {

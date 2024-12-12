@@ -70,9 +70,17 @@ export default function NewChatScreen({navigation: {goBack}}) {
     setIsCreateCrowdModalVisible(!isCreateCrowdModalVisible);
   };
   const bottomSheetRef = useRef(null);
+  // useEffect(() => {
+  //   console.log('NewChatScreen');
+  //   const filteredChats = chats?.filter(x => !x?.isArchived) || [];
+  //   setRecords(filteredChats);
+  //   setResults(filteredChats);
+  //   return () => {};
+  // }, []);
 
   useEffect(() => {
     const filteredChats = chats?.filter(x => !x?.isArchived) || [];
+
     setRecords(filteredChats);
     setResults(filteredChats);
   }, [chats]);
