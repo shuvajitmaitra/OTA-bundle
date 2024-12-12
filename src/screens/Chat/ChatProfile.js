@@ -49,10 +49,13 @@ import AiBotIcon from '../../assets/Icons/AiBotIcon';
 import UserIcon from '../../assets/Icons/UserIcon';
 import AddUsers from '../../assets/Icons/AddUser';
 import VolumeMute from '../../assets/Icons/VolumeMute';
+import EditIcon from '../../assets/Icons/EditIcon';
+import UpdateCrowdModal from '../../components/ChatCom/Modal/UpdateCrowdModal';
 
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
+  console.log('chat', JSON.stringify(chat, null, 1));
 
   const {selectedMember} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
@@ -64,6 +67,13 @@ const ChatProfile = () => {
   const [removeConfirm, setRemoveConfirm] = useState(false);
   const [roleClicked, setRoleClicked] = useState(false);
   const [muteClicked, setMuteClicked] = useState(false);
+
+  const [isUpdateCrowdModalVisible, setUpdateCrowdModalVisible] =
+    useState(false);
+
+  const toggleUpdateCrowdModal = () => {
+    setUpdateCrowdModalVisible(!isUpdateCrowdModalVisible);
+  };
 
   const [isLeaveCrowdModalVisible, setLeaveCrowdModalVisible] = useState(false);
   const toggleLeaveCrowdModal = () => {
@@ -274,7 +284,19 @@ const ChatProfile = () => {
                   selectImage();
                 }}
                 style={styles.cameraIcon}>
-                <CameraIcon />
+                <CameraIcon size={23} color={Colors.PureWhite} />
+              </TouchableOpacity>
+            )}
+          {chat.isChannel &&
+            (chat?.myData?.role === 'owner' ||
+              chat?.myData?.role === 'admin' ||
+              chat?.myData?.role === 'moderator') && (
+              <TouchableOpacity
+                onPress={() => {
+                  toggleUpdateCrowdModal();
+                }}
+                style={styles.EditProfileContainer}>
+                <EditIcon />
               </TouchableOpacity>
             )}
         </View>
@@ -401,7 +423,11 @@ const ChatProfile = () => {
         )}
       </ScrollView>
 
-      {/* Image Viewer */}
+      <UpdateCrowdModal
+        isUpdateCrowdModalVisible={isUpdateCrowdModalVisible}
+        toggleUpdateCrowdModal={toggleUpdateCrowdModal}
+      />
+
       <ImageViewing
         images={ImageView} // Array of images
         imageIndex={0} // Initial image index
@@ -481,7 +507,15 @@ const getStyles = Colors =>
       position: 'absolute',
       bottom: responsiveScreenHeight(1),
       right: responsiveScreenWidth(3),
-      backgroundColor: Colors.CyanOpacity,
+      backgroundColor: Colors.Primary,
+      padding: 10,
+      borderRadius: 100,
+    },
+    EditProfileContainer: {
+      position: 'absolute',
+      top: responsiveScreenHeight(1),
+      right: responsiveScreenWidth(3),
+      backgroundColor: Colors.Primary,
       padding: 10,
       borderRadius: 100,
     },

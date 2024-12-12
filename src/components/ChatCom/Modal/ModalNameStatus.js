@@ -1,5 +1,5 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
 
 import CustomFonts from '../../../constants/CustomFonts';
 import {
@@ -8,20 +8,12 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {useTheme} from '../../../context/ThemeContext';
-import EditIconTwo from '../../../assets/Icons/EditIcon2';
-import UpdateCrowdModal from './UpdateCrowdModal';
 import {useSelector} from 'react-redux';
 
 export default function ModalNameStatus() {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {singleChat: chat} = useSelector(state => state.chat);
-  const [isUpdateCrowdModalVisible, setUpdateCrowdModalVisible] =
-    useState(false);
-
-  const toggleUpdateCrowdModal = () => {
-    setUpdateCrowdModalVisible(!isUpdateCrowdModalVisible);
-  };
 
   return (
     <View style={styles.modalProfileNameContainer}>
@@ -31,12 +23,6 @@ export default function ModalNameStatus() {
             ? chat?.name || 'Unavailable'
             : chat?.otherUser?.fullName || 'Unavailable'}
         </Text>
-        {chat.isChannel &&
-        (chat?.myData?.role === 'owner' || chat?.myData?.role === 'admin') ? (
-          <TouchableOpacity onPress={toggleUpdateCrowdModal}>
-            <EditIconTwo />
-          </TouchableOpacity>
-        ) : null}
       </View>
       {/* <View style={styles.activeStatusContainer}>
         <View
@@ -60,10 +46,6 @@ export default function ModalNameStatus() {
             : 'Online'}
         </Text>
       </View> */}
-      <UpdateCrowdModal
-        isUpdateCrowdModalVisible={isUpdateCrowdModalVisible}
-        toggleUpdateCrowdModal={toggleUpdateCrowdModal}
-      />
     </View>
   );
 }

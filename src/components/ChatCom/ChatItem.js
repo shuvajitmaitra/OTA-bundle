@@ -18,6 +18,7 @@ import {markRead, setSingleChat} from '../../store/reducer/chatReducer';
 import CrowdIcon from '../../assets/Icons/CrowedIcon';
 import AiBotIcon from '../../assets/Icons/AiBotIcon';
 import UserIcon from '../../assets/Icons/UserIcon';
+import GlobeIcon from '../../assets/Icons/GlobeIcon';
 
 function formatTime(dateString) {
   const today = moment().startOf('day');
@@ -158,14 +159,17 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
 
       <View>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={styles.profileName}>
-            {chat?.isChannel
-              ? chat?.name
-              : chat?.otherUser?.fullName || 'Schools Hub User'}
-          </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+            {chat.isPublic && <GlobeIcon />}
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={styles.profileName}>
+              {chat?.isChannel
+                ? chat?.name
+                : chat?.otherUser?.fullName || 'Bootcampshub User'}
+            </Text>
+          </View>
           <Text style={styles.messageTime}>
             {formatTime(chat?.latestMessage?.createdAt)}
           </Text>
