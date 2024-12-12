@@ -10,26 +10,8 @@ import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 import Modal from 'react-native-modal';
 import CloseIcon from '../../assets/Icons/CloseIcon';
-import {AppState} from 'react-native';
 import CountdownTimer from './CountdownTimer';
 import GlobalRadioGroup from '../SharedComponent/GlobalRadioButton';
-
-function useAppState() {
-  const [appState, setAppState] = useState(AppState.currentState);
-
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      // Here you can handle any specific logic when app state changes
-      console.log('App State changed to:', nextAppState);
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
-
-  return appState;
-}
 
 function StartTestModal({
   isStartTestModalVisible,

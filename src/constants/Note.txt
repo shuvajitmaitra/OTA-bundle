@@ -33,7 +33,8 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Needed My response status option in event invite details modal
 - Event type blinking issue fixed in calendar screen.
 - Chat crowd name and type(Public or private) issues fixed.
-- 
+- Placeholder viewing issues fixed in show n tell screen.
+
 
 
 BootcampsHub Mobile Testing update:
