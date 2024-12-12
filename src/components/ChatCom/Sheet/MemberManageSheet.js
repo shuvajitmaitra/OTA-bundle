@@ -9,6 +9,7 @@ import {useTheme} from '../../../context/ThemeContext';
 import CustomeBtn from '../../AuthenticationCom/CustomeBtn';
 import {handleRemoveUser, handleUpdateMember} from '../../../actions/apiCall';
 import GlobalRadioGroup from '../../SharedComponent/GlobalRadioButton';
+import ChatMuteModal from '../Modal/ChatMuteModal';
 
 const MemberManageSheet = ({
   option,
@@ -19,6 +20,8 @@ const MemberManageSheet = ({
   roleClicked = false,
   setRoleClicked = () => {},
   role,
+  muteClicked = false,
+  setMuteClicked = () => {},
 }) => {
   const dispatch = useDispatch();
   const {selectedMember} = useSelector(state => state.chatSlice);
@@ -34,7 +37,7 @@ const MemberManageSheet = ({
       {selectedMember._id && (
         <CustomBottomSheet
           onBackdropPress={() => dispatch(setSelectedMembers({}))}>
-          {!roleClicked && !blockConfirm && !removeConfirm && (
+          {!muteClicked && !roleClicked && !blockConfirm && !removeConfirm && (
             <FlatList
               data={option}
               renderItem={({item}) => (
@@ -43,7 +46,24 @@ const MemberManageSheet = ({
                   <Text style={styles.listText}>{item.label}</Text>
                 </TouchableOpacity>
               )}
-              ItemSeparatorComponent={() => <Divider />}
+              ItemSeparatorComponent={<Divider />}
+            />
+          )}
+          {muteClicked && (
+            <ChatMuteModal
+              fullName={selectedMember.user.fullName}
+              onSave={action => {
+                handleUpdateMember({
+                  ...action,
+                  chat: selectedMember?.chat,
+                  member: selectedMember?._id,
+                });
+                setMuteClicked(false);
+              }}
+              onCancel={() => {
+                dispatch(setSelectedMembers({}));
+                setMuteClicked(false);
+              }}
             />
           )}
           {roleClicked && (

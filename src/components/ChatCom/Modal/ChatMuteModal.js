@@ -5,154 +5,124 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import ReactNativeModal from 'react-native-modal';
-
 import ModalCustomButton from './ModalCustomButton';
-import ModalBackAndCrossButton from './ModalBackAndCrossButton';
 import CustomFonts from '../../../constants/CustomFonts';
-import axiosInstance from '../../../utility/axiosInstance';
 import {useTheme} from '../../../context/ThemeContext';
-import {showToast} from '../../HelperFunction';
 import GlobalRadioGroup from '../../SharedComponent/GlobalRadioButton';
 
-export default function ChatMuteModal({
-  toggleMuteModal,
-  isMuteModalVisible,
-  fullName,
-  item,
-  fetchMembers,
-  muteMessage,
-  setMuteMessage,
-  value,
-  setValue,
-}) {
+export default function ChatMuteModal({fullName, onSave, onCancel}) {
   // const [value, setValue] = React.useState(1);
-  // const [muteMessage, setMuteMessage] = useState("");\
+  const [muteMessage, setMuteMessage] = useState('');
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  const [value, setValue] = useState('');
   const radioOptions = [
     {value: 1, label: 'For 1 hour'},
     {value: 2, label: 'For 1 day'},
     {value: 3, label: 'Mute until I turn back on'},
   ];
 
-  const handleMuteModal = () => {
-    toggleMuteModal();
+  // const handleMuteModal = () => {
 
-    axiosInstance
-      .post(`/chat/member/update`, {
-        actionType: 'mute',
-        chat: item?.chat,
-        date: new Date(),
-        member: item?._id,
-        note: muteMessage,
-        selectedOption: value,
-      })
-      .then(res => {
-        console.log('🚀 ~ handleUnBlockMember ~ res:', res.data);
-        if (res.data?.success) {
-          showToast('Successfully Muted...');
-          fetchMembers();
-          //   console.log("item", item);
-        }
-      });
-  };
+  //   axiosInstance
+  //     .post(`/chat/member/update`, {
+  //       actionType: 'mute',
+  //       chat: item?.chat,
+  //       date: new Date(),
+  //       member: item?._id,
+  //       note: muteMessage,
+  //       selectedOption: value,
+  //     })
+  //     .then(res => {
+  //       console.log('🚀 ~ handleUnBlockMember ~ res:', res.data);
+  //       if (res.data?.success) {
+  //         showToast('Successfully Muted...');
+  //         fetchMembers();
+  //         //   console.log("item", item);
+  //       }
+  //     });
+  // };
   return (
-    <ReactNativeModal
-      backdropColor={Colors.BackDropColor}
-      isVisible={isMuteModalVisible}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalChild}>
-          {/* --------------------- */}
-          {/* Modal Heading */}
-          {/* --------------------- */}
-          <ModalBackAndCrossButton toggleModal={toggleMuteModal} />
-
-          <View style={styles.modalHeading}>
-            <Text style={styles.modalHeadingText}>
-              Mute Options for {fullName}
-            </Text>
-          </View>
-
-          {/* --------------------- */}
-          {/* Modal Descriptions */}
-          {/* --------------------- */}
-
-          <View style={styles.modalDescription}>
-            <Text style={styles.modalDescriptionText}>
-              Muted members can&apos;t send message in this channel but he/she
-              can read message
-            </Text>
-          </View>
-
-          {/* --------------------- */}
-          {/* Modal radio button */}
-          {/* --------------------- */}
-
-          <View style={styles.buttonGroup}>
-            <GlobalRadioGroup
-              options={radioOptions}
-              selectedValue={value}
-              onSelect={setValue}
-            />
-          </View>
-
-          {/* -------------------------- */}
-          {/* ------- Add note Box ------- */}
-          {/* --------------------------- */}
-          <View style={styles.noteContainer}>
-            <Text style={styles.noteTitle}>Add a note (optional)</Text>
-            <TextInput
-              keyboardAppearance={
-                Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-              }
-              onChangeText={text => setMuteMessage(text)}
-              placeholder="Describe the reason"
-              placeholderTextColor={Colors.BodyText}
-              style={styles.noteTextArea}
-            />
-          </View>
-          {/* --------------------- */}
-          {/* Modal Button Container */}
-          {/* --------------------- */}
-
-          <View style={styles.buttonContainer}>
-            <ModalCustomButton
-              toggleModal={toggleMuteModal}
-              textColor="#27ac1f"
-              backgroundColor="rgba(39, 172, 31, 0.1)"
-              buttonText="Cancel"
-            />
-            <ModalCustomButton
-              toggleModal={handleMuteModal}
-              textColor={Colors.PureWhite}
-              backgroundColor="#27ac1f"
-              buttonText="Save"
-            />
-          </View>
-        </View>
+    <View style={styles.modalChild}>
+      <View style={styles.modalHeading}>
+        <Text style={styles.modalHeadingText}>Mute Options for {fullName}</Text>
       </View>
-    </ReactNativeModal>
+
+      {/* --------------------- */}
+      {/* Modal Descriptions */}
+      {/* --------------------- */}
+
+      <View style={styles.modalDescription}>
+        <Text style={styles.modalDescriptionText}>
+          Muted members can&apos;t send message in this channel but he/she can
+          read message
+        </Text>
+      </View>
+
+      {/* --------------------- */}
+      {/* Modal radio button */}
+      {/* --------------------- */}
+
+      <View style={styles.buttonGroup}>
+        <GlobalRadioGroup
+          options={radioOptions}
+          selectedValue={value}
+          onSelect={setValue}
+        />
+      </View>
+
+      {/* -------------------------- */}
+      {/* ------- Add note Box ------- */}
+      {/* --------------------------- */}
+      <View style={styles.noteContainer}>
+        <Text style={styles.noteTitle}>Add a note (optional)</Text>
+        <TextInput
+          keyboardAppearance={
+            Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+          }
+          onChangeText={text => setMuteMessage(text)}
+          placeholder="Describe the reason"
+          placeholderTextColor={Colors.BodyText}
+          style={styles.noteTextArea}
+        />
+      </View>
+      {/* --------------------- */}
+      {/* Modal Button Container */}
+      {/* --------------------- */}
+
+      <View style={styles.buttonContainer}>
+        <ModalCustomButton
+          toggleModal={onCancel}
+          textColor="#27ac1f"
+          backgroundColor="rgba(39, 172, 31, 0.1)"
+          buttonText="Cancel"
+        />
+        <ModalCustomButton
+          toggleModal={() =>
+            onSave({
+              actionType: 'mute',
+              date: new Date(),
+              note: muteMessage,
+              selectedOption: value,
+            })
+          }
+          textColor={Colors.PureWhite}
+          backgroundColor="#27ac1f"
+          buttonText="Save"
+        />
+      </View>
+    </View>
   );
 }
 
 const getStyles = Colors =>
   StyleSheet.create({
-    modalContainer: {
-      height: responsiveScreenHeight(100),
-      flex: 1,
-      width: responsiveScreenWidth(90),
-      justifyContent: 'center',
-    },
-
     modalChild: {
       backgroundColor: Colors.White,
       borderRadius: 10,
-      paddingHorizontal: responsiveScreenWidth(4.5),
-      paddingVertical: responsiveScreenWidth(4.5),
       maxHeight: responsiveScreenHeight(80),
     },
     modalHeading: {

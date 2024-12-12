@@ -31,7 +31,10 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 
 *Work update - December 10, 2024*  
 *BootcampsHub CLI* 
-
+- After tap Notification blank screen showing issues fixed.
+- Member role adding functionalities added.
+- Member mute functionalities added.
+- 
 
 BootcampsHub Mobile Testing update:
 API Automation results:

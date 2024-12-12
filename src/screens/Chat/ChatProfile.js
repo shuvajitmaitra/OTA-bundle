@@ -48,6 +48,7 @@ import AiBotIcon from '../../assets/Icons/AiBotIcon';
 import UserIcon from '../../assets/Icons/UserIcon';
 import UserIconTwo from '../../assets/Icons/UserIconTwo';
 import AddUsers from '../../assets/Icons/AddUser';
+import VolumeMute from '../../assets/Icons/VolumeMute';
 
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
@@ -64,6 +65,7 @@ const ChatProfile = () => {
   const [blockConfirm, setBlockConfirm] = useState(false);
   const [removeConfirm, setRemoveConfirm] = useState(false);
   const [roleClicked, setRoleClicked] = useState(false);
+  const [muteClicked, setMuteClicked] = useState(false);
 
   const [isLeaveCrowdModalVisible, setLeaveCrowdModalVisible] = useState(false);
   const toggleLeaveCrowdModal = () => {
@@ -177,20 +179,20 @@ const ChatProfile = () => {
       function: () => setRoleClicked(true),
     },
     {
+      label: 'Mute user',
+      icon: <VolumeMute />,
+      function: () => setMuteClicked(true),
+      // handleUpdateMember({
+      //   member: selectedMember?._id,
+      //   chat: selectedMember?.chat,
+      //   actionType: 'block',
+      // }),
+    },
+    {
       label: selectedMember.isBlocked ? 'Unblock user' : 'Block user',
       icon: <BlockIcon />,
       function: () => setBlockConfirm(true),
     },
-    // {
-    //   label: 'Mute user',
-    //   icon: <VolumeMute />,
-    //   function: () =>
-    //     handleUpdateMember({
-    //       member: selectedMember?._id,
-    //       chat: selectedMember?.chat,
-    //       actionType: 'block',
-    //     }),
-    // },
     {
       label: 'Remove user',
       icon: <BinIcon />,
@@ -220,6 +222,8 @@ const ChatProfile = () => {
         roleClicked={roleClicked}
         setRoleClicked={setRoleClicked}
         role={selectedMember.role}
+        muteClicked={muteClicked}
+        setMuteClicked={setMuteClicked}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
