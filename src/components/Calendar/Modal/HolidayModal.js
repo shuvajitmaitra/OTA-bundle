@@ -21,6 +21,7 @@ import {loadHolidays, loadWeekends} from '../../../actions/chat-noti';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
 import Images from '../../../constants/Images';
+import {storage} from '../../../utility/mmkvInstance';
 
 export default function HolidayModal({
   toggleHoliday,
@@ -29,7 +30,8 @@ export default function HolidayModal({
 }) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const {enrolled} = useSelector(state => state.program);
+  const enroll = storage.getString('active_enrolment');
+  let enrollId = JSON.parse(enroll)?._id;
   const [viewImage, setViewImage] = useState([]);
   const {holidays, weekends} = useSelector(state => state.calendar);
   const [selected, setSelected] = useState('holidays');
@@ -78,7 +80,7 @@ export default function HolidayModal({
                 Holidays
               </Text>
             </TouchableOpacity>
-            {enrolled && (
+            {enrollId && (
               <TouchableOpacity
                 style={[
                   styles.holidayButtonContainer,

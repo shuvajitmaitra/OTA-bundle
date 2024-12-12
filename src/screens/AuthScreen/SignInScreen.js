@@ -7,6 +7,9 @@ import {
   StatusBar,
   ActivityIndicator,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import {
   responsiveScreenHeight,
@@ -22,6 +25,7 @@ import {storage} from '../../utility/mmkvInstance';
 import EyeIcon from '../../assets/Icons/EyeIcon';
 import EyeClose from '../../assets/Icons/EyeClose';
 import {useGlobalAlert} from '../../components/SharedComponent/GlobalAlertContext';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export default function SignInScreen({navigation}) {
   const {handleVerify} = useMainContext();
@@ -100,108 +104,117 @@ export default function SignInScreen({navigation}) {
   // };
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  const {top} = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
-      <StatusBar
-        translucent
-        backgroundColor={Colors.Background_color}
-        barStyle={
-          Colors.Background_color === '#F5F5F5'
-            ? 'dark-content'
-            : 'light-content'
-        }
-      />
-      <TopLogo title={'Welcome!'} />
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Email *</Text>
-        <TextInput
-          style={[
-            styles.inputField,
-            data.isValidUser || data.email.length === 0
-              ? styles.validInput
-              : styles.invalidInput,
-          ]}
-          placeholder="Enter email"
-          placeholderTextColor={Colors.BodyText}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={textInputChange}
-          value={data.email}
-        />
-        {!data.isValidUser && data.email !== '' && (
-          <Text style={styles.errorMsg}>Please enter a valid email</Text>
-        )}
-      </View>
-
-      {/* Password Input Field */}
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Password *</Text>
-        <View style={{position: 'relative'}}>
-          <TextInput
-            style={[
-              styles.inputField,
-              data.isValidPassword || data.password.length === 0
-                ? styles.validInput
-                : styles.invalidInput,
-            ]}
-            placeholder="Enter password"
-            placeholderTextColor={Colors.BodyText}
-            secureTextEntry={passwordVisible}
-            onChangeText={handlePasswordChange}
-            value={data.password}
+    <KeyboardAvoidingView
+      style={{
+        flex: 1,
+        backgroundColor: Colors.Background_color,
+        paddingTop: top,
+      }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={0}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+        keyboardShouldPersistTaps="handled">
+        <View style={styles.container}>
+          <StatusBar
+            translucent
+            backgroundColor={Colors.Background_color}
+            barStyle={
+              Colors.Background_color === '#F5F5F5'
+                ? 'dark-content'
+                : 'light-content'
+            }
           />
+          <TopLogo title={'Welcome!'} />
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Email *</Text>
+            <TextInput
+              style={[
+                styles.inputField,
+                data.isValidUser || data.email.length === 0
+                  ? styles.validInput
+                  : styles.invalidInput,
+              ]}
+              placeholder="Enter email"
+              placeholderTextColor={Colors.BodyText}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onChangeText={textInputChange}
+              value={data.email}
+            />
+            {!data.isValidUser && data.email !== '' && (
+              <Text style={styles.errorMsg}>Please enter a valid email</Text>
+            )}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Password *</Text>
+            <View style={{position: 'relative'}}>
+              <TextInput
+                style={[
+                  styles.inputField,
+                  data.isValidPassword || data.password.length === 0
+                    ? styles.validInput
+                    : styles.invalidInput,
+                ]}
+                placeholder="Enter password"
+                placeholderTextColor={Colors.BodyText}
+                secureTextEntry={passwordVisible}
+                onChangeText={handlePasswordChange}
+                value={data.password}
+              />
+              <TouchableOpacity
+                onPress={() => setPasswordVisible(pre => !pre)}
+                style={{position: 'absolute', right: 20, top: '44%'}}>
+                {passwordVisible ? (
+                  <EyeClose />
+                ) : (
+                  <EyeIcon color={Colors.BodyText} />
+                )}
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.passwordDetails}>
+              Must be at least 8 characters
+            </Text>
+            {!data.isValidPassword && data.password !== '' && (
+              <Text style={styles.errorMsg}>
+                Password must be at least 8 characters
+              </Text>
+            )}
+          </View>
+
           <TouchableOpacity
-            onPress={() => setPasswordVisible(pre => !pre)}
-            style={{position: 'absolute', right: 20, top: '44%'}}>
-            {passwordVisible ? (
-              <EyeClose />
+            style={[
+              styles.signinBtn,
+              (!data.isValidUser || !data.isValidPassword) &&
+                styles.disabledBtn,
+            ]}
+            onPress={handleSignin}
+            disabled={!data.isValidUser || !data.isValidPassword || isLoading}
+            activeOpacity={0.8}>
+            {isLoading ? (
+              <ActivityIndicator size="small" color="#FFF" />
             ) : (
-              <EyeIcon color={Colors.BodyText} />
+              <Text style={styles.signinBtnText}>Sign In</Text>
             )}
           </TouchableOpacity>
-        </View>
-        <Text style={styles.passwordDetails}>
-          Must be at least 8 characters
-        </Text>
-        {!data.isValidPassword && data.password !== '' && (
-          <Text style={styles.errorMsg}>
-            Password must be at least 8 characters
+
+          <Text style={styles.terms}>
+            By clicking “Sign in”, you agree to our{' '}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('PrivacyPolicyScreen')}>
+              <Text style={styles.termsLink}>
+                Terms of Use and Privacy Policy.
+              </Text>
+            </TouchableOpacity>
           </Text>
-        )}
-      </View>
-
-      {/* Sign-In Button */}
-      <TouchableOpacity
-        style={[
-          styles.signinBtn,
-          (!data.isValidUser || !data.isValidPassword) && styles.disabledBtn,
-        ]}
-        onPress={handleSignin}
-        disabled={!data.isValidUser || !data.isValidPassword || isLoading}
-        activeOpacity={0.8}>
-        {isLoading ? (
-          <ActivityIndicator size="small" color="#FFF" />
-        ) : (
-          <Text style={styles.signinBtnText}>Sign In</Text>
-        )}
-      </TouchableOpacity>
-
-      {/* Forgot Password Link */}
-      {/* <TouchableOpacity
-        // onPress={() => navigation.navigate('ForgotPasswordPage')}
-        activeOpacity={0.6}>
-        <Text style={styles.forgotPasswordLink}>Forgot Password?</Text>
-      </TouchableOpacity> */}
-
-      {/* Terms and Conditions */}
-      <Text style={styles.terms}>
-        By clicking “Sign in”, you agree to our{' '}
-        <TouchableOpacity
-          onPress={() => navigation.navigate('PrivacyPolicyScreen')}>
-          <Text style={styles.termsLink}>Terms of Use and Privacy Policy.</Text>
-        </TouchableOpacity>
-      </Text>
-    </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

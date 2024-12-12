@@ -536,9 +536,9 @@ const getStyles = Colors =>
     },
     modalContainer: {
       // maxHeight: responsiveScreenHeight(80),
-      backgroundColor: Colors.White,
+      backgroundColor: Colors.Background_color,
       // borderRadius: 10,
-      // paddingHorizontal: 15,
+      paddingHorizontal: 10,
       // zIndex: -10,
       // position: "relative",
       // justifyContent: "center",
