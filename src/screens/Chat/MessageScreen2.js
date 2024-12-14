@@ -248,7 +248,7 @@ const MessageScreen2 = () => {
             messageOptionData={messageOptionData}
           />
         )}
-        {pinnedScreenVisible && (
+        {pinnedScreenVisible && pinned.length && (
           <PinnedMessagesScreen
             pinned={pinned}
             setPinnedScreenVisible={setPinnedScreenVisible}
