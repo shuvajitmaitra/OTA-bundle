@@ -28,6 +28,7 @@ import Loading from '../../components/SharedComponent/Loading';
 import {useDispatch, useSelector} from 'react-redux';
 import {setInterviews} from '../../store/reducer/InterviewReducer';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
+import moment from 'moment';
 
 export default function MockInterview({route}) {
   const Colors = useTheme();
@@ -141,7 +142,7 @@ export default function MockInterview({route}) {
                     Expiry Date:{' '}
                     <Text style={styles.text2}>
                       {interview.dueDate
-                        ? new Date(interview.dueDate).toLocaleDateString()
+                        ? moment(interview.dueDate).format('MMM DD, YYYY')
                         : 'N/A'}
                     </Text>
                   </Text>

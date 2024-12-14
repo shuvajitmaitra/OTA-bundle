@@ -1,26 +1,36 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import { useTheme } from "../../context/ThemeContext";
-import MyCourses from "./MyCourses";
-import AssessmentScreen from "../../screens/Main/AssessmentScreen";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
+import CustomFonts from '../../constants/CustomFonts';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import {useTheme} from '../../context/ThemeContext';
+import MyCourses from './MyCourses';
+import AssessmentScreen from '../../screens/Main/AssessmentScreen';
 
 const CustomTabView = () => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
-  const [status, setStatus] = useState("Courses");
+  const [status, setStatus] = useState('Courses');
   const tabLists = [
     {
-      status: "Courses",
+      status: 'Courses',
     },
     // {
     //   status: "Assessments",
     // },
   ];
 
-  const handleTabStatus = (status) => {
+  const handleTabStatus = status => {
     setStatus(status);
   };
   return (
@@ -37,8 +47,7 @@ const CustomTabView = () => {
                     paddingHorizontal: responsiveScreenWidth(1.9),
                   },
                   status === tab.status && styles.tabActiveButton,
-                ]}
-              >
+                ]}>
                 <Text
                   style={[
                     {
@@ -47,8 +56,7 @@ const CustomTabView = () => {
                       color: Colors.Primary,
                     },
                     status === tab.status && styles.tabActiveText,
-                  ]}
-                >
+                  ]}>
                   {tab.status}
                 </Text>
               </TouchableOpacity>
@@ -56,8 +64,10 @@ const CustomTabView = () => {
           </View>
         </ScrollView>
       </View>
-      <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabViewContainer}>
-        {status === "Courses" ? <MyCourses /> : null}
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.tabViewContainer}>
+        {status === 'Courses' ? <MyCourses /> : null}
         {/* {status === "Assessments" ? <AssessmentScreen /> : null} */}
       </ScrollView>
     </View>
@@ -66,25 +76,25 @@ const CustomTabView = () => {
 
 export default CustomTabView;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     tabViewContainer: {
       // maxHeight: responsiveScreenHeight(70),
       // marginBottom: responsiveScreenHeight(23),
-      paddingVertical: responsiveScreenHeight(2),
     },
     scrollViewContainer: {
       backgroundColor: Colors.White,
       borderRadius: 100,
+      marginBottom: 20,
     },
     tabContainer: {
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      alignItems: "center",
-      width: "100%",
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
+      width: '100%',
     },
     tabActiveButton: {
-      backgroundColor: "rgba(39, 172, 31, 1)",
+      backgroundColor: 'rgba(39, 172, 31, 1)',
       paddingVertical: responsiveScreenWidth(2.5),
       borderRadius: 100,
     },

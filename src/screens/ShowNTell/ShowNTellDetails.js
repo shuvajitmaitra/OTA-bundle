@@ -127,13 +127,13 @@ const ShowNTellDetails = ({route}) => {
           {/* Details */}
           <Text style={styles.title}>{data?.title}</Text>
           <View style={styles.statusContainer}>
-            <Text style={styles.statusTitle}>Date:</Text>
+            <Text style={styles.statusTitle}>Date: </Text>
             <Text style={styles.statusText}>
               {moment(data?.createdAt).format('MMM DD, YYYY')}
             </Text>
           </View>
           <View style={styles.statusContainer}>
-            <Text style={styles.statusTitle}>Status:</Text>
+            <Text style={styles.statusTitle}>Status: </Text>
             <Text
               style={[
                 styles.statusText,

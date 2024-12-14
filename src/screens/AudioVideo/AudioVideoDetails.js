@@ -226,7 +226,9 @@ const AudioVideoDetails = () => {
         <View style={styles.dateContainer}>
           <Text style={styles.dateTitle}>Uploaded Date: </Text>
           <Text style={styles.date}>
-            {moment(medias[currentMediaIndex]?.createdAt).format('D MMM, YYYY')}
+            {moment(medias[currentMediaIndex]?.createdAt).format(
+              'MMM DD, YYYY',
+            )}
           </Text>
         </View>
 

@@ -21,16 +21,34 @@ Anonno's Work stream
 
 
 *Overall status*
-- Total functional issue fix 16 - 70%
-- Total functional issue remaining 6 - 30%
-- Total listed design issues remaining 20
+- Total UI issue fix 20 - 55%
+- Total UI issue remaining 10 - 45%
+- New issues listed  9
 
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 
 *Work update - December 14, 2024*  
-*BootcampsHub CLI* 
+*BootcampsHub CLI*
 
+- The alignment of the title and subtitle text has been fixed.
+- The "empty message" now displays correctly when the Pin screen is empty.
+- Consistency in top and bottom margins has been ensured.
+- The comment reply modal in the Community Post comments screen is no longer cut off.
+- The design issue with the three-dot menu modal in the Community Post screen has been resolved.
+- The Cancel button text and background color have been updated to red with red opacity.
+- The color of the required field star has been changed on the login screen.
+- The "My Events" title and "My Invitations" section labels on the calendar screen have been updated to be more relevant.
+- The less button arrow icon has been repositioned to the left side and uses the Left Arrow Icon for calendar days.
+- Padding has been added between the horizontal line and title in the Audio and Video screens.
+- Top margin has been increased for the video player in the Audio and Video screens.
+- The uploaded time format in the Audio and Video details screen has been updated.
+- The margin top of the title has been increased, and a gap has been added after the status and date in the Show and Tell details screen.
+- The Expiry Date format in the Mock Interview screen has been changed.
+- A gap has been added on the left side of the back button.
+- The required field star color has been updated on the Technical Test modal.
+- Bottom padding has been added to the Tab on the Purchased Items screen.
+- The touchable area of the Back button icon in the Program screen has been increased.
 
 BootcampsHub Mobile Testing update:
 
@@ -40,8 +58,7 @@ Success: 121
 Skipped: 5
 Error: 0
 
-•⁠  ⁠Fixed Skipped 3 API in cypress.
+•⁠  ⁠Check 53 fixed bugs and update status.
 •⁠  ⁠Testing mobile apps Android & IOS.
-•⁠  ⁠Listed 3 Functional & Technical issues.
-•⁠  ⁠Listed 6 UI issues.
-•⁠  ⁠Listed 2 New feature.
+•⁠  ⁠Listed 1 Functional & Technical issues.
+•⁠  ⁠Listed 5 UI issues.

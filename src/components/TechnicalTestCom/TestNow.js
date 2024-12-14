@@ -34,6 +34,7 @@ import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
 import {formattingDate} from '../../utility/commonFunction';
 import {getComments} from '../../actions/chat-noti';
 import DocumentPicker, {types} from 'react-native-document-picker';
+import RequireFieldStar from '../../constants/RequireFieldStar';
 
 export const getFileTypeFromUri = (uri = '') => {
   const extension = uri ? uri?.split('.')?.pop()?.toLowerCase() : '';
@@ -467,7 +468,10 @@ export default function TestNow(routes) {
               </View>
 
               <View>
-                <Text style={styles.idStyle}>Answer*</Text>
+                <Text style={styles.idStyle}>
+                  Answer
+                  <RequireFieldStar />
+                </Text>
                 <TextInput
                   keyboardAppearance={
                     Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
