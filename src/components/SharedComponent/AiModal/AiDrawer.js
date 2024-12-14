@@ -179,11 +179,11 @@ const AiDrawer = ({
           {keywordsCategories.map((item, index) => (
             <View
               style={{
-                marginBottom: 10,
+                // marginVertical: 10,
                 backgroundColor: Colors.WhiteOpacityColor,
                 borderRadius: 10,
                 marginHorizontal: responsiveScreenWidth(4),
-                paddingBottom: expandedCategories[item.title] && 10,
+                // paddingBottom: expandedCategories[item.title] && 10,
               }}
               key={item.title + index}>
               <TouchableOpacity
@@ -194,7 +194,12 @@ const AiDrawer = ({
                   bgColor={Colors.Background_color}
                 />
               </TouchableOpacity>
-              <View style={{paddingHorizontal: responsiveScreenWidth(8)}}>
+              <View
+                style={{
+                  paddingHorizontal: responsiveScreenWidth(8),
+                  // backgroundColor: 'red',
+                  paddingVertical: 10,
+                }}>
                 {expandedCategories[item.title] &&
                   (item.inputType === 'radio' ? (
                     <GlobalRadioGroup
