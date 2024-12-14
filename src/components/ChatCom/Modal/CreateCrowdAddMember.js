@@ -241,7 +241,7 @@ const CreateCrowdAddMember = ({
                   <Text
                     style={[
                       styles.addButtonText,
-                      checked.length <= 2 && {
+                      checked.length <= 1 && {
                         backgroundColor: Colors.DisablePrimaryBackgroundColor,
                         color: Colors.DisablePrimaryButtonTextColor,
                       },

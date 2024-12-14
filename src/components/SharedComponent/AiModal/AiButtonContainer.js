@@ -30,10 +30,8 @@ const AiButtonContainer = ({
           // onCancelPress();
           handleCancelButton();
         }}
-        style={[styles.buttonContainer, {backgroundColor: Colors.Red}]}>
-        <Text style={[styles.buttonText, {color: Colors.PureWhite}]}>
-          Cancel
-        </Text>
+        style={[styles.buttonContainer, {backgroundColor: Colors.LightRed}]}>
+        <Text style={[styles.buttonText, {color: Colors.Red}]}>Cancel</Text>
       </TouchableOpacity>
       {/* <TouchableOpacity onPress={() => {}} style={[styles.buttonContainer, { backgroundColor: Colors.LightRed }]}>
         <Text style={[styles.buttonText, { color: Colors.Red }]}>Undo</Text>

@@ -100,6 +100,8 @@ const PostPopup = () => {
 
     // </ReactNativeModal>
     <Popover
+      backgroundStyle={{backgroundColor: Colors.BackDropColor}}
+      popoverStyle={styles.content}
       from={new Rect(post.x, post.y, 0, 0)}
       isVisible={Boolean(post)}
       onRequestClose={() => dispatch(setSinglePost(null))}>
@@ -198,6 +200,13 @@ export default PostPopup;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    content: {
+      borderRadius: 5,
+      gap: responsiveScreenHeight(1),
+      backgroundColor: Colors.White,
+      padding: 10,
+      width: 150,
+    },
     itemContainer: {
       paddingVertical: responsiveScreenHeight(0.5),
       backgroundColor: Colors.Background_color,
@@ -205,7 +214,8 @@ const getStyles = Colors =>
       borderRadius: responsiveFontSize(0.5),
     },
     item: {
-      color: Colors.BodyText,
+      color: Colors.Heading,
       fontFamily: CustomFonts.REGULAR,
+      fontWeight: '500',
     },
   });
