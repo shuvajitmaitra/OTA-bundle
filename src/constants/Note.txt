@@ -1,7 +1,17 @@
-*Work Stream - December 12, 2024*
+*Work Stream - December 14, 2024*
 *Bootcampshub CLI*
 
-- Having moving effect bullet point of event type
+- The title text and subtitle text are not aligned the same way.
+- When the Pin screen is empty, display an empty message.
+- The top margin and bottom margin are not consistent.
+- In the community post comments screen, the comment three-dot reply modal is cut off by the screen.
+- There is a design issue with the three-dot menu modal in community posts.
+- The Cancel button text and background color should be changed to red with a red opacity effect.
+- The required field star color should be updated on the login screen.
+- The "My Events" title and "My Invitation" text are not relevant in the calendar screen.
+- The "Less" button arrow icon should be placed on the left side, using the Left Arrow Icon for the calendar day.
+- Add padding between the horizontal line and the title in the audio and video screens.
+- Add some margin at the top of the video player in the Audio and Videos screen.
 
 Anonno's Work stream
 •⁠  ⁠Test mobile apps Android & IOS.
@@ -9,41 +19,29 @@ Anonno's Work stream
 •⁠  ⁠List UI issues.
 •⁠  ⁠Automation all APIs using cypress.
 
-Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 *Overall status*
-- Today listed 24
-- Today fixed 28
-- Total remaining 40 
+- Total functional issue fix 16 - 70%
+- Total functional issue remaining 6 - 30%
+- Total listed design issues remaining 20
 
-*Work update - December 10, 2024*  
+Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
+
+
+*Work update - December 14, 2024*  
 *BootcampsHub CLI* 
-- After tap Notification blank screen showing issues fixed.
-- Member role adding functionalities added.
-- Member mute and unmute functionalities added.
-- Chat screen profile, Message screen profile image, chat profile image not similar issues fixed.
-- Archive chat and retrieve functionalities added
-- When click create post field from community screen, keyboard will be open automatically
-- Comment screen is behind of the status bar and not scrolling fixed this issues.
-- Calendar event creating issues fixed.
-- Keyboard hiding issues fixed in sign in screen.
-- Weekends displaying issues fixed in calendar screen
-- Availability showing issues fixed in the calendar screen.
-- Don't showing the event type name in invited event invite details modal
-- Needed My response status option in event invite details modal
-- Event type blinking issue fixed in calendar screen.
-- Chat crowd name and type(Public or private) issues fixed.
-- Placeholder viewing issues fixed in show n tell screen.
-
 
 
 BootcampsHub Mobile Testing update:
+
 API Automation results:
 API Tested: 126
-Success: 118
-Skipped: 8
+Success: 121
+Skipped: 5
 Error: 0
 
+•⁠  ⁠Fixed Skipped 3 API in cypress.
 •⁠  ⁠Testing mobile apps Android & IOS.
-•⁠  ⁠Listed 15 Functional & Technical issues.
-•⁠  ⁠Listed 9 UI issues.
+•⁠  ⁠Listed 3 Functional & Technical issues.
+•⁠  ⁠Listed 6 UI issues.
+•⁠  ⁠Listed 2 New feature.
