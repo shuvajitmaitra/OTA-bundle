@@ -26,6 +26,7 @@ import EyeIcon from '../../assets/Icons/EyeIcon';
 import EyeClose from '../../assets/Icons/EyeClose';
 import {useGlobalAlert} from '../../components/SharedComponent/GlobalAlertContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import RequireFieldStar from '../../constants/RequireFieldStar';
 
 export default function SignInScreen({navigation}) {
   const {handleVerify} = useMainContext();
@@ -131,7 +132,10 @@ export default function SignInScreen({navigation}) {
           />
           <TopLogo title={'Welcome!'} />
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Email *</Text>
+            <Text style={styles.inputLabel}>
+              Email
+              <RequireFieldStar />
+            </Text>
             <TextInput
               style={[
                 styles.inputField,
@@ -152,7 +156,10 @@ export default function SignInScreen({navigation}) {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Password *</Text>
+            <Text style={styles.inputLabel}>
+              Password
+              <RequireFieldStar />
+            </Text>
             <View style={{position: 'relative'}}>
               <TextInput
                 style={[

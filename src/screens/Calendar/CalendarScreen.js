@@ -647,10 +647,9 @@ const getStyles = Colors =>
       fontSize: RegularFonts.HS,
     },
     title: {
-      fontSize: RegularFonts.HXXL,
+      fontSize: RegularFonts.HXL,
       color: Colors.Heading,
       fontFamily: CustomFonts.SEMI_BOLD,
-      fontWeight: '500',
     },
     CalendarContainer: {
       height: responsiveScreenHeight(40),
