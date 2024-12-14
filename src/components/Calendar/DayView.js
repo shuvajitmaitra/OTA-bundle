@@ -176,7 +176,7 @@ const getStyles = Colors =>
       color: Colors.Primary,
     },
     moreButtonContainer: {
-      alignSelf: 'flex-end',
+      alignSelf: 'flex-start',
       // backgroundColor: Colors.Primary,
       padding: 5,
       flexDirection: 'row',
