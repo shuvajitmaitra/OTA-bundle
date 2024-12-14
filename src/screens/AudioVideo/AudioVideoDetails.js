@@ -344,7 +344,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       gap: responsiveScreenWidth(2),
       height: 35,
-      marginVertical: 10,
+      marginTop: 15,
     },
     btnText: {
       fontFamily: CustomFonts.REGULAR,
@@ -370,6 +370,7 @@ const getStyles = Colors =>
     },
     mediaContainer: {
       marginBottom: responsiveScreenHeight(1),
+      marginTop: 15,
     },
     userInfo: {
       flexDirection: 'row',

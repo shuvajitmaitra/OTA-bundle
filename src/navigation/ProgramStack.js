@@ -73,6 +73,15 @@ const ProgramStackScreen = ({navigation}) => {
                 alignItems: 'center',
               }}>
               <ArrowLeft />
+              <Text
+                style={{
+                  fontFamily: CustomFonts.MEDIUM,
+                  fontSize: responsiveScreenFontSize(2),
+                  color: Colors.BodyText,
+                  marginLeft: 10,
+                }}>
+                Back
+              </Text>
             </TouchableOpacity>
           ),
         })}
