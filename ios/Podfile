@@ -18,9 +18,8 @@ target 'Bootcampshub_chat' do
   config = use_native_modules!
 
   use_frameworks! :linkage => :static
-  pod 'React-Core/DevSupport', :path => '../node_modules/react-native/React'
-  pod 'React-Core/DevSupport', :path => '../node_modules/react-native/React'
-  pod 'hermes-engine', :path => '../node_modules/react-native/ReactCommon/hermes-engine'
+  # pod 'React-Core/DevSupport', :path => '../node_modules/react-native/React'
+  # pod 'hermes-engine', :path => '../node_modules/react-native/ReactCommon/hermes-engine'
   $RNFirebaseAsStaticFramework = true
   
   use_react_native!(

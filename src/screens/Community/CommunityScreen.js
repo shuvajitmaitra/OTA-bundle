@@ -320,14 +320,14 @@ const getStyles = Colors =>
       fontFamily: CustomFonts.SEMI_BOLD,
       fontWeight: '500',
       // marginBottom: responsiveScreenHeight(2),
-      paddingHorizontal: 10,
+      paddingHorizontal: 15,
     },
     subHeading: {
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.6),
       color: Colors.BodyText,
       paddingBottom: responsiveScreenHeight(2),
-      paddingHorizontal: responsiveScreenWidth(2),
+      paddingHorizontal: 15,
     },
     separator: {
       // backgroundColor: "red",
