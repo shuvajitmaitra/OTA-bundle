@@ -13,7 +13,7 @@ import AudioMessage from './AudioMessage';
 import FileIcon from '../../assets/Icons/FileIcon';
 import {RegularFonts} from '../../constants/Fonts';
 
-const MessageFileContainer = ({files, setViewImage}) => {
+const MessageFileContainer = ({files, setViewImage, my}) => {
   const [imageDimensions, setImageDimensions] = useState({});
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -63,7 +63,11 @@ const MessageFileContainer = ({files, setViewImage}) => {
           marginTop: 5,
           paddingVertical: 5,
         }}>
-        <AudioMessage audioUrl={item.url} background={'transparent'} />
+        <AudioMessage
+          audioUrl={item.url}
+          background={'transparent'}
+          color={!my && Colors.BodyText}
+        />
       </View>
     );
   };

@@ -22,7 +22,7 @@ const formatTime = time => {
   return new Date(time * 1000).toISOString().substr(14, 5);
 };
 
-const AudioMessage = ({audioUrl, background}) => {
+const AudioMessage = ({audioUrl, background, color}) => {
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
@@ -108,7 +108,7 @@ const AudioMessage = ({audioUrl, background}) => {
   };
 
   const Colors = useTheme();
-  const styles = getStyles({Colors});
+  const styles = getStyles({Colors, color});
 
   return (
     <View
@@ -122,19 +122,19 @@ const AudioMessage = ({audioUrl, background}) => {
         <ActivityIndicator
           style={{marginRight: 10}}
           size="small"
-          color={Colors.PureWhite}
+          color={color || Colors.PureWhite}
         />
       ) : (
         <TouchableOpacity onPress={handlePlayPause} style={styles.playButton}>
           {isPlaying ? (
-            <PauseIcon color={Colors.Primary} />
+            <PauseIcon color={color || Colors.PureWhite} />
           ) : (
-            <PlayIcon color={Colors.Primary} />
+            <PlayIcon color={color || Colors.PureWhite} />
           )}
         </TouchableOpacity>
       )}
 
-      {!loadError && <Waveform progress={progress} />}
+      {!loadError && <Waveform progress={progress} color={color} />}
       <Text style={styles.audioTimer}>
         {formatTime(currentPlaybackTime)} / {formatTime(totalDuration)}
       </Text>
@@ -142,14 +142,14 @@ const AudioMessage = ({audioUrl, background}) => {
   );
 };
 
-const getStyles = ({Colors}) =>
+const getStyles = ({Colors, color}) =>
   StyleSheet.create({
     playIcon: {
       color: Colors.Primary,
     },
     audioTimer: {
       marginLeft: responsiveScreenWidth(2),
-      color: Colors.BodyText,
+      color: color || Colors.PureWhite,
     },
     container: {
       flexDirection: 'row',

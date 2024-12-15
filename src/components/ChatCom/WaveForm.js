@@ -6,7 +6,7 @@ const getRandomHeight = (min, max) => {
   return Math.random() * (max - min) + min;
 };
 
-const Waveform = ({progress}) => {
+const Waveform = ({progress, color}) => {
   const [barHeights, setBarHeights] = useState([]);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Waveform = ({progress}) => {
   // ----------- Import theme Colors -----------
   // --------------------------
   const Colors = useTheme();
-  const styles = getStyles(Colors);
+  const styles = getStyles(Colors, color);
   return (
     <View style={styles.waveformContainer}>
       {barHeights.map((height, index) => (
@@ -46,7 +46,7 @@ const Waveform = ({progress}) => {
   );
 };
 
-const getStyles = Colors =>
+const getStyles = (Colors, color) =>
   StyleSheet.create({
     waveformContainer: {
       flexDirection: 'row',
@@ -62,7 +62,7 @@ const getStyles = Colors =>
     waveformBar: {
       height: 20,
       width: 1,
-      backgroundColor: Colors.BodyText,
+      backgroundColor: color || Colors.PureWhite,
       marginHorizontal: 1,
     },
     completedBar: {

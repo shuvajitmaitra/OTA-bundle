@@ -21,6 +21,9 @@ import {showToast} from '../HelperFunction';
 
 const CommunityPost = memo(
   ({post, index, handleTopContributor, handleTagSearch}) => {
+    if (post?.title?.includes('Overcoming')) {
+      console.log('post', JSON.stringify(post, null, 2));
+    }
     const Colors = useTheme();
     const styles = getStyles(Colors);
     const [isModalVisible, setIsModalVisible] = useState(false);

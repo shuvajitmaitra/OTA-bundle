@@ -201,7 +201,7 @@ const AudioRecorder = ({
       )}
       {recordedAudioPath && (
         <View style={styles.containerTwo}>
-          <AudioMessage audioUrl={recordedAudioPath} />
+          <AudioMessage audioUrl={recordedAudioPath} color={Colors.BodyText} />
           <Pressable
             onPress={() => {
               setRecordedAudioPath('');

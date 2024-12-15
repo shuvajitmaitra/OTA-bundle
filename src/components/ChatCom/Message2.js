@@ -86,6 +86,7 @@ const Message2 = ({item, index, nextSender, setViewImage}) => {
           <MessageFileContainer
             files={item.files}
             setViewImage={setViewImage}
+            my={my}
           />
         )}
         <Markdown style={styles.markdownStyle}>
