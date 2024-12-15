@@ -28,6 +28,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {setSingleChat, updateChats} from '../../../store/reducer/chatReducer';
 import Images from '../../../constants/Images';
+import NoDataAvailable from '../../SharedComponent/NoDataAvailable';
 const CreateCrowdAddMember = ({
   setIsAddMembersModalVisible,
   setIsCreateCrowdModalVisible,
@@ -252,9 +253,13 @@ const CreateCrowdAddMember = ({
               </>
             )}
           </View>
-          <View>
-            <Text style={styles.allContact}>All Contact</Text>
-          </View>
+          {users.length ? (
+            <View>
+              <Text style={styles.allContact}>All Contact</Text>
+            </View>
+          ) : (
+            <NoDataAvailable />
+          )}
           <ScrollView showsVerticalScrollIndicator={false}>
             <View>
               {/* Show User List*/}
@@ -357,7 +362,7 @@ const getStyles = Colors =>
       paddingHorizontal: responsiveScreenWidth(4.5),
       paddingVertical: responsiveScreenWidth(4.5),
       width: responsiveScreenWidth(90),
-      maxHeight: responsiveScreenHeight(80),
+      height: responsiveScreenHeight(80),
     },
 
     btn: {
