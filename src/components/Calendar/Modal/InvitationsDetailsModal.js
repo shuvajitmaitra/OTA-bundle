@@ -29,6 +29,8 @@ import InvitationDeniedModal from './InvitationDeniedModal';
 import ProposeNewTimeModal from './ProposeNewTimeModal';
 import Images from '../../../constants/Images';
 import {showToast} from '../../HelperFunction';
+import Toast from 'react-native-toast-message';
+import {toastConfig} from '../../../constants/ToastConfig';
 
 export function EventDetailsFormatDate(dateString) {
   const options = {
@@ -75,7 +77,7 @@ const InvitationsDetailsModal = ({
           );
           dispatch(updateInvitations({id: item._id}));
           toggleInvitationsDetailsModal();
-          showToast('Event accepted', Colors.Primary);
+          showToast({message: 'Event accepted'});
         }
       })
       .catch(error => {
@@ -238,6 +240,7 @@ const InvitationsDetailsModal = ({
         isProposeNewTimeVisible={isProposeNewTimeVisible}
         toggleProposeNewTime={toggleProposeNewTime}
       />
+      <Toast config={toastConfig} />
     </ReactNativeModal>
   );
 };

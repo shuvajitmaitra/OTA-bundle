@@ -20,6 +20,8 @@ import axiosInstance from '../../../utility/axiosInstance';
 import {updateInvitations} from '../../../store/reducer/calendarReducer';
 import {useDispatch} from 'react-redux';
 import {showToast} from '../../HelperFunction';
+import Toast from 'react-native-toast-message';
+import {toastConfig} from '../../../constants/ToastConfig';
 
 const InvitationDeniedModal = ({
   isDeniedModalVisible,
@@ -43,7 +45,7 @@ const InvitationDeniedModal = ({
           setIsDeniedModalVisible(false);
           toggleInvitationsDetailsModal();
           dispatch(updateInvitations({id}));
-          // showToast('Event denied', Colors.Red);
+          showToast({message: 'Event denied', background: Colors.Red});
           console.log('event invitation denied');
         }
       })
@@ -98,6 +100,7 @@ const InvitationDeniedModal = ({
             </TouchableOpacity>
           </View>
         </View>
+        <Toast config={toastConfig} />
       </ReactNativeModal>
     </KeyboardAvoidingView>
   );

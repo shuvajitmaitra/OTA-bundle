@@ -30,6 +30,8 @@ import Navigation from './src/navigation/Navigation';
 import 'react-native-gesture-handler';
 import {setAppLoading} from './src/store/reducer/authReducer';
 import {PopoverProvider} from './src/context/PopoverContext.js';
+import Toast from 'react-native-toast-message';
+import {toastConfig} from './src/constants/ToastConfig.js';
 
 LogBox.ignoreLogs(['Setting a timer']);
 LogBox.ignoreLogs(['fontFamily']);
@@ -50,6 +52,7 @@ const AppWrapper = () => {
               <GestureHandlerRootView style={{flex: 1}}>
                 <MainProvider>
                   <App />
+                  <Toast config={toastConfig} />
                 </MainProvider>
               </GestureHandlerRootView>
             </AlertProvider>

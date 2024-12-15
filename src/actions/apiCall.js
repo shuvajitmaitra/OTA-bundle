@@ -98,7 +98,7 @@ export const handleUpdateMember = actionData => {
     .post('/chat/member/update', actionData)
     .then(res => {
       if (res.data?.success) {
-        showToast('action successfully...');
+        showToast({message: 'action successfully...'});
         fetchMembers(actionData.chat);
         //   console.log("item", item);
         store.dispatch(setSelectedMembers({}));

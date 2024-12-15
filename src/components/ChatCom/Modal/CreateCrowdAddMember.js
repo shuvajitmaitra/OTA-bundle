@@ -255,7 +255,7 @@ const CreateCrowdAddMember = ({
           </View>
           {users.length ? (
             <View>
-              <Text style={styles.allContact}>All Contact</Text>
+              <Text style={styles.allContact}>All Contacts</Text>
             </View>
           ) : (
             <NoDataAvailable />

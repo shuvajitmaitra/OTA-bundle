@@ -60,7 +60,7 @@ const CreatePostButtonContainer = ({post, setPost}) => {
         if (res.data.success) {
           loadCommunityPosts({page: 1, limit: 10});
           setPost({attachments: [], title: '', description: '', tags: []});
-          showToast('Posted...');
+          showToast({message: 'Posted...'});
           setCreating(false);
         }
       })

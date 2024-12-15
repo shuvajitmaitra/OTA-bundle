@@ -322,10 +322,12 @@ const ChatProfile = () => {
                 <Text style={styles.addMemberText}>Add member</Text>
               </TouchableOpacity>
             )}
-            <AddMembers
-              toggleAddMembersModal={toggleAddMembersModal}
-              isAddMembersModalVisible={isAddMembersModalVisible}
-            />
+            {isAddMembersModalVisible && (
+              <AddMembers
+                toggleAddMembersModal={toggleAddMembersModal}
+                isAddMembersModalVisible={isAddMembersModalVisible}
+              />
+            )}
           </View>
         )}
 

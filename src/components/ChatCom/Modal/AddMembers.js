@@ -29,6 +29,9 @@ import {updateCrowdMembers} from '../../../store/reducer/chatSlice';
 import GlobalAlertModal from '../../SharedComponent/GlobalAlertModal';
 import {showAlertModal} from '../../../utility/commonFunction';
 import debounce from 'lodash.debounce'; // Import lodash.debounce
+import Toast from 'react-native-toast-message';
+import {toastConfig} from '../../../constants/ToastConfig';
+import {showToast} from '../../HelperFunction';
 
 const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
   const Colors = useTheme();
@@ -40,7 +43,7 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
   const dispatch = useDispatch();
 
   // API Call for searching users
-  const searchUsers = useCallback((text) => {
+  const searchUsers = useCallback(text => {
     axiosInstance
       .get(`/chat/searchuser?query=${text}`)
       .then(res => {
@@ -50,21 +53,20 @@ const AddMembers = ({isAddMembersModalVisible, toggleAddMembersModal}) => {
         console.error(err);
       });
   }, []);
-useEffect(() => {
-  searchUsers('')
-
-}, [])
+  useEffect(() => {
+    searchUsers('');
+  }, []);
 
   // Debounced version of the searchUsers function
   const debouncedSearchUsers = useCallback(
-    debounce((text) => {
+    debounce(text => {
       searchUsers(text);
     }, 500), // Adjust debounce time (in ms) as needed
-    [searchUsers]
+    [searchUsers],
   );
 
   // Handle input change and trigger debounced search
-  const handleInputChange = (text) => {
+  const handleInputChange = text => {
     setInputText(text);
     debouncedSearchUsers(text);
   };
@@ -77,11 +79,12 @@ useEffect(() => {
       })
       .then(res => {
         if (res.data.success) {
-          showAlertModal({
-            title: 'Success!',
-            type: 'success',
-            message: 'User successfully added...',
+          showToast({
+            message: `${user.fullName} added successfully`,
+            // background: Colors.Primary,
+            // color: Colors.PureWhite,
           });
+
           dispatch(updateSingleChatMemberCount('add'));
           dispatch(
             updateCrowdMembers({
@@ -98,17 +101,23 @@ useEffect(() => {
             }),
           );
           setUsers(prev => prev?.filter(item => item._id !== user._id));
+          // toggleAddMembersModal()
         }
         setLoading(false);
       })
       .catch(err => {
         setLoading(false);
         console.log('err', err.response?.data);
-        showAlertModal({
-          title: 'Error!',
-          type: 'warning',
-          message: err.response?.data?.error || 'Something went wrong.',
+        showToast({
+          message: err.response?.data?.error,
+          background: Colors.Primary,
+          color: Colors.PureWhite,
         });
+        // showAlertModal({
+        //   title: 'Error!',
+        //   type: 'warning',
+        //   message: err.response?.data?.error || 'Something went wrong.',
+        // });
       });
   };
 
@@ -184,12 +193,10 @@ useEffect(() => {
           )}
         </View>
       </View>
-      <GlobalAlertModal />
+      <Toast config={toastConfig} />
     </ReactNativeModal>
   );
 };
-
-export default AddMembers;
 
 export default AddMembers;
 

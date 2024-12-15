@@ -13,6 +13,8 @@ import ModalBackAndCrossButton from './ModalBackAndCrossButton';
 import axiosInstance from '../../../utility/axiosInstance';
 import {useTheme} from '../../../context/ThemeContext';
 import {showToast} from '../../HelperFunction';
+import Toast from 'react-native-toast-message';
+import {toastConfig} from '../../../constants/ToastConfig';
 
 export default function BlockMemberModal({
   toggleBlockMemberModal,
@@ -36,7 +38,7 @@ export default function BlockMemberModal({
       .then(res => {
         console.log('🚀 ~ handleBlockMember ~ res:', res.data);
         if (res.data?.success) {
-          showToast('Block successfully...');
+          showToast({message: 'Block successfully...'});
           fetchMembers();
           //   console.log("item", item);
         }
@@ -53,7 +55,7 @@ export default function BlockMemberModal({
       .then(res => {
         console.log('🚀 ~ handleUnBlockMember ~ res:', res.data);
         if (res.data?.success) {
-          showToast('Unlocked successfully...');
+          showToast({message: 'Unlocked successfully...'});
           fetchMembers();
           //   console.log("item", item);
         }
@@ -101,6 +103,7 @@ export default function BlockMemberModal({
           </View>
         </View>
       </View>
+      <Toast config={toastConfig} />
     </ReactNativeModal>
   );
 }

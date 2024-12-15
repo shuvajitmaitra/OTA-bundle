@@ -1,6 +1,6 @@
 import {Linking} from 'react-native';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
-import Toast from 'react-native-root-toast';
+import Toast from 'react-native-toast-message';
 
 export function extractFilename(uri) {
   const extension = uri ? uri?.split('/')?.pop()?.toLowerCase() : '';
@@ -49,14 +49,11 @@ export function CalendarFormatTime(timestamp) {
 
   return hours + (minutes === '00' ? '' : ':' + minutes) + ' ' + ampm;
 }
-export const showToast = (message, color) => {
-  Toast.show(message, {
-    duration: Toast.durations.SHORT,
-    position: responsiveScreenHeight(87),
-    shadow: true,
-    animation: true,
-    hideOnPress: true,
-    delay: 0,
-    backgroundColor: color || null,
+export const showToast = ({message, color, background}) => {
+  Toast.show({
+    type: 'tomatoToast',
+    text1: message,
+    position: 'bottom',
+    props: {color, background},
   });
 };
