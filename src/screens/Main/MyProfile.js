@@ -39,9 +39,6 @@ import RequireFieldStar from '../../constants/RequireFieldStar';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import Twitter from '../../assets/Icons/Twitter';
 export default function MyProfile() {
-  // --------------------------
-  // ----------- Import theme Colors -----------
-  // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {user} = useSelector(state => state.auth);
@@ -318,7 +315,7 @@ export default function MyProfile() {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <Twitter />
+                  <Twitter color={Colors.Primary} />
                 </View>
               </TouchableOpacity>
             ) : null}

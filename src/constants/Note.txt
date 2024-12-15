@@ -1,17 +1,23 @@
-*Work Stream - December 14, 2024*
+**Work Stream - December 15, 2024**  
 *Bootcampshub CLI*
 
-- The title text and subtitle text are not aligned the same way.
-- When the Pin screen is empty, display an empty message.
-- The top margin and bottom margin are not consistent.
-- In the community post comments screen, the comment three-dot reply modal is cut off by the screen.
-- There is a design issue with the three-dot menu modal in community posts.
-- The Cancel button text and background color should be changed to red with a red opacity effect.
-- The required field star color should be updated on the login screen.
-- The "My Events" title and "My Invitation" text are not relevant in the calendar screen.
-- The "Less" button arrow icon should be placed on the left side, using the Left Arrow Icon for the calendar day.
-- Add padding between the horizontal line and the title in the audio and video screens.
-- Add some margin at the top of the video player in the Audio and Videos screen.
+- Fixed calendar spelling error on the progress screen.
+- Resolved issue where mentor picture wasn't showing on the post-landing screen.
+- Replaced irrelevant X icon with a more appropriate image on the profile screen.
+- Changed the last update date format for consistency.
+- Added user status display on the drawer screen.
+- Updated message section to match the web portal design on the progress screen.
+- Added padding to the bottom of the documents screen.
+- Reduced left-side padding of the input field for better alignment.
+- Added padding to the bottom of the documents screen tab for better visual balance.
+- Introduced new "Assessments Tab," which is already available on the portal.
+- Fixed issue where loading state was displayed continuously on the community screen.
+- Changed the play button color for audio on the Audio and Video screen.
+- Fixed modal resizing issue when searching for members after creating a crowd.
+- Updated the minimum member requirement in the create crowd modal to 2 (previously 3).
+- Updated success modal text from "User" to "Member" after adding members.
+- Increased the width of the "See Less" arrow icon to match the "See More" arrow icon.
+
 
 Anonno's Work stream
 •⁠  ⁠Test mobile apps Android & IOS.
@@ -28,27 +34,9 @@ Anonno's Work stream
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 
-*Work update - December 14, 2024*  
+*Work update - December 15, 2024*  
 *BootcampsHub CLI*
 
-- The alignment of the title and subtitle text has been fixed.
-- The "empty message" now displays correctly when the Pin screen is empty.
-- Consistency in top and bottom margins has been ensured.
-- The comment reply modal in the Community Post comments screen is no longer cut off.
-- The design issue with the three-dot menu modal in the Community Post screen has been resolved.
-- The Cancel button text and background color have been updated to red with red opacity.
-- The color of the required field star has been changed on the login screen.
-- The "My Events" title and "My Invitations" section labels on the calendar screen have been updated to be more relevant.
-- The less button arrow icon has been repositioned to the left side and uses the Left Arrow Icon for calendar days.
-- Padding has been added between the horizontal line and title in the Audio and Video screens.
-- Top margin has been increased for the video player in the Audio and Video screens.
-- The uploaded time format in the Audio and Video details screen has been updated.
-- The margin top of the title has been increased, and a gap has been added after the status and date in the Show and Tell details screen.
-- The Expiry Date format in the Mock Interview screen has been changed.
-- A gap has been added on the left side of the back button.
-- The required field star color has been updated on the Technical Test modal.
-- Bottom padding has been added to the Tab on the Purchased Items screen.
-- The touchable area of the Back button icon in the Program screen has been increased.
 
 BootcampsHub Mobile Testing update:
 

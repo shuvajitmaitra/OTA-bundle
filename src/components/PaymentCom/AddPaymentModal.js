@@ -208,7 +208,7 @@ const AddPaymentModal = ({
                     fontFamily: CustomFonts.REGULAR,
                     color: Colors.Heading,
                   }}>
-                  {date ? moment(date).format('D MMM, YYYY') : 'Payment Date'}
+                  {date ? moment(date).format('MMM DD, YYYY') : 'Payment Date'}
                 </Text>
                 <TouchableOpacity onPress={() => showCalendar()}>
                   <CalenderIcon size={18} color={Colors.BodyText} />

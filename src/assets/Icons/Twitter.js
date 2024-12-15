@@ -1,20 +1,19 @@
-import * as React from "react";
-import Svg, { G, Rect, Path, Defs, ClipPath } from "react-native-svg";
+import * as React from 'react';
+import Svg, {G, Rect, Path, Defs, ClipPath} from 'react-native-svg';
 
-function Twitter(props) {
+function Twitter({size, color, ...props}) {
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      width={18}
-      height={18}
+      width={size || 18}
+      height={size || 18}
       fill="none"
       viewBox="0 0 512 512"
-      {...props}
-    >
+      {...props}>
       <G clipPath="url(#clip0_84_15698)">
         <Rect width={512} height={512} fill="#fff" rx={60} />
         <Path
-          fill="#000"
+          fill={color || '#000'}
           d="M355.904 100h52.928L293.2 232.16 429.232 412H322.72l-83.424-109.072L143.84 412H90.88l123.68-141.36L84.065 100H193.28l75.408 99.696L355.904 100zm-18.576 280.32h29.328L177.344 130.016h-31.472L337.328 380.32z"
         />
       </G>

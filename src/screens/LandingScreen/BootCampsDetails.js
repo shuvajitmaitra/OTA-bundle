@@ -196,6 +196,11 @@ const BootCampsDetails = ({route}) => {
       </View>
     );
   };
+
+  console.log(
+    'course?.instructor?.image',
+    JSON.stringify(course?.instructor?.image, null, 2),
+  );
   return (
     <View
       style={{
@@ -261,20 +266,22 @@ const BootCampsDetails = ({route}) => {
                   <Text style={styles.languageText}>{course?.language}</Text>
                 </View>
               </View>
-              <View style={styles.instructorContainer}>
-                <Text style={styles.mentorText}>Mentor</Text>
-                <View style={styles.imageNameContainer}>
-                  {course?.instructor?.image !== '' && (
-                    <Image
-                      style={styles.instructorImage}
-                      source={{uri: course?.instructor?.image}}
-                    />
-                  )}
-                  <Text style={styles.mentorNameText}>
-                    {course?.instructor?.name}
-                  </Text>
+              {course?.instructor?.name && (
+                <View style={styles.instructorContainer}>
+                  <Text style={styles.mentorText}>Mentor</Text>
+                  <View style={styles.imageNameContainer}>
+                    {course?.instructor?.image && (
+                      <Image
+                        style={styles.instructorImage}
+                        source={{uri: course?.instructor?.image}}
+                      />
+                    )}
+                    <Text style={styles.mentorNameText}>
+                      {course?.instructor?.name}
+                    </Text>
+                  </View>
                 </View>
-              </View>
+              )}
 
               <View style={styles.imageContainer}>
                 <Image
@@ -463,5 +470,6 @@ const getStyles = Colors =>
       alignItems: 'center',
       marginLeft: 20,
       paddingBottom: 10,
+      gap: 10,
     },
   });

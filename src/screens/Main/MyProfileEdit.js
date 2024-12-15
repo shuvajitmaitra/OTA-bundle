@@ -124,6 +124,7 @@ export default function MyProfileEdit() {
         about,
       })
       .then(async res => {
+        navigation.navigate('MyProfile');
         // Alert.alert("Profile Updated");
         showAlert({
           title: 'Done!',
@@ -285,7 +286,8 @@ export default function MyProfileEdit() {
                   navigation.goBack();
                 }}
                 style={styles.topArrowContainer}>
-                <ArrowLeft /> <Text style={styles.topText}>Back</Text>
+                <ArrowLeft color={Colors.PureWhite} />{' '}
+                <Text style={styles.topText}>Back</Text>
               </TouchableOpacity>
               <Text style={styles.myProfile}>Edit Profile</Text>
               <View style={{flex: 0.3, height: 10}}></View>

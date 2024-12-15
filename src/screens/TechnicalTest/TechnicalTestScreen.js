@@ -253,7 +253,7 @@ export default function TechnicalTestScreen() {
                   onChangeText={setSearchWorkshop}
                 /> */}
                 <Text style={styles.input2}>
-                  {date ? moment(date).format('D MMM, YYYY') : 'Workshop'}
+                  {date ? moment(date).format('MMM DD, YYYY') : 'Workshop'}
                 </Text>
                 <CalenderIcon size={18} color={Colors.BodyText} />
               </TouchableOpacity>
@@ -401,7 +401,7 @@ export default function TechnicalTestScreen() {
                             item?.category}
                         </Text>
                         <Text style={styles.number}>
-                          {/* {moment(item.workshop).format("D MMM, YYYY")} */}
+                          {/* {moment(item.workshop).format("MMM DD, YYYY")} */}
                           {formattingDate(item.workshop)}
                         </Text>
                         <Text style={styles.number}>

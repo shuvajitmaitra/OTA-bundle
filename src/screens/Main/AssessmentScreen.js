@@ -177,7 +177,7 @@ export default function AssessmentScreen() {
                   Date:{' '}
                   <Text style={styles.number}>
                     {item?.answeredAt
-                      ? moment(item?.answeredAt).format('D MMM, YYYY')
+                      ? moment(item?.answeredAt).format('MMM DD, YYYY')
                       : 'Not Answered'}
                   </Text>
                 </Text>

@@ -221,7 +221,7 @@ export default function UpdateSntModal({
               }}
             >
               {combinedDateTime
-                ? moment(combinedDateTime).format("D MMM, YYYY h:mm A")
+                ? moment(combinedDateTime).format("MMM DD, YYYY h:mm A")
                 : "Pick a Date"}
             </Text>
             <TouchableOpacity onPress={() => showCalendar()}>
@@ -238,7 +238,7 @@ export default function UpdateSntModal({
                     : 'Pick a date'}
                   {/* {selectedDate && selectedCustomTime
                     ? `${moment(selectedDate).format(
-                        "D MMM, YYYY"
+                        "MMM DD, YYYY"
                       )} ${selectedCustomTime}`
                     : "Pick a date"} */}
                 </Text>

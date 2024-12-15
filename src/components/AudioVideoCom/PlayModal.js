@@ -156,7 +156,7 @@ export default function PlayModal({
               <Text style={styles.dateTitle}>Uploaded Date: </Text>
               <Text style={styles.date}>
                 {moment(medias[currentMediaIndex]?.createdAt).format(
-                  'D MMM, YYYY',
+                  'MMM DD, YYYY',
                 )}
               </Text>
             </View>

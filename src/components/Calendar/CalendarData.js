@@ -56,8 +56,8 @@ export const CalendarData = ({data, monthData}) => {
               <View style={styles.weekContainer}>
                 <Text style={styles.weekText}>{label}</Text>
                 <Text style={styles.weekText}>
-                  {moment(monthData[start]).format('DD MMM')} -{' '}
-                  {moment(monthData[end]).format('DD MMM')}
+                  {moment(monthData[start]).format('DMMM DD')} -{' '}
+                  {moment(monthData[end]).format('DMMM DD')}
                 </Text>
               </View>
               {getEventsForWeek(start, end).map((item, idx) => (

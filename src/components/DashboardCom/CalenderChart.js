@@ -57,7 +57,7 @@ export default function CalenderChart() {
   return (
     <View>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Calender</Text>
+        <Text style={styles.title}>Calendar</Text>
       </View>
       <View style={styles.container}>
         {progressData.slice(0, 2).map((item, index) => (

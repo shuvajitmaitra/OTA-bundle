@@ -276,7 +276,7 @@ const MyPaymentScreen = (routes, navigation) => {
                         },
                       ]}>
                       <Text style={styles.cell}>
-                        {moment(trx.date).format('D MMM YYYY')}
+                        {moment(trx.date).format('MMM DD YYYY')}
                       </Text>
                     </View>
                     <View

@@ -230,7 +230,9 @@ export default function LeaderBoardScreen({route}) {
               Last Update:
               <Text style={styles.progressText}>
                 {' '}
-                {moment(totalData?.lastUpdated).format('D MMM, YYYY, (h:mm a)')}
+                {moment(totalData?.lastUpdated).format(
+                  'MMM DD, YYYY, (h:mm a)',
+                )}
               </Text>
             </Text>
             <TouchableOpacity
@@ -361,7 +363,7 @@ export default function LeaderBoardScreen({route}) {
                   <Text style={styles.headingText}>
                     {' '}
                     {moment(totalData?.lastUpdated).format(
-                      'D MMM, YYYY, (h:mm a)',
+                      'MMM DD, YYYY, (h:mm a)',
                     )}
                   </Text>
                   {/* <Text style={styles.smallText2}> (10:30 AM)</Text> */}
