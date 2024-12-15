@@ -175,7 +175,7 @@ export default function Presentation() {
         <View>
           {contents.length > 0 ? (
             <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={{marginBottom: responsiveScreenHeight(2)}}>
+              <View style={{marginBottom: responsiveScreenHeight(2), gap: 10}}>
                 {contents.map(item => {
                   if (item.isLocked) {
                     return (
@@ -226,7 +226,7 @@ const getStyles = Colors =>
     },
     searchBoxContainer: {
       flexDirection: 'row',
-      marginTop: responsiveScreenHeight(2),
+      marginVertical: responsiveScreenHeight(2),
       justifyContent: 'space-between',
       gap: responsiveScreenWidth(2),
       alignItems: 'center',
@@ -270,7 +270,6 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(2),
       backgroundColor: Colors.White,
       alignSelf: 'center',
-      marginTop: responsiveScreenHeight(2),
       borderRadius: 5,
       borderWidth: 1,
       borderColor: Colors.BorderColor,

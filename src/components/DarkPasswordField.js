@@ -71,7 +71,7 @@ export default function DarkPasswordField({
           }}
           style={styles.textInput}
           placeholder={placeholder}
-          placeholderTextColor={Colors.Heading}
+          placeholderTextColor={Colors.BodyText}
           secureTextEntry={!showPassword}
         />
         <TouchableOpacity
@@ -161,9 +161,9 @@ const getStyles = Colors =>
     },
     textInput: {
       width: responsiveScreenWidth(60),
-      marginLeft: responsiveScreenWidth(3),
+      // marginLeft: responsiveScreenWidth(3),
       fontSize: responsiveScreenFontSize(1.8),
-      color: Colors.Heading,
+      color: Colors.BodyText,
       fontFamily: CustomFonts.REGULAR,
     },
     eyeIcon: {
