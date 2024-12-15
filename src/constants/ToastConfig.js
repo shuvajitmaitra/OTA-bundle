@@ -53,7 +53,7 @@ export const toastConfig = {
         style={{
           minHeight: 40,
           minWidth: '30%',
-          backgroundColor: props.background || 'rgba(0, 0, 0, 0.9)',
+          backgroundColor: props.background || 'rgba(0, 0, 0, 0.5)',
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 10,

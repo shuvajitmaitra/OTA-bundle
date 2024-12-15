@@ -17,8 +17,12 @@ import BootCampsDetails from '../screens/LandingScreen/BootCampsDetails';
 import UserDashboard from '../screens/Dashboard/UserDashboard';
 import CourseDetails from '../components/PurchasedCom/CourseDetails';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import NotificationScreenHeader from '../components/NotificationScreenHeader';
+import MyPaymentScreen from '../screens/MyPaymentScreen';
+import ArrowLeft from '../assets/Icons/ArrowLeft';
+import CustomFonts from '../constants/CustomFonts';
+import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 
 const HomeStack = createStackNavigator();
 
@@ -137,6 +141,38 @@ const HomeStackScreen = () => {
         name="LandingPage"
         component={LandingScreenMain}
         options={{headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="MyPaymentScreen"
+        component={MyPaymentScreen}
+        options={({route, navigation}) => ({
+          headerTitle: '',
+          headerLeft: () => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.goBack();
+                }}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginLeft: 10,
+                }}>
+                <ArrowLeft />
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    fontFamily: CustomFonts.MEDIUM,
+                    fontSize: responsiveScreenFontSize(2),
+                    color: Colors.BodyText,
+                  }}>
+                  Back
+                </Text>
+              </TouchableOpacity>
+            );
+          },
+        })}
       />
       <HomeStack.Screen
         name="BootCampsDetails"

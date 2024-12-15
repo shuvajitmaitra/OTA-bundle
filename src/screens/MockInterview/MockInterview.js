@@ -29,6 +29,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setInterviews} from '../../store/reducer/InterviewReducer';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import moment from 'moment';
+import {showToast} from '../../components/HelperFunction';
 
 export default function MockInterview({route}) {
   const Colors = useTheme();
@@ -182,7 +183,9 @@ export default function MockInterview({route}) {
                     }}>
                     {interview.submission?.length > 0 ? (
                       <MyButton
-                        onPress={() => {}}
+                        onPress={() => {
+                          showToast({message: 'Feature not available'});
+                        }}
                         title={'View Result'}
                         bg={Colors.PrimaryOpacityColor}
                         colour={Colors.Primary}
