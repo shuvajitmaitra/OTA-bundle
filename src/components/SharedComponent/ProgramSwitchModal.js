@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -26,6 +26,7 @@ const ProgramSwitchModal = memo(({modalOpen, onCancelPress}) => {
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  const [switched, setSwitched] = useState(true);
   const {myEnrollments, enrollment} = useSelector(state => state.auth);
   const {handleVerify2} = useMainContext();
 
@@ -37,8 +38,10 @@ const ProgramSwitchModal = memo(({modalOpen, onCancelPress}) => {
         programName: myEnrollments[0].program.title,
       });
     };
-    handleSwitch();
-    handleVerify2();
+    if (!enrollment?._id) {
+      handleSwitch();
+      handleVerify2();
+    }
   }, [dispatch, handleVerify2, myEnrollments]);
 
   const handleSwitch = async enroll => {
@@ -47,6 +50,7 @@ const ProgramSwitchModal = memo(({modalOpen, onCancelPress}) => {
       _id: enroll._id,
       programName: enroll.program.title,
     });
+    handleVerify2();
   };
 
   return (

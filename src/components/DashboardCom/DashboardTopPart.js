@@ -1,5 +1,5 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   responsiveScreenWidth,
   responsiveScreenHeight,
@@ -10,6 +10,7 @@ import DrawerIcon from '../../assets/Icons/DrawerIcon';
 import MessageNotificationContainer from '../MessageNotificationContainer';
 import {useTheme} from '../../context/ThemeContext';
 import SwapIcon from '../../assets/Icons/SwapIcon';
+import ProgramSwitchModal from '../SharedComponent/ProgramSwitchModal';
 
 export default function DashboardTopPart({
   statusSectionVisible,
@@ -19,6 +20,7 @@ export default function DashboardTopPart({
   const navigation = useNavigation();
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  const [proSwitch, setProSwitch] = useState(false);
   const handleDrawer = () => {
     navigation.openDrawer();
     if (statusSectionVisible) {
@@ -38,13 +40,21 @@ export default function DashboardTopPart({
       <View style={styles.messageNotificationContainer}>
         {switchAvailable && (
           <TouchableOpacity
-            // onPress={() => setSelectProgramModalVisible(true)}
+            onPress={() => setProSwitch(pre => !pre)}
             style={styles.messageContainer}>
             <SwapIcon />
           </TouchableOpacity>
         )}
         <MessageNotificationContainer />
       </View>
+      {proSwitch && (
+        <ProgramSwitchModal
+          onCancelPress={() => {
+            setProSwitch(pre => !pre);
+          }}
+          modalOpen={proSwitch}
+        />
+      )}
     </View>
   );
 }

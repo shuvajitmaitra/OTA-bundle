@@ -32,8 +32,11 @@ const RootStack = createStackNavigator();
 
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
+  const {bottomSheetVisible} = useSelector(state => state.modal);
+
   const orgJSON = storage.getString('organization');
   const proJSON = storage.getString('active_enrolment');
+  console.log(proJSON);
   // const keys = storage.getAllKeys();
   // console.log('keys', JSON.stringify(keys, null, 1));
   const {error} = usePushNotifications();
@@ -111,7 +114,7 @@ const RootStackNavigator = () => {
           })}
         />
       </RootStack.Navigator>
-      <GlobalCommentModal />
+      {bottomSheetVisible && <GlobalCommentModal />}
       {notificationClicked && <NotificationEventDetails />}
       {!orgJSON && <OrgSwitchModal isVisible={!orgJSON} />}
       {/* {selectProgramModalVisible && (
