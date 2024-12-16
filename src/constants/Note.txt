@@ -1,22 +1,6 @@
 **Work Stream - December 15, 2024**  
 *Bootcampshub CLI*
 
-- Fixed calendar spelling error on the progress screen.
-- Resolved issue where mentor picture wasn't showing on the post-landing screen.
-- Replaced irrelevant X icon with a more appropriate image on the profile screen.
-- Changed the last update date format for consistency.
-- Added user status display on the drawer screen.
-- Updated message section to match the web portal design on the progress screen.
-- Added padding to the bottom of the documents screen.
-- Reduced left-side padding of the input field for better alignment.
-- Added padding to the bottom of the documents screen tab for better visual balance.
-- Introduced new "Assessments Tab," which is already available on the portal.
-- Fixed issue where loading state was displayed continuously on the community screen.
-- Changed the play button color for audio on the Audio and Video screen.
-- Fixed modal resizing issue when searching for members after creating a crowd.
-- Updated the minimum member requirement in the create crowd modal to 2 (previously 3).
-- Updated success modal text from "User" to "Member" after adding members.
-- Increased the width of the "See Less" arrow icon to match the "See More" arrow icon.
 
 
 Anonno's Work stream
@@ -27,26 +11,46 @@ Anonno's Work stream
 
 
 *Overall status*
-- Total UI issue fix 20 - 55%
-- Total UI issue remaining 10 - 45%
-- New issues listed  9
+- Total UI issue and functional issues fixed 18 
+- Remaining issues 5
+- New issues listed  6
 
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 
-*Work update - December 15, 2024*  
+*Work Update - December 15, 2024*
 *BootcampsHub CLI*
 
+- Calendar spelling corrected on the progress screen. 
+- Mentor picture now displays properly on the post-landing screen. 
+- Twitter icon alignment fixed to match other images on the profile screen. 
+- Last update date format updated. 
+- "View Result" button now functional in the Mock Interview screen. 
+- Mobile app no longer crashes when clicking the "Start Interview" button in the Mock Interview screen. 
+- User status is now displayed on the drawer screen. 
+- Message section now matches the portal web design on the progress screen. 
+- Padding added to the bottom of the Documents screen. 
+- Reduced left-side padding of the input field. 
+- Padding added to the bottom of the Documents screen Tab. 
+- Loading state no longer shows continuously on the community screen. 
+- Audio play button color updated in the Audio and Video screen. 
+- Resizing issue fixed when searching for members in the crowd creation modal. 
+- Minimum number of members to create a crowd is now set to 2 in the create crowd modal. 
+- "View Payment" button now works in the Purchased Items screen. 
+- "User" replaced with "Member" in the success modal after adding a member. 
+- Increased the width of the "See Less" arrow icon to match the "See More" arrow icon
 
 BootcampsHub Mobile Testing update:
 
 API Automation results:
 API Tested: 126
-Success: 121
-Skipped: 5
+Success: 124
 Error: 0
+Skipped: 2
+/user/verifyotp
+/chat/update-status/:messageId
 
-•⁠  ⁠Check 53 fixed bugs and update status.
+•⁠  ⁠Check 15 fixed bugs and update status.
 •⁠  ⁠Testing mobile apps Android & IOS.
-•⁠  ⁠Listed 1 Functional & Technical issues.
-•⁠  ⁠Listed 5 UI issues.
+•⁠  ⁠Listed 2 Functional & Technical issues.
+•⁠  ⁠Listed 4 UI issues.

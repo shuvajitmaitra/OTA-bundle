@@ -58,7 +58,7 @@ export const CalendarItems = item => {
                 onPress={() => {
                   setModalData(singleItem);
 
-                  user._id === singleItem?.createdBy
+                  user._id === singleItem?.createdBy?._id
                     ? (getEventDetails(singleItem?._id),
                       getNotificationData(singleItem?._id),
                       toggleUpdateModal())

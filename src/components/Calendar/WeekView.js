@@ -140,7 +140,7 @@ const WeekView = ({
                               onPress={() => {
                                 getEventDetails(item?._id);
                                 getNotificationData(item?._id);
-                                user._id === item?.createdBy
+                                user._id === item?.createdBy?._id
                                   ? toggleUpdateModal(item)
                                   : toggleEventDetailsModal(item);
                               }}
@@ -193,7 +193,7 @@ const WeekView = ({
               <TouchableOpacity
                 onPress={() => {
                   setIsPopupVisible(false);
-                  user?._id === item?.createdBy
+                  user?._id === item?.createdBy?._id
                     ? (getEventDetails(item?._id), toggleUpdateModal(item))
                     : toggleEventDetailsModal(item);
                 }}

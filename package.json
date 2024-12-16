@@ -12,7 +12,7 @@
     "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install && cd ..",
     "preview-build": "cd android && ./gradlew assembleRelease && cd ..",
     "pod": " cd ios && pod install && cd ..",
-    "xcode": "cd ios && open Bootcampshub_Chat.xcworkspace"
+    "xcode": "xed -b ios"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.0.5",

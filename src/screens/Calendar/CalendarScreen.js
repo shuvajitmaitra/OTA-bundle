@@ -133,7 +133,7 @@ const CalendarScreen = props => {
   ] = useState(false);
   const [invitationDetails, setInvitationDetails] = useState({});
   const toggleInvitationsDetailsModal = () => {
-    setIsInvitationsDetailsModalVisible(!isInvitationsDetailsModalVisible);
+    setIsInvitationsDetailsModalVisible(pre => !pre);
   };
 
   const compareData = useCallback((mntData, eData = []) => {

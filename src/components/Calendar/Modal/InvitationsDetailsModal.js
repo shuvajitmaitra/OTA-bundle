@@ -226,20 +226,24 @@ const InvitationsDetailsModal = ({
           </ScrollView>
         </View>
       </View>
-      <InvitationDeniedModal
-        id={id}
-        participantId={item?.myParticipantData?._id}
-        toggleInvitationsDetailsModal={toggleInvitationsDetailsModal}
-        isDeniedModalVisible={isDeniedModalVisible}
-        setIsDeniedModalVisible={setIsDeniedModalVisible}
-      />
-      <ProposeNewTimeModal
-        id={id}
-        participantId={item?.myParticipantData?._id}
-        toggleInvitationsDetailsModal={toggleInvitationsDetailsModal}
-        isProposeNewTimeVisible={isProposeNewTimeVisible}
-        toggleProposeNewTime={toggleProposeNewTime}
-      />
+      {isDeniedModalVisible && (
+        <InvitationDeniedModal
+          id={id}
+          participantId={item?.myParticipantData?._id}
+          toggleInvitationsDetailsModal={toggleInvitationsDetailsModal}
+          isDeniedModalVisible={isDeniedModalVisible}
+          setIsDeniedModalVisible={setIsDeniedModalVisible}
+        />
+      )}
+      {isProposeNewTimeVisible && (
+        <ProposeNewTimeModal
+          id={id}
+          participantId={item?.myParticipantData?._id}
+          toggleInvitationsDetailsModal={toggleInvitationsDetailsModal}
+          isProposeNewTimeVisible={isProposeNewTimeVisible}
+          toggleProposeNewTime={toggleProposeNewTime}
+        />
+      )}
       <Toast config={toastConfig} />
     </ReactNativeModal>
   );

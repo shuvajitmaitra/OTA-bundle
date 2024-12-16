@@ -106,7 +106,7 @@ const DayView = ({
                             onPress={() => {
                               getEventDetails(item?._id);
                               getNotificationData(item._id);
-                              user._id === item?.createdBy
+                              user._id === item?.createdBy?._id
                                 ? toggleUpdateModal(item)
                                 : toggleEventDetailsModal(item);
                             }}

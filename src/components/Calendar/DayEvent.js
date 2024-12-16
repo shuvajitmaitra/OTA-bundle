@@ -35,7 +35,7 @@ const DayEvent = ({DayOffset, user, eventType}) => {
               setEventId(item._id);
               // getEventDetails(item._id);
               getNotificationData(item._id);
-              user._id === item?.createdBy
+              user._id === item?.createdBy?._id
                 ? setIsUpdateModalVisible(!isUpdateModalVisible)
                 : setIsEventDetailsModalVisible(!isEventDetailsModalVisible);
             }}

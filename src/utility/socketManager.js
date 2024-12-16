@@ -1,5 +1,4 @@
 import {io} from 'socket.io-client';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import environment from '../constants/environment';
 import setupSocketListeners from './socketHandler';
 import {loadChats} from '../actions/chat-noti';
@@ -18,6 +17,11 @@ let cleanUpListeners;
 
 export const connectSocket = async () => {
   const value = storage.getString('user_token');
+  const orgJSON = storage.getString('organization');
+  let organization = JSON.parse(orgJSON)?._id;
+
+  const proJSON = storage.getString('active_enrolment');
+  let enrollment = JSON.parse(proJSON)?._id;
 
   if (!socket) {
     const options = {
@@ -25,7 +29,11 @@ export const connectSocket = async () => {
       transports: ['websocket'],
       secure: true,
       rejectUnauthorized: false,
-      query: {token: value},
+      query: {
+        token: value,
+        enrollment,
+        organization,
+      },
     };
     socket = io(socketUrl, options);
   }

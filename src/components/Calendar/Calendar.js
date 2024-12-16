@@ -20,7 +20,6 @@ import ReactNativeModal from 'react-native-modal';
 import {getEventDetails, getNotificationData} from '../../actions/chat-noti';
 import DayEvent from './DayEvent';
 import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
-import NotificationEventDetails from './Modal/NotificationEventDetails';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -433,7 +432,7 @@ const Calendar = ({
                               getEventDetails(item._id);
                               getNotificationData(item._id);
 
-                              user._id === item?.createdBy
+                              user._id === item?.createdBy?._id
                                 ? toggleUpdateModal(item)
                                 : toggleEventDetailsModal(item);
                             }}
@@ -467,7 +466,7 @@ const Calendar = ({
                           onPress={() => {
                             getNotificationData(item._id);
                             getEventDetails(item._id);
-                            user._id === item?.createdBy
+                            user._id === item?.createdBy?._id
                               ? toggleUpdateModal(item)
                               : toggleEventDetailsModal(item);
                           }}
@@ -515,7 +514,7 @@ const Calendar = ({
                   // if (Platform.OS == "ios") {
                   //   return Alert.alert("Coming soon...");
                   // }
-                  user?._id === item?.createdBy
+                  user?._id === item?.createdBy._id
                     ? (getEventDetails(item?._id), toggleUpdateModal(item))
                     : toggleEventDetailsModal(item);
                 }}
