@@ -24,36 +24,40 @@ import {
 } from '../store/reducer/communityReducer';
 import {setComments} from '../store/reducer/commentReducer';
 import {setPrograms} from '../store/reducer/programReducer';
+import {setChats, setGroupNameId} from '../store/reducer/chatReducer';
 
 export const loadChats = async () => {
-  // console.log('loadChats called');
+  console.log('loadChats called');
 
-  await axiosInstance.get('/chat/mychats', {
-    headers: {
-      'Cache-Control': 'no-store, no-cache, must-revalidate',
-      Pragma: 'no-cache',
-      Expires: '0',
-    },
-    params: {
-      channel: 'ws',
-    },
-  });
-  // .then(async (res) => {
-  //   // store.dispatch(setChats(res.data.chats));
-  //   // // console.log("res.data.chats", JSON.stringify(res.data.chats, null, 1));
-  //   // store.dispatch(setGroupNameId(res.data.chats));
-
-  //   // let totalUnread = res.data.chats?.filter(
-  //   //   (chat) =>
-  //   //     !chat?.myData?.isRead &&
-  //   //     chat.myData.user !== chat?.latestMessage?.sender?._id
-  //   // )?.length;
-
-  //   // await Notifications.setBadgeCountAsync(totalUnread || 0);
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  // });
+  await axiosInstance
+    .get(
+      '/chat/mychats',
+      //   , {
+      //   headers: {
+      //     'Cache-Control': 'no-store, no-cache, must-revalidate',
+      //     Pragma: 'no-cache',
+      //     Expires: '0',
+      //   },
+      //   params: {
+      //     channel: 'ws',
+      //   },
+      // }
+    )
+    .then(async res => {
+      store.dispatch(setChats(res.data.chats));
+      // console.log('res.data.chats', JSON.stringify(res.data.chats, null, 1));
+      store.dispatch(setGroupNameId(res.data.chats));
+      let totalUnread = res.data.chats?.filter(
+        chat =>
+          !chat?.myData?.isRead &&
+          chat.myData.user !== chat?.latestMessage?.sender?._id,
+      )?.length;
+      // await Notifications.setBadgeCountAsync(totalUnread || 0);
+    })
+    .catch(err => {
+      // console.log(err);
+      console.log('err to get initial get', JSON.stringify(err, null, 2));
+    });
 };
 
 export const loadCalendarEvent = async () => {

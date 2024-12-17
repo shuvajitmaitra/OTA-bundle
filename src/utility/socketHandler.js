@@ -106,6 +106,7 @@ const setupSocketListeners = socket => {
     // console.log(data);
 
     // console.log("mychats");
+    console.log('chats', JSON.stringify(chats, null, 2));
     store.dispatch(setGroupNameId(chats));
 
     store.dispatch(setChats(chats));

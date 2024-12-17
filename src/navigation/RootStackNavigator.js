@@ -8,7 +8,7 @@ import GlobalCommentModal from '../components/SharedComponent/GlobalCommentModal
 import {useSelector} from 'react-redux';
 import NotificationEventDetails from '../components/Calendar/Modal/NotificationEventDetails';
 import store from '../store';
-import {setAppLoading} from '../store/reducer/authReducer';
+import {setAppLoading, setCurrentRoute} from '../store/reducer/authReducer';
 import {
   loadCalendarEvent,
   loadChats,
@@ -36,7 +36,6 @@ const RootStackNavigator = () => {
 
   const orgJSON = storage.getString('organization');
   const proJSON = storage.getString('active_enrolment');
-  console.log(proJSON);
   // const keys = storage.getAllKeys();
   // console.log('keys', JSON.stringify(keys, null, 1));
   const {error} = usePushNotifications();
@@ -74,6 +73,7 @@ const RootStackNavigator = () => {
     return () => {
       disconnectSocket();
       store.dispatch(setSinglePost(null));
+      store.dispatch(setCurrentRoute(null));
       console.log(
         '.........................................................................................................',
       );
@@ -87,31 +87,6 @@ const RootStackNavigator = () => {
           name="Drawer"
           component={DrawerNavigator}
           options={{headerShown: false}}
-        />
-
-        <RootStack.Screen
-          name="MessageScreen2"
-          component={MessageScreen2}
-          options={{
-            headerShown: false,
-            title: 'Messages',
-          }}
-        />
-        <RootStack.Screen
-          name="ThreadScreen"
-          component={ThreadScreen}
-          options={{
-            headerShown: false,
-            title: 'Thread',
-          }}
-        />
-
-        <RootStack.Screen
-          name="ChatProfile"
-          component={ChatProfile}
-          options={({route, navigation}) => ({
-            headerShown: false,
-          })}
         />
       </RootStack.Navigator>
       {bottomSheetVisible && <GlobalCommentModal />}

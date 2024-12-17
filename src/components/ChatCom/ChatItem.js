@@ -19,6 +19,7 @@ import CrowdIcon from '../../assets/Icons/CrowedIcon';
 import AiBotIcon from '../../assets/Icons/AiBotIcon';
 import UserIcon from '../../assets/Icons/UserIcon';
 import GlobeIcon from '../../assets/Icons/GlobeIcon';
+import {setCurrentRoute} from '../../store/reducer/authReducer';
 
 function formatTime(dateString) {
   const today = moment().startOf('day');
@@ -110,6 +111,8 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
       onPress={() => {
         setChecked('chats');
         dispatch(setSingleChat(chat));
+        dispatch(setCurrentRoute('MessageScreen2'));
+
         navigation.navigate('MessageScreen2', {animationEnabled: false});
         dispatch(markRead({chatId: chat?._id}));
       }}>

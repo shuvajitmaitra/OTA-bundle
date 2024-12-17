@@ -55,7 +55,6 @@ import UpdateCrowdModal from '../../components/ChatCom/Modal/UpdateCrowdModal';
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
-  console.log('chat', JSON.stringify(chat, null, 1));
 
   const {selectedMember} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
@@ -371,7 +370,7 @@ const ChatProfile = () => {
         <GroupModalTabView />
 
         {/* Action Buttons */}
-        {chat.isChannel && (
+        {chat.isChannel && chat.memberScope === 'custom' && (
           <View style={styles.actionButtonsContainer}>
             {/* Report Button */}
             {/* <TouchableOpacity

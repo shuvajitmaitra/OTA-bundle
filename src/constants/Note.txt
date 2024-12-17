@@ -1,7 +1,15 @@
-**Work Stream - December 15, 2024**  
+**Work Stream - December 17, 2024**  
 *Bootcampshub CLI*
 
-
+- Changed required field star color
+- Adjusted Save button placement in the availability screen
+- Added space between status bar and back button in the availability screen
+- Capitalized "H" in hours on the availability screen
+- Capitalized the first character of response status in the view invitation screen
+- Fixed comment section modal stacking issue
+- Added event status for invited users in the event details screen
+- Enabled creation and updating of public crowds
+- Fixed user status functionality
 
 Anonno's Work stream
 •⁠  ⁠Test mobile apps Android & IOS.
@@ -21,24 +29,6 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 *Work Update - December 15, 2024*
 *BootcampsHub CLI*
 
-- Calendar spelling corrected on the progress screen. 
-- Mentor picture now displays properly on the post-landing screen. 
-- Twitter icon alignment fixed to match other images on the profile screen. 
-- Last update date format updated. 
-- "View Result" button now functional in the Mock Interview screen. 
-- Mobile app no longer crashes when clicking the "Start Interview" button in the Mock Interview screen. 
-- User status is now displayed on the drawer screen. 
-- Message section now matches the portal web design on the progress screen. 
-- Padding added to the bottom of the Documents screen. 
-- Reduced left-side padding of the input field. 
-- Padding added to the bottom of the Documents screen Tab. 
-- Loading state no longer shows continuously on the community screen. 
-- Audio play button color updated in the Audio and Video screen. 
-- Resizing issue fixed when searching for members in the crowd creation modal. 
-- Minimum number of members to create a crowd is now set to 2 in the create crowd modal. 
-- "View Payment" button now works in the Purchased Items screen. 
-- "User" replaced with "Member" in the success modal after adding a member. 
-- Increased the width of the "See Less" arrow icon to match the "See More" arrow icon
 
 BootcampsHub Mobile Testing update:
 

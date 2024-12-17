@@ -16,6 +16,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {removeChat} from '../../../store/reducer/chatReducer';
 import {showToast} from '../../HelperFunction';
 import {useNavigation} from '@react-navigation/native';
+import {setCurrentRoute} from '../../../store/reducer/authReducer';
+import Toast from 'react-native-toast-message';
+import {toastConfig} from '../../../constants/ToastConfig';
 
 const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
   const {singleChat: chat} = useSelector(state => state.chat);
@@ -26,19 +29,20 @@ const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
   const navigation = useNavigation();
 
   const handleLeaveCrowed = async () => {
-    toggleLeaveCrowdModal();
-    navigation.navigate('RootStack', {screen: 'NewChatScreen'});
-    // try {
-    //   const res = await axiosInstance.patch(`/chat/channel/leave/${chat?._id}`);
-    //   console.log('res.data', JSON.stringify(res.data, null, 1));
-    //   if (res.data?.success) {
-    //     dispatch(removeChat(chat?._id));
-    //     showToast('Leave successfully...');
-    //   }
-    // } catch (error) {
-    //   console.error('Error leaving crowd:', error);
-    //   // Handle any errors that occurred during the request here
-    // }
+    try {
+      const res = await axiosInstance.patch(`/chat/channel/leave/${chat?._id}`);
+      console.log('res.data', JSON.stringify(res.data, null, 1));
+      if (res.data?.success) {
+        toggleLeaveCrowdModal();
+        dispatch(setCurrentRoute(null));
+        navigation.navigate('HomeStack', {screen: 'NewChatScreen'});
+        dispatch(removeChat(chat?._id));
+        showToast('Leave successfully...');
+      }
+    } catch (error) {
+      console.error('Error leaving crowd:', error);
+      // Handle any errors that occurred during the request here
+    }
   };
 
   return (
@@ -89,6 +93,7 @@ const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
           </View>
         </View>
       </View>
+      <Toast config={toastConfig} />
     </ReactNativeModal>
   );
 };

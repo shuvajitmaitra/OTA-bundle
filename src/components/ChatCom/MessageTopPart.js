@@ -31,6 +31,7 @@ import CrowdIcon from '../../assets/Icons/CrowedIcon';
 import AiBotIcon from '../../assets/Icons/AiBotIcon';
 import MembersIcon from '../../assets/Icons/MembersIcon';
 import UserIcon from '../../assets/Icons/UserIcon';
+import {setCurrentRoute} from '../../store/reducer/authReducer';
 
 export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
   const navigation = useNavigation();
@@ -39,12 +40,15 @@ export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [pinnedCount = {}] = useMMKVObject('pinCount');
+
+  console.log('chat', JSON.stringify(chat, null, 2));
   return (
     <View style={styles.container}>
       <View style={styles.leftSection}>
         <TouchableOpacity
           onPress={() => {
             dispatch(setLocalMessages([]));
+            dispatch(setCurrentRoute(null));
             navigation.goBack();
             // navigation.navigate('NewChatScreen');
           }}

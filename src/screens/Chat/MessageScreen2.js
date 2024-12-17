@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useLayoutEffect} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -25,6 +25,7 @@ import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
+import {useNavigation} from '@react-navigation/native';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ const MessageScreen2 = () => {
   const {messageOptionData} = useSelector(state => state.modal);
   const {localMessages} = useSelector(state => state.chatSlice);
   const [viewImage, setViewImage] = useState([]);
+  const navigation = useNavigation();
   // console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -49,6 +51,16 @@ const MessageScreen2 = () => {
   const [messageEditVisible, setMessageEditVisible] = useState('');
   const [viewInitialMessage, setViewInitialMessage] = useState(false);
   const LIMIT = 20;
+
+  useLayoutEffect(() => {
+    // Hide the tab bar
+    navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
+
+    // Show the tab bar when leaving the screen
+    return () => {
+      navigation.getParent()?.setOptions({tabBarStyle: {display: 'flex'}});
+    };
+  }, [navigation]);
 
   const fetchPinned = chatId => {
     if (!chatId) {

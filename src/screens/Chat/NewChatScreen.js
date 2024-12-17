@@ -1,4 +1,10 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useLayoutEffect,
+} from 'react';
 import {ScrollView, StyleSheet, View, FlatList, StatusBar} from 'react-native';
 import {useSelector} from 'react-redux';
 import {
@@ -8,7 +14,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import ChatItem from '../../components/ChatCom/ChatItem';
 import CustomFonts from '../../constants/CustomFonts';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useTheme} from '../../context/ThemeContext';
 import OnlineUsersItem from '../../components/ChatCom/OnlineUsersItem';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';

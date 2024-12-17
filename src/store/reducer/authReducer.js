@@ -21,6 +21,7 @@ const initialState = {
   organizations: [],
   selectedOrganization: null,
   appLoading: false,
+  currentRoute: null,
 };
 
 const authSlice = createSlice({
@@ -53,10 +54,14 @@ const authSlice = createSlice({
     setSelectedOrganization: (state, {payload}) => {
       state.selectedOrganization = payload;
     },
+    setCurrentRoute: (state, action) => {
+      state.currentRoute = action.payload;
+    },
   },
 });
 
 export const {
+  setCurrentRoute,
   setAppLoading,
   setSelectedOrganization,
   selectOrganizations,

@@ -1,44 +1,88 @@
 // src/navigation/BottomTabNavigator.js
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+
 import HomeStackScreen from './HomeStack';
-import CustomTabBar from './CustomTabBar';
 import ProgramStackScreen from './ProgramStack';
 import MyCalenderStackScreen from './MyCalenderStack';
-
 import CommunityStackScreen from './CommunityStack';
-// import PushNotiService from '../utility/PushNotiService';
+import CustomTabBar from './CustomTabBar';
+import NewChatScreen from '../screens/Chat/NewChatScreen';
+import {useSelector} from 'react-redux';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator({
+  NewChatScreen: {
+    screen: 'MessageScreen2',
+    navigationOptions: () => {
+      return {
+        tabBarVisible: false,
+      };
+    },
+  },
+});
+
+const getTabBarVisibility = (route, hiddenRoutes = []) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+  return hiddenRoutes.includes(routeName) ? 'none' : 'flex';
+};
 
 const BottomTabNavigator = () => {
+  const {currentRoute} = useSelector(state => state.auth);
   return (
     <>
       {/* <PushNotiService /> */}
       <Tab.Navigator
-        tabBar={props => <CustomTabBar {...props} />}
+        tabBar={props => !currentRoute && <CustomTabBar {...props} />}
         screenOptions={{
           headerShown: false,
         }}>
         <Tab.Screen
           name="HomeStack"
           component={HomeStackScreen}
-          options={{tabBarLabel: 'Home'}}
+          options={({route}) => ({
+            tabBarLabel: 'Home',
+            tabBarStyle: {
+              display: getTabBarVisibility(route, [
+                'Details',
+                'AnotherHiddenScreen',
+              ]),
+            },
+          })}
         />
         <Tab.Screen
           name="ProgramStack"
           component={ProgramStackScreen}
-          options={{tabBarLabel: 'Program'}}
+          options={({route}) => ({
+            tabBarLabel: 'Program',
+            tabBarStyle: {
+              display: getTabBarVisibility(route, ['ProgramDetails']),
+            },
+          })}
         />
         <Tab.Screen
           name="MyCalenderStack"
           component={MyCalenderStackScreen}
-          options={{tabBarLabel: 'Program'}}
+          options={({route}) => ({
+            tabBarLabel: 'Calendar',
+            tabBarStyle: {
+              display: getTabBarVisibility(route, ['CalendarDetails']),
+            },
+          })}
         />
         <Tab.Screen
           name="CommunityStack"
           component={CommunityStackScreen}
-          options={{tabBarLabel: 'Program'}}
+          options={({route}) => ({
+            tabBarLabel: 'Community',
+            tabBarStyle: {
+              display: getTabBarVisibility(route, ['CommunityDetails']),
+            },
+          })}
         />
       </Tab.Navigator>
     </>
