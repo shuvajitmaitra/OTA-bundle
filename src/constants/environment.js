@@ -1,5 +1,5 @@
 export default {
-  production: false,
+  production: true,
 };
 /*
 
@@ -22,7 +22,7 @@ clone the github repository
 
 cd to project
 
-yarn install or npm install
+yarn install
 
 cd iso && pod install && cd .. 
 
@@ -30,7 +30,16 @@ yarn start
 
 press i for ios
 
-press a for android
+To open your real android device 
+- Enable developer mode of your mobile
+- In the developer mode enable USB debugging
+- Connect you mobile to your to your computer 
+- After successfully connected press `a` to run in android
+
+To open in simulator 
+- Open simulator device
+- press `a` for android
+
 
 
 eas build -p android --profile preview

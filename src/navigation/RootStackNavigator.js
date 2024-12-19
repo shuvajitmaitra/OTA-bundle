@@ -27,6 +27,7 @@ import OrgSwitchModal from '../components/OrgSwitchModal';
 import {storage} from '../utility/mmkvInstance';
 import ProgramSwitchModal from '../components/SharedComponent/ProgramSwitchModal';
 import usePushNotifications from '../hook/usePushNotifications';
+import {setBottomSheetVisible} from '../store/reducer/ModalReducer';
 
 const RootStack = createStackNavigator();
 
@@ -74,6 +75,7 @@ const RootStackNavigator = () => {
       disconnectSocket();
       store.dispatch(setSinglePost(null));
       store.dispatch(setCurrentRoute(null));
+      store.dispatch(setBottomSheetVisible(null));
       console.log(
         '.........................................................................................................',
       );

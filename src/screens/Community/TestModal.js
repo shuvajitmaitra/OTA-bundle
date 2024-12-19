@@ -1,54 +1,48 @@
 import {
-  configureReanimatedLogger,
-  ReanimatedLogLevel,
-} from 'react-native-reanimated';
-
-configureReanimatedLogger({
-  level: ReanimatedLogLevel.warn,
-  strict: false, // Enables strict mode
-});
-
-import React, {useMemo, useRef, useState} from 'react';
-import {
-  Text,
-  StyleSheet,
-  TextInput,
+  KeyboardAvoidingView,
   Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
   TouchableOpacity,
   View,
-  ScrollView,
 } from 'react-native';
-import {useTheme} from '../../context/ThemeContext';
-import {useDispatch, useSelector} from 'react-redux';
-import {setBottomSheetVisible} from '../../store/reducer/ModalReducer';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import React, {useMemo, useRef, useState} from 'react';
+import ReactNativeModal from 'react-native-modal';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import CustomFonts from '../../constants/CustomFonts';
-import LoadingSmall from './LoadingSmall';
-import {RegularFonts} from '../../constants/Fonts';
-import {getComments} from '../../actions/chat-noti';
+import {useDispatch, useSelector} from 'react-redux';
+import {useTheme} from '../../context/ThemeContext';
 import {formatDynamicDate, showAlertModal} from '../../utility/commonFunction';
 import axiosInstance from '../../utility/axiosInstance';
-import Comment from '../CommunityCom/Comment';
+import {getComments} from '../../actions/chat-noti';
+import Comment from '../../components/CommunityCom/Comment';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import CustomFonts from '../../constants/CustomFonts';
+import LoadingSmall from '../../components/SharedComponent/LoadingSmall';
 import SendIcon from '../../assets/Icons/SendIcon';
+import {RegularFonts} from '../../constants/Fonts';
+import {setBottomSheetVisible} from '../../store/reducer/ModalReducer';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import ReactNativeModal from 'react-native-modal';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 
 const TestModal = () => {
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  const bottomSheetRef = useRef(null);
   const [commentText, setCommentText] = useState('');
   const {user} = useSelector(state => state.auth);
   const textInputRef = useRef(null);
   const {comments, commentId} = useSelector(state => state.comment);
   const {bottomSheetVisible} = useSelector(state => state.modal);
   const [isCommenting, setCommenting] = useState(false);
+  const snapPoints = useMemo(() => ['100%'], []);
+  const [isLoading, setIsLoading] = useState(false);
   const handleCreateComment = () => {
     if (!commentText.trim()) {
       return showAlertModal({
@@ -82,12 +76,13 @@ const TestModal = () => {
     () => comments.filter(comment => comment.contentId === commentId),
     [comments, commentId],
   );
+  const {top} = useSafeAreaInsets();
   return (
     <ReactNativeModal
       style={[
         {
           margin: 0,
-          paddingTop: 30,
+          paddingTop: top / 2,
           backgroundColor: Colors.White,
           paddingHorizontal: 10,
         },

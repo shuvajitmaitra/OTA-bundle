@@ -55,6 +55,7 @@ import UpdateCrowdModal from '../../components/ChatCom/Modal/UpdateCrowdModal';
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
+  console.log('chat', JSON.stringify(chat, null, 2));
 
   const {selectedMember} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
@@ -370,7 +371,7 @@ const ChatProfile = () => {
         <GroupModalTabView />
 
         {/* Action Buttons */}
-        {chat.isChannel && chat.memberScope === 'custom' && (
+        {chat.isChannel && (
           <View style={styles.actionButtonsContainer}>
             {/* Report Button */}
             {/* <TouchableOpacity
@@ -405,21 +406,32 @@ const ChatProfile = () => {
             </TouchableOpacity>
 
             {/* Leave Chat Button */}
-            <TouchableOpacity
-              onPress={toggleLeaveCrowdModal}
-              style={styles.blockContainer}>
-              <AntDesign name="delete" size={25} color="rgba(244, 42, 65, 1)" />
-              <Text
-                style={[styles.containerText, {color: 'rgba(244, 42, 65, 1)'}]}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                Leave Crowds
-              </Text>
-            </TouchableOpacity>
-            <LeaveCrowdModal
-              toggleLeaveCrowdModal={toggleLeaveCrowdModal}
-              isLeaveCrowdModalVisible={isLeaveCrowdModalVisible}
-            />
+            {
+              <>
+                <TouchableOpacity
+                  onPress={toggleLeaveCrowdModal}
+                  style={styles.blockContainer}>
+                  <AntDesign
+                    name="delete"
+                    size={25}
+                    color="rgba(244, 42, 65, 1)"
+                  />
+                  <Text
+                    style={[
+                      styles.containerText,
+                      {color: 'rgba(244, 42, 65, 1)'},
+                    ]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail">
+                    Leave Crowds
+                  </Text>
+                </TouchableOpacity>
+                <LeaveCrowdModal
+                  toggleLeaveCrowdModal={toggleLeaveCrowdModal}
+                  isLeaveCrowdModalVisible={isLeaveCrowdModalVisible}
+                />
+              </>
+            }
           </View>
         )}
       </ScrollView>
