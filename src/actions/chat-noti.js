@@ -45,10 +45,7 @@ export const loadChats = async () => {
     )
     .then(res => {
       store.dispatch(setChats(res.data.chats));
-      console.log(
-        'res.data.chats',
-        JSON.stringify(res.data.chats.length, null, 1),
-      );
+      // console.log('res.data.chats', JSON.stringify(res.data.chats, null, 1));
       store.dispatch(setGroupNameId(res.data.chats));
       let totalUnread = res.data.chats?.filter(
         chat =>
