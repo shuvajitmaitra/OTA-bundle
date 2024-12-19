@@ -62,6 +62,7 @@ const ChatMessageInput = ({
   const [isLoading, setLoading] = useState(false);
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  console.log('Chat Message input rerender');
   useEffect(() => {
     prevSearchTermRef = 'init';
     setLoading(false);
@@ -69,7 +70,7 @@ const ChatMessageInput = ({
 
   const renderSuggestions = ({keyword, onSuggestionPress}) => {
     console.log('keyword', JSON.stringify(keyword, null, 1));
-    if (keyword === null || keyword === undefined) {
+    if (!keyword) {
       return null;
     }
 
@@ -169,14 +170,14 @@ const ChatMessageInput = ({
         partTypes={[
           {
             isBottomMentionSuggestionsRender: true,
-            trigger: isChannel ? '@' : null, // Should be a single character like '@' or '#'
+            trigger: isChannel ? '@' : null,
             renderSuggestions,
             isInsertSpaceAfterMention: true,
             textStyle: {
               fontWeight: 'bold',
               color: Colors.Primary,
               borderBottomWidth: 1,
-            }, // The mention style in the input
+            },
           },
         ]}
       />

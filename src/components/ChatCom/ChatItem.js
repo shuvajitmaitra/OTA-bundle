@@ -20,6 +20,7 @@ import AiBotIcon from '../../assets/Icons/AiBotIcon';
 import UserIcon from '../../assets/Icons/UserIcon';
 import GlobeIcon from '../../assets/Icons/GlobeIcon';
 import {setCurrentRoute} from '../../store/reducer/authReducer';
+import BranchIcon from '../../assets/Icons/BranchIcon';
 
 function formatTime(dateString) {
   const today = moment().startOf('day');
@@ -69,6 +70,7 @@ function replaceMentionToName(str) {
 const ChatItem = ({chat, onlineUsers, setChecked}) => {
   const dispatch = useDispatch();
   // console.log(JSON.stringify(chat?.latestMessage?.files, null, 1));
+  console.log('chat', JSON.stringify(chat, null, 2));
   const {user} = useSelector(state => state.auth);
   // console.log("🚀 ~ user:", user);
   // console.log(JSON.stringify(user, null, 1));
@@ -163,7 +165,8 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
       <View>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            {chat.isPublic && <GlobeIcon />}
+            {chat.isPublic && chat.memberScope === 'custom' && <GlobeIcon />}
+            {chat.memberScope !== 'custom' && <BranchIcon />}
             <Text
               numberOfLines={1}
               ellipsizeMode="tail"

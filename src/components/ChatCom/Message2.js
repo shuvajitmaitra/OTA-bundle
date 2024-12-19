@@ -22,6 +22,7 @@ import ThreedotIcon from '../../assets/Icons/ThreedotIcon';
 import axiosInstance from '../../utility/axiosInstance';
 import {setSingleChat} from '../../store/reducer/chatReducer';
 import MessageBottomContainer from './MessageBottomContainer';
+import {setCurrentRoute} from '../../store/reducer/authReducer';
 
 const Message2 = ({item, index, nextSender, setViewImage}) => {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const Message2 = ({item, index, nextSender, setViewImage}) => {
         `/chat/findorcreate/${item.sender._id}`,
       );
       if (res.data.success) {
+        dispatch(setCurrentRoute('MessageScreen2'));
         navigation.push('MessageScreen2');
       }
       dispatch(setSingleChat({...res.data.chat, otherUser: item.sender}));

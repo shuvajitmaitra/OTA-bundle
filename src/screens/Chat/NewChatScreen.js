@@ -6,7 +6,7 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import {ScrollView, StyleSheet, View, FlatList, StatusBar} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -29,6 +29,8 @@ import FilterOptionModal from '../../components/ChatCom/Modal/FilterOptionModal'
 import {TouchableWithoutFeedback} from 'react-native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import CreateCrowdModal from '../../components/ChatCom/Modal/CreateCrowdModal';
+import axiosInstance from '../../utility/axiosInstance';
+import {setChats, setGroupNameId} from '../../store/reducer/chatReducer';
 
 // const data = {
 //   user: {
@@ -167,6 +169,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
   const {user} = useSelector(state => state.auth);
   const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [checked, setChecked] = useState('chats');
   const [records, setRecords] = useState([]);
@@ -290,6 +293,36 @@ export default function NewChatScreen({navigation: {goBack}}) {
     bottomSheetRef.current?.present();
   }, []);
   const styles = getStyles(Colors, checked);
+
+  // const loadInitialChat = async () => {
+  //   console.log('loadChats called');
+
+  //   await axiosInstance
+  //     .get('/chat/mychats')
+  //     .then(res => {
+  //       console.log('getting all chat', JSON.stringify(res.data, null, 2));
+  //       dispatch(setChats(res.data.chats));
+  //       // // console.log('res.data.chats', JSON.stringify(res.data.chats, null, 1));
+  //       dispatch(setGroupNameId(res.data.chats));
+  //       // let totalUnread = res.data.chats?.filter(
+  //       //   chat =>
+  //       //     !chat?.myData?.isRead &&
+  //       //     chat.myData.user !== chat?.latestMessage?.sender?._id,
+  //       // )?.length;
+  //       // await Notifications.setBadgeCountAsync(totalUnread || 0);
+  //     })
+  //     .catch(err => {
+  //       // console.log(err);
+  //       console.log('err to get initial get', JSON.stringify(err, null, 2));
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   loadInitialChat();
+
+  //   return () => {};
+  // }, []);
+
   return (
     <TouchableWithoutFeedback
       style={{zIndex: 1111111}}

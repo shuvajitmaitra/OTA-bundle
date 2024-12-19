@@ -20,6 +20,7 @@ import UserIconTwo from '../../assets/Icons/UserIconTwo';
 import axiosInstance from '../../utility/axiosInstance';
 import {useDispatch} from 'react-redux';
 import {setSingleChat} from '../../store/reducer/chatReducer';
+import {setCurrentRoute} from '../../store/reducer/authReducer';
 
 const OnlineUsersItem = ({item}) => {
   const [creating, setCreating] = useState(false);
@@ -35,6 +36,7 @@ const OnlineUsersItem = ({item}) => {
       setLoading(true);
       const res = await axiosInstance.post(`/chat/findorcreate/${id}`);
       if (res.data.success) {
+        dispatch(setCurrentRoute('MessageScreen2'));
         navigation.push('MessageScreen2');
       }
 

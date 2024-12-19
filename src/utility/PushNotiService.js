@@ -11,6 +11,7 @@ import axiosInstance from './axiosInstance';
 import store from '../store';
 import {setSingleChat} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
+import {setCurrentRoute} from '../store/reducer/authReducer';
 
 const PushNotiService = () => {
   const [isTokenSent, setIsTokenSent] = useState(false);
@@ -146,6 +147,8 @@ const PushNotiService = () => {
             case EventType.PRESS:
               console.log('User pressed notification');
               if (remoteMessage.data.path === 'message') {
+                store.dispatch(setCurrentRoute('MessageScreen2'));
+
                 navigation.navigate('MessageScreen2');
                 store.dispatch(
                   setSingleChat(chatsObj[remoteMessage.data.chatId]),

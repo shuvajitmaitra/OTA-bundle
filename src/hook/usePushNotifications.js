@@ -11,6 +11,7 @@ import store from '../store';
 import {setSingleChat} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import {setCurrentRoute} from '../store/reducer/authReducer';
 
 const usePushNotifications = () => {
   const [error, setError] = useState('');
@@ -154,7 +155,10 @@ const usePushNotifications = () => {
             case EventType.PRESS:
               console.log('User pressed notification');
               if (remoteMessage.data.path) {
+                store.dispatch(setCurrentRoute('MessageScreen2'));
+
                 navigation.navigate('MessageScreen2');
+
                 store.dispatch(
                   setSingleChat(chatsObj[remoteMessage.data.chatId]),
                 );

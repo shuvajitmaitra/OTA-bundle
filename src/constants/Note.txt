@@ -1,32 +1,28 @@
-**Work Stream - December 17, 2024**  
+**Work Stream - December 19, 2024**  
 *Bootcampshub CLI*
-
-- Changed required field star color
-- Adjusted Save button placement in the availability screen
-- Added space between status bar and back button in the availability screen
-- Capitalized "H" in hours on the availability screen
-- Capitalized the first character of response status in the view invitation screen
-- Fixed comment section modal stacking issue
-- Added event status for invited users in the event details screen
-- Enabled creation and updating of public crowds
-- Fixed user status functionality
-
-Anonno's Work stream
-•⁠  ⁠Test mobile apps Android & IOS.
-•⁠  ⁠List Functional & Technical issues.
-•⁠  ⁠List UI issues.
-•⁠  ⁠Automation all APIs using cypress.
+- Working on recent message not updating issue.
+- Crowd Leaving issue from branch create crowed.
+- Add status indicator for branch created crowd and custom create crowd.
+- User mention system available only custom crowd
+- user can not leave from branch scope crowd.
+- Read only text show for all read only group
+- Archive crowd not show issue fix
+- Archive crowd  entering issue fix
+- Community comment modal can not be open
+- Adding event status of invited user in the event details screen
+- Can't create a public crowd or don't update private into public in update crowd modal
+- When give the react on the post, React container not close automatically
 
 
 *Overall status*
-- Total UI issue and functional issues fixed 18 
-- Remaining issues 5
-- New issues listed  6
+- Total UI issue fixed - 4
+- functional issues fixed 6 
+- New issues listed 10 
 
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 
-*Work Update - December 15, 2024*
+*Work Update - December 17, 2024*
 *BootcampsHub CLI*
 
 
