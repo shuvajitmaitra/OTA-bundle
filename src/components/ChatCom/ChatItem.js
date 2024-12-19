@@ -23,6 +23,8 @@ import {setCurrentRoute} from '../../store/reducer/authReducer';
 import BranchIcon from '../../assets/Icons/BranchIcon';
 import OrgIcon from '../../assets/Icons/OrgIcon';
 import DWordIcon from './DWord';
+import LockIcon from '../../assets/Icons/LockIcon';
+import LockIcon2 from '../../assets/Icons/LockIcon2';
 
 function formatTime(dateString) {
   const today = moment().startOf('day');
@@ -165,8 +167,15 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
 
       <View>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            {/* {chat.isPublic && chat.memberScope === 'custom' && <GlobeIcon />} */}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              width: responsiveScreenWidth(50),
+              gap: 5,
+              // justifyContent: 'center',
+            }}>
             {chat.memberScope === 'branch' && <BranchIcon />}
             {chat.memberScope === 'organization' && <OrgIcon />}
             {chat.memberScope === 'dynamic' && <DWordIcon />}
@@ -178,6 +187,11 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
                 ? chat?.name
                 : chat?.otherUser?.fullName || 'Bootcampshub User'}
             </Text>
+            {chat.isPublic ? (
+              <GlobeIcon color={Colors.Heading} />
+            ) : (
+              <LockIcon2 />
+            )}
           </View>
           <Text style={styles.messageTime}>
             {formatTime(chat?.latestMessage?.createdAt)}
@@ -313,7 +327,7 @@ const getStyles = Colors =>
       fontSize: responsiveScreenFontSize(2),
       fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
-      width: responsiveScreenWidth(50),
+      // width: responsiveScreenWidth(50),
     },
     messageTime: {
       color: Colors.BodyText,

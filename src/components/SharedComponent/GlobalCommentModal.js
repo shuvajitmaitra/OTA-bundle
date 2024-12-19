@@ -35,11 +35,10 @@ import {formatDynamicDate, showAlertModal} from '../../utility/commonFunction';
 import axiosInstance from '../../utility/axiosInstance';
 import Comment from '../CommunityCom/Comment';
 import SendIcon from '../../assets/Icons/SendIcon';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ReactNativeModal from 'react-native-modal';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 
-const TestModal = () => {
+const GlobalCommentModal = () => {
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -204,7 +203,7 @@ const TestModal = () => {
   );
 };
 
-export default TestModal;
+export default GlobalCommentModal;
 
 const getStyles = Colors =>
   StyleSheet.create({

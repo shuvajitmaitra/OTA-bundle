@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Text,
 } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 import {useDispatch, useSelector} from 'react-redux';
@@ -283,13 +284,19 @@ const MessageScreen2 = () => {
             inverted
           />
         </View>
-        <ChatFooter2
-          chatId={chat._id}
-          setMessages={setMessages}
-          messageEditVisible={messageEditVisible}
-          setMessageEditVisible={setMessageEditVisible}
-          messageOptionData={messageOptionData}
-        />
+        {chat.myData.role !== 'owner' && chat.isReadOnly ? (
+          <View style={styles.readOnlyContainer}>
+            <Text style={styles.readOnlyText}>This is read only crowd</Text>
+          </View>
+        ) : (
+          <ChatFooter2
+            chatId={chat._id}
+            setMessages={setMessages}
+            messageEditVisible={messageEditVisible}
+            setMessageEditVisible={setMessageEditVisible}
+            messageOptionData={messageOptionData}
+          />
+        )}
         {/* {openGallery && <ImageGallery />} */}
         <ImageView
           images={viewImage}
@@ -306,6 +313,17 @@ export default MessageScreen2;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    readOnlyText: {
+      color: Colors.Red,
+    },
+    readOnlyContainer: {
+      backgroundColor: Colors.LightRed,
+      padding: 10,
+      borderRadius: 10,
+      margin: 10,
+      marginBottom: 20,
+      alignItems: 'center',
+    },
     flatListContainer: {
       backgroundColor: Colors.White,
       flex: 1,

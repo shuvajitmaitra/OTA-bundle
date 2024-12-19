@@ -1,17 +1,7 @@
 **Work Stream - December 19, 2024**  
 *Bootcampshub CLI*
-- Working on recent message not updating issue.
-- Crowd Leaving issue from branch create crowed.
-- Add status indicator for branch created crowd and custom create crowd.
-- User mention system available only custom crowd
-- user can not leave from branch scope crowd.
-- Read only text show for all read only group
-- Archive crowd not show issue fix
-- Archive crowd  entering issue fix
-- Community comment modal can not be open
-- Adding event status of invited user in the event details screen
-- Can't create a public crowd or don't update private into public in update crowd modal
-- When give the react on the post, React container not close automatically
+
+
 
 
 *Overall status*
@@ -24,6 +14,16 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 
 *Work Update - December 17, 2024*
 *BootcampsHub CLI*
+- Working on recent message not updating issue.
+- Add status indicator for branch created crowd and custom create crowd.
+- User mention system available only custom crowd added the functionalities.
+- user can not leave from branch scope crowd.
+- Read only text show for all read only group
+- Archive crowd not show issue fixed
+- Archive crowd  entering issue fixed
+- Community comment modal open issues fixed also input field visibility issues fixed.
+- Can't create a public crowd or don't update private into public in update crowd modal fixed this issues.
+- When give the react on the post, React container not close automatically.
 
 
 BootcampsHub Mobile Testing update:
