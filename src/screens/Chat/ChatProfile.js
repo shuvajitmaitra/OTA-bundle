@@ -55,7 +55,7 @@ import UpdateCrowdModal from '../../components/ChatCom/Modal/UpdateCrowdModal';
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
-  console.log('chat', JSON.stringify(chat, null, 2));
+  // console.log('chat', JSON.stringify(chat, null, 2));
 
   const {selectedMember} = useSelector(state => state.chatSlice);
   const Colors = useTheme();

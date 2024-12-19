@@ -12,7 +12,8 @@
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 
-*Work Update - December 17, 2024*
+*Work Update - December 19, 2024*
+
 *BootcampsHub CLI*
 - Working on recent message not updating issue.
 - Add status indicator for branch created crowd and custom create crowd.

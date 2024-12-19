@@ -253,7 +253,7 @@ export function DrawerContent(props) {
           color: Colors.Heading,
           fontFamily: CustomFonts.MEDIUM,
         }}>
-        Version: 3.6.4 {!environment.production && '(staging)'}
+        Version: 3.6.5 {!environment.production && '(staging)'}
       </Caption>
     </View>
   );
