@@ -240,6 +240,7 @@ const getStyles = Colors =>
       alignItems: 'center',
       gap: responsiveScreenWidth(1),
       paddingVertical: responsiveScreenHeight(1.5),
+      overflow: 'hidden',
     },
 
     progressIcon: {

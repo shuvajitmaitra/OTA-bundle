@@ -1,19 +1,20 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import Images from "../../constants/Images";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import { useNavigation } from "@react-navigation/native";
-import { Rating } from "@kolking/react-native-rating";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import Images from '../../constants/Images';
+import {useTheme} from '../../context/ThemeContext';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import {useNavigation} from '@react-navigation/native';
+import {Rating} from '@kolking/react-native-rating';
 
-const CourseCard = ({ item, orgSlug }) => {
+const CourseCard = ({item, orgSlug}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const navigation = useNavigation();
-  const { title, totalDuration, image, totalReviews, averageStarCount, price } = item;
+  const {title, totalDuration, image, totalReviews, averageStarCount, price} =
+    item;
   const handleCourseDetails = () => {
-    navigation.navigate("BootCampsDetails", {
+    navigation.navigate('BootCampsDetails', {
       courseId: item._id,
       slug: item.slug,
       orgSlug,
@@ -29,26 +30,47 @@ const CourseCard = ({ item, orgSlug }) => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={image && image !== "" ? { uri: image } : Images.DEFAULT_IMAGE || Images.DEFAULT_IMAGE}
+          source={
+            image && image !== ''
+              ? {uri: image}
+              : Images.DEFAULT_IMAGE || Images.DEFAULT_IMAGE
+          }
           style={styles.image}
           resizeMode="contain"
         />
       </View>
       <Text style={styles.courseTitle}>{title}</Text>
-      <Text style={styles.courseSubTitle}>Total hours: {roundDuration}+h Video Lectures</Text>
+      <Text style={styles.courseSubTitle}>
+        Total hours: {roundDuration}+h Video Lectures
+      </Text>
       <View style={styles.ratingContainer}>
         {starRating > 0 && <Text style={styles.ratingText}>{starRating}</Text>}
-        <Rating variant="stars" rating={starRating} disabled={true} size={16} baseColor={Colors.BodyText} fillColor={Colors.StarColor} />
+        <Rating
+          variant="stars"
+          rating={starRating}
+          disabled={true}
+          size={16}
+          baseColor={Colors.BodyText}
+          fillColor={Colors.StarColor}
+        />
         <Text style={styles.totalReviewsText}>({totalReviews})</Text>
       </View>
 
       {/* <Rating size={40} rating={5} /> */}
       <View style={styles.learnMoreContainer}>
         <View style={styles.priceContainer}>
-          <Text style={styles.priceText}>${disCountPrice >= 0 ? disCountPrice : mainPrice}</Text>
-          {disCountPrice > 0 && <Text style={styles.discountPrice}>${disCountPrice > 0 ? mainPrice : disCountPrice}</Text>}
+          <Text style={styles.priceText}>
+            ${disCountPrice >= 0 ? disCountPrice : mainPrice}
+          </Text>
+          {disCountPrice > 0 && (
+            <Text style={styles.discountPrice}>
+              ${disCountPrice > 0 ? mainPrice : disCountPrice}
+            </Text>
+          )}
         </View>
-        <TouchableOpacity style={styles.learnMoreButton} onPress={handleCourseDetails}>
+        <TouchableOpacity
+          style={styles.learnMoreButton}
+          onPress={handleCourseDetails}>
           <Text style={styles.learnMoreText}>Learn More</Text>
         </TouchableOpacity>
       </View>
@@ -58,7 +80,7 @@ const CourseCard = ({ item, orgSlug }) => {
 
 export default CourseCard;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     totalReviewsText: {
       color: Colors.BodyText,
@@ -66,14 +88,14 @@ const getStyles = (Colors) =>
       fontSize: responsiveFontSize(2),
     },
     discountPrice: {
-      textDecorationLine: "line-through",
+      textDecorationLine: 'line-through',
       fontSize: responsiveFontSize(2),
       fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
     },
     priceContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: 8,
     },
     priceText: {
@@ -93,9 +115,9 @@ const getStyles = (Colors) =>
       paddingHorizontal: 20,
     },
     learnMoreContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
     ratingText: {
       fontFamily: CustomFonts.MEDIUM,
@@ -103,8 +125,8 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
     },
     ratingContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: 5,
       marginTop: 10,
       marginBottom: 5,
@@ -132,13 +154,13 @@ const getStyles = (Colors) =>
     imageContainer: {
       borderRadius: 10,
       height: 200,
-      width: "100%",
-      overflow: "hidden",
+      width: '100%',
+      overflow: 'hidden',
       backgroundColor: Colors.Primary,
     },
     image: {
       borderRadius: 10,
-      height: "100%",
-      width: "100%",
+      height: '100%',
+      width: '100%',
     },
   });

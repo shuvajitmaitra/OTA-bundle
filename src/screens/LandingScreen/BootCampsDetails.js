@@ -192,6 +192,7 @@ const BootCampsDetails = ({route}) => {
             othersItem.length + 1 < totalItems &&
             getPrograms({currentPage: page, limit: 10, type})
           }
+          ListFooterComponent={<View style={{marginBottom: 20}} />}
         />
       </View>
     );

@@ -175,7 +175,7 @@ export default function Presentation() {
         <View>
           {contents.length > 0 ? (
             <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={{marginBottom: responsiveScreenHeight(2), gap: 10}}>
+              <View style={{marginBottom: responsiveScreenHeight(2), gap: 20}}>
                 {contents.map(item => {
                   if (item.isLocked) {
                     return (
