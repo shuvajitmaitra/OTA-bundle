@@ -28,14 +28,14 @@ export default function MessageNotificationContainer() {
           chats?.filter(
             chat =>
               chat?.unreadCount > 0 &&
-              chat?.myData.user !== chat?.latestMessage?.sender?._id,
+              chat?.myData?.user !== chat?.latestMessage?.sender?._id,
           )?.length > 0 && (
             <Text style={[styles.badge, {backgroundColor: Colors.Red}]}>
               {chats &&
                 chats?.filter(
                   chat =>
                     chat?.unreadCount > 0 &&
-                    chat?.myData.user !== chat?.latestMessage?.sender?._id,
+                    chat?.myData?.user !== chat?.latestMessage?.sender?._id,
                 )?.length}
             </Text>
           )}

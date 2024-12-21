@@ -12,7 +12,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../constants/CustomFonts';
 import LoadingSmall from '../SharedComponent/LoadingSmall';
-import {handleGalleryPress} from '../../actions/chat-noti';
+import {handleGalleryPress} from './CreatePostButtonContainer';
 
 const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
   const Colors = useTheme();

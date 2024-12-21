@@ -45,13 +45,13 @@ const generateActivityText = (message, senderName) => {
   if (activity?.type === 'add') {
     return (
       <>
-        {senderName} added {message.activity?.user?.fullName}{' '}
+        {senderName} added {message?.activity?.user?.fullName}{' '}
       </>
     );
   } else if (activity?.type === 'remove') {
     return (
       <>
-        {senderName} removed {message.activity?.user?.fullName}{' '}
+        {senderName} removed {message?.activity?.user?.fullName}{' '}
       </>
     );
   } else if (activity?.type === 'join') {
@@ -152,17 +152,19 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
             <UserIcon color={Colors.BodyTextOpacity} size={30} />
           </View>
         )}
-        <View
-          style={[
-            styles.activeDot,
-            {
-              backgroundColor: onlineUsers?.find(
-                x => x?._id === chat?.otherUser?._id,
-              )
-                ? Colors.Primary
-                : Colors.Gray2,
-            },
-          ]}></View>
+        {!chat?.isChannel && (
+          <View
+            style={[
+              styles.activeDot,
+              {
+                backgroundColor: onlineUsers?.find(
+                  x => x?._id === chat?.otherUser?._id,
+                )
+                  ? Colors.Primary
+                  : Colors.Gray2,
+              },
+            ]}></View>
+        )}
       </View>
 
       <View>
@@ -202,12 +204,12 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
             style={{
               fontFamily:
                 chat?.unreadCount > 0 &&
-                chat.myData.user != chat?.latestMessage?.sender?._id
+                chat?.myData?.user != chat?.latestMessage?.sender?._id
                   ? CustomFonts.SEMI_BOLD
                   : CustomFonts.REGULAR,
               color:
                 chat?.unreadCount > 0 &&
-                chat.myData.user != chat?.latestMessage?.sender?._id
+                chat?.myData?.user != chat?.latestMessage?.sender?._id
                   ? Colors.Heading
                   : Colors.Gray3,
               flexBasis: chat?.unreadCount > 0 ? '80%' : '100%',
@@ -261,7 +263,7 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
           </Text>
           <View style={styles.messageNumberContainer}>
             {chat?.unreadCount > 0 &&
-              chat.myData.user != chat?.latestMessage?.sender?._id && (
+              chat?.myData?.user != chat?.latestMessage?.sender?._id && (
                 <Text style={styles.messageNumber}>{chat?.unreadCount}</Text>
               )}
           </View>
@@ -311,6 +313,9 @@ const getStyles = Colors =>
       backgroundColor: Colors.LightGreen,
       alignItems: 'center',
       justifyContent: 'center',
+      borderWidth: 1,
+      borderColor: Colors?.BorderColor,
+      overflow: 'hidden',
     },
     activeDot: {
       width: responsiveScreenWidth(2.8),

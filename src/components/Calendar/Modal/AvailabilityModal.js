@@ -226,7 +226,9 @@ const AvailabilityModal = React.memo(function AvailabilityModal({
   }, [time, dispatch]);
   const {top} = useSafeAreaInsets();
   return (
-    <Modal style={{margin: 0, padding: 0}} isVisible={isAvailabilityVisible}>
+    <Modal
+      style={{margin: 0, padding: 0, backgroundColor: 'red'}}
+      isVisible={isAvailabilityVisible}>
       {isLoading ? (
         <Loading backgroundColor={'transparent'} />
       ) : (
@@ -266,7 +268,7 @@ const AvailabilityModal = React.memo(function AvailabilityModal({
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
                       }
-                      style={[styles.input, {opacity: 0.5}]}
+                      style={[styles.input]}
                       // placeholderTextColor={Colors?.BodyText}
                       placeholder={timeZone}
                       value={timeZone}
@@ -495,7 +497,7 @@ const getStyles = Colors =>
       flex: 0.35,
       height: 30,
       // maxW: 85,
-      backgroundColor: Colors?.White,
+      backgroundColor: Colors?.ModalBoxColor,
       borderWidth: 1,
       borderColor: Colors?.BorderColor,
       borderRadius: 7,
@@ -536,9 +538,10 @@ const getStyles = Colors =>
     },
     modalContainer: {
       // maxHeight: responsiveScreenHeight(80),
-      backgroundColor: Colors.Background_color,
+      backgroundColor: Colors.White,
       // borderRadius: 10,
       paddingHorizontal: 10,
+      paddingBottom: 40,
       // zIndex: -10,
       // position: "relative",
       // justifyContent: "center",
@@ -549,7 +552,7 @@ const getStyles = Colors =>
       // alignSelf: "center",
       // width: responsiveScreenWidth(88),
       // paddingVertical: responsiveScreenWidth(1),
-      // backgroundColor: "red",
+      // backgroundColor: 'red',
     },
     modalHeading: {
       color: Colors.Heading,
@@ -566,7 +569,7 @@ const getStyles = Colors =>
     weekContainer: {
       paddingVertical: responsiveScreenWidth(4),
       paddingHorizontal: responsiveScreenWidth(2),
-      backgroundColor: Colors.Background_color,
+      backgroundColor: Colors.White,
       marginTop: responsiveScreenHeight(2),
     },
     heading: {
@@ -586,7 +589,7 @@ const getStyles = Colors =>
     },
     input: {
       color: Colors.BodyText,
-      backgroundColor: Colors.White,
+      backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(3),
@@ -648,7 +651,7 @@ const getStyles = Colors =>
     unavailable: {
       flex: 0.78,
       color: Colors.BodyText,
-      backgroundColor: Colors.White,
+      backgroundColor: Colors.Background_color,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(2),
@@ -660,7 +663,7 @@ const getStyles = Colors =>
     time: {
       marginTop: responsiveScreenHeight(1.5),
       flex: 1,
-      // backgroundColor: "pink",
+      // backgroundColor: 'pink',
     },
     copy: {
       // backgroundColor: Colors.SecondaryButtonBackgroundColor,
@@ -676,7 +679,7 @@ const getStyles = Colors =>
       justifyContent: 'space-between',
       gap: 4,
       marginBottom: responsiveScreenHeight(0.5),
-      // backgroundColor: "blue",
+      // backgroundColor: 'blue',
     },
     btn: {
       paddingHorizontal: responsiveScreenWidth(2),

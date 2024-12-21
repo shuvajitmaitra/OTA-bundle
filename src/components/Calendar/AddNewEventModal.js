@@ -45,6 +45,7 @@ import EventRepeatSection from './Modal/EventRepeatSection';
 import Images from '../../constants/Images';
 import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
 import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
+import RequireFieldStar from '../../constants/RequireFieldStar';
 
 const AddNewEventModal = ({
   modalVisible,
@@ -297,7 +298,10 @@ const AddNewEventModal = ({
 
                 <View style={styles.subContainer}>
                   <View style={styles.fieldContainer}>
-                    <Text style={styles.Text}>Event Title*</Text>
+                    <Text style={styles.Text}>
+                      Event Title
+                      <RequireFieldStar />
+                    </Text>
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -324,7 +328,10 @@ const AddNewEventModal = ({
                   </View>
 
                   <View style={styles.fieldContainer}>
-                    <Text style={styles.Text}>Event Type*</Text>
+                    <Text style={styles.Text}>
+                      Event Type
+                      <RequireFieldStar />
+                    </Text>
                     <CustomDropDown
                       options={eventTypeOptions}
                       type={eventTypes(event?.eventType)}
@@ -396,7 +403,10 @@ const AddNewEventModal = ({
                   )}
 
                   <View style={styles.fieldContainer}>
-                    <Text style={styles.Text}>Meeting Agenda*</Text>
+                    <Text style={styles.Text}>
+                      Meeting Agenda
+                      <RequireFieldStar />
+                    </Text>
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'

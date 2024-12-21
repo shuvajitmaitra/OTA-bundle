@@ -13,11 +13,91 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../constants/CustomFonts';
 import {showToast} from '../HelperFunction';
-import {handleGalleryPress, loadCommunityPosts} from '../../actions/chat-noti';
+import {loadCommunityPosts} from '../../actions/chat-noti';
 import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
 import CustomIconButton from '../SharedComponent/CustomIconButton';
 import AiModal from '../SharedComponent/AiModal/AiModal';
 import AiIcon2 from '../../assets/Icons/AiIcon2';
+import {launchImageLibrary} from 'react-native-image-picker';
+
+export const handleGalleryPress = async ({setPost, setIsLoading}) => {
+  const options = {
+    mediaType: 'photo',
+    maxWidth: 300,
+    maxHeight: 300,
+    quality: 1,
+    selectionLimit: 10,
+  };
+
+  try {
+    setIsLoading(true);
+
+    // Use the Promise-based API of launchImageLibrary
+    const response = await launchImageLibrary(options);
+
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+      return;
+    }
+
+    if (response.errorCode) {
+      console.error('ImagePicker Error: ', response.errorMessage);
+      showToast({message: `ImagePicker Error: ${response.errorMessage}`});
+      return;
+    }
+
+    if (!response.assets || response.assets.length === 0) {
+      console.log('No images selected');
+      showToast({message: 'No images selected'});
+      return;
+    }
+
+    // Upload all selected images concurrently
+    const uploadedFiles = await Promise.all(
+      response.assets.map(async item => {
+        const formData = new FormData();
+        formData.append('file', {
+          uri: item.uri,
+          name: item.fileName || `uploaded_image_${Date.now()}`,
+          type: item.type || 'image/jpeg',
+        });
+
+        const config = {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+
+        try {
+          const res = await axiosInstance.post('/chat/file', formData, config);
+          return res.data.file;
+        } catch (uploadError) {
+          console.error('Upload Error:', uploadError);
+          throw uploadError; // This will be caught by the outer catch
+        }
+      }),
+    );
+
+    // Update the post with the newly uploaded attachments
+    setPost(prevPost => ({
+      ...prevPost,
+      attachments: [
+        ...(prevPost.attachments || []),
+        ...uploadedFiles.map(file => ({
+          url: file.location,
+          name: file.name,
+          type: file.type || 'image/jpeg',
+          size: file.size,
+        })),
+      ],
+    }));
+  } catch (error) {
+    console.error('Error in handleGalleryPress:', error);
+    showToast({message: 'An error occurred while uploading images.'});
+  } finally {
+    setIsLoading(false);
+  }
+};
 
 const CreatePostButtonContainer = ({post, setPost}) => {
   const Colors = useTheme();
@@ -26,6 +106,7 @@ const CreatePostButtonContainer = ({post, setPost}) => {
   const [isLoading, setIsLoading] = useState(false);
   const {showAlert} = useGlobalAlert();
   const [aiModalVisible, setAiModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState([]);
   const extractTags = () => {
     setPost(pre => ({...pre, tags: getHashtagTexts(pre.description)}));
   };

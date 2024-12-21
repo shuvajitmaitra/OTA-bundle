@@ -50,6 +50,7 @@ import EventRepeatSection from './Modal/EventRepeatSection';
 import Images from '../../constants/Images';
 import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
 import CrossCircle from '../../assets/Icons/CrossCircle';
+import RequireFieldStar from '../../constants/RequireFieldStar';
 
 const UpdateEventModal = ({modalVisible, setModalVisible, eventId}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -375,7 +376,10 @@ const UpdateEventModal = ({modalVisible, setModalVisible, eventId}) => {
 
             <View style={styles.subContainer}>
               <View style={styles.fieldContainer}>
-                <Text style={styles.Text}>Event Title*</Text>
+                <Text style={styles.Text}>
+                  Event Title
+                  <RequireFieldStar />
+                </Text>
                 <TextInput
                   keyboardAppearance={
                     Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -392,7 +396,10 @@ const UpdateEventModal = ({modalVisible, setModalVisible, eventId}) => {
               </View>
 
               <View style={styles.fieldContainer}>
-                <Text style={styles.Text}>Event Type *</Text>
+                <Text style={styles.Text}>
+                  Event Type
+                  <RequireFieldStar />
+                </Text>
                 <CustomDropDown
                   options={eventTypeOptions}
                   type={eventTypes(event.eventType)}
@@ -468,7 +475,10 @@ const UpdateEventModal = ({modalVisible, setModalVisible, eventId}) => {
               )}
 
               <View style={styles.fieldContainer}>
-                <Text style={styles.Text}>Meeting Agenda*</Text>
+                <Text style={styles.Text}>
+                  Meeting Agenda
+                  <RequireFieldStar />
+                </Text>
                 <TextInput
                   keyboardAppearance={
                     Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'

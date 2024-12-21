@@ -1,13 +1,20 @@
-**Work Stream - December 19, 2024**  
+**Work Stream - December 21, 2024**  
 *Bootcampshub CLI*
-
+- Fixing image uploading issues to post in community.
+- add new event require field issues
+- Availability modal save button is not visible
+- Dashboard overall progress and incomplete indicator design blinking
+- Padding issues in explore more screen in bottom 
+- In program screen design blinking
+- Need spacing correction in course screen
+- Need spacing correction in document screen
 
 
 
 *Overall status*
-- Total UI issue fixed - 4
-- functional issues fixed 6 
-- New issues listed 10 
+- Total functional and ui issues fixed 10
+- Need some retest work fixing that work are remaining 5-6 issues.
+
 
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
