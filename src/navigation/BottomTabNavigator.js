@@ -1,19 +1,13 @@
 // src/navigation/BottomTabNavigator.js
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {
-  getFocusedRouteNameFromRoute,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 import HomeStackScreen from './HomeStack';
 import ProgramStackScreen from './ProgramStack';
 import MyCalenderStackScreen from './MyCalenderStack';
 import CommunityStackScreen from './CommunityStack';
 import CustomTabBar from './CustomTabBar';
-import NewChatScreen from '../screens/Chat/NewChatScreen';
-import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator({
   NewChatScreen: {
@@ -32,12 +26,11 @@ const getTabBarVisibility = (route, hiddenRoutes = []) => {
 };
 
 const BottomTabNavigator = () => {
-  const {currentRoute} = useSelector(state => state.auth);
   return (
     <>
       {/* <PushNotiService /> */}
       <Tab.Navigator
-        tabBar={props => !currentRoute && <CustomTabBar {...props} />}
+        tabBar={props => <CustomTabBar {...props} />}
         screenOptions={{
           headerShown: false,
         }}>

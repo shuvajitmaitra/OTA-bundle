@@ -23,9 +23,6 @@ import MyPaymentScreen from '../screens/MyPaymentScreen';
 import ArrowLeft from '../assets/Icons/ArrowLeft';
 import CustomFonts from '../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
-import MessageScreen2 from '../screens/Chat/MessageScreen2';
-import ThreadScreen from '../screens/Chat/ThreadScreen';
-import ChatProfile from '../screens/Chat/ChatProfile';
 
 const HomeStack = createStackNavigator();
 
@@ -181,30 +178,6 @@ const HomeStackScreen = () => {
         name="BootCampsDetails"
         component={BootCampsDetails}
         options={{headerShown: false}}
-      />
-      <HomeStack.Screen
-        name="MessageScreen2"
-        component={MessageScreen2}
-        options={{
-          headerShown: false,
-          title: 'Messages',
-        }}
-      />
-      <HomeStack.Screen
-        name="ThreadScreen"
-        component={ThreadScreen}
-        options={{
-          headerShown: false,
-          title: 'Thread',
-        }}
-      />
-
-      <HomeStack.Screen
-        name="ChatProfile"
-        component={ChatProfile}
-        options={({route, navigation}) => ({
-          headerShown: false,
-        })}
       />
     </HomeStack.Navigator>
   );

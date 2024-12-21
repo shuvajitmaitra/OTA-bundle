@@ -75,10 +75,10 @@ export const fetchMembers = chatId => {
     .post(`/chat/members/${chatId}`)
     .then(res => {
       store.dispatch(setCrowdMembers(res.data.results));
-      console.log(
-        'res.data.results',
-        JSON.stringify(res.data.results, null, 1),
-      );
+      // console.log(
+      //   'res.data.results',
+      //   JSON.stringify(res.data.results, null, 1),
+      // );
     })
     .catch(error => {
       console.log(

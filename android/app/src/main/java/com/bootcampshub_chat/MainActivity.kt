@@ -1,4 +1,4 @@
-package com.bootcampshub_chat
+package com.bootcampshub.ai
 
 import android.os.Bundle; 
 import org.devio.rn.splashscreen.SplashScreen; 

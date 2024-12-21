@@ -1,4 +1,4 @@
-package com.bootcampshub_chat
+package com.bootcampshub.ai
 
 import android.app.Application
 import com.facebook.react.PackageList

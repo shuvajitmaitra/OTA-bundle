@@ -178,9 +178,11 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
               gap: 5,
               // justifyContent: 'center',
             }}>
-            {chat.memberScope === 'branch' && <BranchIcon />}
-            {chat.memberScope === 'organization' && <OrgIcon />}
-            {chat.memberScope === 'dynamic' && <DWordIcon />}
+            {chat?.isChannel && chat.memberScope === 'branch' && <BranchIcon />}
+            {chat?.isChannel && chat.memberScope === 'organization' && (
+              <OrgIcon />
+            )}
+            {chat?.isChannel && chat.memberScope === 'dynamic' && <DWordIcon />}
             <Text
               numberOfLines={1}
               ellipsizeMode="tail"
@@ -189,10 +191,15 @@ const ChatItem = ({chat, onlineUsers, setChecked}) => {
                 ? chat?.name
                 : chat?.otherUser?.fullName || 'Bootcampshub User'}
             </Text>
-            {chat.isPublic ? (
-              <GlobeIcon color={Colors.Heading} />
-            ) : (
-              <LockIcon2 />
+
+            {chat?.isChannel && (
+              <>
+                {chat.isPublic ? (
+                  <GlobeIcon color={Colors.Heading} />
+                ) : (
+                  <LockIcon2 />
+                )}
+              </>
             )}
           </View>
           <Text style={styles.messageTime}>

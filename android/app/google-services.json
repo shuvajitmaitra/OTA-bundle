@@ -26,6 +26,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:13545947772:android:4e81921cbb85b323e8bff9",
+        "android_client_info": {
+          "package_name": "com.bootcampshub.ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_jsvLw4MmYsqurer1pJPIXDJoSvbIUV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:13545947772:android:a400ac156c846141e8bff9",
         "android_client_info": {
           "package_name": "com.bootcampshub_chat"

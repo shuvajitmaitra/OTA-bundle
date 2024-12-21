@@ -90,6 +90,30 @@ const RootStackNavigator = () => {
           component={DrawerNavigator}
           options={{headerShown: false}}
         />
+        <RootStack.Screen
+          name="MessageScreen2"
+          component={MessageScreen2}
+          options={{
+            headerShown: false,
+            title: 'Messages',
+          }}
+        />
+        <RootStack.Screen
+          name="ThreadScreen"
+          component={ThreadScreen}
+          options={{
+            headerShown: false,
+            title: 'Thread',
+          }}
+        />
+
+        <RootStack.Screen
+          name="ChatProfile"
+          component={ChatProfile}
+          options={({route, navigation}) => ({
+            headerShown: false,
+          })}
+        />
       </RootStack.Navigator>
       {bottomSheetVisible && <GlobalCommentModal />}
       {notificationClicked && <NotificationEventDetails />}

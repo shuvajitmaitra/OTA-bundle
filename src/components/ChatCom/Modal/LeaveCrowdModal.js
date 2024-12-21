@@ -31,11 +31,11 @@ const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
   const handleLeaveCrowed = async () => {
     try {
       const res = await axiosInstance.patch(`/chat/channel/leave/${chat?._id}`);
-      console.log('res.data', JSON.stringify(res.data, null, 1));
+      // console.log('res.data', JSON.stringify(res.data, null, 1));
       if (res.data?.success) {
         toggleLeaveCrowdModal();
         dispatch(setCurrentRoute(null));
-        navigation.navigate('HomeStack', {screen: 'NewChatScreen'});
+        navigation.pop(2);
         dispatch(removeChat(chat?._id));
         showToast('Leave successfully...');
       }
