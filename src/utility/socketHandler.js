@@ -17,6 +17,7 @@ import {
 } from '../store/reducer/chatReducer';
 import {appendLocalMessage, updateMessage} from '../store/reducer/chatSlice';
 import {addNewMessage} from './mmkvHelpers';
+import {Platform} from 'react-native';
 
 const updateStatus = (messageId, status) => {
   axios
@@ -43,7 +44,7 @@ const setupSocketListeners = socket => {
       // store.dispatch(
       //   pushMessage({chat: data.chat?._id, message: data.message}),
       // );
-      // console.log('data.message', JSON.stringify(data.message, null, 1));
+
       addNewMessage(data.chat?._id, data.message);
       // store.dispatch(
       //   addNewMessage({chatId: data.chat?._id, message: data.message}),
@@ -57,6 +58,8 @@ const setupSocketListeners = socket => {
     // store.dispatch(setNew Messages(data.message));
     // store.dispatch(pushMessage({ chat: data.chat?._id, message: data.message }))
     if (!data?.message?.parentMessage) {
+      console.log('Platform.OS', JSON.stringify(Platform.OS, null, 2));
+      console.log('data.message', JSON.stringify(data.message, null, 1));
       store.dispatch(
         updateLatestMessage({
           chatId: data?.chat?._id,
@@ -78,7 +81,7 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('syncMyMessages', data => {
-    // console.log('syncMyMessages', JSON.stringify(data, null, 1));
+    console.log('syncMyMessages', JSON.stringify(data, null, 1));
     // console.log('syncMyMessages');
     // console.log(data?.messages?.length);
     if (data?.messages?.length) {
@@ -121,7 +124,7 @@ const setupSocketListeners = socket => {
   socket.on('getmessage', data => {
     // console.log(data);
     let {chat, messages} = data;
-    // console.log('getmessage', JSON.stringify(data, null, 1));
+    console.log('getmessage', JSON.stringify(data, null, 1));
     store.dispatch(
       updateChatMessages({
         chat: chat?._id,

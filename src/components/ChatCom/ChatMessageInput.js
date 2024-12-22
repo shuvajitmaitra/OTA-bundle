@@ -62,7 +62,7 @@ const ChatMessageInput = ({
   const [isLoading, setLoading] = useState(false);
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  console.log('Chat Message input rerender');
+  // console.log('Chat Message input rerender');
   useEffect(() => {
     prevSearchTermRef = 'init';
     setLoading(false);

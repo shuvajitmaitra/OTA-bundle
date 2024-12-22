@@ -139,6 +139,10 @@ const chatSlice = createSlice({
         state.chats[chatIndex].unreadCount = counter
           ? parseInt(state.chats[chatIndex].unreadCount) + parseInt(counter)
           : null;
+        console.log(
+          'chatIndex',
+          JSON.stringify(state.chats[chatIndex], null, 2),
+        );
       }
     },
 

@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
-import {Alert, Platform} from 'react-native';
+import {Alert, AppRegistry, Platform} from 'react-native';
 import axiosInstance from '../utility/axiosInstance';
 import {
   requestNotifications,
@@ -34,7 +34,7 @@ const usePushNotifications = () => {
         }
 
         const token = await messaging().getToken();
-        console.log('Device FCM token:', token);
+        console.log('Device FCM token:', Platform.OS, token);
         // Alert.alert(token);
 
         if (token && !isTokenSent) {
@@ -44,6 +44,19 @@ const usePushNotifications = () => {
         await createNotificationChannel();
 
         messaging().onMessage(handleNotification);
+        messaging().setBackgroundMessageHandler(async remoteMessage => {
+          console.log(
+            'remoteMessage background',
+            JSON.stringify(remoteMessage, null, 2),
+          );
+        });
+        AppRegistry.registerHeadlessTask(
+          'RNFirebaseBackgroundMessage',
+          () => async remoteMessage => {
+            console.log('Headless task called with message:', remoteMessage);
+            // You can handle the message or perform tasks here
+          },
+        );
         messaging().onNotificationOpenedApp(handleNotification);
 
         const initialNotification = await messaging().getInitialNotification();

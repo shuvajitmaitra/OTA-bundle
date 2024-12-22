@@ -1,50 +1,25 @@
 **Work Stream - December 21, 2024**  
 *Bootcampshub CLI*
-- Fixing image uploading issues to post in community.
-- add new event require field issues
-- Availability modal save button is not visible
-- Dashboard overall progress and incomplete indicator design blinking
-- Padding issues in explore more screen in bottom 
-- In program screen design blinking
-- Need spacing correction in course screen
-- Need spacing correction in document screen
+  - Ensure the "Write Meeting Agenda" placeholder text is consistent in the calendar create event modal.
+  - Make sure the delete modal closes after a community post is deleted.
+  - Exchange the positions of the Publish and AI buttons.
+  - Adjust the gallery text to be clearly visible.
+  - Allow users to upload resumes on the profile edit screen.
+  - Change the color of the asterisks for required fields.
+  - Ensure the top and bottom gaps of the message field are equal.
+
 
 
 
 *Overall status*
-- Total functional and ui issues fixed 10
-- Need some retest work fixing that work are remaining 5-6 issues.
-
+- Total functional and ui issues fixed 8 also work for push notification in background mode.
+- New issue listed 8
 
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 
-*Work Update - December 19, 2024*
+*Work Update - December 21, 2024*
 
 *BootcampsHub CLI*
-- Working on recent message not updating issue.
-- Add status indicator for branch created crowd and custom create crowd.
-- User mention system available only custom crowd added the functionalities.
-- user can not leave from branch scope crowd.
-- Read only text show for all read only group
-- Archive crowd not show issue fixed
-- Archive crowd  entering issue fixed
-- Community comment modal open issues fixed also input field visibility issues fixed.
-- Can't create a public crowd or don't update private into public in update crowd modal fixed this issues.
-- When give the react on the post, React container not close automatically.
 
 
-BootcampsHub Mobile Testing update:
-
-API Automation results:
-API Tested: 126
-Success: 124
-Error: 0
-Skipped: 2
-/user/verifyotp
-/chat/update-status/:messageId
-
-•⁠  ⁠Check 15 fixed bugs and update status.
-•⁠  ⁠Testing mobile apps Android & IOS.
-•⁠  ⁠Listed 2 Functional & Technical issues.
-•⁠  ⁠Listed 4 UI issues.

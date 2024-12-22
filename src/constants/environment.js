@@ -40,7 +40,8 @@ To open in simulator
 - Open simulator device
 - press `a` for android
 
-
+keystore commit:
+Keystore upload and package name change for android
 
 eas build -p android --profile preview
 

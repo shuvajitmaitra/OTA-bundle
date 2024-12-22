@@ -40,7 +40,8 @@ const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
         showToast('Leave successfully...');
       }
     } catch (error) {
-      console.error('Error leaving crowd:', error);
+      // console.error('Error leaving crowd:', error);
+      console.log('error', JSON.stringify(error, null, 2));
       // Handle any errors that occurred during the request here
     }
   };
