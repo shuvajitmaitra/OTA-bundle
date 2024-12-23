@@ -284,6 +284,7 @@ const ProgramStackScreen = ({navigation}) => {
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  paddingLeft: 20,
                 }}
                 onPress={() => navigation.goBack()}>
                 <ArrowLeft />

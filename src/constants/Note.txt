@@ -3,8 +3,6 @@
 
 
 - Message field top gap and bottom gap must be same
-- Toast message not showing when activities is delete
-- Need left gap of back button on the day to day activities screen
 - When update day to day activities not showing toast
 
 
@@ -24,3 +22,4 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Gallery text not visible properly
 - Add required field indicators to modals and update profile edit functionality
 - Fix toast message format after deleting activities
+- Add padding to back navigation button and remove debug console log in ActivitiesDetails

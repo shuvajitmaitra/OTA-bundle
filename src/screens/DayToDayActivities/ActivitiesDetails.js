@@ -35,10 +35,6 @@ const ActivitiesDetails = ({route}) => {
   const data = activities[dataIndex];
   const [imageNumber, setImageNumber] = useState(0);
   const [viewImage, setViewImage] = useState([]);
-  console.log(
-    'data?.attachments[imageNumber]',
-    JSON.stringify(data?.attachments, null, 1),
-  );
   return (
     <View style={styles.container}>
       <StatusBar
