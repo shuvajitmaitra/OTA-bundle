@@ -19,6 +19,7 @@ import {
 } from '../../../store/reducer/chatReducer';
 import {showToast} from '../../HelperFunction';
 import axiosInstance from '../../../utility/axiosInstance';
+import RequireFieldStar from '../../../constants/RequireFieldStar';
 
 const UpdateCrowdModal = ({
   isUpdateCrowdModalVisible,
@@ -73,7 +74,10 @@ const UpdateCrowdModal = ({
             </View>
 
             <View style={styles.fieldContainer}>
-              <Text style={styles.Text}>Crowd Name*</Text>
+              <Text style={styles.Text}>
+                Crowd Name
+                <RequireFieldStar />
+              </Text>
               <TextInput
                 keyboardAppearance={
                   Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'

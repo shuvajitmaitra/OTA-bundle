@@ -16,6 +16,7 @@ import {getHashtagTexts, showAlertModal} from '../../../utility/commonFunction';
 import {TextInput} from 'react-native';
 import EditPostBottomContainer from '../EditPostBottomContainer';
 import GlobalAlertModal from '../../SharedComponent/GlobalAlertModal';
+import RequireFieldStar from '../../../constants/RequireFieldStar';
 
 export default function PostEditModal({
   setIsModalVisible,
@@ -87,7 +88,10 @@ export default function PostEditModal({
             <View style={styles.createPostContainer}>
               <Text style={styles.title}>Edit Post</Text>
               <View style={styles.fieldContainer}>
-                <Text style={styles.fieldLabel}>Title*</Text>
+                <Text style={styles.fieldLabel}>
+                  Title
+                  <RequireFieldStar />
+                </Text>
                 <TextInput
                   keyboardAppearance={
                     Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -102,7 +106,10 @@ export default function PostEditModal({
                 />
               </View>
               <View style={styles.fieldContainer}>
-                <Text style={styles.fieldLabel}>Write Post*</Text>
+                <Text style={styles.fieldLabel}>
+                  Write Post
+                  <RequireFieldStar />
+                </Text>
                 <TextInput
                   keyboardAppearance={
                     Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'

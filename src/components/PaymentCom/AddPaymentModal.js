@@ -30,6 +30,7 @@ import CalenderIcon from '../../assets/Icons/CalenderIcon';
 import axios from 'axios';
 import axiosInstance from '../../utility/axiosInstance';
 import {ActivityIndicator} from 'react-native';
+import RequireFieldStar from '../../constants/RequireFieldStar';
 const AddPaymentModal = ({
   handleAddPayment,
   isAddPaymentModalVisible,
@@ -161,7 +162,10 @@ const AddPaymentModal = ({
             {/* ----------- Crowd Name Container ----------- */}
             {/* -------------------------- */}
             <View style={styles.fieldContainer}>
-              <Text style={styles.Text}>Method *</Text>
+              <Text style={styles.Text}>
+                Method
+                <RequireFieldStar />
+              </Text>
               <CustomDropDown
                 options={modeOption}
                 type={'Select Payment Method'}
@@ -175,7 +179,10 @@ const AddPaymentModal = ({
               /> */}
             </View>
             <View style={styles.fieldContainer}>
-              <Text style={styles.Text}>Amount*</Text>
+              <Text style={styles.Text}>
+                Amount
+                <RequireFieldStar />
+              </Text>
 
               <TextInput
                 keyboardAppearance={
@@ -189,7 +196,10 @@ const AddPaymentModal = ({
               />
             </View>
             <View style={[styles.fieldContainer, {position: 'relative'}]}>
-              <Text style={styles.Text}>Payment Date *</Text>
+              <Text style={styles.Text}>
+                Payment Date
+                <RequireFieldStar />
+              </Text>
               <View
                 style={[
                   styles.inputField,

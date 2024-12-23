@@ -12,13 +12,14 @@ import {
   ActivityIndicator,
   StatusBar,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import DocumentPicker, {pick, types} from 'react-native-document-picker';
 
 import CustomFonts from '../../constants/CustomFonts';
 
@@ -45,6 +46,10 @@ import CameraIcon from '../../assets/Icons/CameraIcon';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 export default function MyProfileEdit() {
+  const scrollViewRef = useRef(null);
+  const scrollToBottom = () => {
+    scrollViewRef.current?.scrollToEnd({animated: true});
+  };
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const {user} = useSelector(state => state.auth);
@@ -123,9 +128,9 @@ export default function MyProfileEdit() {
         },
         about,
       })
-      .then(async res => {
-        navigation.navigate('MyProfile');
+      .then(res => {
         // Alert.alert("Profile Updated");
+        navigation.pop(2);
         showAlert({
           title: 'Done!',
           type: 'success',
@@ -142,51 +147,50 @@ export default function MyProfileEdit() {
     setEdit(!edit);
   };
   const uploadResume = async () => {
-    // try {
-    //   const result = await DocumentPicker.getDocumentAsync({
-    //     type: 'application/pdf',
-    //     copyToCacheDirectory: true,
-    //   });
-    //   if (result.type === 'cancel') {
-    //     console.log('User canceled the document picker');
-    //     return;
-    //   }
-    //   setIsLoading(true);
-    //   const {uri, name, size} = result.assets[0];
-    //   setResumeName(name || '');
-    //   // Create form data
-    //   const formData = new FormData();
-    //   formData.append('file', {
-    //     uri,
-    //     name,
-    //     type: 'application/pdf',
-    //   });
-    //   const url = '/document/userdocumentfile';
-    //   const response = await axiosInstance.post(url, formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   });
-    //   if (response?.data?.success) {
-    //     setResume(response?.data?.fileUrl);
-    //     setIsLoading(false);
-    //   }
-    //   setIsLoading(false);
-    // } catch (error) {
-    //   setIsLoading(false);
-    //   if (error?.response) {
-    //     console?.error('Server error:', error?.response?.data);
-    //   } else if (error?.request) {
-    //     console?.error('Network error:', error?.request);
-    //     console?.log(
-    //       'Network error:',
-    //       JSON?.stringify(error?.request, null, 1),
-    //     );
-    //   } else {
-    //     // Something else caused the error
-    //     console?.error('Error:', error?.message);
-    //   }
-    // }
+    try {
+      const [result] = await pick({
+        allowMultiSelection: false,
+        type: types.pdf,
+      });
+
+      // console.log('result', JSON.stringify(result, null, 2));
+      setIsLoading(true);
+      const {uri, name, size} = result;
+      setResumeName(name || '');
+      const formData = new FormData();
+      formData.append('file', {
+        uri,
+        name,
+        type: 'application/pdf',
+      });
+      const url = '/document/userdocumentfile';
+      const response = await axiosInstance.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (response?.data?.success) {
+        scrollToBottom();
+        setResume(response?.data?.fileUrl);
+        setIsLoading(false);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      if (error?.response) {
+        console?.error('Server error:', error?.response?.data);
+      } else if (error?.request) {
+        console?.error('Network error:', error?.request);
+        console?.log(
+          'Network error:',
+          JSON?.stringify(error?.request, null, 1),
+        );
+      } else {
+        // Something else caused the error
+        // console?.error('Error......:', error?.message);
+        showToast({message: 'Cancel resume picker'});
+      }
+    }
   };
   const [profilePicture, setProfilePicture] = React.useState(
     user?.profilePicture,
@@ -267,36 +271,16 @@ export default function MyProfileEdit() {
         console.log('ImagePicker Error: ', response.errorMessage);
       } else {
         saveImage(response.assets[0]);
-
-        // uploadImagesAndSend(response.assets);
       }
     });
   };
-  // const selectImage = async () => {
-  // try {
-  //   let result = {};
-  //   await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //   result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: true,
-  //     aspect: [1, 1],
-  //     quality: 1,
-  //   });
-  //   if (!result.canceled) {
-  //     await saveImage(result.assets[0].uri, result);
-  //   }
-  // } catch (error) {
-  //   alert('Error Uploading image: ', error.message);
-  // }
-  // };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // For iOS and Android
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}>
       <View style={{backgroundColor: Colors.Background_color}}>
         <StatusBar backgroundColor={'transparent'} />
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView ref={scrollViewRef} contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.container}>
             <View style={[styles.topContainer, {paddingTop: top}]}>
               <TouchableOpacity
