@@ -76,29 +76,14 @@ const PostPopup = () => {
             user: '',
             filterBy: '',
           });
+          dispatch(setSinglePost(null));
+          setIsConfirmModalVisible(!isConfirmModalVisible);
         }
       })
       .catch(handleError);
   };
 
   return (
-    // <ReactNativeModal
-    //   style={{
-    //     position: 'absolute',
-    //     top: post.x - 20,
-    //     left: post.y - 100,
-    //     margin: 0,
-    //     backgroundColor: Colors.Background_color,
-    //     padding: 10,
-    //     borderRadius: 5,
-    //   }}
-    //   isVisible={Boolean(post)}
-    //   onBackdropPress={() => dispatch(setSinglePost(null))}
-    //   animationIn="slideInUp"
-    //   animationOut="slideOutDown"
-    //   useNativeDriver={true}>
-
-    // </ReactNativeModal>
     <Popover
       backgroundStyle={{backgroundColor: Colors.BackDropColor}}
       popoverStyle={styles.content}
@@ -202,7 +187,7 @@ const getStyles = Colors =>
   StyleSheet.create({
     content: {
       borderRadius: 5,
-      gap: responsiveScreenHeight(1),
+      // gap: responsiveScreenHeight(1),
       backgroundColor: Colors.White,
       padding: 10,
       width: 150,
