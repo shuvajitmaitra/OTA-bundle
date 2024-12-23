@@ -51,7 +51,7 @@ const DayToDayActivities = () => {
             }),
           );
           setIsDeleteModalVisible({state: false});
-          showToast('Activities deleted');
+          showToast({message: 'Activities deleted'});
         }
       })
       .catch(error => {
