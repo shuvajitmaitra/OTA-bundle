@@ -1,8 +1,7 @@
 **Work Stream - December 23, 2024**  
 *Bootcampshub CLI*
 
-- Swap Publish and AI button position
-- Gallery text not visible properly
+
 - Unable to upload Resume in the profile edit screen
 - Change require field star color
 - Message field top gap and bottom gap must be same
@@ -23,4 +22,5 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - User profile image changing issues fixed.
 - "Write Meeting Agenda" placeholder text is inconsistent issue fixed in the calendar create event modal 
 - Previously delete modal is not closing after delete any community post now the issues has been fixed.
-- 
+- Swap Publish and AI button position
+- Gallery text not visible properly

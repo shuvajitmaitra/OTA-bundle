@@ -6,7 +6,7 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import GallaryIcon from '../../assets/Icons/GallaryIcon';
+import GalleryIcon from '../../assets/Icons/GalleryIcon';
 import {useTheme} from '../../context/ThemeContext';
 import FileIcon from '../../assets/Icons/FileIcon';
 import FolderIcon from '../../assets/Icons/FolderIcon';
@@ -47,7 +47,7 @@ const AttachmentItem = ({
         }}
         style={styles.galleryButton}>
         <View style={styles.iconContainer}>
-          <GallaryIcon size={25} />
+          <GalleryIcon size={25} />
         </View>
         <Text style={styles.buttonText}>Images</Text>
       </TouchableOpacity>

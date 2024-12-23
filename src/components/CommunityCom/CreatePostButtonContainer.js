@@ -1,7 +1,7 @@
 import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {useTheme} from '../../context/ThemeContext';
-import GallaryIcon from '../../assets/Icons/GallaryIcon';
+import GalleryIcon from '../../assets/Icons/GalleryIcon';
 import SendIconTwo from '../../assets/Icons/SendIconTwo';
 import CrossCircle from '../../assets/Icons/CrossCircle'; // Assuming you have a CrossCircle icon
 import axiosInstance from '../../utility/axiosInstance';
@@ -186,19 +186,24 @@ const CreatePostButtonContainer = ({post, setPost}) => {
         <CustomIconButton
           handlePress={() => handleGalleryPress({setPost, setIsLoading})}
           title="Gallery"
-          customContainerStyle={{
-            flex: 0.3,
-            height: 40,
-            borderRadius: 4,
-            marginTop: 0,
-            backgroundColor: Colors.PurpleOpacity,
-          }}
+          customContainerStyle={styles.buttonStyle}
           isLoading={isLoading}
           disable={false}
-          icon={<GallaryIcon color={Colors.Primary} />} // Expecting an icon component passed as prop
+          icon={<GalleryIcon color={Colors.Primary} />}
           iconPosition={'left'}
           background={Colors.PrimaryOpacityColor}
           color={Colors.Primary}
+        />
+        <CustomIconButton
+          handlePress={() => {
+            setAiModalVisible(pre => !pre);
+          }}
+          title="AI"
+          customContainerStyle={styles.buttonStyle}
+          isLoading={false}
+          disable={false}
+          icon={<AiIcon2 color={'white'} size={24} />}
+          iconPosition={'left'}
         />
         <CustomIconButton
           handlePress={() => {
@@ -206,36 +211,15 @@ const CreatePostButtonContainer = ({post, setPost}) => {
             handlePost();
           }}
           title="Publish"
-          customContainerStyle={{
-            flex: 0.3,
-            height: 40,
-            borderRadius: 4,
-            marginTop: 0,
-          }}
+          customContainerStyle={styles.buttonStyle}
           isLoading={creating}
           disable={creating || isLoading}
           icon={
             <SendIconTwo
               color={creating || isLoading ? Colors.Primary : Colors.PureWhite}
             />
-          } // Expecting an icon component passed as prop
-          iconPosition={'left'} // Option to place icon on left or right
-        />
-        <CustomIconButton
-          handlePress={() => {
-            setAiModalVisible(pre => !pre);
-          }}
-          title="AI"
-          customContainerStyle={{
-            flex: 0.3,
-            height: 40,
-            borderRadius: 4,
-            marginTop: 0,
-          }}
-          isLoading={false}
-          disable={false}
-          icon={<AiIcon2 color={'white'} />} // Expecting an icon component passed as prop
-          iconPosition={'left'} // Option to place icon on left or right
+          }
+          iconPosition={'left'}
         />
       </View>
       <AiModal
@@ -252,6 +236,12 @@ export default CreatePostButtonContainer;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    buttonStyle: {
+      flex: 0.3,
+      height: 40,
+      borderRadius: 4,
+      marginTop: 0,
+    },
     buttonContainer: {
       flexDirection: 'row',
       alignItems: 'center',

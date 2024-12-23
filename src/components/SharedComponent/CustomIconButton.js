@@ -49,10 +49,11 @@ iconPosition = {"left"}// Option to place icon on left or right
         styles.btnContainer,
         customContainerStyle,
         {
-          backgroundColor:
-            background || disable
-              ? Colors.DisablePrimaryBackgroundColor
-              : Colors.Primary,
+          backgroundColor: background
+            ? background
+            : disable
+            ? Colors.DisablePrimaryBackgroundColor
+            : Colors.Primary,
         },
       ]}>
       {icon && iconPosition === 'left' && <>{icon}</>}
@@ -69,10 +70,11 @@ iconPosition = {"left"}// Option to place icon on left or right
           style={[
             styles.btnText,
             {
-              color:
-                color || disable
-                  ? Colors.DisablePrimaryButtonTextColor
-                  : Colors.PureWhite,
+              color: color
+                ? color
+                : disable
+                ? Colors.DisablePrimaryButtonTextColor
+                : Colors.PureWhite,
             },
           ]}>
           {title}
@@ -95,7 +97,6 @@ const getStyles = Colors =>
       borderRadius: 10,
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'center',
       gap: 5,
     },
     btnContent: {},

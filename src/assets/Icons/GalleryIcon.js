@@ -3,7 +3,7 @@ import Svg, {Path} from 'react-native-svg';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useTheme} from '../../context/ThemeContext';
 
-function GallaryIcon({size, color, ...props}) {
+function GalleryIcon({size, color, ...props}) {
   const Colors = useTheme();
   return (
     <Svg
@@ -31,4 +31,4 @@ function GallaryIcon({size, color, ...props}) {
   );
 }
 
-export default GallaryIcon;
+export default GalleryIcon;

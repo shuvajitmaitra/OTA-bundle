@@ -16,7 +16,7 @@ import CrossIcon from '../../assets/Icons/CrossIcon';
 import RefreshIcon from '../../assets/Icons/RefreshIcon';
 import {ScrollView} from 'react-native';
 import {Image} from 'react-native';
-import GallaryIcon from '../../assets/Icons/GallaryIcon';
+import GalleryIcon from '../../assets/Icons/GalleryIcon';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -128,7 +128,7 @@ const Camera = ({isVisible, toggleCamera, handleSendCapturedPhoto}) => {
                   })
                 }
                 style={styles.RefreshIconContainer}>
-                <GallaryIcon />
+                <GalleryIcon />
               </TouchableOpacity>
             </View>
           </View>

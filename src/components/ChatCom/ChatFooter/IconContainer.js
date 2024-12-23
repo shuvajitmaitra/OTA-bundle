@@ -1,14 +1,14 @@
 import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import MicIcon from '../../../assets/Icons/MicIcon';
-import GallaryIcon from '../../../assets/Icons/GallaryIcon';
+import GalleryIcon from '../../../assets/Icons/GalleryIcon';
 import ImageGallery from './ImageGallery';
 
 const IconContainer = ({setStartRecording, selectImage}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={selectImage} style={styles.button}>
-        <GallaryIcon size={23} />
+        <GalleryIcon size={23} />
       </TouchableOpacity>
     </View>
   );

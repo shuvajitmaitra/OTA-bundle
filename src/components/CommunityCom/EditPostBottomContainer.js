@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {useTheme} from '../../context/ThemeContext';
-import GallaryIcon from '../../assets/Icons/GallaryIcon';
+import GalleryIcon from '../../assets/Icons/GalleryIcon';
 import SendIconTwo from '../../assets/Icons/SendIconTwo';
 import CrossCircle from '../../assets/Icons/CrossCircle'; // Assuming you have a CrossCircle icon
 import {getHashtagTexts} from '../../utility/commonFunction';
@@ -62,7 +62,7 @@ const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
           onPress={() => handleGalleryPress({setPost, setIsLoading})}>
           {!isLoading ? (
             <>
-              <GallaryIcon color={Colors.Primary} />
+              <GalleryIcon color={Colors.Primary} />
               <Text style={[styles.holidayButtonText, {color: Colors.Primary}]}>
                 Gallery
               </Text>

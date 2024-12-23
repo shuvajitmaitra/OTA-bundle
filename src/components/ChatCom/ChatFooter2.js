@@ -26,7 +26,7 @@ import LoadingSmall from '../SharedComponent/LoadingSmall';
 
 import PlusIcon from '../../assets/Icons/PlusIcon';
 import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
-import GallaryIcon from '../../assets/Icons/GallaryIcon';
+import GalleryIcon from '../../assets/Icons/GalleryIcon';
 import ArrowTopIcon from '../../assets/Icons/ArrowTopIcon';
 
 import {useTheme} from '../../context/ThemeContext';
@@ -530,7 +530,7 @@ const ChatFooter2 = ({
             <TouchableOpacity
               onPress={selectImage}
               style={styles.buttonContainer}>
-              <GallaryIcon />
+              <GalleryIcon />
             </TouchableOpacity>
           )}
         </View>
