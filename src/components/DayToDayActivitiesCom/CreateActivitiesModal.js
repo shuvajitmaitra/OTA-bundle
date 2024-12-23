@@ -95,6 +95,9 @@ const CreateActivitiesModal = ({
   };
 
   const handleUpdateActivities = id => {
+    if (!title) {
+      return alert('Title field require');
+    }
     if (!description) {
       return alert('Description field require');
     }
@@ -110,7 +113,7 @@ const CreateActivitiesModal = ({
               page: 1,
             }),
           );
-          showToast('Activities updated');
+          showToast({message: 'Activities updated'});
           toggleCreateActivitiesModal();
         }
       })
