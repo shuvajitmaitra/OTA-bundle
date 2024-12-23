@@ -2,9 +2,6 @@
 *Bootcampshub CLI*
 
 
-- Message field top gap and bottom gap must be same
-
-
 *Overall status*
 - Total functional and ui issues fixed 8 also work for push notification in background mode.
 - New issue listed 8
@@ -23,3 +20,4 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Fix toast message format after deleting activities
 - Add padding to back navigation button and remove debug console log in ActivitiesDetails
 - Add validation for title and description fields in Update ActivitiesModal
+- Refactor keyboard event handling in ChatFooter2 and clean up unused navigation code in MessageScreen2
