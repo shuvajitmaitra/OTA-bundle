@@ -116,7 +116,7 @@ const setupSocketListeners = socket => {
     let totalUnread = chats?.filter(
       chat =>
         !chat?.myData?.isRead &&
-        chat.myData.user !== chat?.latestMessage?.sender?._id,
+        chat?.myData?.user !== chat?.latestMessage?.sender?._id,
     )?.length;
     // Notifications.setBadgeCountAsync(totalUnread || 0);
   });

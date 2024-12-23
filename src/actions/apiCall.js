@@ -109,9 +109,9 @@ export const handleUpdateMember = actionData => {
     });
 };
 
-export const handleArchive = data => {
+export const handleArchive = async data => {
   console.log('Data passed to handleArchive:', JSON.stringify(data, null, 1));
-  axiosInstance
+  await axiosInstance
     .patch(`/chat/channel/archive/${data.chatId}`, {
       isArchived: data.archived,
     })

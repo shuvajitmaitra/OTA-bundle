@@ -284,7 +284,7 @@ const MessageScreen2 = () => {
             inverted
           />
         </View>
-        {chat.myData.role !== 'owner' && chat.isReadOnly ? (
+        {chat?.myData?.role !== 'owner' && chat?.isReadOnly ? (
           <View style={styles.readOnlyContainer}>
             <Text style={styles.readOnlyText}>This is read only crowd</Text>
           </View>

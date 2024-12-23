@@ -50,7 +50,7 @@ export const loadChats = async () => {
       let totalUnread = res.data.chats?.filter(
         chat =>
           !chat?.myData?.isRead &&
-          chat.myData.user !== chat?.latestMessage?.sender?._id,
+          chat?.myData?.user !== chat?.latestMessage?.sender?._id,
       )?.length;
       // await Notifications.setBadgeCountAsync(totalUnread || 0);
     })

@@ -121,7 +121,7 @@ const CreateCrowdAddMember = ({
         if (res.data.success) {
           dispatch(updateChats(res?.data?.chat));
           dispatch(setSingleChat(res?.data?.chat));
-          // navigation.navigate('MessageScreen2');
+          navigation.navigate('MessageScreen2');
           toggleAddMembersModal();
           toggleCreateCrowdModal();
           // setIsAddMembersModalVisible(false);

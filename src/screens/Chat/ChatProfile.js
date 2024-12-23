@@ -51,12 +51,13 @@ import AddUsers from '../../assets/Icons/AddUser';
 import VolumeMute from '../../assets/Icons/VolumeMute';
 import EditIcon from '../../assets/Icons/EditIcon';
 import UpdateCrowdModal from '../../components/ChatCom/Modal/UpdateCrowdModal';
+import {useNavigation} from '@react-navigation/native';
 
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
   const {singleChat: chat} = useSelector(state => state.chat);
   // console.log('chat', JSON.stringify(chat, null, 2));
-
+  const navigation = useNavigation();
   const {selectedMember} = useSelector(state => state.chatSlice);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -390,24 +391,28 @@ const ChatProfile = () => {
           /> */}
 
             {/* Archive Chat Button */}
-            <TouchableOpacity
-              onPress={() => {
-                handleArchive({chatId: chat._id, archived: !chat.isArchived});
-              }}
-              style={styles.blockContainer}>
-              <Feather
-                name="archive"
-                size={responsiveScreenFontSize(2.5)}
-                color={Colors.BodyText}
-              />
-              <Text style={styles.containerText}>
-                {chat.isArchived ? 'Retrieve Chat' : 'Archive Chat'}
-              </Text>
-            </TouchableOpacity>
-
-            {/* Leave Chat Button */}
-            {
+            {chat.memberScope === 'custom' && (
               <>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleArchive({
+                      chatId: chat._id,
+                      archived: !chat.isArchived,
+                    });
+                    navigation.pop(2);
+                  }}
+                  style={styles.blockContainer}>
+                  <Feather
+                    name="archive"
+                    size={responsiveScreenFontSize(2.5)}
+                    color={Colors.BodyText}
+                  />
+                  <Text style={styles.containerText}>
+                    {chat.isArchived ? 'Retrieve Chat' : 'Archive Chat'}
+                  </Text>
+                </TouchableOpacity>
+
+                {/* Leave Chat Button */}
                 <TouchableOpacity
                   onPress={toggleLeaveCrowdModal}
                   style={styles.blockContainer}>
@@ -431,7 +436,7 @@ const ChatProfile = () => {
                   isLeaveCrowdModalVisible={isLeaveCrowdModalVisible}
                 />
               </>
-            }
+            )}
           </View>
         )}
       </ScrollView>

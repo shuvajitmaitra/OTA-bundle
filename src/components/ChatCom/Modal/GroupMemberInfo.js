@@ -27,8 +27,8 @@ export default function GroupMemberInfo({item, index}) {
         }`
       : `${item.user.fullName}`;
   const roleValid =
-    chat.myData.user !== item.user._id &&
-    (chat.myData.role === 'admin' || chat.myData.role === 'owner')
+    chat?.myData?.user !== item?.user?._id &&
+    (chat?.myData?.role === 'admin' || chat?.myData?.role === 'owner')
       ? true
       : false;
   return (

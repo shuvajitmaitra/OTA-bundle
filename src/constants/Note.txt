@@ -1,14 +1,17 @@
-**Work Stream - December 21, 2024**  
+**Work Stream - December 23, 2024**  
 *Bootcampshub CLI*
-  - Ensure the "Write Meeting Agenda" placeholder text is consistent in the calendar create event modal.
-  - Make sure the delete modal closes after a community post is deleted.
-  - Exchange the positions of the Publish and AI buttons.
-  - Adjust the gallery text to be clearly visible.
-  - Allow users to upload resumes on the profile edit screen.
-  - Change the color of the asterisks for required fields.
-  - Ensure the top and bottom gaps of the message field are equal.
 
-
+- When updated profile image, unable to upload profile image
+- "Write Meeting Agenda" placeholder text is inconsistent in the calendar create event modal
+- When i delete a community post, delete modal not close after deleted post
+- Swap Publish and AI button position
+- Gallery text not visible properly
+- Unable to upload Resume in the profile edit screen
+- Change require field star color
+- Message field top gap and bottom gap must be same
+- Toast message not showing when activities is delete
+- Need left gap of back button on the day to day activities screen
+- When update day to day activities not showing toast
 
 
 *Overall status*
@@ -18,8 +21,5 @@
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 
-*Work Update - December 21, 2024*
-
-*BootcampsHub CLI*
-
+*Work Update - December 23, 2024*
 

@@ -29,7 +29,6 @@ import {useTheme} from '../../context/ThemeContext';
 import axiosInstance from '../../utility/axiosInstance';
 import LineUp from '../../assets/Icons/LineUp';
 import FacebookSvg from '../../assets/Icons/FacebookSvg';
-// import * as DocumentPicker from 'expo-document-picker';
 
 import InstagramIcon from '../../assets/Icons/InstagramIcon';
 import Linkedin from '../../assets/Icons/Linkedin';
@@ -43,6 +42,7 @@ import {useGlobalAlert} from '../../components/SharedComponent/GlobalAlertContex
 import RequireFieldStar from '../../constants/RequireFieldStar';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import CameraIcon from '../../assets/Icons/CameraIcon';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 export default function MyProfileEdit() {
   const Colors = useTheme();
@@ -191,19 +191,18 @@ export default function MyProfileEdit() {
   const [profilePicture, setProfilePicture] = React.useState(
     user?.profilePicture,
   );
-  const saveImage = async (uri, mediaData) => {
-    setProfilePicture(uri);
+  const saveImage = async mediaData => {
+    // console.log('uri', JSON.stringify(mediaData?.uri, null, 2));
+    // console.log('mediaData', JSON.stringify(mediaData, null, 2));
+    setProfilePicture(mediaData?.uri);
     try {
       setIsLoading(true);
       const formData = new FormData();
       const data = {
-        uri: mediaData?.assets[0]?.uri,
-        name: mediaData?.assets[0]?.fileName || 'profile_image',
-        fileName: mediaData?.assets[0]?.fileName || 'profile_image',
-        type:
-          mediaData?.assets[0]?.mimeType ||
-          mediaData?.assets[0]?.mimeType ||
-          'image',
+        uri: mediaData?.uri,
+        name: mediaData?.fileName || 'profile_image',
+        fileName: mediaData?.fileName || 'profile_image',
+        type: mediaData?.type || mediaData?.mimeType || 'image',
       };
       formData.append('image', data);
 
@@ -215,9 +214,8 @@ export default function MyProfileEdit() {
         })
         .then(res => {
           if (res.data.success) {
-            // navigation.navigate("MyProfile");
-            // Alert.alert("Profile picture changed");
-            showToast('Profile picture updated');
+            navigation.navigate('MyProfile');
+            showToast({message: 'Profile picture changed'});
             dispatch(setUser(res.data.user));
             setIsLoading(false);
           }
@@ -253,24 +251,44 @@ export default function MyProfileEdit() {
       }
     }
   };
+  const selectImage = () => {
+    const options = {
+      mediaType: 'photo',
+      maxWidth: 300,
+      maxHeight: 300,
+      quality: 1,
+      selectionLimit: 1,
+    };
 
-  const selectImage = async () => {
-    // try {
-    //   let result = {};
-    //   await ImagePicker.requestMediaLibraryPermissionsAsync();
-    //   result = await ImagePicker.launchImageLibraryAsync({
-    //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //     allowsEditing: true,
-    //     aspect: [1, 1],
-    //     quality: 1,
-    //   });
-    //   if (!result.canceled) {
-    //     await saveImage(result.assets[0].uri, result);
-    //   }
-    // } catch (error) {
-    //   alert('Error Uploading image: ', error.message);
-    // }
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        saveImage(response.assets[0]);
+
+        // uploadImagesAndSend(response.assets);
+      }
+    });
   };
+  // const selectImage = async () => {
+  // try {
+  //   let result = {};
+  //   await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //   result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     aspect: [1, 1],
+  //     quality: 1,
+  //   });
+  //   if (!result.canceled) {
+  //     await saveImage(result.assets[0].uri, result);
+  //   }
+  // } catch (error) {
+  //   alert('Error Uploading image: ', error.message);
+  // }
+  // };
 
   return (
     <KeyboardAvoidingView
@@ -286,7 +304,7 @@ export default function MyProfileEdit() {
                   navigation.goBack();
                 }}
                 style={styles.topArrowContainer}>
-                <ArrowLeft color={Colors.PureWhite} />{' '}
+                <ArrowLeft color={Colors.PureWhite} />
                 <Text style={styles.topText}>Back</Text>
               </TouchableOpacity>
               <Text style={styles.myProfile}>Edit Profile</Text>
@@ -477,12 +495,12 @@ export default function MyProfileEdit() {
                 <Text style={styles.fieldText}>Social Link</Text>
                 <View style={styles.socialLinkContainer}>
                   <View style={[styles.selectContainer]}>
-                    <View style={{width: 20}}>
+                    <Text style={{width: 20}}>
                       <FacebookSvg />
-                    </View>
-                    <View style={styles.lineUp}>
+                    </Text>
+                    <Text style={styles.lineUp}>
                       <LineUp />
-                    </View>
+                    </Text>
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -499,12 +517,12 @@ export default function MyProfileEdit() {
                     />
                   </View>
                   <View style={[styles.selectContainer]}>
-                    <View style={{width: 20}}>
+                    <Text style={{width: 20}}>
                       <GithubIcon />
-                    </View>
-                    <View style={styles.lineUp}>
+                    </Text>
+                    <Text style={styles.lineUp}>
                       <LineUp />
-                    </View>
+                    </Text>
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -521,12 +539,12 @@ export default function MyProfileEdit() {
                     />
                   </View>
                   <View style={[styles.selectContainer]}>
-                    <View style={{width: 20}}>
+                    <Text style={{width: 20}}>
                       <InstagramIcon />
-                    </View>
-                    <View style={styles.lineUp}>
+                    </Text>
+                    <Text style={styles.lineUp}>
                       <LineUp />
-                    </View>
+                    </Text>
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -543,12 +561,12 @@ export default function MyProfileEdit() {
                     />
                   </View>
                   <View style={[styles.selectContainer]}>
-                    <View style={{width: 20}}>
+                    <Text style={{width: 20}}>
                       <Linkedin />
-                    </View>
-                    <View style={styles.lineUp}>
+                    </Text>
+                    <Text style={styles.lineUp}>
                       <LineUp />
-                    </View>
+                    </Text>
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -565,12 +583,12 @@ export default function MyProfileEdit() {
                     />
                   </View>
                   <View style={[styles.selectContainer]}>
-                    <View style={{width: 20}}>
+                    <Text style={{width: 20}}>
                       <Twitter />
-                    </View>
-                    <View style={styles.lineUp}>
+                    </Text>
+                    <Text style={styles.lineUp}>
                       <LineUp />
-                    </View>
+                    </Text>
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -631,7 +649,7 @@ export default function MyProfileEdit() {
                 />
               </View>
             </View>
-            <View style={{marginBottom: responsiveScreenHeight(2)}}></View>
+            <View style={{marginBottom: responsiveScreenHeight(2)}} />
           </View>
         </ScrollView>
       </View>
