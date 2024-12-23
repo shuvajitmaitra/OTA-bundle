@@ -238,6 +238,7 @@ const getStyles = Colors =>
       borderLeftWidth: 0.4,
       borderBottomColor: Colors.LineColor,
       borderBottomWidth: 0.4,
+      overflow: 'hidden',
     },
     hourRow: {
       minHeight: responsiveScreenHeight(4),

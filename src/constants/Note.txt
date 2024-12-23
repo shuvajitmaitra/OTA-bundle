@@ -1,8 +1,6 @@
 **Work Stream - December 23, 2024**  
 *Bootcampshub CLI*
 
-- When updated profile image, unable to upload profile image
-- "Write Meeting Agenda" placeholder text is inconsistent in the calendar create event modal
 - When i delete a community post, delete modal not close after deleted post
 - Swap Publish and AI button position
 - Gallery text not visible properly
@@ -23,3 +21,5 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 
 *Work Update - December 23, 2024*
 
+- User profile image changing issues fixed.
+- "Write Meeting Agenda" placeholder text is inconsistent issue fixed in the calendar create event modal 

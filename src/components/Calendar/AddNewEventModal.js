@@ -417,7 +417,7 @@ const AddNewEventModal = ({
                         {minHeight: responsiveScreenHeight(10)},
                       ]}
                       value={event.agenda}
-                      placeholder="Write Meeting Agenda"
+                      placeholder="Write meeting agenda"
                       onChangeText={text =>
                         setEvent(pre => ({...pre, agenda: text}))
                       }
