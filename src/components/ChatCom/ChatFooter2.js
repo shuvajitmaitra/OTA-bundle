@@ -85,33 +85,7 @@ const ChatFooter2 = ({
   const [editedText, setEditedText] = useState(messageEditVisible.text || '');
   const [messageClicked, setMessageClicked] = useState(false);
   const [startRecording, setStartRecording] = useState(false);
-  useEffect(() => {
-    if (
-      Platform.OS === 'android' &&
-      UIManager.setLayoutAnimationEnabledExperimental
-    ) {
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
-  }, []);
 
-  // // Keyboard event listeners
-  // useEffect(() => {
-  //   const keyboardDidShowListener = Keyboard.addListener(
-  //     'keyboardDidShow',
-  //     () => setShowBottom(false),
-  //   );
-  //   const keyboardDidHideListener = Keyboard.addListener(
-  //     'keyboardDidHide',
-  //     () => {},
-  //   );
-
-  //   return () => {
-  //     keyboardDidShowListener.remove();
-  //     keyboardDidHideListener.remove();
-  //   };
-  // }, []);
-
-  // Toggle the bottom container
   const toggleBottom = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     Keyboard.dismiss();
@@ -469,7 +443,7 @@ const ChatFooter2 = ({
   return (
     <View>
       {!startRecording && (
-        <View style={styles.mainContainer}>
+        <View style={[styles.mainContainer]}>
           <Pressable style={styles.toggleButton} onPress={toggleBottom}>
             {showBottom ? <ArrowTopIcon size={40} /> : <PlusIcon />}
           </Pressable>
@@ -566,8 +540,7 @@ const getStyles = Colors =>
     mainContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginTop: 10,
-      marginBottom: Platform.OS === 'ios' ? 25 : 10,
+      marginVertical: Platform.OS === 'ios' ? 15 : 10,
     },
     editingButtonText: {
       color: Colors.Red,

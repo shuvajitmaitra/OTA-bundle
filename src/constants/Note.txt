@@ -3,7 +3,6 @@
 
 
 - Message field top gap and bottom gap must be same
-- When update day to day activities not showing toast
 
 
 *Overall status*
@@ -23,3 +22,4 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Add required field indicators to modals and update profile edit functionality
 - Fix toast message format after deleting activities
 - Add padding to back navigation button and remove debug console log in ActivitiesDetails
+- Add validation for title and description fields in Update ActivitiesModal

@@ -26,12 +26,11 @@ import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
-import {useNavigation} from '@react-navigation/native';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
   console.log('rerender');
-  const {top} = useSafeAreaInsets();
+  const {top, bottom} = useSafeAreaInsets();
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -39,7 +38,6 @@ const MessageScreen2 = () => {
   const {messageOptionData} = useSelector(state => state.modal);
   const {localMessages} = useSelector(state => state.chatSlice);
   const [viewImage, setViewImage] = useState([]);
-  const navigation = useNavigation();
   // console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -52,16 +50,6 @@ const MessageScreen2 = () => {
   const [messageEditVisible, setMessageEditVisible] = useState('');
   const [viewInitialMessage, setViewInitialMessage] = useState(false);
   const LIMIT = 20;
-
-  useLayoutEffect(() => {
-    // Hide the tab bar
-    navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
-
-    // Show the tab bar when leaving the screen
-    return () => {
-      navigation.getParent()?.setOptions({tabBarStyle: {display: 'flex'}});
-    };
-  }, [navigation]);
 
   const fetchPinned = chatId => {
     if (!chatId) {
@@ -246,12 +234,12 @@ const MessageScreen2 = () => {
       style={styles.container}>
       <View
         style={[
-          ,
           {
             flex: 1,
             // paddingBottom: bottom / 2,
             paddingTop: top / 1.5,
-            // backgroundColor: ,
+            // backgroundColor: Colors.Red,
+            // marginBottom: bottom / 1.5,
           },
         ]}>
         {messageOptionData?._id && (
@@ -272,7 +260,9 @@ const MessageScreen2 = () => {
           setPinnedScreenVisible={setPinnedScreenVisible}
         />
         <View style={styles.flatListContainer}>
-          {viewInitialMessage && <EmptyMessageContainer chat={chat} />}
+          {viewInitialMessage && !localMessages.length && (
+            <EmptyMessageContainer chat={chat} />
+          )}
 
           <FlatList
             data={localMessages?.length ? localMessages : messages[chat?._id]}
