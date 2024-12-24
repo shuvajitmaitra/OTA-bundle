@@ -109,6 +109,7 @@ const getStyles = Colors =>
     },
     learnMoreButton: {
       borderWidth: 1,
+      overFlow: 'hidden',
       borderRadius: 50,
       borderColor: Colors.Primary,
       paddingVertical: 10,
@@ -146,6 +147,7 @@ const getStyles = Colors =>
       padding: 15,
       borderColor: Colors.BorderColor,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderRadius: 10,
       marginTop: 20,
       marginHorizontal: 20,

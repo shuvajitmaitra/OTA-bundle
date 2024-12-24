@@ -128,6 +128,7 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(2),
       marginTop: responsiveScreenHeight(2),
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     titleContainer: {
@@ -234,6 +235,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.GrayButtonColor,
       borderRadius: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       flexDirection: 'row',
       justifyContent: 'center',

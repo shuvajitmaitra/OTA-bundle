@@ -130,6 +130,7 @@ const getStyles = Colors =>
       alignItems: 'center',
       borderRadius: 6,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     videoTypeTitle: {

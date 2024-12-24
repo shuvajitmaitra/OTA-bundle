@@ -588,9 +588,9 @@ const getStyles = Colors =>
     },
     table: {
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.LineColor,
       borderRadius: 5,
-      overflow: 'hidden',
       marginBottom: 20,
     },
     row: {

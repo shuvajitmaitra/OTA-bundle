@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   comments: [],
-  selectedComment: '',
+  selectedComment: null,
   commentId: '',
 };
 
@@ -19,10 +19,18 @@ const commentSlice = createSlice({
     setCommentId: (state, {payload}) => {
       state.commentId = payload;
     },
+    updateComment: (state, {payload}) => {
+      const {commentId, data} = payload;
+      const commentIndex = state.comments.findIndex(
+        comment => comment._id === commentId,
+      );
+
+      state.comments[commentIndex] = {...state.comments[commentIndex], ...data};
+    },
   },
 });
 
-export const {setComments, setSelectedComment, setCommentId} =
+export const {setComments, setSelectedComment, setCommentId, updateComment} =
   commentSlice.actions;
 
 // Export the reducer

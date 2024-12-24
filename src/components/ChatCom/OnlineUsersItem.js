@@ -172,6 +172,7 @@ const getStyles = Colors =>
       bottom: responsiveScreenWidth(0.9),
       right: -2,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.White,
     },
     profileName: {

@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     // marginHorizontal: responsiveScreenWidth(4), // Adds horizontal margin for responsive screens
     borderRadius: 10, // Rounds the corners of the container
     overflow: 'hidden', // Ensures content doesn't spill out of the container
-    borderWidth: 1, // Adds a border
+    borderWidth: 1,
+    overFlow: 'hidden', // Adds a border
     borderColor: 'gray', // Sets border color
   },
 });

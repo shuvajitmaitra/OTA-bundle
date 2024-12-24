@@ -785,6 +785,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.White,
       borderRadius: 10,
       borderWidth: 1,
+      overflow: 'hidden',
       marginTop: responsiveScreenHeight(1),
       flexDirection: 'row',
       alignItems: 'center',
@@ -796,6 +797,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.White,
       borderRadius: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       gap: responsiveScreenHeight(1.5),
       marginTop: responsiveScreenHeight(1),
       paddingVertical: responsiveScreenHeight(1.5),
@@ -808,6 +810,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.White,
       borderRadius: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       marginTop: responsiveScreenHeight(1),
       paddingVertical: responsiveScreenHeight(1.5),
       paddingHorizontal: responsiveScreenWidth(2.5),
@@ -824,6 +827,7 @@ const getStyles = Colors =>
       height: responsiveScreenHeight(6),
       borderRadius: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: responsiveScreenWidth(3),
@@ -861,6 +865,7 @@ const getStyles = Colors =>
 
       borderRadius: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       marginTop: responsiveScreenHeight(1),
       flexDirection: 'row',
       alignItems: 'center',
@@ -898,6 +903,7 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
+      overFlow: 'hidden',
     },
     dropdownArea: {
       width: responsiveScreenWidth(85),
@@ -913,6 +919,7 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
+      overFlow: 'hidden',
     },
     dropdownStateArea: {
       width: responsiveScreenWidth(85),
@@ -928,6 +935,7 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
+      overFlow: 'hidden',
     },
     searchInput: {
       width: responsiveScreenWidth(80),

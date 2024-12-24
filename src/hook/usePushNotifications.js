@@ -12,6 +12,11 @@ import {setSingleChat} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {setCurrentRoute} from '../store/reducer/authReducer';
+// console.log(store.getState('chat'));
+// console.log(
+//   'store.getState().chat.chatsObj',
+//   JSON.stringify(store.getState().chat.chatsObj, null, 2),
+// );
 
 const usePushNotifications = () => {
   const [error, setError] = useState('');
@@ -24,7 +29,7 @@ const usePushNotifications = () => {
       try {
         await requestNotificationPermission();
 
-        await registerAppWithFCM();
+        // await registerAppWithFCM();
 
         if (Platform.OS === 'ios') {
           const apnsToken = await messaging().getAPNSToken();
@@ -44,34 +49,44 @@ const usePushNotifications = () => {
         await createNotificationChannel();
 
         messaging().onMessage(handleNotification);
-        messaging().setBackgroundMessageHandler(async remoteMessage => {
-          console.log(
-            'remoteMessage background',
-            JSON.stringify(remoteMessage, null, 2),
-          );
-        });
-        AppRegistry.registerHeadlessTask(
-          'RNFirebaseBackgroundMessage',
-          () => async remoteMessage => {
-            console.log('Headless task called with message:', remoteMessage);
-            // You can handle the message or perform tasks here
-          },
-        );
-        messaging().onNotificationOpenedApp(handleNotification);
+        // messaging().setBackgroundMessageHandler(async remoteMessage => {
+        //   console.log(
+        //     'remoteMessage background',
+        //     JSON.stringify(remoteMessage, null, 2),
+        //   );
+        // });
+        // AppRegistry.registerHeadlessTask(
+        //   'RNFirebaseBackgroundMessage',
+        //   () => async remoteMessage => {
+        //     console.log('Headless task called with message:', remoteMessage);
+        //     // You can handle the message or perform tasks here
+        //   },
+        // );
+        // messaging().onNotificationOpenedApp(handleNotification);
 
-        const initialNotification = await messaging().getInitialNotification();
-        if (initialNotification) {
-          handleNotification(initialNotification);
-        } else {
-          console.log('No initial notification found');
-        }
+        // await messaging()
+        //   .getInitialNotification()
+        //   .then(remoteMessage => {
+        //     console.log('getInitialNotification', remoteMessage);
+        //     if (remoteMessage) {
+        //       handleNotification(remoteMessage);
+        //     }
+        //   });
 
-        messaging().onTokenRefresh(newToken => {
-          console.log('FCM Token refreshed:', newToken);
-          if (newToken) {
-            sendTokenToBackend(newToken);
-          }
-        });
+        // if (initialNotification) {
+        //   handleNotification(initialNotification);
+        // } else {
+        //   console.log('No initial notification found');
+        // }
+        // messaging().setBackgroundMessageHandler(async remoteMessage => {
+        //   console.log('Message handled in the background!', remoteMessage);
+        // });
+        // messaging().onTokenRefresh(newToken => {
+        //   console.log('FCM Token refreshed:', newToken);
+        //   if (newToken) {
+        //     sendTokenToBackend(newToken);
+        //   }
+        // });
       } catch (err) {
         setError(err.message);
         console.error('Error during setup:', err.message);

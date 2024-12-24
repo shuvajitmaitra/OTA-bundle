@@ -1,13 +1,24 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import CustomSmallButton from "../../CustomSmallButton";
-import Divider from "../../SharedComponent/Divider";
-import CustomDropDownTwo from "../../SharedComponent/CustomDropDownTwo";
-import { useTheme } from "../../../context/ThemeContext";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../../constants/CustomFonts";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import CustomSmallButton from '../../CustomSmallButton';
+import Divider from '../../SharedComponent/Divider';
+import CustomDropDownTwo from '../../SharedComponent/CustomDropDownTwo';
+import {useTheme} from '../../../context/ThemeContext';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../../constants/CustomFonts';
 
-const EventRepeatSection = ({ event, setEvent, weekDays, handleCancelButton, handleDoneButton, handleResetButton }) => {
+const EventRepeatSection = ({
+  event,
+  setEvent,
+  weekDays,
+  handleCancelButton,
+  handleDoneButton,
+  handleResetButton,
+}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
@@ -18,9 +29,9 @@ const EventRepeatSection = ({ event, setEvent, weekDays, handleCancelButton, han
         <Text style={styles.repeat}>Repeat Every</Text>
         <CustomDropDownTwo
           flex={0.6}
-          data={["Day", "Week", "Month"]}
-          setState={(period) => {
-            setEvent((pre) => ({
+          data={['Day', 'Week', 'Month']}
+          setState={period => {
+            setEvent(pre => ({
               ...pre,
               timeRange: {
                 ...pre.timeRange,
@@ -34,28 +45,36 @@ const EventRepeatSection = ({ event, setEvent, weekDays, handleCancelButton, han
       <Text style={styles.repeat}>Repeat on Week</Text>
       <View style={styles.weekDayContainer}>
         {weekDays.map((item, index) => {
-          const { repeatDays } = event.timeRange;
+          const {repeatDays} = event.timeRange;
           const indexExists = repeatDays.includes(index);
           return (
             <TouchableOpacity
               key={index}
               onPress={() =>
-                setEvent((pre) => {
-                  const { repeatDays } = pre.timeRange;
+                setEvent(pre => {
+                  const {repeatDays} = pre.timeRange;
                   const indexExists = repeatDays.includes(index);
 
                   return {
                     ...pre,
                     timeRange: {
                       ...pre.timeRange,
-                      repeatDays: indexExists ? repeatDays?.filter((day) => day !== index) : [...repeatDays, index],
+                      repeatDays: indexExists
+                        ? repeatDays?.filter(day => day !== index)
+                        : [...repeatDays, index],
                     },
                   };
                 })
               }
-              style={[styles.weekDay, indexExists && styles.toggled]}
-            >
-              <Text style={indexExists ? styles.toggledColor : styles.unSelectedWeekDayColor}>{item.day}</Text>
+              style={[styles.weekDay, indexExists && styles.toggled]}>
+              <Text
+                style={
+                  indexExists
+                    ? styles.toggledColor
+                    : styles.unSelectedWeekDayColor
+                }>
+                {item.day}
+              </Text>
             </TouchableOpacity>
           );
         })}
@@ -63,13 +82,12 @@ const EventRepeatSection = ({ event, setEvent, weekDays, handleCancelButton, han
       <View
         style={[
           {
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             gap: 10,
           },
-        ]}
-      >
+        ]}>
         <CustomSmallButton
           toggleModal={handleResetButton}
           textColor={Colors.SecondaryButtonTextColor}
@@ -82,7 +100,14 @@ const EventRepeatSection = ({ event, setEvent, weekDays, handleCancelButton, han
           backgroundColor="rgba(39, 172, 31, 0.1)"
           buttonText="Cancel"
         />
-        {<CustomSmallButton toggleModal={handleDoneButton} textColor="white" backgroundColor="#27ac1f" buttonText="Done" />}
+        {
+          <CustomSmallButton
+            toggleModal={handleDoneButton}
+            textColor="white"
+            backgroundColor="#27ac1f"
+            buttonText="Done"
+          />
+        }
       </View>
     </View>
   );
@@ -90,7 +115,7 @@ const EventRepeatSection = ({ event, setEvent, weekDays, handleCancelButton, han
 
 export default EventRepeatSection;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     repeatBoxContainer: {
       backgroundColor: Colors.ModalBoxColor,
@@ -99,6 +124,7 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenHeight(1.5),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
+      overFlow: 'hidden',
       gap: responsiveScreenHeight(2),
       marginBottom: responsiveScreenHeight(2),
     },
@@ -112,21 +138,21 @@ const getStyles = (Colors) =>
       color: Colors.BodyText,
     },
     week: {
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       zIndex: 1,
     },
     weekDayContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
     weekDay: {
       width: responsiveScreenWidth(7),
       height: responsiveScreenWidth(7),
       backgroundColor: Colors.White,
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
       borderRadius: responsiveScreenWidth(50),
     },
     toggled: {

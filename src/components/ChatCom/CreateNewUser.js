@@ -125,6 +125,7 @@ const getStyles = Colors =>
       paddingHorizontal: 10,
       borderRadius: 7,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       alignSelf: 'center',
     },

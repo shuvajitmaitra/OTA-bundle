@@ -1,53 +1,67 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
-import moment from "moment";
-import CalendarIconSmall from "../../assets/Icons/CalendarIconSmall";
-import CheckIcon from "../../assets/Icons/CheckIcon";
-import UnCheckIcon from "../../assets/Icons/UnCheckIcon";
-import NoDataAvailable from "../SharedComponent/NoDataAvailable";
-import axiosInstance from "../../utility/axiosInstance";
-import Images from "../../constants/Images";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useTheme} from '../../context/ThemeContext';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import moment from 'moment';
+import CalendarIconSmall from '../../assets/Icons/CalendarIconSmall';
+import CheckIcon from '../../assets/Icons/CheckIcon';
+import UnCheckIcon from '../../assets/Icons/UnCheckIcon';
+import NoDataAvailable from '../SharedComponent/NoDataAvailable';
+import axiosInstance from '../../utility/axiosInstance';
+import Images from '../../constants/Images';
 
-const EventHistory = ({ event }) => {
+const EventHistory = ({event}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const [status, setStatus] = useState("accepted");
+  const [status, setStatus] = useState('accepted');
   const [histories, setHistories] = useState([]);
   useEffect(() => {
     axiosInstance
-      .post("history/getHistory", { itemId: event?._id })
-      .then((res) => {
-        setHistories(res?.data?.histories?.filter((item) => item?.version > 0));
+      .post('history/getHistory', {itemId: event?._id})
+      .then(res => {
+        setHistories(res?.data?.histories?.filter(item => item?.version > 0));
       })
-      .catch((error) => {
-        console.log("error event history.......", JSON.stringify(error.response.data, null, 1));
+      .catch(error => {
+        console.log(
+          'error event history.......',
+          JSON.stringify(error.response.data, null, 1),
+        );
       });
   }, [event]);
 
   const tabs = [
     {
-      label: "Accepted",
-      value: "accepted",
+      label: 'Accepted',
+      value: 'accepted',
     },
     {
-      label: "Pending",
-      value: "pending",
+      label: 'Pending',
+      value: 'pending',
     },
     {
-      label: "Proposed New Time",
-      value: "proposedTime",
+      label: 'Proposed New Time',
+      value: 'proposedTime',
     },
     {
-      label: "Denied",
-      value: "denied",
+      label: 'Denied',
+      value: 'denied',
     },
     {
-      label: "Changed History",
-      value: "updateHistory",
+      label: 'Changed History',
+      value: 'updateHistory',
     },
   ];
 
@@ -58,24 +72,26 @@ const EventHistory = ({ event }) => {
   // if (error) {
   //   return <Text>Error: {error.message}</Text>;
   // }
-  const participantsData = event?.participants?.filter((item) => item?.status == status);
+  const participantsData = event?.participants?.filter(
+    item => item?.status == status,
+  );
 
-  const getStatusCount = (status) => event?.participants?.filter((item) => item?.status === status)?.length || 0;
+  const getStatusCount = status =>
+    event?.participants?.filter(item => item?.status === status)?.length || 0;
   return (
     <View>
       <ScrollView
         contentContainerStyle={{
-          alignItems: "center",
-          justifyContent: "center",
+          alignItems: 'center',
+          justifyContent: 'center',
           gap: responsiveScreenWidth(4),
           borderBottomColor: Colors.BorderColor,
           borderBottomWidth: 1,
         }}
         horizontal
         style={styles.tabContainer}
-        showsHorizontalScrollIndicator={false}
-      >
-        {tabs.map((item) => (
+        showsHorizontalScrollIndicator={false}>
+        {tabs.map(item => (
           <Pressable
             key={item.value}
             onPress={() => {
@@ -87,40 +103,44 @@ const EventHistory = ({ event }) => {
                 borderBottomWidth: 3,
                 borderBottomColor: Colors.Primary,
               },
-            ]}
-          >
+            ]}>
             <Text
               style={[
                 styles.tabItemText,
                 status == item.value && {
                   color: Colors.Primary,
                 },
-              ]}
-            >
-              {item.label}({item.value == "updateHistory" ? histories.length : getStatusCount(item.value)})
+              ]}>
+              {item.label}(
+              {item.value == 'updateHistory'
+                ? histories.length
+                : getStatusCount(item.value)}
+              )
             </Text>
           </Pressable>
         ))}
       </ScrollView>
-      {status == "updateHistory" ? (
+      {status == 'updateHistory' ? (
         <>
           {histories?.length ? (
-            histories.map((history) => (
+            histories.map(history => (
               <View key={history._id}>
                 <View style={styles.versionContainer}>
-                  <Text style={styles.versionText}>Version: {history.version}</Text>
+                  <Text style={styles.versionText}>
+                    Version: {history.version}
+                  </Text>
                 </View>
                 <View>
                   {Object.entries(history.diff)
                     .map(([key, value]) => {
-                      return { key, ...value };
+                      return {key, ...value};
                     })
                     .map((item, index) => (
                       <View style={styles.textContainer} key={index}>
                         <Text style={styles.text1}>{item.key}</Text>
                         <Text style={styles.text2}>
                           <Text style={styles.text2label}>Previous: </Text>
-                          {item.oldValue || "N/A"}
+                          {item.oldValue || 'N/A'}
                         </Text>
                         <Text style={styles.text3}>
                           <Text style={styles.text2label}>Current: </Text>
@@ -138,7 +158,7 @@ const EventHistory = ({ event }) => {
       ) : (
         <>
           {participantsData?.length ? (
-            participantsData?.map((participant) => (
+            participantsData?.map(participant => (
               <View key={participant._id}>
                 {
                   <>
@@ -154,35 +174,57 @@ const EventHistory = ({ event }) => {
                         }
                       />
                       <View>
-                        <Text style={styles?.profileName}>{participant?.user?.fullName}</Text>
+                        <Text style={styles?.profileName}>
+                          {participant?.user?.fullName}
+                        </Text>
                         <Text style={styles?.dateText}>
                           <Text style={styles?.dateHeading}>Date: </Text>
-                          {moment(participant?.addedAt)?.format("MMM DD, YYYY, hh:mm A")}
+                          {moment(participant?.addedAt)?.format(
+                            'MMM DD, YYYY, hh:mm A',
+                          )}
                         </Text>
                       </View>
                     </View>
-                    {status == "proposedTime" && (
+                    {status == 'proposedTime' && (
                       <View style={styles?.dateTimeContainer}>
                         <View style={styles?.timeDateContainer}>
                           <CalendarIconSmall />
-                          <Text style={styles.timeDateLabel}>Event Time & Date</Text>
+                          <Text style={styles.timeDateLabel}>
+                            Event Time & Date
+                          </Text>
                         </View>
                         <View style={styles.dateTimeRow}>
                           <Text style={styles.dateTimeLabel}>Start Date:</Text>
                           <TouchableOpacity style={styles.dateTimePicker}>
-                            <Text style={styles.timeDateText}>{moment(participant?.proposedTime?.start).format("MMM DD, YYYY")}</Text>
+                            <Text style={styles.timeDateText}>
+                              {moment(participant?.proposedTime?.start).format(
+                                'MMM DD, YYYY',
+                              )}
+                            </Text>
                           </TouchableOpacity>
                           <TouchableOpacity style={styles.dateTimePicker}>
-                            <Text style={styles.timeDateText}>{moment(participant?.proposedTime?.start).format("hh:mm A")}</Text>
+                            <Text style={styles.timeDateText}>
+                              {moment(participant?.proposedTime?.start).format(
+                                'hh:mm A',
+                              )}
+                            </Text>
                           </TouchableOpacity>
                         </View>
                         <View style={styles.dateTimeRow}>
                           <Text style={styles.dateTimeLabel}>End Date:</Text>
                           <TouchableOpacity style={styles.dateTimePicker}>
-                            <Text style={styles.timeDateText}>{moment(participant?.proposedTime?.end).format("MMM DD, YYYY")}</Text>
+                            <Text style={styles.timeDateText}>
+                              {moment(participant?.proposedTime?.end).format(
+                                'MMM DD, YYYY',
+                              )}
+                            </Text>
                           </TouchableOpacity>
                           <TouchableOpacity style={styles.dateTimePicker}>
-                            <Text style={styles.timeDateText}>{moment(participant?.proposedTime?.end).format("hh:mm A")}</Text>
+                            <Text style={styles.timeDateText}>
+                              {moment(participant?.proposedTime?.end).format(
+                                'hh:mm A',
+                              )}
+                            </Text>
                           </TouchableOpacity>
                         </View>
                         <TouchableOpacity style={styles.allDayContainer}>
@@ -206,12 +248,12 @@ const EventHistory = ({ event }) => {
 
 export default EventHistory;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     text2label: {
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.9),
-      fontWeight: "600",
+      fontWeight: '600',
       fontFamily: CustomFonts.MEDIUM,
     },
     versionContainer: {
@@ -223,7 +265,7 @@ const getStyles = (Colors) =>
     versionText: {
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(2),
-      fontWeight: "600",
+      fontWeight: '600',
       // textDecorationLine: "underline",
     },
     text1: {
@@ -231,7 +273,7 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(2),
       fontFamily: CustomFonts.MEDIUM,
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
       marginBottom: responsiveScreenHeight(1),
     },
     text2: {
@@ -247,7 +289,7 @@ const getStyles = (Colors) =>
     textContainer: {
       // flexDirection: "col",
       // alignItems: "center",
-      justifyContent: "flex-start",
+      justifyContent: 'flex-start',
       // gap: responsiveScreenWidth(4),
       backgroundColor: Colors.Background_color,
       marginBottom: 10,
@@ -261,15 +303,16 @@ const getStyles = (Colors) =>
       paddingVertical: responsiveScreenHeight(1.5),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
+      overFlow: 'hidden',
       gap: responsiveScreenHeight(2),
       marginBottom: responsiveScreenHeight(2),
       zIndex: 1,
     },
     timeDateContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(1.5),
       paddingBottom: responsiveScreenHeight(1.5),
-      alignItems: "center",
+      alignItems: 'center',
       borderBottomColor: Colors.BorderColor,
       borderBottomWidth: 1,
     },
@@ -279,13 +322,13 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
     },
     dateTimeRow: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(2),
-      alignItems: "center",
+      alignItems: 'center',
     },
     dateTimeLabel: {
       color: Colors.BodyText,
-      fontWeight: "500",
+      fontWeight: '500',
     },
     dateTimePicker: {
       backgroundColor: Colors.White,
@@ -294,13 +337,14 @@ const getStyles = (Colors) =>
       borderRadius: 4,
       borderColor: Colors.BorderColor,
       borderWidth: 1,
+      overFlow: 'hidden',
     },
     timeDateText: {
-      color: "rgba(39, 172, 31, 1)",
+      color: 'rgba(39, 172, 31, 1)',
     },
     allDayContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: responsiveScreenWidth(2),
     },
     allDayText: {
@@ -329,7 +373,7 @@ const getStyles = (Colors) =>
       borderRadius: 100,
     },
     tabContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 10,
     },
     tabItemContainer: {
@@ -343,9 +387,9 @@ const getStyles = (Colors) =>
     participantContainer: {
       borderBottomWidth: 1,
       borderBottomColor: Colors.BorderColor,
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 10,
-      alignItems: "center",
+      alignItems: 'center',
       paddingVertical: responsiveScreenHeight(2),
     },
   });

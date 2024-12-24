@@ -693,6 +693,7 @@ const getStyles = Colors =>
       color: Colors.Heading,
       paddingVertical: 5,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       textTransform: 'uppercase',
       fontSize: responsiveScreenFontSize(1.5),

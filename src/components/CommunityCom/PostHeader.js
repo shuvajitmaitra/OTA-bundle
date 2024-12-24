@@ -92,6 +92,7 @@ const getStyles = Colors =>
       borderRadius: 45,
       backgroundColor: Colors.LightGreen,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       resizeMode: 'cover',
     },

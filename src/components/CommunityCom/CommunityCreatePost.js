@@ -136,6 +136,7 @@ const getStyles = Colors =>
       borderRadius: responsiveScreenFontSize(1),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
+      overFlow: 'hidden',
       paddingHorizontal: responsiveScreenWidth(4),
       paddingTop: responsiveScreenHeight(1.5),
       paddingVertical: responsiveScreenHeight(1),
@@ -147,6 +148,7 @@ const getStyles = Colors =>
       paddingHorizontal: responsiveScreenWidth(2),
       marginBottom: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     title: {

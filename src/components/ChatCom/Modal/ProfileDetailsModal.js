@@ -140,6 +140,7 @@ const getStyles = Colors =>
       width: responsiveScreenFontSize(10),
       borderRadius: 45,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       resizeMode: 'cover',
       position: 'relative',

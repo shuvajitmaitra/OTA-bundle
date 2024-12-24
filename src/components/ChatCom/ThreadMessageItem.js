@@ -153,6 +153,7 @@ const getStyles = Colors =>
       resizeMode: 'cover',
       position: 'relative',
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     activeStatus: {
@@ -186,6 +187,7 @@ const getStyles = Colors =>
       aspectRatio: 16 / 9,
       borderRadius: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.LineColor,
     },
 

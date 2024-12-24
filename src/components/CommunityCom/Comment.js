@@ -16,11 +16,10 @@ import CustomFonts from '../../constants/CustomFonts';
 import {useTheme} from '../../context/ThemeContext';
 import moment from 'moment';
 import {nameTrim, showAlertModal} from '../../utility/commonFunction';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import axiosInstance from '../../utility/axiosInstance';
 import {getComments, handleError} from '../../actions/chat-noti';
 import ThreeDotGrayIcon from '../../assets/Icons/ThreeDotGrayIcon';
-import {usePopover} from 'react-native-modal-popover';
 import ThreeDotItems from './ThreeDotItems';
 import SendIcon from '../../assets/Icons/SendIcon';
 import ReplyBox from './ReplyBox';
@@ -29,15 +28,22 @@ import {useComment} from '../../hook/useComment';
 import Images from '../../constants/Images';
 import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
 import {PopoverContext} from '../../context/PopoverContext';
+import {
+  setSelectedComment,
+  updateComment,
+} from '../../store/reducer/commentReducer';
 
 const Comment = memo(({comment: commentData, isLast}) => {
   const [comment, setComment] = useState(commentData);
   const [replies, setReplies] = useState([]);
+  const dispatch = useDispatch();
   // console.log("comment", JSON.stringify(comment, null, 1));
   useEffect(() => {
     setComment(commentData);
   }, [commentData]);
   const {user} = useSelector(state => state.auth);
+  const {comments} = useSelector(state => state.comment);
+  console.log('comments.length', JSON.stringify(comments.length, null, 2));
   const [commentText, setCommentText] = useState(comment.comment);
   useEffect(() => {
     setCommentText(comment.comment);
@@ -53,33 +59,25 @@ const Comment = memo(({comment: commentData, isLast}) => {
   const buttonRef = useRef();
   const {showPopover, hidePopover} = useContext(PopoverContext);
   const handleShowPopover = () => {
-    showPopover(
-      <ThreeDotItems
-        hidePopover={hidePopover}
-        // popoverVisible={popoverVisible}
-        // popoverAnchorRect={popoverAnchorRect}
-        data={
-          comment.parentId ? data.filter(item => item.label !== 'Reply') : data
-        }
-        isConfirmationModalVisible={isConfirmationModalVisible}
-        setIsConfirmationModalVisible={setIsConfirmationModalVisible}
-        handleDeleteEvent={handleDeleteEvent}
-        commentId={comment._id}
-        contentId={comment?.contentId}
-      />,
-      buttonRef,
-    );
+    dispatch(setSelectedComment(comment));
+    // showPopover(
+    //   <ThreeDotItems
+    //     hidePopover={hidePopover}
+    //     // popoverVisible={popoverVisible}
+    //     // popoverAnchorRect={popoverAnchorRect}
+    //     data={
+    //       comment.parentId ? data.filter(item => item.label !== 'Reply') : data
+    //     }
+    //     isConfirmationModalVisible={isConfirmationModalVisible}
+    //     setIsConfirmationModalVisible={setIsConfirmationModalVisible}
+    //     handleDeleteEvent={handleDeleteEvent}
+    //     commentId={comment._id}
+    //     contentId={comment?.contentId}
+    //   />,
+    //   buttonRef,
+    // );
   };
-  useEffect(() => {
-    axiosInstance
-      .get(`/content/comment/get/${comment?.contentId}?parentId=${comment._id}`)
-      .then(res => {
-        setReplies(res?.data?.comments || []);
-      })
-      .catch(error => {
-        handleError(error);
-      });
-  }, [comment.repliesCount]);
+  useEffect(() => {}, []);
 
   const Colors = useTheme();
   const styles = getStyles(Colors, comment);
@@ -125,7 +123,6 @@ const Comment = memo(({comment: commentData, isLast}) => {
   };
 
   const handleCommentUpdate = () => {
-    hidePopover();
     if (!commentText.trim()) {
       return showAlertModal({
         title: 'Empty Comment',
@@ -142,8 +139,15 @@ const Comment = memo(({comment: commentData, isLast}) => {
       })
       .then(res => {
         if (res.data.success) {
-          getComments(comment._id);
-          getComments(comment.contentId);
+          // getComments(comment._id);
+          // getComments(comment.contentId);
+          dispatch(
+            updateComment({
+              commentId: comment._id,
+              data: {...res.data.comment, isUpdateOpen: false},
+            }),
+          );
+          dispatch(setSelectedComment(null));
         }
       })
       .catch(error => {
@@ -257,16 +261,16 @@ const Comment = memo(({comment: commentData, isLast}) => {
         <ReplyBox comment={comment} setComment={setComment} />
       )}
       <View>
-        {replies?.map((reply, index) => (
+        {comment.replies?.map((reply, index) => (
           <Comment
             key={reply._id}
             comment={reply}
-            isLast={index == replies.length - 1 ? false : true}
+            isLast={index == comment.replies.length - 1 ? false : true}
             data={data}
           />
         ))}
-        <GlobalAlertModal />
       </View>
+      <GlobalAlertModal />
     </>
   );
 });
@@ -295,6 +299,7 @@ const getStyles = (Colors, comment) =>
       paddingHorizontal: responsiveScreenWidth(4),
       borderRadius: responsiveScreenFontSize(10),
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       marginTop: responsiveScreenHeight(2),
     },
@@ -315,6 +320,7 @@ const getStyles = (Colors, comment) =>
       marginTop: responsiveScreenHeight(1),
       maxWidth: responsiveScreenWidth(70),
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     commentContainer: {

@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import Marquee from "./Marquee";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import Marquee from './Marquee';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 
-const AlumniCom = ({ images }) => {
+const AlumniCom = ({images}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
@@ -21,10 +21,11 @@ const AlumniCom = ({ images }) => {
 
 export default AlumniCom;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     horizontalLine: {
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BodyTextOpacity,
       marginVertical: 20,
     },
@@ -33,7 +34,7 @@ const getStyles = (Colors) =>
       fontSize: responsiveFontSize(3),
       color: Colors.Heading,
       marginBottom: 10,
-      textAlign: "center",
+      textAlign: 'center',
     },
     alumniContainer: {
       backgroundColor: Colors.White,

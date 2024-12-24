@@ -663,6 +663,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.Background_color,
       // borderRadius: 5,
       // // borderWidth: 1,
+      overFlow: 'hidden',
       padding: 4,
       // borderColor: Colors.BorderColor,
       // marginVertical: responsiveScreenHeight(2),

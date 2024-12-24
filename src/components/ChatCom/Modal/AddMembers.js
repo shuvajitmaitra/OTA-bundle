@@ -273,6 +273,7 @@ const getStyles = Colors =>
       padding: responsiveScreenWidth(1.9),
       paddingHorizontal: responsiveScreenWidth(3.3),
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       flex: 1,
       borderRadius: responsiveScreenWidth(2),

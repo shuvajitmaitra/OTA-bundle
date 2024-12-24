@@ -82,6 +82,7 @@ const getStyles = Colors =>
       paddingVertical: 5,
       paddingHorizontal: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BodyText,
       margin: 10,
       borderRadius: 4,

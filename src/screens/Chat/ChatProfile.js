@@ -519,6 +519,7 @@ const getStyles = Colors =>
       resizeMode: 'cover',
       borderRadius: responsiveScreenHeight(1),
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     cameraIcon: {

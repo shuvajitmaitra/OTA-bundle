@@ -63,6 +63,7 @@ const getStyles = Colors =>
       color: Colors.Primary,
       borderColor: Colors.Primary,
       borderWidth: 1,
+      overFlow: 'hidden',
       marginTop: 15,
     },
   });

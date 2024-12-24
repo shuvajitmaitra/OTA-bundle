@@ -1,6 +1,7 @@
-**Work Stream - December 23, 2024**  
-*Bootcampshub CLI*
-
+*Work Stream - December 23, 2024* 
+- Comments are blinking for the first time when it opened.
+- User can not be redirect from push notification in background mode.
+- Calender event type indicators are blinking in calendar screen.
 
 *Overall status*
 - Total functional and ui issues fixed 8 also work for push notification in background mode.
@@ -10,14 +11,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 
 
 *Work Update - December 23, 2024*
-
-- User profile image changing issues fixed.
-- "Write Meeting Agenda" placeholder text is inconsistent issue fixed in the calendar create event modal 
-- Previously delete modal is not closing after delete any community post now the issues has been fixed.
-- Swap Publish and AI button position
-- Gallery text not visible properly
-- Add required field indicators to modals and update profile edit functionality
-- Fix toast message format after deleting activities
-- Add padding to back navigation button and remove debug console log in ActivitiesDetails
-- Add validation for title and description fields in Update ActivitiesModal
-- Refactor keyboard event handling in ChatFooter2 and clean up unused navigation code in MessageScreen2
+- Worked on handling push notification for background. For android is fixed & ios need to work.
+- Community comment popover position is not correct.
+- Community comments and replies data structure changed.
+- 

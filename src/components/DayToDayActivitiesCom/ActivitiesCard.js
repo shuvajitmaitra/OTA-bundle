@@ -1,26 +1,31 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import Divider from "../SharedComponent/Divider";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import Divider from '../SharedComponent/Divider';
 // import MyButton from "../AuthenticationCom/MyButton";
-import { useNavigation } from "@react-navigation/native";
-import moment from "moment";
+import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 // import ArrowRight from "../../assets/Icons/ArrowRight";
-import EditIconTwo from "../../assets/Icons/EditIcon2";
-import BinIcon from "../../assets/Icons/BinIcon";
-import CreateActivitiesModal from "./CreateActivitiesModal";
-import { getFileTypeFromUri } from "../TechnicalTestCom/TestNow";
-import DocumentIconTwo from "../../assets/Icons/DocumentIconTwo";
-import PdfIcon from "../../assets/Icons/PdfIcon";
+import EditIconTwo from '../../assets/Icons/EditIcon2';
+import BinIcon from '../../assets/Icons/BinIcon';
+import CreateActivitiesModal from './CreateActivitiesModal';
+import {getFileTypeFromUri} from '../TechnicalTestCom/TestNow';
+import DocumentIconTwo from '../../assets/Icons/DocumentIconTwo';
+import PdfIcon from '../../assets/Icons/PdfIcon';
 
-const ActivitiesCard = ({ item, length, index, handleDeleteActivities }) => {
+const ActivitiesCard = ({item, length, index, handleDeleteActivities}) => {
   const navigation = useNavigation();
 
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const [isCreateActivitiesModalVisible, setIsCreateActivitiesModalVisible] = useState(false);
+  const [isCreateActivitiesModalVisible, setIsCreateActivitiesModalVisible] =
+    useState(false);
   const toggleCreateActivitiesModal = () => {
     setIsCreateActivitiesModalVisible(!isCreateActivitiesModalVisible);
   };
@@ -30,32 +35,42 @@ const ActivitiesCard = ({ item, length, index, handleDeleteActivities }) => {
       style={[
         styles.cardContainer,
         {
-          marginBottom: length - 1 === index ? responsiveScreenHeight(1.5) : responsiveScreenHeight(1.5),
+          marginBottom:
+            length - 1 === index
+              ? responsiveScreenHeight(1.5)
+              : responsiveScreenHeight(1.5),
           // height: ,
         },
-      ]}
-    >
+      ]}>
       <View
         style={{
           borderRadius: 10,
-          overflow: "hidden",
-          width: "99%",
+          overflow: 'hidden',
+          width: '99%',
           height: 180,
-          alignItems: "center",
-          justifyContent: "center",
+          alignItems: 'center',
+          justifyContent: 'center',
           backgroundColor: Colors.BodyText,
           borderWidth: 1,
+          overFlow: 'hidden',
           borderColor: Colors.BorderColor,
-        }}
-      >
-        {getFileTypeFromUri(item?.attachments[0]) === "image" ? (
-          <Image source={{ uri: item.attachments[0] }} resizeMode="cover" style={styles.cardImage} />
-        ) : getFileTypeFromUri(item?.attachments[0]) === "pdf" ? (
+        }}>
+        {getFileTypeFromUri(item?.attachments[0]) === 'image' ? (
+          <Image
+            source={{uri: item.attachments[0]}}
+            resizeMode="cover"
+            style={styles.cardImage}
+          />
+        ) : getFileTypeFromUri(item?.attachments[0]) === 'pdf' ? (
           <PdfIcon />
-        ) : getFileTypeFromUri(item?.attachments[0]) === "document" ? (
+        ) : getFileTypeFromUri(item?.attachments[0]) === 'document' ? (
           <DocumentIconTwo />
         ) : (
-          <Image source={require("../../assets/Images/placeholder-default.png")} resizeMode="cover" style={styles.cardImage} />
+          <Image
+            source={require('../../assets/Images/placeholder-default.png')}
+            resizeMode="cover"
+            style={styles.cardImage}
+          />
         )}
         {/* <ImageBackground
           source={{ uri: item?.attachments[0] }}
@@ -80,40 +95,48 @@ const ActivitiesCard = ({ item, length, index, handleDeleteActivities }) => {
       </Text>
       <View style={styles.statusContainer}>
         <Text style={styles.statusTitle}>Created By:</Text>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 7 }}>
-          <Image style={styles.imageSmall} source={{ uri: item?.sender?.profilePicture }} />
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 7}}>
+          <Image
+            style={styles.imageSmall}
+            source={{uri: item?.sender?.profilePicture}}
+          />
           <Text style={styles.statusText}>{item?.sender.fullName}</Text>
         </View>
       </View>
       <View style={styles.statusContainer}>
         <Text style={styles.statusTitle}>Date:</Text>
-        <Text style={styles.statusText}>{moment(item?.createdAt).format("MMM DD, YYYY")}</Text>
+        <Text style={styles.statusText}>
+          {moment(item?.createdAt).format('MMM DD, YYYY')}
+        </Text>
       </View>
       <Divider marginBottom={0.001} marginTop={1} />
       <View style={styles.bottomContainer}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("ActivitiesDetails", {
+            navigation.navigate('ActivitiesDetails', {
               index,
             });
           }}
-          style={styles.btnArea}
-        >
+          style={styles.btnArea}>
           <Text style={styles.normalText}>View Details</Text>
         </TouchableOpacity>
 
-        <View style={[styles.statusContainer, { gap: 10 }]}>
-          <TouchableOpacity onPress={() => toggleCreateActivitiesModal()} style={styles.editIcon}>
+        <View style={[styles.statusContainer, {gap: 10}]}>
+          <TouchableOpacity
+            onPress={() => toggleCreateActivitiesModal()}
+            style={styles.editIcon}>
             <EditIconTwo color={Colors.Primary} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => handleDeleteActivities(item?._id)} style={styles.deleteIcon}>
+          <TouchableOpacity
+            onPress={() => handleDeleteActivities(item?._id)}
+            style={styles.deleteIcon}>
             <BinIcon color={Colors.Red} size={20} />
           </TouchableOpacity>
         </View>
       </View>
       <CreateActivitiesModal
-        action={"update"}
+        action={'update'}
         activityId={item?._id}
         isCreateActivitiesModalVisible={isCreateActivitiesModalVisible}
         setIsCreateActivitiesModalVisible={setIsCreateActivitiesModalVisible}
@@ -125,7 +148,7 @@ const ActivitiesCard = ({ item, length, index, handleDeleteActivities }) => {
 
 export default ActivitiesCard;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     imageSmall: {
       width: 20,
@@ -133,14 +156,14 @@ const getStyles = (Colors) =>
       borderRadius: 100,
     },
     bottomContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       marginTop: responsiveScreenHeight(1),
       // backgroundColor: "red",
     },
     btnArea: {
-      flexDirection: "row",
+      flexDirection: 'row',
       // gap: 10,
       paddingVertical: responsiveScreenHeight(0.7),
       backgroundColor: Colors.PrimaryOpacityColor,
@@ -151,13 +174,13 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.Primary,
       fontSize: responsiveScreenFontSize(1.8),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     statusText: {
       fontFamily: CustomFonts.REGULAR,
       color: Colors.BodyText,
       fontSize: responsiveScreenFontSize(1.8),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     statusTitle: {
       fontFamily: CustomFonts.MEDIUM,
@@ -165,8 +188,8 @@ const getStyles = (Colors) =>
       fontSize: responsiveScreenFontSize(1.8),
     },
     statusContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: 5,
       marginTop: responsiveScreenHeight(0.5),
       // backgroundColor: "red",
@@ -186,18 +209,18 @@ const getStyles = (Colors) =>
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(2.2),
       marginTop: responsiveScreenHeight(1),
-      flexBasis: "80%",
+      flexBasis: '80%',
     },
     imageText: {
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.PureWhite,
       fontSize: responsiveScreenFontSize(2),
-      width: "70%",
-      textAlign: "center",
+      width: '70%',
+      textAlign: 'center',
     },
 
     cardImage: {
-      width: "100%",
+      width: '100%',
       height: 200,
     },
     cardContainer: {

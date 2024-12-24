@@ -103,6 +103,7 @@ const getStyles = Colors =>
 
     timerContainer: {
       borderWidth: 1,
+      overFlow: 'hidden',
       borderRadius: responsiveScreenWidth(3),
       borderColor: Colors.Primary,
       paddingHorizontal: responsiveScreenWidth(3),

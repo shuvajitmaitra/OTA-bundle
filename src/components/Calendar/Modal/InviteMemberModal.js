@@ -1,34 +1,44 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from "react-native";
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveScreenFontSize,
   responsiveWidth,
-} from "react-native-responsive-dimensions";
-import ReactNativeModal from "react-native-modal";
-import SearchIcon from "../../../assets/Icons/SearchIcon";
-import CheckIcon from "../../../assets/Icons/CheckIcon";
-import UnCheckIcon from "../../../assets/Icons/UnCheckIcon";
-import CircleIcon from "../../../assets/Icons/CircleIcon";
-import CustomFonts from "../../../constants/CustomFonts";
-import BlackCrossIcon from "../../../assets/Icons/BlackCrossIcon";
-import axiosInstance from "../../../utility/axiosInstance";
-import useChat from "../../../hook/useChat";
-import { useTheme } from "../../../context/ThemeContext";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import { updateChats } from "../../../store/reducer/chatReducer";
-import ModalBackAndCrossButton from "../../ChatCom/Modal/ModalBackAndCrossButton";
-import FindTimeModal from "./FindTimeModal";
-import moment from "moment";
-import NoDataAvailable from "../../SharedComponent/NoDataAvailable";
-import Images from "../../../constants/Images";
+} from 'react-native-responsive-dimensions';
+import ReactNativeModal from 'react-native-modal';
+import SearchIcon from '../../../assets/Icons/SearchIcon';
+import CheckIcon from '../../../assets/Icons/CheckIcon';
+import UnCheckIcon from '../../../assets/Icons/UnCheckIcon';
+import CircleIcon from '../../../assets/Icons/CircleIcon';
+import CustomFonts from '../../../constants/CustomFonts';
+import BlackCrossIcon from '../../../assets/Icons/BlackCrossIcon';
+import axiosInstance from '../../../utility/axiosInstance';
+import useChat from '../../../hook/useChat';
+import {useTheme} from '../../../context/ThemeContext';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateChats} from '../../../store/reducer/chatReducer';
+import ModalBackAndCrossButton from '../../ChatCom/Modal/ModalBackAndCrossButton';
+import FindTimeModal from './FindTimeModal';
+import moment from 'moment';
+import NoDataAvailable from '../../SharedComponent/NoDataAvailable';
+import Images from '../../../constants/Images';
 const InviteMemberModal = ({
   isModalVisible,
   toggleModal,
-  date = moment(date).format("dddd"),
+  date = moment(date).format('dddd'),
   setInvitations,
   invitations = [],
   handleUncheck,
@@ -42,57 +52,76 @@ const InviteMemberModal = ({
   const navigation = useNavigation();
   const [users, setUsers] = useState([]);
   // const [invitations, setInvitations] = useState(invitations);
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState('');
   const [schedule, setSchedule] = useState([]);
   const dispatch = useDispatch();
-  const { event } = useSelector((state) => state.calendar);
+  const {event} = useSelector(state => state.calendar);
 
   const [findTimeModalVisible, setFindTimeModalVisible] = useState(false);
   // console.log("event", JSON.stringify(event, null, 1));
 
   const handleCheckboxToggle = (user, action) => {
-    if (from === "add") {
-      setUsers(users?.map((item) => (item?._id === user ? { ...item, invitations: !item?.invitations } : item)));
+    if (from === 'add') {
+      setUsers(
+        users?.map(item =>
+          item?._id === user
+            ? {...item, invitations: !item?.invitations}
+            : item,
+        ),
+      );
 
-      const userInValidUsers = invitations?.find((item) => item?._id === user);
-      console.log("userInValidUsers", JSON.stringify(userInValidUsers, null, 1));
+      const userInValidUsers = invitations?.find(item => item?._id === user);
+      console.log(
+        'userInValidUsers',
+        JSON.stringify(userInValidUsers, null, 1),
+      );
 
       if (userInValidUsers) {
-        const newValidUsers = invitations?.filter((item) => item?._id !== user);
+        const newValidUsers = invitations?.filter(item => item?._id !== user);
         setInvitations(newValidUsers);
       } else {
-        const userInUsers = users?.find((item) => item?._id === user);
-        console.log("userInUsers", JSON.stringify(userInUsers, null, 1));
+        const userInUsers = users?.find(item => item?._id === user);
+        console.log('userInUsers', JSON.stringify(userInUsers, null, 1));
 
         if (userInUsers) {
-          setInvitations((prevValidUsers) => {
+          setInvitations(prevValidUsers => {
             if (!prevValidUsers) {
               prevValidUsers = [];
             }
             return [...prevValidUsers, userInUsers];
           });
         } else {
-          console.error("User not found in users list");
+          console.error('User not found in users list');
         }
       }
       return;
     }
     axiosInstance
-      .patch(`/calendar/event/invitation/${event._id}`, { action, user })
-      .then((res) => {
-        console.log("res.data", JSON.stringify(res.data, null, 1));
+      .patch(`/calendar/event/invitation/${event._id}`, {action, user})
+      .then(res => {
+        console.log('res.data', JSON.stringify(res.data, null, 1));
         if (res.data.success) {
-          setUsers(users?.map((item) => (item?._id === user ? { ...item, invitations: !item?.invitations } : item)));
+          setUsers(
+            users?.map(item =>
+              item?._id === user
+                ? {...item, invitations: !item?.invitations}
+                : item,
+            ),
+          );
 
-          const userInValidUsers = invitations?.find((item) => item?._id === user);
+          const userInValidUsers = invitations?.find(
+            item => item?._id === user,
+          );
 
           if (userInValidUsers) {
-            const newValidUsers = invitations?.filter((item) => item._id !== user);
+            const newValidUsers = invitations?.filter(
+              item => item._id !== user,
+            );
             setInvitations(newValidUsers);
           } else {
-            const userInUsers = users.find((item) => item._id === user);
+            const userInUsers = users.find(item => item._id === user);
             if (userInUsers) {
-              setInvitations((prevValidUsers) => {
+              setInvitations(prevValidUsers => {
                 if (!prevValidUsers) {
                   prevValidUsers = [];
                 }
@@ -102,32 +131,40 @@ const InviteMemberModal = ({
           }
         }
       })
-      .catch((error) => {
-        console.log("error from calendar event invitation", JSON.stringify(error, null, 1));
+      .catch(error => {
+        console.log(
+          'error from calendar event invitation',
+          JSON.stringify(error, null, 1),
+        );
       });
   };
 
   useEffect(() => {
     axiosInstance
       .get(`/chat/searchuser?query=${inputText}`)
-      .then((res) => {
+      .then(res => {
         setUsers(res?.data?.users);
       })
-      .then((err) => {
-        console.log("err from searchuser?query", JSON.stringify(err, null, 1));
+      .then(err => {
+        console.log('err from searchuser?query', JSON.stringify(err, null, 1));
       });
   }, [inputText]);
 
-  const handleFindTime = useCallback((userId) => {
+  const handleFindTime = useCallback(userId => {
     axiosInstance
       .get(`calendar/schedule/find/${userId}`)
-      .then((res) => {
+      .then(res => {
         if (res.data.success) {
-          setSchedule([res?.data?.schedule?.availability?.find((item) => item.wday == date.toLowerCase()), userId]);
+          setSchedule([
+            res?.data?.schedule?.availability?.find(
+              item => item.wday == date.toLowerCase(),
+            ),
+            userId,
+          ]);
         }
       })
-      .catch((error) => {
-        console.log("error.....", JSON.stringify(error, null, 1));
+      .catch(error => {
+        console.log('error.....', JSON.stringify(error, null, 1));
         setSchedule([]);
       });
     setFindTimeModalVisible(true);
@@ -137,7 +174,9 @@ const InviteMemberModal = ({
     setInvitations(invitations);
   };
   return (
-    <ReactNativeModal backdropColor={Colors.BackDropColor} isVisible={isModalVisible}>
+    <ReactNativeModal
+      backdropColor={Colors.BackDropColor}
+      isVisible={isModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalStyle}>
           {/* -------------------------- */}
@@ -149,15 +188,19 @@ const InviteMemberModal = ({
           {/* -------------------------- */}
           {/* ----------- To Implement previous style please uncomment all comments ----------- */}
           {/* -------------------------- */}
-          <Text style={styles.Description}>If you wish to invite someone, kindly search and make selection.</Text>
+          <Text style={styles.Description}>
+            If you wish to invite someone, kindly search and make selection.
+          </Text>
 
           <View style={styles.inputField}>
             <TextInput
-              keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
+              keyboardAppearance={
+                Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+              }
               style={styles.textInput}
               placeholder="Search"
               placeholderTextColor={Colors.BodyText}
-              onChangeText={(text) => setInputText(text)}
+              onChangeText={text => setInputText(text)}
               value={inputText}
             />
             <SearchIcon />
@@ -168,24 +211,21 @@ const InviteMemberModal = ({
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <View
                     style={{
-                      flexDirection: "row",
+                      flexDirection: 'row',
                       gap: 10,
                       marginTop: responsiveScreenHeight(1),
-                    }}
-                  >
+                    }}>
                     {invitations?.map((item, index) => (
                       <View
                         key={index}
                         style={{
-                          alignItems: "center",
-                        }}
-                      >
+                          alignItems: 'center',
+                        }}>
                         <View
                           style={{
-                            alignItems: "center",
-                            position: "relative",
-                          }}
-                        >
+                            alignItems: 'center',
+                            position: 'relative',
+                          }}>
                           <Image
                             source={
                               item?.profilePicture
@@ -197,19 +237,20 @@ const InviteMemberModal = ({
                             style={styles.checkedImage}
                           />
                           <TouchableOpacity
-                            onPress={() => handleUncheck(item?._id, "remove")}
+                            onPress={() => handleUncheck(item?._id, 'remove')}
                             activeOpacity={0.5}
                             style={{
-                              position: "absolute",
+                              position: 'absolute',
                               bottom: responsiveScreenHeight(1),
                               right: responsiveScreenWidth(0),
-                            }}
-                          >
+                            }}>
                             <BlackCrossIcon />
                           </TouchableOpacity>
                         </View>
                         <Text style={styles.checkedText}>
-                          {item?.fullName?.split(" ")?.length > 2 ? `${item?.fullName.split(" ")[0]}` : `${item?.fullName}`}
+                          {item?.fullName?.split(' ')?.length > 2
+                            ? `${item?.fullName.split(' ')[0]}`
+                            : `${item?.fullName}`}
                         </Text>
                       </View>
                     ))}
@@ -220,7 +261,7 @@ const InviteMemberModal = ({
                   activeOpacity={0.3}
                   onPress={() => {
                     toggleModal();
-                    from == "add" && handleInviteButton();
+                    from == 'add' && handleInviteButton();
                   }}
                   style={{
                     borderRadius: 4,
@@ -228,8 +269,7 @@ const InviteMemberModal = ({
                     backgroundColor: Colors.Primary,
                     paddingHorizontal: responsiveScreenWidth(7),
                     paddingVertical: responsiveScreenHeight(1),
-                  }}
-                >
+                  }}>
                   <Text style={styles.addButtonText}>Invite</Text>
                 </TouchableOpacity>
               </>
@@ -243,7 +283,7 @@ const InviteMemberModal = ({
                 return (
                   <View style={styles.imageContainer} key={index}>
                     <View style={styles.profileContainer}>
-                      <View style={{ position: "relative" }}>
+                      <View style={{position: 'relative'}}>
                         <Image
                           style={styles.user}
                           source={
@@ -264,22 +304,29 @@ const InviteMemberModal = ({
                     </View>
                     <View
                       style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         gap: 5,
                         flex: 0.45,
-                      }}
-                    >
-                      <TouchableOpacity onPress={() => handleFindTime(user._id)} style={styles.findButtonContainer}>
+                      }}>
+                      <TouchableOpacity
+                        onPress={() => handleFindTime(user._id)}
+                        style={styles.findButtonContainer}>
                         <Text style={styles.findButtonText}>Find Time</Text>
                       </TouchableOpacity>
-                      {invitations?.find((item) => item._id == user._id) ? (
-                        <TouchableOpacity onPress={() => handleCheckboxToggle(user?._id, "remove")} style={styles.removeButton}>
+                      {invitations?.find(item => item._id == user._id) ? (
+                        <TouchableOpacity
+                          onPress={() =>
+                            handleCheckboxToggle(user?._id, 'remove')
+                          }
+                          style={styles.removeButton}>
                           <Text style={styles.findButtonText}>Remove</Text>
                         </TouchableOpacity>
                       ) : (
-                        <TouchableOpacity onPress={() => handleCheckboxToggle(user?._id, "add")} style={styles.findButtonContainer}>
+                        <TouchableOpacity
+                          onPress={() => handleCheckboxToggle(user?._id, 'add')}
+                          style={styles.findButtonContainer}>
                           <Text style={styles.findButtonText}>Add</Text>
                         </TouchableOpacity>
                       )}
@@ -305,7 +352,7 @@ const InviteMemberModal = ({
 
 export default InviteMemberModal;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     findButtonText: {
       fontFamily: CustomFonts.REGULAR,
@@ -327,12 +374,12 @@ const getStyles = (Colors) =>
     Description: {
       color: Colors.BodyText,
       fontFamily: CustomFonts.REGULAR,
-      width: "85%",
+      width: '85%',
       paddingTop: responsiveScreenHeight(1),
     },
     addButtonText: {
       fontFamily: CustomFonts.REGULAR,
-      color: "#ffffff",
+      color: '#ffffff',
     },
     checkedText: {
       fontFamily: CustomFonts.MEDIUM,
@@ -354,8 +401,8 @@ const getStyles = (Colors) =>
     container: {
       flex: 1,
       backgroundColor: Colors.Background_color,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
       paddingHorizontal: responsiveScreenWidth(3),
     },
     modalContainer: {
@@ -371,23 +418,24 @@ const getStyles = (Colors) =>
     },
 
     btn: {
-      backgroundColor: "#27ac1f",
+      backgroundColor: '#27ac1f',
       marginBottom: responsiveScreenHeight(3),
     },
     text: {
-      alignSelf: "center",
+      alignSelf: 'center',
       paddingTop: responsiveScreenHeight(1),
-      color: "#fff",
+      color: '#fff',
     },
 
     inputField: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       backgroundColor: Colors.ScreenBoxColor,
       marginTop: responsiveScreenHeight(1),
       paddingHorizontal: responsiveScreenWidth(3.3),
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(2),
       // maxHeight: responsiveScreenHeight(5.8),
@@ -405,17 +453,17 @@ const getStyles = (Colors) =>
     },
 
     topContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       // justifyContent: "space-between",
       gap: responsiveScreenWidth(2.2),
-      alignItems: "center",
+      alignItems: 'center',
       //   backgroundColor: "red",
     },
     allContact: {
       color: Colors.Heading,
       paddingTop: responsiveScreenHeight(1),
       fontFamily: CustomFonts.MEDIUM,
-      fontWeight: "500",
+      fontWeight: '500',
       fontSize: responsiveScreenFontSize(2),
       marginBottom: responsiveScreenHeight(1),
     },
@@ -423,38 +471,38 @@ const getStyles = (Colors) =>
       marginTop: responsiveScreenHeight(1),
     },
     imageContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       marginVertical: responsiveScreenWidth(2),
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
       flex: 1,
     },
     user: {
       width: responsiveScreenWidth(6.5),
       height: responsiveScreenWidth(6.7),
       backgroundColor: Colors.LightGreen,
-      resizeMode: "cover",
+      resizeMode: 'cover',
       borderRadius: 100,
     },
     userName: {
       fontSize: responsiveScreenFontSize(1.9),
       fontFamily: CustomFonts.MEDIUM,
-      fontWeight: "500",
+      fontWeight: '500',
       color: Colors.BodyText,
-      flexBasis: "50%",
+      flexBasis: '50%',
 
       // backgroundColor: "red",
     },
     smallCircle: {
-      position: "absolute",
+      position: 'absolute',
       right: responsiveScreenWidth(-1),
       top: responsiveScreenHeight(1.8),
       padding: 1,
     },
     profileContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: responsiveScreenWidth(4),
-      alignItems: "center",
+      alignItems: 'center',
       flex: 0.55,
     },
   });

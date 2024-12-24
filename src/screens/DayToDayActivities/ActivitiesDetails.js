@@ -479,6 +479,7 @@ const getStyles = Colors =>
       color: Colors.Heading,
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
+      overFlow: 'hidden',
       textAlignVertical: 'top',
 
       borderColor: Colors.BorderColor,

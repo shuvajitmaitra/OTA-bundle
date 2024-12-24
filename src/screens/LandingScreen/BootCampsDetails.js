@@ -330,6 +330,7 @@ const getStyles = Colors =>
     },
     horizontalLine: {
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BodyTextOpacity,
       marginVertical: 20,
     },
@@ -354,6 +355,7 @@ const getStyles = Colors =>
       width: 100,
       borderColor: Colors.Primary,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderRadius: 50,
     },
     mentorNameText: {

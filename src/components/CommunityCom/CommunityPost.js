@@ -115,6 +115,7 @@ const getStyles = Colors =>
       position: 'relative',
       gap: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     postTitle: {

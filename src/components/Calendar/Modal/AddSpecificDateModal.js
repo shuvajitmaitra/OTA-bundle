@@ -1,33 +1,48 @@
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import ReactNativeModal from "react-native-modal";
-import { useTheme } from "../../../context/ThemeContext";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../../constants/CustomFonts";
-import CalendarIconSmall from "../../../assets/Icons/CalendarIconSmall";
-import ClockIcon from "../../../assets/Icons/ClockIcon";
-import moment from "moment";
-import CustomTimePicker from "../../SharedComponent/CustomTimePicker";
-import { generateRandomHexId } from "../../HelperFunction";
-import { addSpecificInterval } from "../../../store/reducer/calendarReducer";
-import { useDispatch, useSelector } from "react-redux";
-import ModalBackAndCrossButton from "../../ChatCom/Modal/ModalBackAndCrossButton";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
+import ReactNativeModal from 'react-native-modal';
+import {useTheme} from '../../../context/ThemeContext';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../../constants/CustomFonts';
+import CalendarIconSmall from '../../../assets/Icons/CalendarIconSmall';
+import ClockIcon from '../../../assets/Icons/ClockIcon';
+import moment from 'moment';
+import CustomTimePicker from '../../SharedComponent/CustomTimePicker';
+import {generateRandomHexId} from '../../HelperFunction';
+import {addSpecificInterval} from '../../../store/reducer/calendarReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import ModalBackAndCrossButton from '../../ChatCom/Modal/ModalBackAndCrossButton';
 
-const AddSpecificDateModal = ({ toggleAddSpecificHoursModal, isSpecificHoursModalVisible }) => {
-  const [fromTime, setFromTime] = useState(moment().format("hh:mm A"));
-  const [toTime, setToTime] = useState(moment().add(15, "minute").format("hh:mm A"));
+const AddSpecificDateModal = ({
+  toggleAddSpecificHoursModal,
+  isSpecificHoursModalVisible,
+}) => {
+  const [fromTime, setFromTime] = useState(moment().format('hh:mm A'));
+  const [toTime, setToTime] = useState(
+    moment().add(15, 'minute').format('hh:mm A'),
+  );
 
   const [date, setDate] = useState(new Date());
   const [to, setTo] = useState(false);
   const [isPickerVisible, setIsPickerVisible] = useState(false);
-  const [pickerState, setPickerState] = useState("date");
+  const [pickerState, setPickerState] = useState('date');
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const dispatch = useDispatch();
   const handleUpdateSpecificHours = () => {
     const data = {
       _id: generateRandomHexId(24),
-      type: "date",
+      type: 'date',
       intervals: [
         {
           _id: generateRandomHexId(24),
@@ -45,32 +60,32 @@ const AddSpecificDateModal = ({ toggleAddSpecificHoursModal, isSpecificHoursModa
         .utc()
         .format(),
     };
-    dispatch(addSpecificInterval({ data }));
+    dispatch(addSpecificInterval({data}));
     toggleAddSpecificHoursModal();
   };
   return (
-    <ReactNativeModal isVisible={isSpecificHoursModalVisible} onBackdropPress={toggleAddSpecificHoursModal}>
+    <ReactNativeModal
+      isVisible={isSpecificHoursModalVisible}
+      onBackdropPress={toggleAddSpecificHoursModal}>
       <View style={styles.container}>
         <ModalBackAndCrossButton toggleModal={toggleAddSpecificHoursModal} />
         <TouchableOpacity
           onPress={() => {
-            setPickerState("date");
+            setPickerState('date');
             setIsPickerVisible(true);
           }}
-          style={[styles.input, { marginVertical: responsiveScreenHeight(2) }]}
-        >
-          <Text style={styles.dateText}>{moment(date).format("LL")}</Text>
+          style={[styles.input, {marginVertical: responsiveScreenHeight(2)}]}>
+          <Text style={styles.dateText}>{moment(date).format('LL')}</Text>
           <CalendarIconSmall />
         </TouchableOpacity>
         <View style={styles.timeContainer}>
           <TouchableOpacity
             onPress={() => {
               setTo(false);
-              setPickerState("time");
+              setPickerState('time');
               setIsPickerVisible(true);
             }}
-            style={styles.input}
-          >
+            style={styles.input}>
             <Text style={styles.dateText}>{fromTime}</Text>
             <ClockIcon size={15} />
           </TouchableOpacity>
@@ -78,11 +93,10 @@ const AddSpecificDateModal = ({ toggleAddSpecificHoursModal, isSpecificHoursModa
           <TouchableOpacity
             onPress={() => {
               setTo(true);
-              setPickerState("time");
+              setPickerState('time');
               setIsPickerVisible(true);
             }}
-            style={styles.input}
-          >
+            style={styles.input}>
             <Text style={styles.dateText}>{toTime}</Text>
             <ClockIcon size={15} />
           </TouchableOpacity>
@@ -91,8 +105,7 @@ const AddSpecificDateModal = ({ toggleAddSpecificHoursModal, isSpecificHoursModa
           onPress={() => {
             handleUpdateSpecificHours();
           }}
-          style={styles.buttonContainer}
-        >
+          style={styles.buttonContainer}>
           <Text style={styles.ButtonText}>Apply</Text>
         </TouchableOpacity>
 
@@ -111,27 +124,27 @@ const AddSpecificDateModal = ({ toggleAddSpecificHoursModal, isSpecificHoursModa
 
 export default React.memo(AddSpecificDateModal);
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     buttonContainer: {
-      width: "50%",
+      width: '50%',
       backgroundColor: Colors.Primary,
-      justifyContent: "center",
-      alignSelf: "center",
+      justifyContent: 'center',
+      alignSelf: 'center',
       borderRadius: 7,
       paddingVertical: responsiveScreenHeight(1),
       marginTop: responsiveScreenHeight(2),
     },
     ButtonText: {
-      textAlign: "center",
+      textAlign: 'center',
       color: Colors.PureWhite,
       fontSize: responsiveScreenFontSize(2),
       fontFamily: CustomFonts.MEDIUM,
     },
     timeContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       // backgroundColor: "red",
       // marginHorizontal: responsiveScreenWidth(5),
     },
@@ -143,12 +156,13 @@ const getStyles = (Colors) =>
     input: {
       backgroundColor: Colors.Background_color,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(3),
       padding: responsiveScreenWidth(3),
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       // marginBottom: responsiveScreenHeight(1),
 
       gap: 15,

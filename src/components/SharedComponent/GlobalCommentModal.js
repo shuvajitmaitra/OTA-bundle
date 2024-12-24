@@ -37,6 +37,10 @@ import Comment from '../CommunityCom/Comment';
 import SendIcon from '../../assets/Icons/SendIcon';
 import ReactNativeModal from 'react-native-modal';
 import CrossCircle from '../../assets/Icons/CrossCircle';
+import {
+  setSelectedComment,
+  updateComment,
+} from '../../store/reducer/commentReducer';
 
 const GlobalCommentModal = () => {
   const dispatch = useDispatch();
@@ -45,7 +49,9 @@ const GlobalCommentModal = () => {
   const [commentText, setCommentText] = useState('');
   const {user} = useSelector(state => state.auth);
   const textInputRef = useRef(null);
-  const {comments, commentId} = useSelector(state => state.comment);
+  const {comments, commentId, selectedComment} = useSelector(
+    state => state.comment,
+  );
   const {bottomSheetVisible} = useSelector(state => state.modal);
   const [isCommenting, setCommenting] = useState(false);
   const handleCreateComment = () => {
@@ -78,7 +84,7 @@ const GlobalCommentModal = () => {
   };
 
   const filteredComments = useMemo(
-    () => comments.filter(comment => comment.contentId === commentId),
+    () => comments.filter(comment => comment?.contentId === commentId),
     [comments, commentId],
   );
   return (

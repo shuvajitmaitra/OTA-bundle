@@ -22,7 +22,7 @@ import {
   setReactions,
   setTotalPost,
 } from '../store/reducer/communityReducer';
-import {setComments} from '../store/reducer/commentReducer';
+import {setComments, updateComment} from '../store/reducer/commentReducer';
 import {setPrograms} from '../store/reducer/programReducer';
 import {setChats, setGroupNameId} from '../store/reducer/chatReducer';
 
@@ -278,22 +278,58 @@ export const handleError = error => {
   console.log('Full error object:', JSON.stringify(error, null, 1));
 };
 
-export const getComments = postId => {
-  axiosInstance
-    .get(`/content/comment/get/${postId}`)
-    .then(res => {
-      const commentsCount = res.data.comments.reduce((accumulator, value) => {
-        return accumulator + value.repliesCount;
-      }, res.data.totalCount);
-      if (res.data.success) {
-        store.dispatch(setComments(res.data.comments));
-        store.dispatch(setCommentCount({contentId: postId, commentsCount}));
-      }
-    })
-    .catch(err => {
-      console.log('err', JSON.stringify(err, null, 1));
-      handleError(err);
-    });
+export const getComments = async postId => {
+  try {
+    const res = await axiosInstance.get(`/content/comment/get/${postId}`);
+    if (res.data.success) {
+      const {comments, totalCount} = res.data;
+      const commentsCount = comments.reduce((accumulator, comment) => {
+        return accumulator + (comment.repliesCount || 0);
+      }, totalCount || 0);
+      const commentsWithRepliesPromises = comments.map(async comment => {
+        if (comment.repliesCount > 0) {
+          try {
+            const repliesRes = await axiosInstance.get(
+              `/content/comment/get/${comment.contentId}?parentId=${comment._id}`,
+            );
+            return {
+              ...comment,
+              commentId: comment._id,
+              replies: repliesRes.data.comments || [],
+            };
+          } catch (error) {
+            handleError(error);
+            return {
+              ...comment,
+              commentId: comment._id,
+              replies: [],
+            };
+          }
+        } else {
+          return {
+            ...comment,
+            commentId: comment._id,
+            replies: [],
+          };
+        }
+      });
+
+      const commentsWithReplies = await Promise.all(
+        commentsWithRepliesPromises,
+      );
+      store.dispatch(setComments(commentsWithReplies));
+      store.dispatch(setCommentCount({contentId: postId, commentsCount}));
+    } else {
+      console.error('Failed to fetch comments:', res.data.message);
+      store.dispatch(setComments([]));
+      store.dispatch(setCommentCount({contentId: postId, commentsCount: 0}));
+    }
+  } catch (err) {
+    console.error('Error fetching comments:', err);
+    handleError(err);
+    store.dispatch(setComments([]));
+    store.dispatch(setCommentCount({contentId: postId, commentsCount: 0}));
+  }
 };
 export const giveReply = data => {
   axiosInstance

@@ -195,6 +195,7 @@ const getStyles = Colors =>
     input: {
       backgroundColor: Colors.Background_color,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(3),
       padding: responsiveScreenWidth(3),

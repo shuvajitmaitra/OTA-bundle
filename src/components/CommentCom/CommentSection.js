@@ -163,6 +163,7 @@ const getStyles = Colors =>
       paddingHorizontal: responsiveScreenWidth(4),
       borderRadius: responsiveScreenFontSize(10),
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       marginTop: responsiveScreenHeight(2),
     },

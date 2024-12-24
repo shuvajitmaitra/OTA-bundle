@@ -353,6 +353,7 @@ const getStyles = Colors =>
       height: 49,
       color: 'green',
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     rightColumn: {

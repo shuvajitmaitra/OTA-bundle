@@ -312,6 +312,7 @@ const AddNewEventModal = ({
                         {
                           backgroundColor: Colors.ModalBoxColor,
                           borderWidth: 1,
+                          overFlow: 'hidden',
                           borderColor: Colors.BorderColor,
                           borderRadius: 10,
                           paddingHorizontal: responsiveScreenWidth(4),
@@ -639,6 +640,7 @@ const getStyles = Colors =>
     inputField: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(3.5),
@@ -653,6 +655,7 @@ const getStyles = Colors =>
     repeatButtonContainer: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4),
@@ -672,6 +675,7 @@ const getStyles = Colors =>
     invitationsButtonContainer: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.Primary,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4),
@@ -686,6 +690,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.ModalBoxColor,
       borderRadius: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       paddingVertical: 15,
       paddingHorizontal: 20,
@@ -717,6 +722,7 @@ const getStyles = Colors =>
     notification: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor3,
       borderRadius: responsiveScreenWidth(3),
       padding: responsiveScreenWidth(3),

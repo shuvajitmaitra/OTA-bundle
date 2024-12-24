@@ -199,6 +199,7 @@ const getStyles = Colors =>
       padding: 10,
       flexDirection: 'column',
       borderWidth: 1,
+      overFlow: 'hidden',
       borderTopColor: '#ddd',
     },
     footerWrapper: {

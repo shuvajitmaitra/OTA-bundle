@@ -322,6 +322,7 @@ const getStyles = Colors =>
       alignItems: 'center',
       backgroundColor: Colors.Background_color,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenHeight(2),

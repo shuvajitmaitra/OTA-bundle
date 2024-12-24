@@ -237,6 +237,7 @@ const getStyles = Colors =>
       paddingVertical: 5,
       paddingHorizontal: 10,
       borderWidth: 1,
+      overFlow: 'hidden',
       borderColor: Colors.BodyTextOpacity,
       borderRadius: 40,
     },
