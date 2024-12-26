@@ -144,7 +144,11 @@ const Comment = memo(({comment: commentData, isLast}) => {
           dispatch(
             updateComment({
               commentId: comment._id,
-              data: {...res.data.comment, isUpdateOpen: false},
+              data: {
+                ...res.data.comment,
+                isUpdateOpen: false,
+                parentId: comment.parentId,
+              },
             }),
           );
           dispatch(setSelectedComment(null));
@@ -257,6 +261,16 @@ const Comment = memo(({comment: commentData, isLast}) => {
           </>
         )}
       </View>
+      {/* <>
+        {comment.repliesCount > 0 && (
+          <TouchableOpacity
+            onPress={() => getReplies()}
+            style={styles.seeRepliesContainer}>
+            <Text>See Replies</Text>
+          </TouchableOpacity>
+        )}
+      </> */}
+
       {comment?.isReplyOpen && (
         <ReplyBox comment={comment} setComment={setComment} />
       )}
@@ -279,6 +293,10 @@ export default Comment;
 
 const getStyles = (Colors, comment) =>
   StyleSheet.create({
+    seeRepliesContainer: {
+      backgroundColor: 'red',
+      width: '40%',
+    },
     updateField: {
       ninHeight: responsiveScreenHeight(6),
       // backgroundColor: "red",

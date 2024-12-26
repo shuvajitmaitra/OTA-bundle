@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import axiosInstance from '../../utility/axiosInstance';
 
 const initialState = {
   comments: [],
@@ -12,6 +11,7 @@ const commentSlice = createSlice({
   initialState,
   reducers: {
     setComments: (state, {payload}) => {
+      console.log('payload', JSON.stringify(payload, null, 2));
       state.comments = payload;
     },
     setSelectedComment: (state, {payload}) => {
@@ -22,11 +22,28 @@ const commentSlice = createSlice({
     },
     updateComment: (state, {payload}) => {
       const {commentId, data} = payload;
-      const commentIndex = state.comments.findIndex(
-        comment => comment._id === commentId,
-      );
+      if (data.parentId) {
+        const commentIndex = state.comments.findIndex(
+          comment => comment._id === data.parentId,
+        );
 
-      state.comments[commentIndex] = {...state.comments[commentIndex], ...data};
+        const repliesIndex = state.comments[commentIndex].replies.findIndex(
+          reply => reply._id === data._id,
+        );
+
+        state.comments[commentIndex].replies[repliesIndex] = {
+          ...state.comments[commentIndex].replies[repliesIndex],
+          ...data,
+        };
+      } else {
+        const commentIndex = state.comments.findIndex(
+          comment => comment._id === commentId,
+        );
+        state.comments[commentIndex] = {
+          ...state.comments[commentIndex],
+          ...data,
+        };
+      }
     },
     deleteComment: (state, {payload}) => {
       if (payload.parentId) {

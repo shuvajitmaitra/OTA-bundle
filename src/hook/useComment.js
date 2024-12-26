@@ -1,14 +1,7 @@
-import {View, Text} from 'react-native';
-import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import axiosInstance from '../utility/axiosInstance';
-import {
-  getComments,
-  handleError,
-  updateCommentCount,
-} from '../actions/chat-noti';
+import {getComments, handleError} from '../actions/chat-noti';
 
-export const useComment = ({comment, setReplies}) => {
+export const useComment = ({comment}) => {
   const deleteComment = () => {
     axiosInstance
       .delete(`/content/comment/delete/${comment._id}`)
@@ -44,7 +37,7 @@ export const useComment = ({comment, setReplies}) => {
         `/content/comment/get/${comment?.contentId}?parentId=${comment.parentId}`,
       )
       .then(res => {
-        setReplies(res?.data?.comments || []);
+        // setReplies(res?.data?.comments || []);
       })
       .catch(error => {
         handleError(error);

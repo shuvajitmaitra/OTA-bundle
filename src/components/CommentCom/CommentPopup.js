@@ -61,7 +61,7 @@ const CommentPopup = () => {
                   dispatch(
                     updateComment({
                       commentId: selectedComment._id,
-                      data: {isUpdateOpen: true},
+                      data: {isUpdateOpen: true, ...selectedComment},
                     }),
                   );
                   dispatch(setSelectedComment(null));

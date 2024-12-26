@@ -38,6 +38,7 @@ import SendIcon from '../../assets/Icons/SendIcon';
 import ReactNativeModal from 'react-native-modal';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import {
+  setComments,
   setSelectedComment,
   updateComment,
 } from '../../store/reducer/commentReducer';
@@ -49,6 +50,7 @@ const GlobalCommentModal = () => {
   const styles = getStyles(Colors);
   const [commentText, setCommentText] = useState('');
   const {user} = useSelector(state => state.auth);
+
   const textInputRef = useRef(null);
   const {comments, commentId, selectedComment} = useSelector(
     state => state.comment,
@@ -73,6 +75,7 @@ const GlobalCommentModal = () => {
       .then(res => {
         if (res.data.success) {
           getComments(commentId);
+          // dispatch(setComments(pre => [res.data.comment, ...pre]));
         }
       })
       .catch(error => {
@@ -112,7 +115,10 @@ const GlobalCommentModal = () => {
         }}>
         <Text style={styles.comments}>Comments</Text>
         <TouchableOpacity
-          onPress={() => dispatch(setBottomSheetVisible(false))}>
+          onPress={() => {
+            dispatch(setComments([]));
+            dispatch(setBottomSheetVisible(false));
+          }}>
           <CrossCircle />
         </TouchableOpacity>
       </View>

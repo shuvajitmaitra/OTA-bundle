@@ -336,7 +336,7 @@ export const giveReply = data => {
     .post('/content/comment/create', data)
     .then(res => {
       if (res.data.success) {
-        getComments(data.contentId);
+        // getComments(data.contentId);
       }
     })
     .catch(error => {
