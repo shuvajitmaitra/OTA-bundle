@@ -15,6 +15,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 
 *Work Update - December 26, 2024*
 - Add image permission checks before selecting images in multiple components
+- Add audio permission checks before starting audio recording in Chat and StartInterviewModal
 
 https://forums.developer.apple.com/forums/thread/133703
 

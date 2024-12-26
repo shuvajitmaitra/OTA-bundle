@@ -186,3 +186,42 @@ export const checkImagePermission = async () => {
   }
   return permissionStatus;
 };
+
+export const checkAudioPermission = async () => {
+  const permissionType = Platform.select({
+    ios: PERMISSIONS.IOS.MICROPHONE,
+    android: PERMISSIONS.ANDROID.RECORD_AUDIO,
+  });
+
+  try {
+    let permissionStatus = await check(permissionType);
+
+    if (
+      permissionStatus === RESULTS.DENIED ||
+      permissionStatus === RESULTS.LIMITED
+    ) {
+      permissionStatus = await request(permissionType);
+    }
+
+    if (permissionStatus === RESULTS.BLOCKED) {
+      // Permission is blocked, prompt user to open settings
+      Alert.alert(
+        'Permission Required',
+        'Microphone access is blocked. Please enable it in the app settings to record audio.',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {
+            text: 'Open Settings',
+            onPress: () => Linking.openSettings(),
+          },
+        ],
+        {cancelable: false},
+      );
+    }
+
+    return permissionStatus;
+  } catch (error) {
+    console.warn('Error checking audio permission:', error);
+    return RESULTS.UNAVAILABLE;
+  }
+};

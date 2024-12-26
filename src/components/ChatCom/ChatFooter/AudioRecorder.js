@@ -12,6 +12,7 @@ import {useTheme} from '../../../context/ThemeContext';
 import axiosInstance from '../../../utility/axiosInstance';
 import SendIcon from '../../../assets/Icons/SendIcon';
 import LoadingSmall from '../../SharedComponent/LoadingSmall';
+import {checkAudioPermission} from '../../../utility/commonFunction';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
@@ -67,6 +68,10 @@ const AudioRecorder = ({
     }
   };
   const startAudioRecording = async () => {
+    const permission = checkAudioPermission();
+    if (permission !== 'granted') {
+      return;
+    }
     try {
       const result = await audioRecorderPlayer.startRecorder();
       setRecording(true);
