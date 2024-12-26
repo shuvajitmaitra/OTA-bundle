@@ -156,10 +156,10 @@ const ChatMessageInput = ({
         value={text}
         style={{
           color: Colors.Heading,
-          // backgroundColor: "red",
+          // backgroundColor: 'red',
           width: '100%',
           maxHeight: maxHeight || 200,
-          fontSize: responsiveScreenFontSize(2),
+          fontSize: responsiveScreenFontSize(2.2),
           // alignItems: "flex-start",
         }}
         onChange={text => setText(text)}
