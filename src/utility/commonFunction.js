@@ -225,3 +225,54 @@ export const checkAudioPermission = async () => {
     return RESULTS.UNAVAILABLE;
   }
 };
+export const checkDocumentPickerPermission = async () => {
+  let permissionType = null;
+
+  if (Platform.OS === 'android') {
+    const sdkVersion = Platform.Version;
+
+    if (sdkVersion >= 33) {
+      permissionType = PERMISSIONS.ANDROID.READ_MEDIA_DOCUMENTS;
+    } else {
+      permissionType = PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+    }
+  } else if (Platform.OS === 'ios') {
+    return RESULTS.GRANTED;
+  } else {
+    return RESULTS.UNAVAILABLE;
+  }
+
+  try {
+    let permissionStatus = await check(permissionType);
+
+    if (
+      permissionStatus === RESULTS.DENIED ||
+      permissionStatus === RESULTS.LIMITED
+    ) {
+      permissionStatus = await request(permissionType);
+    }
+    console.log('permissionStatus', JSON.stringify(permissionStatus, null, 2));
+    if (permissionStatus === RESULTS.BLOCKED) {
+      Alert.alert(
+        'Permission Required',
+        'Access to documents is blocked. Please enable it in the app settings to select documents.',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {
+            text: 'Open Settings',
+            onPress: () =>
+              Linking.openSettings().catch(() =>
+                console.warn('cannot open settings'),
+              ),
+          },
+        ],
+        {cancelable: false},
+      );
+    }
+    console.log('permissionStatus', JSON.stringify(permissionStatus, null, 2));
+    return permissionStatus;
+  } catch (error) {
+    console.warn('Error checking document picker permission:', error);
+    return RESULTS.UNAVAILABLE;
+  }
+};

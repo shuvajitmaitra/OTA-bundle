@@ -19,7 +19,7 @@ import {
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
-import DocumentPicker, {pick, types} from 'react-native-document-picker';
+import {pick, types} from 'react-native-document-picker';
 
 import CustomFonts from '../../constants/CustomFonts';
 
@@ -44,7 +44,10 @@ import RequireFieldStar from '../../constants/RequireFieldStar';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import CameraIcon from '../../assets/Icons/CameraIcon';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {checkImagePermission} from '../../utility/commonFunction';
+import {
+  checkDocumentPickerPermission,
+  checkImagePermission,
+} from '../../utility/commonFunction';
 
 export default function MyProfileEdit() {
   const scrollViewRef = useRef(null);
@@ -148,6 +151,10 @@ export default function MyProfileEdit() {
     setEdit(!edit);
   };
   const uploadResume = async () => {
+    const permission = checkDocumentPickerPermission();
+    if (Platform.OS !== 'ios' && permission !== 'granted') {
+      return;
+    }
     try {
       const [result] = await pick({
         allowMultiSelection: false,

@@ -43,7 +43,10 @@ import {
 } from '../../store/reducer/chatSlice';
 import {updateLatestMessage} from '../../store/reducer/chatReducer';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
-import {checkImagePermission} from '../../utility/commonFunction';
+import {
+  checkDocumentPickerPermission,
+  checkImagePermission,
+} from '../../utility/commonFunction';
 
 const URL_REGEX =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
@@ -238,6 +241,10 @@ const ChatFooter2 = ({
 
   // Handle document selection
   const handleDocumentSelection = async () => {
+    const permission = checkDocumentPickerPermission();
+    if (Platform.OS !== 'ios' && permission !== 'granted') {
+      return;
+    }
     setShowBottom(false);
     setDocumentVisible(true);
     try {
@@ -484,7 +491,7 @@ const ChatFooter2 = ({
         </View>
       )}
 
-      {!text.length && (
+      {!text.length && !showBottom && (
         <AudioRecorder
           sendMessage={sendMessage}
           setStartRecording={setStartRecording}

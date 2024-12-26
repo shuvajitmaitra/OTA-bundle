@@ -31,7 +31,10 @@ import {showToast} from '../HelperFunction';
 import Images from '../../constants/Images';
 import CommentSection from '../CommentCom/CommentSection';
 import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
-import {formattingDate} from '../../utility/commonFunction';
+import {
+  checkDocumentPickerPermission,
+  formattingDate,
+} from '../../utility/commonFunction';
 import {getComments} from '../../actions/chat-noti';
 import DocumentPicker, {types} from 'react-native-document-picker';
 import RequireFieldStar from '../../constants/RequireFieldStar';
@@ -175,6 +178,10 @@ export default function TestNow(routes) {
   };
 
   const UploadAnyFile = async () => {
+    const permission = checkDocumentPickerPermission();
+    if (Platform.OS !== 'ios' && permission !== 'granted') {
+      return;
+    }
     try {
       // Allow users to pick multiple files with specified types
       const results = await DocumentPicker.pick({

@@ -15,10 +15,6 @@ import SendIcon from '../../assets/Icons/SendIcon';
 import DocumentIconFour from '../../assets/Icons/DocumentIconFour';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 
-import DocumentPicker from 'react-native-document-picker';
-import axiosInstance from '../../utility/axiosInstance';
-import AttachmentIcon from '../../assets/Icons/AttachmentIcon';
-
 const DocumentContainer = ({
   onClose,
   selected,
