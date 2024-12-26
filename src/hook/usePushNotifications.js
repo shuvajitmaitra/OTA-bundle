@@ -157,7 +157,7 @@ const usePushNotifications = () => {
   };
 
   const handleNotification = async remoteMessage => {
-    console.log('remoteMessage', JSON.stringify(remoteMessage, null, 1));
+    // console.log('remoteMessage', JSON.stringify(remoteMessage, null, 1));
     try {
       if (remoteMessage.notification) {
         await notifee.displayNotification({

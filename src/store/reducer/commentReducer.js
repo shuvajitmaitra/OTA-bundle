@@ -59,7 +59,6 @@ const commentSlice = createSlice({
           comment => comment._id !== payload._id,
         );
       }
-      console.log('state.com ments', JSON.stringify(state.comments, null, 2));
     },
   },
 });

@@ -35,15 +35,12 @@ import {
 
 const Comment = memo(({comment: commentData, isLast}) => {
   const [comment, setComment] = useState(commentData);
-  const [replies, setReplies] = useState([]);
   const dispatch = useDispatch();
   // console.log("comment", JSON.stringify(comment, null, 1));
   useEffect(() => {
     setComment(commentData);
   }, [commentData]);
   const {user} = useSelector(state => state.auth);
-  const {comments} = useSelector(state => state.comment);
-  console.log('comments.length', JSON.stringify(comments.length, null, 2));
   const [commentText, setCommentText] = useState(comment.comment);
   useEffect(() => {
     setCommentText(comment.comment);
@@ -51,7 +48,6 @@ const Comment = memo(({comment: commentData, isLast}) => {
 
   const {deleteComment} = useComment({
     comment,
-    setReplies,
   });
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
     useState(false);
@@ -116,11 +112,6 @@ const Comment = memo(({comment: commentData, isLast}) => {
     user._id == comment.user._id
       ? initialData
       : initialData.filter(item => item.label == 'Reply');
-  const handleDeleteEvent = () => {
-    hidePopover();
-    deleteComment();
-    setIsConfirmationModalVisible(false);
-  };
 
   const handleCommentUpdate = () => {
     if (!commentText.trim()) {

@@ -131,6 +131,7 @@ const chatSlice = createSlice({
     updateLatestMessage: (state, action) => {
       const {chatId, latestMessage, counter} = action.payload;
       const chatIndex = state.chats.findIndex(x => x?._id === chatId);
+      console.log('chatIndex', JSON.stringify(chatIndex, null, 2));
       if (chatIndex !== -1) {
         state.chats[chatIndex].latestMessage = {
           ...(state.chats[chatIndex]?.latestMessage || {}),
@@ -139,10 +140,10 @@ const chatSlice = createSlice({
         state.chats[chatIndex].unreadCount = counter
           ? parseInt(state.chats[chatIndex].unreadCount) + parseInt(counter)
           : null;
-        console.log(
-          'chatIndex',
-          JSON.stringify(state.chats[chatIndex], null, 2),
-        );
+        // console.log(
+        //   'chatIndex',
+        //   JSON.stringify(state.chats[chatIndex], null, 2),
+        // );
       }
     },
 

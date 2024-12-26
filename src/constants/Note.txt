@@ -21,7 +21,5 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Implement file download functionality in MessageFileContainer
 - Add comment deletion functionality and integrate CommentPopup in GlobalCommentModal
 - Refactor comment handling logic and update state management in comment reducer
+- Latest chat message realtime not updating issues fixed.
 
-https://forums.developer.apple.com/forums/thread/133703
-
-https://stackoverflow.com/questions/50531453/the-apple-developer-program-license-agreement-has-been-updated

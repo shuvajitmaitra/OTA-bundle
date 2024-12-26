@@ -38,31 +38,34 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('newmessage', data => {
-    if (data.message?.sender?._id !== user?._id) {
-      updateStatus(data?.message?._id, 'delivered');
+    // if (data.message?.sender?._id !== user?._id) {
+    addNewMessage(data.chat?._id, data.message);
+    //   // updateStatus(data?.message?._id, 'delivered');
+    //   console.log(
+    //     'New message..........',
+    //     JSON.stringify(data.message, null, 2),
+    //   );
+    //   // store.dispatch(
+    //   //   pushMessage({chat: data.chat?._id, message: data.message}),
+    //   // );
 
-      // store.dispatch(
-      //   pushMessage({chat: data.chat?._id, message: data.message}),
-      // );
-
-      addNewMessage(data.chat?._id, data.message);
-      // store.dispatch(
-      //   addNewMessage({chatId: data.chat?._id, message: data.message}),
-      // );
-      store.dispatch(appendLocalMessage(data.message));
-    } else if (data?.message?.type !== 'message') {
-      store.dispatch(
-        pushMessage({chat: data.chat?._id, message: data.message}),
-      );
-    }
+    //   // store.dispatch(
+    //   //   addNewMessage({chatId: data.chat?._id, message: data.message}),
+    //   // );
+    //   store.dispatch(appendLocalMessage(data.message));
+    // } else if (data?.message?.type !== 'message') {
+    //   store.dispatch(
+    //     pushMessage({chat: data.chat?._id, message: data.message}),
+    //   );
+    // }
     // store.dispatch(setNew Messages(data.message));
     // store.dispatch(pushMessage({ chat: data.chat?._id, message: data.message }))
     if (!data?.message?.parentMessage) {
-      console.log('Platform.OS', JSON.stringify(Platform.OS, null, 2));
-      console.log('data.message', JSON.stringify(data.message, null, 1));
+      // console.log('Platform.OS', JSON.stringify(Platform.OS, null, 2));
+      // console.log('new message', JSON.stringify(data.message, null, 1));
       store.dispatch(
         updateLatestMessage({
-          chatId: data?.chat?._id,
+          chatId: data?.message?.chat,
           latestMessage: data?.message,
           counter: 1,
         }),
