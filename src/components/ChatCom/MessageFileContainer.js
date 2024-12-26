@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import React, {useState} from 'react';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
@@ -111,7 +112,7 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
   };
 
   const handleDownload = url => {
-    // Implement download logic here
+    Linking.openURL(url);
     console.log(`Downloading file from: ${url}`);
   };
 

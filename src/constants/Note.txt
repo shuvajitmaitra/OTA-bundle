@@ -18,6 +18,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Add audio permission checks before starting audio recording in Chat and StartInterviewModal
 - Add document picker permission checks in multiple components
 - Update font size in ChatMessageInput and clean up console logs in MessageScreen.
+- Implement file download functionality in MessageFileContainer
 - 
 https://forums.developer.apple.com/forums/thread/133703
 
