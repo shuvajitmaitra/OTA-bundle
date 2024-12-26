@@ -19,7 +19,8 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Add document picker permission checks in multiple components
 - Update font size in ChatMessageInput and clean up console logs in MessageScreen.
 - Implement file download functionality in MessageFileContainer
-- 
+- Add comment deletion functionality and integrate CommentPopup in GlobalCommentModal
+-
 https://forums.developer.apple.com/forums/thread/133703
 
 https://stackoverflow.com/questions/50531453/the-apple-developer-program-license-agreement-has-been-updated

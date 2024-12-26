@@ -246,16 +246,16 @@ const Comment = memo(({comment: commentData, isLast}) => {
             </Text>
           </View>
         )}
-        {
+        {(user._id === comment.user._id ||
+          (user._id !== comment.user._id && !comment.parentId)) && (
           <>
             <TouchableOpacity
-              ref={buttonRef}
               onPress={handleShowPopover}
               style={styles.threeDotContainer}>
               <ThreeDotGrayIcon />
             </TouchableOpacity>
           </>
-        }
+        )}
       </View>
       {comment?.isReplyOpen && (
         <ReplyBox comment={comment} setComment={setComment} />

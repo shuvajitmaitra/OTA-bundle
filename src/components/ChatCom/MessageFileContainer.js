@@ -13,6 +13,7 @@ import {useTheme} from '../../context/ThemeContext';
 import AudioMessage from './AudioMessage';
 import FileIcon from '../../assets/Icons/FileIcon';
 import {RegularFonts} from '../../constants/Fonts';
+import DownloadIcon2 from '../../assets/Icons/DowloadIcon2';
 
 const MessageFileContainer = ({files, setViewImage, my}) => {
   const [imageDimensions, setImageDimensions] = useState({});
@@ -31,7 +32,16 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
     const {aspectRatio} = imageDimensions[item.url] || {};
 
     return (
-      <TouchableOpacity onPress={() => setViewImage([{uri: item?.url}])}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={{position: 'relative'}}
+        onPress={() => setViewImage([{uri: item?.url}])}>
+        {/* <TouchableOpacity
+          onPress={() => item?.url && Linking.openURL(item?.url)}
+          activeOpacity={0.8}
+          style={styles.ImageDownloadIconContainer}>
+          <DownloadIcon2 />
+        </TouchableOpacity> */}
         <Image
           source={{uri: item.url}}
           style={[
@@ -174,5 +184,14 @@ const getStyles = Colors =>
     downloadButtonText: {
       color: Colors.PureWhite,
       fontWeight: 'bold',
+    },
+    ImageDownloadIconContainer: {
+      position: 'absolute',
+      right: 10,
+      top: 10,
+      zIndex: 1,
+      backgroundColor: Colors.PureWhite,
+      padding: 5,
+      borderRadius: 5,
     },
   });

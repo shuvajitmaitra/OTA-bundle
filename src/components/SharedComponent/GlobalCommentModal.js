@@ -41,6 +41,7 @@ import {
   setSelectedComment,
   updateComment,
 } from '../../store/reducer/commentReducer';
+import CommentPopup from '../CommentCom/CommentPopup';
 
 const GlobalCommentModal = () => {
   const dispatch = useDispatch();
@@ -205,6 +206,7 @@ const GlobalCommentModal = () => {
           )}
         </TouchableOpacity>
       </View>
+      <CommentPopup />
     </ReactNativeModal>
   );
 };
