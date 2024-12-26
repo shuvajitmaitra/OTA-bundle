@@ -348,7 +348,10 @@ export const giveReply = data => {
           }),
         );
 
-        // getComments(data.contentId);
+        getComments(data.contentId);
+        store.dispatch(
+          setCommentCount({contentId: data.contentId, action: 'add'}),
+        );
       }
     })
     .catch(error => {

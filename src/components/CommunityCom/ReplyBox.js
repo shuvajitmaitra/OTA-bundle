@@ -1,8 +1,6 @@
 import {
-  Alert,
   Image,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,

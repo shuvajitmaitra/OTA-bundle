@@ -22,4 +22,5 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Add comment deletion functionality and integrate CommentPopup in GlobalCommentModal
 - Refactor comment handling logic and update state management in comment reducer
 - Latest chat message realtime not updating issues fixed.
+- Added global comment in the technical test details screen.
 

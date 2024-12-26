@@ -39,6 +39,8 @@ import ReactNativeModal from 'react-native-modal';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import {setComments} from '../../store/reducer/commentReducer';
 import CommentPopup from '../CommentCom/CommentPopup';
+import store from '../../store';
+import {setCommentCount} from '../../store/reducer/communityReducer';
 
 const GlobalCommentModal = () => {
   const dispatch = useDispatch();
@@ -68,7 +70,12 @@ const GlobalCommentModal = () => {
       })
       .then(res => {
         if (res.data.success) {
-          getComments(commentId);
+          store.dispatch(
+            setCommentCount({
+              contentId: res.data.comment.contentId,
+              action: 'add',
+            }),
+          );
           // dispatch(setComments(pre => [res.data.comment, ...pre]));
         }
       })

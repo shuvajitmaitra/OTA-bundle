@@ -49,10 +49,14 @@ const communitySlice = createSlice({
       }
     },
     setCommentCount: ({posts}, {payload}) => {
-      const {contentId, commentsCount} = payload;
+      const {contentId, action} = payload;
       const postIndex = posts.findIndex(post => post._id === contentId);
       if (postIndex !== -1) {
-        posts[postIndex].commentsCount = commentsCount;
+        if (action === 'add') {
+          posts[postIndex].commentsCount += 1;
+        } else {
+          posts[postIndex].commentsCount -= 1;
+        }
       }
     },
     setSavePost: ({posts}, {payload}) => {
