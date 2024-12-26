@@ -1,9 +1,10 @@
 import moment from 'moment';
-import {Alert, Share} from 'react-native';
+import {Alert, Linking, Platform, Share} from 'react-native';
 import {showToast} from '../components/HelperFunction';
 import store from '../store';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {setAlert} from '../store/reducer/ModalReducer';
+import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 export const eventTypes = type => {
   return type == 'showNTell'
@@ -152,4 +153,36 @@ export const nameTrim = fullName => {
 };
 export const showAlertModal = data => {
   store.dispatch(setAlert({visible: true, data}));
+};
+export const checkImagePermission = async () => {
+  const permissionType = Platform.select({
+    ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+    android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+  });
+
+  let permissionStatus = await check(permissionType);
+
+  if (
+    permissionStatus === RESULTS.DENIED ||
+    permissionStatus === RESULTS.LIMITED
+  ) {
+    permissionStatus = await request(permissionType);
+  }
+
+  if (permissionStatus === RESULTS.BLOCKED) {
+    // Permission is blocked, prompt user to open settings
+    Alert.alert(
+      'Permission Required',
+      'Photo library access is blocked. Please enable it in the app settings to select images.',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {
+          text: 'Open Settings',
+          onPress: () => Linking.openSettings(),
+        },
+      ],
+      {cancelable: false},
+    );
+  }
+  return permissionStatus;
 };

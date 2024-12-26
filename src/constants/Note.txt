@@ -1,7 +1,10 @@
-*Work Stream - December 23, 2024* 
-- Comments are blinking for the first time when it opened.
-- User can not be redirect from push notification in background mode.
-- Calender event type indicators are blinking in calendar screen.
+*Work Stream - December 26, 2024* 
+*Bootcampshub CLI*
+
+- Community comment update, delete and adding reply functionalities fixing.
+- Repetitive permission asking functionalities add for sending image and record audio. 
+- Work on handle notification in background for ios device.
+
 
 *Overall status*
 - Total functional and ui issues fixed 8 also work for push notification in background mode.
@@ -10,8 +13,9 @@
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 
-*Work Update - December 23, 2024*
-- Worked on handling push notification for background. For android is fixed & ios need to work.
-- Community comment popover position is not correct.
-- Community comments and replies data structure changed.
-- 
+*Work Update - December 26, 2024*
+- Add image permission checks before selecting images in multiple components
+
+https://forums.developer.apple.com/forums/thread/133703
+
+https://stackoverflow.com/questions/50531453/the-apple-developer-program-license-agreement-has-been-updated

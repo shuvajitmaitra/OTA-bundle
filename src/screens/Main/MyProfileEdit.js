@@ -44,6 +44,7 @@ import RequireFieldStar from '../../constants/RequireFieldStar';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import CameraIcon from '../../assets/Icons/CameraIcon';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {checkImagePermission} from '../../utility/commonFunction';
 
 export default function MyProfileEdit() {
   const scrollViewRef = useRef(null);
@@ -256,6 +257,10 @@ export default function MyProfileEdit() {
     }
   };
   const selectImage = () => {
+    const permission = checkImagePermission();
+    if (permission !== 'granted') {
+      return;
+    }
     const options = {
       mediaType: 'photo',
       maxWidth: 300,

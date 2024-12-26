@@ -43,6 +43,7 @@ import {
 } from '../../store/reducer/chatSlice';
 import {updateLatestMessage} from '../../store/reducer/chatReducer';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
+import {checkImagePermission} from '../../utility/commonFunction';
 
 const URL_REGEX =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
@@ -210,6 +211,10 @@ const ChatFooter2 = ({
 
   // Handle image selection
   const selectImage = () => {
+    const permission = checkImagePermission();
+    if (permission !== 'granted') {
+      return;
+    }
     Keyboard.dismiss();
     const options = {
       mediaType: 'photo',
@@ -220,7 +225,7 @@ const ChatFooter2 = ({
     };
 
     launchImageLibrary(options, response => {
-      console.log('response', JSON.stringify(response, null, 1));
+      // console.log('response', JSON.stringify(response, null, 1));
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.errorCode) {
