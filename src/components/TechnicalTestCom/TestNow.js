@@ -38,6 +38,7 @@ import {
 import {getComments} from '../../actions/chat-noti';
 import DocumentPicker, {types} from 'react-native-document-picker';
 import RequireFieldStar from '../../constants/RequireFieldStar';
+import CommentField from '../CommentCom/CommentField';
 
 export const getFileTypeFromUri = (uri = '') => {
   const extension = uri ? uri?.split('.')?.pop()?.toLowerCase() : '';
@@ -600,7 +601,7 @@ export default function TestNow(routes) {
                 </Text>
               )}
 
-              <CommentSection postId={question?._id} />
+              <CommentField postId={question?._id} />
             </View>
           </ScrollView>
         </View>

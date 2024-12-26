@@ -22,7 +22,11 @@ import {
   setReactions,
   setTotalPost,
 } from '../store/reducer/communityReducer';
-import {setComments, updateComment} from '../store/reducer/commentReducer';
+import {
+  addReplies,
+  setComments,
+  updateComment,
+} from '../store/reducer/commentReducer';
 import {setPrograms} from '../store/reducer/programReducer';
 import {setChats, setGroupNameId} from '../store/reducer/chatReducer';
 
@@ -336,6 +340,14 @@ export const giveReply = data => {
     .post('/content/comment/create', data)
     .then(res => {
       if (res.data.success) {
+        store.dispatch(addReplies(res.data.comment));
+        store.dispatch(
+          updateComment({
+            commentId: res.data.comment.parentId,
+            data: {isReplyOpen: false},
+          }),
+        );
+
         // getComments(data.contentId);
       }
     })

@@ -11,8 +11,16 @@ const commentSlice = createSlice({
   initialState,
   reducers: {
     setComments: (state, {payload}) => {
-      console.log('payload', JSON.stringify(payload, null, 2));
       state.comments = payload;
+    },
+    addReplies: (state, {payload}) => {
+      const commentIndex = state.comments.findIndex(
+        comment => comment._id === payload.parentId,
+      );
+      state.comments[commentIndex].replies = [
+        ...state.comments[commentIndex].replies,
+        payload,
+      ];
     },
     setSelectedComment: (state, {payload}) => {
       state.selectedComment = payload;
@@ -30,6 +38,8 @@ const commentSlice = createSlice({
         const repliesIndex = state.comments[commentIndex].replies.findIndex(
           reply => reply._id === data._id,
         );
+        console.log('commentIndex', JSON.stringify(commentIndex, null, 2));
+        console.log('repliesIndex', JSON.stringify(repliesIndex, null, 2));
 
         state.comments[commentIndex].replies[repliesIndex] = {
           ...state.comments[commentIndex].replies[repliesIndex],
@@ -64,6 +74,7 @@ const commentSlice = createSlice({
 });
 
 export const {
+  addReplies,
   setComments,
   setSelectedComment,
   setCommentId,

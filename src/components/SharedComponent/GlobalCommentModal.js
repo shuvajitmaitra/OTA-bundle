@@ -5,7 +5,7 @@ import {
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
-  strict: false, // Enables strict mode
+  strict: false,
 });
 
 import React, {useMemo, useRef, useState} from 'react';
@@ -37,11 +37,7 @@ import Comment from '../CommunityCom/Comment';
 import SendIcon from '../../assets/Icons/SendIcon';
 import ReactNativeModal from 'react-native-modal';
 import CrossCircle from '../../assets/Icons/CrossCircle';
-import {
-  setComments,
-  setSelectedComment,
-  updateComment,
-} from '../../store/reducer/commentReducer';
+import {setComments} from '../../store/reducer/commentReducer';
 import CommentPopup from '../CommentCom/CommentPopup';
 
 const GlobalCommentModal = () => {
@@ -52,9 +48,7 @@ const GlobalCommentModal = () => {
   const {user} = useSelector(state => state.auth);
 
   const textInputRef = useRef(null);
-  const {comments, commentId, selectedComment} = useSelector(
-    state => state.comment,
-  );
+  const {comments, commentId} = useSelector(state => state.comment);
   const {bottomSheetVisible} = useSelector(state => state.modal);
   const [isCommenting, setCommenting] = useState(false);
   const handleCreateComment = () => {
@@ -68,7 +62,7 @@ const GlobalCommentModal = () => {
 
     setCommenting(true);
     axiosInstance
-      .post(`/content/comment/create`, {
+      .post('/content/comment/create', {
         comment: commentText,
         contentId: commentId,
       })
@@ -132,7 +126,7 @@ const GlobalCommentModal = () => {
 
               return (
                 <React.Fragment key={comment._id}>
-                  {(index == 0 || !isSameDate) && (
+                  {(index === 0 || !isSameDate) && (
                     <View style={styles.commentDateContainer}>
                       <Text style={styles.commentDate}>
                         {/* {moment(comments[index].createdAt).format("MMM DD, YYYY")} */}
