@@ -89,6 +89,10 @@ const usePushNotifications = () => {
         // });
       } catch (err) {
         setError(err.message);
+        console.log(
+          'err in setup Notifications',
+          JSON.stringify(err.message, null, 2),
+        );
         console.error('Error during setup:', err.message);
       }
     };

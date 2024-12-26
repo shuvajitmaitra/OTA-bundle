@@ -1,0 +1,46 @@
+Release Note - December 5th, 2024#release #app #env
+
+#release-note #app #env:staging
+
+We are pleased to announce the latest updates and enhancements to the SchoolsHub App. This release focuses on improving functionality, fixing bugs, and enhancing the user experience.
+
+## **BootcampsHub App Development:**
+
+---
+
+## New Features
+
+- **File Download Capability**
+    - Introduced the ability to download files directly from the `MessageFileContainer`, enhancing user convenience.
+- **Enhanced Comment Management**
+    - **Comment Deletion:** Users can now delete comments, providing better control over their interactions.
+    - **CommentPopup Integration:** Integrated `CommentPopup` within the `GlobalCommentModal` for a streamlined commenting experience.
+    - **Global Comments:** Added global comments feature in the Technical Test Details screen, facilitating broader discussions.
+
+## Enhancements
+
+- **Permission Checks**
+    - **Image Permissions:** Implemented checks before selecting images across multiple components to ensure appropriate access.
+    - **Audio Permissions:** Added permission verifications before starting audio recordings in both Chat and `StartInterviewModal` components.
+    - **Document Picker Permissions:** Enhanced security by adding permission checks for document pickers in various components.
+- **User Interface Improvements**
+    - **Font Size Adjustment:** Updated the font size in `ChatMessageInput` for improved readability.
+    - **Console Log Cleanup:** Removed unnecessary console logs from `MessageScreen` to optimize performance and reduce clutter.
+
+## Bug Fixes
+
+- **Real-Time Chat Updates**
+    - Fixed issues preventing the latest chat messages from updating in real-time, ensuring seamless and instant communication.
+
+## Code Refactoring
+
+- **Comment Handling Logic**
+    - Refactored the comment handling logic and updated state management within the comment reducer to enhance code efficiency and maintainability.
+
+---
+
+Thank you for using the Bootcampshub App! We hope these updates improve your experience. If you have any feedback or encounter any issues, please do not hesitate to contact our support team.
+
+Best regards,
+
+The Bootcampshub Development Team

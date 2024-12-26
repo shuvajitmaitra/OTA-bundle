@@ -139,6 +139,8 @@ const MentionInput = ({
         .map(renderMentionSuggestions)}
 
       <TextInput
+        autoCorrect={true}
+        autoCapitalize="sentences"
         keyboardAppearance={
           Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
         }
