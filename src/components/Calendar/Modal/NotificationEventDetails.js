@@ -236,7 +236,18 @@ const NotificationEventDetails = ({eventId}) => {
                 </Text>
               </View>
               <Text style={styles.textAreaHeading}>My Response</Text>
-              <Text style={styles.meetingLinkText}>
+              <Text
+                style={[
+                  styles.meetingLinkText,
+                  {
+                    color:
+                      item?.myParticipantData?.status === 'accepted'
+                        ? Colors.Primary
+                        : item?.myParticipantData?.status === 'pending'
+                        ? Colors.ThemeSecondaryColor
+                        : Colors.Red,
+                  },
+                ]}>
                 {item?.myParticipantData?.status}
               </Text>
 

@@ -411,6 +411,7 @@ const getStyles = Colors =>
       maxWidth: '90%',
       // backgroundColor: "red",
       //   fontSize: responsiveScreenFontSize(2),
+      textTransform: 'capitalize',
     },
 
     joinLinkHeading: {

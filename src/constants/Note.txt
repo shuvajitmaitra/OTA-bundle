@@ -1,9 +1,5 @@
 **Work Stream - December 23, 2024**  
 *Bootcampshub CLI*
-- When mention a person, showing extra whitespace
-- Leave crowd option not showing in crowd details screen
-- Archive chat and Leave crowd icons are not same align
-- Status text should be capitalized
 
 *Overall status*
 - Total functional and ui issues fixed 8 also work for push notification in background mode.
@@ -18,3 +14,7 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Refactor UserModalImageGallery to use FlatList for improved performance and maintainability
 - Reduce extra space issues fixed in the bottom section of chat input filed.
 - Refactor CourseDetails component for improved readability and navigation, and fix spacing issues in chat input
+- When mention a person, showing extra whitespace this issues fixed.
+- Leave crowd option not showing in crowd details screen issues fixed
+- Archive chat and Leave crowd icons alignment issues fixed.
+- Capitalize status text in invitations and update meeting link text color based on response status
