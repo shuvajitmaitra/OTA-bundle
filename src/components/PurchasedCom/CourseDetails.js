@@ -1,14 +1,5 @@
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  ActivityIndicator,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import React, {useState} from 'react';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import {
   responsiveScreenFontSize,
@@ -17,21 +8,13 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import axiosInstance from '../../utility/axiosInstance';
-import ProgramDetailsCard from '../../components/ProgramCom/v2/ProgramDetailsCard';
 import CusSegmentedButtons from '../../components/ProgramCom/v2/CusSegmentedButtons';
-import ProgramTimeTracker from '../../components/ProgramCom/v2/ProgramTimeTracker';
-import ProgramFiles from '../../components/ProgramCom/v2/ProgramFiles';
-import {seconds2time} from '../../utility';
-import VideoPlayer from '../../components/ProgramCom/v2/VideoPlayer';
 import CustomFonts from '../../constants/CustomFonts';
 import Loading from '../../components/SharedComponent/Loading';
 import {useTheme} from '../../context/ThemeContext';
 import NoDataAvailable from '../SharedComponent/NoDataAvailable';
 
 export default function CourseDetails({route, navigation}) {
-  // --------------------------
-  // ----------- Import theme Colors -----------
-  // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -59,12 +42,6 @@ export default function CourseDetails({route, navigation}) {
       getAllData(route?.params?.slug);
     }
   }, [route]);
-
-  const handleCollapse = item => {
-    setExpanded(state =>
-      state.includes(item) ? state?.filter(i => i !== item) : [...state, item],
-    );
-  };
 
   if (isLoading) {
     return <Loading />;

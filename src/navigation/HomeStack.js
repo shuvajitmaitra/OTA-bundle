@@ -118,22 +118,31 @@ const HomeStackScreen = () => {
         name="CourseDetails"
         component={CourseDetails}
         options={({route, navigation}) => ({
-          headerShown: true,
-          title: '',
-          headerLeft: () => (
-            <AntDesign
-              name="arrowleft"
-              style={{marginLeft: 10}}
-              onPress={() => {
-                navigation.goBack();
-              }}
-              size={24}
-              color={Colors.Heading}
-            />
-          ),
-          headerStyle: {
-            backgroundColor: Colors.Background_color,
-            elevation: 0,
+          headerTitle: '',
+          headerLeft: () => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.goBack();
+                }}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginLeft: 10,
+                }}>
+                <ArrowLeft />
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    fontFamily: CustomFonts.MEDIUM,
+                    fontSize: responsiveScreenFontSize(2),
+                    color: Colors.BodyText,
+                  }}>
+                  Back
+                </Text>
+              </TouchableOpacity>
+            );
           },
         })}
       />

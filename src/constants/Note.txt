@@ -1,8 +1,5 @@
 **Work Stream - December 23, 2024**  
 *Bootcampshub CLI*
-- Reduce extra space and set all in correct align
-- When available only 2 image, second image should be set in second position
-- Back button touchable area should be increase
 - When mention a person, showing extra whitespace
 - Leave crowd option not showing in crowd details screen
 - Archive chat and Leave crowd icons are not same align
@@ -18,4 +15,6 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 *Work Update - December 23, 2024*
 
 - Latest message not updating issues fixed.
-- 
+- Refactor UserModalImageGallery to use FlatList for improved performance and maintainability
+- Reduce extra space issues fixed in the bottom section of chat input filed.
+- Refactor CourseDetails component for improved readability and navigation, and fix spacing issues in chat input
