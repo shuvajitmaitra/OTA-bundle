@@ -89,7 +89,7 @@ const getStyles = Colors =>
       paddingTop: responsiveScreenHeight(1),
       flexWrap: 'wrap',
       backgroundColor: Colors.White,
-      borderWidth: 1,
+      // borderWidth: 1,
       borderColor: Colors.BorderColor,
       paddingBottom: 10,
       overflow: 'hidden',
