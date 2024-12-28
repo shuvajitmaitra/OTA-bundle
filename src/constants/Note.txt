@@ -18,3 +18,4 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Leave crowd option not showing in crowd details screen issues fixed
 - Archive chat and Leave crowd icons alignment issues fixed.
 - Capitalize status text in invitations and update meeting link text color based on response status
+- Adjust ChatMessageInput width and font size for improved layout consistency

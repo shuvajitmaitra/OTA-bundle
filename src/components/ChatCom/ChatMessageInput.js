@@ -151,7 +151,7 @@ const ChatMessageInput = ({
 
   const inputRef = useRef(); // Added ref here
   return (
-    <View style={{position: 'relative', maxWidth: '93%', minWidth: '50%'}}>
+    <View style={{position: 'relative', width: '92%'}}>
       <MentionInput
         value={text}
         style={{
@@ -159,7 +159,7 @@ const ChatMessageInput = ({
           // backgroundColor: 'red',
           width: '100%',
           maxHeight: maxHeight || 200,
-          fontSize: responsiveScreenFontSize(2.2),
+          fontSize: 18,
           // alignItems: "flex-start",
         }}
         onChange={text => setText(text)}
