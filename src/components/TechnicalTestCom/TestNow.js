@@ -35,6 +35,7 @@ import {formattingDate} from '../../utility/commonFunction';
 import {getComments} from '../../actions/chat-noti';
 import DocumentPicker, {types} from 'react-native-document-picker';
 import RequireFieldStar from '../../constants/RequireFieldStar';
+import CommentField from '../CommentCom/CommentField';
 
 export const getFileTypeFromUri = (uri = '') => {
   const extension = uri ? uri?.split('.')?.pop()?.toLowerCase() : '';
@@ -588,12 +589,14 @@ export default function TestNow(routes) {
                 />
               </View>
               {question?.submission?.status === 'accepted' && (
-                <Text style={styles.accepted}>
-                  This answer is already accepted
-                </Text>
+                <View style={styles.acceptedContainer}>
+                  <Text style={styles.accepted}>
+                    This answer is already accepted
+                  </Text>
+                </View>
               )}
 
-              <CommentSection postId={question?._id} />
+              <CommentField postId={question?._id} />
             </View>
           </ScrollView>
         </View>
@@ -622,7 +625,7 @@ const getStyles = Colors =>
     },
     contain: {
       backgroundColor: Colors.Background_color,
-      paddingHorizontal: responsiveScreenWidth(5),
+      // paddingHorizontal: responsiveScreenWidth(5),
     },
     container: {
       flex: 1,
@@ -631,8 +634,8 @@ const getStyles = Colors =>
     testContainer: {
       backgroundColor: Colors.White,
       padding: responsiveScreenWidth(5),
-      marginVertical: responsiveScreenHeight(2),
-      borderRadius: responsiveScreenWidth(3),
+      // marginVertical: responsiveScreenHeight(2),
+      // borderRadius: responsiveScreenWidth(3),
     },
     headingContainer: {
       flexDirection: 'row',
@@ -855,10 +858,16 @@ const getStyles = Colors =>
     accepted: {
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.6),
+      color: Colors.Red,
+      textAlign: 'center',
+    },
+    acceptedContainer: {
+      backgroundColor: Colors.LightRed,
+      borderRadius: 7,
       borderWidth: 1,
-      borderColor: Colors.Primary,
+      borderColor: Colors.Red,
       marginBottom: responsiveScreenHeight(2),
       padding: responsiveScreenWidth(2),
-      color: Colors.Primary,
+      color: Colors.Red,
     },
   });

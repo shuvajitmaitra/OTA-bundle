@@ -181,6 +181,7 @@ const ProgramStackScreen = ({navigation}) => {
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  marginLeft: 15,
                 }}>
                 <ArrowLeft />
                 <Text
