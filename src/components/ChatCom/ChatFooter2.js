@@ -232,6 +232,7 @@ const ChatFooter2 = ({
         console.log('User cancelled image picker');
       } else if (response.errorCode) {
         console.log('ImagePicker Error: ', response.errorMessage);
+        Alert.alert('Error', response.errorMessage);
       } else {
         setSelectedImages(response.assets);
       }
@@ -498,7 +499,10 @@ const ChatFooter2 = ({
 
       {showBottom && (
         <View
-          style={[styles.bottomContainer, !startRecording && {height: 150}]}>
+          style={[
+            styles.bottomContainer,
+            !startRecording && {marginBottom: 20},
+          ]}>
           {!startRecording && (
             <TouchableOpacity
               onPress={handleDocumentSelection}
@@ -540,9 +544,10 @@ const getStyles = Colors =>
     bottomContainer: {
       flexDirection: 'row',
       alignItems: 'flex-start',
-      marginTop: 20,
+      // marginTop: 20,
       gap: 20,
       paddingHorizontal: 20,
+      // backgroundColor: 'red',
     },
     mainContainer: {
       flexDirection: 'row',
