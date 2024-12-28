@@ -5,10 +5,7 @@ import GalleryIcon from '../../assets/Icons/GalleryIcon';
 import SendIconTwo from '../../assets/Icons/SendIconTwo';
 import CrossCircle from '../../assets/Icons/CrossCircle'; // Assuming you have a CrossCircle icon
 import axiosInstance from '../../utility/axiosInstance';
-import {
-  checkImagePermission,
-  getHashtagTexts,
-} from '../../utility/commonFunction';
+import {getHashtagTexts} from '../../utility/commonFunction';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -24,10 +21,6 @@ import AiIcon2 from '../../assets/Icons/AiIcon2';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 export const handleGalleryPress = async ({setPost, setIsLoading}) => {
-  const permission = checkImagePermission();
-  if (permission !== 'granted') {
-    return;
-  }
   const options = {
     mediaType: 'photo',
     maxWidth: 300,

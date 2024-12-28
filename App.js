@@ -15,20 +15,14 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import store, {persistor} from './src/store';
-import {
-  connectSocket,
-  disconnectSocket,
-  socket,
-} from './src/utility/socketManager';
+import {disconnectSocket} from './src/utility/socketManager';
 import SplashScreen from 'react-native-splash-screen';
-import CustomSplashScreen from '../Bootcampshub_Chat/src/screens/SplashScreen.js';
 import {ThemeProvider, useTheme} from './src/context/ThemeContext';
 import {AlertProvider} from './src/components/SharedComponent/GlobalAlertContext';
 import {MainProvider} from './src/context/MainContext';
 import Navigation from './src/navigation/Navigation';
 
 import 'react-native-gesture-handler';
-import {setAppLoading} from './src/store/reducer/authReducer';
 import {PopoverProvider} from './src/context/PopoverContext.js';
 import Toast from 'react-native-toast-message';
 import {toastConfig} from './src/constants/ToastConfig.js';

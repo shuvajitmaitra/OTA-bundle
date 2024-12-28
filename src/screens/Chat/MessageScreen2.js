@@ -38,7 +38,6 @@ const MessageScreen2 = () => {
   const {messageOptionData} = useSelector(state => state.modal);
   const {localMessages} = useSelector(state => state.chatSlice);
   const [viewImage, setViewImage] = useState([]);
-  // console.log('viewImage', JSON.stringify(viewImage, null, 2));
   // console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);

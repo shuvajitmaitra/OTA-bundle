@@ -43,10 +43,6 @@ import {
 } from '../../store/reducer/chatSlice';
 import {updateLatestMessage} from '../../store/reducer/chatReducer';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
-import {
-  checkDocumentPickerPermission,
-  checkImagePermission,
-} from '../../utility/commonFunction';
 
 const URL_REGEX =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
@@ -214,10 +210,6 @@ const ChatFooter2 = ({
 
   // Handle image selection
   const selectImage = () => {
-    const permission = checkImagePermission();
-    if (permission !== 'granted') {
-      return;
-    }
     Keyboard.dismiss();
     const options = {
       mediaType: 'photo',
@@ -228,7 +220,7 @@ const ChatFooter2 = ({
     };
 
     launchImageLibrary(options, response => {
-      // console.log('response', JSON.stringify(response, null, 1));
+      console.log('response', JSON.stringify(response, null, 1));
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.errorCode) {
@@ -241,10 +233,6 @@ const ChatFooter2 = ({
 
   // Handle document selection
   const handleDocumentSelection = async () => {
-    const permission = checkDocumentPickerPermission();
-    if (Platform.OS !== 'ios' && permission !== 'granted') {
-      return;
-    }
     setShowBottom(false);
     setDocumentVisible(true);
     try {
@@ -491,7 +479,7 @@ const ChatFooter2 = ({
         </View>
       )}
 
-      {!text.length && !showBottom && (
+      {!text.length && (
         <AudioRecorder
           sendMessage={sendMessage}
           setStartRecording={setStartRecording}

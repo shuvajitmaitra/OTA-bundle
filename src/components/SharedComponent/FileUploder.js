@@ -9,7 +9,6 @@ import {
   StyleSheet,
   Image,
   Alert,
-  Platform,
 } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import {useGlobalAlert} from './GlobalAlertContext';
@@ -23,7 +22,6 @@ import CustomFonts from '../../constants/CustomFonts';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import {getFileTypeFromUri} from '../TechnicalTestCom/TestNow'; // Adjusted import path
 import axiosInstance from '../../utility/axiosInstance';
-import {checkDocumentPickerPermission} from '../../utility/commonFunction';
 
 const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
   const [isUploading, setIsUploading] = useState(false);
@@ -32,10 +30,6 @@ const FileUploader = ({setAttachments, attachments, maxFiles = 5}) => {
   const styles = getStyles(Colors);
 
   const UploadAnyFile = async () => {
-    const permission = checkDocumentPickerPermission();
-    if (Platform.OS !== 'ios' && permission !== 'granted') {
-      return;
-    }
     try {
       const results = await DocumentPicker.pick({
         type: [

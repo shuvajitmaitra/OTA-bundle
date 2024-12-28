@@ -14,30 +14,45 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
+// import * as DocumentPicker from "expo-document-picker";
 
 import Modal from 'react-native-modal';
+import {useDispatch} from 'react-redux';
 import {useTheme} from '../../context/ThemeContext';
 import ModalBackAndCrossButton from '../ChatCom/Modal/ModalBackAndCrossButton';
+import CrowdIcon from '../../assets/Icons/CrowedIcon';
 import CustomDropDown from '../SharedComponent/CustomDropDown';
 import ModalCustomButton from '../ChatCom/Modal/ModalCustomButton';
 import CustomFonts from '../../constants/CustomFonts';
 import moment from 'moment';
 import CalenderIcon from '../../assets/Icons/CalenderIcon';
+// import DateTimePicker from '@react-native-community/datetimepicker';
+import axios from 'axios';
+import axiosInstance from '../../utility/axiosInstance';
 import {ActivityIndicator} from 'react-native';
 import RequireFieldStar from '../../constants/RequireFieldStar';
 const AddPaymentModal = ({
   handleAddPayment,
   isAddPaymentModalVisible,
   toggleAddPaymentModal,
+  setIsAddPaymentModalVisible,
+  method,
+  amount,
   date,
   attachment,
+  note,
   setMethod,
   setAmount,
   setDate,
+  setAttachment,
   setNote,
 }) => {
+  // --------------------------
+  // ----------- Import theme Colors -----------
+  // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  // const [date, setDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
   const [isCalendarClicked, setIsCalendarClicked] = useState(false);
   const onChangeDate = selectedDate => {
@@ -361,7 +376,6 @@ const getStyles = Colors =>
     inputContainer: {
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
       flexDirection: 'row',
       backgroundColor: Colors.ModalBoxColor,
       alignItems: 'center',
@@ -381,7 +395,6 @@ const getStyles = Colors =>
     inputField: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4),

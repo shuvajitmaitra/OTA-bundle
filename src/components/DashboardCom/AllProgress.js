@@ -128,7 +128,6 @@ const getStyles = Colors =>
       width: responsiveScreenFontSize(2.5),
       height: responsiveScreenFontSize(2.5),
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 4,
       overflow: 'hidden',

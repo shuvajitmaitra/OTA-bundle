@@ -63,7 +63,6 @@ const getStyles = Colors =>
       alignSelf: 'center',
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     time: {

@@ -1,30 +1,20 @@
-import {
-  Image,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useState} from 'react';
-import {
-  responsiveScreenFontSize,
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from 'react-native-responsive-dimensions';
-import {useTheme} from '../../context/ThemeContext';
-import {useSelector} from 'react-redux';
-import SendIcon from '../../assets/Icons/SendIcon';
-import {giveReply} from '../../actions/chat-noti';
-import CustomFonts from '../../constants/CustomFonts';
-import CrossCircle from '../../assets/Icons/CrossCircle';
-import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
+import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
+import { useTheme } from "../../context/ThemeContext";
+import { useSelector } from "react-redux";
+import SendIcon from "../../assets/Icons/SendIcon";
+import { giveReply } from "../../actions/chat-noti";
+import CustomFonts from "../../constants/CustomFonts";
+import CrossCircle from "../../assets/Icons/CrossCircle";
+import { useGlobalAlert } from "../SharedComponent/GlobalAlertContext";
 
-const ReplyBox = ({comment, setComment}) => {
-  const {user} = useSelector(state => state.auth);
+const ReplyBox = ({ comment, setComment }) => {
+  const { user } = useSelector((state) => state.auth);
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const [reply, setReply] = useState('');
-  const {showAlert} = useGlobalAlert();
+  const [reply, setReply] = useState("");
+  const { showAlert } = useGlobalAlert();
 
   return (
     <View style={styles.replayContainer}>
@@ -32,35 +22,37 @@ const ReplyBox = ({comment, setComment}) => {
         style={{
           height: responsiveScreenHeight(10),
           width: responsiveScreenWidth(10),
-        }}>
+        }}
+      >
         <View
           style={{
-            height: '50%',
+            height: "50%",
             width: responsiveScreenWidth(6),
-            alignSelf: 'flex-end',
+            alignSelf: "flex-end",
             borderLeftWidth: 2,
             borderBottomWidth: 2,
             borderBottomColor: Colors.BodyText,
             borderLeftColor: Colors.BodyText,
-            borderBottomLeftRadius:
-              (!comment.repliesCount && responsiveScreenFontSize(0.5)) || null,
+            borderBottomLeftRadius: (!comment.repliesCount && responsiveScreenFontSize(0.5)) || null,
             // backgroundColor: "pink",
-          }}></View>
+          }}
+        ></View>
 
         {comment.repliesCount > 0 && (
           <View
             style={{
-              height: '78%',
+              height: "78%",
               width: responsiveScreenWidth(6),
-              alignSelf: 'flex-end',
+              alignSelf: "flex-end",
               borderLeftWidth: 2,
               borderLeftColor: Colors.BodyText,
               // backgroundColor: "yellow",
-            }}></View>
+            }}
+          ></View>
         )}
       </View>
       <View>
-        <Image source={{uri: user?.profilePicture}} style={styles.userImage} />
+        <Image source={{ uri: user?.profilePicture }} style={styles.userImage} />
       </View>
       <View
         style={{
@@ -69,31 +61,29 @@ const ReplyBox = ({comment, setComment}) => {
           marginTop: 10,
           borderRadius: 7,
           borderWidth: 1,
-          overFlow: 'hidden',
           borderColor: Colors.BorderColor,
           paddingHorizontal: 10,
-        }}>
+        }}
+      >
         <TextInput
-          keyboardAppearance={
-            Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-          }
+          keyboardAppearance={Colors.Background_color === "#F5F5F5" ? "light" : "dark"}
           placeholder="Write reply..."
           placeholderTextColor={Colors.BodyText}
           style={styles.input}
           multiline
           autoCorrect={false}
-          onChangeText={text => setReply(text)}
+          onChangeText={(text) => setReply(text)}
           value={reply}
           textAlignVertical="top"
         />
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
+            flexDirection: "row",
+            justifyContent: "flex-end",
             marginBottom: 10,
-          }}>
-          <TouchableOpacity
-            onPress={() => setComment(pre => ({...pre, isReplyOpen: false}))}>
+          }}
+        >
+          <TouchableOpacity onPress={() => setComment((pre) => ({ ...pre, isReplyOpen: false }))}>
             <CrossCircle color={Colors.Red} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -104,17 +94,18 @@ const ReplyBox = ({comment, setComment}) => {
                   comment: reply,
                   parentId: comment._id,
                 });
-                setReply('');
+                setReply("");
               } else {
                 // Alert.alert("Reply field cannot be empty");
                 return showAlert({
-                  title: 'Empty Reply',
-                  type: 'warning',
-                  message: 'Reply cannot be empty.',
+                  title: "Empty Reply",
+                  type: "warning",
+                  message: "Reply cannot be empty.",
                 });
               }
             }}
-            style={styles.sendButtonContainer}>
+            style={styles.sendButtonContainer}
+          >
             <SendIcon />
           </TouchableOpacity>
         </View>
@@ -125,7 +116,7 @@ const ReplyBox = ({comment, setComment}) => {
 
 export default ReplyBox;
 
-const getStyles = Colors =>
+const getStyles = (Colors) =>
   StyleSheet.create({
     userImage: {
       height: responsiveScreenFontSize(4),
@@ -136,8 +127,8 @@ const getStyles = Colors =>
     },
 
     replayContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: "row",
+      alignItems: "center",
       // backgroundColor: "green",
     },
     input: {

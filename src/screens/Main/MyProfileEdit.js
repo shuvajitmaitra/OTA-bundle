@@ -19,7 +19,7 @@ import {
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
-import {pick, types} from 'react-native-document-picker';
+import DocumentPicker, {pick, types} from 'react-native-document-picker';
 
 import CustomFonts from '../../constants/CustomFonts';
 
@@ -44,10 +44,6 @@ import RequireFieldStar from '../../constants/RequireFieldStar';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import CameraIcon from '../../assets/Icons/CameraIcon';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {
-  checkDocumentPickerPermission,
-  checkImagePermission,
-} from '../../utility/commonFunction';
 
 export default function MyProfileEdit() {
   const scrollViewRef = useRef(null);
@@ -151,10 +147,6 @@ export default function MyProfileEdit() {
     setEdit(!edit);
   };
   const uploadResume = async () => {
-    const permission = checkDocumentPickerPermission();
-    if (Platform.OS !== 'ios' && permission !== 'granted') {
-      return;
-    }
     try {
       const [result] = await pick({
         allowMultiSelection: false,
@@ -264,10 +256,6 @@ export default function MyProfileEdit() {
     }
   };
   const selectImage = () => {
-    const permission = checkImagePermission();
-    if (permission !== 'granted') {
-      return;
-    }
     const options = {
       mediaType: 'photo',
       maxWidth: 300,
@@ -797,7 +785,6 @@ const getStyles = Colors =>
       backgroundColor: Colors.White,
       borderRadius: 10,
       borderWidth: 1,
-      overflow: 'hidden',
       marginTop: responsiveScreenHeight(1),
       flexDirection: 'row',
       alignItems: 'center',
@@ -809,7 +796,6 @@ const getStyles = Colors =>
       backgroundColor: Colors.White,
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
       gap: responsiveScreenHeight(1.5),
       marginTop: responsiveScreenHeight(1),
       paddingVertical: responsiveScreenHeight(1.5),
@@ -822,7 +808,6 @@ const getStyles = Colors =>
       backgroundColor: Colors.White,
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
       marginTop: responsiveScreenHeight(1),
       paddingVertical: responsiveScreenHeight(1.5),
       paddingHorizontal: responsiveScreenWidth(2.5),
@@ -839,7 +824,6 @@ const getStyles = Colors =>
       height: responsiveScreenHeight(6),
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: responsiveScreenWidth(3),
@@ -877,7 +861,6 @@ const getStyles = Colors =>
 
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
       marginTop: responsiveScreenHeight(1),
       flexDirection: 'row',
       alignItems: 'center',
@@ -915,7 +898,6 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
-      overFlow: 'hidden',
     },
     dropdownArea: {
       width: responsiveScreenWidth(85),
@@ -931,7 +913,6 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
-      overFlow: 'hidden',
     },
     dropdownStateArea: {
       width: responsiveScreenWidth(85),
@@ -947,7 +928,6 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
-      overFlow: 'hidden',
     },
     searchInput: {
       width: responsiveScreenWidth(80),

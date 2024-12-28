@@ -319,7 +319,6 @@ const getStyles = (Colors, top) =>
       backgroundColor: Colors.ScreenBoxColor,
       width: '95%',
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       minHeight: 40,
       maxHeight: 100,

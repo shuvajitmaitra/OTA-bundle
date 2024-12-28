@@ -1,5 +1,6 @@
 import axiosInstance from '../utility/axiosInstance';
 import {getComments, handleError} from '../actions/chat-noti';
+import {addReplies} from '../store/reducer/commentReducer';
 
 export const useComment = ({comment}) => {
   const deleteComment = () => {
@@ -37,6 +38,7 @@ export const useComment = ({comment}) => {
         `/content/comment/get/${comment?.contentId}?parentId=${comment.parentId}`,
       )
       .then(res => {
+        addReplies(res?.data?.comments || []);
         // setReplies(res?.data?.comments || []);
       })
       .catch(error => {

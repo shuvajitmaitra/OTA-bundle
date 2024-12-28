@@ -31,14 +31,10 @@ import {showToast} from '../HelperFunction';
 import Images from '../../constants/Images';
 import CommentSection from '../CommentCom/CommentSection';
 import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
-import {
-  checkDocumentPickerPermission,
-  formattingDate,
-} from '../../utility/commonFunction';
+import {formattingDate} from '../../utility/commonFunction';
 import {getComments} from '../../actions/chat-noti';
 import DocumentPicker, {types} from 'react-native-document-picker';
 import RequireFieldStar from '../../constants/RequireFieldStar';
-import CommentField from '../CommentCom/CommentField';
 
 export const getFileTypeFromUri = (uri = '') => {
   const extension = uri ? uri?.split('.')?.pop()?.toLowerCase() : '';
@@ -179,10 +175,6 @@ export default function TestNow(routes) {
   };
 
   const UploadAnyFile = async () => {
-    const permission = checkDocumentPickerPermission();
-    if (Platform.OS !== 'ios' && permission !== 'granted') {
-      return;
-    }
     try {
       // Allow users to pick multiple files with specified types
       const results = await DocumentPicker.pick({
@@ -601,7 +593,7 @@ export default function TestNow(routes) {
                 </Text>
               )}
 
-              <CommentField postId={question?._id} />
+              <CommentSection postId={question?._id} />
             </View>
           </ScrollView>
         </View>
@@ -770,7 +762,6 @@ const getStyles = Colors =>
       color: Colors.Heading,
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(3),
       fontFamily: CustomFonts.REGULAR,
@@ -835,7 +826,6 @@ const getStyles = Colors =>
       color: Colors.Heading,
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
       textAlignVertical: 'top',
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(3),
@@ -866,7 +856,6 @@ const getStyles = Colors =>
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.6),
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.Primary,
       marginBottom: responsiveScreenHeight(2),
       padding: responsiveScreenWidth(2),

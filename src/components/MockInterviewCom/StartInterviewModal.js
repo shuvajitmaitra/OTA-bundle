@@ -30,10 +30,7 @@ import axios from '../../utility/axiosInstance';
 import axiosInstance from '../../utility/axiosInstance';
 import {useDispatch} from 'react-redux';
 import {updateInterviewAnswer} from '../../store/reducer/InterviewReducer';
-import {
-  checkAudioPermission,
-  showAlertModal,
-} from '../../utility/commonFunction';
+import {showAlertModal} from '../../utility/commonFunction';
 import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import AudioMessage from '../ChatCom/AudioMessage';
@@ -58,10 +55,6 @@ export default function StartInterviewModal({
   const [uploaded, setUploaded] = useState([]);
 
   const startRecording = async () => {
-    const permission = checkAudioPermission();
-    if (permission !== 'granted') {
-      return;
-    }
     try {
       const result = await audioRecorderPlayer.startRecorder();
       setRecording(true);

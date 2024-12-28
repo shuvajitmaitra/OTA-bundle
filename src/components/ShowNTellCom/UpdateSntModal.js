@@ -516,7 +516,6 @@ const getStyles = Colors =>
       color: Colors.Heading,
       backgroundColor: Colors.Background_color,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       fontSize: responsiveScreenFontSize(1.8),
       borderRadius: responsiveScreenWidth(3),
@@ -530,7 +529,6 @@ const getStyles = Colors =>
       color: Colors.Heading,
       backgroundColor: Colors.Background_color,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(3),
       fontSize: responsiveScreenFontSize(1.8),
@@ -582,7 +580,6 @@ const getStyles = Colors =>
     searchContainer: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(3),
       padding: responsiveScreenWidth(3),
@@ -664,7 +661,6 @@ const getStyles = Colors =>
     notification: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor3,
       borderRadius: responsiveScreenWidth(3),
       padding: responsiveScreenWidth(3),

@@ -1,12 +1,12 @@
-import {StyleSheet, View} from 'react-native';
-import React from 'react';
-import WebView from 'react-native-webview';
+import { StyleSheet, View } from "react-native";
+import React from "react";
+import WebView from "react-native-webview";
 
-export default function VideoPlayer({url}) {
+export default function VideoPlayer({ url }) {
   return (
     <View style={styles.videoContainer}>
       <WebView
-        source={{uri: url}}
+        source={{ uri: url }}
         allowsFullscreenVideo={true}
         scrollEnabled={false}
         automaticallyAdjustContentInsets={false}
@@ -21,9 +21,8 @@ const styles = StyleSheet.create({
     aspectRatio: 16 / 9,
     // marginHorizontal: responsiveScreenWidth(4),
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
     borderWidth: 1,
-    overFlow: 'hidden',
-    borderColor: 'gray',
+    borderColor: "gray",
   },
 });

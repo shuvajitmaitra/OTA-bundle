@@ -13,6 +13,9 @@ const commentSlice = createSlice({
     setComments: (state, {payload}) => {
       state.comments = payload;
     },
+    addComment: (state, {payload}) => {
+      state.comments = [payload, ...state.comments];
+    },
     addReplies: (state, {payload}) => {
       const commentIndex = state.comments.findIndex(
         comment => comment._id === payload.parentId,
@@ -74,6 +77,7 @@ const commentSlice = createSlice({
 });
 
 export const {
+  addComment,
   addReplies,
   setComments,
   setSelectedComment,

@@ -470,7 +470,6 @@ const getStyles = Colors =>
       borderRadius: 10,
       borderColor: Colors.BorderColor,
       borderWidth: 1,
-      overFlow: 'hidden',
       backgroundColor: Colors.Background_color,
       paddingVertical: responsiveScreenHeight(2),
       marginBottom: responsiveScreenHeight(2),
@@ -539,7 +538,6 @@ const getStyles = Colors =>
       alignItems: 'center',
       borderRadius: 6,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.Primary,
     },
     videoTypeTitle: {

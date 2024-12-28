@@ -244,7 +244,6 @@ const getStyles = Colors =>
       padding: 10,
       backgroundColor: Colors.White,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       justifyContent: 'center',
       alignItems: 'center',
@@ -270,7 +269,6 @@ const getStyles = Colors =>
       maxHeight: responsiveScreenHeight(38),
       borderRadius: 7,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     modalContainer: {

@@ -1,9 +1,5 @@
-*Work Stream - December 26, 2024* 
+**Work Stream - December 23, 2024**  
 *Bootcampshub CLI*
-
-- Community comment update, delete and adding reply functionalities fixing.
-- Repetitive permission asking functionalities add for sending image and record audio. 
-- Work on handle notification in background for ios device.
 
 
 *Overall status*
@@ -13,14 +9,15 @@
 Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
 
 
-*Work Update - December 26, 2024*
-- Add image permission checks before selecting images in multiple components
-- Add audio permission checks before starting audio recording in Chat and StartInterviewModal
-- Add document picker permission checks in multiple components
-- Update font size in ChatMessageInput and clean up console logs in MessageScreen.
-- Implement file download functionality in MessageFileContainer
-- Add comment deletion functionality and integrate CommentPopup in GlobalCommentModal
-- Refactor comment handling logic and update state management in comment reducer
-- Latest chat message realtime not updating issues fixed.
-- Added global comment in the technical test details screen.
+*Work Update - December 23, 2024*
 
+- User profile image changing issues fixed.
+- "Write Meeting Agenda" placeholder text is inconsistent issue fixed in the calendar create event modal 
+- Previously delete modal is not closing after delete any community post now the issues has been fixed.
+- Swap Publish and AI button position
+- Gallery text not visible properly
+- Add required field indicators to modals and update profile edit functionality
+- Fix toast message format after deleting activities
+- Add padding to back navigation button and remove debug console log in ActivitiesDetails
+- Add validation for title and description fields in Update ActivitiesModal
+- Refactor keyboard event handling in ChatFooter2 and clean up unused navigation code in MessageScreen2

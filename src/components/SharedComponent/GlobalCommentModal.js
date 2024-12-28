@@ -37,7 +37,7 @@ import Comment from '../CommunityCom/Comment';
 import SendIcon from '../../assets/Icons/SendIcon';
 import ReactNativeModal from 'react-native-modal';
 import CrossCircle from '../../assets/Icons/CrossCircle';
-import {setComments} from '../../store/reducer/commentReducer';
+import {addComment, setComments} from '../../store/reducer/commentReducer';
 import CommentPopup from '../CommentCom/CommentPopup';
 import store from '../../store';
 import {setCommentCount} from '../../store/reducer/communityReducer';
@@ -76,7 +76,7 @@ const GlobalCommentModal = () => {
               action: 'add',
             }),
           );
-          // dispatch(setComments(pre => [res.data.comment, ...pre]));
+          dispatch(addComment(res.data.comment));
         }
       })
       .catch(error => {

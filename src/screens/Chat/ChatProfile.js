@@ -52,7 +52,6 @@ import VolumeMute from '../../assets/Icons/VolumeMute';
 import EditIcon from '../../assets/Icons/EditIcon';
 import UpdateCrowdModal from '../../components/ChatCom/Modal/UpdateCrowdModal';
 import {useNavigation} from '@react-navigation/native';
-import {checkImagePermission} from '../../utility/commonFunction';
 
 const ChatProfile = () => {
   const {top} = useSafeAreaInsets();
@@ -107,11 +106,6 @@ const ChatProfile = () => {
   }, [chat?._id, chat.isChannel, dispatch]);
 
   const selectImage = () => {
-    const permission = checkImagePermission();
-    if (permission !== 'granted') {
-      return;
-    }
-
     const options = {
       mediaType: 'photo',
       maxWidth: 300,
@@ -525,7 +519,6 @@ const getStyles = Colors =>
       resizeMode: 'cover',
       borderRadius: responsiveScreenHeight(1),
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     cameraIcon: {

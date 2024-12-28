@@ -180,7 +180,6 @@ const getStyles = Colors =>
       gap: 5,
       paddingHorizontal: responsiveScreenWidth(1),
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 4,
     },
@@ -192,7 +191,6 @@ const getStyles = Colors =>
     dropdownOptions: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderBottomRightRadius: 10,
       borderBottomLeftRadius: 10,
@@ -210,7 +208,6 @@ const getStyles = Colors =>
     inputField: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4),
