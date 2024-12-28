@@ -184,6 +184,13 @@ const ChatFooter2 = ({
             [chatId]: [res.data.message, ...(prev[chatId] || [])],
           }));
           dispatch(setLocalMessages([res.data.message, ...localMessages]));
+          dispatch(
+            updateLatestMessage({
+              chatId: res?.data?.message?.chat,
+              latestMessage: res?.data?.message,
+              counter: 1,
+            }),
+          );
         }
         setSelectedImages([]);
         setSelectedDocuments([]);
