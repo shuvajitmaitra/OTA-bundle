@@ -486,7 +486,7 @@ const ChatFooter2 = ({
         </View>
       )}
 
-      {!text.length && (
+      {!text.length && !showBottom && (
         <AudioRecorder
           sendMessage={sendMessage}
           setStartRecording={setStartRecording}

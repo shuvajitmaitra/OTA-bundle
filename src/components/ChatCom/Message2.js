@@ -77,6 +77,7 @@ const Message2 = ({item, index, nextSender, setViewImage}) => {
         />
       )}
       <TouchableOpacity
+        activeOpacity={0.8}
         onLongPress={() => dispatch(setMessageOptionData({...item, my}))}
         style={styles.messagesContainer}>
         <TouchableOpacity
