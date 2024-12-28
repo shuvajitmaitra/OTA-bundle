@@ -127,7 +127,7 @@ const getStyles = Colors =>
       borderRadius: 5,
       marginTop: responsiveScreenHeight(2),
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
       flexDirection: 'row',
       justifyContent: 'center',

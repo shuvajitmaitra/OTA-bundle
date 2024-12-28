@@ -244,7 +244,7 @@ const getStyles = Colors =>
       borderRadius: responsiveScreenHeight(1),
       alignSelf: 'center',
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     modalProfileNameContainer: {

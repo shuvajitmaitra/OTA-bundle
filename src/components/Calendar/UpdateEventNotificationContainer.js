@@ -202,7 +202,7 @@ const getStyles = Colors =>
     notification: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor3,
       borderRadius: responsiveScreenWidth(3),
       padding: responsiveScreenWidth(3),

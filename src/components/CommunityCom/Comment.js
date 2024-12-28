@@ -73,7 +73,6 @@ const Comment = memo(({comment: commentData, isLast}) => {
     //   buttonRef,
     // );
   };
-  useEffect(() => {}, []);
 
   const Colors = useTheme();
   const styles = getStyles(Colors, comment);
@@ -308,7 +307,7 @@ const getStyles = (Colors, comment) =>
       paddingHorizontal: responsiveScreenWidth(4),
       borderRadius: responsiveScreenFontSize(10),
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
       marginTop: responsiveScreenHeight(2),
     },
@@ -329,7 +328,7 @@ const getStyles = (Colors, comment) =>
       marginTop: responsiveScreenHeight(1),
       maxWidth: responsiveScreenWidth(70),
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     commentContainer: {

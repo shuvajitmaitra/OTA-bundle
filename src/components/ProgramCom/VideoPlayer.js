@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 10, // Rounds the corners of the container
     overflow: 'hidden', // Ensures content doesn't spill out of the container
     borderWidth: 1,
-    overFlow: 'hidden', // Adds a border
+    overflow: 'hidden', // Adds a border
     borderColor: 'gray', // Sets border color
   },
 });

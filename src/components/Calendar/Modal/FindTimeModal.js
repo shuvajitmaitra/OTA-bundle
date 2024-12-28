@@ -73,7 +73,7 @@ const getStyles = Colors =>
       borderRadius: 4,
       borderColor: Colors.BorderColor,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
     },
     container: {
       backgroundColor: Colors.White,

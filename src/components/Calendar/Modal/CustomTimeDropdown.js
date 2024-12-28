@@ -121,7 +121,7 @@ const getStyles = Colors =>
       borderRadius: 4,
       borderColor: '#ccc',
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
     },
     timeDateText: {
       color: 'rgba(39, 172, 31, 1)',
@@ -134,7 +134,7 @@ const getStyles = Colors =>
       backgroundColor: '#fff',
       borderColor: '#ccc',
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderRadius: 4,
       zIndex: 1000,
     },

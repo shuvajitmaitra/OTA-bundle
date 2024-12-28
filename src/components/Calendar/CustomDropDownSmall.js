@@ -42,7 +42,7 @@ const CustomDropDownSmall = ({options}) => {
           style={{
             backgroundColor: 'rgba(248, 248, 248, 1)',
             borderWidth: 1,
-            overFlow: 'hidden',
+            overflow: 'hidden',
             borderColor: 'rgba(0, 0, 0, 0.1)',
             borderBottomRightRadius: 10,
             borderBottomLeftRadius: 10,
@@ -93,7 +93,7 @@ const getStyles = Colors =>
       alignItems: 'center',
       backgroundColor: 'white',
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: 'rgba(0, 0, 0, 0.1)',
       //   borderColor: Colors.borderColor,
       borderRadius: 10,

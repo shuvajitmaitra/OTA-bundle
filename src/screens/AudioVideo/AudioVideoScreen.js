@@ -243,7 +243,7 @@ const getStyles = Colors =>
       minHeight: responsiveScreenHeight(8),
       width: responsiveScreenWidth(80),
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.WhiteOpacityColor,
       borderRadius: 10,
       backgroundColor: Colors.Blur_Background,

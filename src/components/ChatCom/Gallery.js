@@ -249,7 +249,7 @@ const getStyles = Colors =>
       justifyContent: 'center',
       flex: 0.8,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 100,
     },

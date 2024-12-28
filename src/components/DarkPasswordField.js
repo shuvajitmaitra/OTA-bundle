@@ -150,7 +150,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.Background_color,
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
       marginTop: responsiveScreenHeight(1),
       flexDirection: 'row',

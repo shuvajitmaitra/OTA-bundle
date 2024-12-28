@@ -322,17 +322,14 @@ export const getComments = async postId => {
         commentsWithRepliesPromises,
       );
       store.dispatch(setComments(commentsWithReplies));
-      store.dispatch(setCommentCount({contentId: postId, commentsCount}));
     } else {
       console.error('Failed to fetch comments:', res.data.message);
       store.dispatch(setComments([]));
-      store.dispatch(setCommentCount({contentId: postId, commentsCount: 0}));
     }
   } catch (err) {
     console.error('Error fetching comments:', err);
     handleError(err);
     store.dispatch(setComments([]));
-    store.dispatch(setCommentCount({contentId: postId, commentsCount: 0}));
   }
 };
 export const giveReply = data => {

@@ -67,7 +67,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.White,
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       marginTop: responsiveScreenHeight(1),
       flexDirection: 'row',
       alignItems: 'center',

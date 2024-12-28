@@ -435,7 +435,7 @@ const getStyles = Colors =>
       marginTop: responsiveScreenHeight(1),
       paddingHorizontal: responsiveScreenWidth(3.3),
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(2),
       // maxHeight: responsiveScreenHeight(5.8),

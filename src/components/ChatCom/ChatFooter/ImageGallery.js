@@ -197,7 +197,7 @@ const getStyles = Colors =>
       flex: 1,
       maxHeight: 100,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: '#ccc',
       borderRadius: 25,
       paddingHorizontal: 15,

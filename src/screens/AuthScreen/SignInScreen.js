@@ -243,7 +243,7 @@ const getStyles = Colors =>
     },
     inputField: {
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderRadius: 10,
       padding: responsiveScreenHeight(1.5),
       marginTop: responsiveScreenHeight(1),

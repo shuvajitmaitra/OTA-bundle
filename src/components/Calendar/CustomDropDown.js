@@ -75,7 +75,7 @@ const getStyles = Colors =>
     optionsContainer: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
       borderBottomRightRadius: 10,
       borderBottomLeftRadius: 10,
@@ -93,7 +93,7 @@ const getStyles = Colors =>
       alignItems: 'center',
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
       //   borderColor: Colors.borderColor,
       borderRadius: 10,

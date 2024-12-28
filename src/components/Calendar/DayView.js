@@ -57,7 +57,7 @@ const DayView = ({
             justifyContent: 'center',
             alignItems: 'center',
             borderWidth: 1,
-            overFlow: 'hidden',
+            overflow: 'hidden',
             borderColor: Colors.BorderColor,
           },
         ]}>
@@ -218,7 +218,7 @@ const getStyles = Colors =>
       fontFamily: CustomFonts.REGULAR,
 
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       textAlign: 'center',
     },
     monthHeader: {

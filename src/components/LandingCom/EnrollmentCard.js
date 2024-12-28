@@ -81,7 +81,7 @@ const getStyles = Colors =>
   StyleSheet.create({
     trailButton: {
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.Primary,
       borderRadius: 50,
       paddingVertical: 12,
@@ -121,7 +121,7 @@ const getStyles = Colors =>
     },
     horizontalLine: {
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BodyTextOpacity,
       marginVertical: 20,
     },

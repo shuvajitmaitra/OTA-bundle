@@ -32,7 +32,7 @@ const TextArea = ({
           backgroundColor: Colors.ModalBoxColor,
           borderRadius: 10,
           borderWidth: 1,
-          overFlow: 'hidden',
+          overflow: 'hidden',
           flexDirection: 'row',
           alignItems: 'center',
           paddingHorizontal: responsiveScreenWidth(2),

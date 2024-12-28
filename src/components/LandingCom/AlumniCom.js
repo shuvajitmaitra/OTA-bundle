@@ -25,7 +25,7 @@ const getStyles = Colors =>
   StyleSheet.create({
     horizontalLine: {
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BodyTextOpacity,
       marginVertical: 20,
     },

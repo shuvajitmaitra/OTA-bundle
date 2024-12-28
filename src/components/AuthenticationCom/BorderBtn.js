@@ -35,7 +35,7 @@ const getStyles = Colors =>
       marginTop: responsiveScreenHeight(3),
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.Primary,
     },
     btnText: {

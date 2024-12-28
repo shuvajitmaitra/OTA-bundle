@@ -322,7 +322,7 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(2),
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
     },
     profileImageContainer: {

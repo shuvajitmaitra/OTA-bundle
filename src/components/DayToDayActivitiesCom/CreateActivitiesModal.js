@@ -361,7 +361,7 @@ const getStyles = Colors =>
     inputContainer: {
       borderRadius: 10,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       flexDirection: 'row',
       backgroundColor: Colors.ModalBoxColor,
       alignItems: 'center',
@@ -382,7 +382,7 @@ const getStyles = Colors =>
     inputField: {
       backgroundColor: Colors.ModalBoxColor,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4),

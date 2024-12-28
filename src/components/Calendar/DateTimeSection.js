@@ -98,7 +98,7 @@ const getStyles = Colors =>
       paddingVertical: responsiveScreenHeight(1.5),
       borderColor: Colors.BorderColor,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
       gap: responsiveScreenHeight(2),
       marginBottom: responsiveScreenHeight(2),
       zIndex: 1,
@@ -133,7 +133,7 @@ const getStyles = Colors =>
       borderRadius: 4,
       borderColor: Colors.BorderColor,
       borderWidth: 1,
-      overFlow: 'hidden',
+      overflow: 'hidden',
     },
     timeDateText: {
       color: 'rgba(39, 172, 31, 1)',
