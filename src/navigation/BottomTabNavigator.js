@@ -28,7 +28,6 @@ const getTabBarVisibility = (route, hiddenRoutes = []) => {
 const BottomTabNavigator = () => {
   return (
     <>
-      {/* <PushNotiService /> */}
       <Tab.Navigator
         tabBar={props => <CustomTabBar {...props} />}
         screenOptions={{

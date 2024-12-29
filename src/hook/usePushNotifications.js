@@ -12,6 +12,7 @@ import {setSingleChat} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {setCurrentRoute} from '../store/reducer/authReducer';
+import {navigate} from '../navigation/NavigationService';
 
 const usePushNotifications = () => {
   const [error, setError] = useState('');
@@ -44,27 +45,28 @@ const usePushNotifications = () => {
         await createNotificationChannel();
 
         messaging().onMessage(handleNotification);
-        messaging().setBackgroundMessageHandler(async remoteMessage => {
-          console.log(
-            'remoteMessage background',
-            JSON.stringify(remoteMessage, null, 2),
-          );
-        });
-        AppRegistry.registerHeadlessTask(
-          'RNFirebaseBackgroundMessage',
-          () => async remoteMessage => {
-            console.log('Headless task called with message:', remoteMessage);
-            // You can handle the message or perform tasks here
-          },
-        );
-        messaging().onNotificationOpenedApp(handleNotification);
+        // messaging().setBackgroundMessageHandler(async remoteMessage => {
+        //   // console.log(
+        //   //   'remoteMessage background in usePushNotifications',
+        //   //   JSON.stringify(remoteMessage, null, 2),
+        //   // );
+        //   handleBackgroundNotification(remoteMessage);
+        // });
+        // AppRegistry.registerHeadlessTask(
+        //   'RNFirebaseBackgroundMessage',
+        //   () => async remoteMessage => {
+        //     console.log('Headless task called with message:', remoteMessage);
+        //     // You can handle the message or perform tasks here
+        //   },
+        // );
+        // messaging().onNotificationOpenedApp(handleNotification);
 
-        const initialNotification = await messaging().getInitialNotification();
-        if (initialNotification) {
-          handleNotification(initialNotification);
-        } else {
-          console.log('No initial notification found');
-        }
+        // const initialNotification = await messaging().getInitialNotification();
+        // if (initialNotification) {
+        //   handleNotification(initialNotification);
+        // } else {
+        //   console.log('No initial notification found');
+        // }
 
         messaging().onTokenRefresh(newToken => {
           console.log('FCM Token refreshed:', newToken);
@@ -103,26 +105,26 @@ const usePushNotifications = () => {
   }
 
   const requestNotificationPermission = async () => {
-    console.log('Requesting notification permission...');
-    if (Platform.OS === 'android') {
-      // const {status} = await checkNotifications();
-      // if (status !== 'granted') {
-      //   const permissionResult = await requestNotifications(['alert', 'sound']);
-      //   if (permissionResult.status !== 'granted') {
-      //     setError('Notification permission denied on Android');
-      //     console.log('Android permission denied');
-      //   }
-      // }
-    } else if (Platform.OS === 'ios') {
-      const authStatus = await messaging().requestPermission();
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    // console.log('Requesting notification permission...');
+    // if (Platform.OS === 'android') {
+    // const {status} = await checkNotifications();
+    // if (status !== 'granted') {
+    //   const permissionResult = await requestNotifications(['alert', 'sound']);
+    //   if (permissionResult.status !== 'granted') {
+    //     setError('Notification permission denied on Android');
+    //     console.log('Android permission denied');
+    //   }
+    // }
+    // } else if (Platform.OS === 'ios') {
+    // }
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-      if (!enabled) {
-        setError('Notification permission denied on iOS');
-        console.log('iOS permission denied');
-      }
+    if (!enabled) {
+      setError('Notification permission denied on iOS');
+      console.log('iOS permission denied');
     }
   };
 
@@ -142,21 +144,75 @@ const usePushNotifications = () => {
   };
 
   const handleNotification = async remoteMessage => {
-    console.log('remoteMessage', JSON.stringify(remoteMessage, null, 1));
+    console.log(
+      'handleNotification for foreground',
+      JSON.stringify(remoteMessage, null, 2),
+    );
     try {
-      if (remoteMessage.notification) {
+      if (remoteMessage.data) {
         await notifee.displayNotification({
-          title: remoteMessage.notification.title || 'Default Title',
-          body: remoteMessage.notification.body || 'Default Body',
+          title: remoteMessage.data.name || 'Default Title',
+          body: remoteMessage.data.body || 'Default Body',
           android: {
             channelId: 'default',
+            pressAction: {
+              id: 'default',
+            },
           },
           ios: {
             sound: 'default',
             badge: 1,
           },
         });
-        notifee.onForegroundEvent(({type, detail}) => {
+        notifee.onForegroundEvent(async ({type, detail}) => {
+          if (type === EventType.PRESS) {
+            const {chatId} = remoteMessage.data;
+
+            if (remoteMessage?.data?.path) {
+              const chat = store.getState().chat.chatsObj[chatId];
+              if (chat) {
+                store.dispatch(setSingleChat(chat));
+              } else {
+                console.warn('Chat not found for ID:', chatId);
+              }
+              navigate('MessageScreen2');
+            }
+          }
+
+          if (type === EventType.DISMISSED) {
+            console.log('User dismissed notification');
+            console.log(
+              'Notification Details:',
+              JSON.stringify(detail.notification, null, 2),
+            );
+          }
+        });
+      } else {
+        console.log('No notification content found in the remote message');
+      }
+    } catch (err) {
+      console.error('Error displaying notification:', err);
+    }
+  };
+  const handleBackgroundNotification = async remoteMessage => {
+    console.log(
+      'handleBackgroundNotification',
+      JSON.stringify(remoteMessage, null, 1),
+    );
+    try {
+      if (remoteMessage.notification) {
+        // await notifee.displayNotification({
+        //   title: remoteMessage.notification.title || 'Default Title',
+        //   body: remoteMessage.notification.body || 'Default Body',
+        //   android: {
+        //     channelId: 'default',
+        //   },
+        //   ios: {
+        //     sound: 'default',
+        //     badge: 1,
+        //   },
+        // });
+        notifee.onBackgroundEvent(({type, detail}) => {
           switch (type) {
             case EventType.DISMISSED:
               console.log('User dismissed notification');
@@ -168,8 +224,6 @@ const usePushNotifications = () => {
             case EventType.PRESS:
               console.log('User pressed notification');
               if (remoteMessage.data.path) {
-                store.dispatch(setCurrentRoute('MessageScreen2'));
-
                 navigation.navigate('MessageScreen2');
 
                 store.dispatch(

@@ -171,7 +171,6 @@ export default function Dashboard() {
         statusSectionVisible={statusSectionVisible}
         setStatusSectionVisible={setStatusSectionVisible}
       />
-      {/* <PushNotiService /> */}
 
       <HomeUserDetails
         statusSectionVisible={statusSectionVisible}
