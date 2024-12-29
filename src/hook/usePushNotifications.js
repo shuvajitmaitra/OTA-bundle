@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
-import {Alert, AppRegistry, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import axiosInstance from '../utility/axiosInstance';
 // import {
 //   requestNotifications,
@@ -11,7 +11,6 @@ import store from '../store';
 import {setSingleChat} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {setCurrentRoute} from '../store/reducer/authReducer';
 import {navigate} from '../navigation/NavigationService';
 
 const usePushNotifications = () => {
