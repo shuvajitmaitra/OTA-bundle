@@ -239,7 +239,7 @@ export default function LeaderBoardScreen({route}) {
               style={styles.btn1}
               onPress={() =>
                 navigation.navigate('ProgramStack', {
-                  screen: 'Prograss',
+                  screen: 'Progress',
                 })
               }>
               <View style={styles.btnContainer}>

@@ -24,7 +24,7 @@ export default function ProgramItem({myprogram, myProgressMetrics}) {
   };
 
   const handlePrograss = () => {
-    navigation.navigate('Prograss');
+    navigation.navigate('Progress');
   };
   return (
     <View style={styles.container}>

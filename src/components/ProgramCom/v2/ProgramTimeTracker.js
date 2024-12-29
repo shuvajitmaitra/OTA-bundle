@@ -36,7 +36,7 @@ export default function ProgramTimeTracker() {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => {
-        navigation.navigate('Prograss');
+        navigation.navigate('Progress');
       }}
       style={styles.container}>
       <Text style={styles.time}>Progress</Text>

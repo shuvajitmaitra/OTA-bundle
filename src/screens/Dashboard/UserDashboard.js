@@ -84,7 +84,7 @@ export default function UserDashboard() {
             style={{marginHorizontal: responsiveScreenWidth(2)}}
           />
           <ChartSection
-            onPress={handleNavigation('Prograss', 'ProgramStack')}
+            onPress={handleNavigation('Progress', 'ProgramStack')}
             Colors={Colors}
             Component={AllProgress}
             title={'View More'}

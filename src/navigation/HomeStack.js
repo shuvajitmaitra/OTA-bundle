@@ -16,13 +16,9 @@ import LandingScreenMain from '../screens/LandingScreen/LandingScreenMain';
 import BootCampsDetails from '../screens/LandingScreen/BootCampsDetails';
 import UserDashboard from '../screens/Dashboard/UserDashboard';
 import CourseDetails from '../components/PurchasedCom/CourseDetails';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Text, TouchableOpacity, View} from 'react-native';
 import NotificationScreenHeader from '../components/NotificationScreenHeader';
 import MyPaymentScreen from '../screens/MyPaymentScreen';
-import ArrowLeft from '../assets/Icons/ArrowLeft';
-import CustomFonts from '../constants/CustomFonts';
-import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
+import GlobalBackButton from '../components/SharedComponent/GlobalBackButton';
 
 const HomeStack = createStackNavigator();
 
@@ -119,31 +115,9 @@ const HomeStackScreen = () => {
         component={CourseDetails}
         options={({route, navigation}) => ({
           headerTitle: '',
-          headerLeft: () => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.goBack();
-                }}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginLeft: 10,
-                }}>
-                <ArrowLeft />
-                <Text
-                  style={{
-                    marginLeft: 5,
-                    fontFamily: CustomFonts.MEDIUM,
-                    fontSize: responsiveScreenFontSize(2),
-                    color: Colors.BodyText,
-                  }}>
-                  Back
-                </Text>
-              </TouchableOpacity>
-            );
-          },
+          headerLeft: () => (
+            <GlobalBackButton containerStyle={{marginLeft: 10}} />
+          ),
         })}
       />
       <HomeStack.Screen
@@ -156,31 +130,9 @@ const HomeStackScreen = () => {
         component={MyPaymentScreen}
         options={({route, navigation}) => ({
           headerTitle: '',
-          headerLeft: () => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.goBack();
-                }}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginLeft: 10,
-                }}>
-                <ArrowLeft />
-                <Text
-                  style={{
-                    marginLeft: 5,
-                    fontFamily: CustomFonts.MEDIUM,
-                    fontSize: responsiveScreenFontSize(2),
-                    color: Colors.BodyText,
-                  }}>
-                  Back
-                </Text>
-              </TouchableOpacity>
-            );
-          },
+          headerLeft: () => (
+            <GlobalBackButton containerStyle={{marginLeft: 10}} />
+          ),
         })}
       />
       <HomeStack.Screen

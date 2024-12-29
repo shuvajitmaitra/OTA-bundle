@@ -5,14 +5,15 @@ import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import {useTheme} from '../../context/ThemeContext';
 
-const GlobalBackButton = () => {
+const GlobalBackButton = ({containerStyle}) => {
+  console.log('containerStyle', JSON.stringify(containerStyle, null, 2));
   const navigation = useNavigation();
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
     <TouchableOpacity
       onPress={() => navigation.goBack()}
-      style={styles.backButton}>
+      style={[styles.backButton, containerStyle]}>
       <ArrowLeft />
       <Text style={styles.backText}>Back</Text>
     </TouchableOpacity>
@@ -31,7 +32,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: 10,
-      paddingLeft: 20,
+      marginLeft: 20,
       // backgroundColor: 'red',
       width: responsiveScreenWidth(25),
     },

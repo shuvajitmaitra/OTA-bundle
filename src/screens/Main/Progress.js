@@ -29,7 +29,7 @@ import DocumentsProgress from '../../components/progress/DocumentsProgress';
 import {setDashboardData} from '../../store/reducer/dashboardReducer';
 import Divider from '../../components/SharedComponent/Divider';
 
-export default function Prograss({route}) {
+export default function Progress({route}) {
   const [myprogress, setMyprogress] = React.useState(null);
   const [totalResults, setTotalResults] = useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
