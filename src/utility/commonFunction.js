@@ -4,7 +4,7 @@ import {showToast} from '../components/HelperFunction';
 import store from '../store';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {setAlert} from '../store/reducer/ModalReducer';
-import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+// import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 export const eventTypes = type => {
   return type == 'showNTell'
@@ -154,125 +154,125 @@ export const nameTrim = fullName => {
 export const showAlertModal = data => {
   store.dispatch(setAlert({visible: true, data}));
 };
-export const checkImagePermission = async () => {
-  const permissionType = Platform.select({
-    ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
-    android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
-  });
+// export const checkImagePermission = async () => {
+//   const permissionType = Platform.select({
+//     ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+//     android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+//   });
 
-  let permissionStatus = await check(permissionType);
+//   let permissionStatus = await check(permissionType);
 
-  if (
-    permissionStatus === RESULTS.DENIED ||
-    permissionStatus === RESULTS.LIMITED
-  ) {
-    permissionStatus = await request(permissionType);
-  }
+//   if (
+//     permissionStatus === RESULTS.DENIED ||
+//     permissionStatus === RESULTS.LIMITED
+//   ) {
+//     permissionStatus = await request(permissionType);
+//   }
 
-  if (permissionStatus === RESULTS.BLOCKED) {
-    // Permission is blocked, prompt user to open settings
-    Alert.alert(
-      'Permission Required',
-      'Photo library access is blocked. Please enable it in the app settings to select images.',
-      [
-        {text: 'Cancel', style: 'cancel'},
-        {
-          text: 'Open Settings',
-          onPress: () => Linking.openSettings(),
-        },
-      ],
-      {cancelable: false},
-    );
-  }
-  return permissionStatus;
-};
+//   if (permissionStatus === RESULTS.BLOCKED) {
+//     // Permission is blocked, prompt user to open settings
+//     Alert.alert(
+//       'Permission Required',
+//       'Photo library access is blocked. Please enable it in the app settings to select images.',
+//       [
+//         {text: 'Cancel', style: 'cancel'},
+//         {
+//           text: 'Open Settings',
+//           onPress: () => Linking.openSettings(),
+//         },
+//       ],
+//       {cancelable: false},
+//     );
+//   }
+//   return permissionStatus;
+// };
 
-export const checkAudioPermission = async () => {
-  const permissionType = Platform.select({
-    ios: PERMISSIONS.IOS.MICROPHONE,
-    android: PERMISSIONS.ANDROID.RECORD_AUDIO,
-  });
+// export const checkAudioPermission = async () => {
+//   const permissionType = Platform.select({
+//     ios: PERMISSIONS.IOS.MICROPHONE,
+//     android: PERMISSIONS.ANDROID.RECORD_AUDIO,
+//   });
 
-  try {
-    let permissionStatus = await check(permissionType);
+//   try {
+//     let permissionStatus = await check(permissionType);
 
-    if (
-      permissionStatus === RESULTS.DENIED ||
-      permissionStatus === RESULTS.LIMITED
-    ) {
-      permissionStatus = await request(permissionType);
-    }
+//     if (
+//       permissionStatus === RESULTS.DENIED ||
+//       permissionStatus === RESULTS.LIMITED
+//     ) {
+//       permissionStatus = await request(permissionType);
+//     }
 
-    if (permissionStatus === RESULTS.BLOCKED) {
-      // Permission is blocked, prompt user to open settings
-      Alert.alert(
-        'Permission Required',
-        'Microphone access is blocked. Please enable it in the app settings to record audio.',
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {
-            text: 'Open Settings',
-            onPress: () => Linking.openSettings(),
-          },
-        ],
-        {cancelable: false},
-      );
-    }
+//     if (permissionStatus === RESULTS.BLOCKED) {
+//       // Permission is blocked, prompt user to open settings
+//       Alert.alert(
+//         'Permission Required',
+//         'Microphone access is blocked. Please enable it in the app settings to record audio.',
+//         [
+//           {text: 'Cancel', style: 'cancel'},
+//           {
+//             text: 'Open Settings',
+//             onPress: () => Linking.openSettings(),
+//           },
+//         ],
+//         {cancelable: false},
+//       );
+//     }
 
-    return permissionStatus;
-  } catch (error) {
-    console.warn('Error checking audio permission:', error);
-    return RESULTS.UNAVAILABLE;
-  }
-};
-export const checkDocumentPickerPermission = async () => {
-  let permissionType = null;
+//     return permissionStatus;
+//   } catch (error) {
+//     console.warn('Error checking audio permission:', error);
+//     return RESULTS.UNAVAILABLE;
+//   }
+// };
+// export const checkDocumentPickerPermission = async () => {
+//   let permissionType = null;
 
-  if (Platform.OS === 'android') {
-    const sdkVersion = Platform.Version;
+//   if (Platform.OS === 'android') {
+//     const sdkVersion = Platform.Version;
 
-    if (sdkVersion >= 33) {
-      permissionType = PERMISSIONS.ANDROID.READ_MEDIA_DOCUMENTS;
-    } else {
-      permissionType = PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
-    }
-  } else if (Platform.OS === 'ios') {
-    return RESULTS.GRANTED;
-  } else {
-    return RESULTS.UNAVAILABLE;
-  }
+//     if (sdkVersion >= 33) {
+//       permissionType = PERMISSIONS.ANDROID.READ_MEDIA_DOCUMENTS;
+//     } else {
+//       permissionType = PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+//     }
+//   } else if (Platform.OS === 'ios') {
+//     return RESULTS.GRANTED;
+//   } else {
+//     return RESULTS.UNAVAILABLE;
+//   }
 
-  try {
-    let permissionStatus = await check(permissionType);
+//   try {
+//     let permissionStatus = await check(permissionType);
 
-    if (
-      permissionStatus === RESULTS.DENIED ||
-      permissionStatus === RESULTS.LIMITED
-    ) {
-      permissionStatus = await request(permissionType);
-    }
-    console.log('permissionStatus', JSON.stringify(permissionStatus, null, 2));
-    if (permissionStatus === RESULTS.BLOCKED) {
-      Alert.alert(
-        'Permission Required',
-        'Access to documents is blocked. Please enable it in the app settings to select documents.',
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {
-            text: 'Open Settings',
-            onPress: () =>
-              Linking.openSettings().catch(() =>
-                console.warn('cannot open settings'),
-              ),
-          },
-        ],
-        {cancelable: false},
-      );
-    }
-    console.log('permissionStatus', JSON.stringify(permissionStatus, null, 2));
-    return permissionStatus;
-  } catch (error) {
-    console.warn('Error checking document picker permission:', error);
-    return RESULTS.UNAVAILABLE;
-  }
-};
+//     if (
+//       permissionStatus === RESULTS.DENIED ||
+//       permissionStatus === RESULTS.LIMITED
+//     ) {
+//       permissionStatus = await request(permissionType);
+//     }
+//     console.log('permissionStatus', JSON.stringify(permissionStatus, null, 2));
+//     if (permissionStatus === RESULTS.BLOCKED) {
+//       Alert.alert(
+//         'Permission Required',
+//         'Access to documents is blocked. Please enable it in the app settings to select documents.',
+//         [
+//           {text: 'Cancel', style: 'cancel'},
+//           {
+//             text: 'Open Settings',
+//             onPress: () =>
+//               Linking.openSettings().catch(() =>
+//                 console.warn('cannot open settings'),
+//               ),
+//           },
+//         ],
+//         {cancelable: false},
+//       );
+//     }
+//     console.log('permissionStatus', JSON.stringify(permissionStatus, null, 2));
+//     return permissionStatus;
+//   } catch (error) {
+//     console.warn('Error checking document picker permission:', error);
+//     return RESULTS.UNAVAILABLE;
+//   }
+// };

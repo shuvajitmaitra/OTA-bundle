@@ -2,10 +2,10 @@ import {Platform} from 'react-native';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
-import {
-  checkNotifications,
-  requestNotifications,
-} from 'react-native-permissions';
+// import {
+//   checkNotifications,
+//   requestNotifications,
+// } from 'react-native-permissions';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
 import axiosInstance from './axiosInstance';
 import store from '../store';
@@ -85,13 +85,13 @@ const PushNotiService = () => {
 
   const requestNotificationPermission = async () => {
     if (Platform.OS === 'android') {
-      const {status} = await checkNotifications();
-      if (status !== 'granted') {
-        const permissionResult = await requestNotifications(['alert', 'sound']);
-        if (permissionResult.status !== 'granted') {
-          console.log('Android permission denied');
-        }
-      }
+      // const {status} = await checkNotifications();
+      // if (status !== 'granted') {
+      //   const permissionResult = await requestNotifications(['alert', 'sound']);
+      //   if (permissionResult.status !== 'granted') {
+      //     console.log('Android permission denied');
+      //   }
+      // }
     } else if (Platform.OS === 'ios') {
       const authStatus = await messaging().requestPermission();
       const enabled =

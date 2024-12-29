@@ -1,12 +1,13 @@
-**Work Stream - December 23, 2024**  
-*Bootcampshub CLI*
+**Work Stream - December 29, 2024** 
 
-*Overall status*
-- Total functional and ui issues fixed 8 also work for push notification in background mode.
-- New issue listed 8
+**Bootcampshub CLI**
+- When added show-n-tell, Toast message not showing
+- Need design correction for accepted technical test indicator in technical test details screen.
+- Work on handle notification in background for ios device.
+- Increase  See Less arrow icon's width according to See More arrow icon
+- After uploading document in the technical test details screen, Toast message not showing.
 
-Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJBTLVaRWlOzo9z9ubKM/edit?gid=1720465675#gid=1720465675
-
+**Note: Planned to finish 100% of today's work-stream**
 
 *Work Update - December 28, 2024*
 - Fix app publish issues in apple store and publish a new version 3.6.7.
@@ -21,4 +22,4 @@ Bug list link: https://docs.google.com/spreadsheets/d/1o0jgF9jI08cYBYQCy5WMIIIkJ
 - Adjust ChatMessageInput width and font size for improved layout consistency.
 
 
-**Note: Finished 100% of today's work stream.**
+**Note: Finished 80% of today's work stream.**

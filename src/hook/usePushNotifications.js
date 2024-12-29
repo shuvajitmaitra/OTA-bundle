@@ -3,10 +3,10 @@ import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
 import {Alert, AppRegistry, Platform} from 'react-native';
 import axiosInstance from '../utility/axiosInstance';
-import {
-  requestNotifications,
-  checkNotifications,
-} from 'react-native-permissions';
+// import {
+//   requestNotifications,
+//   checkNotifications,
+// } from 'react-native-permissions';
 import store from '../store';
 import {setSingleChat} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
@@ -105,14 +105,14 @@ const usePushNotifications = () => {
   const requestNotificationPermission = async () => {
     console.log('Requesting notification permission...');
     if (Platform.OS === 'android') {
-      const {status} = await checkNotifications();
-      if (status !== 'granted') {
-        const permissionResult = await requestNotifications(['alert', 'sound']);
-        if (permissionResult.status !== 'granted') {
-          setError('Notification permission denied on Android');
-          console.log('Android permission denied');
-        }
-      }
+      // const {status} = await checkNotifications();
+      // if (status !== 'granted') {
+      //   const permissionResult = await requestNotifications(['alert', 'sound']);
+      //   if (permissionResult.status !== 'granted') {
+      //     setError('Notification permission denied on Android');
+      //     console.log('Android permission denied');
+      //   }
+      // }
     } else if (Platform.OS === 'ios') {
       const authStatus = await messaging().requestPermission();
       const enabled =
