@@ -6,7 +6,6 @@ import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import {useTheme} from '../../context/ThemeContext';
 
 const GlobalBackButton = ({containerStyle}) => {
-  console.log('containerStyle', JSON.stringify(containerStyle, null, 2));
   const navigation = useNavigation();
   const Colors = useTheme();
   const styles = getStyles(Colors);

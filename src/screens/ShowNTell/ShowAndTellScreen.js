@@ -59,7 +59,7 @@ export default function ShowAndTellScreen() {
     setIsUpdateSntModalVisible(prev => !prev);
   };
   useEffect(() => {
-    console.log('show n tell called');
+    // console.log('show n tell called');
     setIsLoading(true);
     axiosInstance
       .get('show-tell/myshows')
