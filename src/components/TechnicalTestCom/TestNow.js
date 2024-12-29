@@ -160,7 +160,7 @@ export default function TestNow(routes) {
           setIsLoading(false);
           handleNextButton();
 
-          return showToast('Answer updated');
+          return showToast({message: 'Answer updated...'});
         }
         setIsLoading(false);
       })
@@ -246,7 +246,7 @@ export default function TestNow(routes) {
       setAttachment(prev => [...(prev || []), ...validUploadedFiles]);
 
       if (validUploadedFiles.length > 0) {
-        showToast('Files uploaded successfully');
+        showToast({message: 'Files uploaded successfully'});
       } else {
         showAlert({
           title: 'Upload Failed',

@@ -10,16 +10,6 @@
 **Note: Planned to finish 100% of today's work-stream**
 
 *Work Update - December 28, 2024*
-- Fix app publish issues in apple store and publish a new version 3.6.7.
-- Latest message not updating issues fixed.
-- Refactor UserModalImageGallery to use FlatList for improved performance and maintainability
-- Reduce extra space issues fixed in the bottom section of chat input filed.
-- Refactor CourseDetails component for improved readability and navigation, and fix spacing issues in chat input
-- When mention a person, showing extra whitespace this issues fixed.
-- Leave crowd option not showing in crowd details screen issues fixed
-- Archive chat and Leave crowd icons alignment issues fixed.
-- Capitalize status text in invitations and update meeting link text color based on response status
-- Adjust ChatMessageInput width and font size for improved layout consistency.
 
 
 **Note: Finished 80% of today's work stream.**

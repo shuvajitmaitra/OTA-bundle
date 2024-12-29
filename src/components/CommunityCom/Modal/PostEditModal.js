@@ -62,7 +62,7 @@ export default function PostEditModal({
       .then(res => {
         closePopover();
         setIsModalVisible(false);
-        showToast('Edited...');
+        showToast({message: 'Post edited successfully...'});
         loadCommunityPosts({
           page: 1,
           limit: 10,

@@ -41,7 +41,7 @@ export default function ChatUnmuteModal({
       })
       .then(res => {
         if (res.data?.success) {
-          showToast('Unmute successfully...');
+          showToast({message: 'Unmute successfully...'});
           fetchMembers();
           //   console.log("item", item);
         }

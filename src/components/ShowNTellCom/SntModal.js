@@ -36,6 +36,7 @@ import Images from '../../constants/Images';
 import {showAlertModal} from '../../utility/commonFunction';
 import RedCrossIcon from '../../assets/Icons/RedCrossIcon';
 import RequireFieldStar from '../../constants/RequireFieldStar';
+// import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
 
 export default function SntModal({
   setIsSntModalVisible,
@@ -149,7 +150,7 @@ export default function SntModal({
         if (res.data.success) {
           dispatch(setAddShowNTell(res.data.item || {}));
           // console.log("resp", JSON.stringify(res?.data, null, 1));
-          showToast('Show n Tell created successfully!');
+          showToast({message: 'Show n Tell created successfully!'});
           clearState();
         }
         setIsLoading(false);
@@ -157,11 +158,7 @@ export default function SntModal({
       .catch(error => {
         console.error('Error submitting Show n Tell', error);
         setIsLoading(false);
-        showAlertModal({
-          title: 'Failed',
-          type: 'warning',
-          message: 'Failed to create Show n Tell. Please try again.',
-        });
+        showToast({message: 'Failed to create Show n Tell. Please try again.'});
       });
   };
 
@@ -482,7 +479,7 @@ export default function SntModal({
           </ScrollView>
         </View>
       )}
-
+      {/* <GlobalAlertModal /> */}
       {isPickerVisible && (
         <CustomTimePicker
           isPickerVisible={isPickerVisible}

@@ -14,13 +14,11 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import useChat from '../../hook/useChat';
 import axiosInstance from '../../utility/axiosInstance';
 import AudioMessage from './AudioMessage';
 import MicIcon from '../../assets/Icons/MicIcon';
 import {useTheme} from '../../context/ThemeContext';
 import ArrowRight from '../../assets/Icons/ArrowRight';
-import NoDataAvailable from '../SharedComponent/NoDataAvailable';
 import Loading from '../SharedComponent/Loading';
 import CustomFonts from '../../constants/CustomFonts';
 import {useSelector} from 'react-redux';
@@ -63,7 +61,7 @@ export default function UserModalVoice() {
     fetchData();
   }, []);
 
-  console.log('file', JSON.stringify(file, null, 1));
+  // console.log('file', JSON.stringify(file, null, 1));
 
   const newFile = file?.length > 4 ? file.slice(0, 4) : file;
   const allFile = seeMoreClicked ? file : newFile;

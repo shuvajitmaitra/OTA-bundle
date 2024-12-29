@@ -140,7 +140,7 @@ export const handleCopyText = text => {
   console.log('text', JSON.stringify(text, null, 1));
   try {
     Clipboard.setString(text);
-    // showToast('Link copied!');
+    showToast({message: 'Link copied!'});
   } catch (error) {
     console.error('Error while copying to clipboard:', error);
   }

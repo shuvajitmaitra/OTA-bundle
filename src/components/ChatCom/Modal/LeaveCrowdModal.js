@@ -37,7 +37,7 @@ const LeaveCrowdModal = ({toggleLeaveCrowdModal, isLeaveCrowdModalVisible}) => {
         dispatch(setCurrentRoute(null));
         navigation.pop(2);
         dispatch(removeChat(chat?._id));
-        showToast('Leave successfully...');
+        showToast({message: 'Leave successfully...'});
       }
     } catch (error) {
       // console.error('Error leaving crowd:', error);

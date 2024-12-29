@@ -65,7 +65,9 @@ export default function ShowAndTellScreen() {
       .get('show-tell/myshows')
       .then(res => {
         setIsLoading(false);
-        if (res.data.success) dispatch(setShowNTell(res.data.items));
+        if (res.data.success) {
+          dispatch(setShowNTell(res.data.items));
+        }
       })
       .catch(error => {
         setIsLoading(false);
@@ -80,7 +82,7 @@ export default function ShowAndTellScreen() {
         if (res.data.success) {
           dispatch(setShowNTell(showNTell?.filter(item => item?._id !== id)));
           setIsDeleteModalVisible({state: false});
-          showToast('ShowNTell deleted');
+          showToast({message: 'ShowNTell deleted'});
         }
       })
       .catch(error => {

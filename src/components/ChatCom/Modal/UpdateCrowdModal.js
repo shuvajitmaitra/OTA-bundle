@@ -53,7 +53,7 @@ const UpdateCrowdModal = ({
           dispatch(updateChats(res?.data?.channel));
           dispatch(updateSingleChatProfile(res?.data?.channel));
           toggleUpdateCrowdModal();
-          showToast('Crowd updated');
+          showToast({message: 'Crowd updated successfully...'});
         }
       })
       .catch(err => {

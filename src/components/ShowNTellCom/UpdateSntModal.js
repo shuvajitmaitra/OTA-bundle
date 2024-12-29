@@ -138,6 +138,7 @@ export default function UpdateSntModal({
         // console.log("res.data", JSON.stringify(res.data, null, 1));
         dispatch(setUpdateShowNTell(res.data.item));
         toggleUpdateSntModal();
+        showToast({message: 'ShowNTell updated successfully'});
       })
       .catch(error => {
         console.log(

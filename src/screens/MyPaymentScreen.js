@@ -131,7 +131,7 @@ const MyPaymentScreen = (routes, navigation) => {
           handleCancel();
           setIsSaving(false);
           toggleAddPaymentModal();
-          showToast('Payment Added!');
+          showToast({message: 'Payment Added!'});
           //window.open(res.data.redirectUrl, '_blank')
         } else {
           setIsSaving(false);
