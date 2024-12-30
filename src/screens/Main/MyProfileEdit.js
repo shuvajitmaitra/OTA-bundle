@@ -153,9 +153,10 @@ export default function MyProfileEdit() {
         type: types.pdf,
       });
 
-      // console.log('result', JSON.stringify(result, null, 2));
+      console.log('result', JSON.stringify(result, null, 2));
       setIsLoading(true);
       const {uri, name, size} = result;
+
       setResumeName(name || '');
       const formData = new FormData();
       formData.append('file', {
@@ -169,6 +170,8 @@ export default function MyProfileEdit() {
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      console.log('response', JSON.stringify(response, null, 2));
       if (response?.data?.success) {
         scrollToBottom();
         setResume(response?.data?.fileUrl);

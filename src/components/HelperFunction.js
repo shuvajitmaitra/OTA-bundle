@@ -3,9 +3,16 @@ import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import Toast from 'react-native-toast-message';
 
 export function extractFilename(uri) {
-  const extension = uri ? uri?.split('/')?.pop()?.toLowerCase() : '';
+  if (!uri) {
+    return 'Unavailable';
+  }
 
-  return extension ? extension : 'Unavailable';
+  const parts = uri.split('/');
+
+  const filename = parts.pop();
+  const filenameParts = filename.split('-');
+  const cleanFilename = filenameParts.slice(1).join('-');
+  return cleanFilename || 'Unavailable';
 }
 
 export const handleOpenLink = link => {
