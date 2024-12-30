@@ -609,6 +609,7 @@ export default function MyProfileEdit() {
                       Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
                     }
                     multiline={true}
+                    onFocus={scrollToBottom}
                     placeholderTextColor={Colors.BodyText}
                     placeholder={'Write about yourself'}
                     style={styles.textAreaInput}
