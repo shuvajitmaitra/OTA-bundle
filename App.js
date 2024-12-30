@@ -32,8 +32,15 @@ LogBox.ignoreLogs(['fontFamily']);
 
 const originalConsoleError = console.error;
 console.error = (...args) => {
-  if (/defaultProps/.test(args[0])) return;
-  originalConsoleError(...args);
+  try {
+    if (!args || args.length === 0) return;
+    const [errorMessage] = args;
+    if (typeof errorMessage !== 'string') return;
+    if (errorMessage.includes('defaultProps')) return;
+    originalConsoleError(...args);
+  } catch (e) {
+    originalConsoleError('Error in custom console.error:', e);
+  }
 };
 
 const AppWrapper = () => {

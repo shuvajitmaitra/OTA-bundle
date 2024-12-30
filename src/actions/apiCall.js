@@ -288,13 +288,16 @@ export const LoadDayToDayActivities = (page, setIsLoading) => {
       setIsLoading(false);
     });
 };
-export const getOnlineUsers = async () => {
-  await axiosInstance
-    .get('user/online')
-    .then(({data}) => {
-      store.dispatch(setOnlineUsers(data.users));
-    })
-    .catch(error => {
-      console.log('error to get online user', JSON.stringify(error, null, 1));
-    });
+export const fetchOnlineUsers = async () => {
+  try {
+    const response = await axiosInstance.get('user/online');
+    const {data} = response;
+    if (!data || !data.users) {
+      console.error('Error fetching online users: invalid response');
+      return;
+    }
+    // store.dispatch(setOnlineUsers(data.users));
+  } catch (error) {
+    console.error('Error fetching online users:', error);
+  }
 };

@@ -31,37 +31,24 @@ import {setPrograms} from '../store/reducer/programReducer';
 import {setChats, setGroupNameId} from '../store/reducer/chatReducer';
 
 export const loadChats = async () => {
-  console.log('loadChats called');
+  try {
+    const response = await axiosInstance.get('/chat/mychats');
+    if (response.data.success) {
+      const {chats} = response.data;
 
-  await axiosInstance
-    .get(
-      '/chat/mychats',
-      //   , {
-      //   headers: {
-      //     'Cache-Control': 'no-store, no-cache, must-revalidate',
-      //     Pragma: 'no-cache',
-      //     Expires: '0',
-      //   },
-      //   params: {
-      //     channel: 'ws',
-      //   },
-      // }
-    )
-    .then(res => {
-      store.dispatch(setChats(res.data.chats));
-      // console.log('res.data.chats', JSON.stringify(res.data.chats, null, 1));
-      store.dispatch(setGroupNameId(res.data.chats));
-      let totalUnread = res.data.chats?.filter(
+      store.dispatch(setChats(chats));
+      store.dispatch(setGroupNameId(chats));
+
+      const unreadChats = chats.filter(
         chat =>
-          !chat?.myData?.isRead &&
-          chat?.myData?.user !== chat?.latestMessage?.sender?._id,
-      )?.length;
-      // await Notifications.setBadgeCountAsync(totalUnread || 0);
-    })
-    .catch(err => {
-      // console.log(err);
-      console.log('err to get initial get', JSON.stringify(err, null, 2));
-    });
+          !chat.myData.isRead &&
+          chat.myData.user !== chat.latestMessage.sender._id,
+      );
+    }
+    // await Notifications.setBadgeCountAsync(unreadChats.length);
+  } catch (error) {
+    console.error('Error fetching my chats:', error);
+  }
 };
 
 export const loadCalendarEvent = async () => {
@@ -147,6 +134,8 @@ export const loadNotifications = async () => {
     })
     .catch(err => {
       console.log(err);
+
+      console.log('error to load notifications', JSON.stringify(err, null, 2));
     });
 };
 export const loadInitialNotifications = () => {
@@ -356,15 +345,18 @@ export const giveReply = data => {
     });
 };
 
-export const loadProgramInfo = () => {
-  axiosInstance
+export const loadProgramInfo = async () => {
+  await axiosInstance
     .get('/enrollment/myprogram')
     .then(res => {
-      store.dispatch(setPrograms(res.data));
       if (res.data.success) {
+        store.dispatch(setPrograms(res.data));
       }
     })
     .catch(error => {
-      handleError(error);
+      console.log(
+        'error to load programs info',
+        JSON.stringify(error, null, 1),
+      );
     });
 };

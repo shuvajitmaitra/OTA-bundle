@@ -137,6 +137,9 @@ export default function SignInScreen({navigation}) {
               <RequireFieldStar />
             </Text>
             <TextInput
+              keyboardAppearance={
+                Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+              }
               style={[
                 styles.inputField,
                 data.isValidUser || data.email.length === 0
@@ -162,6 +165,9 @@ export default function SignInScreen({navigation}) {
             </Text>
             <View style={{position: 'relative'}}>
               <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
                 style={[
                   styles.inputField,
                   data.isValidPassword || data.password.length === 0

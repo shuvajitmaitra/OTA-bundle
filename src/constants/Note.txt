@@ -14,6 +14,6 @@
 **Note: Planned to finish 100% of today's work-stream**
 
 *Work Update - December 28, 2024*
-
+- Refactor RootStackNavigator to improve initialization logic and enhance state management
 
 **Note: Finished 80% of today's work stream.**

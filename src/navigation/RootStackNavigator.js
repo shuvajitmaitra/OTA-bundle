@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import MessageScreen2 from '../screens/Chat/MessageScreen2';
 import ThreadScreen from '../screens/Chat/ThreadScreen';
@@ -20,7 +20,7 @@ import {
   disconnectSocket,
   socket,
 } from '../utility/socketManager';
-import {getOnlineUsers} from '../actions/apiCall';
+import {fetchOnlineUsers} from '../actions/apiCall';
 import {setSinglePost} from '../store/reducer/communityReducer';
 import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
 import OrgSwitchModal from '../components/OrgSwitchModal';
@@ -53,7 +53,7 @@ const RootStackNavigator = () => {
             loadCalendarEvent(),
             loadProgramInfo(),
             loadChats(),
-            getOnlineUsers(),
+            fetchOnlineUsers(),
           ];
 
           await Promise.all(
@@ -66,10 +66,13 @@ const RootStackNavigator = () => {
             connectSocket();
           }
         } else {
-          console.warn('Verification failed with status:', response?.status);
+          console.warn(
+            'Verification failed with status:',
+            response?.status || 'unknown',
+          );
         }
       } catch (err) {
-        console.error('Error during the verification process:', err);
+        console.error('Error verifying user:', err);
       } finally {
         store.dispatch(setAppLoading(false));
       }
@@ -112,13 +115,12 @@ const RootStackNavigator = () => {
             title: 'Thread',
           }}
         />
-
         <RootStack.Screen
           name="ChatProfile"
           component={ChatProfile}
-          options={({route, navigation}) => ({
+          options={{
             headerShown: false,
-          })}
+          }}
         />
       </RootStack.Navigator>
       {isBottomSheetVisible && <GlobalCommentModal />}
