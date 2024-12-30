@@ -4,7 +4,6 @@ import moment from 'moment';
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
 import MCicons from 'react-native-vector-icons/MaterialCommunityIcons';
-import LoadingSmall from '../SharedComponent/LoadingSmall';
 import CircleLoader from '../SharedComponent/CircleLoader';
 
 const MessageBottomContainer = ({item, navigation, my}) => {
@@ -25,24 +24,11 @@ const MessageBottomContainer = ({item, navigation, my}) => {
         </TouchableOpacity>
       )}
       <View style={{flexGrow: 1}}></View>
-      {/* 
-    <TouchableOpacity
-      onPress={() => {
-        item.text && handleCopyText(item.text);
-      }}
-      style={styles.copyContainer}>
-      <LinkIcon2 color={my ? Colors.PureWhite : Colors.BodyText} />
-      <Text style={styles.copyText}>Copy</Text>
-    </TouchableOpacity> */}
 
       <View>
         <Text style={styles.timeText}>
-          {moment(item.editedAt ? item.editedAt : item?.createdAt).format(
-            'MMM DD, 2024',
-          )}
-          {' at '}
-          {moment(item.editedAt ? item.editedAt : item?.createdAt).format(
-            'h:mm A',
+          {moment(item.editedAt || item?.createdAt).format(
+            'MMM DD, YYYY [at] h:mm A',
           )}
         </Text>
         {item.editedAt && <Text style={styles.editedText}>(Edited)</Text>}
@@ -71,15 +57,8 @@ const MessageBottomContainer = ({item, navigation, my}) => {
               name="check-all"
             />
           ) : item?.status === 'sending' ? (
-            // <MCicons
-            //   style={styles.iconStyle}
-            //   size={20}
-            //   color={Colors.PureWhite}
-            //   name="checkbox-blank-circle-outline"
-            // />
             <CircleLoader />
-          ) : // <LoadingSmall />
-          null}
+          ) : null}
         </>
       )}
     </View>
@@ -107,12 +86,10 @@ const getStyles = (Colors, my) =>
       alignItems: 'center',
       justifyContent: 'space-between',
       gap: 10,
-      //   backgroundColor: 'red',
       width: '100%',
     },
     timeText: {
       color: my ? Colors.PureWhite : Colors.BodyText,
-      // color: '#dfdfdf',
       alignSelf: 'flex-end',
     },
   });

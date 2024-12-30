@@ -50,7 +50,7 @@ const MessageScreen2 = () => {
   const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);
   const [messageEditVisible, setMessageEditVisible] = useState('');
   const [viewInitialMessage, setViewInitialMessage] = useState(false);
-  const LIMIT = 20;
+  const LIMIT = 15;
 
   const fetchPinned = chatId => {
     if (!chatId) {
@@ -117,6 +117,7 @@ const MessageScreen2 = () => {
   }, [chat._id, dispatch, initialGetMessage]);
 
   const handleLoadMore = async () => {
+    // console.log('handleLoadMore', hasMore);
     if (isLoading || !hasMore) {
       return;
     }

@@ -33,19 +33,21 @@ import {setChats, setGroupNameId} from '../store/reducer/chatReducer';
 export const loadChats = async () => {
   try {
     const response = await axiosInstance.get('/chat/mychats');
-    if (response.data.success) {
+    if (response.data.chats.length > 0) {
       const {chats} = response.data;
 
       store.dispatch(setChats(chats));
       store.dispatch(setGroupNameId(chats));
 
-      const unreadChats = chats.filter(
-        chat =>
-          !chat.myData.isRead &&
-          chat.myData.user !== chat.latestMessage.sender._id,
-      );
+      // const unreadChats = chats.filter(
+      //   chat =>
+      //     !chat.myData.isRead &&
+      //     chat.myData.user !== chat.latestMessage.sender._id,
+      // );
+    } else {
+      console.log('No chat found');
+      store.dispatch(setChats([]));
     }
-    // await Notifications.setBadgeCountAsync(unreadChats.length);
   } catch (error) {
     console.error('Error fetching my chats:', error);
   }

@@ -38,7 +38,6 @@ const RootStackNavigator = () => {
   const organization = storage.getString('organization');
   const activeEnrolment = storage.getString('active_enrolment');
   const {error} = usePushNotifications();
-
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -49,22 +48,20 @@ const RootStackNavigator = () => {
 
         if (response && response.status === 200) {
           const promises = [
-            loadNotifications(),
-            loadCalendarEvent(),
-            loadProgramInfo(),
+            // if (socket && !socket.connected) {
+            //   connectSocket();
+            // }
             loadChats(),
+            connectSocket(),
+            loadProgramInfo(),
+            loadCalendarEvent(),
+            loadNotifications(),
             fetchOnlineUsers(),
           ];
 
-          await Promise.all(
-            promises.map(p =>
-              p.catch(err => console.error('Error loading data:', err)),
-            ),
-          );
-
-          if (socket && !socket.connected) {
-            connectSocket();
-          }
+          await Promise.all(promises);
+          hasInitialized.current = true;
+          store.dispatch(setAppLoading(false));
         } else {
           console.warn(
             'Verification failed with status:',
@@ -80,10 +77,10 @@ const RootStackNavigator = () => {
 
     if (!hasInitialized.current) {
       initialize();
-      hasInitialized.current = true;
     }
 
     return () => {
+      hasInitialized.current = false;
       disconnectSocket();
       store.dispatch(setSinglePost(null));
       store.dispatch(setCurrentRoute(null));

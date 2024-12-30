@@ -10,9 +10,7 @@ const DeleteMessageContainer = ({item = {}, my}) => {
     <View style={styles.messagesContainer}>
       <Text style={styles.text}>This message has been deleted</Text>
       <Text style={styles.timeText}>
-        {moment(item?.createdAt).format('MMM DD, 2024')}
-        {' at '}
-        {moment(item?.createdAt).format('h:m A')}
+        {moment(item?.createdAt).format('MMM DD, YYYY [at] h:mm A')}
       </Text>
     </View>
   );
