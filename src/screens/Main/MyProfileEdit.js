@@ -258,8 +258,8 @@ export default function MyProfileEdit() {
   const selectImage = () => {
     const options = {
       mediaType: 'photo',
-      maxWidth: 300,
-      maxHeight: 300,
+      maxWidth: 30000,
+      maxHeight: 30000,
       quality: 1,
       selectionLimit: 1,
     };

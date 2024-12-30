@@ -17,6 +17,8 @@ import {TextInput} from 'react-native';
 import EditPostBottomContainer from '../EditPostBottomContainer';
 import GlobalAlertModal from '../../SharedComponent/GlobalAlertModal';
 import RequireFieldStar from '../../../constants/RequireFieldStar';
+import {useDispatch} from 'react-redux';
+import {setSinglePost} from '../../../store/reducer/communityReducer';
 
 export default function PostEditModal({
   setIsModalVisible,
@@ -27,7 +29,7 @@ export default function PostEditModal({
   const [post, setPost] = useState(postData);
   const Colors = useTheme();
   const styles = getStyles(Colors);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     setPost(postData);
   }, [postData]);
@@ -60,7 +62,8 @@ export default function PostEditModal({
         attachments: post?.attachments,
       })
       .then(res => {
-        closePopover();
+        // closePopover();
+        dispatch(setSinglePost(null));
         setIsModalVisible(false);
         showToast({message: 'Post edited successfully...'});
         loadCommunityPosts({

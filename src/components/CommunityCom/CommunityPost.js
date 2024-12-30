@@ -13,11 +13,9 @@ import CustomFonts from '../../constants/CustomFonts';
 import TopContributorSlider from './TopContributorSlider';
 import PostFooterSection from './PostFooterSection';
 import {getComments} from '../../actions/chat-noti';
-import CommentSection from '../CommentCom/CommentSection';
 import ReportModal from './Modal/ReportModal';
 import ViewPostImage from './ViewPostImage';
 import {autoLinkify} from '../ChatCom/MessageHelper';
-import {showToast} from '../HelperFunction';
 
 const CommunityPost = memo(
   ({post, index, handleTopContributor, handleTagSearch}) => {
