@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import MessageScreen2 from '../screens/Chat/MessageScreen2';
 import ThreadScreen from '../screens/Chat/ThreadScreen';
@@ -33,34 +33,40 @@ const RootStack = createStackNavigator();
 
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
-  const {bottomSheetVisible} = useSelector(state => state.modal);
-
-  const orgJSON = storage.getString('organization');
-  const proJSON = storage.getString('active_enrolment');
-  // const keys = storage.getAllKeys();
-  // console.log('keys', JSON.stringify(keys, null, 1));
+  const {isBottomSheetVisible} = useSelector(state => state.modal);
+  const hasInitialized = useRef(false);
+  const organization = storage.getString('organization');
+  const activeEnrolment = storage.getString('active_enrolment');
   const {error} = usePushNotifications();
+
   useEffect(() => {
-    const initialCalls = async () => {
+    const initialize = async () => {
       try {
         await configureAxiosHeader();
         store.dispatch(setAppLoading(true));
-        const res = await axiosInstance.post('/user/verify', {});
 
-        if (res.status === 200) {
-          await Promise.all([
+        const response = await axiosInstance.post('/user/verify', {});
+
+        if (response && response.status === 200) {
+          const promises = [
             loadNotifications(),
             loadCalendarEvent(),
             loadProgramInfo(),
             loadChats(),
             getOnlineUsers(),
-          ]);
+          ];
 
-          if (!socket?.connected) {
+          await Promise.all(
+            promises.map(p =>
+              p.catch(err => console.error('Error loading data:', err)),
+            ),
+          );
+
+          if (socket && !socket.connected) {
             connectSocket();
           }
-
-          console.log('handle from dashboard..............');
+        } else {
+          console.warn('Verification failed with status:', response?.status);
         }
       } catch (err) {
         console.error('Error during the verification process:', err);
@@ -69,16 +75,16 @@ const RootStackNavigator = () => {
       }
     };
 
-    initialCalls();
+    if (!hasInitialized.current) {
+      initialize();
+      hasInitialized.current = true;
+    }
 
     return () => {
       disconnectSocket();
       store.dispatch(setSinglePost(null));
       store.dispatch(setCurrentRoute(null));
       store.dispatch(setBottomSheetVisible(null));
-      console.log(
-        '.........................................................................................................',
-      );
     };
   }, []);
 
@@ -115,16 +121,10 @@ const RootStackNavigator = () => {
           })}
         />
       </RootStack.Navigator>
-      {bottomSheetVisible && <GlobalCommentModal />}
+      {isBottomSheetVisible && <GlobalCommentModal />}
       {notificationClicked && <NotificationEventDetails />}
-      {!orgJSON && <OrgSwitchModal isVisible={!orgJSON} />}
-      {/* {selectProgramModalVisible && (
-        <ProgramSwitchModal
-          onCancelPress={() => setSelectProgramModalVisible(false)}
-          modalOpen={selectProgramModalVisible}
-        />
-      )} */}
-      {!proJSON && (
+      {!organization && <OrgSwitchModal isVisible={!organization} />}
+      {!activeEnrolment && (
         <ProgramSwitchModal onCancelPress={() => {}} modalOpen={true} />
       )}
     </>
