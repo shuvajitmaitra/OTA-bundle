@@ -82,9 +82,9 @@ const getStyles = Colors =>
       marginRight: responsiveScreenWidth(3),
     },
     messageContainer: {
-      width: responsiveScreenWidth(12),
-      height: responsiveScreenWidth(12),
-      borderRadius: responsiveScreenWidth(12),
+      width: 50,
+      height: 50,
+      borderRadius: 50,
       backgroundColor: Colors.White,
       marginRight: responsiveScreenWidth(4),
       justifyContent: 'center',
