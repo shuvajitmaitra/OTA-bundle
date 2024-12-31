@@ -11,6 +11,9 @@ import {
   Alert,
   ActivityIndicator,
   StatusBar,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import {

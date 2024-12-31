@@ -1,19 +1,17 @@
 **Work Stream - December 30, 2024** 
 
 **Bootcampshub CLI**
-- Twitter "X" icon and git hub icon not similar with others icon
-- Unable to change profile image in profile edit screen
-- Unable to upload resume from profile edit screen
-- When editing the bio field, the bio field appears below the keyboard.
 - The social link field is only showing half of the field when click in the field
 - There are already unread notifications, but the unread messages are not counted in the navigation notification icon
-- Need some gap left side of arrow icon and reduce gap between icon and back text
 - Unable to scrollable show n tell details screen
-- Need gap left side of arrow icon in show n tell details screen.
+- No gap between list item in community post three dot
+- Community post image regulation low in community screen
+- count number place not correct need to adjustment position
+- Ai generated text field in community holding previous data
 
 **Note: Planned to finish 100% of today's work-stream**
 
-*Work Update - December 28, 2024*
-- Refactor RootStackNavigator to improve initialization logic and enhance state management
-- Enhance filename extraction logic and improve logging in MyProfileEdit component
-**Note: Finished 80% of today's work stream.**
+*Work Update - December 30, 2024*
+
+
+**Note: Finished 100% of today's work stream.**

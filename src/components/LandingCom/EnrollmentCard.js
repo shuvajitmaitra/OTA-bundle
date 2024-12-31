@@ -65,12 +65,12 @@ const EnrollmentCard = ({enrollDetails}) => {
       <View style={styles.pointContainer}>
         <Text style={styles.pointText}>Certificate of completion</Text>
       </View>
-      <TouchableOpacity style={styles.enrollButton}>
+      {/* <TouchableOpacity style={styles.enrollButton}>
         <Text style={styles.enrollButtonText}>Enroll Now</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.trailButton}>
         <Text style={styles.trailButtonText}>Enrollment Test</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

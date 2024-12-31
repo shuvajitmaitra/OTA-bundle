@@ -1,7 +1,11 @@
 import {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
-import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
-import {Platform} from 'react-native';
+import notifee, {
+  AndroidImportance,
+  AuthorizationStatus,
+  EventType,
+} from '@notifee/react-native';
+import {AppRegistry, Platform} from 'react-native';
 import axiosInstance from '../utility/axiosInstance';
 // import {
 //   requestNotifications,
@@ -44,28 +48,28 @@ const usePushNotifications = () => {
         await createNotificationChannel();
 
         messaging().onMessage(handleNotification);
-        // messaging().setBackgroundMessageHandler(async remoteMessage => {
-        //   // console.log(
-        //   //   'remoteMessage background in usePushNotifications',
-        //   //   JSON.stringify(remoteMessage, null, 2),
-        //   // );
-        //   handleBackgroundNotification(remoteMessage);
-        // });
-        // AppRegistry.registerHeadlessTask(
-        //   'RNFirebaseBackgroundMessage',
-        //   () => async remoteMessage => {
-        //     console.log('Headless task called with message:', remoteMessage);
-        //     // You can handle the message or perform tasks here
-        //   },
-        // );
-        // messaging().onNotificationOpenedApp(handleNotification);
+        messaging().setBackgroundMessageHandler(async remoteMessage => {
+          // console.log(
+          //   'remoteMessage background in usePushNotifications',
+          //   JSON.stringify(remoteMessage, null, 2),
+          // );
+          handleBackgroundNotification(remoteMessage);
+        });
+        AppRegistry.registerHeadlessTask(
+          'RNFirebaseBackgroundMessage',
+          () => async remoteMessage => {
+            console.log('Headless task called with message:', remoteMessage);
+            // You can handle the message or perform tasks here
+          },
+        );
+        messaging().onNotificationOpenedApp(handleNotification);
 
-        // const initialNotification = await messaging().getInitialNotification();
-        // if (initialNotification) {
-        //   handleNotification(initialNotification);
-        // } else {
-        //   console.log('No initial notification found');
-        // }
+        const initialNotification = await messaging().getInitialNotification();
+        if (initialNotification) {
+          handleNotification(initialNotification);
+        } else {
+          console.log('No initial notification found');
+        }
 
         messaging().onTokenRefresh(newToken => {
           console.log('FCM Token refreshed:', newToken);
@@ -104,6 +108,18 @@ const usePushNotifications = () => {
   }
 
   const requestNotificationPermission = async () => {
+    const settings = await notifee.requestPermission({
+      sound: false,
+      announcement: true,
+      inAppNotificationSettings: false,
+      // ... other permission settings
+    });
+
+    if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
+      console.log('Permission settings:', settings);
+    } else {
+      console.log('User declined permissions');
+    }
     // console.log('Requesting notification permission...');
     // if (Platform.OS === 'android') {
     // const {status} = await checkNotifications();
@@ -117,10 +133,11 @@ const usePushNotifications = () => {
     // } else if (Platform.OS === 'ios') {
     // }
     const authStatus = await messaging().requestPermission();
+
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
+    console.log('enabled', JSON.stringify(enabled, null, 2));
     if (!enabled) {
       setError('Notification permission denied on iOS');
       console.log('iOS permission denied');
