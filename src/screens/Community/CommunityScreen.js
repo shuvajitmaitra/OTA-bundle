@@ -23,14 +23,18 @@ import SearchAndFilter from '../../components/SharedComponent/SearchAndFilter';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import PostPopup from '../../components/CommunityCom/Modal/PostPopup';
+import GlobalCommentModal from '../../components/SharedComponent/GlobalCommentModal';
 
 const CommunityScreen = () => {
   const {
-    posts,
-    totalPost,
-    isLoading: loadingData,
-    singlePost,
+    posts = [],
+    totalPost = 0,
+    isLoading: loadingData = false,
+    singlePost = null,
   } = useSelector(state => state.community);
+  const {bottomSheetVisible} = useSelector(state => state.modal);
+
+  const [modalVisible, setModalVisible] = useState(false);
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [page, setPage] = useState(2);
@@ -106,6 +110,7 @@ const CommunityScreen = () => {
   });
 
   const renderItem = useCallback(({item, index}) => {
+    if (!item) return null;
     return (
       <CommunityPost
         post={item}
@@ -115,6 +120,8 @@ const CommunityScreen = () => {
       />
     );
   }, []);
+
+  const keyExtractor = useCallback((item, index) => item?._id?.toString() || index.toString(), []);
 
   const handleScrollToTop = () => {
     flatListRef.current.scrollToOffset({animated: true, offset: 0});
@@ -159,15 +166,17 @@ const CommunityScreen = () => {
   };
 
   const handleFetchMore = () => {
-    // console.log(page);
-    loadCommunityPosts({
-      page: page,
-      limit: 10,
-      query: data.query,
-      tags: searchTag,
-      user: userId,
-      filterBy: '',
-    });
+    if (posts.length < totalPost) {
+      loadCommunityPosts({
+        page: page,
+        limit: 10,
+        query: data.query,
+        tags: searchTag,
+        user: userId,
+        filterBy: '',
+      });
+      setPage(prevPage => prevPage + 1);
+    }
   };
   const handleSearch = () => {
     loadCommunityPosts({
@@ -226,7 +235,7 @@ const CommunityScreen = () => {
         ref={flatListRef}
         data={isLoading ? [] : posts}
         renderItem={renderItem}
-        keyExtractor={item => item._id}
+        keyExtractor={keyExtractor}
         ListHeaderComponent={
           <>
             <Text style={styles.title}>Community</Text>
@@ -275,8 +284,7 @@ const CommunityScreen = () => {
         contentContainerStyle={styles.container}
         onScroll={onScroll}
         onEndReached={() => {
-          if (totalPost !== posts?.length) {
-            setPage(page + 1);
+          if (posts.length < totalPost) {
             handleFetchMore();
           }
         }}
@@ -302,6 +310,7 @@ const CommunityScreen = () => {
       />
 
       {singlePost && <PostPopup />}
+      {bottomSheetVisible && <GlobalCommentModal />}
     </View>
   );
 };

@@ -11,12 +11,9 @@ import {useTheme} from '../../context/ThemeContext';
 import CommentsIcon from '../../assets/Icons/CommentsIcon';
 import Divider from '../SharedComponent/Divider';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {getComments} from '../../actions/chat-noti';
-import {useDispatch, useSelector} from 'react-redux';
 import ForwardIcon from '../../assets/Icons/ForwardIcon';
-import {setBottomSheetVisible} from '../../store/reducer/ModalReducer';
-import {setCommentId} from '../../store/reducer/commentReducer';
 import ReactionContainer from './ReactionContainer';
+import {useNavigation} from '@react-navigation/native';
 
 const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
   const Colors = useTheme();
@@ -29,12 +26,9 @@ const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
     key,
     value,
   }));
-  const {bottomSheetVisible} = useSelector(state => state.modal);
-  const dispatch = useDispatch();
+  const navigation = useNavigation();
   const openComment = () => {
-    dispatch(setBottomSheetVisible(!bottomSheetVisible));
-    dispatch(setCommentId(post?._id));
-    getComments(post?._id);
+    navigation.navigate('CommentScreen', {contentId: post._id});
   };
   const handlePressIn = event => {
     const {pageX, pageY} = event.nativeEvent;

@@ -8,6 +8,8 @@ import ProgramStackScreen from './ProgramStack';
 import MyCalenderStackScreen from './MyCalenderStack';
 import CommunityStackScreen from './CommunityStack';
 import CustomTabBar from './CustomTabBar';
+import GlobalCommentModal from '../components/SharedComponent/GlobalCommentModal';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator({
   NewChatScreen: {
@@ -26,6 +28,7 @@ const getTabBarVisibility = (route, hiddenRoutes = []) => {
 };
 
 const BottomTabNavigator = () => {
+  const {bottomSheetVisible} = useSelector(state => state.modal);
   return (
     <>
       <Tab.Navigator
@@ -77,6 +80,7 @@ const BottomTabNavigator = () => {
           })}
         />
       </Tab.Navigator>
+      {/* {bottomSheetVisible && <GlobalCommentModal />} */}
     </>
   );
 };

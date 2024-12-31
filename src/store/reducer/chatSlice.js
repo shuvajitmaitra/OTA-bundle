@@ -25,7 +25,7 @@ const chatSlice = createSlice({
       state.crowdMembers = action.payload;
     },
     updateCrowdMembers: (state, action) => {
-      console.log('action.payload', JSON.stringify(action.payload, null, 1));
+      // console.log('action.payload', JSON.stringify(action.payload, null, 1));
       state.crowdMembers = [action.payload, ...state.crowdMembers];
     },
     setSelectedMembers: (state, action) => {

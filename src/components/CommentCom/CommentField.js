@@ -11,19 +11,15 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../constants/CustomFonts';
 import {useDispatch, useSelector} from 'react-redux';
-import {setBottomSheetVisible} from '../../store/reducer/ModalReducer';
-import {setCommentId} from '../../store/reducer/commentReducer';
-import {getComments} from '../../actions/chat-noti';
+import {useNavigation} from '@react-navigation/native';
 
 const CommentField = ({postId}) => {
+  const navigation = useNavigation();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
   const openCommentModal = () => {
-    dispatch(setBottomSheetVisible(true));
-    dispatch(setCommentId(postId));
-    getComments(postId);
+    navigation.navigate('CommentScreen', {contentId: postId});
   };
 
   return (

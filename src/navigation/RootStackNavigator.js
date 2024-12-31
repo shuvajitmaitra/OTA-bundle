@@ -27,13 +27,12 @@ import OrgSwitchModal from '../components/OrgSwitchModal';
 import {storage} from '../utility/mmkvInstance';
 import ProgramSwitchModal from '../components/SharedComponent/ProgramSwitchModal';
 import usePushNotifications from '../hook/usePushNotifications';
-import {setBottomSheetVisible} from '../store/reducer/ModalReducer';
+import CommentScreen from '../screens/Comment/CommentScreen';
 
 const RootStack = createStackNavigator();
 
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
-  const {isBottomSheetVisible} = useSelector(state => state.modal);
   const {myEnrollments, organizations} = useSelector(state => state.auth);
   const hasInitialized = useRef(false);
   const organization = storage.getString('organization');
@@ -50,11 +49,9 @@ const RootStackNavigator = () => {
 
         if (response && response.status === 200) {
           const promises = [
-            // if (socket && !socket.connected) {
-            //   connectSocket();
-            // }
             loadChats(),
-            connectSocket(),
+            socket && !socket.connected && connectSocket(),
+            // connectSocket(),
             loadProgramInfo(),
             loadCalendarEvent(),
             loadNotifications(),
@@ -85,8 +82,6 @@ const RootStackNavigator = () => {
       hasInitialized.current = false;
       disconnectSocket();
       store.dispatch(setSinglePost(null));
-      store.dispatch(setCurrentRoute(null));
-      store.dispatch(setBottomSheetVisible(null));
     };
   }, []);
 
@@ -121,8 +116,15 @@ const RootStackNavigator = () => {
             headerShown: false,
           }}
         />
+        <RootStack.Screen
+          name="CommentScreen"
+          component={CommentScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
       </RootStack.Navigator>
-      {isBottomSheetVisible && <GlobalCommentModal />}
+
       {notificationClicked && <NotificationEventDetails />}
       {!organization && organizations.length > 0 && (
         <OrgSwitchModal isVisible={!organization} />

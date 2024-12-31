@@ -170,7 +170,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
   const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  console.log('chats', JSON.stringify(chats, null, 2));
 
   const [checked, setChecked] = useState('chats');
   const [records, setRecords] = useState([]);
