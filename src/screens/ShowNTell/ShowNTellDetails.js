@@ -91,7 +91,7 @@ const ShowNTellDetails = ({route}) => {
             : 'light-content'
         }
       />
-      <ScrollView contentContainerStyle={{flex: 1}}>
+      <ScrollView>
         <View style={styles.testContainer}>
           {/* Header */}
           <View style={styles.headingContainer}>
