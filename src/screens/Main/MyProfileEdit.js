@@ -331,68 +331,60 @@ export default function MyProfileEdit() {
 
             <View style={styles.fieldContainer}>
               <Text style={styles.fieldText}>First Name</Text>
-              <View style={[styles.inputContainer]}>
-                <TextInput
-                  keyboardAppearance={
-                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                  }
-                  numberOfLines={1}
-                  style={styles.textInput}
-                  onChangeText={setFirstName}
-                  value={firstName}
-                  editable={true}
-                  placeholder="Enter first name..."
-                  placeholderTextColor={Colors.BodyText}
-                />
-              </View>
+              <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
+                numberOfLines={1}
+                style={styles.textInput}
+                onChangeText={setFirstName}
+                value={firstName}
+                editable={true}
+                placeholder="Enter first name..."
+                placeholderTextColor={Colors.BodyText}
+              />
             </View>
             <View style={styles.fieldContainer}>
               <Text style={styles.fieldText}>Last Name</Text>
-              <View style={[styles.inputContainer]}>
-                <TextInput
-                  keyboardAppearance={
-                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                  }
-                  numberOfLines={1}
-                  style={styles.textInput}
-                  value={lastName}
-                  onChangeText={setLastName}
-                  placeholderTextColor={Colors.BodyText}
-                  editable={true}
-                  placeholder="Enter last name..."
-                />
-              </View>
+              <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
+                numberOfLines={1}
+                style={styles.textInput}
+                value={lastName}
+                onChangeText={setLastName}
+                placeholderTextColor={Colors.BodyText}
+                editable={true}
+                placeholder="Enter last name..."
+              />
             </View>
             <View style={styles.fieldContainer}>
               <Text style={styles.fieldText}>Email</Text>
-              <View style={[styles.inputContainer]}>
-                <TextInput
-                  keyboardAppearance={
-                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                  }
-                  numberOfLines={1}
-                  style={styles.textInput}
-                  placeholder={user?.email || 'Enter email...'}
-                  placeholderTextColor={Colors.BodyText}
-                  editable={false}
-                />
-              </View>
+              <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
+                numberOfLines={1}
+                style={styles.textInput}
+                placeholder={user?.email || 'Enter email...'}
+                placeholderTextColor={Colors.BodyText}
+                editable={false}
+              />
             </View>
 
             <View style={styles.fieldContainer}>
               <Text style={styles.fieldText}>Member Since</Text>
-              <View style={[styles.inputContainer]}>
-                <TextInput
-                  keyboardAppearance={
-                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                  }
-                  numberOfLines={1}
-                  style={styles.textInput}
-                  placeholder={formatDate(user?.createdAt)}
-                  editable={false}
-                  placeholderTextColor={Colors.BodyText}
-                />
-              </View>
+              <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
+                numberOfLines={1}
+                style={styles.textInput}
+                placeholder={formatDate(user?.createdAt)}
+                editable={false}
+                placeholderTextColor={Colors.BodyText}
+              />
             </View>
 
             <View style={styles.fieldContainer}>
@@ -412,47 +404,43 @@ export default function MyProfileEdit() {
               <View style={styles.fieldContainer}>
                 <Text style={styles.fieldText}>Address</Text>
                 <View style={styles.addressContainer}>
-                  <View style={[styles.selectContainer]}>
-                    <TextInput
-                      keyboardAppearance={
-                        Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                      }
-                      numberOfLines={1}
-                      placeholder="Enter street"
-                      value={selectedState}
-                      style={styles.textInput}
-                      onChangeText={setSelectedState}
-                      placeholderTextColor={Colors.BodyText}
-                    />
-                  </View>
-                  <View style={[styles.selectContainer]}>
-                    <TextInput
-                      keyboardAppearance={
-                        Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                      }
-                      numberOfLines={1}
-                      placeholder="Enter city"
-                      style={styles.textInput}
-                      onChangeText={setSelectedCity}
-                      value={selectedCity}
-                      placeholderTextColor={Colors.BodyText}
-                    />
-                  </View>
+                  <TextInput
+                    keyboardAppearance={
+                      Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                    }
+                    numberOfLines={1}
+                    placeholder="Enter street"
+                    value={selectedState}
+                    style={styles.addressInput}
+                    onChangeText={setSelectedState}
+                    placeholderTextColor={Colors.BodyText}
+                  />
 
-                  <View style={[styles.selectContainer]}>
-                    <TextInput
-                      keyboardAppearance={
-                        Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                      }
-                      numberOfLines={1}
-                      placeholder="Enter postal code"
-                      placeholderTextColor={Colors.BodyText}
-                      value={selectedPostalCode}
-                      style={styles.textInput}
-                      onChangeText={setSelectedPostalCode}
-                      keyboardType="numeric"
-                    />
-                  </View>
+                  <TextInput
+                    keyboardAppearance={
+                      Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                    }
+                    numberOfLines={1}
+                    placeholder="Enter city"
+                    style={styles.addressInput}
+                    onChangeText={setSelectedCity}
+                    value={selectedCity}
+                    placeholderTextColor={Colors.BodyText}
+                  />
+
+                  <TextInput
+                    keyboardAppearance={
+                      Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                    }
+                    numberOfLines={1}
+                    placeholder="Enter postal code"
+                    placeholderTextColor={Colors.BodyText}
+                    value={selectedPostalCode}
+                    style={styles.addressInput}
+                    onChangeText={setSelectedPostalCode}
+                    keyboardType="numeric"
+                  />
+
                   {/* <View style={[styles.selectContainer]}>
                   <TextInput
                     keyboardAppearance={
@@ -466,31 +454,28 @@ export default function MyProfileEdit() {
                     onChangeText={(text) => setState(text)}
                   />
                 </View> */}
-                  <View style={[styles.selectContainer]}>
-                    <TextInput
-                      keyboardAppearance={
-                        Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                      }
-                      numberOfLines={1}
-                      placeholder="Enter country"
-                      value={selectedCountry}
-                      style={styles.textInput}
-                      placeholderTextColor={Colors.BodyText}
-                      onChangeText={setSelectedCountry}
-                    />
-                  </View>
+
+                  <TextInput
+                    keyboardAppearance={
+                      Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                    }
+                    numberOfLines={1}
+                    placeholder="Enter country"
+                    value={selectedCountry}
+                    style={styles.addressInput}
+                    placeholderTextColor={Colors.BodyText}
+                    onChangeText={setSelectedCountry}
+                  />
                 </View>
               </View>
               <View style={styles.socialfieldContainer}>
                 <Text style={styles.fieldText}>Social Link</Text>
                 <View style={styles.socialLinkContainer}>
-                  <View style={[styles.selectContainer]}>
-                    <Text style={{width: 20}}>
+                  <View style={[styles.socialInputContainer]}>
+                    <View style={styles.socialIconContainer}>
                       <FacebookSvg />
-                    </Text>
-                    <Text style={styles.lineUp}>
-                      <LineUp />
-                    </Text>
+                    </View>
+
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -498,21 +483,16 @@ export default function MyProfileEdit() {
                       numberOfLines={1}
                       placeholder="www.facebook.com"
                       placeholderTextColor={Colors.BodyText}
-                      style={[
-                        styles.textInput,
-                        {textTransform: 'none', width: '90%'},
-                      ]}
+                      style={styles.socialInputField}
                       onChangeText={setFacebook}
                       value={facebook}
                     />
                   </View>
-                  <View style={[styles.selectContainer]}>
-                    <Text style={{width: 20}}>
+                  <View style={[styles.socialInputContainer]}>
+                    <View style={styles.socialIconContainer}>
                       <GithubIcon />
-                    </Text>
-                    <Text style={styles.lineUp}>
-                      <LineUp />
-                    </Text>
+                    </View>
+
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -521,20 +501,15 @@ export default function MyProfileEdit() {
                       placeholder="www.github.com"
                       placeholderTextColor={Colors.BodyText}
                       value={github}
-                      style={[
-                        styles.textInput,
-                        {textTransform: 'none', width: '90%'},
-                      ]}
+                      style={styles.socialInputField}
                       onChangeText={setGithub}
                     />
                   </View>
-                  <View style={[styles.selectContainer]}>
-                    <Text style={{width: 20}}>
+                  <View style={[styles.socialInputContainer]}>
+                    <View style={styles.socialIconContainer}>
                       <InstagramIcon />
-                    </Text>
-                    <Text style={styles.lineUp}>
-                      <LineUp />
-                    </Text>
+                    </View>
+
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -543,20 +518,14 @@ export default function MyProfileEdit() {
                       placeholder="www.instagram.com"
                       placeholderTextColor={Colors.BodyText}
                       value={instagram}
-                      style={[
-                        styles.textInput,
-                        {textTransform: 'none', width: '90%'},
-                      ]}
+                      style={styles.socialInputField}
                       onChangeText={setInstagram}
                     />
                   </View>
-                  <View style={[styles.selectContainer]}>
-                    <Text style={{width: 20}}>
+                  <View style={[styles.socialInputContainer]}>
+                    <View style={styles.socialIconContainer}>
                       <Linkedin />
-                    </Text>
-                    <Text style={styles.lineUp}>
-                      <LineUp />
-                    </Text>
+                    </View>
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -565,20 +534,14 @@ export default function MyProfileEdit() {
                       placeholder="www.linkedin.com"
                       placeholderTextColor={Colors.BodyText}
                       value={linkedin}
-                      style={[
-                        styles.textInput,
-                        {textTransform: 'none', width: '90%'},
-                      ]}
+                      style={[styles.socialInputField]}
                       onChangeText={setLinkedin}
                     />
                   </View>
-                  <View style={[styles.selectContainer]}>
-                    <Text style={{width: 20}}>
+                  <View style={styles.socialInputContainer}>
+                    <View style={styles.socialIconContainer}>
                       <Twitter />
-                    </Text>
-                    <Text style={styles.lineUp}>
-                      <LineUp />
-                    </Text>
+                    </View>
                     <TextInput
                       keyboardAppearance={
                         Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
@@ -587,10 +550,7 @@ export default function MyProfileEdit() {
                       placeholder="www.twitter.com"
                       placeholderTextColor={Colors.BodyText}
                       value={twitter}
-                      style={[
-                        styles.textInput,
-                        {textTransform: 'none', width: '90%'},
-                      ]}
+                      style={styles.socialInputField}
                       onChangeText={setTwitter}
                     />
                   </View>
@@ -650,6 +610,43 @@ export default function MyProfileEdit() {
 
 const getStyles = Colors =>
   StyleSheet.create({
+    addressInput: {
+      backgroundColor: Colors.Background_color,
+      textTransform: 'none',
+      width: '100%',
+      height: 40,
+      paddingLeft: 10,
+      borderRadius: 7,
+      borderWidth: 1,
+      borderColor: Colors.BorderColor,
+      fontSize: responsiveScreenFontSize(1.8),
+      color: Colors.Heading,
+      fontFamily: CustomFonts.REGULAR,
+    },
+    socialIconContainer: {
+      width: '15%',
+      alignItems: 'center',
+    },
+    socialInputField: {
+      backgroundColor: Colors.Background_color,
+      textTransform: 'none',
+      width: '85%',
+      height: 40,
+      paddingLeft: 10,
+      borderRightRadius: 7,
+      fontSize: responsiveScreenFontSize(1.8),
+      color: Colors.Heading,
+      fontFamily: CustomFonts.REGULAR,
+    },
+    socialInputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      // backgroundColor: 'blue',
+      borderWidth: 1,
+      borderColor: Colors.BorderColor,
+      borderRadius: 7,
+    },
+
     container: {
       flex: 1,
       // marginTop: responsiveScreenHeight(3),
@@ -761,8 +758,7 @@ const getStyles = Colors =>
     fieldContainer: {
       width: responsiveScreenWidth(90),
       alignSelf: 'center',
-      marginTop: responsiveScreenHeight(2.5),
-      marginBottom: responsiveScreenHeight(0),
+      marginBottom: responsiveScreenHeight(1),
     },
     socialfieldContainer: {
       width: responsiveScreenWidth(90),
@@ -827,8 +823,8 @@ const getStyles = Colors =>
       textTransform: 'capitalize',
     },
     selectContainer: {
-      flex: 1,
-      height: responsiveScreenHeight(6),
+      // flex: 1,
+      height: responsiveScreenHeight(1),
       borderRadius: 10,
       borderWidth: 1,
       flexDirection: 'row',
@@ -836,7 +832,7 @@ const getStyles = Colors =>
       paddingHorizontal: responsiveScreenWidth(3),
       justifyContent: 'space-between',
       borderColor: Colors.BorderColor,
-      backgroundColor: Colors.Background_color,
+      backgroundColor: Colors.Primary,
     },
     textInput: {
       width: '100%',
@@ -847,20 +843,27 @@ const getStyles = Colors =>
       // textAlign: "justify",
       textTransform: 'capitalize',
       overflow: 'scroll',
+      backgroundColor: Colors.White,
       // backgroundColor: "red",
+      paddingLeft: 10,
+      borderRadius: 7,
+      borderWidth: 1,
+      borderColor: Colors.BorderColor,
+      height: 50,
+      marginTop: 10,
     },
     textAreaInput: {
-      flex: 1,
+      // flex: 1,
       marginLeft: responsiveScreenWidth(1),
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.Heading,
       fontFamily: CustomFonts.REGULAR,
       textAlign: 'justify',
-      paddingVertical: responsiveScreenHeight(1),
+      // paddingVertical: responsiveScreenHeight(1),
       // backgroundColor: "red",
       textAlignVertical: 'top',
-      minHeight: responsiveScreenHeight(10),
-      maxHeight: 200,
+      // minHeight: responsiveScreenHeight(10),
+      // maxHeight: 200,
     },
     resumeContainer: {
       width: responsiveScreenWidth(90),

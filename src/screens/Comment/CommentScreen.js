@@ -35,7 +35,6 @@ import {getComments} from '../../actions/chat-noti';
 
 const CommentScreen = () => {
   const route = useRoute();
-  console.log('route', JSON.stringify(route, null, 2));
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
   const [commentText, setCommentText] = useState('');
@@ -44,7 +43,7 @@ const CommentScreen = () => {
   const Colors = useTheme();
   const navigation = useNavigation();
   const styles = getStyles(Colors);
-  const {comments = [], commentId = null} = useSelector(state => state.comment);
+  const {comments = []} = useSelector(state => state.comment);
   const [isCommenting, setCommenting] = useState(false);
   const {contentId} = route.params;
 
@@ -55,6 +54,8 @@ const CommentScreen = () => {
       dispatch(setComments([]));
     };
   }, [dispatch, contentId]);
+
+  //   console.log('comments', JSON.stringify(comments, null, 2));
 
   const handleCreateComment = () => {
     if (!commentText.trim()) {
@@ -69,7 +70,7 @@ const CommentScreen = () => {
     axiosInstance
       .post('/content/comment/create', {
         comment: commentText,
-        contentId: commentId,
+        contentId,
       })
       .then(res => {
         if (res?.data?.success) {
@@ -97,8 +98,8 @@ const CommentScreen = () => {
   };
 
   const filteredComments = useMemo(
-    () => comments.filter(comment => comment?.contentId === commentId),
-    [comments, commentId],
+    () => comments.filter(comment => comment?.contentId === contentId),
+    [comments, contentId],
   );
 
   const renderCommentItem = useCallback(

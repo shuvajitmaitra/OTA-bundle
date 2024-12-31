@@ -1,54 +1,88 @@
-import * as React from "react";
-import Svg, { LinearGradient, Stop, Path, Circle } from "react-native-svg";
+import * as React from 'react';
+import Svg, {Rect, Path, Defs, RadialGradient, Stop} from 'react-native-svg';
 
-function InstagramIcon(props) {
+function InstagramIcon({color, size, ...props}) {
   return (
-    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" {...props}>
-      <LinearGradient
-        id="a"
-        x1={1.464}
-        x2={14.536}
-        y1={14.536}
-        y2={1.464}
-        gradientUnits="userSpaceOnUse"
-      >
-        <Stop offset={0} stopColor="#FFC107" />
-        <Stop offset={0.507} stopColor="#F44336" />
-        <Stop offset={0.99} stopColor="#9C27B0" />
-      </LinearGradient>
-      <Path
-        fill="url(#a)"
-        d="M11 0H5a5 5 0 00-5 5v6a5 5 0 005 5h6a5 5 0 005-5V5a5 5 0 00-5-5zm3.5 11c0 1.93-1.57 3.5-3.5 3.5H5c-1.93 0-3.5-1.57-3.5-3.5V5c0-1.93 1.57-3.5 3.5-3.5h6c1.93 0 3.5 1.57 3.5 3.5v6z"
+    <Svg
+      width={size || 25}
+      height={size || 25}
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}>
+      <Rect
+        x={2}
+        y={2}
+        width={28}
+        height={28}
+        rx={6}
+        fill="url(#paint0_radial_87_7153)"
       />
-      <LinearGradient
-        id="b"
-        x1={5.172}
-        x2={10.828}
-        y1={10.828}
-        y2={5.172}
-        gradientUnits="userSpaceOnUse"
-      >
-        <Stop offset={0} stopColor="#FFC107" />
-        <Stop offset={0.507} stopColor="#F44336" />
-        <Stop offset={0.99} stopColor="#9C27B0" />
-      </LinearGradient>
-      <Path
-        fill="url(#b)"
-        d="M8 4a4 4 0 100 8 4 4 0 000-8zm0 6.5A2.503 2.503 0 015.5 8c0-1.379 1.122-2.5 2.5-2.5s2.5 1.121 2.5 2.5c0 1.378-1.122 2.5-2.5 2.5z"
+      <Rect
+        x={2}
+        y={2}
+        width={28}
+        height={28}
+        rx={6}
+        fill="url(#paint1_radial_87_7153)"
       />
-      <LinearGradient
-        id="c"
-        x1={11.923}
-        x2={12.677}
-        y1={4.077}
-        y2={3.323}
-        gradientUnits="userSpaceOnUse"
-      >
-        <Stop offset={0} stopColor="#FFC107" />
-        <Stop offset={0.507} stopColor="#F44336" />
-        <Stop offset={0.99} stopColor="#9C27B0" />
-      </LinearGradient>
-      <Circle cx={12.3} cy={3.7} r={0.533} fill="url(#c)" />
+      <Rect
+        x={2}
+        y={2}
+        width={28}
+        height={28}
+        rx={6}
+        fill="url(#paint2_radial_87_7153)"
+      />
+      <Path d="M23 10.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" fill="#fff" />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M16 21a5 5 0 100-10 5 5 0 000 10zm0-2a3 3 0 100-6 3 3 0 000 6z"
+        fill="#fff"
+      />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M6 15.6c0-3.36 0-5.04.654-6.324a6 6 0 012.622-2.622C10.56 6 12.24 6 15.6 6h.8c3.36 0 5.04 0 6.324.654a6 6 0 012.622 2.622C26 10.56 26 12.24 26 15.6v.8c0 3.36 0 5.04-.654 6.324a6 6 0 01-2.622 2.622C21.44 26 19.76 26 16.4 26h-.8c-3.36 0-5.04 0-6.324-.654a6 6 0 01-2.622-2.622C6 21.44 6 19.76 6 16.4v-.8zM15.6 8h.8c1.713 0 2.878.002 3.778.075.877.072 1.325.202 1.638.361a4 4 0 011.748 1.748c.16.313.29.761.36 1.638.074.9.076 2.065.076 3.778v.8c0 1.713-.002 2.878-.075 3.778-.072.877-.202 1.325-.361 1.638a4 4 0 01-1.748 1.748c-.313.16-.761.29-1.638.36-.9.074-2.065.076-3.778.076h-.8c-1.713 0-2.878-.002-3.778-.075-.877-.072-1.325-.202-1.638-.361a4 4 0 01-1.748-1.748c-.16-.313-.29-.761-.36-1.638C8.001 19.278 8 18.113 8 16.4v-.8c0-1.713.002-2.878.075-3.778.072-.877.202-1.325.361-1.638a4 4 0 011.748-1.748c.313-.16.761-.29 1.638-.36.9-.074 2.065-.076 3.778-.076z"
+        fill="#fff"
+      />
+      <Defs>
+        <RadialGradient
+          id="paint0_radial_87_7153"
+          cx={0}
+          cy={0}
+          r={1}
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="rotate(-55.376 27.916 .066) scale(25.5196)">
+          <Stop stopColor="#B13589" />
+          <Stop offset={0.79309} stopColor="#C62F94" />
+          <Stop offset={1} stopColor="#8A3AC8" />
+        </RadialGradient>
+        <RadialGradient
+          id="paint1_radial_87_7153"
+          cx={0}
+          cy={0}
+          r={1}
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="rotate(-65.136 29.766 6.89) scale(22.5942)">
+          <Stop stopColor="#E0E8B7" />
+          <Stop offset={0.444662} stopColor="#FB8A2E" />
+          <Stop offset={0.71474} stopColor="#E2425C" />
+          <Stop offset={1} stopColor="#E2425C" stopOpacity={0} />
+        </RadialGradient>
+        <RadialGradient
+          id="paint2_radial_87_7153"
+          cx={0}
+          cy={0}
+          r={1}
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="matrix(38.50003 -5.5 1.1764 8.23476 .5 3)">
+          <Stop offset={0.156701} stopColor="#406ADC" />
+          <Stop offset={0.467799} stopColor="#6A45BE" />
+          <Stop offset={1} stopColor="#6A45BE" stopOpacity={0} />
+        </RadialGradient>
+      </Defs>
     </Svg>
   );
 }

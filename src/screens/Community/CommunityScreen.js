@@ -121,7 +121,10 @@ const CommunityScreen = () => {
     );
   }, []);
 
-  const keyExtractor = useCallback((item, index) => item?._id?.toString() || index.toString(), []);
+  const keyExtractor = useCallback(
+    (item, index) => item?._id?.toString() || index.toString(),
+    [],
+  );
 
   const handleScrollToTop = () => {
     flatListRef.current.scrollToOffset({animated: true, offset: 0});
@@ -310,7 +313,6 @@ const CommunityScreen = () => {
       />
 
       {singlePost && <PostPopup />}
-      {bottomSheetVisible && <GlobalCommentModal />}
     </View>
   );
 };

@@ -40,6 +40,7 @@ const setupSocketListeners = socket => {
   socket.on('newmessage', data => {
     if (data.message?.sender?._id !== user?._id) {
       addNewMessage(data.chat?._id, data.message);
+      store.dispatch(appendLocalMessage(data.message));
       if (!data?.message?.parentMessage) {
         // console.log('Platform.OS', JSON.stringify(Platform.OS, null, 2));
         // console.log('new message', JSON.stringify(data.message, null, 1));
@@ -64,7 +65,6 @@ const setupSocketListeners = socket => {
     //   // store.dispatch(
     //   //   addNewMessage({chatId: data.chat?._id, message: data.message}),
     //   // );
-    //   store.dispatch(appendLocalMessage(data.message));
     // } else if (data?.message?.type !== 'message') {
     //   store.dispatch(
     //     pushMessage({chat: data.chat?._id, message: data.message}),

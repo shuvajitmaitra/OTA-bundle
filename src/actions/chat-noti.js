@@ -276,7 +276,7 @@ export const handleError = error => {
 export const getComments = async postId => {
   try {
     const res = await axiosInstance.get(`/content/comment/get/${postId}`);
-    console.log('res.data.comments.length', JSON.stringify(res.data, null, 2));
+    // console.log('res.data.comments.length', JSON.stringify(res.data, null, 2));
     if (res.data.success) {
       const {comments, totalCount} = res.data;
       const commentsCount = comments.reduce((accumulator, comment) => {

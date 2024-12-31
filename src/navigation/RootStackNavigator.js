@@ -50,7 +50,7 @@ const RootStackNavigator = () => {
         if (response && response.status === 200) {
           const promises = [
             loadChats(),
-            socket && !socket.connected && connectSocket(),
+            connectSocket(),
             // connectSocket(),
             loadProgramInfo(),
             loadCalendarEvent(),

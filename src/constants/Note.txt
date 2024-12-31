@@ -13,5 +13,6 @@
 
 *Work Update - December 31, 2024*
 - Add organization and enrollment checks in modals, implement app reset action
-
+- Refactor comment handling: replace bottom sheet with navigation to CommentScreen, enhance logging, and clean up unused code.
+- 
 **Note: Finished 100% of today's work stream.**
