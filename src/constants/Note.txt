@@ -2,12 +2,8 @@
 
 **Bootcampshub CLI**
 - The social link field is only showing half of the field when click in the field
-- There are already unread notifications, but the unread messages are not counted in the navigation notification icon
-- Unable to scrollable show n tell details screen
-- No gap between list item in community post three dot
-- Community post image regulation low in community screen
-- count number place not correct need to adjustment position
-- Ai generated text field in community holding previous data
+
+
 
 **Note: Planned to finish 100% of today's work-stream**
 
@@ -16,6 +12,12 @@
 - Refactor comment handling: replace bottom sheet with navigation to CommentScreen, enhance logging, and clean up unused code.
 - Refactor comment handling, update socket connection logic, and clean up console logs in various components
 - Show n tell details screen scrollable issues fixed.
-- 
+- Refactor MessageNotificationContainer styles for consistent dimensions
+- Community post image regulation low in community screen
+- count number place not correct need to adjustment position
+- Ai generated text field in community holding previous data
+- There are already unread notifications, but the unread messages are not counted in the navigation notification icon
+- Unable to scrollable show n tell details screen
+- No gap between list item in community post three dot
 
 **Note: Finished 100% of today's work stream.**

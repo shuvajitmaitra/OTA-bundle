@@ -63,9 +63,9 @@ export default function MessageNotificationContainer() {
 const getStyles = Colors =>
   StyleSheet.create({
     messageContainer: {
-      width: responsiveScreenWidth(12),
-      height: responsiveScreenWidth(12),
-      borderRadius: responsiveScreenWidth(12),
+      width: 55,
+      height: 55,
+      borderRadius: 55,
       backgroundColor: Colors.White,
       marginRight: responsiveScreenWidth(4),
       justifyContent: 'center',
@@ -73,9 +73,9 @@ const getStyles = Colors =>
       elevation: 5,
     },
     notificationContainer: {
-      width: responsiveScreenWidth(12),
-      height: responsiveScreenWidth(12),
-      borderRadius: responsiveScreenWidth(12),
+      width: 55,
+      height: 55,
+      borderRadius: 55,
       backgroundColor: Colors.White,
       justifyContent: 'center',
       alignItems: 'center',
