@@ -27,6 +27,9 @@ const OrgSwitchModal = ({isVisible, onCancelPress}) => {
   const styles = getStyles(Colors);
   useEffect(() => {
     const handleSelectOrganization = () => {
+      if (organizations.length === 0) {
+        return;
+      }
       setOrganization(organizations[0]);
       dispatch(setSelectedOrganization(organizations[0]));
       handleVerify2();

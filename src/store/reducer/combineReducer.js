@@ -20,8 +20,9 @@ import newChatReducer from './newChatReducer';
 import chatSlice from './chatSlice';
 import userStatusReducer from './userStatusReducer';
 import landingReducer from './landingReducer';
+import {RESET_APP} from '../action';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   auth: authReducers,
   chat: chatReducer,
   notification: notificationReducer,
@@ -44,5 +45,10 @@ const rootReducer = combineReducers({
   chatSlice: chatSlice,
   landing: landingReducer,
 });
-
+const rootReducer = (state, action) => {
+  if (action.type === RESET_APP) {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 export default rootReducer;

@@ -32,17 +32,20 @@ const ProgramSwitchModal = memo(({modalOpen, onCancelPress}) => {
 
   useEffect(() => {
     const handleSwitch = () => {
-      dispatch(setEnrollment(myEnrollments[0]));
-      activeProgram({
-        _id: myEnrollments[0]._id,
-        programName: myEnrollments[0].program.title,
-      });
+      if (myEnrollments.length > 0) {
+        dispatch(setEnrollment(myEnrollments[0]));
+        activeProgram({
+          _id: myEnrollments[0]._id,
+          programName: myEnrollments[0].program.title,
+        });
+        handleVerify2();
+      }
     };
     if (!enrollment?._id) {
       handleSwitch();
       handleVerify2();
     }
-  }, [dispatch, handleVerify2, myEnrollments]);
+  }, [dispatch, enrollment?._id, handleVerify2, myEnrollments]);
 
   const handleSwitch = async enroll => {
     dispatch(setEnrollment(enroll));

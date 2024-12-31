@@ -24,6 +24,7 @@ import DisplaySettingsIcon from '../assets/Icons/DisplaySettingsIcon';
 import {storage} from '../utility/mmkvInstance';
 import OrganizationDetails from '../navigation/OrganizationDetails';
 import {handleOpenLink} from '../components/HelperFunction';
+import {resetApp} from '../store/action';
 
 // Icon render functions
 const renderHomeIconTwo = ({color, size}) => (
@@ -65,6 +66,7 @@ export function DrawerContent(props) {
   const [updateAvailable, setUpdateAvailable] = useState(false);
 
   const signOut = async () => {
+    dispatch(resetApp());
     await AsyncStorage.removeItem('user_token');
     storage.clearAll();
     dispatch(logout());

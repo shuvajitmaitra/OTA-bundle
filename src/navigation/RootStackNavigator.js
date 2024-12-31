@@ -34,10 +34,12 @@ const RootStack = createStackNavigator();
 const RootStackNavigator = () => {
   const {notificationClicked} = useSelector(state => state.calendar);
   const {isBottomSheetVisible} = useSelector(state => state.modal);
+  const {myEnrollments, organizations} = useSelector(state => state.auth);
   const hasInitialized = useRef(false);
   const organization = storage.getString('organization');
   const activeEnrolment = storage.getString('active_enrolment');
   const {error} = usePushNotifications();
+
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -122,8 +124,10 @@ const RootStackNavigator = () => {
       </RootStack.Navigator>
       {isBottomSheetVisible && <GlobalCommentModal />}
       {notificationClicked && <NotificationEventDetails />}
-      {!organization && <OrgSwitchModal isVisible={!organization} />}
-      {!activeEnrolment && (
+      {!organization && organizations.length > 0 && (
+        <OrgSwitchModal isVisible={!organization} />
+      )}
+      {!activeEnrolment && myEnrollments.length > 0 && (
         <ProgramSwitchModal onCancelPress={() => {}} modalOpen={true} />
       )}
     </>
