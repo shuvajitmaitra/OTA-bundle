@@ -15,5 +15,7 @@
 - Add organization and enrollment checks in modals, implement app reset action
 - Refactor comment handling: replace bottom sheet with navigation to CommentScreen, enhance logging, and clean up unused code.
 - Refactor comment handling, update socket connection logic, and clean up console logs in various components
+- Show n tell details screen scrollable issues fixed.
+- 
 
 **Note: Finished 100% of today's work stream.**

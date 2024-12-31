@@ -23,6 +23,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomFonts from '../../../constants/CustomFonts';
 import Popover, {Rect} from 'react-native-popover-view';
+import {RegularFonts} from '../../../constants/Fonts';
 
 const PostPopup = () => {
   const {user} = useSelector(state => state.auth);
@@ -187,20 +188,20 @@ const getStyles = Colors =>
   StyleSheet.create({
     content: {
       borderRadius: 5,
-      // gap: responsiveScreenHeight(1),
+      gap: responsiveScreenHeight(1),
       backgroundColor: Colors.White,
       padding: 10,
-      width: 150,
+      width: 200,
     },
     itemContainer: {
-      paddingVertical: responsiveScreenHeight(0.5),
+      paddingVertical: responsiveScreenHeight(1),
       backgroundColor: Colors.Background_color,
       paddingHorizontal: responsiveScreenWidth(2),
       borderRadius: responsiveFontSize(0.5),
     },
     item: {
       color: Colors.Heading,
-      fontFamily: CustomFonts.REGULAR,
-      fontWeight: '500',
+      fontFamily: CustomFonts.MEDIUM,
+      fontSize: RegularFonts.HS,
     },
   });
