@@ -8,6 +8,8 @@ const AiButtonContainer = ({
   generatePrompt,
   onApplyPress,
   handleCancelButton,
+  onResetPress,
+  resetVisible,
 }) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -36,6 +38,20 @@ const AiButtonContainer = ({
       {/* <TouchableOpacity onPress={() => {}} style={[styles.buttonContainer, { backgroundColor: Colors.LightRed }]}>
         <Text style={[styles.buttonText, { color: Colors.Red }]}>Undo</Text>
       </TouchableOpacity> */}
+      {resetVisible && (
+        <TouchableOpacity
+          onPress={() => {
+            onResetPress();
+          }}
+          style={[
+            styles.buttonContainer,
+            {backgroundColor: Colors.CyanOpacity},
+          ]}>
+          <Text style={[styles.buttonText, {color: Colors.PureCyan}]}>
+            Reset
+          </Text>
+        </TouchableOpacity>
+      )}
       <TouchableOpacity
         onPress={() => {
           onApplyPress();

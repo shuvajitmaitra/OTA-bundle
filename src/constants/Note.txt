@@ -1,8 +1,6 @@
 **Work Stream - December 30, 2024** 
 
 **Bootcampshub CLI**
-- The social link field is only showing half of the field when click in the field
-
 
 
 **Note: Planned to finish 100% of today's work-stream**
@@ -15,9 +13,10 @@
 - Refactor MessageNotificationContainer styles for consistent dimensions
 - Community post image regulation low in community screen
 - count number place not correct need to adjustment position
-- Ai generated text field in community holding previous data
+- Ai generated text field in community holding previous data these issues fixed.
 - There are already unread notifications, but the unread messages are not counted in the navigation notification icon
 - Unable to scrollable show n tell details screen
-- No gap between list item in community post three dot
+- Community post popup spacing issues fixed.
+
 
 **Note: Finished 100% of today's work stream.**

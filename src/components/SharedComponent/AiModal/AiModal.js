@@ -276,6 +276,10 @@ const AiModal = ({state, setState = () => {}, onCancelPress, isVisible}) => {
               handleCancelButton={handleCancelButton}
               generatePrompt={generatePrompt}
               onApplyPress={handleApplyPress}
+              onResetPress={() => {
+                setResult('');
+              }}
+              resetVisible={result && !isLoading}
             />
           </View>
         )}
