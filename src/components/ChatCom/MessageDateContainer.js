@@ -3,6 +3,7 @@ import React from 'react';
 import {useTheme} from '../../context/ThemeContext';
 import CustomFonts from '../../constants/CustomFonts';
 import {RegularFonts} from '../../constants/Fonts';
+import {formatDynamicDate} from '../../utility/commonFunction';
 
 const MessageDateContainer = ({time}) => {
   const Colors = useTheme();
@@ -11,7 +12,7 @@ const MessageDateContainer = ({time}) => {
     <View style={styles.container}>
       <View style={styles.Divider} />
       <View style={styles.dateContainer}>
-        <Text style={styles.dateText}>{new Date(time).toDateString()}</Text>
+        <Text style={styles.dateText}>{formatDynamicDate(time)}</Text>
       </View>
       <View style={styles.Divider} />
     </View>

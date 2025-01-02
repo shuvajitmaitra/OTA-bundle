@@ -27,29 +27,28 @@ export const eventTypes = type => {
 };
 
 export function formatDynamicDate(dateStr) {
-  const momentDate = moment(dateStr);
-  const today = moment().startOf('day');
-  const yesterday = moment().subtract(1, 'days').startOf('day');
-  const startOfWeek = moment().startOf('week');
+  const date = moment(dateStr);
+  const now = moment();
 
-  // Check if the date is today
-  if (momentDate.isSame(today, 'day')) {
-    return 'Today';
+  // Get day name once
+  const dayName = date.format('ddd');
+
+  // Start of day calculations
+  if (date.isSame(now, 'day')) {
+    return `${dayName}, Today`;
   }
 
-  // Check if the date is yesterday
-  if (momentDate.isSame(yesterday, 'day')) {
-    return 'Yesterday';
+  if (date.isSame(now.clone().subtract(1, 'day'), 'day')) {
+    return `${dayName}, Yesterday`;
   }
 
-  // Check if the date is within the current week
-  if (momentDate.isSameOrAfter(startOfWeek)) {
-    return momentDate.format('dddd'); // Returns day name (e.g., "Monday")
+  if (date.isSame(now, 'week')) {
+    return dayName;
   }
 
-  // Otherwise, return the formatted date
-  return momentDate.format('MMM D, YYYY'); // Returns date in "Aug 24, 2024" format
+  return `${dayName}, ${date.format('MMM D, YYYY')}`;
 }
+
 export function replaceTimeInDatetime(datetimeString, newTime) {
   const originalMoment = moment(datetimeString);
   const newTimeMoment = moment(newTime, 'hh:mm A');

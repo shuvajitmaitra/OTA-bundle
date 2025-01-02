@@ -170,7 +170,7 @@ const getStyles = (Colors, my) =>
     threeDotContainer: {
       position: 'absolute',
       right: -10,
-      top: 5,
+      top: 0,
       // backgroundColor: 'red',
       width: 30,
       height: 30,
