@@ -385,7 +385,7 @@ const getStyles = Colors =>
       overflow: 'hidden',
       borderColor: Colors.BorderColor,
       borderRadius: 10,
-      paddingHorizontal: responsiveScreenWidth(4),
+      paddingHorizontal: responsiveScreenWidth(2),
       // paddingVertical: responsiveScreenHeight(1),
       height: responsiveScreenHeight(5),
       fontFamily: CustomFonts.REGULAR,
