@@ -27,7 +27,7 @@ const getStyles = Colors =>
       alignItems: 'center',
     },
     name: {
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
       fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
     },

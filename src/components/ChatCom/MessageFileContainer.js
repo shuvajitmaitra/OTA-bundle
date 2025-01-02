@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
@@ -17,6 +18,7 @@ import DownloadIcon2 from '../../assets/Icons/DowloadIcon2';
 
 const MessageFileContainer = ({files, setViewImage, my}) => {
   const [imageDimensions, setImageDimensions] = useState({});
+  const [loadingImages, setLoadingImages] = useState({});
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
@@ -36,28 +38,30 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
         activeOpacity={0.8}
         style={{position: 'relative'}}
         onPress={() => setViewImage([{uri: item?.url}])}>
-        {/* <TouchableOpacity
-          onPress={() => item?.url && Linking.openURL(item?.url)}
-          activeOpacity={0.8}
-          style={styles.ImageDownloadIconContainer}>
-          <DownloadIcon2 />
-        </TouchableOpacity> */}
+        {loadingImages[item.url] && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={Colors.Primary} />
+          </View>
+        )}
         <Image
           source={{uri: item.url}}
           style={[
             styles.image,
-            // {
-            //   maxHeight: responsiveScreenHeight(30),
-            //   maxWidth: responsiveScreenWidth(40),
-            // },
             aspectRatio ? {aspectRatio} : {height: responsiveScreenHeight(20)},
           ]}
-          onLoad={({nativeEvent}) =>
+          onLoadStart={() =>
+            setLoadingImages(prev => ({...prev, [item.url]: true}))
+          }
+          onLoad={({nativeEvent}) => {
             handleImageLayout(
               item.url,
               nativeEvent.source.width,
               nativeEvent.source.height,
-            )
+            );
+            setLoadingImages(prev => ({...prev, [item.url]: false}));
+          }}
+          onError={() =>
+            setLoadingImages(prev => ({...prev, [item.url]: false}))
           }
         />
       </TouchableOpacity>
@@ -154,6 +158,7 @@ const getStyles = Colors =>
       resizeMode: 'contain',
       marginBottom: 10,
       marginTop: 5,
+      borderRadius: 10,
     },
     documentContainer: {
       flexDirection: 'row',
@@ -193,5 +198,16 @@ const getStyles = Colors =>
       backgroundColor: Colors.PureWhite,
       padding: 5,
       borderRadius: 5,
+    },
+    loadingContainer: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      // backgroundColor: 'rgba(0, 0, 0, 0.1)',
+      zIndex: 1,
     },
   });
