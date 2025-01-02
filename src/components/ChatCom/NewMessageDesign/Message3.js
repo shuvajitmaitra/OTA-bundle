@@ -1,36 +1,33 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import Markdown from 'react-native-markdown-display';
+import Markdown, {MarkdownIt} from 'react-native-markdown-display';
 import {
   autoLinkify,
   generateActivityText,
   removeHtmlTags,
   sliceText,
   transFormDate,
-} from './MessageHelper';
-import {useTheme} from '../../context/ThemeContext';
-import CustomFonts from '../../constants/CustomFonts';
+} from '../MessageHelper';
+import {useTheme} from '../../../context/ThemeContext';
+import CustomFonts from '../../../constants/CustomFonts';
 import {useDispatch, useSelector} from 'react-redux';
-import UserNameImageSection from './UserNameImageSection';
-import {setMessageOptionData} from '../../store/reducer/ModalReducer';
+import {setMessageOptionData} from '../../../store/reducer/ModalReducer';
 import {useNavigation} from '@react-navigation/native';
-import DeleteMessageContainer from './DeleteMessageContainer';
-import MessageFileContainer from './MessageFileContainer';
-import EmojiContainer from './EmojiContainer';
-import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
-import ThreedotIcon from '../../assets/Icons/ThreedotIcon';
-import axiosInstance from '../../utility/axiosInstance';
-import {setSingleChat} from '../../store/reducer/chatReducer';
-import MessageBottomContainer from './MessageBottomContainer';
-import {setCurrentRoute} from '../../store/reducer/authReducer';
-import MessageDateContainer from './MessageDateContainer';
+import DeleteMessageContainer from '../DeleteMessageContainer';
+import MessageFileContainer from '../MessageFileContainer';
+import EmojiContainer from '../EmojiContainer';
+import ThreedotIcon from '../../../assets/Icons/ThreedotIcon';
+import axiosInstance from '../../../utility/axiosInstance';
+import {setSingleChat} from '../../../store/reducer/chatReducer';
+import {setCurrentRoute} from '../../../store/reducer/authReducer';
+import MessageDateContainer from '../MessageDateContainer';
+import Images from '../../../constants/Images';
+import {RegularFonts} from '../../../constants/Fonts';
 import UserNameDateContainer from './UserNameDateContainer';
-import Images from '../../constants/Images';
-import {RegularFonts} from '../../constants/Fonts';
+import MessageBottom from './MessageBottom';
 
 const Message3 = ({item, index, nextSender, setViewImage}) => {
   console.log('item', JSON.stringify(item, null, 2));
-
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
   const [readMoreClicked, setreadMoreClicked] = useState(false);
@@ -73,55 +70,72 @@ const Message3 = ({item, index, nextSender, setViewImage}) => {
       </>
     );
   }
+
   return (
     <View style={styles.mainContainer}>
       {!item?.isSameDate && <MessageDateContainer time={item?.createdAt} />}
-
-      {nextSender && (
-        <UserNameDateContainer
-          name={item?.sender?.fullName || 'N/A'}
-          date={item?.createdAt}
-          image={item?.sender?.profilePicture}
-          handleCreateChat={handleCreateChat}
-        />
-      )}
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onLongPress={() => dispatch(setMessageOptionData({...item, my}))}
-        style={styles.messagesContainer}>
-        <TouchableOpacity
-          onPress={() => dispatch(setMessageOptionData({...item, my}))}
-          style={styles.threeDotContainer}>
-          <ThreedotIcon color={Colors.BodyText} />
-        </TouchableOpacity>
-
-        {item?.files?.length > 0 && (
-          <MessageFileContainer
-            files={item.files}
-            setViewImage={setViewImage}
-            my={my}
+      <View style={styles.subContainer}>
+        <TouchableOpacity onPress={handleCreateChat}>
+          <Image
+            onPress={handleCreateChat}
+            resizeMode="contain"
+            source={
+              item?.sender?.profilePicture
+                ? {
+                    uri: item?.sender?.profilePicture,
+                  }
+                : Images.DEFAULT_IMAGE
+            }
+            style={styles.userImg}
           />
-        )}
-        <Markdown style={styles.markdownStyle}>
-          {sliceText(
-            autoLinkify(
-              transFormDate(
-                removeHtmlTags(item?.text?.trim() || item?.text || ''),
-              ),
-            ),
-            readMoreClicked,
-          )}
-        </Markdown>
-        {!readMoreClicked && item?.text?.length > 300 && (
-          <TouchableOpacity onPress={() => setreadMoreClicked(true)}>
-            <Text style={styles.readMoreText}>Read more</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onLongPress={() => dispatch(setMessageOptionData({...item, my}))}
+          style={styles.messagesContainer}>
+          <TouchableOpacity
+            onPress={() => dispatch(setMessageOptionData({...item, my}))}
+            style={styles.threeDotContainer}>
+            <ThreedotIcon color={Colors.BodyText} />
           </TouchableOpacity>
-        )}
-        {!item?.parentMessage && (
-          <EmojiContainer my={my} reacts={item.emoji} messageId={item._id} />
-        )}
-        <MessageBottomContainer item={item} navigation={navigation} my={my} />
-      </TouchableOpacity>
+
+          <UserNameDateContainer
+            name={item?.sender?.fullName || 'N/A'}
+            date={item?.createdAt}
+            image={item?.sender?.profilePicture}
+            handleCreateChat={handleCreateChat}
+          />
+
+          {item?.files?.length > 0 && (
+            <MessageFileContainer
+              files={item.files}
+              setViewImage={setViewImage}
+              my={my}
+            />
+          )}
+          <Markdown
+            // markdownit={{emphasis: false, linkify: false}}
+            style={styles.markdownStyle}>
+            {sliceText(
+              autoLinkify(
+                transFormDate(
+                  removeHtmlTags(item?.text?.trim() || item?.text || ''),
+                ),
+              ),
+              readMoreClicked,
+            )}
+          </Markdown>
+          {!readMoreClicked && item?.text?.length > 300 && (
+            <TouchableOpacity onPress={() => setreadMoreClicked(true)}>
+              <Text style={styles.readMoreText}>Read more</Text>
+            </TouchableOpacity>
+          )}
+          {!item?.parentMessage && (
+            <EmojiContainer my={my} reacts={item.emoji} messageId={item._id} />
+          )}
+          <MessageBottom item={item} navigation={navigation} my={my} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -130,6 +144,21 @@ export default Message3;
 
 const getStyles = (Colors, my) =>
   StyleSheet.create({
+    userImg: {
+      height: 35,
+      width: 35,
+      borderRadius: 10,
+      backgroundColor: Colors.LightGreen,
+      borderWidth: 1,
+      overflow: 'hidden',
+      borderColor: Colors.BorderColor,
+      resizeMode: 'cover',
+      position: 'relative',
+      marginLeft: 10,
+    },
+    subContainer: {
+      flexDirection: 'row',
+    },
     readMoreText: {
       color: Colors.ThemeAnotherButtonColor,
       fontSize: RegularFonts.BS,
@@ -180,15 +209,11 @@ const getStyles = (Colors, my) =>
       flex: 1,
     },
     messagesContainer: {
-      backgroundColor: my ? Colors.Primary : Colors.Background_color,
       position: 'relative',
       marginHorizontal: 10,
       flex: 1,
-      justifyContent: my ? 'flex-end' : 'flex-start',
-      padding: 10,
-      borderRadius: 7,
+      // backgroundColor: 'red',
     },
-
     markdownStyle: {
       whiteSpace: 'pre',
       body: {
@@ -196,44 +221,46 @@ const getStyles = (Colors, my) =>
         fontSize: RegularFonts.BR,
         color: Colors.BodyText,
       },
+      paragraph: {
+        marginTop: 0, // Remove top margin from paragraphs
+        marginBottom: 0, // Remove bottom margin from paragraphs
+        padding: 0, // Remove padding from paragraphs
+      },
       heading1: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading2: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading3: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading4: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading5: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading6: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
-      hr: {
-        backgroundColor: Colors.BodyText,
-        marginVertical: 8,
-        height: 1,
-      },
       strong: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.MEDIUM,
         fontSize: RegularFonts.BR,
+        fontWeight: '600',
+        color: Colors.BodyText,
       },
       em: {
         fontFamily: CustomFonts.REGULAR,
@@ -243,6 +270,33 @@ const getStyles = (Colors, my) =>
       s: {
         textDecorationLine: 'line-through',
       },
+      code_inline: {
+        color: Colors.BodyText,
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BS,
+        padding: 4,
+        borderRadius: 4,
+      },
+      hr: {
+        backgroundColor: Colors.BodyText,
+        marginVertical: 8,
+        height: 1,
+      },
+      fence: {
+        color: my ? Colors.PureWhite : Colors.BodyText,
+        marginBottom: 10,
+        padding: 8,
+        borderRadius: 6,
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BS,
+      },
+      code_block: {
+        borderWidth: 0,
+        padding: 8,
+        borderRadius: 6,
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BS,
+      },
       blockquote: {
         color: my ? Colors.PureWhite : Colors.BodyText,
         backgroundColor: my ? Colors.Primary : Colors.Background_color,
@@ -251,60 +305,6 @@ const getStyles = (Colors, my) =>
         marginVertical: 4,
         borderLeftWidth: 4,
         borderLeftColor: Colors.ThemeAnotherButtonColor,
-      },
-      bullet_list: {
-        marginVertical: 4,
-      },
-      ordered_list: {
-        marginVertical: 4,
-      },
-      list_item: {
-        marginVertical: 2,
-      },
-      ordered_list_icon: {
-        fontFamily: CustomFonts.REGULAR,
-        fontSize: RegularFonts.BR,
-        color: Colors.BodyText,
-        marginRight: 8,
-      },
-      ordered_list_content: {
-        flex: 1,
-      },
-      bullet_list_icon: {
-        marginRight: 8,
-      },
-      bullet_list_content: {
-        flex: 1,
-      },
-      code_inline: {
-        color: Colors.BodyText,
-        backgroundColor: my ? Colors.Primary : Colors.Background_color,
-        fontFamily: CustomFonts.REGULAR,
-        fontSize: RegularFonts.BS,
-        padding: 4,
-        borderRadius: 4,
-      },
-      code_block: {
-        color: my ? Colors.PureWhite : Colors.BodyText,
-        borderWidth: 0,
-        backgroundColor: my ? Colors.Primary : Colors.Background_color,
-        padding: 8,
-        borderRadius: 6,
-        fontFamily: CustomFonts.REGULAR,
-        fontSize: RegularFonts.BS,
-      },
-      fence: {
-        color: my ? Colors.PureWhite : Colors.BodyText,
-        backgroundColor: my ? Colors.Primary : Colors.Background_color,
-        marginBottom: 10,
-        padding: 8,
-        borderRadius: 6,
-        fontFamily: CustomFonts.REGULAR,
-        fontSize: RegularFonts.BS,
-      },
-      table: {
-        borderColor: Colors.BorderColor,
-        marginVertical: 8,
       },
       thead: {
         borderColor: Colors.BorderColor,
@@ -330,33 +330,9 @@ const getStyles = (Colors, my) =>
         fontFamily: CustomFonts.SEMI_BOLD,
         fontSize: RegularFonts.BR,
       },
-      blocklink: {
-        color: Colors.ThemeAnotherButtonColor,
-        fontFamily: CustomFonts.SEMI_BOLD,
-        fontSize: RegularFonts.BR,
-      },
-      image: {
+      table: {
+        borderColor: Colors.BorderColor,
         marginVertical: 8,
-        borderRadius: 6,
-      },
-      text: {
-        fontFamily: CustomFonts.REGULAR,
-        fontSize: RegularFonts.BR,
-        color: Colors.BodyText,
-      },
-      textgroup: {
-        color: Colors.BodyText,
-      },
-      paragraph: {
-        marginTop: 0,
-        marginBottom: 0,
-        padding: 0,
-      },
-      hardbreak: {
-        marginVertical: 8,
-      },
-      softbreak: {
-        marginVertical: 4,
       },
       pre: {
         fontFamily: CustomFonts.REGULAR,
@@ -366,8 +342,56 @@ const getStyles = (Colors, my) =>
       inline: {
         color: Colors.BodyText,
       },
+      bullet_list: {
+        marginVertical: 4,
+      },
+      ordered_list: {
+        marginVertical: 4,
+      },
+      list_item: {
+        marginVertical: 2,
+      },
+      ordered_list_icon: {
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BR,
+        color: Colors.BodyText,
+        marginRight: 8,
+      },
+
+      ordered_list_content: {
+        flex: 1,
+      },
+      bullet_list_icon: {
+        marginRight: 8,
+      },
+      bullet_list_content: {
+        flex: 1,
+      },
       span: {
         color: Colors.BodyText,
+      },
+      softbreak: {
+        marginVertical: 4,
+      },
+      blocklink: {
+        color: Colors.ThemeAnotherButtonColor,
+        fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+      },
+      image: {
+        marginVertical: 8,
+        borderRadius: 6,
+      },
+      // text: {
+      //   fontFamily: CustomFonts.REGULAR,
+      //   fontSize: RegularFonts.BR,
+      //   color: Colors.BodyText,
+      // },
+      textgroup: {
+        color: Colors.BodyText,
+      },
+      hardbreak: {
+        marginVertical: 8,
       },
     },
   });
