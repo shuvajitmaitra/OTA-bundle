@@ -23,6 +23,8 @@ import axiosInstance from '../../utility/axiosInstance';
 import {setSingleChat} from '../../store/reducer/chatReducer';
 import MessageBottomContainer from './MessageBottomContainer';
 import {setCurrentRoute} from '../../store/reducer/authReducer';
+import {RegularFonts} from '../../constants/Fonts';
+import MessageDateContainer from './MessageDateContainer';
 
 const Message2 = ({item, index, nextSender, setViewImage}) => {
   const dispatch = useDispatch();
@@ -69,7 +71,8 @@ const Message2 = ({item, index, nextSender, setViewImage}) => {
   }
   return (
     <View style={styles.mainContainer}>
-      {!my && nextSender && (
+      {!item?.isSameDate && <MessageDateContainer time={item?.createdAt} />}
+      {!my && (nextSender || !item?.isSameDate) && (
         <UserNameImageSection
           name={item?.sender?.fullName}
           image={item?.sender?.profilePicture}
@@ -190,95 +193,181 @@ const getStyles = (Colors, my) =>
       whiteSpace: 'pre',
       body: {
         fontFamily: CustomFonts.REGULAR,
-        fontSize: 18,
-        color: my ? Colors.PureWhite : Colors.BodyText,
-        lineHeight: 20,
-      },
-      paragraph: {
-        marginTop: 0, // Remove top margin from paragraphs
-        marginBottom: 0, // Remove bottom margin from paragraphs
-        padding: 0, // Remove padding from paragraphs
+        fontSize: RegularFonts.BR,
+        color: Colors.BodyText,
       },
       heading1: {
-        // fontSize: responsiveScreenFontSize(3),
-        // marginTop: 20,
-
         fontFamily: CustomFonts.SEMI_BOLD,
-        paddingTop: 10,
-        fontSize: responsiveScreenFontSize(1.8),
-        // lineHeight: responsiveScreenFontSize(),
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
       },
       heading2: {
-        // fontWeight: "bold",
-        fontSize: responsiveScreenFontSize(1.8),
         fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
       },
       heading3: {
-        // paddingTop: 10,
-        fontSize: responsiveScreenFontSize(1.8),
         fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
       },
       heading4: {
-        // fontWeight: "bold",
         fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
       },
       heading5: {
-        // fontWeight: "bold",
         fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
       },
-      strong: {fontFamily: CustomFonts.SEMI_BOLD},
-      code_inline: {
-        color: Colors.BodyText,
-        backgroundColor: my ? Colors.Primary : Colors.Background_color,
+      heading6: {
+        fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
       },
       hr: {
         backgroundColor: Colors.BodyText,
+        marginVertical: 8,
+        height: 1,
       },
-      fence: {
+      strong: {
+        fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+      },
+      em: {
+        fontFamily: CustomFonts.REGULAR,
+        fontStyle: 'italic',
+        fontSize: RegularFonts.BR,
+      },
+      s: {
+        textDecorationLine: 'line-through',
+      },
+      blockquote: {
         color: my ? Colors.PureWhite : Colors.BodyText,
         backgroundColor: my ? Colors.Primary : Colors.Background_color,
-        marginBottom: 10,
+        padding: 8,
+        borderRadius: 6,
+        marginVertical: 4,
+        borderLeftWidth: 4,
+        borderLeftColor: Colors.ThemeAnotherButtonColor,
+      },
+      bullet_list: {
+        marginVertical: 4,
+      },
+      ordered_list: {
+        marginVertical: 4,
+      },
+      list_item: {
+        marginVertical: 2,
+      },
+      ordered_list_icon: {
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BR,
+        color: Colors.BodyText,
+        marginRight: 8,
+      },
+      ordered_list_content: {
+        flex: 1,
+      },
+      bullet_list_icon: {
+        marginRight: 8,
+      },
+      bullet_list_content: {
+        flex: 1,
+      },
+      code_inline: {
+        color: Colors.BodyText,
+        backgroundColor: my ? Colors.Primary : Colors.Background_color,
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BS,
+        padding: 4,
+        borderRadius: 4,
       },
       code_block: {
         color: my ? Colors.PureWhite : Colors.BodyText,
         borderWidth: 0,
         backgroundColor: my ? Colors.Primary : Colors.Background_color,
+        padding: 8,
+        borderRadius: 6,
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BS,
       },
-      blockquote: {
+      fence: {
         color: my ? Colors.PureWhite : Colors.BodyText,
         backgroundColor: my ? Colors.Primary : Colors.Background_color,
+        marginBottom: 10,
+        padding: 8,
+        borderRadius: 6,
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BS,
       },
       table: {
         borderColor: Colors.BorderColor,
+        marginVertical: 8,
       },
       thead: {
         borderColor: Colors.BorderColor,
+        backgroundColor: Colors.Background_color,
       },
       tbody: {
         borderColor: Colors.BorderColor,
       },
       th: {
         borderColor: Colors.BorderColor,
+        padding: 6,
+        fontFamily: CustomFonts.SEMI_BOLD,
       },
       tr: {
         borderColor: Colors.BorderColor,
       },
       td: {
         borderColor: Colors.BorderColor,
+        padding: 6,
       },
       link: {
-        color: '#0D22EA',
+        color: Colors.ThemeAnotherButtonColor,
         fontFamily: CustomFonts.SEMI_BOLD,
-        fontWeight: '700',
+        fontSize: RegularFonts.BR,
       },
-      bullet_list: {
-        marginVertical: 10,
+      blocklink: {
+        color: Colors.ThemeAnotherButtonColor,
+        fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
       },
-      ordered_list: {
-        marginVertical: 10,
+      image: {
+        marginVertical: 8,
+        borderRadius: 6,
       },
-      list_item: {
-        marginVertical: 10,
+      text: {
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BR,
+        color: Colors.BodyText,
+      },
+      textgroup: {
+        color: Colors.BodyText,
+      },
+      paragraph: {
+        marginTop: 0,
+        marginBottom: 0,
+        padding: 0,
+      },
+      hardbreak: {
+        marginVertical: 8,
+      },
+      softbreak: {
+        marginVertical: 4,
+      },
+      pre: {
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BS,
+        color: Colors.BodyText,
+      },
+      inline: {
+        color: Colors.BodyText,
+      },
+      span: {
+        color: Colors.BodyText,
       },
     },
   });

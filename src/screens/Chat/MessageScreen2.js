@@ -196,15 +196,16 @@ const MessageScreen2 = () => {
     const nextMessage = localMessages?.length
       ? localMessages[index + 1]
       : messages[chat._id][index + 1];
+    const isSameDate =
+      new Date(item?.createdAt).toDateString() ===
+      new Date(nextMessage?.createdAt).toDateString();
 
     const nextSender = nextMessage
       ? item?.sender?._id !== nextMessage?.sender?._id
       : false;
-    const isSameDate =
-      new Date(item?.createdAt).toDateString() ===
-      new Date(nextMessage?.createdAt).toDateString();
+
     return (
-      <Message3
+      <Message2
         item={{...item, isSameDate}}
         index={index}
         nextSender={nextSender}
@@ -277,7 +278,7 @@ const MessageScreen2 = () => {
             onEndReachedThreshold={0.5} // Adjust as needed
             ListFooterComponent={ListFooterComponent}
             inverted
-            ItemSeparatorComponent={<View style={{height: 15}} />}
+            ItemSeparatorComponent={<View style={{height: 5}} />}
           />
         </View>
         {chat?.myData?.role !== 'owner' && chat?.isReadOnly ? (

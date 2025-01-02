@@ -5,6 +5,7 @@ import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
 import MCicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CircleLoader from '../SharedComponent/CircleLoader';
+import CustomFonts from '../../constants/CustomFonts';
 
 const MessageBottomContainer = ({item, navigation, my}) => {
   const Colors = useTheme();
@@ -26,11 +27,9 @@ const MessageBottomContainer = ({item, navigation, my}) => {
       <View style={{flexGrow: 1}}></View>
 
       <View>
-        {/* <Text style={styles.timeText}>
-          {moment(item.editedAt || item?.createdAt).format(
-            'MMM DD, YYYY [at] h:mm A',
-          )}
-        </Text> */}
+        <Text style={styles.timeText}>
+          {moment(item.editedAt || item?.createdAt).format(' h:mm A')}
+        </Text>
         {item.editedAt && <Text style={styles.editedText}>(Edited)</Text>}
       </View>
       {my && !item.parentMessage && (
@@ -77,8 +76,8 @@ const getStyles = (Colors, my) =>
       textAlign: 'right',
     },
     replyCountText: {
-      fontWeight: '600',
-      fontSize: RegularFonts.HS,
+      fontFamily: CustomFonts.SEMI_BOLD,
+      fontSize: RegularFonts.BS,
       color: Colors.Red,
     },
     messageBottomContainer: {
