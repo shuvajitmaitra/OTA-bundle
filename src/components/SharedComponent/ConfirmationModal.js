@@ -27,7 +27,7 @@ const ConfirmationModal = ({
           style={{
             height: 100,
             width: 100,
-            backgroundColor: Colors.Red,
+            backgroundColor: Colors.LightRed,
             borderRadius: 100,
             // marginBottom: "-50%",
             justifyContent: 'center',
@@ -43,7 +43,7 @@ const ConfirmationModal = ({
 
             elevation: 3,
           }}>
-          <BinIcon color={Colors.PureWhite} size={50} />
+          <BinIcon color={Colors.Red} size={50} />
         </View>
         <Text style={styles.Heading}>{tittle || ''}</Text>
         <Text style={styles.description}>{description || ''}</Text>
@@ -54,7 +54,7 @@ const ConfirmationModal = ({
             onPress={() => {
               cancelPress();
             }}
-            title={'Cancel'}
+            title={'No, Keep it.'}
           />
           <MyButton
             bg={Colors.ThemeWarningColor}
@@ -62,7 +62,7 @@ const ConfirmationModal = ({
             onPress={() => {
               okPress();
             }}
-            title={'OK'}
+            title={'Yes, Delete!'}
           />
         </View>
       </View>

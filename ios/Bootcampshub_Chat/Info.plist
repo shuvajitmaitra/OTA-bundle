@@ -74,6 +74,9 @@
 		<string>WorkSans-SemiBoldItalic.ttf</string>
 		<string>WorkSans-Thin.ttf</string>
 		<string>WorkSans-ThinItalic.ttf</string>
+		<string>Lato-Bold.ttf</string>
+		<string>Lato-Light.ttf</string>
+		<string>Lato-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
@@ -87,7 +90,7 @@
 		<string>arm64</string>
 	</array>
 	<key>UIStatusBarStyle</key>
-	<string></string>
+	<string/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

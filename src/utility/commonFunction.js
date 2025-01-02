@@ -27,7 +27,7 @@ export const eventTypes = type => {
 };
 
 export function formatDynamicDate(dateStr) {
-  console.log('dateStr', JSON.stringify(dateStr, null, 2));
+  // console.log('dateStr', JSON.stringify(dateStr, null, 2));
   const momentDate = moment(dateStr);
   const today = moment().startOf('day');
   const yesterday = moment().subtract(1, 'days').startOf('day');

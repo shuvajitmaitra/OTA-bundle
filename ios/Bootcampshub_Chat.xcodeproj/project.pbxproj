@@ -34,6 +34,9 @@
 		EF6121319C384292AE4D9DCF /* WorkSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05225C9CEFD44A72AB7A9EF3 /* WorkSans-Thin.ttf */; };
 		F0DEB099C65045CABD35A9FA /* WorkSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3ED6E8DE6BCB415C89ED1FF0 /* WorkSans-Light.ttf */; };
 		FFAC9AE273524928B498A157 /* WorkSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3305A41185F749C1B6E843A5 /* WorkSans-SemiBoldItalic.ttf */; };
+		29142B57E5694945933E0F91 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81F3549620034BDBA53EA228 /* Lato-Bold.ttf */; };
+		E000281DBD39409C832B36F7 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B8B4CEAEA784151B88AB6EF /* Lato-Light.ttf */; };
+		1D30E244B53A4DF98E98A0A3 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D3147656C6947DFB682CD8D /* Lato-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +88,9 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F5F09F1AEBDE459892B3BCF2 /* WorkSans-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-MediumItalic.ttf"; path = "../src/assets/Work_Sans/static/WorkSans-MediumItalic.ttf"; sourceTree = "<group>"; };
 		FBB8E1EB6B534E4CB936DAE4 /* WorkSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Black.ttf"; path = "../src/assets/Work_Sans/static/WorkSans-Black.ttf"; sourceTree = "<group>"; };
+		81F3549620034BDBA53EA228 /* Lato-Bold.ttf */ = {isa = PBXFileReference; name = "Lato-Bold.ttf"; path = "../src/assets/Work_Sans/static/Lato-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0B8B4CEAEA784151B88AB6EF /* Lato-Light.ttf */ = {isa = PBXFileReference; name = "Lato-Light.ttf"; path = "../src/assets/Work_Sans/static/Lato-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4D3147656C6947DFB682CD8D /* Lato-Regular.ttf */ = {isa = PBXFileReference; name = "Lato-Regular.ttf"; path = "../src/assets/Work_Sans/static/Lato-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +177,9 @@
 				3305A41185F749C1B6E843A5 /* WorkSans-SemiBoldItalic.ttf */,
 				05225C9CEFD44A72AB7A9EF3 /* WorkSans-Thin.ttf */,
 				BCD95FA2888248E2ABE7EF15 /* WorkSans-ThinItalic.ttf */,
+				81F3549620034BDBA53EA228 /* Lato-Bold.ttf */,
+				0B8B4CEAEA784151B88AB6EF /* Lato-Light.ttf */,
+				4D3147656C6947DFB682CD8D /* Lato-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -335,6 +344,9 @@
 				A0C3EFBB2CF8D7E6000A7271 /* GoogleService-Info.plist in Resources */,
 				EF6121319C384292AE4D9DCF /* WorkSans-Thin.ttf in Resources */,
 				5C1072FB32974977A8CF8658 /* WorkSans-ThinItalic.ttf in Resources */,
+				29142B57E5694945933E0F91 /* Lato-Bold.ttf in Resources */,
+				E000281DBD39409C832B36F7 /* Lato-Light.ttf in Resources */,
+				1D30E244B53A4DF98E98A0A3 /* Lato-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

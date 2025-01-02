@@ -159,7 +159,7 @@ const getStyles = (Colors, my) =>
       paddingVertical: 3,
       paddingHorizontal: 5,
       borderRadius: 3,
-      fontFamily: CustomFonts.REGULAR,
+      fontFamily: CustomFonts.LATO_REGULAR,
     },
     activityContainer: {
       justifyContent: 'center',
@@ -191,7 +191,7 @@ const getStyles = (Colors, my) =>
     markdownStyle: {
       whiteSpace: 'pre',
       body: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
         color: my ? Colors.PureWhite : Colors.BodyText,
       },
@@ -201,32 +201,32 @@ const getStyles = (Colors, my) =>
         padding: 0, // Remove padding from paragraphs
       },
       heading1: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading2: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading3: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading4: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading5: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading6: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
@@ -236,7 +236,7 @@ const getStyles = (Colors, my) =>
         fontWeight: '500',
       },
       em: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontStyle: 'italic',
         fontSize: RegularFonts.BR,
       },
@@ -244,7 +244,7 @@ const getStyles = (Colors, my) =>
         textDecorationLine: 'line-through',
       },
       code_inline: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BS,
         padding: 4,
         borderRadius: 4,
@@ -258,14 +258,14 @@ const getStyles = (Colors, my) =>
         marginBottom: 10,
         padding: 8,
         borderRadius: 6,
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BS,
       },
       code_block: {
         borderWidth: 0,
         padding: 8,
         borderRadius: 6,
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BS,
       },
       blockquote: {
@@ -303,7 +303,7 @@ const getStyles = (Colors, my) =>
         marginVertical: 8,
       },
       pre: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BS,
         color: Colors.BodyText,
       },
@@ -320,7 +320,7 @@ const getStyles = (Colors, my) =>
         marginVertical: 2,
       },
       ordered_list_icon: {
-        fontFamily: CustomFonts.REGULAR,
+        fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
         marginRight: 8,
       },
@@ -348,7 +348,7 @@ const getStyles = (Colors, my) =>
         borderRadius: 6,
       },
       // text: {
-      //   fontFamily: CustomFonts.REGULAR,
+      //   fontFamily: CustomFonts.LATO_REGULAR,
       //   fontSize: RegularFonts.BR,
       //   color: Colors.BodyText,
       // },

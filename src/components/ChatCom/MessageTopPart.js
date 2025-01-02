@@ -194,7 +194,8 @@ const getStyles = Colors =>
     },
     name: {
       color: Colors.Heading,
-      fontFamily: CustomFonts.SEMI_BOLD,
+      fontFamily: CustomFonts.LATO_LIGHT,
+      fontWeight: '600',
       fontSize: responsiveScreenFontSize(2),
       // flexBasis: '10%',
       width: '100%',

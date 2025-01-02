@@ -18,7 +18,6 @@ import DownloadIcon2 from '../../assets/Icons/DowloadIcon2';
 
 const MessageFileContainer = ({files, setViewImage, my}) => {
   const [imageDimensions, setImageDimensions] = useState({});
-  const [loadingImages, setLoadingImages] = useState({});
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
@@ -38,31 +37,19 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
         activeOpacity={0.8}
         style={{position: 'relative'}}
         onPress={() => setViewImage([{uri: item?.url}])}>
-        {loadingImages[item.url] && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={Colors.Primary} />
-          </View>
-        )}
         <Image
           source={{uri: item.url}}
           style={[
             styles.image,
             aspectRatio ? {aspectRatio} : {height: responsiveScreenHeight(20)},
           ]}
-          onLoadStart={() =>
-            setLoadingImages(prev => ({...prev, [item.url]: true}))
-          }
           onLoad={({nativeEvent}) => {
             handleImageLayout(
               item.url,
               nativeEvent.source.width,
               nativeEvent.source.height,
             );
-            setLoadingImages(prev => ({...prev, [item.url]: false}));
           }}
-          onError={() =>
-            setLoadingImages(prev => ({...prev, [item.url]: false}))
-          }
         />
       </TouchableOpacity>
     );
