@@ -19,6 +19,7 @@ import FileUploader from '../SharedComponent/FileUploder';
 import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
 import {showAlertModal} from '../../utility/commonFunction';
 import RequireFieldStar from '../../constants/RequireFieldStar';
+import ModalCrossButton from '../ChatCom/Modal/ModalCrossButton';
 
 const CreateActivitiesModal = ({
   isCreateActivitiesModalVisible,
@@ -137,24 +138,23 @@ const CreateActivitiesModal = ({
       {/* ----------- Back Arrow button ----------- */}
       {/* -------------------------- */}
       <View style={styles.container}>
-        <ModalBackAndCrossButton toggleModal={toggleCreateActivitiesModal} />
+        <View style={styles.topBarContainer}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>
+              {action ? action : 'create'} Activities
+            </Text>
+            <Text style={styles.headerDescription}>
+              Please fill out the form to {action ? action : 'create'} an
+              activity.
+            </Text>
+          </View>
+          <ModalCrossButton onPress={toggleCreateActivitiesModal} />
+        </View>
         {/* -------------------------- */}
         {/* ----------- Main View Start form here ----------- */}
         {/* -------------------------- */}
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.subContainer}>
-            {/* -------------------------- */}
-            {/* ----------- Header container ----------- */}
-            {/* -------------------------- */}
-            <View style={styles.headerContainer}>
-              <Text style={styles.headerText}>
-                {action ? action : 'create'} Activities
-              </Text>
-              <Text style={styles.headerDescription}>
-                Please fill out the form to {action ? action : 'create'} an
-                activity.
-              </Text>
-            </View>
             <View style={styles.fieldContainer}>
               <Text style={styles.Text}>
                 Title
@@ -397,7 +397,7 @@ const getStyles = Colors =>
     headerContainer: {
       gap: responsiveScreenWidth(2),
       marginBottom: responsiveScreenHeight(2),
-      marginTop: responsiveScreenHeight(1),
+      // marginTop: responsiveScreenHeight(1),
     },
     headerText: {
       fontFamily: CustomFonts.SEMI_BOLD,
