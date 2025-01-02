@@ -78,17 +78,20 @@ const Message3 = ({item, index, nextSender, setViewImage}) => {
       {!item?.isSameDate && <MessageDateContainer time={item?.createdAt} />}
 
       <View style={styles.subContainer}>
-        <Image
-          resizeMode="contain"
-          source={
-            item?.sender?.profilePicture
-              ? {
-                  uri: item?.sender?.profilePicture,
-                }
-              : Images.DEFAULT_IMAGE
-          }
-          style={styles.userImg}
-        />
+        <TouchableOpacity onPress={handleCreateChat}>
+          <Image
+            onPress={handleCreateChat}
+            resizeMode="contain"
+            source={
+              item?.sender?.profilePicture
+                ? {
+                    uri: item?.sender?.profilePicture,
+                  }
+                : Images.DEFAULT_IMAGE
+            }
+            style={styles.userImg}
+          />
+        </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           onLongPress={() => dispatch(setMessageOptionData({...item, my}))}
@@ -96,7 +99,7 @@ const Message3 = ({item, index, nextSender, setViewImage}) => {
           <TouchableOpacity
             onPress={() => dispatch(setMessageOptionData({...item, my}))}
             style={styles.threeDotContainer}>
-            <ThreedotIcon color={my ? Colors.PureWhite : Colors.BodyText} />
+            <ThreedotIcon color={Colors.BodyText} />
           </TouchableOpacity>
           <UserNameDateContainer
             name={item?.sender?.fullName || 'N/A'}
@@ -158,7 +161,7 @@ const getStyles = (Colors, my) =>
     },
     readMoreText: {
       color: Colors.ThemeAnotherButtonColor,
-      fontSize: responsiveScreenFontSize(2),
+      fontSize: RegularFonts.HS,
       fontWeight: '600',
       height: 20,
       // backgroundColor: 'green',
@@ -166,7 +169,7 @@ const getStyles = (Colors, my) =>
     },
     threeDotContainer: {
       position: 'absolute',
-      right: 0,
+      right: -10,
       top: 5,
       // backgroundColor: 'red',
       width: 30,
@@ -208,7 +211,7 @@ const getStyles = (Colors, my) =>
     messagesContainer: {
       //   backgroundColor: Colors.Primary,
       position: 'relative',
-      //   marginBottom: 15,
+      marginRight: 10,
       flex: 1,
     },
 
@@ -218,7 +221,7 @@ const getStyles = (Colors, my) =>
         fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BL,
         color: Colors.BodyText,
-        lineHeight: 20,
+        // lineHeight: 20,
         // width: '86%',
       },
       paragraph: {
@@ -232,17 +235,17 @@ const getStyles = (Colors, my) =>
 
         fontFamily: CustomFonts.SEMI_BOLD,
         paddingTop: 10,
-        fontSize: responsiveScreenFontSize(1.8),
+        fontSize: RegularFonts.BL,
         // lineHeight: responsiveScreenFontSize(),
       },
       heading2: {
         // fontWeight: "bold",
-        fontSize: responsiveScreenFontSize(1.8),
+        fontSize: RegularFonts.BL,
         fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading3: {
         // paddingTop: 10,
-        fontSize: responsiveScreenFontSize(1.8),
+        fontSize: RegularFonts.BL,
         fontFamily: CustomFonts.SEMI_BOLD,
       },
       heading4: {
@@ -294,7 +297,9 @@ const getStyles = (Colors, my) =>
         borderColor: Colors.BorderColor,
       },
       link: {
-        color: '#0D22EA',
+        color: Colors.ThemeAnotherButtonColor,
+        // color: '#0D22EA',
+        // color: '#0D22EA',
         fontFamily: CustomFonts.SEMI_BOLD,
         fontWeight: '700',
       },

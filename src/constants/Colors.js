@@ -75,7 +75,7 @@ const DarkTheme = {
   Heading: '#FFFFFF',
   BodyText: '#BCBCBC',
   Primary: '#27AC1F',
-  LineColor: '#2A2A2A',
+  LineColor: '#505050',
   BorderColor: '#2A2A2A',
   LightGreen: '#E9F7E9',
   ScreenBoxColor: '#202020',
