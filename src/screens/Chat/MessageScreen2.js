@@ -26,6 +26,7 @@ import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
+import Message3 from '../../components/ChatCom/Message3';
 
 const MessageScreen2 = () => {
   const dispatch = useDispatch();
@@ -199,10 +200,12 @@ const MessageScreen2 = () => {
     const nextSender = nextMessage
       ? item?.sender?._id !== nextMessage?.sender?._id
       : false;
-
+    const isSameDate =
+      new Date(item?.createdAt).toDateString() ===
+      new Date(nextMessage?.createdAt).toDateString();
     return (
-      <Message2
-        item={item}
+      <Message3
+        item={{...item, isSameDate}}
         index={index}
         nextSender={nextSender}
         setViewImage={setViewImage}

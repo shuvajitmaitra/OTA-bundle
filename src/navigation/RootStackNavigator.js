@@ -68,7 +68,7 @@ const RootStackNavigator = () => {
           );
         }
       } catch (err) {
-        console.error('Error verifying user:', err);
+        console.error('Error verifying user:', err.response?.data);
       } finally {
         store.dispatch(setAppLoading(false));
       }
