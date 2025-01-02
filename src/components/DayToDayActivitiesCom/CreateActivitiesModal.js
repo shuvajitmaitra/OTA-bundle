@@ -69,6 +69,7 @@ const CreateActivitiesModal = ({
       .post('/communication/shout', data)
       .then(res => {
         if (res.data.success) {
+          showToast({message: 'Activities created successfully...'});
           dispatch(
             initialActivities({
               data: [res?.data?.post, ...activities],

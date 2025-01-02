@@ -5,15 +5,16 @@
 - New message screen design as like slack and making it functional.
 - Redesign the UI for the delete modal
 - Redesign toast message
-- Replace back button with create activities modal title and short desc in day2day modal
-- Title and description field placeholder text left padding are not consist in day2day modal
 
 **Note: Planned to finish 100% of today's work-stream**
 
 *Work Update - December 31, 2024*
+- Redesign the new message screen.
 - Reduce horizontal padding in CreateActivitiesModal for improved layout consistency
-
-
+- Back button removed and title and placeholder text put in the place of back button
+- Toast message design corrected.
+- Added toast message modal in CreateActivitiesModal.
+- 
 **Note: Finished 100% of today's work stream.**
 
 

@@ -53,16 +53,18 @@ export const toastConfig = {
         style={{
           minHeight: 40,
           minWidth: '30%',
-          backgroundColor: props.background || 'rgba(0, 0, 0, 0.5)',
+          backgroundColor: props.background || '#666666',
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: 10,
-          paddingHorizontal: 20,
+          borderRadius: 100,
+          paddingHorizontal: 25,
+          paddingVertical: 10,
         }}>
         <Text
           style={{
             color: props.color || 'white',
             fontSize: 18,
+            // fontWeight: 'bold',
           }}>
           {text1}
         </Text>
