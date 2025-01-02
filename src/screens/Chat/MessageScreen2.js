@@ -277,6 +277,7 @@ const MessageScreen2 = () => {
             onEndReachedThreshold={0.5} // Adjust as needed
             ListFooterComponent={ListFooterComponent}
             inverted
+            ItemSeparatorComponent={<View style={{height: 15}} />}
           />
         </View>
         {chat?.myData?.role !== 'owner' && chat?.isReadOnly ? (

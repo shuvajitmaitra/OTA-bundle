@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import Markdown from 'react-native-markdown-display';
 import {
@@ -24,6 +24,9 @@ import {setSingleChat} from '../../store/reducer/chatReducer';
 import MessageBottomContainer from './MessageBottomContainer';
 import {setCurrentRoute} from '../../store/reducer/authReducer';
 import MessageDateContainer from './MessageDateContainer';
+import UserNameDateContainer from './UserNameDateContainer';
+import Images from '../../constants/Images';
+import {RegularFonts} from '../../constants/Fonts';
 
 const Message3 = ({item, index, nextSender, setViewImage}) => {
   console.log('item', JSON.stringify(item, null, 2));
@@ -74,42 +77,60 @@ const Message3 = ({item, index, nextSender, setViewImage}) => {
     <View style={styles.mainContainer}>
       {!item?.isSameDate && <MessageDateContainer time={item?.createdAt} />}
 
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onLongPress={() => dispatch(setMessageOptionData({...item, my}))}
-        style={styles.messagesContainer}>
+      <View style={styles.subContainer}>
+        <Image
+          resizeMode="contain"
+          source={
+            item?.sender?.profilePicture
+              ? {
+                  uri: item?.sender?.profilePicture,
+                }
+              : Images.DEFAULT_IMAGE
+          }
+          style={styles.userImg}
+        />
         <TouchableOpacity
-          onPress={() => dispatch(setMessageOptionData({...item, my}))}
-          style={styles.threeDotContainer}>
-          <ThreedotIcon color={my ? Colors.PureWhite : Colors.BodyText} />
-        </TouchableOpacity>
-        {item?.files?.length > 0 && (
-          <MessageFileContainer
-            files={item.files}
-            setViewImage={setViewImage}
-            my={my}
-          />
-        )}
-        <Markdown style={styles.markdownStyle}>
-          {sliceText(
-            autoLinkify(
-              transFormDate(
-                removeHtmlTags(item?.text?.trim() || item?.text || ''),
-              ),
-            ),
-            readMoreClicked,
-          )}
-        </Markdown>
-        {!readMoreClicked && item?.text?.length > 300 && (
-          <TouchableOpacity onPress={() => setreadMoreClicked(true)}>
-            <Text style={styles.readMoreText}>Read more</Text>
+          activeOpacity={0.8}
+          onLongPress={() => dispatch(setMessageOptionData({...item, my}))}
+          style={styles.messagesContainer}>
+          <TouchableOpacity
+            onPress={() => dispatch(setMessageOptionData({...item, my}))}
+            style={styles.threeDotContainer}>
+            <ThreedotIcon color={my ? Colors.PureWhite : Colors.BodyText} />
           </TouchableOpacity>
-        )}
-        {!item?.parentMessage && (
-          <EmojiContainer my={my} reacts={item.emoji} messageId={item._id} />
-        )}
-        <MessageBottomContainer item={item} navigation={navigation} my={my} />
-      </TouchableOpacity>
+          <UserNameDateContainer
+            name={item?.sender?.fullName || 'N/A'}
+            date={item?.createdAt}
+          />
+
+          {item?.files?.length > 0 && (
+            <MessageFileContainer
+              files={item.files}
+              setViewImage={setViewImage}
+              my={my}
+            />
+          )}
+          <Markdown style={styles.markdownStyle}>
+            {sliceText(
+              autoLinkify(
+                transFormDate(
+                  removeHtmlTags(item?.text?.trim() || item?.text || ''),
+                ),
+              ),
+              readMoreClicked,
+            )}
+          </Markdown>
+          {!readMoreClicked && item?.text?.length > 300 && (
+            <TouchableOpacity onPress={() => setreadMoreClicked(true)}>
+              <Text style={styles.readMoreText}>Read more</Text>
+            </TouchableOpacity>
+          )}
+          {!item?.parentMessage && (
+            <EmojiContainer my={my} reacts={item.emoji} messageId={item._id} />
+          )}
+          <MessageBottomContainer item={item} navigation={navigation} my={my} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -118,6 +139,23 @@ export default Message3;
 
 const getStyles = (Colors, my) =>
   StyleSheet.create({
+    subContainer: {
+      flexDirection: 'row',
+      //   backgroundColor: 'red',
+      //   width: '99%',
+    },
+    userImg: {
+      height: 35,
+      width: 35,
+      borderRadius: 10,
+      // backgroundColor: Colors.LightGreen,
+      borderWidth: 1,
+      overflow: 'hidden',
+      borderColor: Colors.BorderColor,
+      resizeMode: 'cover',
+      position: 'relative',
+      marginHorizontal: 10,
+    },
     readMoreText: {
       color: Colors.ThemeAnotherButtonColor,
       fontSize: responsiveScreenFontSize(2),
@@ -168,17 +206,20 @@ const getStyles = (Colors, my) =>
       flex: 1,
     },
     messagesContainer: {
-      backgroundColor: Colors.Primary,
+      //   backgroundColor: Colors.Primary,
       position: 'relative',
+      //   marginBottom: 15,
+      flex: 1,
     },
 
     markdownStyle: {
       whiteSpace: 'pre',
       body: {
         fontFamily: CustomFonts.REGULAR,
-        fontSize: 18,
-        color: my ? Colors.PureWhite : Colors.BodyText,
+        fontSize: RegularFonts.BL,
+        color: Colors.BodyText,
         lineHeight: 20,
+        // width: '86%',
       },
       paragraph: {
         marginTop: 0, // Remove top margin from paragraphs
@@ -258,13 +299,13 @@ const getStyles = (Colors, my) =>
         fontWeight: '700',
       },
       bullet_list: {
-        marginVertical: 10,
+        marginVertical: 3,
       },
       ordered_list: {
-        marginVertical: 10,
+        marginVertical: 3,
       },
       list_item: {
-        marginVertical: 10,
+        marginVertical: 3,
       },
     },
   });
