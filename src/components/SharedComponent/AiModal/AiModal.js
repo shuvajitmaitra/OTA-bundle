@@ -331,7 +331,7 @@ const getStyles = (Colors, top) =>
       paddingTop: Platform.OS === 'ios' && 10,
       color: Colors.BodyText,
       fontFamily: CustomFonts.MEDIUM,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
       textAlignVertical: 'center',
     },
 

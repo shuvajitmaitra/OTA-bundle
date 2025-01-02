@@ -291,7 +291,7 @@ const getStyles = Colors =>
       // backgroundColor: "red",
       minHeight: 35,
       // marginBottom: 5,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
       color: Colors.BodyText,
       marginRight: 20,
       width: '88%',
@@ -300,7 +300,7 @@ const getStyles = Colors =>
     statusText: {
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.BodyText,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
     },
     statusContainer: {
       flexDirection: 'row',

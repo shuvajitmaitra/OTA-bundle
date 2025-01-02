@@ -202,6 +202,6 @@ const getStyles = Colors =>
     item: {
       color: Colors.Heading,
       fontFamily: CustomFonts.MEDIUM,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
     },
   });

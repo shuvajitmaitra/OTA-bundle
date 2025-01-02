@@ -113,7 +113,7 @@ const getStyles = Colors =>
   StyleSheet.create({
     sloganText: {
       color: Colors.BodyText,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
     },
     toggleSection: {
       flexDirection: 'row',

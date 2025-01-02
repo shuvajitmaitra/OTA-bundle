@@ -205,7 +205,7 @@ const MessageScreen2 = () => {
       : false;
 
     return (
-      <Message3
+      <Message2
         item={{...item, isSameDate}}
         index={index}
         nextSender={nextSender}

@@ -639,12 +639,7 @@ const getStyles = Colors =>
     holidayButtonText: {
       color: Colors.PureWhite,
       fontFamily: CustomFonts.MEDIUM,
-      fontSize: RegularFonts.HS,
-    },
-    btnText: {
-      color: 'white',
-      fontFamily: CustomFonts.MEDIUM,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
     },
     title: {
       fontSize: RegularFonts.HXL,

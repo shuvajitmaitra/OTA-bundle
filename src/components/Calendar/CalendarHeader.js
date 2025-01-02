@@ -60,7 +60,7 @@ const getStyles = Colors =>
     btnText: {
       color: 'white',
       fontFamily: CustomFonts.MEDIUM,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
     },
     container: {
       flexDirection: 'row',

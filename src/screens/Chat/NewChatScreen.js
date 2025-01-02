@@ -407,11 +407,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
 
 const getStyles = (Colors, checked) =>
   StyleSheet.create({
-    createCrowdText: {
-      fontFamily: CustomFonts.MEDIUM,
-      color: Colors.Primary,
-      fontSize: RegularFonts.HS,
-    },
     NoDataContainer: {
       // backgroundColor: "red",
       height: '100%',

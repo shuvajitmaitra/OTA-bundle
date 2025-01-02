@@ -125,11 +125,10 @@ const getStyles = (Colors, my) =>
   StyleSheet.create({
     readMoreText: {
       color: Colors.ThemeAnotherButtonColor,
-      fontSize: responsiveScreenFontSize(2),
-      fontWeight: '600',
+      fontSize: RegularFonts.BR,
       height: 20,
-      // backgroundColor: 'green',
       width: 100,
+      fontFamily: CustomFonts.MEDIUM,
     },
     threeDotContainer: {
       position: 'absolute',
@@ -194,46 +193,47 @@ const getStyles = (Colors, my) =>
       body: {
         fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
-        color: Colors.BodyText,
+        color: my ? Colors.PureWhite : Colors.BodyText,
+      },
+      paragraph: {
+        marginTop: 0, // Remove top margin from paragraphs
+        marginBottom: 0, // Remove bottom margin from paragraphs
+        padding: 0, // Remove padding from paragraphs
       },
       heading1: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading2: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading3: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading4: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading5: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
       heading6: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BR,
         marginVertical: 4,
       },
-      hr: {
-        backgroundColor: Colors.BodyText,
-        marginVertical: 8,
-        height: 1,
-      },
       strong: {
-        fontFamily: CustomFonts.SEMI_BOLD,
+        fontFamily: CustomFonts.MEDIUM,
         fontSize: RegularFonts.BR,
+        fontWeight: '500',
       },
       em: {
         fontFamily: CustomFonts.REGULAR,
@@ -243,72 +243,40 @@ const getStyles = (Colors, my) =>
       s: {
         textDecorationLine: 'line-through',
       },
-      blockquote: {
-        color: my ? Colors.PureWhite : Colors.BodyText,
-        backgroundColor: my ? Colors.Primary : Colors.Background_color,
-        padding: 8,
-        borderRadius: 6,
-        marginVertical: 4,
-        borderLeftWidth: 4,
-        borderLeftColor: Colors.ThemeAnotherButtonColor,
-      },
-      bullet_list: {
-        marginVertical: 4,
-      },
-      ordered_list: {
-        marginVertical: 4,
-      },
-      list_item: {
-        marginVertical: 2,
-      },
-      ordered_list_icon: {
-        fontFamily: CustomFonts.REGULAR,
-        fontSize: RegularFonts.BR,
-        color: Colors.BodyText,
-        marginRight: 8,
-      },
-      ordered_list_content: {
-        flex: 1,
-      },
-      bullet_list_icon: {
-        marginRight: 8,
-      },
-      bullet_list_content: {
-        flex: 1,
-      },
       code_inline: {
-        color: Colors.BodyText,
-        backgroundColor: my ? Colors.Primary : Colors.Background_color,
         fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BS,
         padding: 4,
         borderRadius: 4,
       },
-      code_block: {
-        color: my ? Colors.PureWhite : Colors.BodyText,
-        borderWidth: 0,
-        backgroundColor: my ? Colors.Primary : Colors.Background_color,
-        padding: 8,
-        borderRadius: 6,
-        fontFamily: CustomFonts.REGULAR,
-        fontSize: RegularFonts.BS,
+      hr: {
+        backgroundColor: Colors.BodyText,
+        marginVertical: 8,
+        height: 1,
       },
       fence: {
-        color: my ? Colors.PureWhite : Colors.BodyText,
-        backgroundColor: my ? Colors.Primary : Colors.Background_color,
         marginBottom: 10,
         padding: 8,
         borderRadius: 6,
         fontFamily: CustomFonts.REGULAR,
         fontSize: RegularFonts.BS,
       },
-      table: {
-        borderColor: Colors.BorderColor,
-        marginVertical: 8,
+      code_block: {
+        borderWidth: 0,
+        padding: 8,
+        borderRadius: 6,
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BS,
+      },
+      blockquote: {
+        padding: 8,
+        borderRadius: 6,
+        marginVertical: 4,
+        borderLeftWidth: 4,
+        borderLeftColor: Colors.ThemeAnotherButtonColor,
       },
       thead: {
         borderColor: Colors.BorderColor,
-        backgroundColor: Colors.Background_color,
       },
       tbody: {
         borderColor: Colors.BorderColor,
@@ -330,33 +298,9 @@ const getStyles = (Colors, my) =>
         fontFamily: CustomFonts.SEMI_BOLD,
         fontSize: RegularFonts.BR,
       },
-      blocklink: {
-        color: Colors.ThemeAnotherButtonColor,
-        fontFamily: CustomFonts.SEMI_BOLD,
-        fontSize: RegularFonts.BR,
-      },
-      image: {
+      table: {
+        borderColor: Colors.BorderColor,
         marginVertical: 8,
-        borderRadius: 6,
-      },
-      text: {
-        fontFamily: CustomFonts.REGULAR,
-        fontSize: RegularFonts.BR,
-        color: Colors.BodyText,
-      },
-      textgroup: {
-        color: Colors.BodyText,
-      },
-      paragraph: {
-        marginTop: 0,
-        marginBottom: 0,
-        padding: 0,
-      },
-      hardbreak: {
-        marginVertical: 8,
-      },
-      softbreak: {
-        marginVertical: 4,
       },
       pre: {
         fontFamily: CustomFonts.REGULAR,
@@ -366,8 +310,51 @@ const getStyles = (Colors, my) =>
       inline: {
         color: Colors.BodyText,
       },
-      span: {
-        color: Colors.BodyText,
+      bullet_list: {
+        marginVertical: 4,
+      },
+      ordered_list: {
+        marginVertical: 4,
+      },
+      list_item: {
+        marginVertical: 2,
+      },
+      ordered_list_icon: {
+        fontFamily: CustomFonts.REGULAR,
+        fontSize: RegularFonts.BR,
+        marginRight: 8,
+      },
+
+      ordered_list_content: {
+        flex: 1,
+      },
+      bullet_list_icon: {
+        marginRight: 8,
+      },
+      bullet_list_content: {
+        flex: 1,
+      },
+      span: {},
+      softbreak: {
+        marginVertical: 4,
+      },
+      blocklink: {
+        color: Colors.ThemeAnotherButtonColor,
+        fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+      },
+      image: {
+        marginVertical: 8,
+        borderRadius: 6,
+      },
+      // text: {
+      //   fontFamily: CustomFonts.REGULAR,
+      //   fontSize: RegularFonts.BR,
+      //   color: Colors.BodyText,
+      // },
+      textgroup: {},
+      hardbreak: {
+        marginVertical: 8,
       },
     },
   });

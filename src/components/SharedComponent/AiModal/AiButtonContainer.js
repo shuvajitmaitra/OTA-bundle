@@ -79,7 +79,7 @@ const getStyles = Colors =>
     },
     buttonText: {
       fontFamily: CustomFonts.MEDIUM,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
       color: Colors.PureWhite,
     },
   });

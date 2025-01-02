@@ -145,7 +145,7 @@ const getStyles = Colors =>
       color: Colors.Heading,
       // color: Colors.BodyText,
       fontFamily: CustomFonts.MEDIUM,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
     },
     dotContainer: {
       flexDirection: 'row',

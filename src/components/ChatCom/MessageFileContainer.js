@@ -173,9 +173,9 @@ const getStyles = Colors =>
       marginLeft: 10,
     },
     fileName: {
-      fontWeight: 'bold',
+      fontWeight: '500',
       color: Colors.PureWhite,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
     },
     fileDetails: {
       color: Colors.PureWhite,

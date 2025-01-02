@@ -535,7 +535,7 @@ const getStyles = Colors =>
         marginBottom: responsiveScreenHeight(1.5),
         // backgroundColor: "yellow",
         minHeight: 100,
-        fontSize: RegularFonts.HS,
+        fontSize: RegularFonts.BR,
       },
       heading1: {
         flex: 1,
