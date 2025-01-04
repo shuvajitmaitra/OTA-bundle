@@ -20,4 +20,8 @@
 - Update Bottom padding issues in DayToDayActivities for improved spacing consistency
 - Update font sizes in multiple components for improved consistency; 
 - Adjust layout in CommentScreen and ChatMessageInput for better user experience.
+- Incoming message and sent messages gap inconsistency fixed
+- Fix gap inconsistency between incoming and sent messages; 
+- update font sizes and margins for improved layout in Chat components.
+
 **Note: Finished 100% of today's work stream.**

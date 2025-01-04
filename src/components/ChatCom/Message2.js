@@ -179,7 +179,7 @@ const getStyles = (Colors, my) =>
       marginHorizontal: 10,
       borderRadius: 10,
       paddingHorizontal: 10,
-      marginTop: my ? 10 : 5,
+      marginTop: 5,
       width: '90%',
       minWidth: '25%',
       alignSelf: my ? 'flex-end' : 'flex-start',

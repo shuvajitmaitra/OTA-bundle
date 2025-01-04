@@ -93,7 +93,7 @@ const ChatMessageInput = ({
             // bottom: '140%', // This pushes the view above the reference point
             left: 0,
             right: 0,
-            // backgroundColor: Colors.White,
+            // backgroundColor: Colors.Red,
             zIndex: 999,
             flexDirection: 'column',
             width: width / 1.5,
@@ -154,16 +154,24 @@ const ChatMessageInput = ({
   return (
     <View style={{position: 'relative', width: '92%'}}>
       <MentionInput
+        spellCheck={true}
+        autoCorrect={true}
+        autoCapitalize="sentences"
+        keyboardAppearance={
+          Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+        }
+        multiline
+        verticalAlign="bottom"
+        textAlignVertical="bottom"
         value={text}
         style={{
           color: Colors.BodyText,
           width: '100%',
           maxHeight: maxHeight || 400,
-          fontSize: RegularFonts.BL,
-          // backgroundColor: 'red',
-          // // alignItems: "flex-start",
-          // textAlignVertical: 'cente',
-          // paddingTop: 20,
+          minHeight: 50,
+          fontSize: RegularFonts.BR,
+          paddingVertical: 15,
+          textAlignVertical: 'center',
         }}
         onChange={text => setText(text)}
         placeholder="Type a message..."

@@ -570,7 +570,7 @@ const getStyles = Colors =>
     },
     messageText: {
       color: Colors.BodyText,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BL,
     },
     container: {
       backgroundColor: Colors.Background_color,
