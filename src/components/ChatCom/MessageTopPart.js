@@ -32,6 +32,7 @@ import AiBotIcon from '../../assets/Icons/AiBotIcon';
 import MembersIcon from '../../assets/Icons/MembersIcon';
 import UserIcon from '../../assets/Icons/UserIcon';
 import {setCurrentRoute} from '../../store/reducer/authReducer';
+import {RegularFonts} from '../../constants/Fonts';
 
 export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
   const navigation = useNavigation();
@@ -194,9 +195,8 @@ const getStyles = Colors =>
     },
     name: {
       color: Colors.Heading,
-      fontFamily: CustomFonts.LATO_LIGHT,
-      fontWeight: '600',
-      fontSize: responsiveScreenFontSize(2),
+      fontFamily: CustomFonts.LATO_BOLD,
+      fontSize: RegularFonts.BL,
       // flexBasis: '10%',
       width: '100%',
     },

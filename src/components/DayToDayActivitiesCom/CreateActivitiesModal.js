@@ -203,79 +203,79 @@ const CreateActivitiesModal = ({
             {/* -------------------------- */}
             {/* ----------- Border and button  ----------- */}
             {/* -------------------------- */}
-            <View
-              style={{
-                borderBottomWidth: 1,
-                marginBottom: responsiveScreenHeight(2),
-                borderBottomColor: Colors.BorderColor,
-              }}></View>
             {/* <View style={styles.buttonContainer}>
               <ModalCustomButton
-                toggleModal={toggleCreateActivitiesModal}
-                textColor={Colors.Primary}
-                backgroundColor={Colors.PrimaryOpacityColor}
-                buttonText="Cancel"
+              toggleModal={toggleCreateActivitiesModal}
+              textColor={Colors.Primary}
+              backgroundColor={Colors.PrimaryOpacityColor}
+              buttonText="Cancel"
               />
               {isLoading ? (
                 <ModalCustomButton
-                  textColor={Colors.Primary}
-                  backgroundColor={Colors.BorderColor}
-                  buttonText="Save"
+                textColor={Colors.Primary}
+                backgroundColor={Colors.BorderColor}
+                buttonText="Save"
                 />
-              ) : (
-                <ModalCustomButton
+                ) : (
+                  <ModalCustomButton
                   toggleModal={() => {
                     action
-                      ? handleUpdateActivities(activityId)
-                      : handleCreateActivities();
-                  }}
-                  textColor={Colors.PureWhite}
-                  backgroundColor={Colors.Primary}
-                  buttonText={activityId ? "Update" : "Submit"}
-                />
-              )}
-            </View> */}
-            <View style={styles.buttonContainer}>
-              <ModalCustomButton
-                toggleModal={toggleCreateActivitiesModal}
-                textColor={Colors.Primary}
-                backgroundColor={Colors.PrimaryOpacityColor}
-                buttonText="Cancel"
-              />
-              {isLoading ? (
-                <ModalCustomButton
-                  textColor={Colors.Primary}
-                  backgroundColor={Colors.BorderColor}
-                  buttonText="Save"
-                  disabled={true} // Always disabled during loading
-                />
-              ) : (
-                <ModalCustomButton
-                  toggleModal={() => {
-                    if (!isUploading) {
-                      // Only allow submission if not uploading
-                      action
-                        ? handleUpdateActivities(activityId)
-                        : handleCreateActivities();
-                    }
-                  }}
-                  textColor={
-                    isUploading
-                      ? Colors.DisablePrimaryButtonTextColor
-                      : Colors.PureWhite
-                  }
-                  backgroundColor={
-                    isUploading
-                      ? Colors.DisablePrimaryBackgroundColor
-                      : Colors.Primary
-                  }
-                  buttonText={activityId ? 'Update' : 'Submit'}
-                  disabled={isUploading} // Disable the button while uploading
-                />
-              )}
-            </View>
+                    ? handleUpdateActivities(activityId)
+                    : handleCreateActivities();
+                    }}
+                    textColor={Colors.PureWhite}
+                    backgroundColor={Colors.Primary}
+                    buttonText={activityId ? "Update" : "Submit"}
+                    />
+                    )}
+                    </View> */}
           </View>
         </ScrollView>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            marginBottom: responsiveScreenHeight(2),
+            borderBottomColor: Colors.BorderColor,
+          }}></View>
+        <View style={styles.buttonContainer}>
+          <ModalCustomButton
+            toggleModal={toggleCreateActivitiesModal}
+            textColor={Colors.Primary}
+            backgroundColor={Colors.PrimaryOpacityColor}
+            buttonText="Cancel"
+          />
+          {isLoading ? (
+            <ModalCustomButton
+              textColor={Colors.Primary}
+              backgroundColor={Colors.BorderColor}
+              buttonText="Save"
+              disabled={true} // Always disabled during loading
+            />
+          ) : (
+            <ModalCustomButton
+              toggleModal={() => {
+                if (!isUploading) {
+                  // Only allow submission if not uploading
+                  action
+                    ? handleUpdateActivities(activityId)
+                    : handleCreateActivities();
+                }
+              }}
+              textColor={
+                isUploading
+                  ? Colors.DisablePrimaryButtonTextColor
+                  : Colors.PureWhite
+              }
+              backgroundColor={
+                isUploading
+                  ? Colors.DisablePrimaryBackgroundColor
+                  : Colors.Primary
+              }
+              buttonText={activityId ? 'Update' : 'Submit'}
+              disabled={isUploading} // Disable the button while uploading
+            />
+          )}
+        </View>
       </View>
       <GlobalAlertModal />
     </Modal>

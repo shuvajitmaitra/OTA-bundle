@@ -19,6 +19,7 @@ import CustomFonts from '../../constants/CustomFonts';
 import ScreenHeader from '../../components/SharedComponent/ScreenHeader';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import GlobalRadioGroup from '../../components/SharedComponent/GlobalRadioButton';
+import {RegularFonts} from '../../constants/Fonts';
 
 const DisplaySettingsScreen = () => {
   const Colors = useTheme();
@@ -112,10 +113,9 @@ const getStyles = Colors =>
       fontFamily: CustomFonts.REGULAR,
     },
     headingText: {
-      fontSize: responsiveScreenFontSize(2.5),
-      fontWeight: '600',
       color: Colors.Heading,
-      fontFamily: CustomFonts.SEMI_BOLD,
+      fontSize: RegularFonts.HL,
+      fontFamily: CustomFonts.LATO_BOLD,
       marginTop: 10,
     },
     container: {

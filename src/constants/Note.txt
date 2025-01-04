@@ -1,26 +1,19 @@
-**Work Stream - January 02, 2025** 
+**Work Stream - January 04, 2025** 
 
 **Bootcampshub CLI**
 
-- New message screen design as like slack and making it functional.
-- Redesign the UI for the delete modal
-- Redesign toast message
+
+- Day to Day title and short desc align are not same
+- When select This month option from filters, not showing any post.
+- Unread count number is false in main chat screen
+- Incoming message and sent messages gap are not consistence
+- Placeholder message not align center of input field
+- Input field top padding and bottom padding are not same
 
 **Note: Planned to finish 100% of today's work-stream**
 
-*Work Update - December 31, 2024*
-- Redesign the new message screen.
-- Reduce horizontal padding in CreateActivitiesModal for improved layout consistency
-- Back button removed and title and placeholder text put in the place of back button
-- Toast message design corrected.
-- Added toast message modal in CreateActivitiesModal.
-- 
+*Work Update - January 02, 2025*
+- When click Upload Attachment, don't show any data in my file browsing in day2day modal
+- Cancel and Update button hold on bottom of the day2day modal
+
 **Note: Finished 100% of today's work stream.**
-
-
-
-
-- oder every message er jonno time nai tai sob akjon user second time message dile tar naam profile image dekhano lagce na
-- Oder three dot nai
-- Send status nai
-- 

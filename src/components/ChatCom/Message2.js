@@ -231,7 +231,7 @@ const getStyles = (Colors, my) =>
         marginVertical: 4,
       },
       strong: {
-        fontFamily: CustomFonts.MEDIUM,
+        fontFamily: CustomFonts.LATO_BOLD,
         fontSize: RegularFonts.BR,
         fontWeight: '500',
       },
