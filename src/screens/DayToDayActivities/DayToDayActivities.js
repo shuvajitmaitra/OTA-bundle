@@ -207,7 +207,7 @@ const getStyles = Colors =>
       fontSize: responsiveScreenFontSize(1.6),
       color: Colors.BodyText,
       paddingBottom: responsiveScreenHeight(1),
-      paddingHorizontal: responsiveScreenWidth(3),
+      paddingHorizontal: 15,
     },
     loading: {
       paddingBottom: 10,

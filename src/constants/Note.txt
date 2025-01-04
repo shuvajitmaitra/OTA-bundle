@@ -3,7 +3,6 @@
 **Bootcampshub CLI**
 
 
-- Day to Day title and short desc align are not same
 - When select This month option from filters, not showing any post.
 - Unread count number is false in main chat screen
 - Incoming message and sent messages gap are not consistence
@@ -15,5 +14,6 @@
 *Work Update - January 02, 2025*
 - When click Upload Attachment, don't show any data in my file browsing in day2day modal
 - Cancel and Update button hold on bottom of the day2day modal
+- Day to Day title and short desc align are not same
 
 **Note: Finished 100% of today's work stream.**
