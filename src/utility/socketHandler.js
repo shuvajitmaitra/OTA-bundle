@@ -38,18 +38,8 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('newmessage', data => {
-    console.log('Platform', Platform.OS);
-    console.log('data.message', JSON.stringify(data.message, null, 2));
-    console.log(
-      'data.message?.sender?._id !== user?._id',
-      JSON.stringify(data.message?.sender?._id !== user?._id, null, 2),
-    );
     if (data.message?.sender?._id !== user?._id) {
-      addNewMessage(data.chat?._id, data.message);
-      store.dispatch(appendLocalMessage(data.message));
       if (!data?.message?.parentMessage) {
-        // console.log('Platform.OS', JSON.stringify(Platform.OS, null, 2));
-        // console.log('new message', JSON.stringify(data.message, null, 1));
         store.dispatch(
           updateLatestMessage({
             chatId: data?.message?.chat,
@@ -58,6 +48,8 @@ const setupSocketListeners = socket => {
           }),
         );
       }
+      addNewMessage(data.chat?._id, data.message);
+      store.dispatch(appendLocalMessage(data.message));
     }
     //   // updateStatus(data?.message?._id, 'delivered');
     //   console.log(

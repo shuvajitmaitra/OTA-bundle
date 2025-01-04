@@ -17,7 +17,6 @@ import {useNavigation} from '@react-navigation/native';
 import DeleteMessageContainer from './DeleteMessageContainer';
 import MessageFileContainer from './MessageFileContainer';
 import EmojiContainer from './EmojiContainer';
-import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ThreedotIcon from '../../assets/Icons/ThreedotIcon';
 import axiosInstance from '../../utility/axiosInstance';
 import {setSingleChat} from '../../store/reducer/chatReducer';
