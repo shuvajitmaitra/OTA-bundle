@@ -14,9 +14,9 @@ import _ from 'lodash';
 import axios from '../../utility/axiosInstance';
 import {useTheme} from '../../context/ThemeContext';
 import {ScrollView} from 'react-native';
-import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import {MentionInput} from './mention-input';
 import UserIconTwo from '../../assets/Icons/UserIconTwo';
+import {RegularFonts} from '../../constants/Fonts';
 
 let prevSearchTermRef = 'init';
 
@@ -40,6 +40,7 @@ const handleSearch = _.debounce(
           }));
 
         setUsers([...filtered]);
+        // console.log('filtered', JSON.stringify(filtered, null, 2));
       } catch (error) {
         setLoading(false);
         setUsers([]);
@@ -155,12 +156,14 @@ const ChatMessageInput = ({
       <MentionInput
         value={text}
         style={{
-          color: Colors.Heading,
-          // backgroundColor: 'red',
+          color: Colors.BodyText,
           width: '100%',
-          maxHeight: maxHeight || 200,
-          fontSize: 18,
-          // alignItems: "flex-start",
+          maxHeight: maxHeight || 400,
+          fontSize: RegularFonts.BL,
+          // backgroundColor: 'red',
+          // // alignItems: "flex-start",
+          // textAlignVertical: 'cente',
+          // paddingTop: 20,
         }}
         onChange={text => setText(text)}
         placeholder="Type a message..."

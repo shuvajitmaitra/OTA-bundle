@@ -38,6 +38,12 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('newmessage', data => {
+    console.log('Platform', Platform.OS);
+    console.log('data.message', JSON.stringify(data.message, null, 2));
+    console.log(
+      'data.message?.sender?._id !== user?._id',
+      JSON.stringify(data.message?.sender?._id !== user?._id, null, 2),
+    );
     if (data.message?.sender?._id !== user?._id) {
       addNewMessage(data.chat?._id, data.message);
       store.dispatch(appendLocalMessage(data.message));

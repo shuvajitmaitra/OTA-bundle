@@ -88,7 +88,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.Primary,
     },
     radioText: {
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
       fontFamily: CustomFonts.REGULAR,
     },
   });

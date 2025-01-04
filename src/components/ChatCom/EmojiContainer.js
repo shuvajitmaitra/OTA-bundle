@@ -124,6 +124,6 @@ const getStyles = Colors =>
     },
     emojiText: {
       color: Colors.BodyText,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
     },
   });

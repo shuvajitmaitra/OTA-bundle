@@ -133,6 +133,6 @@ const getStyles = Colors =>
       flex: 1,
       height: 40,
       color: Colors.BodyText,
-      fontSize: RegularFonts.HS,
+      fontSize: RegularFonts.BR,
     },
   });

@@ -18,5 +18,6 @@
 - update DayToDayActivities UI with new button design and enhanced layout.
 - Refactor Plus and PlusIcon components to accept size and color props for improved customization;
 - Update Bottom padding issues in DayToDayActivities for improved spacing consistency
-
+- Update font sizes in multiple components for improved consistency; 
+- Adjust layout in CommentScreen and ChatMessageInput for better user experience.
 **Note: Finished 100% of today's work stream.**

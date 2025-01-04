@@ -167,7 +167,6 @@ const getStyles = Colors =>
       borderWidth: 1,
       overflow: 'hidden',
       borderColor: Colors.BorderColor,
-      overflow: 'hidden',
     },
     topContainer: {
       alignItems: 'center',
@@ -186,7 +185,6 @@ const getStyles = Colors =>
       borderColor: Colors.BorderColor,
       borderRadius: responsiveScreenWidth(2),
       flex: 1,
-      overflow: 'hidden',
     },
     textInput: {
       fontSize: responsiveScreenFontSize(1.6),
@@ -223,7 +221,7 @@ const getStyles = Colors =>
     },
     radioText: {
       fontFamily: CustomFonts.REGULAR,
-      fontSize: RegularFonts.HR,
+      fontSize: RegularFonts.BR,
       color: Colors.Heading,
     },
     itemContainer: {
