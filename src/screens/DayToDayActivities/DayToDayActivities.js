@@ -20,6 +20,8 @@ import {showToast} from '../../components/HelperFunction';
 import {LoadDayToDayActivities} from '../../actions/apiCall';
 import LoadingSmall from '../../components/SharedComponent/LoadingSmall';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Plus from '../../assets/Icons/Plus';
+import PlusIcon from '../../assets/Icons/PlusIcon';
 
 const DayToDayActivities = () => {
   const dispatch = useDispatch();
@@ -85,6 +87,14 @@ const DayToDayActivities = () => {
   var {top} = useSafeAreaInsets();
   return (
     <View style={[styles.container]}>
+      <TouchableOpacity
+        onPress={() => toggleCreateActivitiesModal()}
+        style={styles.button}>
+        {/* <PlusCircle size={30} color={Colors.PureWhite} /> */}
+        {/* <Plus color={Colors.PureWhite} size={50} /> */}
+        <PlusIcon color={Colors.PureWhite} size={30} />
+        {/* <Text style={styles.buttonText}>Create Activities</Text> */}
+      </TouchableOpacity>
       <StatusBar
         translucent={true}
         backgroundColor={Colors.Background_color}
@@ -94,15 +104,9 @@ const DayToDayActivities = () => {
             : 'light-content'
         }
       />
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Day-to-Day Activities</Text>
-        <TouchableOpacity
-          onPress={() => toggleCreateActivitiesModal()}
-          style={styles.button}>
-          <PlusCircle size={20} color={Colors.PureWhite} />
-          <Text style={styles.buttonText}>Create Activities</Text>
-        </TouchableOpacity>
-      </View>
+      {/* <View style={styles.headerContainer}>
+      </View> */}
+      <Text style={styles.headerText}>Day-to-Day Activities</Text>
       <Text style={styles.subHeading}>
         Document Your Journey: Daily Learning & Activities
       </Text>
@@ -167,26 +171,39 @@ const getStyles = Colors =>
       // borderRadius: 10,
       paddingHorizontal: 15,
     },
-    buttonText: {
-      fontFamily: CustomFonts.MEDIUM,
-      color: Colors.PureWhite,
-      fontSize: responsiveScreenFontSize(1.8),
-    },
+    // buttonText: {
+    //   fontFamily: CustomFonts.MEDIUM,
+    //   color: Colors.PureWhite,
+    //   fontSize: responsiveScreenFontSize(1.8),
+    // },
     button: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: Colors.Primary,
       gap: 10,
-      paddingVertical: 10,
-      paddingHorizontal: 10,
-      borderRadius: 5,
+      paddingVertical: 15,
+      paddingHorizontal: 15,
+      borderRadius: 50,
+      position: 'absolute',
+      right: 30,
+      bottom: 30,
+      zIndex: 1,
+      shadowColor: '#000000',
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.19,
+      shadowRadius: 5.62,
+      elevation: 6,
     },
     headerText: {
       fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(2.4),
-      maxWidth: responsiveScreenWidth(50),
+      // maxWidth: responsiveScreenWidth(50),
+      paddingHorizontal: 15,
     },
     headerContainer: {
       flexDirection: 'row',
@@ -201,6 +218,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.Background_color,
       // paddingVertical: responsiveScreenHeight(1),
       // marginTop: responsiveScreenHeight(3),
+      position: 'relative',
     },
     subHeading: {
       fontFamily: CustomFonts.REGULAR,
