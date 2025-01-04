@@ -224,7 +224,7 @@ const getStyles = Colors =>
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.6),
       color: Colors.BodyText,
-      paddingBottom: responsiveScreenHeight(1),
+      paddingBottom: responsiveScreenHeight(2),
       paddingHorizontal: 15,
     },
     loading: {

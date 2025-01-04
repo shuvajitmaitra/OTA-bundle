@@ -17,5 +17,6 @@
 - Day to Day title and short desc align are not same
 - update DayToDayActivities UI with new button design and enhanced layout.
 - Refactor Plus and PlusIcon components to accept size and color props for improved customization;
+- Update Bottom padding issues in DayToDayActivities for improved spacing consistency
 
 **Note: Finished 100% of today's work stream.**
