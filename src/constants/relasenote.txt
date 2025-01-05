@@ -1,4 +1,4 @@
-Release Note - December 29th, 2024#release #app #env
+Release Note - January 05, 2025#release #app #env
 
 #release-note #app #env:staging
 
@@ -7,6 +7,29 @@ We are pleased to announce the latest updates and enhancements to the SchoolsHub
 ## **BootcampsHub App Development:**
 
 ---
+### **Improvements & Fixes**
+
+#### **Messaging**
+- **Enhanced Chat Experience**: Chat messages are now displayed at the center of the screen for better visibility.
+- **Seamless Transition**: Fixed the issue of two screens appearing after navigating from crowd chat to personal chat.
+- **Audio Loader Update**: Resolved audio loader issues in the message screen, ensuring smooth playback.
+
+#### **Calendar**
+- **Event Visibility**: Addressed the issue where denied events were not showing in the calendar screen.
+- **Improved Functionality**: Fixed the deny functionality for invited events.
+
+#### **Programs**
+- **Initial Load Fix**: Programs now load correctly on the first attempt, providing a smoother experience.
+
+#### **Availability Screen**
+- **Alert Resolved**: Fixed the issue of red alerts splashing on the availability screen.
+- **UI Fixes**: Removed the red line appearing at the top and bottom of the availability screen.
+
+#### **Custom Icon Button**
+- **Visual Enhancements**: Update button colors now reflect the loading state, and font size has been adjusted for better readability.
+
+#### **Post Deletion**
+- **Modal Behavior**: The delete modal now closes automatically after deleting a post.
 
 ---
 

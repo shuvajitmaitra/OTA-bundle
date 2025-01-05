@@ -4,12 +4,11 @@
 
 
 - Two message appearing issue fixing in the message screen.
-- Denied event display in the calendar.
-- Delete modal is not close after deleting the post.
 
 **Note: Planned to finish 100% of today's work-stream**
 
-*Work Update - January 04, 2025*
+*Work Update - January 05, 2025*
+
 - Chat message place in the center of the screen.
 - After navigating crowd to personal chat two screen are appearing fixing the issues.
 - Audio loader issues fixed in the message screen.
@@ -19,6 +18,7 @@
 - Red alert splashing in availability screen fixing the issues.
 - A red line appearing in top and bottom of Availability screen.
 - Update button colors based on loading state and adjust font size in CustomIconButton.
-- 
+- Delete modal is not close after deleting the post.
 
-**Note: Finished 100% of today's work stream.**
+
+**Note: Finished 90% of today's work stream.**
