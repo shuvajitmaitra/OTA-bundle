@@ -17,11 +17,15 @@ import {useTheme} from '../../../context/ThemeContext';
 import TextArea from './TextArea';
 import CustomFonts from '../../../constants/CustomFonts';
 import axiosInstance from '../../../utility/axiosInstance';
-import {updateInvitations} from '../../../store/reducer/calendarReducer';
+import {
+  setNewEvent,
+  updateInvitations,
+} from '../../../store/reducer/calendarReducer';
 import {useDispatch} from 'react-redux';
 import {showToast} from '../../HelperFunction';
 import Toast from 'react-native-toast-message';
 import {toastConfig} from '../../../constants/ToastConfig';
+import moment from 'moment';
 
 const InvitationDeniedModal = ({
   isDeniedModalVisible,
@@ -41,7 +45,14 @@ const InvitationDeniedModal = ({
     axiosInstance
       .patch(`/calendar/event/invitation/${id}`, payload)
       .then(res => {
+        console.log('res.data', JSON.stringify(res.data, null, 2));
         if (res.data.success) {
+          dispatch(
+            setNewEvent({
+              event: res.data.event,
+              time: moment(res?.data?.event?.start).format('YYYY-M-D'),
+            }),
+          );
           setIsDeniedModalVisible(false);
           toggleInvitationsDetailsModal();
           dispatch(updateInvitations({id}));

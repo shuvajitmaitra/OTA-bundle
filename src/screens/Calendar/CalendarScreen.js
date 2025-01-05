@@ -2,6 +2,7 @@ import React, {useEffect, useState, useCallback, useMemo, useRef} from 'react';
 import {
   Alert,
   Image,
+  RefreshControl,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -30,7 +31,6 @@ import {
   setAvailabilityData,
   setSpecificHoursData,
 } from '../../store/reducer/calendarReducer';
-import {loadEventInvitation} from '../../actions/chat-noti';
 import Images from '../../constants/Images';
 import HolidayIcon from '../../assets/Icons/HolidayIcon';
 import TickCircleIcon from '../../assets/Icons/TickCircleIcon';
@@ -67,13 +67,6 @@ export function numberToMonth(monthNumber) {
 const CalendarScreen = props => {
   const {calendarEvent, invitations, holidays, weekends, availabilities} =
     useSelector(state => state.calendar);
-
-  // console.log("holidays", JSON.stringify(holidays, null, 1));
-  // console.log(
-  //   "moment().format()",
-  //   JSON.stringify(, null, 1)
-  // );
-  // console.log("weekdays", JSON.stringify(weekends, null, 1));
   const isHolidays = holidays?.find(
     item => item.date.start === moment().format('YYYY-MM-DD'),
   )?.length;
@@ -112,11 +105,6 @@ const CalendarScreen = props => {
   const toggleHolidayModal = useCallback(() => {
     setIsHolidayModalVisible(prevState => !prevState);
   }, []);
-
-  // useEffect(() => {
-  //   loadCalendarEvent();
-  //   console.log("Event called");
-  // }, []);
 
   const [isAvailabilityVisible, setIsAvailabilityVisible] = useState(false);
   const toggleAvailability = useCallback(() => {
@@ -171,7 +159,6 @@ const CalendarScreen = props => {
           console.log('Error:', JSON.stringify(error.message, null, 1));
         }
       });
-    loadEventInvitation();
   }, []);
 
   const handleDetails = useCallback(

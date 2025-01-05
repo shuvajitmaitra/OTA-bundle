@@ -34,6 +34,7 @@ import MediaIcon from '../../assets/Icons/MediaIcon';
 import {LoadCalenderInfo, LoadMockInterviewInfo} from '../../actions/apiCall';
 import ExploreMoreIcon from '../../assets/Icons/ExploreMoreIcon';
 import HomeUserDetails from '../../components/HomeCom/HomeUserDetails';
+import {loadCalendarEvent, loadEventInvitation} from '../../actions/chat-noti';
 
 export default function Dashboard() {
   const {myEnrollments} = useSelector(state => state.auth);
@@ -103,6 +104,8 @@ export default function Dashboard() {
   };
 
   const handleCalenderNavigation = () => {
+    loadCalendarEvent();
+    loadEventInvitation();
     true
       ? navigation.navigate('MyCalenderStack', {screen: 'CalendarScreen'})
       : handleDefaultRoute();

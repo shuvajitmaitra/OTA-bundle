@@ -88,6 +88,7 @@ const Calendar = ({
 }) => {
   const [month, setMonth] = useState(new Date().getMonth());
   const {holidays, monthViewData} = useSelector(state => state.calendar);
+  // console.log('monthViewData', JSON.stringify(monthViewData, null, 2));
   const {user} = useSelector(state => state.auth);
   const [year, setYear] = useState(new Date().getFullYear());
   const [selected, setSelected] = useState('day');

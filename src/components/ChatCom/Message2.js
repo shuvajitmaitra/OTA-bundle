@@ -45,7 +45,7 @@ const Message2 = ({item, index, nextSender, setViewImage}) => {
       );
       if (res.data.success) {
         dispatch(setCurrentRoute('MessageScreen2'));
-        navigation.push('MessageScreen2');
+        navigation.push('MessageScreen2', {from: 'crowd'});
       }
       dispatch(setSingleChat({...res.data.chat, otherUser: item.sender}));
     } catch (err) {

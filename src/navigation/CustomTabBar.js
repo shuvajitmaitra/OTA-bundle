@@ -8,7 +8,11 @@ import {useTheme} from '../context/ThemeContext';
 import CustomFonts from '../constants/CustomFonts';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import CommunityIcon from '../assets/Icons/CommunityIcon';
-import {loadCommunityPosts} from '../actions/chat-noti';
+import {
+  loadCalendarEvent,
+  loadCommunityPosts,
+  loadEventInvitation,
+} from '../actions/chat-noti';
 import {setCommunityPosts} from '../store/reducer/communityReducer';
 import {useDispatch} from 'react-redux';
 
@@ -51,6 +55,12 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
               });
             }
 
+            // console.log('route.name', JSON.stringify(route.name, null, 2));
+
+            if (route.name === 'MyCalenderStack') {
+              loadCalendarEvent();
+              loadEventInvitation();
+            }
             if (!isFocused && !event.defaultPrevented) {
               navigation.navigate(route.name);
             }

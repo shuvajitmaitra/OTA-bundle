@@ -32,6 +32,10 @@ const EventHistory = ({event}) => {
     axiosInstance
       .post('history/getHistory', {itemId: event?._id})
       .then(res => {
+        console.log(
+          'event history',
+          JSON.stringify(res?.data?.success, null, 1),
+        );
         setHistories(res?.data?.histories?.filter(item => item?.version > 0));
       })
       .catch(error => {

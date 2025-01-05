@@ -4,22 +4,16 @@ import MessageScreen2 from '../screens/Chat/MessageScreen2';
 import ThreadScreen from '../screens/Chat/ThreadScreen';
 import DrawerNavigator from './DrawerNavigator';
 import ChatProfile from '../screens/Chat/ChatProfile';
-import GlobalCommentModal from '../components/SharedComponent/GlobalCommentModal';
 import {useSelector} from 'react-redux';
 import NotificationEventDetails from '../components/Calendar/Modal/NotificationEventDetails';
 import store from '../store';
-import {setAppLoading, setCurrentRoute} from '../store/reducer/authReducer';
+import {setAppLoading} from '../store/reducer/authReducer';
 import {
-  loadCalendarEvent,
   loadChats,
   loadNotifications,
   loadProgramInfo,
 } from '../actions/chat-noti';
-import {
-  connectSocket,
-  disconnectSocket,
-  socket,
-} from '../utility/socketManager';
+import {connectSocket, disconnectSocket} from '../utility/socketManager';
 import {fetchOnlineUsers} from '../actions/apiCall';
 import {setSinglePost} from '../store/reducer/communityReducer';
 import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
@@ -51,9 +45,7 @@ const RootStackNavigator = () => {
           const promises = [
             loadChats(),
             connectSocket(),
-            // connectSocket(),
             loadProgramInfo(),
-            loadCalendarEvent(),
             loadNotifications(),
             fetchOnlineUsers(),
           ];

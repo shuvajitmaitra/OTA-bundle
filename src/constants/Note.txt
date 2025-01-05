@@ -2,7 +2,6 @@
 
 **Bootcampshub CLI**
 
-- Chat message place in the center of the screen.
 - After navigating crowd to personal chat two screen are appearing fixing the issues.
 - Add audio loader in message.
 - Two message appearing issue fixing in the message screen.
@@ -15,16 +14,7 @@
 **Note: Planned to finish 100% of today's work-stream**
 
 *Work Update - January 04, 2025*
-- When click Upload Attachment, don't show any data in my file browsing in day2day modal
-- Cancel and Update button hold on bottom of the day2day modal
-- Day to Day title and short desc align are not same
-- update DayToDayActivities UI with new button design and enhanced layout.
-- Refactor Plus and PlusIcon components to accept size and color props for improved customization;
-- Update Bottom padding issues in DayToDayActivities for improved spacing consistency
-- Update font sizes in multiple components for improved consistency; 
-- Adjust layout in CommentScreen and ChatMessageInput for better user experience.
-- Incoming message and sent messages gap inconsistency fixed
-- Fix gap inconsistency between incoming and sent messages; 
-- update font sizes and margins for improved layout in Chat components.
+- Chat message place in the center of the screen.
+
 
 **Note: Finished 100% of today's work stream.**

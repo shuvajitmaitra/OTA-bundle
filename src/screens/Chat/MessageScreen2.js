@@ -28,7 +28,8 @@ import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModa
 import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
 import Message3 from '../../components/ChatCom/NewMessageDesign/Message3';
 
-const MessageScreen2 = () => {
+const MessageScreen2 = ({route}) => {
+  // const {from} = route.params;
   const dispatch = useDispatch();
   console.log('rerender');
   const {top, bottom} = useSafeAreaInsets();
@@ -269,6 +270,7 @@ const MessageScreen2 = () => {
         <MessageTopPart
           fetchPinned={fetchPinned}
           setPinnedScreenVisible={setPinnedScreenVisible}
+          from={route?.params?.from}
         />
         <View style={styles.flatListContainer}>
           {viewInitialMessage && !localMessages.length && (

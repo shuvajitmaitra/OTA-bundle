@@ -54,6 +54,7 @@ export const loadChats = async () => {
 };
 
 export const loadCalendarEvent = async () => {
+  console.log('Calender Event Called');
   await axiosInstance
     .get('/calendar/event/myevents')
     .then(res => {

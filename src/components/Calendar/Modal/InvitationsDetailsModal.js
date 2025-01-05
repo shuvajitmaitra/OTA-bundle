@@ -69,12 +69,12 @@ const InvitationsDetailsModal = ({
       .patch(`/calendar/event/invitation/${item._id}`, payload)
       .then(res => {
         if (res.data.success) {
-          dispatch(
-            setNewEvent({
-              event: item,
-              time: moment(item?.start).format('YYYY-M-D'),
-            }),
-          );
+          // dispatch(
+          //   setNewEvent({
+          //     event: item,
+          //     time: moment(item?.start).format('YYYY-M-D'),
+          //   }),
+          // );
           dispatch(updateInvitations({id: item._id}));
           toggleInvitationsDetailsModal();
           showToast({message: 'Event accepted'});

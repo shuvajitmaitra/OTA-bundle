@@ -34,7 +34,11 @@ import UserIcon from '../../assets/Icons/UserIcon';
 import {setCurrentRoute} from '../../store/reducer/authReducer';
 import {RegularFonts} from '../../constants/Fonts';
 
-export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
+export default function MessageTopPart({
+  setPinnedScreenVisible,
+  fetchPinned,
+  from,
+}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {singleChat: chat, onlineUsers} = useSelector(state => state.chat);
@@ -50,7 +54,7 @@ export default function MessageTopPart({setPinnedScreenVisible, fetchPinned}) {
           onPress={() => {
             dispatch(setLocalMessages([]));
             dispatch(setCurrentRoute(null));
-            navigation.goBack();
+            from ? navigation.pop(2) : navigation.goBack();
             // navigation.navigate('NewChatScreen');
           }}
           style={styles.backButtonContainer}>
