@@ -187,7 +187,7 @@ const AvailabilityModal = React.memo(function AvailabilityModal({
         message: 'Name field is required.',
       });
     }
-    setIsLoading(true);
+    // setIsLoading(true);
     axiosInstance
       .patch(`calendar/schedule/update/${availabilityData._id}`, data)
       .then(res => {
@@ -199,14 +199,14 @@ const AvailabilityModal = React.memo(function AvailabilityModal({
           message: 'Schedule updated successfully',
         });
         setIsAvailabilityVisible(false);
-        setIsLoading(false);
+        // setIsLoading(false);
       })
       ?.catch(error => {
         console?.log(
           'error you got from availability modal',
           JSON?.stringify(error.response.data, null, 1),
         );
-        setIsLoading(false);
+        // setIsLoading(false);
       });
   };
 
@@ -227,249 +227,237 @@ const AvailabilityModal = React.memo(function AvailabilityModal({
   const {top} = useSafeAreaInsets();
   return (
     <Modal
-      style={{margin: 0, padding: 0, backgroundColor: 'red'}}
+      style={{
+        margin: 0,
+        backgroundColor: Colors.White,
+        paddingTop: top / 1.5,
+      }}
       isVisible={isAvailabilityVisible}>
-      {isLoading ? (
-        <Loading backgroundColor={'transparent'} />
-      ) : (
-        <View style={[styles.modalContainer, {paddingTop: top}]}>
-          <TouchableOpacity
-            style={styles?.modalTop}
-            onPress={toggleAvailability}>
-            {/* <ModalBackAndCrossButton toggleModal={toggleAvailability} /> */}
-            <ArrowLeft />
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-          <>
-            <ScrollView style={{zIndex: 10}}>
-              <View style={styles?.modalBody}>
-                <Text style={styles?.modalHeading}>Availability</Text>
-                <Text style={styles?.modalSubHeading}>
-                  You can select the available event date and time here.
-                </Text>
-                {/* Weekly hours */}
-                <View style={[styles?.weekContainer, {zIndex: 100}]}>
-                  <Text style={styles?.heading}>Weekly hours</Text>
-                  <Divider marginBottom={-0.5} marginTop={1} />
-                  <View>
-                    <Text style={styles?.title}>Name</Text>
-                    <TextInput
-                      keyboardAppearance={
-                        Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                      }
-                      style={styles?.input}
-                      placeholderTextColor={Colors?.BodyText}
-                      placeholder={'Write schedule name...'}
-                      value={schedule}
-                      onChangeText={text => setSchedule(text)}
-                    />
-                    <Text style={styles?.title}>Current Time Zone</Text>
-                    <TextInput
-                      keyboardAppearance={
-                        Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                      }
-                      style={[styles.input]}
-                      // placeholderTextColor={Colors?.BodyText}
-                      placeholder={timeZone}
-                      value={timeZone}
-                      editable={false}
+      <TouchableOpacity style={styles?.modalTop} onPress={toggleAvailability}>
+        {/* <ModalBackAndCrossButton toggleModal={toggleAvailability} /> */}
+        <ArrowLeft />
+        <Text style={styles.backButtonText}>Back</Text>
+      </TouchableOpacity>
+
+      <ScrollView style={{zIndex: 10, paddingHorizontal: 10}}>
+        <View style={styles?.modalBody}>
+          <Text style={styles?.modalHeading}>Availability</Text>
+          <Text style={styles?.modalSubHeading}>
+            You can select the available event date and time here.
+          </Text>
+          {/* Weekly hours */}
+          <View style={[styles?.weekContainer, {zIndex: 100}]}>
+            <Text style={styles?.heading}>Weekly hours</Text>
+            <Divider marginBottom={-0.5} marginTop={1} />
+            <View>
+              <Text style={styles?.title}>Name</Text>
+              <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
+                style={styles?.input}
+                placeholderTextColor={Colors?.BodyText}
+                placeholder={'Write schedule name...'}
+                value={schedule}
+                onChangeText={text => setSchedule(text)}
+              />
+              <Text style={styles?.title}>Current Time Zone</Text>
+              <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
+                style={[styles.input]}
+                // placeholderTextColor={Colors?.BodyText}
+                placeholder={timeZone}
+                value={timeZone}
+                editable={false}
+              />
+            </View>
+            <Divider marginBottom={-0.5} marginTop={1} />
+
+            <View style={styles?.time}>
+              {availabilities?.map((item, index) => (
+                <View key={item?._id} style={styles?.row}>
+                  <View
+                    style={{
+                      // marginTop: responsiveScreenHeight(1.5),
+                      flex: item.intervals?.length ? 0.1 : 0.1,
+                      // backgroundColor: "green",
+                    }}>
+                    <CustomSwitch
+                      value={item?.intervals?.length > 0}
+                      onValueChange={() => handleToggleChange(index)}
                     />
                   </View>
-                  <Divider marginBottom={-0.5} marginTop={1} />
+                  <Text
+                    style={[
+                      styles?.dayText,
+                      {flex: item?.intervals?.length ? 0.1 : 0.1},
+                    ]}>
+                    {item?.wday?.slice(0, 3)}
+                  </Text>
+                  {item?.intervals?.length > 0 ? (
+                    <View
+                      style={{
+                        flex: 0.8,
+                        // backgroundColor: "blue",
+                        flexDirection: 'row',
+                      }}>
+                      <View style={{flex: 0.9}}>
+                        {item?.intervals?.map((item, intervalIndex) => {
+                          return (
+                            <View style={styles?.iconContainer} key={item?._id}>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  setIndexes({
+                                    index,
+                                    intervalIndex,
+                                    period: 'from',
+                                  });
 
-                  <View style={styles?.time}>
-                    {availabilities?.map((item, index) => (
-                      <View key={item?._id} style={styles?.row}>
-                        <View
-                          style={{
-                            // marginTop: responsiveScreenHeight(1.5),
-                            flex: item.intervals?.length ? 0.1 : 0.1,
-                            // backgroundColor: "green",
-                          }}>
-                          <CustomSwitch
-                            value={item?.intervals?.length > 0}
-                            onValueChange={() => handleToggleChange(index)}
-                          />
-                        </View>
-                        <Text
-                          style={[
-                            styles?.dayText,
-                            {flex: item?.intervals?.length ? 0.1 : 0.1},
-                          ]}>
-                          {item?.wday?.slice(0, 3)}
-                        </Text>
-                        {item?.intervals?.length > 0 ? (
-                          <View
-                            style={{
-                              flex: 0.8,
-                              // backgroundColor: "blue",
-                              flexDirection: 'row',
-                            }}>
-                            <View style={{flex: 0.9}}>
-                              {item?.intervals?.map((item, intervalIndex) => {
-                                return (
-                                  <View
-                                    style={styles?.iconContainer}
-                                    key={item?._id}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        setIndexes({
-                                          index,
-                                          intervalIndex,
-                                          period: 'from',
-                                        });
-
-                                        setPickerState('time');
-                                        setFrom(
-                                          moment(item?.from, 'HH:mm')?.format(
-                                            'hh:mm A',
-                                          ),
-                                        );
-                                        setIsPickerVisible(true);
-                                      }}
-                                      style={styles?.timeBox}>
-                                      <Text style={styles?.dropDownText}>
-                                        {moment(item?.from, 'HH:mm')?.format(
-                                          'hh:mm A',
-                                        )}
-                                      </Text>
-                                      <ClockIcon />
-                                    </TouchableOpacity>
-                                    <View
-                                      style={{
-                                        flex: 0.1,
-                                        alignItems: 'center',
-                                      }}>
-                                      <Text style={styles?.to}>to</Text>
-                                    </View>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        setIndexes({
-                                          index,
-                                          intervalIndex,
-                                          period: 'to',
-                                        });
-                                        setPickerState('time');
-                                        setTo(
-                                          moment(item?.to, 'HH:mm')?.format(
-                                            'hh:mm A',
-                                          ),
-                                        );
-                                        setIsPickerVisible(true);
-                                      }}
-                                      style={styles?.timeBox}>
-                                      <Text style={styles?.dropDownText}>
-                                        {moment(item?.to, 'HH:mm')?.format(
-                                          'hh:mm A',
-                                        )}
-                                      </Text>
-                                      <ClockIcon />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                      style={styles.crossPlusButton}
-                                      onPress={() => {
-                                        handleRemoveInterval(
-                                          index,
-                                          intervalIndex,
-                                        );
-                                      }}>
-                                      <RedCross />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                      style={styles.crossPlusButton}
-                                      onPress={() => {
-                                        handleAddIntervals(index);
-                                      }}>
-                                      <Plus />
-                                    </TouchableOpacity>
-                                  </View>
-                                );
-                              })}
+                                  setPickerState('time');
+                                  setFrom(
+                                    moment(item?.from, 'HH:mm')?.format(
+                                      'hh:mm A',
+                                    ),
+                                  );
+                                  setIsPickerVisible(true);
+                                }}
+                                style={styles?.timeBox}>
+                                <Text style={styles?.dropDownText}>
+                                  {moment(item?.from, 'HH:mm')?.format(
+                                    'hh:mm A',
+                                  )}
+                                </Text>
+                                <ClockIcon />
+                              </TouchableOpacity>
+                              <View
+                                style={{
+                                  flex: 0.1,
+                                  alignItems: 'center',
+                                }}>
+                                <Text style={styles?.to}>to</Text>
+                              </View>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  setIndexes({
+                                    index,
+                                    intervalIndex,
+                                    period: 'to',
+                                  });
+                                  setPickerState('time');
+                                  setTo(
+                                    moment(item?.to, 'HH:mm')?.format(
+                                      'hh:mm A',
+                                    ),
+                                  );
+                                  setIsPickerVisible(true);
+                                }}
+                                style={styles?.timeBox}>
+                                <Text style={styles?.dropDownText}>
+                                  {moment(item?.to, 'HH:mm')?.format('hh:mm A')}
+                                </Text>
+                                <ClockIcon />
+                              </TouchableOpacity>
+                              <TouchableOpacity
+                                style={styles.crossPlusButton}
+                                onPress={() => {
+                                  handleRemoveInterval(index, intervalIndex);
+                                }}>
+                                <RedCross />
+                              </TouchableOpacity>
+                              <TouchableOpacity
+                                style={styles.crossPlusButton}
+                                onPress={() => {
+                                  handleAddIntervals(index);
+                                }}>
+                                <Plus />
+                              </TouchableOpacity>
                             </View>
-
-                            <TouchableOpacity
-                              style={styles?.copy}
-                              onPress={() => {
-                                toggleApplyIntervalsModal();
-                                setCopyIndex(index);
-                              }}>
-                              <CopySmallIcon
-                                color={Colors.SecondaryButtonTextColor}
-                              />
-                            </TouchableOpacity>
-                          </View>
-                        ) : (
-                          <View
-                            style={{
-                              flex: 0.8,
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                              gap: 10,
-                              // backgroundColor: "red",
-                            }}>
-                            <TextInput
-                              style={styles?.unavailable}
-                              placeholder="Unavailable"
-                              placeholderTextColor={Colors?.BodyText}
-                              keyboardAppearance={
-                                Colors.Background_color === '#F5F5F5'
-                                  ? 'light'
-                                  : 'dark'
-                              }
-                              editable={false}
-                              selectTextOnFocus={false}
-                            />
-                            <TouchableOpacity
-                              onPress={() => {
-                                handleToggleChange(index);
-                              }}
-                              style={{}}>
-                              <Plus />
-                            </TouchableOpacity>
-                          </View>
-                        )}
+                          );
+                        })}
                       </View>
-                    ))}
-                  </View>
+
+                      <TouchableOpacity
+                        style={styles?.copy}
+                        onPress={() => {
+                          toggleApplyIntervalsModal();
+                          setCopyIndex(index);
+                        }}>
+                        <CopySmallIcon
+                          color={Colors.SecondaryButtonTextColor}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  ) : (
+                    <View
+                      style={{
+                        flex: 0.8,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 10,
+                        // backgroundColor: "red",
+                      }}>
+                      <TextInput
+                        style={styles?.unavailable}
+                        placeholder="Unavailable"
+                        placeholderTextColor={Colors?.BodyText}
+                        keyboardAppearance={
+                          Colors.Background_color === '#F5F5F5'
+                            ? 'light'
+                            : 'dark'
+                        }
+                        editable={false}
+                        selectTextOnFocus={false}
+                      />
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleToggleChange(index);
+                        }}
+                        style={{}}>
+                        <Plus />
+                      </TouchableOpacity>
+                    </View>
+                  )}
                 </View>
+              ))}
+            </View>
+          </View>
 
-                <DateSpecificHour
-                  toggleAddSpecificHoursModal={toggleAddSpecificHoursModal}
-                />
+          <DateSpecificHour
+            toggleAddSpecificHoursModal={toggleAddSpecificHoursModal}
+          />
 
-                <View style={styles?.send}>
-                  <MyButton
-                    onPress={() => {
-                      handleUpdateAvailability();
-                    }}
-                    title={'Save'}
-                    bg={Colors?.Primary}
-                    colour={Colors?.PureWhite}
-                  />
-                </View>
-              </View>
-
-              <AddSpecificDateModal
-                isSpecificHoursModalVisible={isSpecificHoursModalVisible}
-                toggleAddSpecificHoursModal={toggleAddSpecificHoursModal}
-              />
-              <ApplyIntervalsModal
-                applyIntervalsModal={applyIntervalsModal}
-                toggleApplyIntervalsModal={toggleApplyIntervalsModal}
-                handleApplyButton={handleApplyButton}
-              />
-            </ScrollView>
-
-            <CustomTimePicker
-              setTime={setTime}
-              mode={pickerState}
-              time={indexes.period == 'from' ? from : to}
-              isPickerVisible={isPickerVisible}
-              setIsPickerVisible={setIsPickerVisible}
+          <View style={styles?.send}>
+            <MyButton
+              onPress={() => {
+                handleUpdateAvailability();
+              }}
+              title={'Save'}
+              bg={Colors?.Primary}
+              colour={Colors?.PureWhite}
             />
-          </>
+          </View>
         </View>
-      )}
+
+        <AddSpecificDateModal
+          isSpecificHoursModalVisible={isSpecificHoursModalVisible}
+          toggleAddSpecificHoursModal={toggleAddSpecificHoursModal}
+        />
+        <ApplyIntervalsModal
+          applyIntervalsModal={applyIntervalsModal}
+          toggleApplyIntervalsModal={toggleApplyIntervalsModal}
+          handleApplyButton={handleApplyButton}
+        />
+      </ScrollView>
+
+      <CustomTimePicker
+        setTime={setTime}
+        mode={pickerState}
+        time={indexes.period == 'from' ? from : to}
+        isPickerVisible={isPickerVisible}
+        setIsPickerVisible={setIsPickerVisible}
+      />
       <GlobalAlertModal />
     </Modal>
   );
@@ -535,14 +523,17 @@ const getStyles = Colors =>
       alignItems: 'center',
       gap: responsiveScreenWidth(2),
       // justifyContent: "flex-end",
-      paddingHorizontal: responsiveScreenWidth(2),
+      paddingHorizontal: 15,
+      // backgroundColor: 'red',
+      borderBottomWidth: 1,
+      borderBottomColor: Colors?.BorderColor,
     },
     modalContainer: {
       // maxHeight: responsiveScreenHeight(80),
       backgroundColor: Colors.White,
       // borderRadius: 10,
-      paddingHorizontal: 10,
-      paddingBottom: 40,
+      // paddingHorizontal: 10,
+      // paddingBottom: 40,
       // zIndex: -10,
       // position: "relative",
       // justifyContent: "center",
@@ -560,6 +551,7 @@ const getStyles = Colors =>
       fontSize: responsiveScreenFontSize(2.2),
       fontFamily: CustomFonts.SEMI_BOLD,
       paddingHorizontal: responsiveScreenWidth(2),
+      paddingTop: 10,
     },
     modalSubHeading: {
       color: Colors.BodyText,
