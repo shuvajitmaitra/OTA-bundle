@@ -15,7 +15,11 @@ import {
   updateChats,
   updateLatestMessage,
 } from '../store/reducer/chatReducer';
-import {appendLocalMessage, updateMessage} from '../store/reducer/chatSlice';
+import {
+  appendLocalMessage,
+  updateMessage,
+  updateRepliesCount,
+} from '../store/reducer/chatSlice';
 import {addNewMessage} from './mmkvHelpers';
 import {Platform} from 'react-native';
 
@@ -39,17 +43,20 @@ const setupSocketListeners = socket => {
 
   socket.on('newmessage', data => {
     if (data.message?.sender?._id !== user?._id) {
-      if (!data?.message?.parentMessage) {
-        store.dispatch(
-          updateLatestMessage({
-            chatId: data?.message?.chat,
-            latestMessage: data?.message,
-            counter: 1,
-          }),
-        );
+      store.dispatch(
+        updateLatestMessage({
+          chatId: data?.message?.chat,
+          latestMessage: data?.message,
+          counter: 1,
+        }),
+      );
+      if (data?.message?.parentMessage) {
+        store.dispatch(updateRepliesCount(data?.message?.parentMessage));
+        console.log('newmessage', JSON.stringify(data.message, null, 1));
+      } else {
+        addNewMessage(data.chat?._id, data.message);
+        store.dispatch(appendLocalMessage(data.message));
       }
-      addNewMessage(data.chat?._id, data.message);
-      store.dispatch(appendLocalMessage(data.message));
     }
     //   // updateStatus(data?.message?._id, 'delivered');
     //   console.log(

@@ -94,33 +94,30 @@ const ChatFooter2 = ({
 
   // Handle message input changes and typing status
   const handleKey = () => {
-    const profileData = {
-      _id: user?._id,
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      fullName: user?.fullName,
-      profilePicture: user?.profilePicture,
-    };
-
-    if (!typing) {
-      setTyping(true);
-      socket.emit('typing', {
-        chatId: singleChat?._id,
-        typingData: {isTyping: true, user: profileData},
-      });
-    }
-
-    clearTimeout(typingTimeout);
-
-    setTypingTimeout(
-      setTimeout(() => {
-        setTyping(false);
-        socket.emit('typing', {
-          chatId: singleChat?._id,
-          typingData: {isTyping: false, user: profileData},
-        });
-      }, 2000),
-    );
+    // const profileData = {
+    //   _id: user?._id,
+    //   firstName: user?.firstName,
+    //   lastName: user?.lastName,
+    //   fullName: user?.fullName,
+    //   profilePicture: user?.profilePicture,
+    // };
+    // if (!typing) {
+    //   setTyping(true);
+    //   socket.emit('typing', {
+    //     chatId: singleChat?._id,
+    //     typingData: {isTyping: true, user: profileData},
+    //   });
+    // }
+    // clearTimeout(typingTimeout);
+    // setTypingTimeout(
+    //   setTimeout(() => {
+    //     setTyping(false);
+    //     socket.emit('typing', {
+    //       chatId: singleChat?._id,
+    //       typingData: {isTyping: false, user: profileData},
+    //     });
+    //   }, 2000),
+    // );
   };
 
   // Send message handler
@@ -157,6 +154,7 @@ const ChatFooter2 = ({
       };
 
       if (!parentId) {
+        console.log(parentId);
         // setMessages(prev => ({
         //   ...prev,
         //   [chatId]: [messageData.message, ...(prev[chatId] || [])],

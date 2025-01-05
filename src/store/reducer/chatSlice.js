@@ -16,6 +16,7 @@ const chatSlice = createSlice({
       state.localMessages = action.payload;
     },
     appendLocalMessage: (state, action) => {
+      console.log('action.payload', JSON.stringify(action.payload, null, 1));
       if (action.payload.chat !== state.localMessages[0].chat) {
         return;
       }

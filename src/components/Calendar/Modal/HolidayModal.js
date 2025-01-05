@@ -22,6 +22,8 @@ import {useSelector} from 'react-redux';
 import moment from 'moment';
 import Images from '../../../constants/Images';
 import {storage} from '../../../utility/mmkvInstance';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import NoDataAvailable from '../../SharedComponent/NoDataAvailable';
 
 export default function HolidayModal({
   toggleHoliday,
@@ -56,60 +58,74 @@ export default function HolidayModal({
       : `${moment(start).format('ddd')} - ${moment(end).format('ddd')}`;
 
   const items = selected === 'holidays' ? holidays : weekends;
-
+  const {top} = useSafeAreaInsets();
   return (
-    <Modal isVisible={isHolidayVisible}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalTop}>
-          <ModalBackAndCrossButton toggleModal={toggleHoliday} />
-        </View>
-        <View style={styles.headerContainer}>
-          <Text style={styles.modalHeading}>Holidays - 2024</Text>
-          <View style={styles.toggleContainer}>
+    <Modal
+      style={{
+        margin: 0,
+        backgroundColor: Colors.White,
+        // alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        paddingTop: top,
+      }}
+      isVisible={isHolidayVisible}>
+      {/* <View style={styles.modalContainer}>
+      </View> */}
+      <ModalBackAndCrossButton
+        containerStyle={{paddingHorizontal: 20}}
+        toggleModal={toggleHoliday}
+      />
+      {/* <View style={styles.modalTop}></View> */}
+      <View style={styles.headerContainer}>
+        <Text style={styles.modalHeading}>
+          Holidays - {new Date().getFullYear()}
+        </Text>
+        <View style={styles.toggleContainer}>
+          <TouchableOpacity
+            onPress={() => setSelected('holidays')}
+            style={[
+              styles.holidayButtonContainer,
+              selected === 'holidays' && styles.clickedStyle,
+            ]}>
+            <Text
+              style={[
+                styles.holidayButton,
+                selected === 'holidays' && {color: Colors.PureWhite},
+              ]}>
+              Holidays
+            </Text>
+          </TouchableOpacity>
+          {enrollId && (
             <TouchableOpacity
-              onPress={() => setSelected('holidays')}
               style={[
                 styles.holidayButtonContainer,
-                selected === 'holidays' && styles.clickedStyle,
-              ]}>
+                selected === 'weekends' && styles.clickedStyle,
+              ]}
+              onPress={() => setSelected('weekends')}>
               <Text
                 style={[
                   styles.holidayButton,
-                  selected === 'holidays' && {color: Colors.PureWhite},
+                  selected === 'weekends' && {color: Colors.PureWhite},
                 ]}>
-                Holidays
+                Weekends
               </Text>
             </TouchableOpacity>
-            {enrollId && (
-              <TouchableOpacity
-                style={[
-                  styles.holidayButtonContainer,
-                  selected === 'weekends' && styles.clickedStyle,
-                ]}
-                onPress={() => setSelected('weekends')}>
-                <Text
-                  style={[
-                    styles.holidayButton,
-                    selected === 'weekends' && {color: Colors.PureWhite},
-                  ]}>
-                  Weekends
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
+          )}
+        </View>
+      </View>
+
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.date}>Date</Text>
+          <Text style={styles.days}>Day</Text>
+          <Text style={[styles.offday]}>Offday</Text>
+          <Text style={[styles.img]}>Image</Text>
+          <Text style={styles.holiday}>Events</Text>
         </View>
 
-        <View style={styles.container}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.date}>Date</Text>
-            <Text style={styles.days}>Day</Text>
-            <Text style={[styles.offday]}>Offday</Text>
-            <Text style={[styles.img]}>Image</Text>
-            <Text style={styles.holiday}>Events</Text>
-          </View>
-
-          <ScrollView style={styles.dayContainer}>
-            {items?.map((item, index) => (
+        <ScrollView style={styles.dayContainer}>
+          {items.length > 0 ? (
+            items?.map((item, index) => (
               <View key={index} style={styles.day}>
                 <Text style={styles.date}>
                   {renderDate(item.date.start, item.date.end)}
@@ -135,15 +151,24 @@ export default function HolidayModal({
                 </TouchableOpacity>
                 <Text style={styles.holiday}>{item?.message || 'N/A'}</Text>
               </View>
-            ))}
-          </ScrollView>
-          <ImageView
-            images={viewImage}
-            imageIndex={0}
-            visible={viewImage?.length !== 0}
-            onRequestClose={() => setViewImage([])}
-          />
-        </View>
+            ))
+          ) : (
+            <View
+              style={{
+                height: responsiveScreenHeight(70),
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <NoDataAvailable />
+            </View>
+          )}
+        </ScrollView>
+        <ImageView
+          images={viewImage}
+          imageIndex={0}
+          visible={viewImage?.length !== 0}
+          onRequestClose={() => setViewImage([])}
+        />
       </View>
     </Modal>
   );
@@ -225,19 +250,22 @@ const getStyles = Colors =>
       borderRadius: 5,
     },
 
-    modalTop: {
-      paddingVertical: responsiveScreenHeight(2),
-      flexDirection: 'row',
-      justifyContent: 'flex-end',
-    },
-    modalContainer: {
-      width: responsiveScreenWidth(90),
-      minHeight: responsiveScreenHeight(50),
-      maxHeight: responsiveScreenHeight(80),
-      backgroundColor: Colors.White,
-      borderRadius: responsiveScreenWidth(3),
-      paddingHorizontal: 10,
-    },
+    // modalTop: {
+    //   // paddingVertical: responsiveScreenHeight(2),
+    //   flexDirection: 'row',
+    //   // // justifyContent: 'flex-end',
+    //   // paddingHorizontal: 20,
+    //   // width: '90%',
+    //   // backgroundColor: Colors.Background_color,
+    // },
+    // modalContainer: {
+    //   // width: responsiveScreenWidth(90),
+    //   // minHeight: responsiveScreenHeight(50),
+    //   // maxHeight: responsiveScreenHeight(80),
+    //   // backgroundColor: Colors.White,
+    //   // borderRadius: responsiveScreenWidth(3),
+    //   // paddingHorizontal: 10,
+    // },
 
     modalHeading: {
       color: Colors.Primary,
@@ -250,6 +278,7 @@ const getStyles = Colors =>
       backgroundColor: Colors.Background_color,
       borderRadius: responsiveScreenWidth(3),
       marginVertical: responsiveScreenHeight(2),
+      marginHorizontal: 20,
     },
     titleContainer: {
       flexDirection: 'row',
@@ -261,7 +290,7 @@ const getStyles = Colors =>
     dayContainer: {
       flexDirection: 'column',
       gap: responsiveScreenHeight(1.5),
-      maxHeight: responsiveScreenHeight(50),
+      height: responsiveScreenHeight(70),
     },
     day: {
       backgroundColor: Colors.White,
@@ -277,5 +306,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
+      paddingHorizontal: 20,
+      paddingTop: 15,
     },
   });

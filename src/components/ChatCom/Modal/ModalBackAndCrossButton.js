@@ -11,14 +11,14 @@ import CustomFonts from '../../../constants/CustomFonts';
 import CrossIcon from '../../../assets/Icons/CrossIcon';
 import {useTheme} from '../../../context/ThemeContext';
 
-export default function ModalBackAndCrossButton({toggleModal}) {
+export default function ModalBackAndCrossButton({toggleModal, containerStyle}) {
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
-    <View style={styles.topBarContainer}>
+    <View style={[styles.topBarContainer, {...containerStyle}]}>
       <TouchableOpacity onPress={toggleModal} style={styles.modalArrowIcon}>
         <ArrowLeft />
         <Text style={styles.backButtonText}>Back</Text>
