@@ -107,14 +107,24 @@ const ThreadScreen = ({route}) => {
               <Loading backgroundColor={'transparent'} />
             </View>
           ) : (
-            threadMessages.map((item, index) => (
-              <Message2
-                key={index}
-                item={item}
-                index={index}
-                nextSender={true}
-              />
-            ))
+            threadMessages.map((item, index) => {
+              const nextMessage = threadMessages[index - 1];
+              const isSameDate =
+                new Date(item?.createdAt).toDateString() ===
+                new Date(nextMessage?.createdAt).toDateString();
+
+              const nextSender = nextMessage
+                ? item?.sender?._id !== nextMessage?.sender?._id
+                : false;
+              return (
+                <Message2
+                  key={index}
+                  item={{...item, isSameDate}}
+                  index={index}
+                  nextSender={nextSender}
+                />
+              );
+            })
           )}
         </ScrollView>
         <ChatFooter2

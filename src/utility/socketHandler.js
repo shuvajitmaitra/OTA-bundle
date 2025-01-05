@@ -43,17 +43,17 @@ const setupSocketListeners = socket => {
 
   socket.on('newmessage', data => {
     if (data.message?.sender?._id !== user?._id) {
-      store.dispatch(
-        updateLatestMessage({
-          chatId: data?.message?.chat,
-          latestMessage: data?.message,
-          counter: 1,
-        }),
-      );
       if (data?.message?.parentMessage) {
         store.dispatch(updateRepliesCount(data?.message?.parentMessage));
-        console.log('newmessage', JSON.stringify(data.message, null, 1));
+        // console.log('newmessage', JSON.stringify(data.message, null, 1));
       } else {
+        store.dispatch(
+          updateLatestMessage({
+            chatId: data?.message?.chat,
+            latestMessage: data?.message,
+            counter: 1,
+          }),
+        );
         addNewMessage(data.chat?._id, data.message);
         store.dispatch(appendLocalMessage(data.message));
       }

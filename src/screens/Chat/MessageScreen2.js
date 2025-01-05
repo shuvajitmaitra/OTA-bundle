@@ -196,6 +196,11 @@ const MessageScreen2 = () => {
     const nextMessage = localMessages?.length
       ? localMessages[index + 1]
       : messages[chat._id][index + 1];
+    // console.log('item.createAt', JSON.stringify(item.createdAt, null, 2));
+    // console.log(
+    //   'nextMessage.createAt',
+    //   JSON.stringify(nextMessage?.createdAt, null, 2),
+    // );
     const isSameDate =
       new Date(item?.createdAt).toDateString() ===
       new Date(nextMessage?.createdAt).toDateString();
