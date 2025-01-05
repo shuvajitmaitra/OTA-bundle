@@ -12,7 +12,6 @@ import {useTheme} from '../../context/ThemeContext';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import AudioManager from '../../utility/AudioManager';
 import {useFocusEffect} from '@react-navigation/native';
-import {PlayButtonIcon} from '../../assets/Icons/PlayButtonIcon';
 import PlayIcon from '../../assets/Icons/PlayIcon';
 import PauseIcon from '../../assets/Icons/PauseIcon';
 

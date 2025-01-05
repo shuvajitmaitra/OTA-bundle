@@ -2,10 +2,8 @@
 
 **Bootcampshub CLI**
 
-- After navigating crowd to personal chat two screen are appearing fixing the issues.
-- Add audio loader in message.
+
 - Two message appearing issue fixing in the message screen.
-- Program is not loading in the first time fixing the issues.
 - Red alert splashing in availability screen fixing the issues.
 - Denied event display in the calendar.
 - A red line appearing in top and bottom of Availability screen.
@@ -15,6 +13,11 @@
 
 *Work Update - January 04, 2025*
 - Chat message place in the center of the screen.
-
+- After navigating crowd to personal chat two screen are appearing fixing the issues.
+- Audio loader issues fixed in the message screen.
+- Denied event not showing issues fixed in the calender screen.
+- Invited event deny functionality not working issue fixed.
+- Programs not loading in the first time issue fixed.
+- 
 
 **Note: Finished 100% of today's work stream.**

@@ -1,5 +1,5 @@
 export default {
-  production: true,
+  production: false,
 };
 /*
 
@@ -9,6 +9,9 @@ Ashraful186@
 shuvajitmaitra@gmail.com
 Shuvajit#1
 
+
+anonnodas97@gmail.com
+Anonno#1
 
 ashrafulislamashik960@gmail.com
 Ashik@2430

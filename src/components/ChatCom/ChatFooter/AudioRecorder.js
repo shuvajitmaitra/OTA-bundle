@@ -177,7 +177,7 @@ const AudioRecorder = ({
       )}
       {!recording && !recordedAudioPath && (
         <>
-          {Uploading ? (
+          {/* {Uploading ? (
             <LoadingSmall size={20} color={Colors.Primary} />
           ) : (
             <TouchableOpacity
@@ -185,7 +185,12 @@ const AudioRecorder = ({
               onPress={startAudioRecording}>
               <MicIcon size={25} />
             </TouchableOpacity>
-          )}
+          )} */}
+          <TouchableOpacity
+            // style={{backgroundColor: 'red', padding: 20}}
+            onPress={startAudioRecording}>
+            <MicIcon size={25} />
+          </TouchableOpacity>
         </>
       )}
       {recording && (
