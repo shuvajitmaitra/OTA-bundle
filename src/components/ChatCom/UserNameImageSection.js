@@ -45,7 +45,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: 10,
-      paddingLeft: 10,
+      paddingHorizontal: 20,
       marginTop: 10,
     },
     userImg: {

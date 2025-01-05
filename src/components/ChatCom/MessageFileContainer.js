@@ -59,7 +59,9 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
     return (
       <View
         style={{
-          backgroundColor: Colors.WhiteOpacityColor,
+          backgroundColor: my
+            ? Colors.Background_color
+            : Colors.WhiteOpacityColor,
           paddingHorizontal: 10,
           borderRadius: 100,
           marginTop: 5,
@@ -68,7 +70,7 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
         <AudioMessage
           audioUrl={item.url}
           background={'transparent'}
-          color={!my && Colors.BodyText}
+          color={Colors.BodyText}
         />
       </View>
     );
@@ -88,8 +90,8 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
     };
 
     const fileExtension = item.url.split('.').pop();
-    const iconName = fileIcons[fileExtension] || 'attach-file'; // Fallback icon
-    const fileSizeInKb = (item.size / 1024).toFixed(2); // Assuming size is in bytes
+    const iconName = fileIcons[fileExtension] || 'attach-file';
+    const fileSizeInKb = (item.size / 1024).toFixed(2);
 
     return (
       <View style={styles.documentContainer}>
@@ -161,11 +163,11 @@ const getStyles = Colors =>
     },
     fileName: {
       fontWeight: '500',
-      color: Colors.PureWhite,
+      color: Colors.BodyText,
       fontSize: RegularFonts.BR,
     },
     fileDetails: {
-      color: Colors.PureWhite,
+      color: Colors.BodyText,
     },
     downloadButton: {
       backgroundColor: Colors.Primary,

@@ -85,7 +85,7 @@ const Message2 = ({item, index, nextSender, setViewImage}) => {
         <TouchableOpacity
           onPress={() => dispatch(setMessageOptionData({...item, my}))}
           style={styles.threeDotContainer}>
-          <ThreedotIcon color={my ? Colors.PureWhite : Colors.BodyText} />
+          <ThreedotIcon color={Colors.BodyText} />
         </TouchableOpacity>
         {item?.files?.length > 0 && (
           <MessageFileContainer
@@ -142,7 +142,7 @@ const getStyles = (Colors, my) =>
     },
     copyText: {
       fontSize: 18,
-      color: my ? Colors.PureWhite : Colors.BodyText,
+      color: Colors.BodyText,
       fontFamily: CustomFonts.MEDIUM,
     },
     copyContainer: {
@@ -171,7 +171,9 @@ const getStyles = (Colors, my) =>
       flex: 1,
     },
     messagesContainer: {
-      backgroundColor: my ? Colors.Primary : Colors.Background_color,
+      backgroundColor: my
+        ? Colors.PrimaryOpacityColor
+        : Colors.Background_color,
       padding: 10,
       paddingRight: 30,
       // paddingVertical: 10,
@@ -181,7 +183,8 @@ const getStyles = (Colors, my) =>
       marginTop: 5,
       width: '90%',
       minWidth: '25%',
-      alignSelf: my ? 'flex-end' : 'flex-start',
+      alignSelf: my ? 'flex-end' : 'center',
+      // alignSelf: 'center',
       minHeight: 30,
       //   gap: -1,
       position: 'relative',
@@ -192,7 +195,7 @@ const getStyles = (Colors, my) =>
       body: {
         fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
-        color: my ? Colors.PureWhite : Colors.BodyText,
+        color: Colors.BodyText,
       },
       paragraph: {
         marginTop: 0, // Remove top margin from paragraphs

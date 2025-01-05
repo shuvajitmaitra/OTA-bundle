@@ -8,15 +8,6 @@ We are pleased to announce the latest updates and enhancements to the SchoolsHub
 
 ---
 
-### Updates and Enhancements:
-- **New Message Screen Redesign**: The user interface of the new message screen has been completely redesigned to provide a more intuitive and seamless experience.
-- **Improved Layout Consistency**: The horizontal padding in the **Create Activities Modal** has been reduced to ensure better layout alignment and visual balance.
-- **Back Button Replacement**: The back button has been removed from key interfaces, with its functionality replaced by updated titles and placeholder text for a more streamlined navigation experience.
-- **Toast Message Improvements**: 
-  - **Design Correction**: The toast message UI has been updated to enhance readability and aesthetics.
-  - **Toast Message Modal Added**: A dedicated toast message modal has been integrated into the **Create Activities Modal** for clearer user feedback.
-- **Delete Modal Redesign**: The delete modal now features a refreshed UI for enhanced usability and alignment with modern design standards.
-
 ---
 
 Thank you for using the Bootcampshub App! We hope these updates improve your experience. If you have any feedback or encounter any issues, please do not hesitate to contact our support team.

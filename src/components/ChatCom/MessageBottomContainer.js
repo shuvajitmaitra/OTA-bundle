@@ -45,13 +45,13 @@ const MessageBottomContainer = ({item, navigation, my}) => {
             <MCicons
               style={styles.iconStyle}
               size={20}
-              color={Colors.PureWhite}
+              color={Colors.BodyText}
               name="check"
             />
           ) : item?.status === 'delivered' ? (
             <MCicons
               style={styles.iconStyle}
-              color={Colors.PureWhite}
+              color={Colors.BodyText}
               size={20}
               name="check-all"
             />
@@ -88,7 +88,7 @@ const getStyles = (Colors, my) =>
       width: '100%',
     },
     timeText: {
-      color: my ? Colors.PureWhite : Colors.BodyText,
+      color: Colors.BodyText,
       alignSelf: 'flex-end',
     },
   });
