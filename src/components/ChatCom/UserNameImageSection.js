@@ -1,4 +1,4 @@
-import {Image, Pressable, StyleSheet, Text} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Images from '../../constants/Images';
 import {useTheme} from '../../context/ThemeContext';
@@ -10,7 +10,7 @@ const UserNameImageSection = ({image = '', name = 'N/A', handleCreateChat}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
-    <Pressable
+    <TouchableOpacity
       disabled={!singleChat.isChannel}
       onPress={handleCreateChat}
       style={styles.container}>
@@ -26,7 +26,7 @@ const UserNameImageSection = ({image = '', name = 'N/A', handleCreateChat}) => {
         style={styles.userImg}
       />
       <Text style={styles.name}>{name}</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
