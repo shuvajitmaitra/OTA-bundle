@@ -18,6 +18,7 @@ const initialState = {
   eventNotification: [],
   monthViewData: [],
   notificationClicked: null,
+  eventStatus: null,
 };
 
 const calendarSlice = createSlice({
@@ -256,10 +257,14 @@ const calendarSlice = createSlice({
     setEventNotification: (state, action) => {
       state.eventNotification = action.payload;
     },
+    setEventStatus: (state, action) => {
+      state.eventStatus = action.payload;
+    },
   },
 });
 
 export const {
+  setEventStatus,
   setMonthViewData,
   setEventNotification,
   deleteEvent,

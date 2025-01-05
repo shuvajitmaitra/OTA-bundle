@@ -13,6 +13,7 @@ import PurpleLightSvgComponent from '../assets/Icons/PurpleLightSvgComponent';
 import {useTheme} from '../context/ThemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  setEventStatus,
   setMonthViewData,
   updateCalendar,
 } from '../store/reducer/calendarReducer';
@@ -21,17 +22,23 @@ import CustomFonts from '../constants/CustomFonts';
 import {RegularFonts} from '../constants/Fonts';
 
 const DotComponent2 = () => {
-  const {events} = useSelector(state => state.calendar);
+  const {events, eventStatus} = useSelector(state => state.calendar);
   const {user} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const [status, setStatus] = useState('');
 
   const handleButtonPress = status => {
-    setStatus(status);
+    console.log('status', JSON.stringify(status, null, 2));
+    if (status === eventStatus) {
+      return;
+    }
+    dispatch(setEventStatus(status));
+
     const filteredEvents =
-      status == 'myEvents'
+      status === 'all'
+        ? events
+        : status === 'myEvents'
         ? events.filter(item => item.createdBy?._id === user._id)
         : events.filter(item => item.myParticipantData?.status === status);
     const formattedEvents = filteredEvents.map(e => ({
@@ -59,13 +66,27 @@ const DotComponent2 = () => {
   return (
     <View style={styles.dotContainer}>
       <TouchableOpacity
+        onPress={() => handleButtonPress('all')}
+        style={styles.dot}>
+        <Text
+          style={[
+            styles.text,
+            eventStatus === 'all' && {
+              color: Colors.Primary,
+              textDecorationLine: 'underline',
+            },
+          ]}>
+          All Events
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
         onPress={() => handleButtonPress('accepted')}
         style={styles.dot}>
         <GreenDotSvgComponent />
         <Text
           style={[
             styles.text,
-            status === 'accepted' && {
+            eventStatus === 'accepted' && {
               color: Colors.Primary,
               textDecorationLine: 'underline',
             },
@@ -80,7 +101,7 @@ const DotComponent2 = () => {
         <Text
           style={[
             styles.text,
-            status === 'myEvents' && {
+            eventStatus === 'myEvents' && {
               color: Colors.Primary,
               textDecorationLine: 'underline',
             },
@@ -95,7 +116,7 @@ const DotComponent2 = () => {
         <Text
           style={[
             styles.text,
-            status === 'pending' && {
+            eventStatus === 'pending' && {
               color: Colors.Primary,
               textDecorationLine: 'underline',
             },
@@ -110,7 +131,7 @@ const DotComponent2 = () => {
         <Text
           style={[
             styles.text,
-            status === 'denied' && {
+            eventStatus === 'denied' && {
               color: Colors.Primary,
               textDecorationLine: 'underline',
             },
@@ -125,7 +146,7 @@ const DotComponent2 = () => {
         <Text
           style={[
             styles.text,
-            status === 'proposedNewTime' && {
+            eventStatus === 'proposedNewTime' && {
               color: Colors.Primary,
               textDecorationLine: 'underline',
             },
@@ -150,11 +171,11 @@ const getStyles = Colors =>
     dotContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
       paddingHorizontal: responsiveScreenWidth(4),
       paddingTop: responsiveScreenHeight(1),
       flexWrap: 'wrap',
-      // gap: 10,
+      gap: 10,
     },
     dotCon: {
       flexDirection: 'row',

@@ -58,14 +58,7 @@ iconPosition = {"left"}// Option to place icon on left or right
       ]}>
       {icon && iconPosition === 'left' && <>{icon}</>}
 
-      {isLoading ? (
-        <ActivityIndicator
-          color={Colors.PureWhite}
-          animating={true}
-          size="large"
-          style={{marginRight: 5}}
-        />
-      ) : (
+      {
         <Text
           style={[
             styles.btnText,
@@ -79,7 +72,7 @@ iconPosition = {"left"}// Option to place icon on left or right
           ]}>
           {title}
         </Text>
-      )}
+      }
 
       {icon && iconPosition === 'right' && <>{icon}</>}
     </TouchableOpacity>
@@ -102,6 +95,6 @@ const getStyles = Colors =>
     btnContent: {},
     btnText: {
       fontFamily: CustomFonts.MEDIUM,
-      fontSize: RegularFonts.HR,
+      fontSize: RegularFonts.BL,
     },
   });

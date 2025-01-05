@@ -1,12 +1,12 @@
-import React, { useRef, useEffect, useState } from "react";
-import { View, Text, Animated, StyleSheet, Dimensions } from "react-native";
-import { useTheme } from "../../context/ThemeContext";
-import { responsiveScreenFontSize } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
+import React, {useRef, useEffect, useState} from 'react';
+import {View, Text, Animated, StyleSheet, Dimensions} from 'react-native';
+import {useTheme} from '../../context/ThemeContext';
+import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
 
-const MarqueeText = ({ text, duration = 10000 }) => {
+const MarqueeText = ({text, duration = 10000}) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
-  const screenWidth = Dimensions.get("window").width;
+  const screenWidth = Dimensions.get('window').width;
   const [textWidth, setTextWidth] = useState(0);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -20,7 +20,7 @@ const MarqueeText = ({ text, duration = 10000 }) => {
           toValue: -textWidth,
           duration: (duration * textWidth) / screenWidth, // Adjust duration based on text width
           useNativeDriver: true,
-        })
+        }),
       ).start();
     };
 
@@ -32,33 +32,32 @@ const MarqueeText = ({ text, duration = 10000 }) => {
   return (
     <View style={styles.container}>
       <Animated.Text
-        onLayout={(e) => setTextWidth(e.nativeEvent.layout.width)}
+        onLayout={e => setTextWidth(e.nativeEvent.layout.width)}
         style={[
           styles.marqueeText,
           {
-            transform: [{ translateX: animatedValue }],
+            transform: [{translateX: animatedValue}],
           },
-        ]}
-      >
+        ]}>
         {text}
       </Animated.Text>
     </View>
   );
 };
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     container: {
-      overflow: "hidden",
-      height: 20, // Adjust height based on your needs
+      overflow: 'hidden',
+      height: 30, // Adjust height based on your needs
       backgroundColor: Colors.LightRed, // Optional: background color for better visibility
-      justifyContent: "center",
-      width: "150%",
+      justifyContent: 'center',
+      width: '150%',
     },
     marqueeText: {
       fontSize: responsiveScreenFontSize(2),
       fontFamily: CustomFonts.SEMI_BOLD,
-      color: "red",
+      color: 'red',
     },
   });
 

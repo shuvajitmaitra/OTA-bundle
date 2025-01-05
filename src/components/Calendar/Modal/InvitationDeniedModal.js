@@ -18,6 +18,7 @@ import TextArea from './TextArea';
 import CustomFonts from '../../../constants/CustomFonts';
 import axiosInstance from '../../../utility/axiosInstance';
 import {
+  setEventStatus,
   setNewEvent,
   updateInvitations,
 } from '../../../store/reducer/calendarReducer';
@@ -26,6 +27,7 @@ import {showToast} from '../../HelperFunction';
 import Toast from 'react-native-toast-message';
 import {toastConfig} from '../../../constants/ToastConfig';
 import moment from 'moment';
+import {loadCalendarEvent} from '../../../actions/chat-noti';
 
 const InvitationDeniedModal = ({
   isDeniedModalVisible,
@@ -47,12 +49,14 @@ const InvitationDeniedModal = ({
       .then(res => {
         console.log('res.data', JSON.stringify(res.data, null, 2));
         if (res.data.success) {
-          dispatch(
-            setNewEvent({
-              event: res.data.event,
-              time: moment(res?.data?.event?.start).format('YYYY-M-D'),
-            }),
-          );
+          // dispatch(
+          //   setNewEvent({
+          //     event: res.data.event,
+          //     time: moment(res?.data?.event?.start).format('YYYY-M-D'),
+          //   }),
+          // );
+          loadCalendarEvent();
+          dispatch(setEventStatus('all'));
           setIsDeniedModalVisible(false);
           toggleInvitationsDetailsModal();
           dispatch(updateInvitations({id}));

@@ -204,6 +204,7 @@ const CreatePostButtonContainer = ({post, setPost}) => {
           disable={false}
           icon={<AiIcon2 color={'white'} size={24} />}
           iconPosition={'left'}
+          color={creating || isLoading ? Colors.Primary : Colors.PureWhite}
         />
         <CustomIconButton
           handlePress={() => {
@@ -220,6 +221,7 @@ const CreatePostButtonContainer = ({post, setPost}) => {
             />
           }
           iconPosition={'left'}
+          color={creating || isLoading ? Colors.Primary : Colors.PureWhite}
         />
       </View>
       <AiModal

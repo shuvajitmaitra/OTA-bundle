@@ -22,6 +22,7 @@ import moment from 'moment';
 import axiosInstance from '../../../utility/axiosInstance';
 import {useDispatch} from 'react-redux';
 import {
+  setEventStatus,
   setNewEvent,
   updateInvitations,
 } from '../../../store/reducer/calendarReducer';
@@ -31,6 +32,7 @@ import Images from '../../../constants/Images';
 import {showToast} from '../../HelperFunction';
 import Toast from 'react-native-toast-message';
 import {toastConfig} from '../../../constants/ToastConfig';
+import {loadCalendarEvent} from '../../../actions/chat-noti';
 
 export function EventDetailsFormatDate(dateString) {
   const options = {
@@ -75,7 +77,9 @@ const InvitationsDetailsModal = ({
           //     time: moment(item?.start).format('YYYY-M-D'),
           //   }),
           // );
-          dispatch(updateInvitations({id: item._id}));
+          // dispatch(updateInvitations({id: item._id}));
+          loadCalendarEvent();
+          dispatch(setEventStatus('all'));
           toggleInvitationsDetailsModal();
           showToast({message: 'Event accepted'});
         }

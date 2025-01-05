@@ -4,9 +4,7 @@
 
 
 - Two message appearing issue fixing in the message screen.
-- Red alert splashing in availability screen fixing the issues.
 - Denied event display in the calendar.
-- A red line appearing in top and bottom of Availability screen.
 - Delete modal is not close after deleting the post.
 
 **Note: Planned to finish 100% of today's work-stream**
@@ -18,6 +16,9 @@
 - Denied event not showing issues fixed in the calender screen.
 - Invited event deny functionality not working issue fixed.
 - Programs not loading in the first time issue fixed.
+- Red alert splashing in availability screen fixing the issues.
+- A red line appearing in top and bottom of Availability screen.
+- Update button colors based on loading state and adjust font size in CustomIconButton.
 - 
 
 **Note: Finished 100% of today's work stream.**
