@@ -30,7 +30,9 @@ export default function ProgramItem({myprogram, myProgressMetrics}) {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <TouchableOpacity activeOpacity={0.8} onPress={handleCourseDetails}>
-          <Text style={styles.title}>{myprogram?.program?.title}</Text>
+          <Text style={styles.title}>
+            {myprogram?.program?.title || 'Bootcamps'}
+          </Text>
         </TouchableOpacity>
       </View>
       <View>
@@ -40,7 +42,9 @@ export default function ProgramItem({myprogram, myProgressMetrics}) {
             {myprogram?.enrollment?.session?.name}
           </Text>
           <Text style={[styles.sessionText, {marginLeft: 20}]}>ID:</Text>
-          <Text style={[styles.sessionDate, {marginLeft: 5}]}>{user.id}</Text>
+          <Text style={[styles.sessionDate, {marginLeft: 5}]}>
+            {user.id || 0}
+          </Text>
         </View>
         <View style={styles.sessionContainer}>
           <View style={styles.profileImageContainer}>
@@ -59,7 +63,7 @@ export default function ProgramItem({myprogram, myProgressMetrics}) {
             Instructor:
           </Text>
           <Text style={styles.sessionText}>
-            {myprogram?.program?.instructor?.name}
+            {myprogram?.program?.instructor?.name || 'N/A'}
           </Text>
         </View>
 

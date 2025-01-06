@@ -20,6 +20,7 @@ import Toppart from '../../components/DashboardCom/Toppart';
 import ProgramItem from '../../components/ProgramCom/ProgramItem';
 import {useTheme} from '../../context/ThemeContext';
 import {useSelector} from 'react-redux';
+import Loading from '../../components/SharedComponent/Loading';
 
 export default function Program() {
   // --------------------------
@@ -35,38 +36,60 @@ export default function Program() {
   const [myProgram, setMyProgram] = React.useState(null);
   const [myProgressMetrics, setMyProgressMetrics] = React.useState(null);
 
+  // React.useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       let myprogram = await axiosInstance.get('/enrollment/myprogram');
+  //       let myprogress = await axiosInstance.get('/progress/myprogress');
+  //       setMyProgressMetrics(myprogress.data?.metrics || []);
+  //       setMyProgram(myprogram.data);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       setIsLoading(false);
+  //       console.log(error);
+  //     }
+  //   })();
+  // }, [enrollment?._id]);
   React.useEffect(() => {
-    (async () => {
+    const fetchProgramData = async () => {
       try {
         setIsLoading(true);
-        let myprogram = await axiosInstance.get('/enrollment/myprogram');
-        let myprogress = await axiosInstance.get('/progress/myprogress');
-        setMyProgressMetrics(myprogress.data?.metrics || []);
-        setMyProgram(myprogram.data);
-        setIsLoading(false);
+        const [programResponse, progressResponse] = await Promise.all([
+          axiosInstance.get('/enrollment/myprogram'),
+          axiosInstance.get('/progress/myprogress'),
+        ]);
+
+        setMyProgressMetrics(progressResponse.data?.metrics || []);
+        setMyProgram(programResponse.data);
       } catch (error) {
-        setIsLoading(false);
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
-    })();
+    };
+
+    if (enrollment?._id) {
+      fetchProgramData();
+    }
   }, [enrollment?._id]);
   const handleLeaderBoard = () => {
     navigation.navigate('Leaderboard');
   };
 
-  if (isLoading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: Colors.White,
-        }}>
-        <ActivityIndicator size={50} animating={true} color={Colors.Primary} />
-      </View>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         justifyContent: 'center',
+  //         alignItems: 'center',
+  //         backgroundColor: Colors.White,
+  //       }}>
+  //       <ActivityIndicator size={50} animating={true} color={Colors.Primary} />
+  //     </View>
+  //   );
+  // }
 
   return (
     <View
@@ -76,10 +99,14 @@ export default function Program() {
         <Text style={[styles.title, {color: Colors.Heading}]}>Bootcamps</Text>
         <Text style={styles.details}>Keep learning to make progress</Text>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <ProgramItem
-            myprogram={myProgram}
-            myProgressMetrics={myProgressMetrics}
-          />
+          {isLoading ? (
+            <Loading background={'transparent'} />
+          ) : (
+            <ProgramItem
+              myprogram={myProgram}
+              myProgressMetrics={myProgressMetrics}
+            />
+          )}
 
           {/* <TouchableOpacity
           onPress={handleLeaderBoard}

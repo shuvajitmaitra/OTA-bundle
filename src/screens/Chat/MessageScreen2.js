@@ -74,7 +74,7 @@ const MessageScreen2 = ({route}) => {
   const initialGetMessage = useCallback(async () => {
     setIsLoading(true);
     const options = {
-      page: 1,
+      page: 0,
       chat: chat?._id,
       limit: LIMIT,
     };
