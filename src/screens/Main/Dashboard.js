@@ -37,7 +37,9 @@ import HomeUserDetails from '../../components/HomeCom/HomeUserDetails';
 import {loadCalendarEvent, loadEventInvitation} from '../../actions/chat-noti';
 
 export default function Dashboard() {
-  const {myEnrollments} = useSelector(state => state.auth);
+  const {myEnrollments, navigation: navigationData} = useSelector(
+    state => state.auth,
+  );
 
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -78,8 +80,42 @@ export default function Dashboard() {
     );
   };
 
+  // {
+  //   "myImportantLink": true,
+  //   "myProgram": true,
+  //   "myE2eProgramAgenda": false,
+  //   "myPurchasedItem": true,
+  //   "myDocument": true,
+  //   "myUploadedDocument": true,
+  //   "myMockInterview": true,
+  //   "reviewMockInterview": false,
+  //   "myCalendar": true,
+  //   "myPayment": true,
+  //   "myFeedback": false,
+  //   "myIssue": false,
+  //   "myShoutOut": false,
+  //   "myDayToDayActivity": true,
+  //   "helpCenter": false,
+  //   "nearMe": false,
+  //   "myGiftCard": false,
+  //   "changePassword": true,
+  //   "myProfile": true,
+  //   "myAgreement": true,
+  //   "myJobSupport": false,
+  //   "showTell": true,
+  //   "myMedia": true,
+  //   "family": false,
+  //   "template": true,
+  //   "diagram": false,
+  //   "technicalTest": true,
+  //   "myProgress": true,
+  //   "leaderboard": true
+  // }
+
   const handleMyProgramNavigation = () => {
-    navigation.navigate('ProgramStack', {screen: 'Program'});
+    navigationData.myProgram
+      ? navigation.navigate('ProgramStack', {screen: 'Program'})
+      : handleDefaultRoute();
   };
   const handleMyChatNavigation = () => {
     navigation.navigate('HomeStack', {screen: 'NewChatScreen'});
@@ -104,9 +140,11 @@ export default function Dashboard() {
   };
 
   const handleCalenderNavigation = () => {
-    loadCalendarEvent();
-    loadEventInvitation();
-    true
+    if (navigationData.myCalendar) {
+      loadCalendarEvent();
+      loadEventInvitation();
+    }
+    navigationData.myCalendar
       ? navigation.navigate('MyCalenderStack', {screen: 'CalendarScreen'})
       : handleDefaultRoute();
   };

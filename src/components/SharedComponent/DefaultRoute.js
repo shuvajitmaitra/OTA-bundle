@@ -28,7 +28,7 @@ const DefaultRoute = ({route}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const handleGoHome = () => {
-    navigation.navigate('HomeStack', {screen: 'Home'});
+    navigation.pop();
   };
   const {top} = useSafeAreaInsets();
 
@@ -59,7 +59,7 @@ const DefaultRoute = ({route}) => {
               If you are already enrolled, please select your program from
             </Text>
             <Text style={styles.bodyText}>'Switch Program'</Text> */}
-          <Pressable
+          {/* <Pressable
             style={styles.buttonContainer}
             onPress={() => setModalOpen(!modalOpen)}>
             <Text
@@ -72,14 +72,14 @@ const DefaultRoute = ({route}) => {
               ]}>
               Switch Bootcamps
             </Text>
-          </Pressable>
-          {modalOpen && (
+          </Pressable> */}
+          {/* {modalOpen && (
             <ProgramSwitchModal
               modalOpen={modalOpen}
               setModalOpen={setModalOpen}
               handleVerify={handleVerify}
             />
-          )}
+          )} */}
         </View>
       </View>
     </View>

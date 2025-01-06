@@ -1,24 +1,18 @@
-**Work Stream - January 05, 2025** 
+**Work Stream - January 6, 2025** 
 
 **Bootcampshub CLI**
-
+- Working on loading issues fix to load program data.
+- Added functionality to filter all events in the calendar.
+- Delete message alignment issues fix in the message screen.
+- User validation issue fixing while entering in the program screen.
+- Work on previous message not loading issues in the message screen.
 
 - Two message appearing issue fixing in the message screen.
 
 **Note: Planned to finish 100% of today's work-stream**
 
-*Work Update - January 05, 2025*
+*Work Update - January 6, 2025*
 
-- Chat message place in the center of the screen.
-- After navigating crowd to personal chat two screen are appearing fixing the issues.
-- Audio loader issues fixed in the message screen.
-- Denied event not showing issues fixed in the calender screen.
-- Invited event deny functionality not working issue fixed.
-- Programs not loading in the first time issue fixed.
-- Red alert splashing in availability screen fixing the issues.
-- A red line appearing in top and bottom of Availability screen.
-- Update button colors based on loading state and adjust font size in CustomIconButton.
-- Delete modal is not close after deleting the post.
 
 
 **Note: Finished 90% of today's work stream.**

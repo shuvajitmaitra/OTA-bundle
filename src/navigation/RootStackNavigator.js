@@ -14,7 +14,7 @@ import {
   loadProgramInfo,
 } from '../actions/chat-noti';
 import {connectSocket, disconnectSocket} from '../utility/socketManager';
-import {fetchOnlineUsers} from '../actions/apiCall';
+import {fetchOnlineUsers, getMyNavigation} from '../actions/apiCall';
 import {setSinglePost} from '../store/reducer/communityReducer';
 import axiosInstance, {configureAxiosHeader} from '../utility/axiosInstance';
 import OrgSwitchModal from '../components/OrgSwitchModal';
@@ -22,6 +22,7 @@ import {storage} from '../utility/mmkvInstance';
 import ProgramSwitchModal from '../components/SharedComponent/ProgramSwitchModal';
 import usePushNotifications from '../hook/usePushNotifications';
 import CommentScreen from '../screens/Comment/CommentScreen';
+import DefaultRoute from '../components/SharedComponent/DefaultRoute';
 
 const RootStack = createStackNavigator();
 
@@ -43,6 +44,7 @@ const RootStackNavigator = () => {
 
         if (response && response.status === 200) {
           const promises = [
+            getMyNavigation(),
             loadChats(),
             connectSocket(),
             loadProgramInfo(),
@@ -111,6 +113,13 @@ const RootStackNavigator = () => {
         <RootStack.Screen
           name="CommentScreen"
           component={CommentScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="DefaultRoute"
+          component={DefaultRoute}
           options={{
             headerShown: false,
           }}

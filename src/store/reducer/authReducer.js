@@ -22,6 +22,7 @@ const initialState = {
   selectedOrganization: null,
   appLoading: false,
   currentRoute: null,
+  navigation: null,
 };
 
 const authSlice = createSlice({
@@ -57,10 +58,14 @@ const authSlice = createSlice({
     setCurrentRoute: (state, action) => {
       state.currentRoute = action.payload;
     },
+    setNavigation: (state, action) => {
+      state.navigation = action.payload;
+    },
   },
 });
 
 export const {
+  setNavigation,
   setCurrentRoute,
   setAppLoading,
   setSelectedOrganization,

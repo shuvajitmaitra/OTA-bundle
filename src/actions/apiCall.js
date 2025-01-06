@@ -4,7 +4,7 @@ import {
   initialActivities,
   setActivitiesCount,
 } from '../store/reducer/activitiesReducer';
-import {selectOrganizations} from '../store/reducer/authReducer';
+import {selectOrganizations, setNavigation} from '../store/reducer/authReducer';
 import {
   setOnlineUsers,
   updateChatsArchive,
@@ -300,4 +300,17 @@ export const fetchOnlineUsers = async () => {
   } catch (error) {
     console.error('Error fetching online users:', error);
   }
+};
+
+export const getMyNavigation = () => {
+  axiosInstance
+    .get('/navigation/mynavigations')
+    .then(res => {
+      console.log('res.data', JSON.stringify(res.data, null, 2));
+      store.dispatch(setNavigation(res.data.navigation?.navigations));
+      // store.dispatch(setNavigation(res.data.navigation));
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
