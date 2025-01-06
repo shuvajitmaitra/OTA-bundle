@@ -27,7 +27,7 @@ const getStyles = (Colors, my) =>
       backgroundColor: Colors.LightRed,
       padding: 3,
       // paddingVertical: 10,
-      marginHorizontal: 10,
+      marginHorizontal: my ? 10 : 20,
       borderRadius: 10,
       paddingHorizontal: 10,
       marginTop: my ? 10 : 5,

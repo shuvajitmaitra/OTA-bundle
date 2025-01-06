@@ -1,9 +1,6 @@
 **Work Stream - January 6, 2025** 
 
 **Bootcampshub CLI**
-- Working on loading issues fix to load program data.
-- Added functionality to filter all events in the calendar.
-- Delete message alignment issues fix in the message screen.
 - User validation issue fixing while entering in the program screen.
 - Work on previous message not loading issues in the message screen.
 
@@ -13,6 +10,8 @@
 
 *Work Update - January 6, 2025*
 
-
+- Working on loading issues fix to load program data.
+- Added functionality to filter all events in the calendar.
+- Delete message alignment issues fix in the message screen.
 
 **Note: Finished 90% of today's work stream.**
