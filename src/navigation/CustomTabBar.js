@@ -14,13 +14,21 @@ import {
   loadEventInvitation,
 } from '../actions/chat-noti';
 import {setCommunityPosts} from '../store/reducer/communityReducer';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const CustomTabBar = ({state, descriptors, navigation}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const dispatch = useDispatch();
-
+  const {navigation: navigationData} = useSelector(statee => statee.auth);
+  console.log('navigationData', JSON.stringify(navigationData, null, 2));
+  const handleDefaultRoute = () => {
+    navigation.navigate('DefaultRoute', {
+      title: 'Enrollment is not available',
+      description:
+        'Sorry, You have not enrolled at any Bootcamp yet. Please explore your Institutes website to enroll your preferred bootcamp!\n or \n If you already enrolled, please select your program.',
+    });
+  };
   return (
     <View style={{backgroundColor: Colors.Background_color}}>
       <View
@@ -42,6 +50,14 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
               target: route.key,
               canPreventDefault: true,
             });
+
+            if (
+              (route.name === 'MyCalenderStack' &&
+                !navigationData.myCalender) ||
+              (route.name === 'ProgramStack' && !navigationData.myProgram)
+            ) {
+              return handleDefaultRoute();
+            }
 
             if (route.name === 'CommunityStack') {
               dispatch(setCommunityPosts([]));

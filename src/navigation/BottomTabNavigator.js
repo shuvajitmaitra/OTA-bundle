@@ -28,7 +28,6 @@ const getTabBarVisibility = (route, hiddenRoutes = []) => {
 };
 
 const BottomTabNavigator = () => {
-  const {bottomSheetVisible} = useSelector(state => state.modal);
   return (
     <>
       <Tab.Navigator

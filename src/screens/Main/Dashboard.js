@@ -80,6 +80,13 @@ export default function Dashboard() {
     );
   };
 
+  // Dashboard
+  // LandingPage
+  // Chat
+  // AudioVideo
+  // Notification
+  // Community
+
   // {
   //   "myImportantLink": true,
   //   "myProgram": true,
@@ -134,7 +141,7 @@ export default function Dashboard() {
 
   const handlePresentationNavigation = () => {
     // navigation.navigate('PresentationStack', { screen: 'Presentation' })
-    true
+    navigationData.myDocument
       ? navigation.navigate('ProgramStack', {screen: 'Presentation'})
       : handleDefaultRoute();
   };
@@ -150,15 +157,17 @@ export default function Dashboard() {
   };
 
   const handlePurchasedNavigation = () => {
-    navigation.navigate('HomeStack', {screen: 'PurchasedScreen'});
+    navigationData.myPurchasedItem
+      ? navigation.navigate('HomeStack', {screen: 'PurchasedScreen'})
+      : handleDefaultRoute();
   };
   const handleShowNTellNavigation = () => {
-    true
+    navigationData.showTell
       ? navigation.navigate('ProgramStack', {screen: 'ShowAndTellScreen'})
       : handleDefaultRoute();
   };
   const handleMockInterviewNavigation = () => {
-    true
+    navigationData.myMockInterview
       ? navigation.navigate('ProgramStack', {screen: 'MockInterview'})
       : handleDefaultRoute();
   };
@@ -274,7 +283,7 @@ export default function Dashboard() {
           <NavigationItem
             title={'Day to Day Activities'}
             handlePress={() =>
-              true
+              navigationData.myDayToDayActivity
                 ? navigation.navigate('ProgramStack', {
                     screen: 'DayToDayActivities',
                   })
@@ -287,7 +296,7 @@ export default function Dashboard() {
           <NavigationItem
             title={'Technical Tests'}
             handlePress={() =>
-              true
+              navigationData.technicalTest
                 ? navigation.navigate('ProgramStack', {
                     screen: 'TechnicalTestScreen',
                   })

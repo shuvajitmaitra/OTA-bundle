@@ -6,7 +6,6 @@ import {
 } from '../store/reducer/activitiesReducer';
 import {selectOrganizations, setNavigation} from '../store/reducer/authReducer';
 import {
-  setOnlineUsers,
   updateChatsArchive,
   updateFavoriteSingleChat,
   updateLatestMessage,
