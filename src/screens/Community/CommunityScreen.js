@@ -337,6 +337,7 @@ const CommunityScreen = () => {
                 <LoadingSmall color={Colors.Primary} size={20} />
               </View>
             )}
+            {posts.length === 0 && <NoDataAvailable />}
           </>
         }
         ListEmptyComponent={!loadingData && <NoDataAvailable />}

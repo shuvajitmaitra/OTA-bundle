@@ -22,7 +22,7 @@
 - Reply an emoji but not showing in chat message
 - Profile image not showing sometimes or first loading
 - Gallery, AI, Publish button text are too large
-- Toast message not showing issues fixed in program module for pin, unpin, focus, unfocus and others.
+- Toast message not showing issues fixed in program module for pin, unpin, focus, unfocused and others.
 - When save a post, post is saved but modal not closed after post saved.
 - Added reaction name with the reaction in the community screen.
 - When select saved from filter, the post available in Saved section but always showing no data available
