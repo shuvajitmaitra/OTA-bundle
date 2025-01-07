@@ -115,10 +115,12 @@ const Message2 = ({item, index, nextSender, setViewImage}) => {
       {!item?.parentMessage && (
         <EmojiContainer
           my={my}
-          reacts={Object.entries(item?.reactions).map(([symbol, count]) => ({
-            symbol,
-            count,
-          }))}
+          reacts={Object.entries(item?.reactions || {}).map(
+            ([symbol, count]) => ({
+              symbol,
+              count,
+            }),
+          )}
           messageId={item._id}
           myReactions={item?.myReaction}
         />
