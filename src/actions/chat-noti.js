@@ -212,7 +212,6 @@ export const loadCommunityPosts = (data, loading = () => {}) => {
   axiosInstance
     .post('/content/community/post/getall', data)
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data?.posts.length, null, 2));
       if (res?.data?.success) {
         if (data.page > 1) {
           store?.dispatch(setCommunityPosts(res.data.posts));

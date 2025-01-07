@@ -33,7 +33,6 @@ const CommunityScreen = () => {
     singlePost = null,
   } = useSelector(state => state.community);
 
-  console.log('posts', JSON.stringify(posts.length, null, 2));
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [page, setPage] = useState(2);
@@ -178,14 +177,17 @@ const CommunityScreen = () => {
 
   const handleFetchMore = () => {
     if (posts.length < totalPost) {
-      loadCommunityPosts({
-        page: page,
-        limit: 10,
-        query: data.query,
-        tags: searchTag,
-        user: userId,
-        filterBy: '',
-      });
+      loadCommunityPosts(
+        {
+          page: page,
+          limit: 10,
+          query: data.query,
+          tags: searchTag,
+          user: userId,
+          filterBy: '',
+        },
+        setIsLoading,
+      );
       setPage(prevPage => prevPage + 1);
     }
   };
@@ -268,7 +270,7 @@ const CommunityScreen = () => {
       </Animated.View>
       <Animated.FlatList
         ref={flatListRef}
-        data={isLoading ? [] : posts}
+        data={posts}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         ListHeaderComponent={
@@ -323,20 +325,20 @@ const CommunityScreen = () => {
             handleFetchMore();
           }
         }}
-        // ListFooterComponent={
-        //   <>
-        //     {isLoading && (
-        //       <View
-        //         style={{
-        //           height: 100,
-        //           alignItems: 'center',
-        //           justifyContent: 'center',
-        //         }}>
-        //         <LoadingSmall color={Colors.Primary} size={20} />
-        //       </View>
-        //     )}
-        //   </>
-        // }
+        ListFooterComponent={
+          <>
+            {isLoading && (
+              <View
+                style={{
+                  height: 100,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <LoadingSmall color={Colors.Primary} size={20} />
+              </View>
+            )}
+          </>
+        }
         ListEmptyComponent={!loadingData && <NoDataAvailable />}
       />
 

@@ -16,6 +16,51 @@ import ReactionContainer from './ReactionContainer';
 import {useNavigation} from '@react-navigation/native';
 
 const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
+  let emojis = [
+    {
+      name: 'Like',
+      symbol: '👍',
+    },
+    {
+      name: 'Lovely',
+      symbol: '😍',
+    },
+    {
+      name: 'Love',
+      symbol: '❤️',
+    },
+    {
+      name: 'Haha',
+      symbol: '😂',
+    },
+    {
+      name: 'Care',
+      symbol: '🥰',
+    },
+    {
+      name: 'Wow',
+      symbol: '😯',
+    },
+  ];
+
+  const emojiType = () => {
+    const emoji = emojis.find(emoji => emoji.symbol === post.myReaction);
+    if (emoji && emoji.name === 'Love') {
+      return '#f44233';
+    } else if (emoji && emoji.name === 'Like') {
+      return '#fad766';
+    } else if (emoji && emoji.name === 'Haha') {
+      return '#fced43';
+    } else if (emoji && emoji.name === 'Care') {
+      return '#ec9a13';
+    } else if (emoji && emoji.name === 'Wow') {
+      return '#fad766';
+    } else if (emoji && emoji.name === 'Lovely') {
+      return '#ec9a13';
+    } else {
+      return Colors.BodyText;
+    }
+  };
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [showPopover, setShowPopover] = useState(false);
@@ -84,19 +129,25 @@ const PostFooterSection = ({post, toggleCommentSection, showComments}) => {
           style={styles.shareButtonContainer}>
           {post.myReaction ? (
             <View
-              style={[
-                styles.likesContainer,
-                {
-                  backgroundColor: Colors.PrimaryOpacityColor,
-                  width: responsiveScreenWidth(12),
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingTop: responsiveScreenHeight(-1),
-                },
-              ]}>
-              <Text
-                style={[styles.text, {fontSize: responsiveScreenFontSize(2)}]}>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: responsiveScreenWidth(1),
+                // backgroundColor: 'red',
+                width: responsiveScreenWidth(17),
+              }}>
+              <Text style={{fontSize: responsiveScreenFontSize(2)}}>
                 {post.myReaction}
+              </Text>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    fontSize: responsiveScreenFontSize(2),
+                    color: emojiType(),
+                  },
+                ]}>
+                {emojis.find(emoji => emoji.symbol === post.myReaction)?.name}
               </Text>
             </View>
           ) : (

@@ -24,6 +24,8 @@
 - Gallery, AI, Publish button text are too large
 - Toast message not showing issues fixed in program module for pin, unpin, focus, unfocus and others.
 - When save a post, post is saved but modal not closed after post saved.
+- Added reaction name with the reaction in the community screen.
+- When select saved from filter, the post available in Saved section but always showing no data available
 
 
 **Note: Finished 90% of today's work stream.**
