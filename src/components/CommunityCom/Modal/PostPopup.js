@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import ReactNativeModal from 'react-native-modal';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '../../../context/ThemeContext';
@@ -28,7 +27,6 @@ import {RegularFonts} from '../../../constants/Fonts';
 const PostPopup = () => {
   const {user} = useSelector(state => state.auth);
   const {singlePost: post} = useSelector(state => state.community);
-  console.log('singlePost', JSON.stringify(post, null, 1));
 
   const Colors = useTheme();
   const styles = getStyles(Colors);
