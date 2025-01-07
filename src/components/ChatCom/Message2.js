@@ -26,6 +26,7 @@ import {RegularFonts} from '../../constants/Fonts';
 import MessageDateContainer from './MessageDateContainer';
 
 const Message2 = ({item, index, nextSender, setViewImage}) => {
+  // console.log('item', JSON.stringify(item, null, 2));
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
   const [readMoreClicked, setreadMoreClicked] = useState(false);
@@ -109,11 +110,19 @@ const Message2 = ({item, index, nextSender, setViewImage}) => {
             <Text style={styles.readMoreText}>Read more</Text>
           </TouchableOpacity>
         )}
-        {!item?.parentMessage && (
-          <EmojiContainer my={my} reacts={item.emoji} messageId={item._id} />
-        )}
         <MessageBottomContainer item={item} navigation={navigation} my={my} />
       </TouchableOpacity>
+      {!item?.parentMessage && (
+        <EmojiContainer
+          my={my}
+          reacts={Object.entries(item?.reactions).map(([symbol, count]) => ({
+            symbol,
+            count,
+          }))}
+          messageId={item._id}
+          myReactions={item?.myReaction}
+        />
+      )}
     </View>
   );
 };

@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import {useTheme} from '../../context/ThemeContext';
 import {hours} from './WeekView';
 import {
@@ -53,7 +53,6 @@ const DayView = ({
         style={[
           styles.container,
           {
-            // backgroundColor: "red",
             justifyContent: 'center',
             alignItems: 'center',
             borderWidth: 1,

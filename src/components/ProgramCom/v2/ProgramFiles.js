@@ -71,7 +71,7 @@ export default function ProgramFiles({item, course, category, isChildren}) {
         chapterId: item?._id,
       })
       .then(res => {
-        console.log('res.data', JSON.stringify(res.data, null, 1));
+        // console.log('res.data', JSON.stringify(res.data, null, 1));
 
         let obj = {};
         if (typ === 'pin') {

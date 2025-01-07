@@ -7,8 +7,6 @@ import {
   ScrollView,
   StatusBar,
   TextInput,
-  ActivityIndicator,
-  SafeAreaView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -150,7 +148,7 @@ export default function TechnicalTestScreen() {
     axiosInstance
       .post('/assignment/myassignments', searchData)
       .then(res => {
-        console.log('res.data', JSON.stringify(res.data, null, 1));
+        // console.log('res.data', JSON.stringify(res.data, null, 1));
         if (res.data.success) {
           dispatch(setTechnicalTest(res.data.assignments));
           setDate('');

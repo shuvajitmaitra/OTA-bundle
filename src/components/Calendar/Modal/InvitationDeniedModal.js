@@ -47,7 +47,7 @@ const InvitationDeniedModal = ({
     axiosInstance
       .patch(`/calendar/event/invitation/${id}`, payload)
       .then(res => {
-        console.log('res.data', JSON.stringify(res.data, null, 2));
+        // console.log('res.data', JSON.stringify(res.data, null, 2));
         if (res.data.success) {
           // dispatch(
           //   setNewEvent({

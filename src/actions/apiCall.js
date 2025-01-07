@@ -17,6 +17,7 @@ import {
   setCrowdMembers,
   setSelectedMembers,
   updateDeletedMessage,
+  updateEmoji,
   updateThreadMessage,
 } from '../store/reducer/chatSlice';
 import {setCalendar, setMockInterview} from '../store/reducer/dashboardReducer';
@@ -157,6 +158,18 @@ export const onEmojiClick = (emoji, messageId) => {
   axiosInstance
     .put(`/chat/react/${messageId}`, {symbol: emoji})
     .then(res => {
+      // console.log('res.data', JSON.stringify(res.data, null, 2));
+
+      if (res.data.success) {
+        store.dispatch(updateEmoji(res.data.message));
+        // store.dispatch(
+        //   updateLatestMessage({
+        //     chatId: res.data.message.chat,
+        //     latestMessage: res.data.message,
+        //     counter: 1,
+        //   }),
+        // );
+      }
       // console.log('res.data', JSON.stringify(res.data, null, 1));
       // store.dispatch(updateEmoji({data: res.data.message, symbol: emoji}));
       // store.dispatch(
@@ -305,9 +318,7 @@ export const getMyNavigation = () => {
   axiosInstance
     .get('/navigation/mynavigations')
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data, null, 2));
       store.dispatch(setNavigation(res.data.navigation?.navigations));
-      // store.dispatch(setNavigation(res.data.navigation));
     })
     .catch(err => {
       console.log(err);

@@ -155,7 +155,7 @@ const MessageScreen2 = ({route}) => {
     axiosInstance
       .patch(`/chat/pin/${id}`)
       .then(res => {
-        console.log('res.data', JSON.stringify(res.data, null, 1));
+        // console.log('res.data', JSON.stringify(res.data, null, 1));
         if (res.data.message) {
           if (res.data.message.pinnedBy) {
             setPinned(pre => [messageOptionData, ...pre]);

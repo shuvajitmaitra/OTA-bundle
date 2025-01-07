@@ -165,7 +165,7 @@ const UpdateEventModal = ({modalVisible, setModalVisible, eventId}) => {
     axiosInstance
       .patch(`/calendar/event/invitation/${event?._id}`, {action, user})
       .then(res => {
-        console.log('res.data', JSON.stringify(res.data, null, 1));
+        // console.log('res.data', JSON.stringify(res.data, null, 1));
         if (res.data.success) {
           setInvitations(res.data.event.participants.map(item => item.user));
         }

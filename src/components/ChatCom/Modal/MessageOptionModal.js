@@ -1,11 +1,4 @@
-import {
-  Dimensions,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import CustomModal from '../../SharedComponent/CustomModal';
 import {useDispatch} from 'react-redux';
@@ -21,7 +14,6 @@ import {useTheme} from '../../../context/ThemeContext';
 import MessageIcon from '../../../assets/Icons/MessageIcon';
 import {useNavigation} from '@react-navigation/native';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
-const {width} = Dimensions.get('window');
 
 const MessageOptionModal = ({
   handlePin,
