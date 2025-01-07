@@ -64,7 +64,7 @@ export default function ProgramFiles({item, course, category, isChildren}) {
   const threeDotPopoverRef = useRef();
 
   const handleRadioChecked = typ => {
-    console.log('typ', JSON.stringify(typ, null, 1));
+    // console.log('typ', JSON.stringify(typ, null, 1));
     axiosInstance
       .post(`course/chapterv2/track/${item?.myCourse?.course}`, {
         action: typ,
@@ -93,12 +93,12 @@ export default function ProgramFiles({item, course, category, isChildren}) {
           let index = arr.findIndex(x => x._id === item._id);
           if (index !== -1) {
             arr[index] = {...arr[index], ...obj};
-            setTreeData(arr); // Update state to trigger re-render
+            setTreeData(arr);
           }
         } else {
           handleUpdateRootChapter(item._id, obj);
         }
-        showToast(`Added on ${typ}`);
+        showToast({message: `Added on ${typ}`});
       })
       .catch(err => {
         showAlertModal({

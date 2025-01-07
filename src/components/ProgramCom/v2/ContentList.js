@@ -104,7 +104,7 @@ function ContentList({category, course}) {
       searchText,
       filterBy: filterValue,
     });
-  }, [course?.slug, category]);
+  }, [category, searchText, filterValue, course]);
 
   const handleSearch = () => {
     handleFetchData({

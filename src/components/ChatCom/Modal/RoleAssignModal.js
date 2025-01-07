@@ -47,7 +47,7 @@ export default function RoleAssignModal({
       })
       .then(res => {
         if (res.data?.success) {
-          showToast(`Assigned as ${value}`);
+          showToast({message: `Assigned as ${value}`});
           fetchMembers();
           //   console.log("item", item);
         }

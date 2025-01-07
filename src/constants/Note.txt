@@ -1,14 +1,8 @@
 **Work Stream - January 07, 2025** 
 
 *Bootcampshub CLI*
-- Calendar time align not center
-- Arrow icon should be Left Arrow icon and place in before the Less text
-- Reply an emoji but not showing in chat message
+
 - Chat image take long time to loading 
-- Profile image not showing sometimes or first loading
-- Gallery, AI, Publish button text are too large
-- Toast message not showing when program pin and unpin
-- When save a post, post is saved but modal not closed after post saved.
 - When select saved from filter, the post available in Saved section but always showing no data available
 
 **Note: Planned to finish 100% of today's work-stream**
@@ -23,9 +17,13 @@
 *Work Update - January 6, 2025*
 
 *Bootcampshub CLI*
-- Working on loading issues fix to load program data.
-- Added functionality to filter all events in the calendar.
-- Delete message alignment issues fix in the message screen.
-- User validation issue fixing while entering in the program screen.
+- Calendar time align not center
+- Arrow icon should be Left Arrow icon and place in before the Less text
+- Reply an emoji but not showing in chat message
+- Profile image not showing sometimes or first loading
+- Gallery, AI, Publish button text are too large
+- Toast message not showing issues fixed in program module for pin, unpin, focus, unfocus and others.
+- When save a post, post is saved but modal not closed after post saved.
+
 
 **Note: Finished 90% of today's work stream.**

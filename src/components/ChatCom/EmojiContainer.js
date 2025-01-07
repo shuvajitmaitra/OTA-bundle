@@ -3,6 +3,7 @@ import React from 'react';
 import {useTheme} from '../../context/ThemeContext';
 import {RegularFonts} from '../../constants/Fonts';
 import {onEmojiClick} from '../../actions/apiCall';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 
 const EmojiContainer = ({reacts, messageId, my, myReactions}) => {
   const Colors = useTheme();
@@ -106,8 +107,9 @@ const getStyles = (Colors, my) =>
       flexDirection: 'row',
       gap: 5,
       alignItems: 'center',
+      justifyContent: 'center',
       // marginVertical: 10,
-      // width: responsiveScreenWidth(10),
+      minWidth: responsiveScreenWidth(10),
       marginTop: 2,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
