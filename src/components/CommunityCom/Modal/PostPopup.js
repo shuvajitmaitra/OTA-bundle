@@ -53,7 +53,8 @@ const PostPopup = () => {
       .then(res => {
         if (res.data.success) {
           dispatch(setSavePost(post));
-          showToast(post.isSaved ? 'Post unsaved' : 'Post saved');
+          showToast({message: post.isSaved ? 'Post unsaved' : 'Post saved'});
+          dispatch(setSinglePost(null));
         }
       })
       .catch(handleError);
@@ -97,7 +98,7 @@ const PostPopup = () => {
             <TouchableOpacity
               style={styles.itemContainer}
               onPress={() => {
-                handleCopyLink(link, 'Link copied');
+                handleCopyLink(link, {message: 'Link copied'});
               }}>
               <Text style={styles.item}>Copy post link</Text>
             </TouchableOpacity>
