@@ -205,17 +205,18 @@ export const getEventDetails = (eventId, setIsLoading = () => {}) => {
 };
 export const loadCommunityPosts = (data, loading = () => {}) => {
   loading(true);
-  if (data.page == 1) {
+  if (data.page === 1) {
     store.dispatch(setIsLoading(true));
   }
 
   axiosInstance
     .post('/content/community/post/getall', data)
     .then(res => {
+      console.log('res.data', JSON.stringify(res.data?.posts.length, null, 2));
       if (res?.data?.success) {
         if (data.page > 1) {
           store?.dispatch(setCommunityPosts(res.data.posts));
-        } else if (data.page == 1) {
+        } else if (data.page === 1) {
           store?.dispatch(setQueryPosts(res.data.posts));
         } else {
           store?.dispatch(setCommunityPosts(res.data.posts));

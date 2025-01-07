@@ -277,3 +277,37 @@ export const showAlertModal = data => {
 //     return RESULTS.UNAVAILABLE;
 //   }
 // };
+// export const debounce = (func, delay = 500) => {
+//   let timeoutId;
+
+//   return function (...args) {
+//     clearTimeout(timeoutId);
+//     timeoutId = setTimeout(() => {
+//       func.apply(this, args);
+//     }, delay);
+//   };
+// };
+export const debounce = (func, delay = 500) => {
+  let timeoutId;
+  let lastArgs;
+  let isPending = false;
+
+  const execute = () => {
+    if (lastArgs) {
+      func.apply(this, lastArgs);
+      lastArgs = null;
+      isPending = false;
+    }
+  };
+
+  return function (...args) {
+    lastArgs = args;
+
+    if (isPending) {
+      clearTimeout(timeoutId);
+    }
+
+    isPending = true;
+    timeoutId = setTimeout(execute, delay);
+  };
+};

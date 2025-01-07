@@ -23,7 +23,7 @@ import SearchAndFilter from '../../components/SharedComponent/SearchAndFilter';
 import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import PostPopup from '../../components/CommunityCom/Modal/PostPopup';
-import GlobalCommentModal from '../../components/SharedComponent/GlobalCommentModal';
+import debounce from 'lodash.debounce';
 
 const CommunityScreen = () => {
   const {
@@ -32,9 +32,8 @@ const CommunityScreen = () => {
     isLoading: loadingData = false,
     singlePost = null,
   } = useSelector(state => state.community);
-  const {bottomSheetVisible} = useSelector(state => state.modal);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  console.log('posts', JSON.stringify(posts.length, null, 2));
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [page, setPage] = useState(2);
@@ -131,6 +130,15 @@ const CommunityScreen = () => {
   };
 
   const handleFilter = value => {
+    console.log('value', JSON.stringify(value, null, 2));
+    loadCommunityPosts({
+      page: 1,
+      limit: 10,
+      query: '',
+      tags: '',
+      user: '',
+      filterBy: value,
+    });
     setFilterValue(value);
     const filterOption = filterData.find(option => option.value === value);
 
@@ -181,33 +189,57 @@ const CommunityScreen = () => {
       setPage(prevPage => prevPage + 1);
     }
   };
-  const handleSearch = () => {
-    loadCommunityPosts({
-      page: 1,
-      limit: 10,
-      query: data.query,
-      tags: [],
-      user: '',
-      filterBy: '',
-    });
-    if (flatListRef.current) {
-      flatListRef.current.scrollToOffset({
-        offset: responsiveScreenHeight(50),
-        animated: true,
-      });
-    }
-  };
 
-  useEffect(() => {
-    loadCommunityPosts({
-      page: 1,
-      limit: 10,
-      query: '',
-      tags: searchTag,
-      user: '',
-      filterBy: filterValue,
-    });
-  }, [searchTag, filterValue]);
+  const debouncedSearch = useCallback(
+    debounce(text => {
+      loadCommunityPosts({
+        page: 1,
+        limit: 10,
+        query: text,
+        tags: [],
+        user: '',
+        filterBy: '',
+      });
+      if (flatListRef.current) {
+        flatListRef.current.scrollToOffset({
+          offset: responsiveScreenHeight(10),
+          animated: true,
+        });
+      }
+    }, 500),
+    [],
+  );
+  const handleSearch = text => {
+    debouncedSearch(text);
+  };
+  // const handleSearch = text => {
+  //   console.log('text', JSON.stringify(text, null, 2));
+  // loadCommunityPosts({
+  //   page: 1,
+  //   limit: 10,
+  //   query: text,
+  //   tags: [],
+  //   user: '',
+  //   filterBy: '',
+  // });
+  // if (flatListRef.current) {
+  //   flatListRef.current.scrollToOffset({
+  //     offset: responsiveScreenHeight(50),
+  //     animated: true,
+  //   });
+  // }
+  // };
+
+  // useEffect(() => {
+  // loadCommunityPosts({
+  //   page: 1,
+  //   limit: 10,
+  //   query: '',
+  //   tags: searchTag,
+  //   user: '',
+  //   filterBy: filterValue,
+  // });
+  // }, [searchTag, filterValue]);
 
   const buttonStyle = useAnimatedStyle(() => {
     return {
@@ -291,24 +323,20 @@ const CommunityScreen = () => {
             handleFetchMore();
           }
         }}
-        ListFooterComponent={
-          <>
-            {totalPost === posts?.length ? (
-              <Text style={[styles.title, {textAlign: 'center'}]}>
-                No data available
-              </Text>
-            ) : (
-              <View
-                style={{
-                  height: 100,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <LoadingSmall color={Colors.Primary} size={20} />
-              </View>
-            )}
-          </>
-        }
+        // ListFooterComponent={
+        //   <>
+        //     {isLoading && (
+        //       <View
+        //         style={{
+        //           height: 100,
+        //           alignItems: 'center',
+        //           justifyContent: 'center',
+        //         }}>
+        //         <LoadingSmall color={Colors.Primary} size={20} />
+        //       </View>
+        //     )}
+        //   </>
+        // }
         ListEmptyComponent={!loadingData && <NoDataAvailable />}
       />
 

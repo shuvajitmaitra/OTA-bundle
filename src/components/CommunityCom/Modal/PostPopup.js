@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '../../../context/ThemeContext';
@@ -86,11 +86,11 @@ const PostPopup = () => {
   return (
     <Popover
       backgroundStyle={{backgroundColor: Colors.BackDropColor}}
-      popoverStyle={styles.content}
+      popoverStyle={styles.popoverStyle}
       from={new Rect(post.x, post.y, 0, 0)}
       isVisible={Boolean(post)}
       onRequestClose={() => dispatch(setSinglePost(null))}>
-      <>
+      <View style={styles.content}>
         {!isModalVisible && !isEditModalVisible && !isConfirmModalVisible && (
           <>
             <TouchableOpacity
@@ -176,7 +176,7 @@ const PostPopup = () => {
           />
         )}
         <GlobalAlertModal />
-      </>
+      </View>
     </Popover>
   );
 };
@@ -185,9 +185,12 @@ export default PostPopup;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    popoverStyle: {
+      backgroundColor: Colors.White,
+    },
     content: {
       borderRadius: 5,
-      gap: responsiveScreenHeight(1),
+      gap: 10,
       backgroundColor: Colors.White,
       padding: 10,
       width: 200,

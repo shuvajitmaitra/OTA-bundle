@@ -60,7 +60,6 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
             }
 
             if (route.name === 'CommunityStack') {
-              dispatch(setCommunityPosts([]));
               loadCommunityPosts({
                 page: 1,
                 limit: 10,

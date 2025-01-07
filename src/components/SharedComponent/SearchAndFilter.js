@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -33,6 +33,10 @@ export default function SearchAndFilter({
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
+  useEffect(() => {
+    console.log('rendered');
+  }, []);
+
   const [isPopoverVisible, setIsPopoverVisible] = useState(false);
   const filterButtonRef = useRef();
 
@@ -61,9 +65,12 @@ export default function SearchAndFilter({
           ]}
           placeholder={placeholderText}
           placeholderTextColor={Colors.BodyText}
-          onChangeText={text => setSearchText(text)}
+          onChangeText={text => {
+            setSearchText(text);
+            handleSearch(text);
+          }}
         />
-        <TouchableOpacity onPress={() => handleSearch()}>
+        <TouchableOpacity onPress={() => handleSearch(searchText)}>
           <Feather style={styles.inputFieldIcon} name="search" />
         </TouchableOpacity>
       </View>
