@@ -71,9 +71,7 @@ const EmojiContainer = ({reacts, messageId, my, myReactions}) => {
           myReactions === item.symbol && {backgroundColor: Colors.CyanOpacity},
         ]}>
         <Text style={{fontSize: 20}}>{item?.symbol || '👍'}</Text>
-        {myReactions === item.symbol && (
-          <Text style={styles.emojiText}>{item.count}</Text>
-        )}
+        {item?.count > 1 && <Text style={styles.emojiText}>{item.count}</Text>}
       </TouchableOpacity>
     );
   };
@@ -96,7 +94,7 @@ const getStyles = (Colors, my) =>
     container: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 10,
+      // gap: 10,
       // backgroundColor: 'skyblue',
       marginLeft: my ? 40 : 20,
     },
@@ -110,7 +108,7 @@ const getStyles = (Colors, my) =>
       alignItems: 'center',
       // marginVertical: 10,
       // width: responsiveScreenWidth(10),
-      marginTop: 5,
+      marginTop: 2,
       borderWidth: 1,
       borderColor: Colors.BorderColor,
     },

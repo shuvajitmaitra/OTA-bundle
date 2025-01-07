@@ -26,11 +26,11 @@ const MessageBottomContainer = ({item, navigation, my}) => {
       )}
       <View style={{flexGrow: 1}}></View>
 
-      <View>
+      <View style={{flexDirection: 'row'}}>
+        {item.editedAt && <Text style={styles.editedText}>(Edited)</Text>}
         <Text style={styles.timeText}>
           {moment(item.editedAt || item?.createdAt).format(' h:mm A')}
         </Text>
-        {item.editedAt && <Text style={styles.editedText}>(Edited)</Text>}
       </View>
       {my && !item.parentMessage && (
         <>
