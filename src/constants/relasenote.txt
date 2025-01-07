@@ -1,35 +1,27 @@
-Release Note - January 05, 2025#release #app #env
+Release Note - January 06, 2025#release #app #env
 
 #release-note #app #env:staging
 
-We are pleased to announce the latest updates and enhancements to the SchoolsHub App. This release focuses on improving functionality, fixing bugs, and enhancing the user experience.
+We are pleased to announce the latest updates and enhancements to the BootcampsHub App. This release focuses on improving functionality, fixing bugs, and enhancing the user experience.
 
 ## **BootcampsHub App Development:**
 
 ---
-### **Improvements & Fixes**
 
-#### **Messaging**
-- **Enhanced Chat Experience**: Chat messages are now displayed at the center of the screen for better visibility.
-- **Seamless Transition**: Fixed the issue of two screens appearing after navigating from crowd chat to personal chat.
-- **Audio Loader Update**: Resolved audio loader issues in the message screen, ensuring smooth playback.
+### **New Features**
+- **Event Filtering in Calendar**
+  - Introduced a new functionality that allows users to filter all events within the calendar. This enhancement enables better organization and easier navigation through scheduled activities.
 
-#### **Calendar**
-- **Event Visibility**: Addressed the issue where denied events were not showing in the calendar screen.
-- **Improved Functionality**: Fixed the deny functionality for invited events.
+### **Improvements**
+- **Program Data Loading**
+  - Enhanced the loading mechanism to ensure program data is loaded more efficiently and reliably, addressing previous loading issues that affected user experience.
 
-#### **Programs**
-- **Initial Load Fix**: Programs now load correctly on the first attempt, providing a smoother experience.
-
-#### **Availability Screen**
-- **Alert Resolved**: Fixed the issue of red alerts splashing on the availability screen.
-- **UI Fixes**: Removed the red line appearing at the top and bottom of the availability screen.
-
-#### **Custom Icon Button**
-- **Visual Enhancements**: Update button colors now reflect the loading state, and font size has been adjusted for better readability.
-
-#### **Post Deletion**
-- **Modal Behavior**: The delete modal now closes automatically after deleting a post.
+### **Bug Fixes**
+- **Delete Message Alignment**
+  - Resolved alignment issues in the message screen to ensure that delete messages are properly formatted and visually consistent across different devices and screen sizes.
+  
+- **User Validation in Program Screen**
+  - Fixed user validation problems encountered when entering the program screen, ensuring that only authenticated and authorized users can access and modify program-related data.
 
 ---
 

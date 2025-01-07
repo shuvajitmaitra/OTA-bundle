@@ -19,6 +19,7 @@ import {updatePickedDate} from '../../store/reducer/calendarReducer';
 import {getEventDetails, getNotificationData} from '../../actions/chat-noti';
 import ReactNativeModal from 'react-native-modal';
 import ArrowRight from '../../assets/Icons/ArrowRight';
+import ArrowLeftWhite from '../../assets/Icons/ArrowLeftWhite';
 
 export const hours = Array.from({length: 24}, (_, i) => {
   const time =
@@ -247,10 +248,17 @@ const WeekView = ({
       <TouchableOpacity
         onPress={() => handleSeeMore()}
         style={styles.moreButtonContainer}>
-        <Text style={styles.moreButtonText}>
-          {seeMoreClicked ? 'Less' : 'More'}
-        </Text>
-        <ArrowRight />
+        {seeMoreClicked ? (
+          <>
+            <ArrowLeftWhite size={20} color={Colors.Primary} />
+            <Text style={styles.moreButtonText}>See Less</Text>
+          </>
+        ) : (
+          <>
+            <Text style={styles.moreButtonText}>See More</Text>
+            <ArrowRight />
+          </>
+        )}
       </TouchableOpacity>
     </ScrollView>
   );

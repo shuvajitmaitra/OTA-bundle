@@ -18,7 +18,7 @@ const initialState = {
   eventNotification: [],
   monthViewData: [],
   notificationClicked: null,
-  eventStatus: null,
+  eventStatus: 'all',
 };
 
 const calendarSlice = createSlice({

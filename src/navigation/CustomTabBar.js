@@ -21,7 +21,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
   const styles = getStyles(Colors);
   const dispatch = useDispatch();
   const {navigation: navigationData} = useSelector(statee => statee.auth);
-  console.log('navigationData', JSON.stringify(navigationData, null, 2));
+  // console.log('navigationData', JSON.stringify(navigationData, null, 2));
   const handleDefaultRoute = () => {
     navigation.navigate('DefaultRoute', {
       title: 'Enrollment is not available',
@@ -53,7 +53,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
 
             if (
               (route.name === 'MyCalenderStack' &&
-                !navigationData.myCalender) ||
+                !navigationData.myCalendar) ||
               (route.name === 'ProgramStack' && !navigationData.myProgram)
             ) {
               return handleDefaultRoute();

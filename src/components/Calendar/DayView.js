@@ -69,8 +69,8 @@ const DayView = ({
       <View style={styles.container}>
         <View style={styles.leftColumn}>
           {newHours.map((hour, index) => (
-            <View key={index} style={[styles.hourRow]}>
-              <Text style={[styles.hourText]}>{hour.label}</Text>
+            <View key={index} style={styles.hourRow}>
+              <Text style={styles.hourText}>{hour.label}</Text>
             </View>
           ))}
         </View>
@@ -246,13 +246,13 @@ const getStyles = Colors =>
       minHeight: responsiveScreenHeight(4),
       borderWidth: 0.5,
       borderColor: Colors.BorderColor,
-      // backgroundColor: "blue",
     },
     hourText: {
       fontSize: responsiveScreenFontSize(1.5),
       color: Colors.BodyText,
       fontFamily: CustomFonts.MEDIUM,
       textAlign: 'center',
+      paddingTop: responsiveScreenHeight(1),
     },
 
     weekHeader: {
