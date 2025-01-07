@@ -1,4 +1,11 @@
-import {Alert, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React from 'react';
 import {useTheme} from '../../context/ThemeContext';
 import CustomFonts from '../../constants/CustomFonts';
@@ -21,7 +28,18 @@ const CoursesCard = ({item}) => {
 
   return (
     <View style={styles.cardContainer}>
-      <View style={{borderRadius: 10, overflow: 'hidden'}}>
+      <Image
+        source={
+          item?.course?.image
+            ? {
+                uri: item?.course?.image,
+              }
+            : Images.DEFAULT_IMAGE
+        }
+        resizeMode="contain"
+        style={styles.cardImage}
+      />
+      {/* <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <ImageBackground
           source={
             item?.course?.image
@@ -44,7 +62,7 @@ const CoursesCard = ({item}) => {
             <Text style={styles.imageText}>{item?.course?.title}</Text>
           </View>
         </ImageBackground>
-      </View>
+      </View> */}
       <Text style={styles.courseTitle}>{item?.course?.title}</Text>
       <View style={styles.statusContainer}>
         <Text style={styles.statusTitle}>Status:</Text>
@@ -183,6 +201,7 @@ const getStyles = (Colors, item) =>
       width: '100%',
       height: 200,
       borderRadius: 10,
+      backgroundColor: Colors.PrimaryOpacityColor,
     },
     cardContainer: {
       backgroundColor: Colors.White,
