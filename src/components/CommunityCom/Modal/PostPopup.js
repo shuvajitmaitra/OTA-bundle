@@ -11,6 +11,7 @@ import {showToast} from '../../HelperFunction';
 import {
   setSinglePost,
   setSavePost,
+  filterPosts,
 } from '../../../store/reducer/communityReducer';
 import axiosInstance from '../../../utility/axiosInstance';
 import {handleError, loadCommunityPosts} from '../../../actions/chat-noti';
@@ -82,7 +83,22 @@ const PostPopup = () => {
       })
       .catch(handleError);
   };
-
+  // const handleReportRemove = async () => {
+  //   showToast({message: 'Report removed!'});
+  //   dispatch(filterPosts(post._id));
+  //   dispatch(setSinglePost(null));
+  //   await axiosInstance
+  //     .post('/content/community/post/option/save', {post: post._id})
+  //     .then(res => {
+  //       // showToast({message: 'Reported removed!'});
+  //     })
+  //     .catch(error => {
+  //       console.log(
+  //         'error to report',
+  //         JSON.stringify(error.response.data, null, 1),
+  //       );
+  //     });
+  // };
   return (
     <Popover
       backgroundStyle={{backgroundColor: Colors.BackDropColor}}
@@ -121,10 +137,10 @@ const PostPopup = () => {
                 style={styles.itemContainer}
                 onPress={() => {
                   if (post?.isReported) {
-                    showAlertModal({
-                      title: 'You have reported this post',
-                      type: 'success',
-                    });
+                    showToast({message: 'You have already reported!'});
+                    // dispatch(filterPosts(post._id));
+                    dispatch(setSinglePost(null));
+                    // handleReportRemove();
                   } else {
                     setIsModalVisible(pre => !pre);
                   }

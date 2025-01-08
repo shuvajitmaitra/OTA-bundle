@@ -31,7 +31,6 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import CreateCrowdModal from '../../components/ChatCom/Modal/CreateCrowdModal';
 import axiosInstance from '../../utility/axiosInstance';
 import {setChats, setGroupNameId} from '../../store/reducer/chatReducer';
-import FloatingActionButton from '../../components/ChatCom/FloatingActionButton';
 
 // const data = {
 //   user: {
@@ -171,7 +170,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
   const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
 
   const [checked, setChecked] = useState('chats');
   const [records, setRecords] = useState([]);
@@ -292,7 +290,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
   );
 
   const openBottomSheet = useCallback(() => {
-    setBottomSheetVisible(true);
     bottomSheetRef.current?.present();
   }, []);
   const styles = getStyles(Colors, checked);
@@ -396,7 +393,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
             openBottomSheet={openBottomSheet}
             handleRadioChecked={handleRadioChecked}
             toggleCreateCrowdModal={toggleCreateCrowdModal}
-            setBottomSheetVisible={setBottomSheetVisible}
           />
         </BottomSheetModalProvider>
         <CreateCrowdModal
@@ -404,7 +400,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
           setIsCreateCrowdModalVisible={setIsCreateCrowdModalVisible}
           toggleCreateCrowdModal={toggleCreateCrowdModal}
         />
-        {!bottomSheetVisible && <FloatingActionButton />}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -443,10 +438,10 @@ const getStyles = (Colors, checked) =>
     container: {
       zIndex: 0,
       flex: 1,
+      // backgroundColor: "yellow",
       // // paddingTop: responsiveScreenHeight(3.5),
       backgroundColor: Colors.Background_color,
       // marginBottom: 10
-      position: 'relative',
     },
     searchContainer: {
       paddingHorizontal: responsiveScreenWidth(4),

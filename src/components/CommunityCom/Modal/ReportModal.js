@@ -16,6 +16,7 @@ import TextArea from '../../Calendar/Modal/TextArea';
 import {handleError} from '../../../actions/chat-noti';
 import {useDispatch} from 'react-redux';
 import {
+  filterPosts,
   setReported,
   setSinglePost,
 } from '../../../store/reducer/communityReducer';
@@ -49,32 +50,39 @@ export default function ReportModal({setIsModalVisible, isModalVisible, post}) {
   const dispatch = useDispatch();
 
   const handleReport = async () => {
-    console.log('object');
+    showToast({message: 'Reported successfully'});
     // console.log("post._id", JSON.stringify(post._id, null, 1));
+    dispatch(filterPosts(post._id));
     try {
       await axiosInstance
         .post('/content/community/post/option/save', report)
         .then(res => {
-          const {data} = res.data;
-          console.log('data', JSON.stringify(data, null, 1));
-          if (!data.postOption) {
+          // console.log('res.data', JSON.stringify(res.data, null, 1));
+          if (!res.data.postOption) {
             setIsModalVisible(prev => !prev);
-            dispatch(setSinglePost(null)); // dispatch(setReported({ post: post._id, action: "remove" }));
+            dispatch(setSinglePost(null));
             return;
           }
-          if (data?.postOption?._id) {
+          if (res.data?.postOption?._id) {
+            showToast({message: 'Reported successfully'});
+
             dispatch(setReported(post._id));
             setIsModalVisible(prev => !prev);
             dispatch(setSinglePost(null));
             // showAlertModal('Reported successfully');
-            showToast({message: 'Reported successfully'});
             console.log('Report successful');
           } else {
-            console.warn('Unexpected response structure:', data);
+            console.warn('Unexpected response structure:', res.data);
             showAlertModal('Report removed!');
             setIsModalVisible(prev => !prev);
             dispatch(setSinglePost(null));
           }
+        })
+        .catch(error => {
+          console.log(
+            'error to report',
+            JSON.stringify(error.response.data, null, 1),
+          );
         });
     } catch (error) {
       handleError(error);
@@ -129,8 +137,8 @@ export default function ReportModal({setIsModalVisible, isModalVisible, post}) {
             />
           </View>
         </View>
+        <Toast config={toastConfig} />
       </View>
-      <Toast config={toastConfig} />
     </ReactNativeModal>
   );
 }

@@ -12,6 +12,7 @@ import ChatIconBig from '../../assets/Icons/ChatIconBig';
 import ChatIcon from '../../assets/Icons/ChatIcon';
 import UserIcon from '../../assets/Icons/UserIcon';
 import PlusIcon from '../../assets/Icons/PlusIcon';
+import CustomFonts from '../../constants/CustomFonts';
 
 const FloatingActionButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,8 +32,8 @@ const FloatingActionButton = () => {
     } else {
       // Open the menu
       rotation.value = withSpring(45, {damping: 10});
-      button1Y.value = withSpring(-40, {damping: 10});
-      button2Y.value = withSpring(-80, {damping: 10});
+      button1Y.value = withSpring(-45, {damping: 10});
+      button2Y.value = withSpring(-90, {damping: 10});
     }
     setIsOpen(!isOpen);
   };
@@ -73,7 +74,7 @@ const FloatingActionButton = () => {
               <Text style={styles.buttonText}>Create new chat</Text>
             </View>
             <View style={styles.iconContainer}>
-              <UserIcon color={Colors.PureWhite} />
+              <UserIcon size={22} color={Colors.PureWhite} />
             </View>
           </TouchableOpacity>
         </Animated.View>
@@ -94,15 +95,16 @@ const getStyles = Colors =>
     buttonTextContainer: {
       backgroundColor: Colors.Primary,
       paddingHorizontal: 10,
-      paddingVertical: 3,
+      paddingVertical: 5,
       borderRadius: 4,
     },
     iconContainer: {
       backgroundColor: Colors.Primary,
-      padding: 5,
       borderRadius: 100,
       alignItems: 'center',
       justifyContent: 'center',
+      height: 35,
+      width: 35,
     },
     container: {
       position: 'absolute',
@@ -149,6 +151,7 @@ const getStyles = Colors =>
       color: Colors.PureWhite,
       fontSize: 14,
       textAlign: 'center',
+      fontFamily: CustomFonts.MEDIUM,
     },
   });
 

@@ -49,7 +49,7 @@ const ChatHeaderFilter = ({
 
   return (
     <>
-      {/* <View
+      <View
         style={{
           flexDirection: 'row',
           gap: 5,
@@ -85,7 +85,7 @@ const ChatHeaderFilter = ({
           <PlusCircleIcon />
           <Text style={styles.tabText}>Create Crowd</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
 
       <View style={styles.headerTabContainer}>
         <TouchableOpacity
@@ -164,7 +164,7 @@ const getStyles = (Colors, checked) =>
       gap: 5,
       // paddingTop: 5,
       paddingHorizontal: responsiveScreenWidth(4),
-      marginVertical: 10,
+      marginBottom: 10,
       alignItems: 'flex-end',
     },
   });

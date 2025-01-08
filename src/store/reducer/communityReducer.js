@@ -69,10 +69,14 @@ const communitySlice = createSlice({
     setSinglePost: (state, {payload}) => {
       state.singlePost = payload;
     },
+    filterPosts: (state, {payload}) => {
+      state.posts = state.posts.filter(post => post._id !== payload);
+    },
   },
 });
 
 export const {
+  filterPosts,
   setSinglePost,
   setSavePost,
   setCommentCount,
