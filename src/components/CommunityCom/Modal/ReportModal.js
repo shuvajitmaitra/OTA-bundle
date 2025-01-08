@@ -15,16 +15,17 @@ import ModalCustomButton from '../../ChatCom/Modal/ModalCustomButton';
 import TextArea from '../../Calendar/Modal/TextArea';
 import {handleError} from '../../../actions/chat-noti';
 import {useDispatch} from 'react-redux';
-import {setReported} from '../../../store/reducer/communityReducer';
+import {
+  setReported,
+  setSinglePost,
+} from '../../../store/reducer/communityReducer';
 import GlobalRadioGroup from '../../SharedComponent/GlobalRadioButton';
 import {showAlertModal} from '../../../utility/commonFunction';
+import {showToast} from '../../HelperFunction';
+import Toast from 'react-native-toast-message';
+import {toastConfig} from '../../../constants/ToastConfig';
 
-export default function ReportModal({
-  setIsModalVisible,
-  isModalVisible,
-  post,
-  closePopover,
-}) {
+export default function ReportModal({setIsModalVisible, isModalVisible, post}) {
   const [report, setReport] = useState({
     post: post._id,
     action: 'report',
@@ -51,29 +52,30 @@ export default function ReportModal({
     console.log('object');
     // console.log("post._id", JSON.stringify(post._id, null, 1));
     try {
-      const {data} = await axiosInstance.post(
-        '/content/community/post/option/save',
-        report,
-      );
-      console.log('data', JSON.stringify(data, null, 1));
-      if (!data.postOption) {
-        setIsModalVisible(prev => !prev);
-        closePopover();
-        // dispatch(setReported({ post: post._id, action: "remove" }));
-        return;
-      }
-      if (data?.postOption?._id) {
-        dispatch(setReported(post._id));
-        setIsModalVisible(prev => !prev);
-        closePopover();
-        showAlertModal('Reported successfully');
-        console.log('Report successful');
-      } else {
-        console.warn('Unexpected response structure:', data);
-        showAlertModal('Report removed!');
-        setIsModalVisible(prev => !prev);
-        closePopover();
-      }
+      await axiosInstance
+        .post('/content/community/post/option/save', report)
+        .then(res => {
+          const {data} = res.data;
+          console.log('data', JSON.stringify(data, null, 1));
+          if (!data.postOption) {
+            setIsModalVisible(prev => !prev);
+            dispatch(setSinglePost(null)); // dispatch(setReported({ post: post._id, action: "remove" }));
+            return;
+          }
+          if (data?.postOption?._id) {
+            dispatch(setReported(post._id));
+            setIsModalVisible(prev => !prev);
+            dispatch(setSinglePost(null));
+            // showAlertModal('Reported successfully');
+            showToast({message: 'Reported successfully'});
+            console.log('Report successful');
+          } else {
+            console.warn('Unexpected response structure:', data);
+            showAlertModal('Report removed!');
+            setIsModalVisible(prev => !prev);
+            dispatch(setSinglePost(null));
+          }
+        });
     } catch (error) {
       handleError(error);
       console.error('An error occurred while reporting:', error);
@@ -128,6 +130,7 @@ export default function ReportModal({
           </View>
         </View>
       </View>
+      <Toast config={toastConfig} />
     </ReactNativeModal>
   );
 }

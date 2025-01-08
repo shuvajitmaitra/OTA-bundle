@@ -10,6 +10,8 @@ import {useTheme} from '../../context/ThemeContext';
 import CommentsIcon from '../../assets/Icons/CommentsIcon';
 import ChatIconBig from '../../assets/Icons/ChatIconBig';
 import ChatIcon from '../../assets/Icons/ChatIcon';
+import UserIcon from '../../assets/Icons/UserIcon';
+import PlusIcon from '../../assets/Icons/PlusIcon';
 
 const FloatingActionButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +59,7 @@ const FloatingActionButton = () => {
               <Text style={styles.buttonText}>Create new crowd</Text>
             </View>
             <View style={styles.iconContainer}>
-              <CrowdIcon size={20} color={Colors.PureWhite} />
+              <CrowdIcon size={25} color={Colors.PureWhite} />
             </View>
           </TouchableOpacity>
         </Animated.View>
@@ -71,7 +73,7 @@ const FloatingActionButton = () => {
               <Text style={styles.buttonText}>Create new chat</Text>
             </View>
             <View style={styles.iconContainer}>
-              <ChatIcon color={Colors.PureWhite} />
+              <UserIcon color={Colors.PureWhite} />
             </View>
           </TouchableOpacity>
         </Animated.View>
@@ -79,7 +81,9 @@ const FloatingActionButton = () => {
 
       {/* Main FAB */}
       <TouchableOpacity style={styles.fab} onPress={toggleMenu}>
-        <Animated.Text style={[styles.fabText, rotationStyle]}>+</Animated.Text>
+        <Animated.Text style={[styles.fabText, rotationStyle]}>
+          <PlusIcon color={Colors.PureWhite} />
+        </Animated.Text>
       </TouchableOpacity>
     </View>
   );
@@ -111,14 +115,14 @@ const getStyles = Colors =>
       width: 50,
       height: 50,
       borderRadius: 30,
-      backgroundColor: Colors.PrimaryOpacityColor,
+      backgroundColor: Colors.Primary,
       justifyContent: 'center',
       alignItems: 'center',
       elevation: 5,
     },
     fabText: {
       fontSize: 30,
-      color: Colors.Primary,
+      color: Colors.PureWhite,
       transform: [{rotate: '0deg'}],
     },
     secondaryButton: {
