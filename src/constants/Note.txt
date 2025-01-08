@@ -2,8 +2,6 @@
 
 *Bootcampshub CLI*
 
-- Chat image take long time to loading 
-- Display event title in the month view and week view.
 - Add create new chat and crowd in the bottom of search field in chat screen.
 - Increase height between text in message.
 - Add load more button for event invitation section.
@@ -23,6 +21,9 @@
 *Work Update - January 07, 2025*
 
 *Bootcampshub CLI*
+- Chat image take long time to loading issues fixed.
+- Display event title in the month view and week view.
+
 
 
 *Note: Finished 90% of today's work stream.*

@@ -20,6 +20,7 @@ import {getEventDetails, getNotificationData} from '../../actions/chat-noti';
 import ReactNativeModal from 'react-native-modal';
 import ArrowRight from '../../assets/Icons/ArrowRight';
 import ArrowLeftWhite from '../../assets/Icons/ArrowLeftWhite';
+import {RegularFonts} from '../../constants/Fonts';
 
 export const hours = Array.from({length: 24}, (_, i) => {
   const time =
@@ -139,24 +140,23 @@ const WeekView = ({
                           {newEvents.map((item, itemIndex) => (
                             <TouchableOpacity
                               onPress={() => {
-                                getEventDetails(item?._id);
-                                getNotificationData(item?._id);
+                                getNotificationData(item._id);
+                                getEventDetails(item._id);
                                 user._id === item?.createdBy?._id
                                   ? toggleUpdateModal(item)
                                   : toggleEventDetailsModal(item);
                               }}
                               key={itemIndex}
                               style={[
-                                styles.eventTypeContainer,
-                                {backgroundColor: eventType(item.eventType)},
+                                styles?.eventTypeContainer,
+                                {backgroundColor: eventType(item?.eventType)},
                               ]}>
-                              <View
-                                style={[
-                                  styles.circle,
-                                  {
-                                    backgroundColor: eventStatus(item.status),
-                                  },
-                                ]}></View>
+                              <Text
+                                numberOfLines={1}
+                                ellipsizeMode="tail"
+                                style={styles.eventTitleText}>
+                                {item?.title.trim()}
+                              </Text>
                             </TouchableOpacity>
                           ))}
                           {events?.length > 2 && (
@@ -310,13 +310,19 @@ const getStyles = Colors =>
       fontSize: responsiveScreenFontSize(1.2),
       fontFamily: CustomFonts.REGULAR,
     },
+    eventTitleText: {
+      fontFamily: CustomFonts.MEDIUM,
+      color: Colors.PureWhite,
+      fontSize: RegularFonts.BT,
+      paddingLeft: 2,
+    },
     eventTypeContainer: {
-      width: '60%',
-      borderRadius: 100,
+      width: '95%',
+      borderRadius: 5,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 3,
-      minHeight: responsiveScreenHeight(1),
+      minHeight: 10,
     },
     circle: {
       marginVertical: 2,
@@ -342,9 +348,10 @@ const getStyles = Colors =>
       // minHeight: responsiveScreenHeight(70),
     },
     hourRow: {
-      height: 50,
+      paddingTop: 5,
+      height: 60,
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       borderWidth: 0.5,
       borderColor: Colors.BorderColor,
       // backgroundColor: "red",

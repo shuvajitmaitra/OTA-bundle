@@ -20,6 +20,7 @@ import ReactNativeModal from 'react-native-modal';
 import {getEventDetails, getNotificationData} from '../../actions/chat-noti';
 import DayEvent from './DayEvent';
 import {useGlobalAlert} from '../SharedComponent/GlobalAlertContext';
+import {RegularFonts} from '../../constants/Fonts';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -425,14 +426,13 @@ const Calendar = ({
                         {day}
                       </Text>
                     )}
-                    {data?.data?.length > 3 ? (
+                    {data?.data?.length > 2 ? (
                       <>
                         {data?.data?.slice(0, 2)?.map((item, itemIndex) => (
                           <TouchableOpacity
                             onPress={() => {
-                              getEventDetails(item._id);
                               getNotificationData(item._id);
-
+                              getEventDetails(item._id);
                               user._id === item?.createdBy?._id
                                 ? toggleUpdateModal(item)
                                 : toggleEventDetailsModal(item);
@@ -440,15 +440,14 @@ const Calendar = ({
                             key={itemIndex}
                             style={[
                               styles?.eventTypeContainer,
-                              {backgroundColor: eventType(item)},
+                              {backgroundColor: eventType(item?.eventType)},
                             ]}>
-                            <View
-                              style={[
-                                styles?.circle,
-                                {
-                                  backgroundColor: eventStatus(item?.status),
-                                },
-                              ]}></View>
+                            <Text
+                              numberOfLines={1}
+                              ellipsizeMode="tail"
+                              style={styles.eventTitleText}>
+                              {item?.title.trim()}
+                            </Text>
                           </TouchableOpacity>
                         ))}
                         <TouchableOpacity
@@ -476,11 +475,12 @@ const Calendar = ({
                             styles?.eventTypeContainer,
                             {backgroundColor: eventType(item?.eventType)},
                           ]}>
-                          <View
-                            style={[
-                              styles.circle,
-                              // { backgroundColor: eventStatus(item.status) },
-                            ]}></View>
+                          <Text
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                            style={styles.eventTitleText}>
+                            {item?.title.trim()}
+                          </Text>
                         </TouchableOpacity>
                       ))
                     )}
@@ -629,17 +629,23 @@ const getStyles = Colors =>
       height: responsiveScreenHeight(2),
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.BodyText,
-      marginTop: responsiveScreenHeight(1),
-      marginBottom: responsiveScreenHeight(0.5),
-      // backgroundColor: "red",
+      marginTop: 5,
+      marginBottom: 2,
+      // backgroundColor: 'red',
     },
     todayText: {
       fontFamily: CustomFonts.MEDIUM,
       color: Colors.PureWhite,
     },
+    eventTitleText: {
+      fontFamily: CustomFonts.MEDIUM,
+      color: Colors.PureWhite,
+      fontSize: RegularFonts.BT,
+      paddingLeft: 2,
+    },
     eventTypeContainer: {
-      width: '60%',
-      borderRadius: 100,
+      width: '95%',
+      borderRadius: 5,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 3,

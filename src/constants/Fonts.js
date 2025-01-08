@@ -17,6 +17,7 @@ export const RegularFonts = {
   BL: 18, // Larger body text
   BR: 16, // Regular body text
   BS: 14, // Small body text or captions
+  BT: 12,
   // HXXL: responsiveScreenFontSize(2.8), // Typically for large headings
   // HXL: responsiveScreenFontSize(2.6), // Typically for large headings
   // HL: responsiveScreenFontSize(2.4), // Typically for large headings
