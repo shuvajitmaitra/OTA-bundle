@@ -10,6 +10,7 @@ import {useTheme} from '../../context/ThemeContext';
 import CustomFonts from '../../constants/CustomFonts';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import ArrowDownThree from '../../assets/Icons/ArrowDownThree';
+import PlusCircleIcon from '../../assets/Icons/PlusCircleIcon';
 
 const ChatHeaderFilter = ({
   checked,
@@ -47,60 +48,100 @@ const ChatHeaderFilter = ({
   };
 
   return (
-    <View style={styles.headerTabContainer}>
-      <TouchableOpacity
-        onPress={handleFilterModalPress}
-        style={[
-          styles.tabContainer,
-          {
-            backgroundColor: Colors.Primary,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 5,
-          },
-        ]}>
-        <ArrowDownThree />
-        <Text style={styles.tabText}>{handleSort(checked)}</Text>
-      </TouchableOpacity>
-      <Text
+    <>
+      <View
         style={{
-          color: Colors.BodyText,
-          fontSize: 25,
-          justifyContent: 'flex-start',
+          flexDirection: 'row',
+          gap: 5,
+          paddingHorizontal: responsiveScreenWidth(4),
+          marginBottom: 5,
+          marginTop: 10,
         }}>
-        |
-      </Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{gap: 5}}>
-        {tabs.map(tab => (
-          <TouchableOpacity
-            key={tab.key}
-            onPress={() => handleRadioChecked(tab.key)}
-            style={[
-              styles.tabContainer,
-              {
-                backgroundColor:
-                  checked === tab.key
-                    ? Colors.Primary
-                    : Colors.PrimaryOpacityColor,
-              },
-            ]}>
-            <Text
+        <TouchableOpacity
+          onPress={handleFilterModalPress}
+          style={[
+            styles.tabContainer,
+            {
+              backgroundColor: Colors.Primary,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 5,
+            },
+          ]}>
+          <PlusCircleIcon />
+          <Text style={styles.tabText}>Create Chat</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleFilterModalPress}
+          style={[
+            styles.tabContainer,
+            {
+              backgroundColor: Colors.Primary,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 5,
+            },
+          ]}>
+          <PlusCircleIcon />
+          <Text style={styles.tabText}>Create Crowd</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.headerTabContainer}>
+        <TouchableOpacity
+          onPress={handleFilterModalPress}
+          style={[
+            styles.tabContainer,
+            {
+              backgroundColor: Colors.Primary,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 5,
+            },
+          ]}>
+          <ArrowDownThree />
+          <Text style={styles.tabText}>{handleSort(checked)}</Text>
+        </TouchableOpacity>
+        <Text
+          style={{
+            color: Colors.BodyText,
+            fontSize: 25,
+            justifyContent: 'flex-start',
+          }}>
+          |
+        </Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{gap: 5}}>
+          {tabs.map(tab => (
+            <TouchableOpacity
+              key={tab.key}
+              onPress={() => handleRadioChecked(tab.key)}
               style={[
-                styles.tabText,
+                styles.tabContainer,
                 {
-                  color:
-                    checked === tab.key ? Colors.PureWhite : Colors.Primary,
+                  backgroundColor:
+                    checked === tab.key
+                      ? Colors.Primary
+                      : Colors.PrimaryOpacityColor,
                 },
               ]}>
-              {tab.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
+              <Text
+                style={[
+                  styles.tabText,
+                  {
+                    color:
+                      checked === tab.key ? Colors.PureWhite : Colors.Primary,
+                  },
+                ]}>
+                {tab.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+    </>
   );
 };
 
@@ -123,7 +164,7 @@ const getStyles = (Colors, checked) =>
       gap: 5,
       // paddingTop: 5,
       paddingHorizontal: responsiveScreenWidth(4),
-      marginVertical: 10,
+      marginBottom: 10,
       alignItems: 'flex-end',
     },
   });
