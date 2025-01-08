@@ -5,21 +5,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useTheme} from '../../context/ThemeContext';
 import CustomFonts from '../../constants/CustomFonts';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import ArrowDownThree from '../../assets/Icons/ArrowDownThree';
 import PlusCircleIcon from '../../assets/Icons/PlusCircleIcon';
+import CreateChatPopup from './Modal/CreateChatPopup';
 
 const ChatHeaderFilter = ({
   checked,
   handleRadioChecked,
   handleFilterModalPress,
+  toggleCreateCrowdModal,
 }) => {
   const Colors = useTheme();
   const styles = getStyles(Colors, checked);
-
+  const [position, setPosition] = useState(null);
   const tabs = [
     {label: 'Chats', key: 'chats'},
     {label: 'Crowds', key: 'crowds'},
@@ -49,7 +51,7 @@ const ChatHeaderFilter = ({
 
   return (
     <>
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           gap: 5,
@@ -85,9 +87,33 @@ const ChatHeaderFilter = ({
           <PlusCircleIcon />
           <Text style={styles.tabText}>Create Crowd</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <View style={styles.headerTabContainer}>
+        {Boolean(position) && (
+          <CreateChatPopup
+            toggleCreateCrowdModal={toggleCreateCrowdModal}
+            position={position}
+            setPosition={setPosition}
+          />
+        )}
+        <TouchableOpacity
+          onPress={event => {
+            setPosition({
+              x: event.nativeEvent.pageX,
+              y: event.nativeEvent.pageY,
+            });
+          }}
+          style={[
+            styles.tabContainer,
+            {
+              backgroundColor: Colors.Primary,
+              flexDirection: 'row',
+              alignItems: 'center',
+            },
+          ]}>
+          <PlusCircleIcon size={19} />
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={handleFilterModalPress}
           style={[
@@ -164,7 +190,7 @@ const getStyles = (Colors, checked) =>
       gap: 5,
       // paddingTop: 5,
       paddingHorizontal: responsiveScreenWidth(4),
-      marginBottom: 10,
+      marginVertical: 10,
       alignItems: 'flex-end',
     },
   });

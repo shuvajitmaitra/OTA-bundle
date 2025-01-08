@@ -350,6 +350,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
           handleFilterModalPress={openBottomSheet}
           checked={checked}
           handleRadioChecked={handleRadioChecked}
+          toggleCreateCrowdModal={toggleCreateCrowdModal}
         />
         {checked === 'onlines' ? (
           <ScrollView>
