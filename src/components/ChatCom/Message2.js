@@ -207,6 +207,7 @@ const getStyles = (Colors, my) =>
         fontFamily: CustomFonts.LATO_REGULAR,
         fontSize: RegularFonts.BR,
         color: Colors.BodyText,
+        lineHeight: 20,
       },
       paragraph: {
         marginTop: 0, // Remove top margin from paragraphs

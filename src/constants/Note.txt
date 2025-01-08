@@ -3,7 +3,6 @@
 *Bootcampshub CLI*
 
 - Add create new chat and crowd in the bottom of search field in chat screen.
-- Increase height between text in message.
 - Add load more button for event invitation section.
 - When submit report, the report modal close but not close three dot modal and not showing any report confirmation toast message
 - Report modal Save button should be replace with "Send Report" or "Submit"
@@ -23,6 +22,7 @@
 *Bootcampshub CLI*
 - Chat image take long time to loading issues fixed.
 - Display event title in the month view and week view.
+- Increase height between text in message.
 
 
 
