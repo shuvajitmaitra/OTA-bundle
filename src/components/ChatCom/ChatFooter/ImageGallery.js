@@ -68,71 +68,71 @@ const ImageGallery = ({
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}>
         <Pressable onPress={() => Keyboard.dismiss()} style={styles.container}>
           {/* Close Button */}
-          {uploading ? (
+          {/* {uploading ? (
             <Loading backgroundColor={'transparent'} />
-          ) : (
-            <>
-              <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                <CrossCircle size={40} />
-              </TouchableOpacity>
-              {/* Image Viewer with Next/Previous Buttons */}
-              <View style={styles.imageContainer}>
-                {selectedImages.length > 0 && (
-                  <Image
-                    source={{uri: selectedImages[currentIndex].uri}}
-                    style={[
-                      styles.image,
-                      imageDimensions[selectedImages[currentIndex].uri]
-                        ? {
-                            aspectRatio:
-                              imageDimensions[selectedImages[currentIndex].uri]
-                                .aspectRatio,
-                          }
-                        : {height: responsiveScreenHeight(80)},
-                    ]}
-                    onLoad={({nativeEvent}) =>
-                      handleImageLayout(
-                        selectedImages[currentIndex].uri,
-                        nativeEvent.source.width,
-                        nativeEvent.source.height,
-                      )
-                    }
-                  />
-                )}
-                {/* Conditionally render the navigation buttons */}
-                {currentIndex > 0 && (
-                  <TouchableOpacity
-                    style={[styles.navButton, styles.prevButton]}
-                    onPress={handlePrevious}>
-                    <ArrowLeftCircle size={60} color={Colors.Primary} />
-                  </TouchableOpacity>
-                )}
-                {currentIndex < selectedImages.length - 1 && (
-                  <TouchableOpacity
-                    style={[styles.navButton, styles.nextButton]}
-                    onPress={handleNext}>
-                    <ArrowRightCircle size={60} color={Colors.Primary} />
-                  </TouchableOpacity>
-                )}
-              </View>
-              {/* Message Input */}
-              <View style={styles.inputContainer}>
-                {/* <TextInput
+          ) : ( */}
+          <>
+            <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+              <CrossCircle size={40} />
+            </TouchableOpacity>
+            {/* Image Viewer with Next/Previous Buttons */}
+            <View style={styles.imageContainer}>
+              {selectedImages.length > 0 && (
+                <Image
+                  source={{uri: selectedImages[currentIndex].uri}}
+                  style={[
+                    styles.image,
+                    imageDimensions[selectedImages[currentIndex].uri]
+                      ? {
+                          aspectRatio:
+                            imageDimensions[selectedImages[currentIndex].uri]
+                              .aspectRatio,
+                        }
+                      : {height: responsiveScreenHeight(80)},
+                  ]}
+                  onLoad={({nativeEvent}) =>
+                    handleImageLayout(
+                      selectedImages[currentIndex].uri,
+                      nativeEvent.source.width,
+                      nativeEvent.source.height,
+                    )
+                  }
+                />
+              )}
+              {/* Conditionally render the navigation buttons */}
+              {currentIndex > 0 && (
+                <TouchableOpacity
+                  style={[styles.navButton, styles.prevButton]}
+                  onPress={handlePrevious}>
+                  <ArrowLeftCircle size={60} color={Colors.Primary} />
+                </TouchableOpacity>
+              )}
+              {currentIndex < selectedImages.length - 1 && (
+                <TouchableOpacity
+                  style={[styles.navButton, styles.nextButton]}
+                  onPress={handleNext}>
+                  <ArrowRightCircle size={60} color={Colors.Primary} />
+                </TouchableOpacity>
+              )}
+            </View>
+            {/* Message Input */}
+            <View style={styles.inputContainer}>
+              {/* <TextInput
                 style={styles.textInput}
                 placeholder="Type your message..."
                 value={message}
                 onChangeText={setMessage}
                 multiline
               /> */}
-                <ChatMessageInput text={message} setText={setMessage} />
-                <TouchableOpacity
-                  onPress={() => onSend(message)}
-                  style={styles.sendButton}>
-                  <SendIcon color={Colors.PureWhite} />
-                </TouchableOpacity>
-              </View>
-            </>
-          )}
+              <ChatMessageInput text={message} setText={setMessage} />
+              <TouchableOpacity
+                onPress={() => onSend(message)}
+                style={styles.sendButton}>
+                <SendIcon color={Colors.PureWhite} />
+              </TouchableOpacity>
+            </View>
+          </>
+          {/* )} */}
         </Pressable>
       </KeyboardAvoidingView>
     </CustomModal>

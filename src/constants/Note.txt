@@ -1,11 +1,17 @@
-**Work Stream - January 07, 2025** 
+*Work Stream - January 08, 2025*
 
 *Bootcampshub CLI*
 
 - Chat image take long time to loading 
-- When select saved from filter, the post available in Saved section but always showing no data available
+- Display event title in the month view and week view.
+- Add create new chat and crowd in the bottom of search field in chat screen.
+- Increase height between text in message.
+- Add load more button for event invitation section.
+- When submit report, the report modal close but not close three dot modal and not showing any report confirmation toast message
+- Report modal Save button should be replace with "Send Report" or "Submit"
+- Don't need back button on the modal header, Back button replace with "Report Post" Static text
 
-**Note: Planned to finish 100% of today's work-stream**
+*Note: Planned to finish 100% of today's work-stream*
 
 
 
@@ -14,18 +20,9 @@
 - Two message appearing issue fixing in the message screen.
 
 
-*Work Update - January 6, 2025*
+*Work Update - January 07, 2025*
 
 *Bootcampshub CLI*
-- Calendar time align not center
-- Arrow icon should be Left Arrow icon and place in before the Less text
-- Reply an emoji but not showing in chat message
-- Profile image not showing sometimes or first loading
-- Gallery, AI, Publish button text are too large
-- Toast message not showing issues fixed in program module for pin, unpin, focus, unfocused and others.
-- When save a post, post is saved but modal not closed after post saved.
-- Added reaction name with the reaction in the community screen.
-- When select saved from filter, the post available in Saved section but always showing no data available
 
 
-**Note: Finished 90% of today's work stream.**
+*Note: Finished 90% of today's work stream.*

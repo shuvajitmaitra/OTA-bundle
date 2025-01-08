@@ -218,9 +218,9 @@ const ChatFooter2 = ({
     Keyboard.dismiss();
     const options = {
       mediaType: 'photo',
-      maxWidth: 30000,
-      maxHeight: 30000,
-      quality: 1,
+      maxWidth: 1000,
+      maxHeight: 1000,
+      quality: 0.7,
       selectionLimit: 5,
     };
 
