@@ -23,7 +23,7 @@
 - Chat image take long time to loading issues fixed.
 - Display event title in the month view and week view.
 - Increase height between text in message.
-
+- Implement load more functionality in CalendarScreen; add toggle button for displaying additional invitations
 
 
 *Note: Finished 90% of today's work stream.*

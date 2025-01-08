@@ -44,6 +44,8 @@ import MarqueeText from '../../components/Calendar/MarqueeText';
 import DotComponent2 from '../../components/DotComponent2';
 import {RegularFonts} from '../../constants/Fonts';
 import CalendarHeader from '../../components/Calendar/CalendarHeader';
+import ArrowLeftWhite from '../../assets/Icons/ArrowLeftWhite';
+import ArrowRight from '../../assets/Icons/ArrowRight';
 
 export function numberToMonth(monthNumber) {
   const months = [
@@ -181,6 +183,14 @@ const CalendarScreen = props => {
       });
     }
   };
+  const [loadMoreClicked, setLoadMoreClicked] = useState(false);
+  let newInvitations = [];
+  if (loadMoreClicked) {
+    newInvitations = invitations;
+  } else {
+    newInvitations =
+      invitations.length > 3 ? invitations.slice(0, 3) : invitations;
+  }
   return (
     <View
       style={{
@@ -322,7 +332,7 @@ const CalendarScreen = props => {
                   </Text>
                 </View>
                 <View style={{gap: 10, marginTop: responsiveScreenHeight(1)}}>
-                  {invitations?.map((item, index) => (
+                  {newInvitations?.map((item, index) => (
                     <View style={styles.singleInvite} key={index}>
                       <Text style={styles.firstCol}>{index + 1}</Text>
                       <View style={styles.inviteFirstCol}>
@@ -382,6 +392,21 @@ const CalendarScreen = props => {
                     </View>
                   ))}
                 </View>
+                <TouchableOpacity
+                  onPress={() => setLoadMoreClicked(!loadMoreClicked)}
+                  style={styles.moreButtonContainer}>
+                  {loadMoreClicked ? (
+                    <>
+                      <ArrowLeftWhite size={20} color={Colors.Primary} />
+                      <Text style={styles.moreButtonText}>See Less</Text>
+                    </>
+                  ) : (
+                    <>
+                      <Text style={styles.moreButtonText}>See More</Text>
+                      <ArrowRight />
+                    </>
+                  )}
+                </TouchableOpacity>
               </View>
             )}
           </View>
@@ -439,6 +464,17 @@ export default CalendarScreen;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    moreButtonText: {
+      fontFamily: CustomFonts.MEDIUM,
+      color: Colors.Primary,
+    },
+    moreButtonContainer: {
+      alignSelf: 'flex-start',
+      // backgroundColor: Colors.Primary,
+      padding: 5,
+      flexDirection: 'row',
+      gap: 5,
+    },
     marqueeContainer: {
       marginLeft: ' -20%',
       marginTop: responsiveScreenHeight(2),
