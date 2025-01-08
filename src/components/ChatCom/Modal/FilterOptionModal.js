@@ -24,6 +24,7 @@ const FilterOptionModal = ({
   bottomSheetRef,
   handleRadioChecked,
   toggleCreateCrowdModal,
+  setBottomSheetVisible,
 }) => {
   // Get screen height to adjust modal height dynamically
 
@@ -33,6 +34,7 @@ const FilterOptionModal = ({
 
   // Function to handle closing the modal
   const closeBottomSheet = useCallback(() => {
+    setBottomSheetVisible(false);
     bottomSheetRef.current?.dismiss();
   }, []);
 
@@ -91,6 +93,7 @@ const FilterOptionModal = ({
 
   return (
     <BottomSheetModal
+      opacity={0.1}
       ref={bottomSheetRef}
       index={0} // Default snap point index
       snapPoints={snapPoints}

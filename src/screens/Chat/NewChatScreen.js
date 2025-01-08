@@ -171,6 +171,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
   const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
 
   const [checked, setChecked] = useState('chats');
   const [records, setRecords] = useState([]);
@@ -291,6 +292,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
   );
 
   const openBottomSheet = useCallback(() => {
+    setBottomSheetVisible(true);
     bottomSheetRef.current?.present();
   }, []);
   const styles = getStyles(Colors, checked);
@@ -394,6 +396,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
             openBottomSheet={openBottomSheet}
             handleRadioChecked={handleRadioChecked}
             toggleCreateCrowdModal={toggleCreateCrowdModal}
+            setBottomSheetVisible={setBottomSheetVisible}
           />
         </BottomSheetModalProvider>
         <CreateCrowdModal
@@ -401,7 +404,7 @@ export default function NewChatScreen({navigation: {goBack}}) {
           setIsCreateCrowdModalVisible={setIsCreateCrowdModalVisible}
           toggleCreateCrowdModal={toggleCreateCrowdModal}
         />
-        <FloatingActionButton />
+        {!bottomSheetVisible && <FloatingActionButton />}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

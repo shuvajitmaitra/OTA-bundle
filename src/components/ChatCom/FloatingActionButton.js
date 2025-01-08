@@ -105,6 +105,7 @@ const getStyles = Colors =>
       bottom: 30,
       right: 30,
       alignItems: 'flex-end',
+      //   zIndex: 1,
     },
     fab: {
       width: 50,
