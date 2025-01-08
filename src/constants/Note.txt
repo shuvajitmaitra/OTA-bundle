@@ -3,8 +3,6 @@
 *Bootcampshub CLI*
 
 - Add create new chat and crowd in the bottom of search field in chat screen.
-- When submit report, the report modal close but not close three dot modal and not showing any report confirmation toast message
-- Report modal Save button should be replace with "Send Report" or "Submit"
 - Don't need back button on the modal header, Back button replace with "Report Post" Static text
 
 *Note: Planned to finish 100% of today's work-stream*
@@ -23,6 +21,8 @@
 - Display event title in the month view and week view.
 - Increase height between text in message.
 - Implement load more functionality in CalendarScreen; add toggle button for displaying additional invitations
+- When submit report, the report modal close but not close three dot modal and not showing any report confirmation toast message
+- Report modal Save button should be replace with "Send Report" or "Submit"
 
 
 *Note: Finished 90% of today's work stream.*

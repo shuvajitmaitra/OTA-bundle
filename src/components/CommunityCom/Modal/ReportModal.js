@@ -1,4 +1,10 @@
-import {StyleSheet, Text, ToastAndroid, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import {
   responsiveScreenFontSize,
@@ -25,6 +31,9 @@ import {showAlertModal} from '../../../utility/commonFunction';
 import {showToast} from '../../HelperFunction';
 import Toast from 'react-native-toast-message';
 import {toastConfig} from '../../../constants/ToastConfig';
+import CrossIcon from '../../../assets/Icons/CrossIcon';
+import CrossCircle from '../../../assets/Icons/CrossCircle';
+import {RegularFonts} from '../../../constants/Fonts';
 
 export default function ReportModal({setIsModalVisible, isModalVisible, post}) {
   const [report, setReport] = useState({
@@ -96,7 +105,27 @@ export default function ReportModal({setIsModalVisible, isModalVisible, post}) {
       isVisible={isModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalChild}>
-          <ModalBackAndCrossButton toggleModal={setIsModalVisible} />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderBottomWidth: 1,
+              borderBottomColor: Colors.BorderColor,
+              paddingBottom: 10,
+            }}>
+            <Text
+              style={{
+                fontSize: RegularFonts.HS,
+                fontFamily: CustomFonts.SEMI_BOLD,
+                color: Colors.Heading,
+              }}>
+              Report post
+            </Text>
+            <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+              <CrossCircle size={35} />
+            </TouchableOpacity>
+          </View>
           <View style={styles.modalHeading}>
             <Text style={styles.modalHeadingText}>
               Please tell us why you want to report this post! (optional)
@@ -133,7 +162,7 @@ export default function ReportModal({setIsModalVisible, isModalVisible, post}) {
               toggleModal={handleReport}
               textColor={Colors.PureWhite}
               backgroundColor="#27ac1f"
-              buttonText="Save"
+              buttonText="Submit!"
             />
           </View>
         </View>
