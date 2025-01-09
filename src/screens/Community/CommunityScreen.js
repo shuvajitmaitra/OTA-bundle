@@ -16,7 +16,7 @@ import CustomFonts from '../../constants/CustomFonts';
 import CommunityCreatePost from '../../components/CommunityCom/CommunityCreatePost';
 import {loadCommunityPosts} from '../../actions/chat-noti';
 import CommunityPost from '../../components/CommunityCom/CommunityPost';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import LoadingSmall from '../../components/SharedComponent/LoadingSmall';
 import ScrollToTop from '../../assets/Icons/ScrollToTop';
 import SearchAndFilter from '../../components/SharedComponent/SearchAndFilter';
@@ -24,6 +24,7 @@ import NoDataAvailable from '../../components/SharedComponent/NoDataAvailable';
 import CrossCircle from '../../assets/Icons/CrossCircle';
 import PostPopup from '../../components/CommunityCom/Modal/PostPopup';
 import debounce from 'lodash.debounce';
+import {setFilterValue} from '../../store/reducer/communityReducer';
 
 const CommunityScreen = () => {
   const {
@@ -31,6 +32,7 @@ const CommunityScreen = () => {
     totalPost = 0,
     isLoading: loadingData = false,
     singlePost = null,
+    filterValue = '',
   } = useSelector(state => state.community);
 
   const Colors = useTheme();
@@ -38,7 +40,7 @@ const CommunityScreen = () => {
   const [page, setPage] = useState(2);
   const [userId, setUserId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [filterValue, setFilterValue] = useState('');
+  const dispatch = useDispatch();
   const [searchTag, setSearchTag] = useState([]);
   const [data, setData] = useState({
     page: 1,
@@ -138,7 +140,7 @@ const CommunityScreen = () => {
       user: '',
       filterBy: value,
     });
-    setFilterValue(value);
+    dispatch(setFilterValue(value));
     const filterOption = filterData.find(option => option.value === value);
 
     if (!filterOption) {
@@ -214,34 +216,6 @@ const CommunityScreen = () => {
   const handleSearch = text => {
     debouncedSearch(text);
   };
-  // const handleSearch = text => {
-  //   console.log('text', JSON.stringify(text, null, 2));
-  // loadCommunityPosts({
-  //   page: 1,
-  //   limit: 10,
-  //   query: text,
-  //   tags: [],
-  //   user: '',
-  //   filterBy: '',
-  // });
-  // if (flatListRef.current) {
-  //   flatListRef.current.scrollToOffset({
-  //     offset: responsiveScreenHeight(50),
-  //     animated: true,
-  //   });
-  // }
-  // };
-
-  // useEffect(() => {
-  // loadCommunityPosts({
-  //   page: 1,
-  //   limit: 10,
-  //   query: '',
-  //   tags: searchTag,
-  //   user: '',
-  //   filterBy: filterValue,
-  // });
-  // }, [searchTag, filterValue]);
 
   const buttonStyle = useAnimatedStyle(() => {
     return {

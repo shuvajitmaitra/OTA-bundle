@@ -20,7 +20,7 @@ import ModalBackAndCrossButton from '../../ChatCom/Modal/ModalBackAndCrossButton
 import ModalCustomButton from '../../ChatCom/Modal/ModalCustomButton';
 import TextArea from '../../Calendar/Modal/TextArea';
 import {handleError} from '../../../actions/chat-noti';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   filterPosts,
   setReported,
@@ -36,6 +36,7 @@ import CrossCircle from '../../../assets/Icons/CrossCircle';
 import {RegularFonts} from '../../../constants/Fonts';
 
 export default function ReportModal({setIsModalVisible, isModalVisible, post}) {
+  const {filterValue} = useSelector(state => state.community);
   const [report, setReport] = useState({
     post: post._id,
     action: 'report',
@@ -59,9 +60,9 @@ export default function ReportModal({setIsModalVisible, isModalVisible, post}) {
   const dispatch = useDispatch();
 
   const handleReport = async () => {
-    showToast({message: 'Reported successfully'});
+    // showToast({message: 'Reported successfully'});
     // console.log("post._id", JSON.stringify(post._id, null, 1));
-    dispatch(filterPosts(post._id));
+    // dispatch(filterPosts(post._id));
     try {
       await axiosInstance
         .post('/content/community/post/option/save', report)
@@ -74,8 +75,7 @@ export default function ReportModal({setIsModalVisible, isModalVisible, post}) {
           }
           if (res.data?.postOption?._id) {
             showToast({message: 'Reported successfully'});
-
-            dispatch(setReported(post._id));
+            // dispatch(setReported(post._id));
             setIsModalVisible(prev => !prev);
             dispatch(setSinglePost(null));
             // showAlertModal('Reported successfully');

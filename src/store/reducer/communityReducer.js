@@ -6,6 +6,7 @@ const initialState = {
   isLoading: false,
   totalPost: null,
   singlePost: null,
+  filterValue: '',
 };
 
 const communitySlice = createSlice({
@@ -72,10 +73,14 @@ const communitySlice = createSlice({
     filterPosts: (state, {payload}) => {
       state.posts = state.posts.filter(post => post._id !== payload);
     },
+    setFilterValue: (state, {payload}) => {
+      state.filterValue = payload;
+    },
   },
 });
 
 export const {
+  setFilterValue,
   filterPosts,
   setSinglePost,
   setSavePost,

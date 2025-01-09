@@ -11,6 +11,7 @@ import {showToast} from '../../HelperFunction';
 import {
   setSinglePost,
   setSavePost,
+  filterPosts,
 } from '../../../store/reducer/communityReducer';
 import axiosInstance from '../../../utility/axiosInstance';
 import {handleError, loadCommunityPosts} from '../../../actions/chat-noti';
@@ -25,7 +26,7 @@ import {RegularFonts} from '../../../constants/Fonts';
 
 const PostPopup = () => {
   const {user} = useSelector(state => state.auth);
-  const {singlePost: post} = useSelector(state => state.community);
+  const {singlePost: post, filterValue} = useSelector(state => state.community);
 
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -55,7 +56,7 @@ const PostPopup = () => {
             query: '',
             tags: [],
             user: '',
-            filterBy: 'save',
+            filterBy: filterValue === 'save' ? 'save' : '',
           });
           dispatch(setSavePost(post));
           showToast({message: post.isSaved ? 'Post unsaved' : 'Post saved'});
@@ -89,22 +90,33 @@ const PostPopup = () => {
       })
       .catch(handleError);
   };
-  // const handleReportRemove = async () => {
-  //   showToast({message: 'Report removed!'});
-  //   dispatch(filterPosts(post._id));
-  //   dispatch(setSinglePost(null));
-  //   await axiosInstance
-  //     .post('/content/community/post/option/save', {post: post._id})
-  //     .then(res => {
-  //       // showToast({message: 'Reported removed!'});
-  //     })
-  //     .catch(error => {
-  //       console.log(
-  //         'error to report',
-  //         JSON.stringify(error.response.data, null, 1),
-  //       );
-  //     });
-  // };
+  const handleReportRemove = async () => {
+    await axiosInstance
+      .post('/content/community/post/option/save', {
+        post: post._id,
+        action: 'report',
+      })
+      .then(res => {
+        dispatch(setSinglePost(null));
+        if (filterValue === 'report') {
+          loadCommunityPosts({
+            page: 1,
+            limit: 10,
+            query: '',
+            tags: [],
+            user: '',
+            filterBy: 'report',
+          });
+        }
+        showToast({message: 'Reported removed!'});
+      })
+      .catch(error => {
+        console.log(
+          'error to report',
+          JSON.stringify(error.response.data, null, 1),
+        );
+      });
+  };
   return (
     <Popover
       backgroundStyle={{backgroundColor: Colors.BackDropColor}}
@@ -135,7 +147,7 @@ const PostPopup = () => {
                 handleSavePost();
               }}>
               <Text style={styles.item}>
-                {post?.isSaved ? 'Saved' : 'Save the post'}
+                {post?.isSaved ? 'Unsave the post' : 'Save the post'}
               </Text>
             </TouchableOpacity>
             {user?._id !== post?.createdBy?._id && (
@@ -143,15 +155,17 @@ const PostPopup = () => {
                 style={styles.itemContainer}
                 onPress={() => {
                   if (post?.isReported) {
-                    showToast({message: 'You have already reported!'});
-                    // dispatch(filterPosts(post._id));
-                    dispatch(setSinglePost(null));
-                    // handleReportRemove();
+                    // showToast({message: 'You have already reported!'});
+                    // // dispatch(filterPosts(post._id));
+                    // dispatch(setSinglePost(null));
+                    handleReportRemove();
                   } else {
                     setIsModalVisible(pre => !pre);
                   }
                 }}>
-                <Text style={styles.item}>Report the post</Text>
+                <Text style={styles.item}>
+                  {post?.isReported ? 'Remove report' : 'Report the post'}
+                </Text>
               </TouchableOpacity>
             )}
             {user?._id === post?.createdBy?._id && (

@@ -204,6 +204,7 @@ export const getEventDetails = (eventId, setIsLoading = () => {}) => {
     });
 };
 export const loadCommunityPosts = (data, loading = () => {}) => {
+  console.log('data', JSON.stringify(data, null, 1));
   loading(true);
   if (data.page === 1) {
     store.dispatch(setIsLoading(true));

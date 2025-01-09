@@ -1,8 +1,6 @@
 *Work Stream - January 09, 2025*
 
 *Bootcampshub CLI*
-- Three dot menu from saved post the saved option should be replace with Unsaved
-- When select report from filter, the post available in report section but always showing no data available
 
 *Note: Planned to finish 100% of today's work-stream*
 
@@ -24,6 +22,9 @@
 - Social input field right side border radius will be same as left side border radius issues fixed.
 - gap added between Personal Information title and First Name text
 - Notification realtime updating issues fixed now notification working real time.
-- 
+- Three dot menu from saved post the saved option should be replace with Unsaved 
+- When select report from filter, the post available in report section but always showing no data available this issues fixed.
+
+
 
 *Note: Finished 100% of today's work stream.*
