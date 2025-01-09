@@ -1,8 +1,6 @@
 *Work Stream - January 09, 2025*
 
 *Bootcampshub CLI*
-- Need some space between status bar and back button in availability screen
-- Here is hours "H" should be capital letter in availability screen
 - My response status first character should be capital letter in view invitation screen
 - Bio input field design issue
 - Social input field right side border radius will be same as left side border radius
@@ -23,6 +21,7 @@
 
 *Bootcampshub CLI*
 - When select saved from filter, the post available in Saved section but always showing no data available
-
+- Need some space between status bar and back button in availability screen issues fixed.
+- improve styling consistency in DateSpecificHour component; capitalize 'Hours' in button text and adjust spacing
 
 *Note: Finished 100% of today's work stream.*

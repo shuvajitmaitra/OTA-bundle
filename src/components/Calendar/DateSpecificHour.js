@@ -1,22 +1,26 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import RedCross from "../../assets/Icons/RedCorss";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import { useTheme } from "../../context/ThemeContext";
-import CustomFonts from "../../constants/CustomFonts";
-import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
-import { removeSpecificDateAvailability } from "../../store/reducer/calendarReducer";
-import Divider from "../SharedComponent/Divider";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import RedCross from '../../assets/Icons/RedCorss';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import {useTheme} from '../../context/ThemeContext';
+import CustomFonts from '../../constants/CustomFonts';
+import {useDispatch, useSelector} from 'react-redux';
+import moment from 'moment';
+import {removeSpecificDateAvailability} from '../../store/reducer/calendarReducer';
+import Divider from '../SharedComponent/Divider';
 
-const DateSpecificHour = React.memo(({ toggleAddSpecificHoursModal }) => {
-  const { specificHours } = useSelector((state) => state.calendar);
+const DateSpecificHour = React.memo(({toggleAddSpecificHoursModal}) => {
+  const {specificHours} = useSelector(state => state.calendar);
   const dispatch = useDispatch();
 
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const handleRemoveDateSpecificHours = (index) => {
-    dispatch(removeSpecificDateAvailability({ index }));
+  const handleRemoveDateSpecificHours = index => {
+    dispatch(removeSpecificDateAvailability({index}));
   };
   return (
     <View style={styles.weekContainer}>
@@ -26,14 +30,15 @@ const DateSpecificHour = React.memo(({ toggleAddSpecificHoursModal }) => {
         onPress={() => {
           toggleAddSpecificHoursModal();
         }}
-        style={styles.btn}
-      >
-        <Text style={styles.btnText}>Add Date Specific hours</Text>
+        style={styles.btn}>
+        <Text style={styles.btnText}>Add Date Specific Hours</Text>
       </TouchableOpacity>
       {specificHours?.map((item, index) => (
         <View key={item._id} style={styles.dateContainer}>
           <View style={styles.date}>
-            <Text style={styles.dateTitle}>{moment(item.date).format("MMMM DD, YYYY")}</Text>
+            <Text style={styles.dateTitle}>
+              {moment(item.date).format('MMMM DD, YYYY')}
+            </Text>
             <Text style={styles.dateText}>
               {item.intervals[0].from} - {item.intervals[0].to}
             </Text>
@@ -41,8 +46,7 @@ const DateSpecificHour = React.memo(({ toggleAddSpecificHoursModal }) => {
           <TouchableOpacity
             onPress={() => {
               handleRemoveDateSpecificHours(index);
-            }}
-          >
+            }}>
             <RedCross width={22} height={22} />
           </TouchableOpacity>
         </View>
@@ -53,12 +57,12 @@ const DateSpecificHour = React.memo(({ toggleAddSpecificHoursModal }) => {
 
 export default DateSpecificHour;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     dateContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       marginBottom: responsiveScreenHeight(2),
     },
     date: {
@@ -85,7 +89,7 @@ const getStyles = (Colors) =>
       marginVertical: responsiveScreenHeight(2),
     },
     btnText: {
-      textAlign: "center",
+      textAlign: 'center',
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.PureWhite,
       fontFamily: CustomFonts.MEDIUM,
