@@ -60,7 +60,7 @@ export default function UserDashboard() {
   return (
     <View
       style={{
-        paddingTop: insets.top,
+        paddingTop: insets.top / 1.5,
         flex: 1,
         backgroundColor: Colors.Background_color,
       }}>

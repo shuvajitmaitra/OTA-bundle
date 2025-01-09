@@ -116,7 +116,7 @@ const getStyles = Colors =>
       borderTopWidth: 1,
     },
     columnWrapper: {
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
       marginBottom: 10,
     },
     imageWrapper: {
