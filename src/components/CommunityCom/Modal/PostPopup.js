@@ -11,11 +11,9 @@ import {showToast} from '../../HelperFunction';
 import {
   setSinglePost,
   setSavePost,
-  filterPosts,
 } from '../../../store/reducer/communityReducer';
 import axiosInstance from '../../../utility/axiosInstance';
 import {handleError, loadCommunityPosts} from '../../../actions/chat-noti';
-import {showAlertModal} from '../../../utility/commonFunction';
 import {
   responsiveFontSize,
   responsiveScreenHeight,
@@ -51,6 +49,14 @@ const PostPopup = () => {
       })
       .then(res => {
         if (res.data.success) {
+          loadCommunityPosts({
+            page: 1,
+            limit: 10,
+            query: '',
+            tags: [],
+            user: '',
+            filterBy: 'save',
+          });
           dispatch(setSavePost(post));
           showToast({message: post.isSaved ? 'Post unsaved' : 'Post saved'});
           dispatch(setSinglePost(null));

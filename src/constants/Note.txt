@@ -1,28 +1,28 @@
-*Work Stream - January 08, 2025*
+*Work Stream - January 09, 2025*
 
 *Bootcampshub CLI*
-
+- Need some space between status bar and back button in availability screen
+- Here is hours "H" should be capital letter in availability screen
+- My response status first character should be capital letter in view invitation screen
+- Bio input field design issue
+- Social input field right side border radius will be same as left side border radius
+- Need gap between Personal Information title and First Name text
+- Sometimes notification not working in real time
+- Three dot menu from saved post the saved option should be replace with Unsaved
+- When select report from filter, the post available in report section but always showing no data available
 
 *Note: Planned to finish 100% of today's work-stream*
 
 
 
 - Work on previous message not loading issues in the message screen.
-
 - Two message appearing issue fixing in the message screen.
 
 
-*Work Update - January 07, 2025*
+*Work Update - January 08, 2025*
 
 *Bootcampshub CLI*
-- Chat image take long time to loading issues fixed.
-- Display event title in the month view and week view.
-- Increase height between text in message.
-- Implement load more functionality in CalendarScreen; add toggle button for displaying additional invitations
-- When submit report, the report modal close but not close three dot modal and not showing any report confirmation toast message
-- Report modal Save button should be replace with "Send Report" or "Submit"
-- Don't need back button on the modal header, Back button replace with "Report Post" Static text
-- Add create new chat and crowd in the bottom of search field in chat screen.
+- When select saved from filter, the post available in Saved section but always showing no data available
 
 
-*Note: Finished 90% of today's work stream.*
+*Note: Finished 100% of today's work stream.*

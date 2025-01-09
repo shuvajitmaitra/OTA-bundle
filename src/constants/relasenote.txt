@@ -1,4 +1,4 @@
-Release Note - January 07, 2025#release #app #env
+Release Note - January 08, 2025#release #app #env
 
 #release-note #app #env:staging
 
@@ -7,40 +7,6 @@ We are pleased to announce the latest updates and enhancements to the BootcampsH
 ## **BootcampsHub App Development:**
 
 ---
-
-### Enhancements
-- **Calendar Alignment**
-  - Centered the calendar time alignment for a more balanced and user-friendly interface.
-  
-- **Arrow Icon Update**
-  - Replaced the default arrow icon with a left arrow icon.
-  - Positioned the left arrow icon before the "Less" text to enhance navigation clarity.
-  
-- **Button Text Resizing**
-  - Reduced the text size for the **Gallery**, **AI**, and **Publish** buttons to improve visual consistency and aesthetics.
-  
-- **CoursesCard Improvements**
-  - Updated the `CoursesCard` component to use the `Image` component for course images.
-  - Enhanced the styling of `CoursesCard` for a more polished look.
-  
-- **Community Reactions**
-  - Added reaction names alongside reaction icons in the community screen to provide clearer feedback and interaction.
-
-### Bug Fixes
-- **Emoji Display in Chat**
-  - Fixed the issue where emojis were not displaying correctly in chat messages.
-  
-- **Profile Image Loading**
-  - Resolved intermittent issues causing profile images to not display or fail to load on the first attempt.
-  
-- **Toast Message Visibility**
-  - Addressed visibility issues with toast messages in the program module for actions such as pinning, unpinning, focusing, and unfocusing.
-  
-- **Post Saving Modal**
-  - Ensured that the modal closes automatically after a post is successfully saved, enhancing user experience.
-  
-- **Saved Filter Functionality**
-  - Fixed the Saved filter to correctly display saved posts instead of showing "no data available."
 
 ---
 
