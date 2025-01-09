@@ -750,7 +750,7 @@ const getStyles = Colors =>
     personalInfo: {
       width: responsiveScreenWidth(90),
       alignSelf: 'center',
-      marginTop: responsiveScreenHeight(2),
+      marginVertical: responsiveScreenHeight(2),
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.2),
       color: Colors.Heading,

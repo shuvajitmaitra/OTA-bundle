@@ -22,6 +22,7 @@ import {
 } from '../store/reducer/chatSlice';
 import {addNewMessage} from './mmkvHelpers';
 import {Platform} from 'react-native';
+import {newNotification} from '../store/reducer/notificationReducer';
 
 const updateStatus = (messageId, status) => {
   axios
@@ -141,6 +142,27 @@ const setupSocketListeners = socket => {
       }),
     );
     store.dispatch(markRead({chatId: chat?._id}));
+  });
+  socket.on('newnotification', data => {
+    if (
+      data?.notification?.categories?.includes('student') ||
+      data?.notification?.categories?.includes('global')
+    ) {
+      store.dispatch(newNotification(data.notification));
+    }
+
+    // if (data?.notification?.notificationType === "thread") {
+    //     audio.play();
+
+    //     notification.success({
+    //         message: `${data?.notification?.userFrom?.fullName} replied in a thread`,
+    //         description: data?.message,
+    //         duration: 10,
+    //         onClick: () => {
+    //             window.location.href = `/chat/${data?.notification?.entityId}?message=${data?.notification?.text}`
+    //         },
+    //     });
+    // }
   });
 
   socket.on('pushmessage', data => {

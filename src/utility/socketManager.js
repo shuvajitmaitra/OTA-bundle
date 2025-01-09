@@ -39,12 +39,12 @@ export const connectSocket = async () => {
   }
 
   socket.on('connect', data => {
-    console.log('connected');
+    // console.log('connected');
     if (!socket?.connected) {
       console.log('Socket not Connected');
       store.dispatch(setSocketStatus(false));
     } else {
-      // console.log('Socket connected');
+      console.log('Socket connected');
       store.dispatch(setSocketStatus(true));
       loadChats();
       cleanUpListeners = setupSocketListeners(socket);
@@ -57,7 +57,7 @@ export const connectSocket = async () => {
 export const disconnectSocket = () => {
   if (socket) {
     if (cleanUpListeners && typeof cleanUpListeners === 'function') {
-      console.log('Cleaning up socket listeners');
+      // console.log('Cleaning up socket listeners');
 
       cleanUpListeners();
     }

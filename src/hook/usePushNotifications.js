@@ -79,22 +79,22 @@ const usePushNotifications = () => {
         });
       } catch (err) {
         setError(err.message);
-        console.error('Error during setup:', err.message);
+        // console.log('Error during setup:', err.message);
       }
     };
 
     setupNotifications();
 
     return () => {
-      console.log('Cleanup for notifications');
+      // console.log('Cleanup for notifications');
     };
   }, []);
 
   async function registerAppWithFCM() {
-    console.log(
-      'registerAppWithFCM status',
-      messaging().isDeviceRegisteredForRemoteMessages,
-    );
+    // console.log(
+    //   'registerAppWithFCM status',
+    //   messaging().isDeviceRegisteredForRemoteMessages,
+    // );
     if (!messaging().isDeviceRegisteredForRemoteMessages) {
       await messaging()
         .registerDeviceForRemoteMessages()
@@ -116,7 +116,7 @@ const usePushNotifications = () => {
     });
 
     if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
-      console.log('Permission settings:', settings);
+      // console.log('Permission settings:', settings);
     } else {
       console.log('User declined permissions');
     }
@@ -137,7 +137,7 @@ const usePushNotifications = () => {
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-    console.log('enabled', JSON.stringify(enabled, null, 2));
+    // console.log('enabled', JSON.stringify(enabled, null, 2));
     if (!enabled) {
       setError('Notification permission denied on iOS');
       console.log('iOS permission denied');

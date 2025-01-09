@@ -17,6 +17,10 @@ const notificationSlice = createSlice({
     },
     newNotification: (state, action) => {
       state.notifications.unshift(action.payload);
+      state.notificationCount = {
+        ...state.notificationCount,
+        totalUnread: state.notificationCount.totalUnread + 1,
+      };
     },
     updateNotification: (state, action) => {
       const index = state.notifications.findIndex(
