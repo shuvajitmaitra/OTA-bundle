@@ -70,7 +70,8 @@ const CreateCrowdModal = ({
               {/* -------------------------- */}
               <View style={styles.fieldContainer}>
                 <Text style={styles.Text}>
-                  Crowd Name <RequireFieldStar />
+                  Crowd Name
+                  <RequireFieldStar />
                 </Text>
                 <TextInput
                   keyboardAppearance={

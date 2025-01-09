@@ -1,8 +1,8 @@
-import * as React from "react";
-import Svg, { G, Path } from "react-native-svg";
-import { useTheme } from "../../context/ThemeContext";
+import * as React from 'react';
+import Svg, {G, Path} from 'react-native-svg';
+import {useTheme} from '../../context/ThemeContext';
 
-function CommentsIcon({ size, color }) {
+function CommentsIcon({size, color}) {
   const Colors = useTheme();
   return (
     <Svg
@@ -10,8 +10,7 @@ function CommentsIcon({ size, color }) {
       height={size || 25}
       viewBox="0 0 24 24"
       id="magicoon-Regular"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+      xmlns="http://www.w3.org/2000/svg">
       <G id="comments-Regular">
         <Path
           id="comments-Regular-2"

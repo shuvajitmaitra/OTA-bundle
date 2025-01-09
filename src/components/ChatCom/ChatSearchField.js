@@ -27,6 +27,7 @@ import {useNavigation} from '@react-navigation/native';
 import SearchWhiteIcon from '../../assets/Icons/SearchWhiteIcon';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import ArchiveIcon from '../../assets/Icons/ArchiveIcon';
+import ChatIcon2 from '../../assets/Icons/ChatIcon2';
 
 const ChatSearchField = ({checked, handleRadioChecked, handleFilter}) => {
   const [inputFocused, setInputFocused] = useState(false);
@@ -39,7 +40,7 @@ const ChatSearchField = ({checked, handleRadioChecked, handleFilter}) => {
     {
       label: 'Chats',
       value: 'chats',
-      icon: <CommentsIcon />,
+      icon: <ChatIcon2 color={Colors.Heading} />,
     },
     {
       label: 'Archived Chat',
