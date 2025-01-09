@@ -105,18 +105,30 @@ export default function GroupModalMembers() {
               gap: responsiveScreenWidth(2),
               paddingVertical: responsiveScreenHeight(1),
             }}>
-            <Text
-              style={{
-                color: Colors.Primary,
-                fontFamily: CustomFonts.SEMI_BOLD,
-                fontSize: responsiveScreenFontSize(1.8),
-              }}>
-              {seeMoreClicked ? 'See Less' : 'See More'}
-            </Text>
             {seeMoreClicked ? (
-              <ArrowLeft color={Colors.Primary} size={20} />
+              <>
+                <ArrowLeft color={Colors.Primary} size={20} />
+                <Text
+                  style={{
+                    color: Colors.Primary,
+                    fontFamily: CustomFonts.SEMI_BOLD,
+                    fontSize: responsiveScreenFontSize(1.8),
+                  }}>
+                  See Less
+                </Text>
+              </>
             ) : (
-              <ArrowRight />
+              <>
+                <Text
+                  style={{
+                    color: Colors.Primary,
+                    fontFamily: CustomFonts.SEMI_BOLD,
+                    fontSize: responsiveScreenFontSize(1.8),
+                  }}>
+                  See More
+                </Text>
+                <ArrowRight />
+              </>
             )}
           </TouchableOpacity>
         ))}
