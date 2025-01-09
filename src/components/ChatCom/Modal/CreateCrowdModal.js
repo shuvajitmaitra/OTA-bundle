@@ -225,7 +225,7 @@ const getStyles = Colors =>
       borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4),
       fontFamily: CustomFonts.REGULAR,
-      paddingVertical: responsiveScreenHeight(1),
+      height: 50,
     },
     // --------------------------
     // ----------- Header Container -----------

@@ -37,7 +37,11 @@ const MessageProgress = ({message}) => {
             width={responsiveScreenWidth(5)}
             // rounded={false}
             color={Colors.Primary}
-            progress={(message?.count / message?.limit) * 100 || 0}
+            progress={
+              ((message?.count / message?.limit) * 100 > 100
+                ? 100
+                : (message?.count / message?.limit) * 100) || 0
+            }
             backgroundColor={Colors.PrimaryOpacityColor}
             rotation={'30deg'}
             showProgressLabel={true}
