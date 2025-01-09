@@ -1,7 +1,6 @@
 *Work Stream - January 09, 2025*
 
 *Bootcampshub CLI*
-- My response status first character should be capital letter in view invitation screen
 - Bio input field design issue
 - Social input field right side border radius will be same as left side border radius
 - Need gap between Personal Information title and First Name text
@@ -23,5 +22,8 @@
 - When select saved from filter, the post available in Saved section but always showing no data available
 - Need some space between status bar and back button in availability screen issues fixed.
 - improve styling consistency in DateSpecificHour component; capitalize 'Hours' in button text and adjust spacing
-
+- My response status first character should be capital letter in view invitation screen
+- fix: capitalize first character of response status in view invitation screen; 
+- adjust edit profile screen bio section height issues and fix the design.
+- 
 *Note: Finished 100% of today's work stream.*

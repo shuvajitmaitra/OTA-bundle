@@ -633,7 +633,8 @@ const getStyles = Colors =>
       width: '85%',
       height: 40,
       paddingLeft: 10,
-      borderRightRadius: 7,
+      borderTopRightRadius: 7,
+      borderBottomRightRadius: 7,
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.Heading,
       fontFamily: CustomFonts.REGULAR,
@@ -862,7 +863,7 @@ const getStyles = Colors =>
       // paddingVertical: responsiveScreenHeight(1),
       // backgroundColor: "red",
       textAlignVertical: 'top',
-      // minHeight: responsiveScreenHeight(10),
+      minHeight: responsiveScreenHeight(10),
       // maxHeight: 200,
     },
     resumeContainer: {
