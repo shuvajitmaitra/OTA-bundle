@@ -25,6 +25,7 @@ import {
 import {
   addReplies,
   setComments,
+  setSingleComment,
   updateComment,
 } from '../store/reducer/commentReducer';
 import {setPrograms} from '../store/reducer/programReducer';
@@ -331,6 +332,7 @@ export const giveReply = data => {
     .post('/content/comment/create', data)
     .then(res => {
       if (res.data.success) {
+        store.dispatch(setSingleComment(null));
         store.dispatch(addReplies(res.data.comment));
         store.dispatch(
           updateComment({

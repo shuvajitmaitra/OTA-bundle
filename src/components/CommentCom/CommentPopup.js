@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   deleteComment,
   setSelectedComment,
+  setSingleComment,
   updateComment,
 } from '../../store/reducer/commentReducer';
 import ReactNativeModal from 'react-native-modal';
@@ -12,6 +13,7 @@ import {RegularFonts} from '../../constants/Fonts';
 import CustomFonts from '../../constants/CustomFonts';
 import axiosInstance from '../../utility/axiosInstance';
 import {handleError} from '../../actions/chat-noti';
+import {setCommentCount} from '../../store/reducer/communityReducer';
 
 const CommentPopup = () => {
   const dispatch = useDispatch();
@@ -20,12 +22,19 @@ const CommentPopup = () => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
+  // console.log('selectedComment', JSON.stringify(selectedComment, null, 2));
   const handleDeleteComment = async () => {
     await axiosInstance
       .delete(`/content/comment/delete/${selectedComment._id}`)
       .then(res => {
         if (res.data.success) {
           dispatch(deleteComment(selectedComment));
+          dispatch(
+            setCommentCount({
+              contentId: selectedComment?.contentId,
+              replyCount: selectedComment?.repliesCount,
+            }),
+          );
         }
       })
       .catch(error => {
@@ -43,12 +52,16 @@ const CommentPopup = () => {
             {!selectedComment.parentId && (
               <TouchableOpacity
                 onPress={() => {
+                  // dispatch(
+                  //   updateComment({
+                  //     commentId: selectedComment._id,
+                  //     data: {isReplyOpen: true},
+                  //   }),
+                  // );
                   dispatch(
-                    updateComment({
-                      commentId: selectedComment._id,
-                      data: {isReplyOpen: true},
-                    }),
+                    setSingleComment({...selectedComment, replyOpen: true}),
                   );
+
                   dispatch(setSelectedComment(null));
                 }}
                 style={styles.actionButton}>
@@ -63,6 +76,9 @@ const CommentPopup = () => {
                       commentId: selectedComment._id,
                       data: {isUpdateOpen: true, ...selectedComment},
                     }),
+                  );
+                  dispatch(
+                    setSingleComment({...selectedComment, updateOpen: true}),
                   );
                   dispatch(setSelectedComment(null));
                 }}

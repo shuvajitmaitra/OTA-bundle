@@ -30,6 +30,7 @@ import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
 import {PopoverContext} from '../../context/PopoverContext';
 import {
   setSelectedComment,
+  setSingleComment,
   updateComment,
 } from '../../store/reducer/commentReducer';
 
@@ -77,40 +78,40 @@ const Comment = memo(({comment: commentData, isLast}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors, comment);
 
-  const initialData = [
-    {
-      label: 'Reply',
-      func: () => {
-        hidePopover();
-        setComment(pre => ({
-          ...pre,
-          isReplyOpen: !comment?.isReplyOpen,
-          isUpdateOpen: false,
-        }));
-      },
-    },
-    {
-      label: 'Update',
-      func: () => {
-        hidePopover();
-        setComment(pre => ({
-          ...pre,
-          isUpdateOpen: !comment?.isUpdateOpen,
-          isReplyOpen: false,
-        }));
-      },
-    },
-    {
-      label: 'Delete',
-      func: () => {
-        setIsConfirmationModalVisible(!isConfirmationModalVisible);
-      },
-    },
-  ];
-  const data =
-    user._id == comment.user._id
-      ? initialData
-      : initialData.filter(item => item.label == 'Reply');
+  // const initialData = [
+  //   {
+  //     label: 'Reply',
+  //     func: () => {
+  //       hidePopover();
+  //       setComment(pre => ({
+  //         ...pre,
+  //         isReplyOpen: !comment?.isReplyOpen,
+  //         isUpdateOpen: false,
+  //       }));
+  //     },
+  //   },
+  //   {
+  //     label: 'Update',
+  //     func: () => {
+  //       hidePopover();
+  //       setComment(pre => ({
+  //         ...pre,
+  //         isUpdateOpen: !comment?.isUpdateOpen,
+  //         isReplyOpen: false,
+  //       }));
+  //     },
+  //   },
+  //   {
+  //     label: 'Delete',
+  //     func: () => {
+  //       setIsConfirmationModalVisible(!isConfirmationModalVisible);
+  //     },
+  //   },
+  // ];
+  // const data =
+  //   user._id == comment.user._id
+  //     ? initialData
+  //     : initialData.filter(item => item.label == 'Reply');
 
   const handleCommentUpdate = () => {
     if (!commentText.trim()) {
@@ -212,13 +213,15 @@ const Comment = memo(({comment: commentData, isLast}) => {
                 gap: responsiveScreenWidth(1),
               }}>
               <TouchableOpacity
-                onPress={() =>
-                  setComment(pre => ({...pre, isUpdateOpen: false}))
-                }>
+                onPress={() => {
+                  dispatch(setSingleComment(null));
+                  setComment(pre => ({...pre, isUpdateOpen: false}));
+                }}>
                 <CrossCircle color={Colors.Red} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
+                  dispatch(setSingleComment(null));
                   handleCommentUpdate();
                   setComment(pre => ({...pre, isUpdateOpen: false}));
                   // getComments();
@@ -261,16 +264,16 @@ const Comment = memo(({comment: commentData, isLast}) => {
         )}
       </> */}
 
-      {comment?.isReplyOpen && (
+      {/* {comment?.isReplyOpen && (
         <ReplyBox comment={comment} setComment={setComment} />
-      )}
+      )} */}
       <View>
         {comment.replies?.map((reply, index) => (
           <Comment
             key={reply._id}
             comment={reply}
             isLast={index == comment.replies.length - 1 ? false : true}
-            data={data}
+            // data={data}
           />
         ))}
       </View>

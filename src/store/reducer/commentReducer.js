@@ -4,6 +4,7 @@ const initialState = {
   comments: [],
   selectedComment: null,
   commentId: '',
+  singleComment: null,
 };
 
 const commentSlice = createSlice({
@@ -21,12 +22,15 @@ const commentSlice = createSlice({
         comment => comment._id === payload.parentId,
       );
       state.comments[commentIndex].replies = [
-        ...state.comments[commentIndex].replies,
         payload,
+        ...state.comments[commentIndex].replies,
       ];
     },
     setSelectedComment: (state, {payload}) => {
       state.selectedComment = payload;
+    },
+    setSingleComment: (state, {payload}) => {
+      state.singleComment = payload;
     },
     setCommentId: (state, {payload}) => {
       state.commentId = payload;
@@ -77,6 +81,7 @@ const commentSlice = createSlice({
 });
 
 export const {
+  setSingleComment,
   addComment,
   addReplies,
   setComments,

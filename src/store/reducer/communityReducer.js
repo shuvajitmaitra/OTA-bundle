@@ -50,13 +50,14 @@ const communitySlice = createSlice({
       }
     },
     setCommentCount: ({posts}, {payload}) => {
-      const {contentId, action} = payload;
+      const {contentId, action, replyCount} = payload;
       const postIndex = posts.findIndex(post => post._id === contentId);
       if (postIndex !== -1) {
         if (action === 'add') {
           posts[postIndex].commentsCount += 1;
         } else {
-          posts[postIndex].commentsCount -= 1;
+          posts[postIndex].commentsCount =
+            posts[postIndex].commentsCount - (replyCount + 1);
         }
       }
     },

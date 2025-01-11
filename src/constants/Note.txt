@@ -1,7 +1,6 @@
 *Work Stream - January 11, 2025*
 
 *Bootcampshub CLI*
-- Tags search filtering not working accurately in community screen
 - When comment a post, first time not showing profile image.
 - Availability and change propose New Time option placement for better design
 - In holiday's -2025 screen showing also 2024 holiday's 
@@ -22,6 +21,7 @@
 *Work Update - January 09, 2025*
 
 *Bootcampshub CLI*
-
-
+- Tags search filtering issues fixed in community screen
+- Comment count update issues fixed in community screen after deleting a comment
+-
 *Note: Finished 100% of today's work stream.*
