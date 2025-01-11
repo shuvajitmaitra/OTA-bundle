@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback, useRef} from 'react';
+import React, {useState, useCallback, useRef} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Animated, {
   useSharedValue,
@@ -148,11 +148,20 @@ const CommunityScreen = () => {
       return;
     }
   };
+
   const handleTagSearch = tag => {
     setSearchTag(prevTags => {
       if (prevTags.includes(tag)) {
         return prevTags;
       }
+      loadCommunityPosts({
+        page: 1,
+        limit: 10,
+        query: '',
+        tags: [...prevTags, tag],
+        user: '',
+        filterBy: '',
+      });
       const updatedTags = [...prevTags, tag];
       return updatedTags;
     });
@@ -161,6 +170,14 @@ const CommunityScreen = () => {
   const handleRemoveTag = tagToRemove => {
     setSearchTag(prevTags => {
       const updatedTags = prevTags.filter(tag => tag !== tagToRemove);
+      loadCommunityPosts({
+        page: 1,
+        limit: 10,
+        query: '',
+        tags: updatedTags,
+        user: '',
+        filterBy: '',
+      });
       return updatedTags;
     });
   };
