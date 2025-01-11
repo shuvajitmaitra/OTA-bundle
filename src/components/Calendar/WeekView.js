@@ -102,7 +102,9 @@ const WeekView = ({
         <View style={styles.leftColumn}>
           <Text style={[styles.hourText, styles.timeText]}>Time</Text>
           {newHours?.map((hour, index) => (
-            <View key={index} style={[styles.hourRow]}>
+            <View
+              key={index}
+              style={[styles.hourRow, {justifyContent: 'center'}]}>
               <Text style={[styles.hourText]}>{hour.label}</Text>
             </View>
           ))}
@@ -354,7 +356,6 @@ const getStyles = Colors =>
       justifyContent: 'flex-start',
       borderWidth: 0.5,
       borderColor: Colors.BorderColor,
-      // backgroundColor: "red",
     },
     hourText: {
       fontSize: responsiveScreenFontSize(1.5),

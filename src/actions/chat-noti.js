@@ -107,7 +107,7 @@ export const loadHolidays = () => {
   axiosInstance
     .get('/calendar/config/type/holiday')
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data, null, 1));
+      // console.log('res.data', JSON.stringify(res.data, null, 1));
       store.dispatch(setHolidays(res.data.holidays));
     })
     .catch(err => {
@@ -118,7 +118,7 @@ export const loadWeekends = () => {
   axiosInstance
     .get('/calendar/config/type/weekend')
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data, null, 1));
+      // console.log('res.data', JSON.stringify(res.data, null, 1));
       store.dispatch(setWeekends(res.data.holidays));
     })
     .catch(err => {

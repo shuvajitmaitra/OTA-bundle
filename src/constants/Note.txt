@@ -1,8 +1,6 @@
 *Work Stream - January 11, 2025*
 
 *Bootcampshub CLI*
-- Table title Image and Events need left margin to adjust with table body
-- Time column in calendar week view, time should be align center of table row
 - Date and Creator Table title not align with table body text
 
 *Note: Planned to finish 100% of today's work-stream*
@@ -25,6 +23,7 @@
 - This month filtering not working in community screen (API issue inform to the team).
 - Holiday screen event type alignment issues fixed.
 - When copy post text, the toast message not showing issues fixed.
+- Fixed:Time column in calendar week view, time should be align center of table row
 
 
 *Note: Finished 100% of today's work stream.*
