@@ -1,6 +1,15 @@
-*Work Stream - January 09, 2025*
+*Work Stream - January 11, 2025*
 
 *Bootcampshub CLI*
+- Tags search filtering not working accurately in community screen
+- When comment a post, first time not showing profile image.
+- Availability and change propose New Time option placement for better design
+- In holiday's -2025 screen showing also 2024 holiday's 
+- Table title Image and Events need left margin to adjust with table body
+- When copy post text, the toast message getting error
+- This month filtering not working in community screen
+- Time column in calendar week view, time should be align center of table row
+- Date and Creator Table title not align with table body text
 
 *Note: Planned to finish 100% of today's work-stream*
 
@@ -10,21 +19,9 @@
 - Two message appearing issue fixing in the message screen.
 
 
-*Work Update - January 08, 2025*
+*Work Update - January 09, 2025*
 
 *Bootcampshub CLI*
-- When select saved from filter, the post available in Saved section but always showing no data available
-- Need some space between status bar and back button in availability screen issues fixed.
-- improve styling consistency in DateSpecificHour component; capitalize 'Hours' in button text and adjust spacing
-- My response status first character should be capital letter in view invitation screen
-- fix: capitalize first character of response status in view invitation screen; 
-- adjust edit profile screen bio section height issues and fix the design.
-- Social input field right side border radius will be same as left side border radius issues fixed.
-- gap added between Personal Information title and First Name text
-- Notification realtime updating issues fixed now notification working real time.
-- Three dot menu from saved post the saved option should be replace with Unsaved 
-- When select report from filter, the post available in report section but always showing no data available this issues fixed.
-
 
 
 *Note: Finished 100% of today's work stream.*

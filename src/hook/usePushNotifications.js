@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
-import {Alert, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import axiosInstance from '../utility/axiosInstance';
 
 import store from '../store';
@@ -87,6 +87,11 @@ const usePushNotifications = () => {
   }
 
   const requestNotificationPermission = async () => {
+    await notifee.requestPermission({
+      sound: false,
+      announcement: true,
+      inAppNotificationSettings: false,
+    });
     const authStatus = await messaging().requestPermission();
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
@@ -315,40 +320,13 @@ export default usePushNotifications;
 //   }
 
 //   const requestNotificationPermission = async () => {
-//     const settings = await notifee.requestPermission({
+//     await notifee.requestPermission({
 //       sound: false,
 //       announcement: true,
 //       inAppNotificationSettings: false,
-//       // ... other permission settings
 //     });
 
-//     if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
-//       // console.log('Permission settings:', settings);
-//     } else {
-//       console.log('User declined permissions');
-//     }
-//     // console.log('Requesting notification permission...');
-//     // if (Platform.OS === 'android') {
-//     // const {status} = await checkNotifications();
-//     // if (status !== 'granted') {
-//     //   const permissionResult = await requestNotifications(['alert', 'sound']);
-//     //   if (permissionResult.status !== 'granted') {
-//     //     setError('Notification permission denied on Android');
-//     //     console.log('Android permission denied');
-//     //   }
-//     // }
-//     // } else if (Platform.OS === 'ios') {
-//     // }
-//     const authStatus = await messaging().requestPermission();
-
-//     const enabled =
-//       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-//       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-//     // console.log('enabled', JSON.stringify(enabled, null, 2));
-//     if (!enabled) {
-//       setError('Notification permission denied on iOS');
-//       console.log('iOS permission denied');
-//     }
+//     await messaging().requestPermission();
 //   };
 
 //   const createNotificationChannel = async () => {
