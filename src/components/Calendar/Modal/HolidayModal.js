@@ -229,7 +229,7 @@ const getStyles = Colors =>
       paddingLeft: responsiveScreenWidth(1),
     },
     holiday: {
-      // backgroundColor: "red",
+      // backgroundColor: 'red',
       width: responsiveScreenWidth(23),
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.4),
@@ -285,6 +285,7 @@ const getStyles = Colors =>
       justifyContent: 'space-between',
       marginVertical: responsiveScreenHeight(1),
       paddingHorizontal: responsiveScreenWidth(1),
+      gap: 10,
     },
 
     dayContainer: {
