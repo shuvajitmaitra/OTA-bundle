@@ -2,7 +2,6 @@
 
 *Bootcampshub CLI*
 - Table title Image and Events need left margin to adjust with table body
-- When copy post text, the toast message getting error
 - Time column in calendar week view, time should be align center of table row
 - Date and Creator Table title not align with table body text
 
@@ -24,5 +23,8 @@
 - Availability button text and dot component alignment issue fixed.
 - In holiday's -2025 screen showing also 2024 holiday's (API issue inform to the team).
 - This month filtering not working in community screen (API issue inform to the team).
+- Holiday screen event type alignment issues fixed.
+- When copy post text, the toast message not showing issues fixed.
+
 
 *Note: Finished 100% of today's work stream.*

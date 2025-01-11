@@ -137,7 +137,7 @@ const PostPopup = () => {
             <TouchableOpacity
               style={styles.itemContainer}
               onPress={() => {
-                handleCopyLink(post?.description, 'Text copied');
+                handleCopyLink(post?.description, {message: 'Text copied'});
               }}>
               <Text style={styles.item}>Copy Post Text</Text>
             </TouchableOpacity>

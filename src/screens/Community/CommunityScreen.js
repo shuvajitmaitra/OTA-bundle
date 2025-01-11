@@ -42,6 +42,7 @@ const CommunityScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [searchTag, setSearchTag] = useState([]);
+
   const [data, setData] = useState({
     page: 1,
     limit: 10,
@@ -50,6 +51,7 @@ const CommunityScreen = () => {
     user: '',
     filterBy: filterValue,
   });
+
   const filterData = [
     {
       id: 1,
