@@ -14,6 +14,7 @@ import CustomFonts from '../../constants/CustomFonts';
 import axiosInstance from '../../utility/axiosInstance';
 import {handleError} from '../../actions/chat-noti';
 import {setCommentCount} from '../../store/reducer/communityReducer';
+import Popover, {Rect} from 'react-native-popover-view';
 
 const CommentPopup = () => {
   const dispatch = useDispatch();
@@ -44,9 +45,13 @@ const CommentPopup = () => {
   return (
     <>
       {selectedComment && (
-        <ReactNativeModal
+        <Popover
           onBackdropPress={() => dispatch(setSelectedComment(null))}
-          isVisible={Boolean(selectedComment)}>
+          isVisible={Boolean(selectedComment)}
+          // placement={'right'}
+          popoverStyle={styles.popoverStyle}
+          from={new Rect(selectedComment.x, selectedComment.y, 0, 0)}
+          onRequestClose={() => dispatch(setSelectedComment(null))}>
           <View style={styles.popupContainer}>
             {!selectedComment.parentId && (
               <TouchableOpacity
@@ -99,7 +104,7 @@ const CommentPopup = () => {
               </TouchableOpacity>
             )}
           </View>
-        </ReactNativeModal>
+        </Popover>
       )}
     </>
   );
@@ -119,13 +124,13 @@ const getStyles = Colors =>
     },
     actionButton: {
       padding: 10,
-      backgroundColor: Colors.Gray,
+      backgroundColor: Colors.Background_color,
       borderRadius: 5,
       // alignItems: 'center',
     },
     actionText: {
-      color: Colors.White,
-      fontSize: RegularFonts.HR,
-      fontFamily: CustomFonts.SEMI_BOLD,
+      color: Colors.BodyText,
+      fontSize: RegularFonts.BR,
+      fontFamily: CustomFonts.MEDIUM,
     },
   });

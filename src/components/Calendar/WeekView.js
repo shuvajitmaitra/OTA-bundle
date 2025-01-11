@@ -120,6 +120,8 @@ const WeekView = ({
                   borderTopColor: Colors.BorderColor,
                   borderRightWidth: 1,
                   borderRightColor: Colors.BorderColor,
+                  borderBottomWidth: 1,
+                  borderBottomColor: Colors.BorderColor,
                 }}>
                 <Text style={[styles.weekday]}>{moment(day).format('DD')}</Text>
                 <Text style={[styles.weekday, {marginBottom: 8}]}>
@@ -354,8 +356,9 @@ const getStyles = Colors =>
       height: 60,
       alignItems: 'center',
       justifyContent: 'flex-start',
-      borderWidth: 0.5,
       borderColor: Colors.BorderColor,
+
+      borderTopWidth: 1,
     },
     hourText: {
       fontSize: responsiveScreenFontSize(1.5),

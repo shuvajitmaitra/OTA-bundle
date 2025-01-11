@@ -55,8 +55,14 @@ const Comment = memo(({comment: commentData, isLast}) => {
 
   const buttonRef = useRef();
   const {showPopover, hidePopover} = useContext(PopoverContext);
-  const handleShowPopover = () => {
-    dispatch(setSelectedComment(comment));
+  const handleShowPopover = event => {
+    dispatch(
+      setSelectedComment({
+        ...comment,
+        x: event.nativeEvent.pageX,
+        y: event.nativeEvent.pageY,
+      }),
+    );
     // showPopover(
     //   <ThreeDotItems
     //     hidePopover={hidePopover}
@@ -247,7 +253,7 @@ const Comment = memo(({comment: commentData, isLast}) => {
           (user._id !== comment.user._id && !comment.parentId)) && (
           <>
             <TouchableOpacity
-              onPress={handleShowPopover}
+              onPress={event => handleShowPopover(event)}
               style={styles.threeDotContainer}>
               <ThreeDotGrayIcon />
             </TouchableOpacity>
