@@ -1,7 +1,6 @@
 *Work Stream - January 11, 2025*
 
 *Bootcampshub CLI*
-- When comment a post, first time not showing profile image.
 - Availability and change propose New Time option placement for better design
 - In holiday's -2025 screen showing also 2024 holiday's 
 - Table title Image and Events need left margin to adjust with table body
@@ -22,6 +21,8 @@
 
 *Bootcampshub CLI*
 - Tags search filtering issues fixed in community screen
-- Comment count update issues fixed in community screen after deleting a comment
--
+- Comment count update issues fixed in community screen after deleting a comment.
+- When comment a post, first time not showing profile image this issue fixed.
+- Two input field showing issues fixed from the comment section in community.
+- 
 *Note: Finished 100% of today's work stream.*

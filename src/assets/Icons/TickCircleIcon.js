@@ -1,11 +1,16 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
-import { useTheme } from "../../context/ThemeContext";
+import * as React from 'react';
+import Svg, {Path} from 'react-native-svg';
+import {useTheme} from '../../context/ThemeContext';
 
-function TickCircleIcon({ color }) {
+function TickCircleIcon({size, color}) {
   const Colors = useTheme();
   return (
-    <Svg width={20} height={20} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Svg
+      width={size || 20}
+      height={size || 20}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
       <Path
         d="M10 18.333c4.583 0 8.333-3.75 8.333-8.333S14.583 1.667 10 1.667 1.667 5.417 1.667 10s3.75 8.333 8.333 8.333z"
         stroke={color || Colors.PureWhite}
