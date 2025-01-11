@@ -22,7 +22,6 @@ const CommentPopup = () => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
-  // console.log('selectedComment', JSON.stringify(selectedComment, null, 2));
   const handleDeleteComment = async () => {
     await axiosInstance
       .delete(`/content/comment/delete/${selectedComment._id}`)

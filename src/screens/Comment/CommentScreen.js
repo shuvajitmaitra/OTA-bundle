@@ -41,15 +41,13 @@ const CommentScreen = () => {
   const route = useRoute();
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
-  // console.log('user', JSON.stringify(user, null, 2));
   const [commentText, setCommentText] = useState('');
   const textInputRef = useRef(null);
-  const {top, bottom} = useSafeAreaInsets();
+  const {top} = useSafeAreaInsets();
   const Colors = useTheme();
   const navigation = useNavigation();
   const styles = getStyles(Colors);
   const {comments = [], singleComment} = useSelector(state => state.comment);
-  console.log('selectedComment', JSON.stringify(singleComment, null, 2));
   const [isCommenting, setCommenting] = useState(false);
   const {contentId} = route.params;
 
@@ -60,8 +58,6 @@ const CommentScreen = () => {
       dispatch(setComments([]));
     };
   }, [dispatch, contentId]);
-
-  //   console.log('comments', JSON.stringify(comments, null, 2));
 
   const handleCreateComment = () => {
     if (!commentText.trim()) {
