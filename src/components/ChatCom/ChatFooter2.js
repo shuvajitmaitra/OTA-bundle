@@ -476,23 +476,22 @@ const ChatFooter2 = ({
                   }}
                   style={styles.initialContainer}>
                   <Text style={styles.messageText}>
-                    {text.trim() ? text : 'Message...'}
+                    {text.trim() ? text : parentId ? 'Reply...' : 'Message...'}
                   </Text>
                 </TouchableOpacity>
               </>
             )}
+            {!text.length && !showBottom && (
+              <AudioRecorder
+                sendMessage={sendMessage}
+                setStartRecording={setStartRecording}
+                handleKey={handleKey}
+                chat={singleChat?._id}
+                isChannel={singleChat?.isChannel}
+              />
+            )}
           </View>
         </View>
-      )}
-
-      {!text.length && !showBottom && (
-        <AudioRecorder
-          sendMessage={sendMessage}
-          setStartRecording={setStartRecording}
-          handleKey={handleKey}
-          chat={singleChat?._id}
-          isChannel={singleChat?.isChannel}
-        />
       )}
 
       {showBottom && (

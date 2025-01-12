@@ -144,8 +144,8 @@ const AudioRecorder = ({
         !recording && !recordedAudioPath
           ? {
               position: 'absolute',
-              right: '8%',
-              top: '30%',
+              right: '5%',
+              // top: '30%',
               // backgroundColor: Colors.CyanOpacity,
               alignItems: 'center',
               justifyContent: 'center',

@@ -4,7 +4,6 @@
 
 - Grid column border with is thick according to row border width or Month view grid border width
 - When want to replay an image on the thread screen showing split image showing error
-- In replay thread modal placeholder text replace with "Add a Reply" or "Reply..."
 - Voice recording icon not align in center with replay input field
 - Active indicator icon not similar with main chat screen active indicator icon ,,,need white border
 
@@ -14,6 +13,8 @@
 
 - Work on previous message not loading issues in the message screen.
 - Two message appearing issue fixing in the message screen.
+- In replay thread modal placeholder text replace with "Add a Reply" or "Reply..." fixed.
+- 
 
 
 *Work Update - January 12, 2025*
