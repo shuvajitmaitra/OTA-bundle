@@ -22,6 +22,7 @@ const DocumentContainer = ({
   handleKey,
   chat,
   isChannel,
+  parentId,
 }) => {
   const [text, setText] = useState('');
   const Colors = useTheme();
@@ -42,6 +43,7 @@ const DocumentContainer = ({
           isChannel={isChannel}
           text={text}
           setText={setText}
+          parentId={parentId}
         />
         <TouchableOpacity
           onPress={() => {

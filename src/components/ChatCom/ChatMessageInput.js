@@ -57,6 +57,7 @@ const ChatMessageInput = ({
   handleKey,
   isChannel,
   maxHeight,
+  parentId,
 }) => {
   let width = Dimensions.get('window').width;
   const [users, setUsers] = useState([]);
@@ -174,7 +175,7 @@ const ChatMessageInput = ({
           textAlignVertical: 'center',
         }}
         onChange={text => setText(text)}
-        placeholder="Type a message..."
+        placeholder={parentId ? 'Type a reply...' : 'Type a message...'}
         placeholderTextColor={Colors.BodyText}
         inputRef={inputRef}
         onKeyPress={handleKey}

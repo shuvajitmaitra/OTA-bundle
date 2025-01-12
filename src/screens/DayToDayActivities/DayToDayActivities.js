@@ -186,8 +186,8 @@ const getStyles = Colors =>
       paddingHorizontal: 15,
       borderRadius: 50,
       position: 'absolute',
-      right: 30,
-      bottom: 30,
+      right: 15,
+      bottom: 15,
       zIndex: 1,
       shadowColor: '#000000',
       shadowOffset: {

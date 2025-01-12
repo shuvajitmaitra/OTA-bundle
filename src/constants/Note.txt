@@ -2,25 +2,22 @@
 
 *Bootcampshub CLI*
 
-- Grid column border with is thick according to row border width or Month view grid border width
-- When want to replay an image on the thread screen showing split image showing error
-- Voice recording icon not align in center with replay input field
 - Active indicator icon not similar with main chat screen active indicator icon ,,,need white border
 
 *Note: Planned to finish 100% of today's work-stream*
 
 
 
-- Work on previous message not loading issues in the message screen.
-- Two message appearing issue fixing in the message screen.
-- In replay thread modal placeholder text replace with "Add a Reply" or "Reply..." fixed.
 - 
 
 
 *Work Update - January 12, 2025*
 
 *Bootcampshub CLI*
-
+- When want to replay an image on the thread screen showing split image showing error this issue fixed
+- In replay thread modal placeholder text replace with "Add a Reply" or "Reply..." fixed.
+- Voice recording icon not align in center with replay input field
+- Add new activity button not align in center this issue fixed in day to day activities screen
 
 
 *Note: Finished 100% of today's work stream.*

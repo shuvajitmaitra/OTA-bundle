@@ -400,6 +400,7 @@ const ChatFooter2 = ({
               handleKey={handleKey}
               chat={singleChat?._id}
               isChannel={singleChat?.isChannel}
+              parentId={parentId}
               text={
                 messageEditVisible.text ? messageEditVisible.text : editedText
               }
@@ -424,6 +425,7 @@ const ChatFooter2 = ({
           setDocumentVisible(false);
           setShowBottom(false);
         }}
+        parentId={parentId}
         uploadDocument={uploadDocumentsAndSend}
         handleKey={handleKey}
         chat={singleChat?._id}
@@ -442,6 +444,7 @@ const ChatFooter2 = ({
         }}
         uploading={uploading}
         onSend={uploadImagesAndSend}
+        parentId={parentId}
       />
     );
   }
@@ -462,6 +465,7 @@ const ChatFooter2 = ({
                   text={text}
                   setText={setText}
                   handleKey={handleKey}
+                  parentId={parentId}
                 />
                 {text.trim().length > 0 && (
                   <SendContainer sendMessage={() => sendMessage(text)} />
@@ -488,6 +492,7 @@ const ChatFooter2 = ({
                 handleKey={handleKey}
                 chat={singleChat?._id}
                 isChannel={singleChat?.isChannel}
+                parentId={parentId}
               />
             )}
           </View>

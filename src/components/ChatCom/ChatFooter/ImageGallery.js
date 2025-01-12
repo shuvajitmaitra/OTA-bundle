@@ -28,6 +28,7 @@ const ImageGallery = ({
   onClose,
   onSend,
   uploading,
+  parentId,
 }) => {
   const [message, setMessage] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -124,7 +125,11 @@ const ImageGallery = ({
                 onChangeText={setMessage}
                 multiline
               /> */}
-              <ChatMessageInput text={message} setText={setMessage} />
+              <ChatMessageInput
+                parentId={parentId}
+                text={message}
+                setText={setMessage}
+              />
               <TouchableOpacity
                 onPress={() => onSend(message)}
                 style={styles.sendButton}>

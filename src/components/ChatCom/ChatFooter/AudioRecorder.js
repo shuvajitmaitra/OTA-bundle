@@ -21,6 +21,7 @@ const AudioRecorder = ({
   handleKey,
   chat,
   isChannel,
+  parentId,
 }) => {
   const [recording, setRecording] = useState(false);
   const [recordedAudioPath, setRecordedAudioPath] = useState('');
@@ -162,6 +163,7 @@ const AudioRecorder = ({
             isChannel={isChannel}
             text={text}
             setText={setText}
+            parentId={parentId}
           />
           <TouchableOpacity
             onPress={() => {
