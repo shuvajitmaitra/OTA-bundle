@@ -322,7 +322,6 @@ export default function NewChatScreen({navigation: {goBack}}) {
 
   //   return () => {};
   // }, []);
-
   return (
     <TouchableWithoutFeedback
       style={{zIndex: 1111111}}

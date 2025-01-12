@@ -146,13 +146,16 @@ const getStyles = Colors =>
       borderColor: Colors.BorderColor,
     },
     activeStatus: {
-      width: 8,
-      height: 8,
+      width: 12,
+      height: 12,
       borderRadius: 8,
       backgroundColor: Colors.Primary,
       position: 'absolute',
       right: responsiveScreenWidth(0),
       bottom: responsiveScreenHeight(0.5),
+      borderWidth: 1,
+      overflow: 'hidden',
+      borderColor: Colors.BorderColor,
     },
     profileName: {
       fontSize: responsiveScreenFontSize(2.2),
