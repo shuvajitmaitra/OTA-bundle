@@ -1,7 +1,12 @@
-*Work Stream - January 11, 2025*
+*Work Stream - January 12, 2025*
 
 *Bootcampshub CLI*
-- Date and Creator Table title not align with table body text
+
+- Grid column border with is thick according to row border width or Month view grid border width
+- When want to replay an image on the thread screen showing split image showing error
+- In replay thread modal placeholder text replace with "Add a Reply" or "Reply..."
+- Voice recording icon not align in center with replay input field
+- Active indicator icon not similar with main chat screen active indicator icon ,,,need white border
 
 *Note: Planned to finish 100% of today's work-stream*
 
@@ -11,19 +16,10 @@
 - Two message appearing issue fixing in the message screen.
 
 
-*Work Update - January 09, 2025*
+*Work Update - January 12, 2025*
 
 *Bootcampshub CLI*
-- Tags search filtering issues fixed in community screen
-- Comment count update issues fixed in community screen after deleting a comment.
-- When comment a post, first time not showing profile image this issue fixed.
-- Two input field showing issues fixed from the comment section in community.
-- Availability button text and dot component alignment issue fixed.
-- In holiday's -2025 screen showing also 2024 holiday's (API issue inform to the team).
-- This month filtering not working in community screen (API issue inform to the team).
-- Holiday screen event type alignment issues fixed.
-- When copy post text, the toast message not showing issues fixed.
-- Fixed:Time column in calendar week view, time should be align center of table row
+
 
 
 *Note: Finished 100% of today's work stream.*

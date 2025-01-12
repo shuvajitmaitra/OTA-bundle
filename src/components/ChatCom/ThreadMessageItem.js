@@ -88,17 +88,6 @@ export default function ThreadMessageItem({message, replyCount = 0}) {
             />
           </TouchableOpacity>
         )}
-        {imageUrl && (
-          <TouchableOpacity
-            style={styles.img}
-            onPress={() => setIsViewerVisible(true)}>
-            <Image
-              source={{uri: imageUrl}}
-              style={styles.messageImage}
-              // resizeMode="contain"
-            />
-          </TouchableOpacity>
-        )}
 
         {audioUrl && (
           <AudioMessage background={Colors.White} audioUrl={audioUrl} />
