@@ -2,10 +2,8 @@
 
 *Bootcampshub CLI*
 
-- Video title are overlap the chapter name in the program module. 
 - Day2Day Activities card left padding and right padding are not same
 - Need to change github icon according to facebook and instagram icon
-- When click mahmudul Hassan chat screen, App is crashed
 - When start recording but recording time count not working.
 
 *Note: Planned to finish 100% of today's work-stream*
@@ -19,5 +17,8 @@
 
 *Bootcampshub CLI*
 
+- Video title are overlap the chapter name in the program module issue fixed. 
+- App crashing issues fixed in the chat.
+- 
 
 *Note: Finished 100% of today's work stream.*

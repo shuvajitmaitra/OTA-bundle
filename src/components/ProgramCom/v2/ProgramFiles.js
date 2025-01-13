@@ -27,9 +27,16 @@ import GlobalRadioGroup from '../../SharedComponent/GlobalRadioButton';
 import {showAlertModal} from '../../../utility/commonFunction';
 import Popover from 'react-native-popover-view'; // New Import
 
-export default function ProgramFiles({item, course, category, isChildren}) {
+export default function ProgramFiles({
+  item,
+  course,
+  category,
+  isChildren,
+  index,
+}) {
   const Colors = useTheme();
   const styles = getStyles(Colors);
+
   const {
     isPlayingLesson,
     setIsPlayingLesson,
@@ -244,7 +251,10 @@ export default function ProgramFiles({item, course, category, isChildren}) {
           marginTop:
             isChildren && item?.type === 'chapter'
               ? responsiveScreenHeight(1)
+              : isChildren && item?.type !== 'chapter' && index == 0
+              ? 10
               : 0,
+          // paddingBottom: isChildren && item?.type !== 'chapter' ? 10 : 0,
           borderRadius: 10,
           marginBottom: responsiveScreenHeight(1),
         },
@@ -407,13 +417,14 @@ export default function ProgramFiles({item, course, category, isChildren}) {
 
       {/* Render Child Chapters/Lessons */}
       {isExpanded &&
-        treeData.map(child => (
+        treeData.map((child, index) => (
           <ProgramFiles
             item={child}
             key={child._id}
             course={course}
             category={category}
             isChildren={true}
+            index={index}
           />
         ))}
 
