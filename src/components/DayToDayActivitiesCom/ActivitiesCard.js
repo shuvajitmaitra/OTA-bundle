@@ -46,13 +46,12 @@ const ActivitiesCard = ({item, length, index, handleDeleteActivities}) => {
         style={{
           borderRadius: 10,
           overflow: 'hidden',
-          width: '99%',
+          width: '100%',
           height: 180,
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: Colors.BodyText,
           borderWidth: 1,
-          overflow: 'hidden',
           borderColor: Colors.BorderColor,
         }}>
         {getFileTypeFromUri(item?.attachments[0]) === 'image' ? (

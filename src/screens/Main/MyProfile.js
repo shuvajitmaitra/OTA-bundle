@@ -38,6 +38,7 @@ import {RegularFonts} from '../../constants/Fonts';
 import RequireFieldStar from '../../constants/RequireFieldStar';
 import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import Twitter from '../../assets/Icons/Twitter';
+import GithubIcon2 from '../../assets/Icons/GithubIcon2';
 export default function MyProfile() {
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -281,7 +282,8 @@ export default function MyProfile() {
                 onPress={() => {
                   handleOpenLink(user?.personalData?.socialMedia?.github);
                 }}>
-                <GithubIconTwo />
+                {/* <GithubIconTwo /> */}
+                <GithubIcon2 color={Colors.Primary} size={27} />
               </TouchableOpacity>
             ) : null}
             {user?.personalData?.socialMedia?.instagram ? (
@@ -689,6 +691,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       gap: responsiveScreenWidth(2),
       marginTop: responsiveScreenHeight(1),
+      // backgroundColor: 'blue',
     },
 
     personalInfo: {

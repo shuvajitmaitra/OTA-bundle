@@ -23,10 +23,6 @@ const usePushNotifications = () => {
 
         await registerAppWithFCM();
 
-        if (Platform.OS === 'ios') {
-          await messaging().registerDeviceForRemoteMessages();
-        }
-
         const token = await messaging().getToken();
         console.log('Device FCM token:', token);
 
