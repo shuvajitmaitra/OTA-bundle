@@ -1,8 +1,12 @@
-*Work Stream - January 12, 2025*
+*Work Stream - January 13, 2025*
 
 *Bootcampshub CLI*
 
-- Active indicator icon not similar with main chat screen active indicator icon ,,,need white border
+- Video title are overlap the chapter name in the program module. 
+- Day2Day Activities card left padding and right padding are not same
+- Need to change github icon according to facebook and instagram icon
+- When click mahmudul Hassan chat screen, App is crashed
+- When start recording but recording time count not working.
 
 *Note: Planned to finish 100% of today's work-stream*
 
@@ -14,10 +18,6 @@
 *Work Update - January 12, 2025*
 
 *Bootcampshub CLI*
-- When want to replay an image on the thread screen showing split image showing error this issue fixed
-- In replay thread modal placeholder text replace with "Add a Reply" or "Reply..." fixed.
-- Voice recording icon not align in center with replay input field
-- Add new activity button not align in center this issue fixed in day to day activities screen
 
 
 *Note: Finished 100% of today's work stream.*

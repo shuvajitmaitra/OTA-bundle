@@ -8,6 +8,19 @@ We are pleased to announce the latest updates and enhancements to the BootcampsH
 
 ---
 
+#### **Bootcampshub CLI**
+- **Thread Screen Issues**:
+  - Fixed issue with replaying an image in split-screen mode showing an error.
+  - Updated placeholder text in the reply thread modal to "Add a Reply" or "Reply...".
+- **UI Fixes**:
+  - Centered the voice recording icon with the reply input field.
+  - Adjusted alignment of the "Add New Activity" button on the Day-to-Day Activities screen.
+  - Updated the active indicator icon to match the main chat screen, including a white border.
+
+#### **Release**
+- Uploaded version **3.6.8** to the Apple Store for review.
+
+
 ---
 
 Thank you for using the Bootcampshub App! We hope these updates improve your experience. If you have any feedback or encounter any issues, please do not hesitate to contact our support team.

@@ -136,9 +136,9 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
     <FlatList
       data={files}
       renderItem={({item}) =>
-        item.type.startsWith('audio')
+        item?.type?.startsWith('audio')
           ? renderAudio({item})
-          : item.type.startsWith('image')
+          : item?.type?.startsWith('image')
           ? imageRender({item})
           : renderDocument({item})
       }
