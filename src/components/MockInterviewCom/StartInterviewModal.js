@@ -1,16 +1,7 @@
 // StartInterviewModal.js
 
-import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Platform,
-} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
@@ -24,7 +15,6 @@ import ArrowLeftWhite from '../../assets/Icons/ArrowLeftWhite';
 import ArrowRightWhite from '../../assets/Icons/ArrowRightWhite';
 import MyButton from '../../components/AuthenticationCom/MyButton';
 
-import TrackPlayer from './TrackPlayer'; // Import the TrackPlayer component
 import VideoPlayer from '../../components/ProgramCom/VideoPlayer';
 import axios from '../../utility/axiosInstance';
 import axiosInstance from '../../utility/axiosInstance';
@@ -34,8 +24,10 @@ import {showAlertModal} from '../../utility/commonFunction';
 import GlobalAlertModal from '../SharedComponent/GlobalAlertModal';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import AudioMessage from '../ChatCom/AudioMessage';
+import CrossCircle from '../../assets/Icons/CrossCircle';
+import AudioWaveform from '../ChatCom/ChatFooter/AudioWaveform';
+import SendIcon from '../../assets/Icons/SendIcon';
 
-// Import permissions handling
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
 export default function StartInterviewModal({
@@ -76,6 +68,21 @@ export default function StartInterviewModal({
       setRecordedURI(result);
       audioRecorderPlayer.removeRecordBackListener();
       console.log('Recording stopped, file saved at:', result);
+    } catch (error) {
+      console.error('Failed to stop recording:', error);
+    }
+  };
+
+  const cancelRecording = async () => {
+    try {
+      const result = await audioRecorderPlayer.stopRecorder();
+      audioRecorderPlayer.removeRecordBackListener();
+
+      setRecording(false);
+      // setStartRecording(false);
+      setRecordedURI('');
+      audioRecorderPlayer.removeRecordBackListener();
+      console.log('Recording canceled');
     } catch (error) {
       console.error('Failed to stop recording:', error);
     }
@@ -280,26 +287,54 @@ export default function StartInterviewModal({
         </Text>
         {!uploaded.includes(currentIndex) ? (
           <View style={styles.recorderContainer}>
-            <View style={{flexDirection: 'column', alignItems: 'center'}}>
-              {!recordedURI && (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 10,
+              }}>
+              {!recording && !recordedURI && (
+                <TouchableOpacity
+                  style={styles.recordBtn}
+                  onPress={startRecording}>
+                  <Text style={styles.recordBtnText}>Start Recording</Text>
+                </TouchableOpacity>
+              )}
+              {recording && (
+                <TouchableOpacity
+                  onPress={() => {
+                    cancelRecording();
+                  }}>
+                  <CrossCircle size={30} />
+                </TouchableOpacity>
+              )}
+              {recording && <AudioWaveform />}
+
+              {recording && (
+                <TouchableOpacity onPress={stopRecording}>
+                  <SendIcon size={30} />
+                </TouchableOpacity>
+              )}
+
+              {/* {!recordedURI && (
                 <TouchableOpacity
                   style={styles.recordBtn}
                   onPress={recording ? stopRecording : startRecording}>
                   <Text style={styles.recordBtnText}>
-                    {recording ? 'Stop Recording' : 'Start Recording'}
+                    {recording ? <CrossCircle /> : 'Start Recording'}
                   </Text>
                 </TouchableOpacity>
-              )}
+              )} */}
             </View>
-            {recording && (
-              <Text style={styles.durationText}>
-                Recording: {formatDuration(recordingDuration)}
-              </Text>
-            )}
 
             {recordedURI && (
               <>
-                <AudioMessage audioUrl={recordedURI} />
+                <AudioMessage
+                  audioUrl={recordedURI}
+                  background={'transparent'}
+                  color={Colors.BodyText}
+                />
                 <View style={styles.btnContainerLast}>
                   <TouchableOpacity
                     style={styles.reRecordBtn}

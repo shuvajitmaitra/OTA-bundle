@@ -18,7 +18,7 @@ We are pleased to announce the latest updates and enhancements to the BootcampsH
   - Updated the active indicator icon to match the main chat screen, including a white border.
 
 #### **Release**
-- Uploaded version **3.6.8** to the Apple Store for review.
+- Uploaded version **3.6.9** to the Apple Store for review.
 
 
 ---

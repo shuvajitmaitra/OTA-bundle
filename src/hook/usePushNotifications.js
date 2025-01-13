@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
-import {Platform} from 'react-native';
+import {Alert, Platform} from 'react-native';
 import axiosInstance from '../utility/axiosInstance';
 
 import store from '../store';
@@ -25,6 +25,7 @@ const usePushNotifications = () => {
 
         const token = await messaging().getToken();
         console.log('Device FCM token:', token);
+        // Alert.alert('Device FCM token:', token);
 
         if (token && !isTokenSent) {
           sendTokenToBackend(token);
