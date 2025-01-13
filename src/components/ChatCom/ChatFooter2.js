@@ -451,12 +451,14 @@ const ChatFooter2 = ({
 
   return (
     <View>
-      {!startRecording && (
+      {
         <View style={[styles.mainContainer]}>
-          <Pressable style={styles.toggleButton} onPress={toggleBottom}>
-            {showBottom ? <ArrowTopIcon size={40} /> : <PlusIcon />}
-          </Pressable>
-          <View style={styles.container}>
+          {!startRecording && (
+            <Pressable style={styles.toggleButton} onPress={toggleBottom}>
+              {showBottom ? <ArrowTopIcon size={40} /> : <PlusIcon />}
+            </Pressable>
+          )}
+          <View style={!startRecording && styles.container}>
             {messageClicked && !startRecording ? (
               <>
                 <ChatMessageInput
@@ -497,7 +499,7 @@ const ChatFooter2 = ({
             )}
           </View>
         </View>
-      )}
+      }
 
       {showBottom && (
         <View

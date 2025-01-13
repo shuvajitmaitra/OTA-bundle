@@ -173,7 +173,7 @@ const AudioRecorder = ({
               setRecording(false);
               setStartRecording(false);
             }}>
-            <SendIcon />
+            <SendIcon size={30} />
           </TouchableOpacity>
         </View>
       )}
@@ -256,7 +256,7 @@ const getStyles = Colors =>
       // minHeight: 60,
       padding: 20,
       paddingTop: 10,
-      gap: 20,
+      // gap: 20,
       marginTop: 10,
     },
     title: {
