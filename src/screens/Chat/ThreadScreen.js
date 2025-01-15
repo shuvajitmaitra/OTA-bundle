@@ -19,7 +19,7 @@ import Loading from '../../components/SharedComponent/Loading';
 import axiosInstance from '../../utility/axiosInstance';
 
 const ThreadScreen = ({route}) => {
-  const {chatMessage} = route.params;
+  const {parentMessage, chat} = route.params;
   const dispatch = useDispatch();
   const {threadMessages} = useSelector(state => state.chatSlice);
   const {messageOptionData} = useSelector(state => state.modal);
@@ -27,15 +27,14 @@ const ThreadScreen = ({route}) => {
   const styles = getStyles(Colors);
   const {top} = useSafeAreaInsets();
   const scrollViewRef = useRef(null);
-  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [messageEditVisible, setMessageEditVisible] = useState(false);
 
   useEffect(() => {
     getReplies({
-      parentMessage: chatMessage._id,
-      chat: chatMessage.chat,
-      page,
+      parentMessage,
+      chat,
+      page: 1,
     });
 
     return () => {
@@ -47,16 +46,17 @@ const ThreadScreen = ({route}) => {
     scrollViewRef.current?.scrollToEnd({animated: true});
   }, [threadMessages]);
 
-  const getReplies = ({parentMessage, chat, page}) => {
+  const getReplies = () => {
     setIsLoading(true);
     let options = {
-      page,
+      page: 1,
       parentMessage,
       chat,
     };
     axiosInstance
       .post('/chat/messages', options)
       .then(res => {
+        console.log('res.data', JSON.stringify(res.data, null, 2));
         dispatch(setThreadMessages(res.data.messages));
       })
       .catch(error => {
@@ -84,18 +84,18 @@ const ThreadScreen = ({route}) => {
             handlePin={() => {}}
             setMessageEditVisible={setMessageEditVisible}
             messageOptionData={messageOptionData}
-            isThread={chatMessage._id}
+            isThread={parentMessage}
           />
         )}
         <ScreenHeader />
-        <ThreadMessageItem
+        {/* <ThreadMessageItem
           message={chatMessage}
           replyCount={
             threadMessages.length
               ? threadMessages.length
               : chatMessage.replyCount
           }
-        />
+        /> */}
         <ScrollView
           ref={scrollViewRef}
           style={styles.flatListContainer}
@@ -128,11 +128,11 @@ const ThreadScreen = ({route}) => {
           )}
         </ScrollView>
         <ChatFooter2
-          parentId={chatMessage._id}
-          chatId={chatMessage.chat}
+          parentId={parentMessage}
+          chatId={chat}
           messageEditVisible={messageEditVisible}
           setMessageEditVisible={setMessageEditVisible}
-          messageOptionData={chatMessage}
+          messageOptionData={{chat, parentMessage}}
         />
       </KeyboardAvoidingView>
     </View>

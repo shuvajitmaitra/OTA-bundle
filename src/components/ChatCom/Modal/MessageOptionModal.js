@@ -34,8 +34,11 @@ const MessageOptionModal = ({
       value: 'thread',
       icon: <MessageIcon />,
       function: () => {
-        navigation.navigate('ThreadScreen', {chatMessage: messageOptionData}),
-          dispatch(setMessageOptionData(null));
+        navigation.navigate('ThreadScreen', {
+          parentMessage: messageOptionData._id,
+          chat: messageOptionData.chat,
+        });
+        dispatch(setMessageOptionData(null));
       },
     },
     {

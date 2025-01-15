@@ -15,8 +15,9 @@ const MessageBottomContainer = ({item, navigation, my}) => {
       {item.replyCount > 0 && (
         <TouchableOpacity
           onPress={() =>
-            navigation.push('ThreadScreen', {
-              chatMessage: item,
+            navigation.navigate('ThreadScreen', {
+              parentMessage: item?._id,
+              chat: item?.chat,
             })
           }>
           <Text style={styles.replyCountText}>{`${item.replyCount} ${

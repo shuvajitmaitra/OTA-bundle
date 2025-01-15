@@ -21,6 +21,7 @@ import ArrowLeftCircle from '../../../assets/Icons/ArrowLeftCircle';
 import SendIcon from '../../../assets/Icons/SendIcon';
 import ChatMessageInput from '../ChatMessageInput';
 import Loading from '../../SharedComponent/Loading';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const ImageGallery = ({
   selectedImages = [],
@@ -58,7 +59,7 @@ const ImageGallery = ({
   useEffect(() => {
     Keyboard.dismiss();
   }, []);
-
+  const {top} = useSafeAreaInsets();
   return (
     <CustomModal
       isVisible={isVisible}
@@ -67,13 +68,17 @@ const ImageGallery = ({
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}>
-        <Pressable onPress={() => Keyboard.dismiss()} style={styles.container}>
+        <Pressable
+          onPress={() => Keyboard.dismiss()}
+          style={parentId ? styles.container2 : styles.container}>
           {/* Close Button */}
           {/* {uploading ? (
             <Loading backgroundColor={'transparent'} />
           ) : ( */}
           <>
-            <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+            <TouchableOpacity
+              style={[styles.closeButton, parentId && {paddingTop: top}]}
+              onPress={onClose}>
               <CrossCircle size={40} />
             </TouchableOpacity>
             {/* Image Viewer with Next/Previous Buttons */}
@@ -159,6 +164,12 @@ const getStyles = Colors =>
       justifyContent: 'center',
       alignItems: 'center',
     },
+    container2: {
+      height: responsiveScreenHeight(100),
+      width: responsiveScreenWidth(100),
+      // justifyContent: 'center',
+      alignItems: 'center',
+    },
     closeButton: {
       position: 'absolute',
       right: 10,
@@ -189,7 +200,7 @@ const getStyles = Colors =>
     },
     inputContainer: {
       flexDirection: 'row',
-      padding: 10,
+      paddingHorizontal: 10,
       backgroundColor: Colors.Background_color,
       alignItems: 'center',
       width: '95%',
