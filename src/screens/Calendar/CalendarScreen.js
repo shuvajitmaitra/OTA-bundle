@@ -2,7 +2,6 @@ import React, {useEffect, useState, useCallback, useMemo, useRef} from 'react';
 import {
   Alert,
   Image,
-  RefreshControl,
   ScrollView,
   StatusBar,
   StyleSheet,

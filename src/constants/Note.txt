@@ -16,6 +16,10 @@
 *Work Update - January 13, 2025*
 
 *Bootcampshub CLI*
-
+- In day event design issue fixed in the calendar.
+- Notification navigation issues fixed to navigate in the thread screen.
+- Added API to get single message for the thread screen.
+- Image gallery input field showing issues fixed in the thread screen.
+- 
 
 *Note: Finished 100% of today's work stream.*

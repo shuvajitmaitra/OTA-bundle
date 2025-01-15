@@ -49,7 +49,6 @@ const DayEvent = ({DayOffset, user, eventType}) => {
                 borderRadius: 100,
                 alignItems: 'center',
                 paddingHorizontal: responsiveScreenWidth(2),
-                marginRight: 10,
               },
             ]}>
             <View
@@ -103,6 +102,7 @@ const getStyles = Colors =>
       paddingVertical: 10,
       flexDirection: 'row',
       flexWrap: 'wrap',
+      gap: 5,
     },
     notAvailable: {
       fontSize: responsiveScreenFontSize(2.2),

@@ -17,6 +17,7 @@ import ThreadMessageItem from '../../components/ChatCom/ThreadMessageItem';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 import Loading from '../../components/SharedComponent/Loading';
 import axiosInstance from '../../utility/axiosInstance';
+import {getSingleMessage} from '../../actions/apiCall';
 
 const ThreadScreen = ({route}) => {
   const {parentMessage, chat} = route.params;
@@ -36,6 +37,7 @@ const ThreadScreen = ({route}) => {
       chat,
       page: 1,
     });
+    getSingleMessage(parentMessage);
 
     return () => {
       dispatch(setThreadMessages([]));
@@ -56,7 +58,6 @@ const ThreadScreen = ({route}) => {
     axiosInstance
       .post('/chat/messages', options)
       .then(res => {
-        console.log('res.data', JSON.stringify(res.data, null, 2));
         dispatch(setThreadMessages(res.data.messages));
       })
       .catch(error => {

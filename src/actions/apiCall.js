@@ -324,3 +324,17 @@ export const getMyNavigation = () => {
       console.log(err);
     });
 };
+export const getSingleMessage = messageId => {
+  console.log('messageId', JSON.stringify(messageId, null, 2));
+  axiosInstance
+    .get(`/chat/message/${messageId}`)
+    .then(res => {
+      console.log('res.data', JSON.stringify(res.data, null, 2));
+      // if (res.data.success) {
+      //   // store.dispatch(updateThreadMessage(res.data.message));
+      // }
+    })
+    .catch(err => {
+      console.log(err.response.data);
+    });
+};
