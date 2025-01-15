@@ -11,7 +11,11 @@ const MessageBottomContainer = ({item, navigation, my}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors, my);
   return (
-    <View style={styles.messageBottomContainer}>
+    <View
+      style={[
+        styles.messageBottomContainer,
+        item.replyCount === 0 && {justifyContent: 'flex-end'},
+      ]}>
       {item.replyCount > 0 && (
         <TouchableOpacity
           onPress={() =>
@@ -25,42 +29,47 @@ const MessageBottomContainer = ({item, navigation, my}) => {
           }`}</Text>
         </TouchableOpacity>
       )}
-      <View style={{flexGrow: 1}}></View>
+      {/* <View style={{flexGrow: 1}}></View> */}
 
-      <View style={{flexDirection: 'row'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          // backgroundColor: 'blue',
+        }}>
         {item.editedAt && <Text style={styles.editedText}>(Edited)</Text>}
         <Text style={styles.timeText}>
           {moment(item.editedAt || item?.createdAt).format(' h:mm A')}
         </Text>
+        {my && !item.parentMessage && (
+          <>
+            {item?.status === 'seen' ? (
+              <MCicons
+                style={styles.iconStyle}
+                color={Colors.ThemeAnotherButtonColor}
+                size={20}
+                name="check-all"
+              />
+            ) : item?.status === 'sent' ? (
+              <MCicons
+                style={styles.iconStyle}
+                size={20}
+                color={Colors.BodyText}
+                name="check"
+              />
+            ) : item?.status === 'delivered' ? (
+              <MCicons
+                style={styles.iconStyle}
+                color={Colors.BodyText}
+                size={20}
+                name="check-all"
+              />
+            ) : item?.status === 'sending' ? (
+              <CircleLoader />
+            ) : null}
+          </>
+        )}
       </View>
-      {my && !item.parentMessage && (
-        <>
-          {item?.status === 'seen' ? (
-            <MCicons
-              style={styles.iconStyle}
-              color={Colors.ThemeAnotherButtonColor}
-              size={20}
-              name="check-all"
-            />
-          ) : item?.status === 'sent' ? (
-            <MCicons
-              style={styles.iconStyle}
-              size={20}
-              color={Colors.BodyText}
-              name="check"
-            />
-          ) : item?.status === 'delivered' ? (
-            <MCicons
-              style={styles.iconStyle}
-              color={Colors.BodyText}
-              size={20}
-              name="check-all"
-            />
-          ) : item?.status === 'sending' ? (
-            <CircleLoader />
-          ) : null}
-        </>
-      )}
     </View>
   );
 };
@@ -74,7 +83,7 @@ const getStyles = (Colors, my) =>
     },
     editedText: {
       color: Colors.Red,
-      textAlign: 'right',
+      // textAlignVertical: 'bottom',
     },
     replyCountText: {
       fontFamily: CustomFonts.SEMI_BOLD,
