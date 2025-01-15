@@ -56,7 +56,7 @@ React Native CLI
 npx react-native build-android --mode=release 
 
 * .abb file create
-cd android && /gradlew bundleRelease && cd ..
+cd android && ./gradlew bundleRelease && cd ..
 
 * Xcode open
 xed -b ios

@@ -5,10 +5,11 @@ import {Alert, Platform} from 'react-native';
 import axiosInstance from '../utility/axiosInstance';
 
 import store from '../store';
-import {setSingleChat} from '../store/reducer/chatReducer';
+import {setSingleChat, updateLatestMessage} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {setCurrentRoute} from '../store/reducer/authReducer';
+import {navigate} from '../navigation/NavigationService';
 
 const usePushNotifications = () => {
   const [error, setError] = useState('');
@@ -33,7 +34,7 @@ const usePushNotifications = () => {
         }
         await createNotificationChannel();
 
-        messaging().onMessage(handleNotification);
+        messaging().onMessage(handleForegroundNotification);
         messaging().onNotificationOpenedApp(handleNotification);
 
         const initialNotification = await messaging().getInitialNotification();
@@ -111,6 +112,64 @@ const usePushNotifications = () => {
     }
   };
 
+  const handleForegroundNotification = async remoteMessage => {
+    console.log(
+      'handleNotification for foreground',
+      JSON.stringify(remoteMessage, null, 2),
+    );
+    try {
+      if (remoteMessage.data) {
+        await notifee.displayNotification({
+          title: remoteMessage.notification.title || 'Default Title',
+          body: remoteMessage.notification.body || 'Default Body',
+          android: {
+            channelId: 'default',
+            pressAction: {
+              id: 'default',
+            },
+          },
+          ios: {
+            sound: 'default',
+            badge: 1,
+          },
+        });
+        notifee.onForegroundEvent(async ({type, detail}) => {
+          if (type === EventType.PRESS) {
+            const {chatId} = remoteMessage.data;
+
+            if (remoteMessage?.data?.path) {
+              const chat = store.getState().chat.chatsObj[chatId];
+              if (chat) {
+                store.dispatch(setSingleChat(chat));
+              } else {
+                console.warn('Chat not found for ID:', chatId);
+              }
+              navigate('MessageScreen2');
+              // store.dispatch(
+              //   updateLatestMessage({
+              //     chatId: chat.chat,
+              //     latestMessage: {text: chat.text},
+              //     counter: 1,
+              //   }),
+              // );
+            }
+          }
+
+          if (type === EventType.DISMISSED) {
+            console.log('User dismissed notification');
+            console.log(
+              'Notification Details:',
+              JSON.stringify(detail.notification, null, 2),
+            );
+          }
+        });
+      } else {
+        console.log('No notification content found in the remote message');
+      }
+    } catch (err) {
+      console.error('Error displaying notification:', err);
+    }
+  };
   const handleNotification = async remoteMessage => {
     console.log('remoteMessage', JSON.stringify(remoteMessage, null, 1));
     try {
@@ -140,9 +199,8 @@ const usePushNotifications = () => {
             },
           });
         } else {
-          store.dispatch(setCurrentRoute('MessageScreen2'));
-          navigation.navigate('MessageScreen2');
           store.dispatch(setSingleChat(chatsObj[remoteMessage.data.chatId]));
+          navigate('MessageScreen2');
         }
       } else {
         console.log('No notification content found in the remote message');

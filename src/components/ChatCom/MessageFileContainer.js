@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   Linking,
-  // ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
@@ -14,13 +13,11 @@ import {useTheme} from '../../context/ThemeContext';
 import AudioMessage from './AudioMessage';
 import FileIcon from '../../assets/Icons/FileIcon';
 import {RegularFonts} from '../../constants/Fonts';
-// import DownloadIcon2 from '../../assets/Icons/DowloadIcon2';
 
 const MessageFileContainer = ({files, setViewImage, my}) => {
   const [imageDimensions, setImageDimensions] = useState({});
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  // const [imageLoading, setImageLoading] = useState(false);
   const handleImageLayout = (uri, width, height) => {
     const aspectRatio = width / height;
     setImageDimensions(prev => ({
@@ -35,18 +32,9 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        // style={{position: 'relative'}}
         onPress={() => setViewImage([{uri: item?.url}])}>
         <Image
           source={{uri: item.url}}
-          // onLoadStart={() => {
-          //   console.log('Image loading started');
-          //   setImageLoading(true);
-          // }}
-          // onLoadEnd={() => {
-          //   console.log('Image loading ended');
-          //   setImageLoading(false);
-          // }}
           style={[
             styles.image,
             aspectRatio ? {aspectRatio} : {height: responsiveScreenHeight(20)},
@@ -59,11 +47,6 @@ const MessageFileContainer = ({files, setViewImage, my}) => {
             );
           }}
         />
-        {/* {imageLoading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="small" color={Colors.Primary} />
-          </View>
-        )} */}
       </TouchableOpacity>
     );
   };

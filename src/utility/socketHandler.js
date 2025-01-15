@@ -17,11 +17,9 @@ import {
 } from '../store/reducer/chatReducer';
 import {
   appendLocalMessage,
-  updateMessage,
   updateRepliesCount,
 } from '../store/reducer/chatSlice';
 import {addNewMessage} from './mmkvHelpers';
-import {Platform} from 'react-native';
 import {newNotification} from '../store/reducer/notificationReducer';
 
 const updateStatus = (messageId, status) => {

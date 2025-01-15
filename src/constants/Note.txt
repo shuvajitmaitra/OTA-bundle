@@ -1,25 +1,21 @@
-*Work Stream - January 13, 2025*
+*Work Stream - January 15, 2025*
+
+- Modify the message section to match the portal web design (in progress).
+- Add padding to the bottom of the documents screen.
+- Reduce the left-side padding of the input field.
+- Add padding to the bottom of the Documents screen tab.
+- Resolve the issue of the loading state being displayed continuously on the community screen.
+- Change the color of the audio play button on the Audio and Video screen.
+- Fix the issue where the modal resizes automatically when searching for a member while creating a crowd and adding members.
+
+*Note: Planned to complete 100% of today's work stream.*
+
+
+
+
+*Work Update - January 13, 2025*
 
 *Bootcampshub CLI*
-
-- When start recording but recording time count not working.
-
-*Note: Planned to finish 100% of today's work-stream*
-
-
-
-- 
-
-
-*Work Update - January 12, 2025*
-
-*Bootcampshub CLI*
-
-- Video title are overlap the chapter name in the program module issue fixed. 
-- App crashing issues fixed in the chat.
-- Audio recording issue fixed in the chat.
-- Day2Day Activities card left padding and right padding issue fixed.
-- Fixed github icon according to facebook and instagram icon
 
 
 *Note: Finished 100% of today's work stream.*

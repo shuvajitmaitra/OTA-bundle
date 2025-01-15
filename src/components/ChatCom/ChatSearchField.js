@@ -86,7 +86,7 @@ const ChatSearchField = ({checked, handleRadioChecked, handleFilter}) => {
     <View style={styles.mainContainer}>
       <TouchableOpacity
         style={styles.backArrow}
-        onPress={() => navigation.goBack()}>
+        onPress={() => navigation.pop()}>
         <ArrowLeft size={20} />
       </TouchableOpacity>
       <View style={[styles.inputField]}>
