@@ -3,7 +3,7 @@ import React from 'react';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import {useTheme} from '../../context/ThemeContext';
 
-const Loading = ({backgroundColor}) => {
+const Loading = ({backgroundColor, style}) => {
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
@@ -20,7 +20,7 @@ const Loading = ({backgroundColor}) => {
         minWidth: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-
+        ...style,
         backgroundColor: backgroundColor ? backgroundColor : Colors.White,
       }}>
       <ActivityIndicator size={50} animating={true} color={Colors.Primary} />

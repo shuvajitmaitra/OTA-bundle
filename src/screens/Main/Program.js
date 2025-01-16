@@ -100,7 +100,12 @@ export default function Program() {
         <Text style={styles.details}>Keep learning to make progress</Text>
         <ScrollView showsVerticalScrollIndicator={false}>
           {isLoading ? (
-            <Loading background={'transparent'} />
+            <Loading
+              style={{
+                marginTop: responsiveScreenHeight(2),
+              }}
+              background={'transparent'}
+            />
           ) : (
             <ProgramItem
               myprogram={myProgram}
@@ -141,7 +146,6 @@ const getStyles = Colors =>
     details: {
       fontFamily: CustomFonts.REGULAR,
       fontSize: responsiveScreenFontSize(1.7),
-      marginTop: responsiveScreenHeight(0.5),
       color: Colors.BodyText,
       marginBottom: responsiveScreenHeight(0.5),
     },
