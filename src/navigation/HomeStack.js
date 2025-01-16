@@ -47,9 +47,12 @@ const HomeStackScreen = () => {
       <HomeStack.Screen
         name="UserDashboard"
         component={UserDashboard}
-        options={{
-          headerShown: false,
-        }}
+        options={({route, navigation}) => ({
+          headerTitle: '',
+          header: () => {
+            return <Header navigation={navigation} />;
+          },
+        })}
       />
       <HomeStack.Screen
         name="DisplaySettingsScreen"

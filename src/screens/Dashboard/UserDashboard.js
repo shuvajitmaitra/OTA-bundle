@@ -31,8 +31,6 @@ import ChartSection from '../../components/DashboardCom/ChartSection';
 import CustomFonts from '../../constants/CustomFonts';
 import DayToDayChart from '../../components/DashboardCom/DayToDayChart';
 import {useSelector} from 'react-redux';
-import {LoadCalenderInfo} from '../../actions/apiCall';
-import {showToast} from '../../components/HelperFunction';
 
 export default function UserDashboard() {
   const Colors = useTheme();
@@ -60,7 +58,6 @@ export default function UserDashboard() {
   return (
     <View
       style={{
-        paddingTop: insets.top / 1.5,
         flex: 1,
         backgroundColor: Colors.Background_color,
       }}>
@@ -202,7 +199,6 @@ const getStyles = Colors =>
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveScreenFontSize(2.4),
       color: Colors.Heading,
-      paddingTop: responsiveScreenHeight(1),
       paddingHorizontal: responsiveScreenWidth(2),
     },
     subtitle: {
