@@ -11,22 +11,18 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import CircularProgress from '../SharedComponent/CricleProgress';
 
-const MessageProgress = ({message}) => {
+const DayToDayProgress = ({progress, count, limit}) => {
   const navigation = useNavigation();
   const Colors = useTheme();
   const styles = getStyles(Colors);
 
-  const progress =
-    ((message?.count / message?.limit) * 100 > 100
-      ? 100
-      : (message?.count / message?.limit) * 100) || 0;
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.HeadingText}>Message</Text>
+        <Text style={styles.HeadingText}>Day to Day Activities</Text>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('HomeStack', {screen: 'NewChatScreen'})
+            navigation.navigate('ProgramStack', {screen: 'DayToDayActivities'})
           }>
           <ArrowTopRight />
         </TouchableOpacity>
@@ -35,23 +31,6 @@ const MessageProgress = ({message}) => {
       <Divider />
       <View style={styles.cartContainer}>
         <View style={styles.progress}>
-          {/* <AnimatedProgressWheel
-            size={responsiveScreenWidth(40)}
-            width={responsiveScreenWidth(5)}
-            // rounded={false}
-            color={Colors.Primary}
-            progress={
-              ((message?.count / message?.limit) * 100 > 100
-                ? 100
-                : (message?.count / message?.limit) * 100) || 0
-            }
-            backgroundColor={Colors.PrimaryOpacityColor}
-            rotation={'30deg'}
-            showProgressLabel={true}
-            rounded={true}
-            labelStyle={styles.progressLabel}
-            showPercentageSymbol={true}
-          /> */}
           <CircularProgress
             activeColor={Colors.Primary}
             inActiveColor={Colors.PrimaryOpacityColor}
@@ -59,12 +38,13 @@ const MessageProgress = ({message}) => {
             radius={70}
             strokeWidth={20}
             textColor={Colors.Primary}
+            duration={1000}
           />
         </View>
         <View style={{flexGrow: 1}}></View>
         {
           <Text style={styles.details}>
-            {message?.count} out of {message?.limit}
+            {count} out of {limit}
           </Text>
         }
       </View>
@@ -72,7 +52,7 @@ const MessageProgress = ({message}) => {
   );
 };
 
-export default MessageProgress;
+export default DayToDayProgress;
 
 const getStyles = Colors =>
   StyleSheet.create({

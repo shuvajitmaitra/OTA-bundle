@@ -1,7 +1,5 @@
 *Workstream - January 16, 2025*
 
-- Decrease the gap between the title and subtitle.
-- Fix the background design issue for the rounded progress indicator.
 - Resolve the issue with the progress indicator.
 - Include the missing overall progress data.
 - Fix the green border radius issue for the Day-to-Day Activities progress indicator.
@@ -17,5 +15,8 @@
 *Bootcampshub CLI*
 - added back navigation and added global header on the User dashboard screen.
 - Replaced the back button with a modal title. Suggested title: "Switch Bootcamps."
-
+- Decreased the gap between the title and subtitle in the program screen.
+- Create a custom progress wheel in Progress screen.
+- Fix day to day  and message progress wheel issue in progress screen.
+- 
 *Note: Finished 100% of today's work stream.*

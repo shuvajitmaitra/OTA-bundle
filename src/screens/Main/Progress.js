@@ -27,9 +27,9 @@ import OtherActivitiesProgress from '../../components/progress/OtherActivitiesPr
 import MessageProgress from '../../components/progress/MessageProgress';
 import DocumentsProgress from '../../components/progress/DocumentsProgress';
 import {setDashboardData} from '../../store/reducer/dashboardReducer';
-import Divider from '../../components/SharedComponent/Divider';
+import DayToDayProgress from '../../components/progress/DayToDayProgress';
 
-export default function Progress({route}) {
+export default function Progress() {
   const [myprogress, setMyprogress] = React.useState(null);
   const [totalResults, setTotalResults] = useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -122,88 +122,6 @@ export default function Progress({route}) {
       });
   }, [selectedCourse]);
 
-  const PrograssItem = ({title, percentage, details1, details2}) => {
-    return (
-      <View style={styles.prograssContainer}>
-        {/* <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: responsiveScreenHeight(1.5),
-            paddingRight: responsiveScreenWidth(2.5),
-            paddingLeft: responsiveScreenWidth(2),
-          }}
-        >
-          <Text style={styles.heading}>{title}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("ProgramStack", {
-                screen: "DayToDayActivities",
-              });
-            }}
-          >
-            <ArrowTopRight />
-          </TouchableOpacity>
-        </View> */}
-        <View style={styles.headerContainer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: 10,
-              alignItems: 'center',
-              zIndex: -9,
-            }}>
-            <Text style={styles.HeadingText}>{title}</Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('ProgramStack', {
-                  screen: 'DayToDayActivities',
-                });
-              }}>
-              <ArrowTopRight />
-            </TouchableOpacity>
-          </View>
-          <View style={{zIndex: 9}}>
-            {/* <CustomDropDownTwo data={data} state={value} setState={setValue} /> */}
-          </View>
-        </View>
-        <Divider />
-        <View style={{flexGrow: 1}}></View>
-        <View style={styles.progress}>
-          <AnimatedProgressWheel
-            size={responsiveScreenWidth(50)}
-            width={
-              title === 'Uploaded Documents'
-                ? responsiveScreenWidth(12)
-                : responsiveScreenWidth(5)
-            }
-            color={Colors.Primary}
-            progress={percentage || 0}
-            backgroundColor={
-              title === 'Uploaded Documents' ||
-              title === 'Day to Day Activities/Logs'
-                ? Colors.StarColor
-                : Colors.BorderColor
-            }
-            // rotation={title === "Reviews" ? "100deg" : "-100deg"}
-            rotation="-100deg"
-            showProgressLabel={true}
-            rounded={
-              title === 'Uploaded Documents' ||
-              title === 'Day to Day Activities/Logs'
-                ? false
-                : true
-            }
-            labelStyle={styles.progressLabel}
-            showPercentageSymbol={true}
-          />
-        </View>
-        {details1 ? <Text style={styles.details}>{details1}</Text> : null}
-        {details2 ? <Text style={styles.details}>{details2}</Text> : null}
-      </View>
-    );
-  };
-
   if (isLoading) {
     return (
       <View style={{flex: 1, backgroundColor: Colors.Background_color}}>
@@ -247,7 +165,7 @@ export default function Progress({route}) {
             </View>
           </View>
         </View>
-        <View style={styles.dayTwoDayAndReviewContainer}>
+        {/* <View style={styles.dayTwoDayAndReviewContainer}>
           <PrograssItem
             // key={item?._id}
             clickable={'DayToDayActivities'}
@@ -255,7 +173,12 @@ export default function Progress({route}) {
             percentage={(dayToday?.count / dayToday?.limit) * 100 || 0}
             details1={`${dayToday?.count || 0} out of ${dayToday?.limit || 0}`}
           />
-        </View>
+        </View> */}
+        <DayToDayProgress
+          progress={(dayToday?.count / dayToday?.limit) * 100 || 0}
+          count={dayToday?.count || 0}
+          limit={dayToday?.limit || 0}
+        />
         <TechnicalTestProgress />
         <DocumentsProgress myUploadedDocuments={myUploadedDocuments} />
         <CalendarProgress />
