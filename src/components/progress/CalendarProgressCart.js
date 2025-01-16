@@ -1,12 +1,17 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import ArrowTopRight from "../../assets/Icons/ArrowTopRight";
-import { useTheme } from "../../context/ThemeContext";
-import AnimatedProgressWheel from "react-native-progress-wheel";
-import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import CustomFonts from "../../constants/CustomFonts";
+import {Image, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import ArrowTopRight from '../../assets/Icons/ArrowTopRight';
+import {useTheme} from '../../context/ThemeContext';
+import AnimatedProgressWheel from 'react-native-progress-wheel';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import CustomFonts from '../../constants/CustomFonts';
+import CircularProgress from '../SharedComponent/CricleProgress';
 
-const CalendarProgressCart = ({ title, value, percentage, color }) => {
+const CalendarProgressCart = ({title, value, percentage, color}) => {
   // --------------------------
   // ----------- Import theme Colors -----------
   // --------------------------
@@ -16,23 +21,42 @@ const CalendarProgressCart = ({ title, value, percentage, color }) => {
     <View style={styles.container}>
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
           gap: 10,
           marginTop: responsiveScreenHeight(0.5),
           marginLeft: responsiveScreenWidth(1),
           // backgroundColor: "red",
-        }}
-      >
-        {title === "Accepted" && <Image style={styles.image} source={require("../../assets/Images/checkGreen.png")} />}
-        {title === "Denied" && <Image style={styles.image} source={require("../../assets/Images/cross.png")} />}
-        {title === "Pending" && <Image style={styles.image} source={require("../../assets/Images/pending.png")} />}
-        {title === "Total Finished" && <Image style={styles.image} source={require("../../assets/Images/flag.png")} />}
+        }}>
+        {title === 'Accepted' && (
+          <Image
+            style={styles.image}
+            source={require('../../assets/Images/checkGreen.png')}
+          />
+        )}
+        {title === 'Denied' && (
+          <Image
+            style={styles.image}
+            source={require('../../assets/Images/cross.png')}
+          />
+        )}
+        {title === 'Pending' && (
+          <Image
+            style={styles.image}
+            source={require('../../assets/Images/pending.png')}
+          />
+        )}
+        {title === 'Total Finished' && (
+          <Image
+            style={styles.image}
+            source={require('../../assets/Images/flag.png')}
+          />
+        )}
         <Text style={styles.containerText}>{title}</Text>
       </View>
       <View style={styles.contentContainer}>
         <Text style={styles.values}>{value}</Text>
-        <AnimatedProgressWheel
+        {/* <AnimatedProgressWheel
           size={responsiveScreenWidth(10)}
           width={responsiveScreenWidth(1.2)}
           color={color}
@@ -43,6 +67,17 @@ const CalendarProgressCart = ({ title, value, percentage, color }) => {
           rounded={false}
           labelStyle={styles.progressLabel}
           showPercentageSymbol={true}
+        /> */}
+
+        <CircularProgress
+          activeColor={color}
+          inActiveColor={Colors.PrimaryOpacityColor}
+          progress={percentage}
+          radius={20}
+          strokeWidth={7}
+          textColor={color}
+          duration={1000}
+          lineCap="butt"
         />
       </View>
     </View>
@@ -51,7 +86,7 @@ const CalendarProgressCart = ({ title, value, percentage, color }) => {
 
 export default CalendarProgressCart;
 
-const getStyles = (Colors) =>
+const getStyles = Colors =>
   StyleSheet.create({
     image: {
       height: 15, // Specify height here
@@ -64,21 +99,21 @@ const getStyles = (Colors) =>
       fontFamily: CustomFonts.SEMI_BOLD,
     },
     contentContainer: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 10,
-      alignItems: "center",
-      justifyContent: "space-between",
+      alignItems: 'center',
+      justifyContent: 'space-between',
       marginTop: responsiveScreenHeight(1),
       marginBottom: responsiveScreenHeight(0.5),
-      width: "90%",
-      alignSelf: "center",
+      width: '90%',
+      alignSelf: 'center',
       // backgroundColor: "yellow",
     },
     containerText: {
       fontFamily: CustomFonts.SEMI_BOLD,
       color: Colors.Heading,
       fontSize: responsiveScreenFontSize(1.7),
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
     container: {
       flex: 1,

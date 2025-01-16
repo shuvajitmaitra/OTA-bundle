@@ -17,6 +17,7 @@ const CircularProgress = ({
   strokeWidth = 20,
   textColor = '#4caf50',
   duration = 2000,
+  lineCap = 'round',
 }) => {
   const circumference = 2 * Math.PI * radius;
   const animatedProgress = useSharedValue(0);
@@ -52,7 +53,7 @@ const CircularProgress = ({
           strokeWidth={strokeWidth}
           strokeDasharray={`${circumference}`}
           animatedProps={animatedProps}
-          strokeLinecap="round"
+          strokeLinecap={lineCap}
           fill="none"
           transform={`rotate(-90 ${radius + strokeWidth / 2} ${
             radius + strokeWidth / 2
@@ -60,7 +61,8 @@ const CircularProgress = ({
         />
       </Svg>
       <View style={styles.textContainer}>
-        <Animated.Text style={[styles.text, {color: textColor}]}>
+        <Animated.Text
+          style={[styles.text, {color: textColor, fontSize: radius / 2}]}>
           {`${Math.round(progress)}%`}
         </Animated.Text>
       </View>
