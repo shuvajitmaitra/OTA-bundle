@@ -21,12 +21,12 @@ import ArrowLeft from '../../assets/Icons/ArrowLeft';
 import {activeProgram} from '../../utility/mmkvHelpers';
 import {setEnrollment} from '../../store/reducer/authReducer';
 import {useMainContext} from '../../context/MainContext';
+import {RegularFonts} from '../../constants/Fonts';
 
 const ProgramSwitchModal = memo(({modalOpen, onCancelPress}) => {
   const dispatch = useDispatch();
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const [switched, setSwitched] = useState(true);
   const {myEnrollments, enrollment} = useSelector(state => state.auth);
   const {handleVerify2} = useMainContext();
 
@@ -66,8 +66,7 @@ const ProgramSwitchModal = memo(({modalOpen, onCancelPress}) => {
           <TouchableOpacity
             onPress={onCancelPress}
             style={styles.popupArrowContainer}>
-            <ArrowLeft />
-            <Text style={styles.popupTitle}>Program</Text>
+            <Text style={styles.popupTitle}>Switch Bootcamp</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={onCancelPress}
@@ -143,7 +142,7 @@ const getStyles = Colors =>
     },
     popupTitle: {
       fontFamily: CustomFonts.SEMI_BOLD,
-      fontSize: responsiveScreenFontSize(1.9),
+      fontSize: RegularFonts.HS,
       marginLeft: responsiveScreenWidth(2),
       color: Colors.BodyText,
     },
@@ -156,10 +155,10 @@ const getStyles = Colors =>
       alignItems: 'center',
     },
     popupLine: {
-      width: responsiveScreenWidth(85),
+      width: responsiveScreenWidth(80),
       height: 2,
       backgroundColor: Colors.BorderColor,
-      marginTop: responsiveScreenHeight(2),
+      marginTop: responsiveScreenHeight(1),
       marginBottom: responsiveScreenHeight(1),
       alignSelf: 'center',
     },
