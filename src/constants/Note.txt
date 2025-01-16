@@ -1,9 +1,5 @@
 *Workstream - January 16, 2025*
 
-- Resolve the issue with the progress indicator.
-- Include the missing overall progress data.
-- Fix the green border radius issue for the Day-to-Day Activities progress indicator.
-- Detach the progress card from the bottom navigation bar on the Leaderboard screen.
 
 *Note:* The goal is to achieve 100% completion of today's workstream.
 
@@ -18,5 +14,8 @@
 - Decreased the gap between the title and subtitle in the program screen.
 - Create a custom progress wheel in Progress screen.
 - Fix day to day  and message progress wheel issue in progress screen.
-- 
+- Calendar progress indicator issue fixed in the progress screen.
+- Fixed the green border radius issue for the Day-to-Day Activities progress indicator.
+- Spacing issue fixed for the progress card from the bottom navigation bar on the Leaderboard screen.
+
 *Note: Finished 100% of today's work stream.*

@@ -54,7 +54,6 @@ export default function LeaderBoardScreen({route}) {
       .catch(err => {
         setIsLoading(false);
         console.log(err);
-        setError(err?.response?.data);
       });
   }, []);
   if (isLoading) {
@@ -133,132 +132,109 @@ export default function LeaderBoardScreen({route}) {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        {/* ---------
-        ------------heading-------
-        -------------------------- */}
-        <View style={styles.HeadingContainer}>
-          <Text style={styles.title}>Leaderboard</Text>
-          <Text style={styles.heading}>
-            Program:
-            <Text style={styles.headingText}> {totalData?.program?.title}</Text>
-          </Text>
-          <Text style={styles.heading}>
-            Session:
-            <Text style={styles.headingText}> {totalData?.session?.name}</Text>
-          </Text>
-        </View>
+      <ScrollView contentContainerStyle={{paddingBottom: 20}}>
+        <Text style={styles.title}>Leaderboard</Text>
+        <Text style={styles.heading}>
+          Program:
+          <Text style={styles.headingText}> {totalData?.program?.title}</Text>
+        </Text>
+        <Text style={styles.heading}>
+          Session:
+          <Text style={styles.headingText}> {totalData?.session?.name}</Text>
+        </Text>
 
-        {/* ---------
-        ------------Progress-------
-        -------------------------- */}
-        <View>
-          {/* <Text style={styles.text}>
-            Your {totalData?.updateFrequency || "weekly"} progress update.
-          </Text> */}
-
-          <View style={styles.progressContainer}>
-            <View style={styles.progressInfo}>
-              {totalData?.myData?.user?.profilePicture ? (
-                <Image
-                  source={{
-                    uri: totalData?.myData?.user?.profilePicture,
-                  }}
-                  style={styles.toperImg}
-                />
-              ) : user?.profilePicture ? (
-                <Image
-                  source={{
-                    uri: user?.profilePicture,
-                  }}
-                  style={styles.toperImg}
-                />
-              ) : (
-                <View
-                  style={[
-                    styles.toperImg,
-                    {
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    },
-                  ]}>
-                  <UserIconTwo size={50} />
-                </View>
-              )}
-              <View style={styles.infoContainer}>
-                <Text style={styles.progressTitle}>
-                  {totalData?.myData?.user?.fullName || user?.fullName}
-                </Text>
-                <Text style={styles.progressHeading}>
-                  Program:
-                  <Text style={styles.progressText}>
-                    {' '}
-                    {totalData.program?.title}
-                  </Text>
-                </Text>
-                <Text style={styles.progressHeading}>
-                  Session:
-                  <Text style={styles.progressText}>
-                    {' '}
-                    {totalData?.session?.name}
-                  </Text>
-                </Text>
-
-                <Text style={styles.progressText}>
-                  {totalData?.myData?.metrics?.totalObtainedMark || 0} pts
-                </Text>
+        <View style={styles.progressContainer}>
+          <View style={styles.progressInfo}>
+            {totalData?.myData?.user?.profilePicture ? (
+              <Image
+                source={{
+                  uri: totalData?.myData?.user?.profilePicture,
+                }}
+                style={styles.toperImg}
+              />
+            ) : user?.profilePicture ? (
+              <Image
+                source={{
+                  uri: user?.profilePicture,
+                }}
+                style={styles.toperImg}
+              />
+            ) : (
+              <View
+                style={[
+                  styles.toperImg,
+                  {
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  },
+                ]}>
+                <UserIconTwo size={50} />
               </View>
-              <Hexagon text={totalData?.myData?.rank || 0} color="#68C562" />
-            </View>
-            <View style={styles.ShowProgress}>
-              <Text style={styles.your}>Your Progress</Text>
+            )}
+            <View style={styles.infoContainer}>
+              <Text style={styles.progressTitle}>
+                {totalData?.myData?.user?.fullName || user?.fullName}
+              </Text>
               <Text style={styles.progressHeading}>
-                {totalData?.myData?.metrics?.overallPercentageAllItems || 0}%
+                Program:
+                <Text style={styles.progressText}>
+                  {' '}
+                  {totalData.program?.title}
+                </Text>
+              </Text>
+              <Text style={styles.progressHeading}>
+                Session:
+                <Text style={styles.progressText}>
+                  {' '}
+                  {totalData?.session?.name}
+                </Text>
+              </Text>
+
+              <Text style={styles.progressText}>
+                {totalData?.myData?.metrics?.totalObtainedMark || 0} pts
               </Text>
             </View>
-            <ProgressBar
-              progress={
-                totalData?.myData?.metrics?.overallPercentageAllItems / 100 || 0
-              }
-              style={styles.progress1}
-              color={Colors.White}
-            />
-
-            {userBadge(totalData?.myData?.rank)}
-
-            <Text style={styles.progressHeading}>
-              Last Update:
-              <Text style={styles.progressText}>
-                {' '}
-                {moment(totalData?.lastUpdated).format(
-                  'MMM DD, YYYY, (h:mm a)',
-                )}
-              </Text>
-            </Text>
-            <TouchableOpacity
-              style={styles.btn1}
-              onPress={() =>
-                navigation.navigate('ProgramStack', {
-                  screen: 'Progress',
-                })
-              }>
-              <View style={styles.btnContainer}>
-                <Text style={styles.btnText1}>View Progress</Text>
-                <ArrowRight />
-              </View>
-            </TouchableOpacity>
+            <Hexagon text={totalData?.myData?.rank || 0} color="#68C562" />
           </View>
+          <View style={styles.ShowProgress}>
+            <Text style={styles.your}>Your Progress</Text>
+            <Text style={styles.progressHeading}>
+              {totalData?.myData?.metrics?.overallPercentageAllItems || 0}%
+            </Text>
+          </View>
+          <ProgressBar
+            progress={
+              totalData?.myData?.metrics?.overallPercentageAllItems / 100 || 0
+            }
+            style={styles.progress1}
+            color={Colors.White}
+          />
+
+          {userBadge(totalData?.myData?.rank)}
+
+          <Text style={styles.progressHeading}>
+            Last Update:
+            <Text style={styles.progressText}>
+              {' '}
+              {moment(totalData?.lastUpdated).format('MMM DD, YYYY, (h:mm a)')}
+            </Text>
+          </Text>
+          <TouchableOpacity
+            style={styles.btn1}
+            onPress={() =>
+              navigation.navigate('ProgramStack', {
+                screen: 'Progress',
+              })
+            }>
+            <View style={styles.btnContainer}>
+              <Text style={styles.btnText1}>View Progress</Text>
+              <ArrowRight />
+            </View>
+          </TouchableOpacity>
         </View>
 
-        {/* ---------
-        ------------Top performer-------
-        -------------------------- */}
         <View style={styles.topContainer}>
           <Text style={styles.topTitle}>Top Performers in the Program</Text>
-
-          {/* --------
-          ---------top1----
-          ----------------------- */}
 
           {results?.length > 0 &&
             results?.map(item => (
@@ -366,15 +342,7 @@ export default function LeaderBoardScreen({route}) {
                       'MMM DD, YYYY, (h:mm a)',
                     )}
                   </Text>
-                  {/* <Text style={styles.smallText2}> (10:30 AM)</Text> */}
                 </Text>
-
-                {/* <TouchableOpacity style={styles.button} onPress={() => { }}>
-                  <View style={styles.btnContainer}>
-                    <Text style={styles.buttonText}>View Progress</Text>
-                    <ArrowRightWhite />
-                  </View>
-                </TouchableOpacity> */}
               </View>
             ))}
         </View>
