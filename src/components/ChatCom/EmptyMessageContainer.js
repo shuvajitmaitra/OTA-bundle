@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Keyboard, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Images from '../../constants/Images';
 import CustomFonts from '../../constants/CustomFonts';
@@ -10,7 +10,11 @@ const EmptyMessageContainer = ({chat}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
   return (
-    <View style={styles.ListEmptyComponent}>
+    <Pressable
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+      style={styles.ListEmptyComponent}>
       <Image
         style={styles.profileImage}
         source={
@@ -30,7 +34,7 @@ const EmptyMessageContainer = ({chat}) => {
           : `chat with ${chat.otherUser.fullName}`}
       </Text>
       <Text style={styles.noMessageText}>No message found! </Text>
-    </View>
+    </Pressable>
   );
 };
 
@@ -62,7 +66,8 @@ const getStyles = Colors =>
       alignItems: 'center',
       justifyContent: 'center',
       // backgroundColor: 'red',
-      width: '80%',
+      width: '100%',
       alignSelf: 'center',
+      paddingHorizontal: 40,
     },
   });
