@@ -428,7 +428,7 @@ const ChatProfile = () => {
                     ]}
                     numberOfLines={1}
                     ellipsizeMode="tail">
-                    Leave Crowds
+                    Leave Crowd
                   </Text>
                 </TouchableOpacity>
                 <LeaveCrowdModal

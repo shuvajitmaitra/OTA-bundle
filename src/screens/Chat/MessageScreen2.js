@@ -26,13 +26,12 @@ import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
-import Message3 from '../../components/ChatCom/NewMessageDesign/Message3';
 
 const MessageScreen2 = ({route}) => {
   // const {from} = route.params;
   const dispatch = useDispatch();
   console.log('rerender');
-  const {top, bottom} = useSafeAreaInsets();
+  const {top} = useSafeAreaInsets();
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -40,13 +39,10 @@ const MessageScreen2 = ({route}) => {
   const {messageOptionData} = useSelector(state => state.modal);
   const {localMessages} = useSelector(state => state.chatSlice);
   const [viewImage, setViewImage] = useState([]);
-  // console.log('viewImage', JSON.stringify(viewImage, null, 2));
-  // console.log('localMessages', JSON.stringify(localMessages, null, 1));
   const Colors = useTheme();
   const styles = getStyles(Colors);
   const [messages = {}, setMessages] = useMMKVObject('allMessages');
 
-  // const [localMessages, setLocalMessages] = useState([]);
   const [pinned, setPinned] = useState([]);
   const [pinnedCount = {}, setPinnedCount] = useMMKVObject('pinCount');
   const [pinnedScreenVisible, setPinnedScreenVisible] = useState(false);

@@ -25,7 +25,7 @@ import BlackCrossIcon from '../../../assets/Icons/BlackCrossIcon';
 import axiosInstance from '../../../utility/axiosInstance';
 import {useTheme} from '../../../context/ThemeContext';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setSingleChat, updateChats} from '../../../store/reducer/chatReducer';
 import Images from '../../../constants/Images';
 import NoDataAvailable from '../../SharedComponent/NoDataAvailable';
@@ -48,6 +48,7 @@ const CreateCrowdAddMember = ({
   const navigation = useNavigation();
   // const { showAlert } = useGlobalAlert();
   //   const { chat = [], fetchMembers } = useChat();
+  const {user: myInfo} = useSelector(state => state.auth);
   const [users, setUsers] = useState([]);
   const [checked, setChecked] = useState([]);
   const [inputText, setInputText] = useState('');
@@ -113,14 +114,28 @@ const CreateCrowdAddMember = ({
       users: checked.map(item => item._id),
     };
 
-    // console.log(JSON.stringify(data.users, null, 1));
     axiosInstance
       .post('/chat/channel/create', data)
       .then(res => {
-        console.log(JSON.stringify(res.data, null, 1));
+        console.log('Creating channel', JSON.stringify(res.data, null, 2));
         if (res.data.success) {
           dispatch(updateChats(res?.data?.chat));
-          dispatch(setSingleChat(res?.data?.chat));
+          dispatch(
+            setSingleChat({
+              ...res?.data?.chat,
+              membersCount: checked.length,
+              unreadCount: 0,
+              myData: {
+                user: myInfo?._id,
+                isFavourite: false,
+                isBlocked: false,
+                role: 'owner',
+                mute: {
+                  isMuted: false,
+                },
+              },
+            }),
+          );
           navigation.navigate('MessageScreen2');
           toggleAddMembersModal();
           toggleCreateCrowdModal();
