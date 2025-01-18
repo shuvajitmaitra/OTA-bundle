@@ -8,27 +8,24 @@ We are pleased to announce the latest updates and enhancements to the BootcampsH
 
 ---
 
-### New Fixes and Enhancements:
-1. **Video Title and Chapter Name Overlap**  
-   - Resolved an issue where video titles were overlapping the chapter names within the program module.
+#### Enhancements:
+- **User Dashboard Screen**:  
+  - Added back navigation for a smoother user experience.  
+  - Introduced a global header for consistent navigation across screens.  
 
-2. **App Stability Improvements**  
-   - Fixed multiple crashing issues within the chat functionality, improving overall app stability.
+- **Program Screen**:  
+  - Replaced the back button with a modal title for better context. Suggested title: "Switch Bootcamps."  
+  - Reduced the gap between the title and subtitle for improved visual alignment.  
 
-3. **Audio Recording Issue**  
-   - Addressed the problem preventing audio recordings from functioning properly in the chat feature.
+- **Progress Screen**:  
+  - Designed and implemented a custom progress wheel.  
+  - Resolved the progress wheel issue for Day-to-Day Activities and Messages.  
+  - Fixed calendar progress indicator discrepancies.  
+  - Corrected green border radius issue for Day-to-Day Activities progress indicators.  
 
-4. **Day2Day Activities Card Layout**  
-   - Fixed padding issues on both the left and right sides of the Day2Day Activities card, ensuring proper alignment.
-
-5. **GitHub Icon Alignment**  
-   - Corrected the GitHub icon to match the design consistency with Facebook and Instagram icons.
-
-6. **Recording Time Display**  
-   - Fixed an issue where the recording time counter was not updating properly when a recording was started.
-
-7. **Push Notifications**  
-   - Ongoing work on improving push notification functionality to keep users informed and engaged.
+#### Bug Fixes:
+- **Leaderboard Screen**:  
+  - Addressed spacing issues between the progress card and bottom navigation bar.  
 
 ---
 

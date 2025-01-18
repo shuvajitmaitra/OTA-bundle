@@ -23,36 +23,36 @@ export default function ThreadMessageItem({message, replyCount = 0}) {
 
   // Extract the first file URL if any
   const file =
-    message.files && message.files.length > 0 ? message.files[0] : null;
-  const imageUrl = file && file.type.startsWith('image/') ? file.url : null;
-  const audioUrl = file && file.type.startsWith('audio/') ? file.url : null;
-  const videoUrl = file && file.type.startsWith('video/') ? file.url : null;
+    message?.files && message?.files?.length > 0 ? message?.files[0] : null;
+  const imageUrl = file && file?.type?.startsWith('image/') ? file?.url : null;
+  const audioUrl = file && file?.type?.startsWith('audio/') ? file?.url : null;
+  const videoUrl = file && file?.type?.startsWith('video/') ? file?.url : null;
   return (
-    <View style={styles.container}>
-      <View style={styles.profileImageContainer}>
+    <View style={styles?.container}>
+      <View style={styles?.profileImageContainer}>
         <View>
           <Image
-            style={styles.profileImage}
+            style={styles?.profileImage}
             source={
-              message.sender?.profilePicture
-                ? {uri: message.sender?.profilePicture}
+              message?.sender?.profilePicture
+                ? {uri: message?.sender?.profilePicture}
                 : userIcon
             }
           />
 
           {onlineUsers?.find(x => x?._id === message?.sender?._id) ? (
-            <View style={styles.activeStatus}></View>
+            <View style={styles?.activeStatus}></View>
           ) : null}
         </View>
         <View>
           <Text
             numberOfLines={1}
             ellipsizeMode="tail"
-            style={styles.profileName}>
-            {message.sender?.fullName}
+            style={styles?.profileName}>
+            {message?.sender?.fullName}
           </Text>
-          <Text style={styles.messageTime}>
-            {moment(message?.createdAt).format('MMM DD, YYYY h:mm A')}
+          <Text style={styles?.messageTime}>
+            {moment(message?.createdAt)?.format('MMM DD, YYYY h:mm A')}
           </Text>
         </View>
       </View>
@@ -60,17 +60,17 @@ export default function ThreadMessageItem({message, replyCount = 0}) {
         style={{
           // paddingHorizontal: responsiveScreenWidth(2),
           marginTop: responsiveScreenHeight(1),
-          backgroundColor: Colors.White,
+          backgroundColor: Colors?.White,
           borderRadius: 10,
         }}>
         {/* Render Markdown text if available */}
-        {message.text ? (
-          <Markdown style={styles.markdownStyle}>
+        {message?.text ? (
+          <Markdown style={styles?.markdownStyle}>
             {transFormDate(
               removeHtmlTags(
-                message.text && message.text.length > 200
-                  ? message.text.slice(0, 200)
-                  : message.text,
+                message?.text && message?.text?.length > 200
+                  ? message?.text?.slice(0, 200)
+                  : message?.text,
               ),
             )}
           </Markdown>
@@ -79,18 +79,18 @@ export default function ThreadMessageItem({message, replyCount = 0}) {
         {/* Render Image if URL exists */}
         {imageUrl && (
           <TouchableOpacity
-            style={styles.img}
+            style={styles?.img}
             onPress={() => setIsViewerVisible(true)}>
             <Image
               source={{uri: imageUrl}}
-              style={styles.messageImage}
+              style={styles?.messageImage}
               resizeMode="contain"
             />
           </TouchableOpacity>
         )}
 
         {audioUrl && (
-          <AudioMessage background={Colors.White} audioUrl={audioUrl} />
+          <AudioMessage background={Colors?.White} audioUrl={audioUrl} />
         )}
         {/* 
         {videoUrl && <VideoPlayer url={videoUrl} />} */}
@@ -104,8 +104,8 @@ export default function ThreadMessageItem({message, replyCount = 0}) {
           />
         )} */}
       </View>
-      <View style={styles.replayCountContainer}>
-        <Text style={styles.replayCountText}>
+      <View style={styles?.replayCountContainer}>
+        <Text style={styles?.replayCountText}>
           {replyCount} {replyCount > 1 ? 'Replies' : 'Reply'}
         </Text>
       </View>
@@ -115,7 +115,7 @@ export default function ThreadMessageItem({message, replyCount = 0}) {
 }
 
 const getStyles = Colors =>
-  StyleSheet.create({
+  StyleSheet?.create({
     replayCountContainer: {
       flexDirection: 'row',
       gap: responsiveScreenWidth(1),

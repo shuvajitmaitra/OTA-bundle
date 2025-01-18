@@ -6,6 +6,7 @@ import {
 } from '../store/reducer/activitiesReducer';
 import {selectOrganizations, setNavigation} from '../store/reducer/authReducer';
 import {
+  setSingleMessage,
   updateChatsArchive,
   updateFavoriteSingleChat,
   updateLatestMessage,
@@ -325,16 +326,19 @@ export const getMyNavigation = () => {
     });
 };
 export const getSingleMessage = messageId => {
-  console.log('messageId', JSON.stringify(messageId, null, 2));
   axiosInstance
     .get(`/chat/message/${messageId}`)
     .then(res => {
-      console.log('res.data', JSON.stringify(res.data, null, 2));
-      // if (res.data.success) {
-      //   // store.dispatch(updateThreadMessage(res.data.message));
-      // }
+      // console.log(
+      //   'getting single message',
+      //   JSON.stringify(res.data.message, null, 2),
+      // );
+      store.dispatch(setSingleMessage(res.data.message));
     })
     .catch(err => {
-      console.log(err.response.data);
+      console.log(
+        'error getting single message',
+        JSON.stringify(err.response.data, null, 2),
+      );
     });
 };

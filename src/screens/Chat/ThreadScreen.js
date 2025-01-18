@@ -18,11 +18,14 @@ import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModa
 import Loading from '../../components/SharedComponent/Loading';
 import axiosInstance from '../../utility/axiosInstance';
 import {getSingleMessage} from '../../actions/apiCall';
+import {setMessageOptionData} from '../../store/reducer/ModalReducer';
+import {setSingleMessage} from '../../store/reducer/chatReducer';
 
 const ThreadScreen = ({route}) => {
   const {parentMessage, chat} = route.params;
   const dispatch = useDispatch();
   const {threadMessages} = useSelector(state => state.chatSlice);
+  const {singleMessage: chatMessage} = useSelector(state => state.chat);
   const {messageOptionData} = useSelector(state => state.modal);
   const Colors = useTheme();
   const styles = getStyles(Colors);
@@ -41,6 +44,8 @@ const ThreadScreen = ({route}) => {
 
     return () => {
       dispatch(setThreadMessages([]));
+      dispatch(setMessageOptionData(null));
+      dispatch(setSingleMessage(null));
     };
   }, []);
 
@@ -59,6 +64,7 @@ const ThreadScreen = ({route}) => {
       .post('/chat/messages', options)
       .then(res => {
         dispatch(setThreadMessages(res.data.messages));
+        // console.log('getting replies', JSON.stringify(res.data, null, 2));
       })
       .catch(error => {
         console.log('error getting replies', JSON.stringify(error, null, 1));
@@ -67,7 +73,19 @@ const ThreadScreen = ({route}) => {
         setIsLoading(false);
       });
   };
-
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: Colors.White,
+          paddingTop: top,
+          paddingBottom: 20,
+        }}>
+        <Loading backgroundColor={'transparent'} />
+      </View>
+    );
+  }
   return (
     <View
       style={{
@@ -89,14 +107,14 @@ const ThreadScreen = ({route}) => {
           />
         )}
         <ScreenHeader />
-        {/* <ThreadMessageItem
+        <ThreadMessageItem
           message={chatMessage}
           replyCount={
             threadMessages.length
-              ? threadMessages.length
-              : chatMessage.replyCount
+              ? threadMessages?.length
+              : chatMessage?.replyCount
           }
-        /> */}
+        />
         <ScrollView
           ref={scrollViewRef}
           style={styles.flatListContainer}

@@ -1,21 +1,23 @@
 *Workstream - January 16, 2025*
 
+- No data available in the crowd images has been dark mood issue
+- No data available in the crowd voice has been dark mood issue
+- Archive Chat text need to replace with "Archive Crowd" on the crowd details screen
+- Leave Crowds text need to replace with "Leave Crowd" on crowd details screen
+- After creating a crowd, crowd details data not showing first time. crowd details showing when close app and reopen app
+- After create a crowd, unable to showing member three dot menu
+- When filter by unread the search placeholder should be "Search unread" on the chat screen
+- When filter by mentioned the search placeholder should be "Search mentioned" on the chat screen
+- When create new chat, open keyboard but when click any whitespace keyboard not closing
 
 *Note:* The goal is to achieve 100% completion of today's workstream.
 
 
 
 
-*Work Update - January 13, 2025*
+*Work Update - January 16, 2025*
 
 *Bootcampshub CLI*
-- added back navigation and added global header on the User dashboard screen.
-- Replaced the back button with a modal title. Suggested title: "Switch Bootcamps."
-- Decreased the gap between the title and subtitle in the program screen.
-- Create a custom progress wheel in Progress screen.
-- Fix day to day  and message progress wheel issue in progress screen.
-- Calendar progress indicator issue fixed in the progress screen.
-- Fixed the green border radius issue for the Day-to-Day Activities progress indicator.
-- Spacing issue fixed for the progress card from the bottom navigation bar on the Leaderboard screen.
+
 
 *Note: Finished 100% of today's work stream.*
