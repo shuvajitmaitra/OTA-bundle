@@ -1,15 +1,14 @@
 import {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
-import {Alert, Platform} from 'react-native';
 import axiosInstance from '../utility/axiosInstance';
 
 import store from '../store';
-import {setSingleChat, updateLatestMessage} from '../store/reducer/chatReducer';
+import {setSingleChat} from '../store/reducer/chatReducer';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {setCurrentRoute} from '../store/reducer/authReducer';
 import {navigate} from '../navigation/NavigationService';
+import {Platform} from 'react-native';
 
 const usePushNotifications = () => {
   const [error, setError] = useState('');
@@ -135,16 +134,28 @@ const usePushNotifications = () => {
         });
         notifee.onForegroundEvent(async ({type, detail}) => {
           if (type === EventType.PRESS) {
-            const {chatId} = remoteMessage.data;
+            // const {chatId} = remoteMessage.data;
 
             if (remoteMessage?.data?.path) {
-              const chat = store.getState().chat.chatsObj[chatId];
-              if (chat) {
-                store.dispatch(setSingleChat(chat));
+              if (remoteMessage.data.path === 'thread') {
+                navigation.navigate('ThreadScreen', {
+                  parentMessage: remoteMessage.data.parentMessage,
+                  chat: remoteMessage.data.chatId,
+                });
               } else {
-                console.warn('Chat not found for ID:', chatId);
+                store.dispatch(
+                  setSingleChat(chatsObj[remoteMessage.data.chatId]),
+                );
+                navigate('MessageScreen2');
               }
-              navigate('MessageScreen2');
+
+              // const chat = store.getState().chat.chatsObj[chatId];
+              // if (chat) {
+              //   store.dispatch(setSingleChat(chat));
+              // } else {
+              //   console.warn('Chat not found for ID:', chatId);
+              // }
+              // navigate('MessageScreen2');
               // store.dispatch(
               //   updateLatestMessage({
               //     chatId: chat.chat,
@@ -176,27 +187,8 @@ const usePushNotifications = () => {
       if (remoteMessage.notification) {
         if (remoteMessage.data.path === 'thread') {
           navigation.navigate('ThreadScreen', {
-            chatMessage: {
-              _id: remoteMessage.data.chatId,
-              type: 'message',
-              status: 'seen',
-              sender: {
-                profilePicture: remoteMessage.data.image,
-                fullName: remoteMessage.data.name,
-              },
-              text: 'Eeee',
-              chat: remoteMessage.data.image,
-              files: [],
-              organization: '64fcb2e60d2f877aaccb3b26',
-              emoji: [],
-              createdAt: '2024-12-05T10:29:31.366Z',
-              updatedAt: '2024-12-05T10:47:00.424Z',
-              __v: 0,
-              replyCount: 3,
-              reactionsCount: 0,
-              myReaction: null,
-              reactions: {},
-            },
+            parentMessage: remoteMessage.data.parentMessage,
+            chat: remoteMessage.data.chatId,
           });
         } else {
           store.dispatch(setSingleChat(chatsObj[remoteMessage.data.chatId]));
