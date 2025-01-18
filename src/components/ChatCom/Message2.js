@@ -95,7 +95,7 @@ const Message2 = ({item, index, nextSender, setViewImage}) => {
             my={my}
           />
         )}
-        <Markdown style={styles.markdownStyle}>
+        <Markdown style={styles.markdown}>
           {sliceText(
             autoLinkify(
               transFormDate(
@@ -199,6 +199,67 @@ const getStyles = (Colors, my) =>
       minHeight: 30,
       //   gap: -1,
       position: 'relative',
+    },
+
+    markdown: {
+      body: {
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        color: Colors.BodyText,
+        lineHeight: 20,
+      },
+      link: {
+        color: Colors.ThemeAnotherButtonColor,
+        fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+      },
+      heading1: {
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
+        fontWeight: '500',
+      },
+      heading2: {
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
+        fontWeight: '500',
+      },
+      heading3: {
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
+        fontWeight: '500',
+      },
+      heading4: {
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
+        fontWeight: '500',
+      },
+      heading5: {
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
+        fontWeight: '500',
+      },
+      heading6: {
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
+        fontWeight: '500',
+      },
+      strong: {
+        fontFamily: CustomFonts.LATO_BOLD,
+        fontSize: RegularFonts.BR,
+        fontWeight: '500',
+      },
+      em: {
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontStyle: 'italic',
+        fontSize: RegularFonts.BR,
+        fontWeight: '500',
+      },
     },
 
     markdownStyle: {

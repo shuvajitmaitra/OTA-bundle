@@ -155,7 +155,7 @@ export default function UserModalVoice() {
                 minWidth: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: Colors.LightGreen,
+                backgroundColor: Colors.PrimaryOpacityColor,
                 borderRadius: 10,
                 marginBottom: responsiveScreenHeight(2),
               }}>

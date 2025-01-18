@@ -408,7 +408,7 @@ const ChatProfile = () => {
                     color={Colors.BodyText}
                   />
                   <Text style={styles.containerText}>
-                    {chat.isArchived ? 'Retrieve Chat' : 'Archive Chat'}
+                    {chat.isArchived ? 'Retrieve Crowd' : 'Archive Crowd'}
                   </Text>
                 </TouchableOpacity>
 

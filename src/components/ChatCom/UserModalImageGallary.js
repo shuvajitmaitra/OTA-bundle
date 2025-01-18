@@ -137,7 +137,7 @@ const getStyles = Colors =>
       minWidth: '100%',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: Colors.LightGreen,
+      backgroundColor: Colors.PrimaryOpacityColor,
       borderRadius: 10,
       marginVertical: responsiveScreenHeight(2),
       padding: responsiveScreenWidth(4),
