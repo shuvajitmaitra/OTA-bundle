@@ -5,7 +5,10 @@
 - In profile screen if user try to change profile name second name can not be capitalize and fixed other field as well.
 - Dynamic data showing in the thread screen after navigating from the notification.
 - Post reaction not showing properly it is showing vertically.
-- 
+- Comment popup dose not have any icons for the button fixed those issue.
+- Audio and video screen audio and video card is not showing properly.
+
+
 
 *Note:* The goal is to achieve 100% completion of today's workstream.
 
@@ -15,8 +18,6 @@
 *Work Update - January 1198, 2025*  
 
 *Bootcampshub CLI*  
-- Comment popup dose not have any icons for the button fixed those issue.
-- Audio and video screen audio and video card is not showing properly.
 - Work on updating in Over-the-air.
 
 *Note:* 100% of today's work stream has been successfully completed.
