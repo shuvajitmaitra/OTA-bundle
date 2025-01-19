@@ -89,7 +89,7 @@ const setupSocketListeners = socket => {
   });
 
   socket.on('syncMyMessages', data => {
-    console.log('syncMyMessages', JSON.stringify(data, null, 1));
+    // console.log('syncMyMessages', JSON.stringify(data, null, 1));
     // console.log('syncMyMessages');
     // console.log(data?.messages?.length);
     if (data?.messages?.length) {
@@ -117,7 +117,7 @@ const setupSocketListeners = socket => {
     // console.log(data);
 
     // console.log("mychats");
-    console.log('chats', JSON.stringify(chats, null, 2));
+    // console.log('chats', JSON.stringify(chats, null, 2));
     store.dispatch(setGroupNameId(chats));
 
     store.dispatch(setChats(chats));
@@ -132,7 +132,7 @@ const setupSocketListeners = socket => {
   socket.on('getmessage', data => {
     // console.log(data);
     let {chat, messages} = data;
-    console.log('getmessage', JSON.stringify(data, null, 1));
+    // console.log('getmessage', JSON.stringify(data, null, 1));
     store.dispatch(
       updateChatMessages({
         chat: chat?._id,
