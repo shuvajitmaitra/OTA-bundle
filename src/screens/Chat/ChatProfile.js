@@ -393,24 +393,28 @@ const ChatProfile = () => {
             {/* Archive Chat Button */}
             {chat.memberScope === 'custom' && (
               <>
-                <TouchableOpacity
-                  onPress={() => {
-                    handleArchive({
-                      chatId: chat._id,
-                      archived: !chat.isArchived,
-                    });
-                    navigation.pop(2);
-                  }}
-                  style={styles.blockContainer}>
-                  <Feather
-                    name="archive"
-                    size={responsiveScreenFontSize(2.5)}
-                    color={Colors.BodyText}
-                  />
-                  <Text style={styles.containerText}>
-                    {chat.isArchived ? 'Retrieve Crowd' : 'Archive Crowd'}
-                  </Text>
-                </TouchableOpacity>
+                {(chat?.myData?.role === 'owner' ||
+                  chat?.myData?.role === 'admin' ||
+                  chat?.myData?.role === 'moderator') && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleArchive({
+                        chatId: chat._id,
+                        archived: !chat.isArchived,
+                      });
+                      navigation.pop(2);
+                    }}
+                    style={styles.blockContainer}>
+                    <Feather
+                      name="archive"
+                      size={responsiveScreenFontSize(2.5)}
+                      color={Colors.BodyText}
+                    />
+                    <Text style={styles.containerText}>
+                      {chat.isArchived ? 'Retrieve Crowd' : 'Archive Crowd'}
+                    </Text>
+                  </TouchableOpacity>
+                )}
 
                 {/* Leave Chat Button */}
                 <TouchableOpacity

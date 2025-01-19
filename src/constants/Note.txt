@@ -1,9 +1,7 @@
 *Workstream - January 16, 2025*
 
-*Bootcampshub CLI*
-- See more button is not working on the community screen.
-
-
+- Archived crowd message showing issues fixed.
+- 
 
 *Note:* The goal is to achieve 100% completion of today's workstream.
 
@@ -13,10 +11,12 @@
 *Work Update - January 1198, 2025*  
 
 *Bootcampshub CLI*  
+- See more button is not working on the community screen.
 - In profile screen if user try to change profile name second name can not be capitalize.
 - Dynamic data showing in the thread screen after navigating from the community screen.
 - Comment popup dose not have any icons for the button fixed those issue.
 - Audio and video screen audio and video card is not showing properly.
 - Work on updating in Over-the-air.
 
-*Note:* 100% of today's work stream has been successfully completed.  
+*Note:* 100% of today's work stream has been successfully completed.
+

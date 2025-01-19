@@ -26,6 +26,7 @@ import {setMessageOptionData} from '../../store/reducer/ModalReducer';
 import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
+import ArchivedMessageContainer from '../../components/ChatCom/ArchivedMessageContainer';
 
 const MessageScreen2 = ({route}) => {
   // const {from} = route.params;
@@ -36,6 +37,7 @@ const MessageScreen2 = ({route}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const {singleChat: chat} = useSelector(state => state.chat);
+  // console.log('chat', JSON.stringify(chat, null, 2));
   const {messageOptionData} = useSelector(state => state.modal);
   const {localMessages} = useSelector(state => state.chatSlice);
   const [viewImage, setViewImage] = useState([]);
@@ -106,7 +108,7 @@ const MessageScreen2 = ({route}) => {
   }, [chat?._id]);
 
   useEffect(() => {
-    if (chat._id) {
+    if (chat._id && !chat.isArchived) {
       initialGetMessage();
     }
     return () => {
@@ -273,20 +275,28 @@ const MessageScreen2 = ({route}) => {
             <EmptyMessageContainer chat={chat} />
           )}
 
-          <FlatList
-            data={localMessages?.length ? localMessages : messages[chat?._id]}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => item?._id?.toString() || index} // Use a stable key
-            onEndReached={!chat.isArchived && handleLoadMore}
-            onEndReachedThreshold={0.5} // Adjust as needed
-            ListFooterComponent={ListFooterComponent}
-            inverted
-            ItemSeparatorComponent={<View style={{height: 5}} />}
-          />
+          {chat?.isArchived ? (
+            <ArchivedMessageContainer chat={chat} />
+          ) : (
+            <FlatList
+              data={localMessages?.length ? localMessages : messages[chat?._id]}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => item?._id?.toString() || index} // Use a stable key
+              onEndReached={!chat.isArchived && handleLoadMore}
+              onEndReachedThreshold={0.5} // Adjust as needed
+              ListFooterComponent={ListFooterComponent}
+              inverted
+              ItemSeparatorComponent={<View style={{height: 5}} />}
+            />
+          )}
         </View>
         {chat?.myData?.role !== 'owner' && chat?.isReadOnly ? (
           <View style={styles.readOnlyContainer}>
             <Text style={styles.readOnlyText}>This is read only crowd</Text>
+          </View>
+        ) : chat.isArchived ? (
+          <View style={styles.readOnlyContainer}>
+            <Text style={styles.readOnlyText}>Channel archived</Text>
           </View>
         ) : (
           <ChatFooter2
