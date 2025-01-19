@@ -1,23 +1,22 @@
 *Workstream - January 16, 2025*
 
-- No data available in the crowd images has been dark mood issue
-- No data available in the crowd voice has been dark mood issue
-- Archive Chat text need to replace with "Archive Crowd" on the crowd details screen
-- Leave Crowds text need to replace with "Leave Crowd" on crowd details screen
-- After creating a crowd, crowd details data not showing first time. crowd details showing when close app and reopen app
-- After create a crowd, unable to showing member three dot menu
-- When filter by unread the search placeholder should be "Search unread" on the chat screen
-- When filter by mentioned the search placeholder should be "Search mentioned" on the chat screen
-- When create new chat, open keyboard but when click any whitespace keyboard not closing
+*Bootcampshub CLI*
+- See more button is not working on the community screen.
+
+
 
 *Note:* The goal is to achieve 100% completion of today's workstream.
 
 
 
 
-*Work Update - January 16, 2025*
+*Work Update - January 1198, 2025*  
 
-*Bootcampshub CLI*
+*Bootcampshub CLI*  
+- In profile screen if user try to change profile name second name can not be capitalize.
+- Dynamic data showing in the thread screen after navigating from the community screen.
+- Comment popup dose not have any icons for the button fixed those issue.
+- Audio and video screen audio and video card is not showing properly.
+- Work on updating in Over-the-air.
 
-
-*Note: Finished 100% of today's work stream.*
+*Note:* 100% of today's work stream has been successfully completed.  

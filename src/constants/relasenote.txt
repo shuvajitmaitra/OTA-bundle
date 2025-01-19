@@ -8,24 +8,24 @@ We are pleased to announce the latest updates and enhancements to the BootcampsH
 
 ---
 
-#### Enhancements:
-- **User Dashboard Screen**:  
-  - Added back navigation for a smoother user experience.  
-  - Introduced a global header for consistent navigation across screens.  
+### **Improvements and Bug Fixes**  
+1. **Dark Mode Fixes**  
+   - Resolved display issues in dark mode where crowd images and crowd voice sections showed "No data available."  
 
-- **Program Screen**:  
-  - Replaced the back button with a modal title for better context. Suggested title: "Switch Bootcamps."  
-  - Reduced the gap between the title and subtitle for improved visual alignment.  
+2. **Text Updates for Consistency**  
+   - "Archive Chat" text has been replaced with "Archive Crowd" on the crowd details screen.  
+   - "Leave Crowds" text has been replaced with "Leave Crowd" on the crowd details screen.  
 
-- **Progress Screen**:  
-  - Designed and implemented a custom progress wheel.  
-  - Resolved the progress wheel issue for Day-to-Day Activities and Messages.  
-  - Fixed calendar progress indicator discrepancies.  
-  - Corrected green border radius issue for Day-to-Day Activities progress indicators.  
+3. **Crowd Creation Enhancements**  
+   - Fixed an issue where crowd details were not immediately visible after creating a crowd. Details now load seamlessly without requiring a restart.  
+   - Resolved an issue where the member three-dot menu was not showing after creating a crowd.  
 
-#### Bug Fixes:
-- **Leaderboard Screen**:  
-  - Addressed spacing issues between the progress card and bottom navigation bar.  
+4. **Chat Screen Enhancements**  
+   - Updated search placeholder text to:  
+     - "Search unread" when filtering by unread messages.  
+     - "Search mentioned" when filtering by mentioned messages.  
+   - Fixed a usability issue where the keyboard remained open after clicking whitespace when creating a new chat.  
+
 
 ---
 

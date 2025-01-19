@@ -16,6 +16,7 @@ import {getComments} from '../../actions/chat-noti';
 import ReportModal from './Modal/ReportModal';
 import ViewPostImage from './ViewPostImage';
 import {autoLinkify} from '../ChatCom/MessageHelper';
+import {RegularFonts} from '../../constants/Fonts';
 
 const CommunityPost = memo(
   ({post, index, handleTopContributor, handleTagSearch}) => {
@@ -72,7 +73,9 @@ const CommunityPost = memo(
             {autoLinkify(displayText)}
           </Markdown>
           {isTextLong && !isExpanded && (
-            <TouchableOpacity onPress={handleSeeMoreToggle}>
+            <TouchableOpacity
+              style={styles.seeMoreContainer}
+              onPress={handleSeeMoreToggle}>
               <Text style={styles.seeMoreText}>See More</Text>
             </TouchableOpacity>
           )}
@@ -130,12 +133,95 @@ const getStyles = Colors =>
     tag: {
       color: Colors.Primary,
     },
+    seeMoreContainer: {
+      justifyContent: 'center',
+      // alignItems: 'flex-end',
+      height: 40,
+      // backgroundColor: 'blue',
+      paddingHorizontal: 20,
+    },
     seeMoreText: {
       // textAlign: "right",
       color: Colors.Red,
       fontFamily: CustomFonts.SEMI_BOLD,
       fontSize: responsiveFontSize(2),
       // marginTop8 responsiveScreenHeight(1),
+    },
+    markdown: {
+      body: {
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        color: Colors.BodyText,
+        lineHeight: 24,
+        textAlign: 'justify',
+      },
+      link: {
+        color: Colors.ThemeAnotherButtonColor,
+        fontFamily: CustomFonts.SEMI_BOLD,
+        fontSize: RegularFonts.BR,
+      },
+      softbreak: {
+        color: Colors.BodyText,
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
+      },
+      hardbreak: {
+        color: Colors.BodyText,
+        fontFamily: CustomFonts.LATO_REGULAR,
+        fontSize: RegularFonts.BR,
+        marginVertical: 4,
+      },
+      fence: {
+        marginVertical: 40,
+      },
+      // heading1: {
+      //   fontFamily: CustomFonts.LATO_REGULAR,
+      //   fontSize: RegularFonts.BR,
+      //   marginVertical: 4,
+      //   fontWeight: '500',
+      // },
+      // heading2: {
+      //   fontFamily: CustomFonts.LATO_REGULAR,
+      //   fontSize: RegularFonts.BR,
+      //   marginVertical: 4,
+      //   fontWeight: '500',
+      // },
+      // heading3: {
+      //   fontFamily: CustomFonts.LATO_REGULAR,
+      //   fontSize: RegularFonts.BR,
+      //   marginVertical: 4,
+      //   fontWeight: '500',
+      // },
+      // heading4: {
+      //   fontFamily: CustomFonts.LATO_REGULAR,
+      //   fontSize: RegularFonts.BR,
+      //   marginVertical: 4,
+      //   fontWeight: '500',
+      // },
+      // heading5: {
+      //   fontFamily: CustomFonts.LATO_REGULAR,
+      //   fontSize: RegularFonts.BR,
+      //   marginVertical: 4,
+      //   fontWeight: '500',
+      // },
+      // heading6: {
+      //   fontFamily: CustomFonts.LATO_REGULAR,
+      //   fontSize: RegularFonts.BR,
+      //   marginVertical: 4,
+      //   fontWeight: '500',
+      // },
+      // strong: {
+      //   fontFamily: CustomFonts.LATO_BOLD,
+      //   fontSize: RegularFonts.BR,
+      //   fontWeight: '500',
+      // },
+      // em: {
+      //   fontFamily: CustomFonts.LATO_REGULAR,
+      //   fontStyle: 'italic',
+      //   fontSize: RegularFonts.BR,
+      //   fontWeight: '500',
+      // },
     },
     markdownStyle: {
       bullet_list: {
