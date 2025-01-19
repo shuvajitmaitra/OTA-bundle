@@ -84,7 +84,7 @@ const setupSocketListeners = socket => {
   //   store.dispatch(updateMessage(data.message));
   // });
   socket.on('updatechat', data => {
-    // console.log('updatechat', JSON.stringify(data, null, 1));
+    console.log('updatechat', JSON.stringify(data.chat, null, 1));
     store.dispatch(updateChats(data?.chat));
   });
 

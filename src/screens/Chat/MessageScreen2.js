@@ -27,6 +27,7 @@ import PinnedMessagesScreen from './PinnedMessagesScreen';
 import MessageOptionModal from '../../components/ChatCom/Modal/MessageOptionModal';
 import EmptyMessageContainer from '../../components/ChatCom/EmptyMessageContainer';
 import ArchivedMessageContainer from '../../components/ChatCom/ArchivedMessageContainer';
+import {setSingleChat} from '../../store/reducer/chatReducer';
 
 const MessageScreen2 = ({route}) => {
   // const {from} = route.params;
@@ -99,8 +100,11 @@ const MessageScreen2 = ({route}) => {
     } catch (error) {
       console.log(
         'Error loading initial messages:',
-        JSON.stringify(error.response.data, null, 1),
+        JSON.stringify(error.response.data.error, null, 1),
       );
+      if (error.response.data.error === 'Channel is listed as archived') {
+        dispatch(setSingleChat({...chat, isArchived: true}));
+      }
     } finally {
       console.log('initial Message Calling completed');
       setIsLoading(false);
@@ -108,7 +112,7 @@ const MessageScreen2 = ({route}) => {
   }, [chat?._id]);
 
   useEffect(() => {
-    if (chat._id && !chat.isArchived) {
+    if (chat._id) {
       initialGetMessage();
     }
     return () => {

@@ -11,9 +11,6 @@ import {
   Alert,
   ActivityIndicator,
   StatusBar,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import {
@@ -22,7 +19,7 @@ import {
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
-import DocumentPicker, {pick, types} from 'react-native-document-picker';
+import {pick, types} from 'react-native-document-picker';
 
 import CustomFonts from '../../constants/CustomFonts';
 
@@ -31,7 +28,6 @@ import {formatDate} from '../../utility/formatDate';
 import MyButton from '../../components/AuthenticationCom/MyButton';
 import {useTheme} from '../../context/ThemeContext';
 import axiosInstance from '../../utility/axiosInstance';
-import LineUp from '../../assets/Icons/LineUp';
 import FacebookSvg from '../../assets/Icons/FacebookSvg';
 
 import InstagramIcon from '../../assets/Icons/InstagramIcon';
@@ -146,9 +142,6 @@ export default function MyProfileEdit() {
       });
   };
 
-  const showEditBtn = () => {
-    setEdit(!edit);
-  };
   const uploadResume = async () => {
     try {
       const [result] = await pick({
@@ -342,6 +335,7 @@ export default function MyProfileEdit() {
                 editable={true}
                 placeholder="Enter first name..."
                 placeholderTextColor={Colors.BodyText}
+                autoCapitalize="words"
               />
             </View>
             <View style={styles.fieldContainer}>
@@ -357,6 +351,7 @@ export default function MyProfileEdit() {
                 placeholderTextColor={Colors.BodyText}
                 editable={true}
                 placeholder="Enter last name..."
+                autoCapitalize="words"
               />
             </View>
             <View style={styles.fieldContainer}>
@@ -414,6 +409,7 @@ export default function MyProfileEdit() {
                     style={styles.addressInput}
                     onChangeText={setSelectedState}
                     placeholderTextColor={Colors.BodyText}
+                    autoCapitalize="words"
                   />
 
                   <TextInput
@@ -426,6 +422,7 @@ export default function MyProfileEdit() {
                     onChangeText={setSelectedCity}
                     value={selectedCity}
                     placeholderTextColor={Colors.BodyText}
+                    autoCapitalize="words"
                   />
 
                   <TextInput
@@ -465,6 +462,7 @@ export default function MyProfileEdit() {
                     style={styles.addressInput}
                     placeholderTextColor={Colors.BodyText}
                     onChangeText={setSelectedCountry}
+                    autoCapitalize="words"
                   />
                 </View>
               </View>
@@ -486,6 +484,8 @@ export default function MyProfileEdit() {
                       style={styles.socialInputField}
                       onChangeText={setFacebook}
                       value={facebook}
+                      keyboardType="url"
+                      autoCapitalize="none"
                     />
                   </View>
                   <View style={[styles.socialInputContainer]}>
@@ -503,6 +503,8 @@ export default function MyProfileEdit() {
                       value={github}
                       style={styles.socialInputField}
                       onChangeText={setGithub}
+                      keyboardType="url"
+                      autoCapitalize="none"
                     />
                   </View>
                   <View style={[styles.socialInputContainer]}>
@@ -520,6 +522,8 @@ export default function MyProfileEdit() {
                       value={instagram}
                       style={styles.socialInputField}
                       onChangeText={setInstagram}
+                      keyboardType="url"
+                      autoCapitalize="none"
                     />
                   </View>
                   <View style={[styles.socialInputContainer]}>
@@ -536,6 +540,8 @@ export default function MyProfileEdit() {
                       value={linkedin}
                       style={[styles.socialInputField]}
                       onChangeText={setLinkedin}
+                      keyboardType="url"
+                      autoCapitalize="none"
                     />
                   </View>
                   <View style={styles.socialInputContainer}>
@@ -552,6 +558,8 @@ export default function MyProfileEdit() {
                       value={twitter}
                       style={styles.socialInputField}
                       onChangeText={setTwitter}
+                      keyboardType="url"
+                      autoCapitalize="none"
                     />
                   </View>
                 </View>
@@ -580,6 +588,7 @@ export default function MyProfileEdit() {
                     value={about}
                     editable={true}
                     maxLength={200}
+                    autoCapitalize={'sentences'}
                   />
                 </View>
               </View>
@@ -842,7 +851,6 @@ const getStyles = Colors =>
       color: Colors.Heading,
       fontFamily: CustomFonts.REGULAR,
       // textAlign: "justify",
-      textTransform: 'capitalize',
       overflow: 'scroll',
       backgroundColor: Colors.White,
       // backgroundColor: "red",

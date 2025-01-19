@@ -15,6 +15,9 @@ import axiosInstance from '../../utility/axiosInstance';
 import {handleError} from '../../actions/chat-noti';
 import {setCommentCount} from '../../store/reducer/communityReducer';
 import Popover, {Rect} from 'react-native-popover-view';
+import CommentsIcon from '../../assets/Icons/CommentsIcon';
+import EditIconTwo from '../../assets/Icons/EditIcon2';
+import DeleteIcon from '../../assets/Icons/DeleteIcon';
 
 const CommentPopup = () => {
   const dispatch = useDispatch();
@@ -69,6 +72,7 @@ const CommentPopup = () => {
                   dispatch(setSelectedComment(null));
                 }}
                 style={styles.actionButton}>
+                <CommentsIcon />
                 <Text style={styles.actionText}>Reply comment</Text>
               </TouchableOpacity>
             )}
@@ -87,6 +91,7 @@ const CommentPopup = () => {
                   dispatch(setSelectedComment(null));
                 }}
                 style={styles.actionButton}>
+                <EditIconTwo />
                 <Text style={styles.actionText}>
                   {!selectedComment.parentId ? 'Edit comment' : 'Edit reply'}
                 </Text>
@@ -100,6 +105,7 @@ const CommentPopup = () => {
                   dispatch(setSelectedComment(null));
                 }}
                 style={styles.actionButton}>
+                <DeleteIcon />
                 <Text style={styles.actionText}>Delete comment</Text>
               </TouchableOpacity>
             )}
@@ -127,6 +133,9 @@ const getStyles = Colors =>
       backgroundColor: Colors.Background_color,
       borderRadius: 5,
       // alignItems: 'center',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
     },
     actionText: {
       color: Colors.BodyText,

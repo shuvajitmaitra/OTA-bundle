@@ -229,6 +229,7 @@ const getStyles = Colors =>
       flexDirection: 'row',
       gap: responsiveScreenWidth(1),
       flexWrap: 'wrap',
+      flex: 1,
     },
     commentsContainer: {
       paddingHorizontal: responsiveScreenWidth(2),
