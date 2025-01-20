@@ -23,9 +23,9 @@ import {launchImageLibrary} from 'react-native-image-picker';
 export const handleGalleryPress = async ({setPost, setIsLoading}) => {
   const options = {
     mediaType: 'photo',
-    maxWidth: 30000,
-    maxHeight: 30000,
-    quality: 1,
+    maxWidth: 1000,
+    maxHeight: 1000,
+    quality: 0.5,
     selectionLimit: 10,
   };
 

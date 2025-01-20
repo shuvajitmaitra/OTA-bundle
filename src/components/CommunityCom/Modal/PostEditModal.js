@@ -1,4 +1,11 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   responsiveScreenFontSize,
@@ -10,7 +17,6 @@ import CustomFonts from '../../../constants/CustomFonts';
 import axiosInstance from '../../../utility/axiosInstance';
 import {useTheme} from '../../../context/ThemeContext';
 import {showToast} from '../../HelperFunction';
-import ModalBackAndCrossButton from '../../ChatCom/Modal/ModalBackAndCrossButton';
 import {handleError, loadCommunityPosts} from '../../../actions/chat-noti';
 import {getHashtagTexts, showAlertModal} from '../../../utility/commonFunction';
 import {TextInput} from 'react-native';
@@ -19,12 +25,13 @@ import GlobalAlertModal from '../../SharedComponent/GlobalAlertModal';
 import RequireFieldStar from '../../../constants/RequireFieldStar';
 import {useDispatch} from 'react-redux';
 import {setSinglePost} from '../../../store/reducer/communityReducer';
-
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import CrossCircle from '../../../assets/Icons/CrossCircle';
+import SendIconTwo from '../../../assets/Icons/SendIconTwo';
 export default function PostEditModal({
   setIsModalVisible,
   isModalVisible,
   post: postData,
-  closePopover,
 }) {
   const [post, setPost] = useState(postData);
   const Colors = useTheme();
@@ -80,68 +87,80 @@ export default function PostEditModal({
       });
   };
 
+  const {top} = useSafeAreaInsets();
+
   return (
     <ReactNativeModal
       backdropColor={Colors.BackDropColor}
-      isVisible={isModalVisible}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalChild}>
-          <ModalBackAndCrossButton toggleModal={setIsModalVisible} />
-          <ScrollView>
-            <View style={styles.createPostContainer}>
-              <Text style={styles.title}>Edit Post</Text>
-              <View style={styles.fieldContainer}>
-                <Text style={styles.fieldLabel}>
-                  Title
-                  <RequireFieldStar />
-                </Text>
-                <TextInput
-                  keyboardAppearance={
-                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                  }
-                  placeholder="Edit post title..."
-                  multiline
-                  textAlignVertical="top"
-                  placeholderTextColor={Colors.BodyText}
-                  style={[styles.input, {fontFamily: CustomFonts.REGULAR}]}
-                  onChangeText={text => setPost(pre => ({...pre, title: text}))}
-                  value={post.title || ''}
-                />
-              </View>
-              <View style={styles.fieldContainer}>
-                <Text style={styles.fieldLabel}>
-                  Write Post
-                  <RequireFieldStar />
-                </Text>
-                <TextInput
-                  keyboardAppearance={
-                    Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
-                  }
-                  placeholder="Edit post..."
-                  placeholderTextColor={Colors.BodyText}
-                  textAlignVertical="top"
-                  multiline
-                  style={[
-                    styles.input,
-                    {
-                      minHeight: responsiveScreenHeight(15),
-                      fontFamily: CustomFonts.REGULAR,
-                    },
-                  ]}
-                  onChangeText={text =>
-                    setPost(pre => ({...pre, description: text}))
-                  }
-                  value={post.description || ''}
-                />
-              </View>
-              <EditPostBottomContainer
-                handleEditPost={handleEditPost}
-                post={post}
-                setPost={setPost}
+      isVisible={isModalVisible}
+      avoidKeyboard={true}
+      style={{
+        margin: 0,
+        justifyContent: 'flex-start',
+        backgroundColor: Colors.White,
+      }}>
+      <View style={[styles.modalChild, {paddingTop: top}]}>
+        {/* <ModalBackAndCrossButton toggleModal={setIsModalVisible} /> */}
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setIsModalVisible(false)}>
+            <CrossCircle size={35} />
+          </TouchableOpacity>
+          <Text style={styles.title}>Edit Post</Text>
+          <TouchableOpacity style={styles.sendButton} onPress={handleEditPost}>
+            <SendIconTwo />
+            <Text style={styles.sendButtonText}>Publish</Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView>
+          <View style={styles.createPostContainer}>
+            <View style={styles.fieldContainer}>
+              <Text style={styles.fieldLabel}>
+                Title
+                <RequireFieldStar />
+              </Text>
+              <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
+                placeholder="Edit post title..."
+                multiline
+                textAlignVertical="top"
+                placeholderTextColor={Colors.BodyText}
+                style={[styles.input, {fontFamily: CustomFonts.REGULAR}]}
+                onChangeText={text => setPost(pre => ({...pre, title: text}))}
+                value={post.title || ''}
               />
             </View>
-          </ScrollView>
-        </View>
+            <View style={styles.fieldContainer}>
+              <Text style={styles.fieldLabel}>
+                Write Post
+                <RequireFieldStar />
+              </Text>
+              <TextInput
+                keyboardAppearance={
+                  Colors.Background_color === '#F5F5F5' ? 'light' : 'dark'
+                }
+                placeholder="Edit post..."
+                placeholderTextColor={Colors.BodyText}
+                textAlignVertical="top"
+                multiline
+                style={styles.input}
+                onChangeText={text =>
+                  setPost(pre => ({...pre, description: text}))
+                }
+                value={post.description || ''}
+              />
+            </View>
+            <View style={{flexGrow: 1}} />
+            <EditPostBottomContainer
+              handleEditPost={handleEditPost}
+              post={post}
+              setPost={setPost}
+            />
+          </View>
+        </ScrollView>
       </View>
       <GlobalAlertModal />
     </ReactNativeModal>
@@ -150,19 +169,38 @@ export default function PostEditModal({
 
 const getStyles = Colors =>
   StyleSheet.create({
-    modalContainer: {
-      height: responsiveScreenHeight(100),
-      flex: 1,
-      width: responsiveScreenWidth(90),
+    closeButton: {
+      width: 100,
+    },
+    sendButtonText: {
+      fontFamily: CustomFonts.MEDIUM,
+      color: Colors.PureWhite,
+    },
+    sendButton: {
+      alignItems: 'center',
       justifyContent: 'center',
+      backgroundColor: Colors.Primary,
+      borderRadius: 5,
+      flexDirection: 'row',
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      gap: 10,
+      width: 100,
+    },
+    headerContainer: {
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      // marginTop: 20,
+      // backgroundColor: 'red',
+      alignItems: 'center',
+      marginBottom: 10,
     },
 
     modalChild: {
       backgroundColor: Colors.White,
-      borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(4.5),
-      paddingVertical: responsiveScreenWidth(4.5),
-      maxHeight: responsiveScreenHeight(80),
+      flex: 1,
     },
     input: {
       backgroundColor: Colors.Background_color,
@@ -174,28 +212,23 @@ const getStyles = Colors =>
       paddingTop: responsiveScreenHeight(1.5),
       paddingVertical: responsiveScreenHeight(1),
       color: Colors.BodyText,
+      fontFamily: CustomFonts.REGULAR,
     },
     fieldLabel: {
       fontSize: responsiveScreenFontSize(1.8),
       color: Colors.Heading,
       fontFamily: CustomFonts.MEDIUM,
+      marginTop: responsiveScreenHeight(2),
     },
-    createPostContainer: {
-      backgroundColor: Colors.White,
-      borderRadius: 10,
-      minHeight: responsiveScreenHeight(30),
-    },
+    createPostContainer: {},
     title: {
       fontSize: responsiveScreenFontSize(2.2),
       color: Colors.Heading,
       fontFamily: CustomFonts.MEDIUM,
-
-      marginTop: responsiveScreenHeight(2),
+      textAlign: 'center',
     },
     fieldContainer: {
-      // backgroundColor: "pink",
-      //   minHeight: responsiveScreenHeight(10),
-      marginTop: responsiveScreenHeight(2),
       gap: responsiveScreenHeight(1),
+      maxHeight: responsiveScreenHeight(40),
     },
   });

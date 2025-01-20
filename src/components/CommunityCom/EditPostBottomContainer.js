@@ -2,7 +2,6 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {useTheme} from '../../context/ThemeContext';
 import GalleryIcon from '../../assets/Icons/GalleryIcon';
-import SendIconTwo from '../../assets/Icons/SendIconTwo';
 import CrossCircle from '../../assets/Icons/CrossCircle'; // Assuming you have a CrossCircle icon
 import {getHashtagTexts} from '../../utility/commonFunction';
 import {
@@ -13,11 +12,11 @@ import {
 import CustomFonts from '../../constants/CustomFonts';
 import LoadingSmall from '../SharedComponent/LoadingSmall';
 import {handleGalleryPress} from './CreatePostButtonContainer';
+import {RegularFonts} from '../../constants/Fonts';
 
 const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
-  const [creating, setCreating] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,7 +34,7 @@ const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
   };
 
   return (
-    <>
+    <View style={{marginTop: 40}}>
       {post?.attachments?.length > 0 && (
         <View style={styles.selectedImagesContainer}>
           {post?.attachments?.map((item, index) => (
@@ -71,7 +70,7 @@ const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
             <LoadingSmall color={Colors.Primary} />
           )}
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[
             styles.holidayButtonContainer,
             {backgroundColor: Colors.Primary},
@@ -91,9 +90,9 @@ const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
               </Text>
             </>
           )}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
-    </>
+    </View>
   );
 };
 
@@ -122,11 +121,14 @@ const getStyles = Colors =>
     holidayButtonText: {
       color: Colors.PureWhite,
       fontFamily: CustomFonts.MEDIUM,
+      fontSize: RegularFonts.BR,
     },
     selectedImagesContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
       marginTop: responsiveScreenHeight(2),
+      // backgroundColor: 'blue',
+      paddingTop: 20,
     },
     selectedImageContainer: {
       position: 'relative',
