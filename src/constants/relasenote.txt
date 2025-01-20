@@ -4,28 +4,9 @@ Release Note - January 13, 2025#release #app #env
 
 We are pleased to announce the latest updates and enhancements to the BootcampsHub App. This release focuses on improving functionality, fixing bugs, and enhancing the user experience.
 
-## **BootcampsHub App Development:**
+## BootcampsHub App Development:
 
 ---
-
-### **Improvements and Bug Fixes**  
-1. **Dark Mode Fixes**  
-   - Resolved display issues in dark mode where crowd images and crowd voice sections showed "No data available."  
-
-2. **Text Updates for Consistency**  
-   - "Archive Chat" text has been replaced with "Archive Crowd" on the crowd details screen.  
-   - "Leave Crowds" text has been replaced with "Leave Crowd" on the crowd details screen.  
-
-3. **Crowd Creation Enhancements**  
-   - Fixed an issue where crowd details were not immediately visible after creating a crowd. Details now load seamlessly without requiring a restart.  
-   - Resolved an issue where the member three-dot menu was not showing after creating a crowd.  
-
-4. **Chat Screen Enhancements**  
-   - Updated search placeholder text to:  
-     - "Search unread" when filtering by unread messages.  
-     - "Search mentioned" when filtering by mentioned messages.  
-   - Fixed a usability issue where the keyboard remained open after clicking whitespace when creating a new chat.  
-
 
 ---
 

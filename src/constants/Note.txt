@@ -1,12 +1,11 @@
-*Workstream - January 16, 2025*
+*Workstream - January 20, 2025*
 
-- Archived crowd message showing issues fixed.
-- See more button is not working on the community screen.
-- In profile screen if user try to change profile name second name can not be capitalize and fixed other field as well.
-- Dynamic data showing in the thread screen after navigating from the notification.
-- Post reaction not showing properly it is showing vertically.
-- Comment popup dose not have any icons for the button fixed those issue.
-- Audio and video screen audio and video card is not showing properly.
+- Keyboard hide the bottom button in the community post edit modal.
+- Image taking time to load image in community 
+- In bootcamps screen, program card right side border radius not showing
+- In the show n tell update modal, user adding section's user remove button cutting right side.
+- Work on updating in Over-the-air.
+
 
 
 
@@ -14,11 +13,10 @@
 
 
 
+Work Update - January 19, 2025
 
-*Work Update - January 1198, 2025*  
+*Bootcampshub CLI*
 
-*Bootcampshub CLI*  
-- Work on updating in Over-the-air.
 
-*Note:* 100% of today's work stream has been successfully completed.
+Note: 100% of today's work stream has been successfully completed.
 
