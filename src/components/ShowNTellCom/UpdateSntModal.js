@@ -375,14 +375,13 @@ export default function UpdateSntModal({
                               );
                             }}
                             style={[
-                              styles.addBtn,
-                              {backgroundColor: Colors.LightRed},
+                              // styles.addBtn,
+                              {
+                                backgroundColor: Colors.LightRed,
+                                borderRadius: 100,
+                              },
                             ]}>
-                            <CrossCircle size={15} color={Colors.Red} />
-                            <Text
-                              style={[styles.addBtnText, {color: Colors.Red}]}>
-                              Remove
-                            </Text>
+                            <CrossCircle size={30} color={Colors.Red} />
                           </TouchableOpacity>
                         ) : (
                           <TouchableOpacity
@@ -392,13 +391,11 @@ export default function UpdateSntModal({
                             style={[
                               styles.addBtn,
                               {
-                                backgroundColor: item?.added
-                                  ? Colors.DisablePrimaryBackgroundColor
-                                  : Colors.Primary,
+                                backgroundColor: Colors.PrimaryOpacityColor,
                               },
                             ]}>
-                            <PlusCircleIcon />
-                            <Text style={styles.addBtnText}>Add</Text>
+                            <PlusCircleIcon size={20} color={Colors.Primary} />
+                            {/* <Text style={styles.addBtnText}>Add</Text> */}
                           </TouchableOpacity>
                         )}
                       </View>
@@ -650,14 +647,12 @@ const getStyles = Colors =>
       color: Colors.PureWhite,
     },
     addBtn: {
-      paddingHorizontal: responsiveScreenWidth(2),
-      paddingVertical: 5,
-      borderRadius: 4,
-      backgroundColor: Colors.Primary,
+      borderRadius: 30,
       flexDirection: 'row',
       gap: responsiveScreenWidth(1),
       alignItems: 'center',
       justifyContent: 'center',
+      padding: 6,
     },
     notification: {
       backgroundColor: Colors.ModalBoxColor,

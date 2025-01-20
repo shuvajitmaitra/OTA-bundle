@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {useTheme} from '../../context/ThemeContext';
 import GalleryIcon from '../../assets/Icons/GalleryIcon';
+import SendIconTwo from '../../assets/Icons/SendIconTwo';
 import CrossCircle from '../../assets/Icons/CrossCircle'; // Assuming you have a CrossCircle icon
 import {getHashtagTexts} from '../../utility/commonFunction';
 import {
@@ -17,6 +18,7 @@ import {RegularFonts} from '../../constants/Fonts';
 const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
   const Colors = useTheme();
   const styles = getStyles(Colors);
+  const [creating, setCreating] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,7 +36,7 @@ const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
   };
 
   return (
-    <View style={{marginTop: 40}}>
+    <View style={{paddingVertical: 10, paddingBottom: 20}}>
       {post?.attachments?.length > 0 && (
         <View style={styles.selectedImagesContainer}>
           {post?.attachments?.map((item, index) => (
@@ -70,7 +72,7 @@ const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
             <LoadingSmall color={Colors.Primary} />
           )}
         </TouchableOpacity>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={[
             styles.holidayButtonContainer,
             {backgroundColor: Colors.Primary},
@@ -90,7 +92,7 @@ const EditPostBottomContainer = ({post, setPost, handleEditPost}) => {
               </Text>
             </>
           )}
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -105,18 +107,17 @@ const getStyles = Colors =>
       alignItems: 'center',
       justifyContent: 'center',
       gap: responsiveScreenFontSize(2),
-      marginTop: responsiveScreenHeight(3),
     },
     holidayButtonContainer: {
-      width: responsiveScreenWidth(30),
-      height: responsiveScreenHeight(5),
+      width: responsiveScreenWidth(25),
+      height: 40,
       backgroundColor: Colors.SecondaryButtonBackgroundColor,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
       paddingHorizontal: responsiveScreenWidth(4),
       gap: 8,
-      borderRadius: responsiveScreenWidth(2),
+      borderRadius: 5,
     },
     holidayButtonText: {
       color: Colors.PureWhite,
@@ -126,19 +127,16 @@ const getStyles = Colors =>
     selectedImagesContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
-      marginTop: responsiveScreenHeight(2),
-      // backgroundColor: 'blue',
-      paddingTop: 20,
     },
     selectedImageContainer: {
       position: 'relative',
       marginRight: responsiveScreenWidth(2),
-      marginBottom: responsiveScreenHeight(2),
+      marginBottom: 10,
     },
     selectedImage: {
-      width: responsiveScreenWidth(24.5),
-      height: responsiveScreenHeight(15),
-      borderRadius: responsiveScreenWidth(2),
+      width: 60,
+      height: 60,
+      borderRadius: 5,
       resizeMode: 'cover',
     },
     CrossCircle: {

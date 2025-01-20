@@ -126,8 +126,8 @@ const getStyles = Colors =>
   StyleSheet.create({
     container: {
       backgroundColor: Colors.White,
-      width: responsiveScreenWidth(93),
-      borderRadius: 5,
+      width: '100%',
+      borderRadius: 10,
       paddingHorizontal: responsiveScreenWidth(5),
       paddingVertical: responsiveScreenHeight(2),
       marginTop: responsiveScreenHeight(2),

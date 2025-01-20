@@ -1,9 +1,5 @@
 *Workstream - January 20, 2025*
 
-- Keyboard hide the bottom button in the community post edit modal.
-- Image taking time to load image in community 
-- In bootcamps screen, program card right side border radius not showing
-- In the show n tell update modal, user adding section's user remove button cutting right side.
 - Work on updating in Over-the-air.
 
 
@@ -16,6 +12,13 @@
 Work Update - January 19, 2025
 
 *Bootcampshub CLI*
+
+- Keyboard hide the bottom button in the community post edit modal.
+- When user try to create post and while creating post AI button text are disappearing. Need to fixed.
+- Image taking time to load image in community fixed as much as possible.
+- Border radius not showing in bootcamps screen. Also fixed the alignment issues in program card.
+- In the show n tell update modal, user adding section's user remove button cutting right side  this issue has been fixed.
+
 
 
 Note: 100% of today's work stream has been successfully completed.

@@ -20,7 +20,10 @@ import AiModal from '../SharedComponent/AiModal/AiModal';
 import AiIcon2 from '../../assets/Icons/AiIcon2';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-export const handleGalleryPress = async ({setPost, setIsLoading}) => {
+export const handleGalleryPress = async ({
+  setPost,
+  setIsLoading = () => {},
+}) => {
   const options = {
     mediaType: 'photo',
     maxWidth: 1000,
@@ -204,7 +207,7 @@ const CreatePostButtonContainer = ({post, setPost}) => {
           disable={false}
           icon={<AiIcon2 color={'white'} size={24} />}
           iconPosition={'left'}
-          color={creating || isLoading ? Colors.Primary : Colors.PureWhite}
+          color={Colors.PureWhite}
         />
         <CustomIconButton
           handlePress={() => {

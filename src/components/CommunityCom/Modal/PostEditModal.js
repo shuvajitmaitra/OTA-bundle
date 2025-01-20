@@ -1,5 +1,6 @@
 import {
   Keyboard,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -28,6 +29,9 @@ import {setSinglePost} from '../../../store/reducer/communityReducer';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import CrossCircle from '../../../assets/Icons/CrossCircle';
 import SendIconTwo from '../../../assets/Icons/SendIconTwo';
+import CustomIconButton from '../../SharedComponent/CustomIconButton';
+import GalleryIcon from '../../../assets/Icons/GalleryIcon';
+import {handleGalleryPress} from '../CreatePostButtonContainer';
 export default function PostEditModal({
   setIsModalVisible,
   isModalVisible,
@@ -99,19 +103,21 @@ export default function PostEditModal({
         justifyContent: 'flex-start',
         backgroundColor: Colors.White,
       }}>
-      <View style={[styles.modalChild, {paddingTop: top}]}>
+      <Pressable
+        onPress={Keyboard.dismiss}
+        style={[styles.modalChild, {paddingTop: top}]}>
         {/* <ModalBackAndCrossButton toggleModal={setIsModalVisible} /> */}
         <View style={styles.headerContainer}>
+          <Text style={styles.title}>Edit Post</Text>
           <TouchableOpacity
             style={styles.closeButton}
             onPress={() => setIsModalVisible(false)}>
             <CrossCircle size={35} />
           </TouchableOpacity>
-          <Text style={styles.title}>Edit Post</Text>
-          <TouchableOpacity style={styles.sendButton} onPress={handleEditPost}>
+          {/* <TouchableOpacity style={styles.sendButton} onPress={handleEditPost}>
             <SendIconTwo />
             <Text style={styles.sendButtonText}>Publish</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <ScrollView>
           <View style={styles.createPostContainer}>
@@ -146,22 +152,42 @@ export default function PostEditModal({
                 placeholderTextColor={Colors.BodyText}
                 textAlignVertical="top"
                 multiline
-                style={styles.input}
+                style={[
+                  styles.input,
+                  {
+                    minHeight: responsiveScreenHeight(20),
+                    maxHeight: responsiveScreenHeight(30),
+                  },
+                ]}
                 onChangeText={text =>
                   setPost(pre => ({...pre, description: text}))
                 }
                 value={post.description || ''}
               />
             </View>
-            <View style={{flexGrow: 1}} />
-            <EditPostBottomContainer
-              handleEditPost={handleEditPost}
-              post={post}
-              setPost={setPost}
-            />
           </View>
         </ScrollView>
-      </View>
+        {/* <CustomIconButton
+          handlePress={() => {
+            handleGalleryPress({setPost, setIsLoading: () => {}});
+            }}
+            title={'Gallery'}
+            customContainerStyle={{
+              marginBottom: 20,
+              }}
+              isLoading={false}
+              disable={false}
+              icon={<GalleryIcon color={Colors.Primary} />} // Expecting an icon component passed as prop
+              iconPosition={'left'} // Option to place icon on left or right
+              background={Colors.PrimaryOpacityColor}
+              color={Colors.Primary}
+              /> */}
+        <EditPostBottomContainer
+          handleEditPost={handleEditPost}
+          post={post}
+          setPost={setPost}
+        />
+      </Pressable>
       <GlobalAlertModal />
     </ReactNativeModal>
   );
@@ -171,6 +197,7 @@ const getStyles = Colors =>
   StyleSheet.create({
     closeButton: {
       width: 100,
+      alignItems: 'flex-end',
     },
     sendButtonText: {
       fontFamily: CustomFonts.MEDIUM,
