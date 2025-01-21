@@ -445,6 +445,8 @@ const ChatFooter2 = ({
         uploading={uploading}
         onSend={uploadImagesAndSend}
         parentId={parentId}
+        chat={singleChat?._id}
+        isChannel={singleChat?.isChannel}
       />
     );
   }

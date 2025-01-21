@@ -1,25 +1,17 @@
-*Workstream - January 20, 2025*
+*Workstream - January 21, 2025*
 
-- Work on updating in Over-the-air.
-
-
-
+- User can not mention while send image in the chat.
+- Work on updating in Over-the-air implement the functionality for ios and android.
+- Less button arrow icon should be place in before the less text and should be left icon arrow. Less text should be "See Less" text
+- Markdown text bullet pont, second line text not align with first line text
+- Comment three dot menu has dark mode issue
+- Don't need to showing no data available on the day to day activities screen
 
 *Note:* The goal is to achieve 100% completion of today's workstream.
 
-
-
-Work Update - January 19, 2025
+*Work Update - January 21, 2025*
 
 *Bootcampshub CLI*
 
-- Keyboard hide the bottom button in the community post edit modal.
-- When user try to create post and while creating post AI button text are disappearing. Need to fixed.
-- Image taking time to load image in community fixed as much as possible.
-- Border radius not showing in bootcamps screen. Also fixed the alignment issues in program card.
-- In the show n tell update modal, user adding section's user remove button cutting right side  this issue has been fixed.
 
-
-
-Note: 100% of today's work stream has been successfully completed.
-
+*Note:* 90% of today's work stream has been successfully completed.

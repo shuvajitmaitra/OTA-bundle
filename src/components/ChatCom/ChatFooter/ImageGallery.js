@@ -30,6 +30,8 @@ const ImageGallery = ({
   onSend,
   uploading,
   parentId,
+  chat,
+  isChannel,
 }) => {
   const [message, setMessage] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -134,6 +136,10 @@ const ImageGallery = ({
                 parentId={parentId}
                 text={message}
                 setText={setMessage}
+                chat={chat}
+                handleKey={() => {}}
+                isChannel={isChannel}
+                maxHeight={400}
               />
               <TouchableOpacity
                 onPress={() => onSend(message)}
