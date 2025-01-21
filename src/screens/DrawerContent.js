@@ -1,7 +1,15 @@
 // src/navigation/DrawerContent.js
 
 import React, {useState} from 'react';
-import {View, StyleSheet, Image, Text, Platform} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  Platform,
+  Alert,
+  LayoutAnimation,
+} from 'react-native';
 import {Caption} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,10 +31,10 @@ import PasswordIcon from '../assets/Icons/PasswordIcon';
 import DisplaySettingsIcon from '../assets/Icons/DisplaySettingsIcon';
 import {storage} from '../utility/mmkvInstance';
 import OrganizationDetails from '../navigation/OrganizationDetails';
-import {handleOpenLink} from '../components/HelperFunction';
+// import {handleOpenLink} from '../components/HelperFunction';
 import {resetApp} from '../store/action';
+import hotUpdate from 'react-native-ota-hot-update';
 
-// Icon render functions
 const renderHomeIconTwo = ({color, size}) => (
   <HomeIconTwo color={color} size={size} />
 );
@@ -72,10 +80,66 @@ export function DrawerContent(props) {
     dispatch(logout());
   };
 
-  async function onFetchUpdateAsync() {
-    // Your update fetching logic here
-    // ...
-  }
+  const onCheckGitVersion = () => {
+    hotUpdate.git.checkForGitUpdate({
+      branch: Platform.OS === 'ios' ? 'iOS' : 'android',
+      bundlePath:
+        Platform.OS === 'ios' ? '/main.jsbundle' : '/index.android.bundle',
+      url: 'https://github.com/shuvajitmaitra/OTA-bundle.git',
+      onCloneFailed(msg) {
+        Alert.alert('Clone project failed!', msg, [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+        ]);
+      },
+      onCloneSuccess() {
+        Alert.alert('Clone project success!', 'Restart to apply the changes', [
+          {
+            text: 'OK',
+            onPress: () => hotUpdate.resetApp(),
+          },
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+        ]);
+      },
+      onPullFailed(msg) {
+        Alert.alert('Pull project failed!', msg, [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+        ]);
+      },
+      onPullSuccess() {
+        Alert.alert('Pull project success!', 'Restart to apply the changes', [
+          {
+            text: 'OK',
+            onPress: () => hotUpdate.resetApp(),
+          },
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+        ]);
+      },
+      onProgress(received, total) {
+        const percent = (+received / +total) * 100;
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        // setProgress(percent);
+      },
+      onFinishProgress() {
+        // setLoading(false);
+      },
+    });
+  };
 
   async function onDownloadUpdateAsync() {
     // Your update downloading logic here
@@ -200,7 +264,7 @@ export function DrawerContent(props) {
                 navigateToScreen('HomeStack', 'DisplaySettingsScreen')
               }
             />
-
+            {/* 
             {updateAvailable ? (
               <DrawerItem
                 icon={() => (
@@ -216,24 +280,20 @@ export function DrawerContent(props) {
                 }}
               />
             ) : (
-              <DrawerItem
-                icon={() =>
-                  renderSystemUpdateAltIcon({color: Colors.Heading, size: 20})
-                }
-                label="Check for Update"
-                labelStyle={{
-                  fontFamily: CustomFonts.MEDIUM,
-                  color: Colors.Heading,
-                }}
-                onPress={() => {
-                  Platform.OS === 'ios'
-                    ? handleOpenLink(
-                        'https://apps.apple.com/us/app/bootcamps-hub/id6476014062',
-                      )
-                    : onFetchUpdateAsync();
-                }}
-              />
-            )}
+            )} */}
+            <DrawerItem
+              icon={() =>
+                renderSystemUpdateAltIcon({color: Colors.Heading, size: 20})
+              }
+              label="Check for Update"
+              labelStyle={{
+                fontFamily: CustomFonts.MEDIUM,
+                color: Colors.Heading,
+              }}
+              onPress={() => {
+                onCheckGitVersion();
+              }}
+            />
           </View>
         </View>
       </DrawerContentScrollView>

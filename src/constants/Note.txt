@@ -1,6 +1,5 @@
 *Workstream - January 21, 2025*
 
-- User can not mention while send image in the chat.
 - Work on updating in Over-the-air implement the functionality for ios and android.
 - Less button arrow icon should be place in before the less text and should be left icon arrow. Less text should be "See Less" text
 - Markdown text bullet pont, second line text not align with first line text
@@ -13,5 +12,6 @@
 
 *Bootcampshub CLI*
 
+- User can not mention while send image in the chat.
 
 *Note:* 90% of today's work stream has been successfully completed.
