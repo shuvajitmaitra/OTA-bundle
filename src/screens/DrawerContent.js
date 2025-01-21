@@ -84,7 +84,9 @@ export function DrawerContent(props) {
     hotUpdate.git.checkForGitUpdate({
       branch: Platform.OS === 'ios' ? 'iOS' : 'android',
       bundlePath:
-        Platform.OS === 'ios' ? '/main.jsbundle' : '/index.android.bundle',
+        Platform.OS === 'ios'
+          ? 'output/main.jsbundle'
+          : 'output/index.android.bundle',
       url: 'https://github.com/shuvajitmaitra/OTA-bundle.git',
       onCloneFailed(msg) {
         Alert.alert('Clone project failed!', msg, [
@@ -136,7 +138,7 @@ export function DrawerContent(props) {
         // setProgress(percent);
       },
       onFinishProgress() {
-        // setLoading(false);
+        // hotUpdate.resetApp();
       },
     });
   };
@@ -285,7 +287,7 @@ export function DrawerContent(props) {
               icon={() =>
                 renderSystemUpdateAltIcon({color: Colors.Heading, size: 20})
               }
-              label="Check for Update"
+              label="Check for Update(test 5 ios)"
               labelStyle={{
                 fontFamily: CustomFonts.MEDIUM,
                 color: Colors.Heading,

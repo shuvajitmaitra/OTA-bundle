@@ -23,6 +23,7 @@ import ProgramSwitchModal from '../components/SharedComponent/ProgramSwitchModal
 import usePushNotifications from '../hook/usePushNotifications';
 import CommentScreen from '../screens/Comment/CommentScreen';
 import DefaultRoute from '../components/SharedComponent/DefaultRoute';
+import OtaScreen from '../screens/OTA/OtaScreen';
 
 const RootStack = createStackNavigator();
 
@@ -120,6 +121,13 @@ const RootStackNavigator = () => {
         <RootStack.Screen
           name="DefaultRoute"
           component={DefaultRoute}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="OtaScreen"
+          component={OtaScreen}
           options={{
             headerShown: false,
           }}

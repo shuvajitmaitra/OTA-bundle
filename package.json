@@ -9,10 +9,11 @@
     "lint": "eslint .",
     "start": "react-native start --reset-cache",
     "test": "jest",
-    "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install && cd ..",
-    "preview-build": "cd android && ./gradlew assembleRelease && cd ..",
+    "build": "cd android && ./gradlew assembleRelease && cd ..",
     "pod": " cd ios && pod install && cd ..",
-    "xcode": "xed -b ios"
+    "xcode": "xed -b ios",
+    "export-android": "mkdir -p android/output && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/output/index.android.bundle --assets-dest android/output",
+    "export-ios": "mkdir -p ios/output && react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ios/output/main.jsbundle --assets-dest ios/output"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.0.5",
