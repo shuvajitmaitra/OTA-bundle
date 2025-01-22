@@ -356,7 +356,7 @@ const getStyles = Colors =>
       paddingHorizontal: responsiveScreenHeight(1),
       paddingVertical: responsiveScreenHeight(1.5),
       backgroundColor: Colors.White,
-      borderRadius: responsiveScreenWidth(3),
+      borderRadius: 10,
       marginBottom: responsiveScreenHeight(2),
     },
     bgImg: {

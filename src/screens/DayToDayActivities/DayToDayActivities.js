@@ -120,7 +120,7 @@ const DayToDayActivities = () => {
           setPage(pre => pre + 1);
         }}
         onEndReachedThreshold={0.5}
-        ListEmptyComponent={<NoDataAvailable />}
+        ListEmptyComponent={!isLoading && <NoDataAvailable />}
         ListFooterComponent={
           isLoading && (
             <View style={styles.loading}>

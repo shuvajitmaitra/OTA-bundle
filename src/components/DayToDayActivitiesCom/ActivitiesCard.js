@@ -42,18 +42,7 @@ const ActivitiesCard = ({item, length, index, handleDeleteActivities}) => {
           // height: ,
         },
       ]}>
-      <View
-        style={{
-          borderRadius: 10,
-          overflow: 'hidden',
-          width: '100%',
-          height: 180,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: Colors.BodyText,
-          borderWidth: 1,
-          borderColor: Colors.BorderColor,
-        }}>
+      <View style={styles.cardBannerContainer}>
         {getFileTypeFromUri(item?.attachments[0]) === 'image' ? (
           <Image
             source={{uri: item.attachments[0]}}
@@ -149,6 +138,17 @@ export default ActivitiesCard;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    cardBannerContainer: {
+      borderRadius: 5,
+      overflow: 'hidden',
+      width: '100%',
+      height: 180,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: Colors.BodyText,
+      borderWidth: 1,
+      borderColor: Colors.BorderColor,
+    },
     imageSmall: {
       width: 20,
       height: 20,
