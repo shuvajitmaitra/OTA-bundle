@@ -36,7 +36,6 @@ const OtaScreen = () => {
   const progressAnim = useRef(new Animated.Value(0)).current;
   const messageOpacity = useRef(new Animated.Value(0)).current;
 
-  // Add a listener so that we can update our local numeric progress state.
   useEffect(() => {
     const progressListener = progressAnim.addListener(({value}) => {
       setProgressNumber(Math.floor(value));
@@ -46,7 +45,6 @@ const OtaScreen = () => {
     };
   }, [progressAnim]);
 
-  // Function to show a custom message overlay
   const showStatusMessage = message => {
     setStatusMessage(message);
     setShowMessage(true);
@@ -66,7 +64,10 @@ const OtaScreen = () => {
   };
 
   // Function to handle navigation on update finish.
-  const navigateBackOrHome = () => {};
+  const navigateBackOrHome = from => {
+    console.log('from', JSON.stringify(from, null, 2));
+    navigation.pop();
+  };
 
   const onCheckGitVersion = () => {
     setLoading(true);
@@ -77,15 +78,15 @@ const OtaScreen = () => {
 
     // Simulate continuous progress over 30 seconds (30000 ms)
     Animated.timing(progressAnim, {
-      toValue: 100,
+      toValue: 90,
       duration: 30000,
       useNativeDriver: false,
     }).start(() => {
       // showStatusMessage('Download complete!');
       setTimeout(() => {
         setLoading(false);
-        navigateBackOrHome();
-      }, 1000);
+        navigateBackOrHome('fromTimeout');
+      }, 30000);
     });
 
     // Perform real update operations via hotUpdate
@@ -99,23 +100,17 @@ const OtaScreen = () => {
       restartAfterInstall: true,
       onCloneFailed(msg) {
         showStatusMessage('Clone project failed. Please try again.');
-        setLoading(false);
+        navigateBackOrHome(msg);
       },
       onCloneSuccess() {
-        showStatusMessage('Clone successful, applying update...');
-        setTimeout(() => {
-          hotUpdate.resetApp();
-        }, 1000);
+        hotUpdate.resetApp();
       },
       onPullFailed(msg) {
+        navigateBackOrHome(msg);
         showStatusMessage(msg);
-        setLoading(false);
       },
       onPullSuccess() {
-        showStatusMessage('Update pulled successfully. Restarting...');
-        setTimeout(() => {
-          hotUpdate.resetApp();
-        }, 1000);
+        hotUpdate.resetApp();
       },
       // If the update provider reports progress, you could integrate it with our animation:
       onProgress(received, total) {
@@ -123,15 +118,13 @@ const OtaScreen = () => {
         const percent = (+received / +total) * 100;
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         progressAnim.setValue(percent);
+        navigateBackOrHome('fromProgress');
       },
       onFinishProgress() {
         // In case the update finishes early or differently, handle it here.
-        setLoading(false);
+        // setLoading(false);
         // showStatusMessage('Download complete!');
-        progressAnim.setValue(100);
-        setTimeout(() => {
-          navigation.pop();
-        }, 1000);
+        // progressAnim.setValue(100);
       },
     });
   };
