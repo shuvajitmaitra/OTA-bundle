@@ -140,7 +140,7 @@ const DayToDayActivities = () => {
       <ConfirmationModal
         isVisible={isDeleteModalVisible.state}
         tittle={'Activities Delete!'}
-        description={'Do you want to delete the day to day Activities'}
+        description={'Do you want to delete the day to day Activities?'}
         okPress={() => handleDeleteActivities(isDeleteModalVisible.id)}
         cancelPress={() => setIsDeleteModalVisible({state: false})}
       />
