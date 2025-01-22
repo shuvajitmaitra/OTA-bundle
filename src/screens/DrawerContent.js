@@ -287,7 +287,7 @@ export function DrawerContent(props) {
               icon={() =>
                 renderSystemUpdateAltIcon({color: Colors.Heading, size: 20})
               }
-              label="Check for Update"
+              label="Check for Update (test)"
               labelStyle={{
                 fontFamily: CustomFonts.MEDIUM,
                 color: Colors.Heading,

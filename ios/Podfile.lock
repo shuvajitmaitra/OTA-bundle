@@ -1407,7 +1407,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-ota-hot-update (2.0.6):
+  - react-native-ota-hot-update (2.0.7):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2403,7 +2403,7 @@ SPEC CHECKSUMS:
   react-native-document-picker: 1e082836a633ca9e7c75758036ff42535baaf36b
   react-native-image-picker: 8d06080ecb33269e77e0728f1fd8a16f2f5aad07
   react-native-mmkv: 35992c4170a4a46be095fd1b7fe17d2fd1d42124
-  react-native-ota-hot-update: 65ef72c1647671c49c37b0e9fec37a8d7ed846ca
+  react-native-ota-hot-update: 788317316a714438d54244b2f8fa1f224977a025
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-safe-area-context: d71edcee579673b370c053804f34c40c1f250976
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
