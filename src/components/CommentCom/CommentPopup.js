@@ -120,6 +120,9 @@ export default CommentPopup;
 
 const getStyles = Colors =>
   StyleSheet.create({
+    popoverStyle: {
+      backgroundColor: Colors.White,
+    },
     popupContainer: {
       backgroundColor: Colors.White,
       maxHeight: 220,
