@@ -293,7 +293,8 @@ export function DrawerContent(props) {
                 color: Colors.Heading,
               }}
               onPress={() => {
-                onCheckGitVersion();
+                // onCheckGitVersion();
+                navigation.navigate('OtaScreen');
               }}
             />
           </View>
