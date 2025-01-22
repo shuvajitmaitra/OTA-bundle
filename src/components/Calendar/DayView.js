@@ -19,6 +19,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {updatePickedDate} from '../../store/reducer/calendarReducer';
 import {getEventDetails, getNotificationData} from '../../actions/chat-noti';
 import ArrowRight from '../../assets/Icons/ArrowRight';
+import ArrowLeft from '../../assets/Icons/ArrowLeft';
+import ArrowLeftWhite from '../../assets/Icons/ArrowLeftWhite';
 
 const DayView = ({
   markedDates,
@@ -158,10 +160,17 @@ const DayView = ({
       <TouchableOpacity
         onPress={() => handleSeeMore()}
         style={styles.moreButtonContainer}>
-        <Text style={styles.moreButtonText}>
-          {seeMoreClicked ? 'Less' : 'More'}
-        </Text>
-        <ArrowRight />
+        {seeMoreClicked ? (
+          <>
+            <ArrowLeftWhite size={20} color={Colors.Primary} />
+            <Text style={styles.moreButtonText}>See Less</Text>
+          </>
+        ) : (
+          <>
+            <Text style={styles.moreButtonText}>See More</Text>
+            <ArrowRight />
+          </>
+        )}
       </TouchableOpacity>
     </View>
   );
