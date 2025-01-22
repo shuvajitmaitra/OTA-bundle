@@ -7,6 +7,17 @@ We are pleased to announce the latest updates and enhancements to the BootcampsH
 ## BootcampsHub App Development:
 
 ---
+**New Features and Enhancements:**
+
+- **Chat Module Update:**  
+  - Resolved an issue where users were unable to mention others when sending images in the chat.
+
+- **OTA Update Functionality:**  
+  - **Android:** Implemented Over-The-Air (OTA) update functionality for Android devices.
+  - **iOS:** Developed OTA update functionality for iOS devices. (Note: Some code adjustments are required for full optimization.)
+
+- **Test Flight Deployment:**  
+  - A new version has been published on Test Flight for further testing and feedback.
 
 ---
 

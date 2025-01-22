@@ -122,23 +122,11 @@ const DayToDayActivities = () => {
         onEndReachedThreshold={0.5}
         ListEmptyComponent={<NoDataAvailable />}
         ListFooterComponent={
-          <>
-            {activitiesCount === activities?.length ? (
-              <Text
-                style={{
-                  color: Colors.Heading,
-                  fontFamily: CustomFonts.SEMI_BOLD,
-                  fontSize: responsiveScreenFontSize(1.8),
-                  textAlign: 'center',
-                }}>
-                No data available
-              </Text>
-            ) : activitiesCount == 0 ? null : (
-              <View style={styles.loading}>
-                <LoadingSmall size={20} color={Colors.Primary} />
-              </View>
-            )}
-          </>
+          isLoading && (
+            <View style={styles.loading}>
+              <LoadingSmall size={20} color={Colors.Primary} />
+            </View>
+          )
         }
       />
 
@@ -159,6 +147,26 @@ const DayToDayActivities = () => {
     </View>
   );
 };
+
+{
+  /* <>
+{activitiesCount === activities?.length ? (
+  <Text
+    style={{
+      color: Colors.Heading,
+      fontFamily: CustomFonts.SEMI_BOLD,
+      fontSize: responsiveScreenFontSize(1.8),
+      textAlign: 'center',
+    }}>
+    No data available
+  </Text>
+) : activitiesCount == 0 ? null : (
+  <View style={styles.loading}>
+    <LoadingSmall size={20} color={Colors.Primary} />
+  </View>
+)}
+</> */
+}
 
 export default DayToDayActivities;
 
@@ -182,8 +190,10 @@ const getStyles = Colors =>
       justifyContent: 'center',
       backgroundColor: Colors.Primary,
       gap: 10,
-      paddingVertical: 15,
-      paddingHorizontal: 15,
+      // paddingVertical: 15,
+      // paddingHorizontal: 15,
+      height: responsiveScreenHeight(6),
+      width: responsiveScreenHeight(6),
       borderRadius: 50,
       position: 'absolute',
       right: 15,

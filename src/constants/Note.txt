@@ -1,6 +1,6 @@
-*Workstream - January 21, 2025*
+*Workstream - January 22, 2025*
 
-- Work on updating in Over-the-air implement the functionality for ios and android.
+- Do all the necessary changes for OTA update and release app on App store and play store.
 - Less button arrow icon should be place in before the less text and should be left icon arrow. Less text should be "See Less" text
 - Markdown text bullet pont, second line text not align with first line text
 - Comment three dot menu has dark mode issue
@@ -12,6 +12,5 @@
 
 *Bootcampshub CLI*
 
-- User can not mention while send image in the chat.
 
 *Note:* 90% of today's work stream has been successfully completed.
