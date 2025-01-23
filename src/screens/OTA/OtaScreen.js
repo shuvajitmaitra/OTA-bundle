@@ -15,6 +15,7 @@ import CustomFonts from '../../constants/CustomFonts';
 import Loading from '../../components/SharedComponent/Loading';
 import {useNavigation} from '@react-navigation/native';
 import UpdateIcon from '../../assets/Icons/UpdateIcon';
+import {showAlertModal} from '../../utility/commonFunction';
 
 // Enable LayoutAnimation on Android if needed
 if (
@@ -71,25 +72,14 @@ const OtaScreen = () => {
 
   const onCheckGitVersion = () => {
     setLoading(true);
-    showStatusMessage('Starting update...');
-    // Reset progress for each run
     progressAnim.setValue(0);
     setProgressNumber(0);
-
-    // Simulate continuous progress over 30 seconds (30000 ms)
     Animated.timing(progressAnim, {
       toValue: 90,
       duration: 30000,
       useNativeDriver: false,
-    }).start(() => {
-      // showStatusMessage('Download complete!');
-      setTimeout(() => {
-        setLoading(false);
-        navigateBackOrHome('fromTimeout');
-      }, 30000);
-    });
+    }).start();
 
-    // Perform real update operations via hotUpdate
     hotUpdate.git.checkForGitUpdate({
       branch: Platform.OS === 'ios' ? 'iOS' : 'android',
       bundlePath:
@@ -100,32 +90,45 @@ const OtaScreen = () => {
       restartAfterInstall: true,
       onCloneFailed(msg) {
         showStatusMessage('Clone project failed. Please try again.');
+        showAlertModal({
+          title: 'Clone failed',
+          type: 'warning',
+          message: 'Please try again later.',
+        });
         navigateBackOrHome(msg);
+        setLoading(false);
       },
       onCloneSuccess() {
         hotUpdate.resetApp();
+        setLoading(false);
       },
       onPullFailed(msg) {
+        showAlertModal({
+          title: 'No update available',
+          type: 'warning',
+          message: 'Please try again later.',
+        });
         navigateBackOrHome(msg);
-        showStatusMessage(msg);
+        setLoading(false);
       },
       onPullSuccess() {
         hotUpdate.resetApp();
+        setLoading(false);
       },
-      // If the update provider reports progress, you could integrate it with our animation:
-      onProgress(received, total) {
-        // Optionally, update the animated progress with received values.
-        const percent = (+received / +total) * 100;
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        progressAnim.setValue(percent);
-        navigateBackOrHome('fromProgress');
-      },
-      onFinishProgress() {
-        // In case the update finishes early or differently, handle it here.
-        // setLoading(false);
-        // showStatusMessage('Download complete!');
-        // progressAnim.setValue(100);
-      },
+      // // If the update provider reports progress, you could integrate it with our animation:
+      // onProgress(received, total) {
+      //   // Optionally, update the animated progress with received values.
+      //   // const percent = (+received / +total) * 100;
+      //   // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      //   // progressAnim.setValue(percent);
+      //   // navigateBackOrHome('fromProgress');
+      // },
+      // onFinishProgress() {
+      //   // In case the update finishes early or differently, handle it here.
+      //   // setLoading(false);
+      //   // showStatusMessage('Download complete!');
+      //   // progressAnim.setValue(100);
+      // },
     });
   };
 

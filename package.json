@@ -12,7 +12,7 @@
     "build": "cd android && ./gradlew assembleRelease && cd ..",
     "pod": " cd ios && pod install && cd ..",
     "xcode": "xed -b ios",
-    "export-android": "mkdir -p android/output && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/output/index.android.bundle --assets-dest android/output",
+    "export-android": "mkdir -p android/output/output && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/output/output/index.android.bundle --assets-dest android/output/output",
     "export-ios": "mkdir -p ios/output && react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ios/output/main.jsbundle --assets-dest ios/output",
     "push-android": "git subtree split --prefix=android/output -b android-temp && git push ota android-temp:android --force && git branch -D android-temp",
     "push-ios": "git subtree split --prefix=ios/output -b ios-temp && git push ota ios-temp:iOS --force && git branch -D ios-temp"
