@@ -1,10 +1,10 @@
-*Workstream - January 22, 2025*
+*Workstream - January 23, 2025*
 
-- Do all the necessary changes for OTA update and release app on App store and play store.
-- Less button arrow icon should be place in before the less text and should be left icon arrow. Less text should be "See Less" text
-- Markdown text bullet pont, second line text not align with first line text
-- Comment three dot menu has dark mode issue
-- Don't need to showing no data available on the day to day activities screen
+- Apple submission are rejected. Fix the issue and resubmit the app.
+- Popover is not showing for android device
+- Integrate api for automate OTA update. 
+- Add functionality for auto update on app launch.
+- Notification read all functionality working slow fix the issue.
 
 *Note:* The goal is to achieve 100% completion of today's workstream.
 
@@ -13,4 +13,7 @@
 *Bootcampshub CLI*
 
 
-*Note:* 90% of today's work stream has been successfully completed.
+**Workstream Update - January 23, 2025**
+
+
+*Note:* 100% of today's work stream has been successfully completed.

@@ -236,6 +236,17 @@ export const handleDelete = id => {
     });
 };
 export const handleReadAllNotification = () => {
+  const notifications = store.getState().notification.notifications;
+  const notificationCount = store.getState().notification.notificationCount;
+  store.dispatch(setNotificationCount({...notificationCount, totalUnread: 0}));
+  const readNotifications = notifications.map(item => ({
+    ...item,
+    opened: true,
+  }));
+  store.dispatch(setNotifications(readNotifications));
+  // store.dispatch(
+  //   setNotifications(pre => pre.map(item => ({...item, opened: true}))),
+  // );
   axiosInstance
     .patch('/notification/markreadall', {})
     .then(response => {
