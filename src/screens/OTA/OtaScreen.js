@@ -164,9 +164,7 @@ const OtaScreen = () => {
   return (
     <View style={styles.container}>
       <UpdateIcon />
-      <Text style={styles.headerText}>
-        Update your app to stay up to date (test)......
-      </Text>
+      <Text style={styles.headerText}>Update your app to stay up to date</Text>
       <TouchableOpacity style={styles.button} onPress={onCheckGitVersion}>
         <Text style={styles.buttonText}>Start Update</Text>
       </TouchableOpacity>
